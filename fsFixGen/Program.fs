@@ -33,7 +33,7 @@ let main _ =
     use swFixFields = new StreamWriter (MkOutpath "Fix44.Fields.fs")
     use swFieldReadWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadWriteFuncs.fs")
     
-    printfn "reading and generating fields"
+    printfn "reading and generating FIX field source"
     let fieldData = FieldGenerator.ParseFieldData2 xpthFields 
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fieldData
     FieldGenerator.Gen mergedFields swFixFields swFieldReadWriteFuncs
@@ -55,7 +55,15 @@ let main _ =
     let cmpGrps = GroupUtils.extractLevel1GroupsFromComponents cmps
     let msgGrps = GroupUtils.extractLevel1GroupsFromMsgs msgs
     let allGrps = cmpGrps @ msgGrps
-    let dpOrdGrps = GroupGenerator.GetGroupsInDependencyOrder allGrps
+    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
+
+    printfn "generating group source"
+    use swGroups = new StreamWriter (MkOutpath "Fix44.Groups.fs")
+    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
+    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
+    GroupGenerator.Gen depOrderGroups swGroups swGroupWriteFuncs
+
+//    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 
 
     0 // return an integer exit code
