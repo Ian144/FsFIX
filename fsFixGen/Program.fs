@@ -87,11 +87,9 @@ let main _ =
     printfn "updating components to use merged groups"  
     let componentsAfterGroupMerge = 
             [   for comp in components do
-                let items2 = 
-                    [   for itm in comp.Items do
-                        let itm2 = GroupUtils.updateItemIfMergeableGroup groupMergeMap itm
-                        if GroupUtils.excludeFieldsFilter lenFieldNames itm2 then
-                            yield itm2  ]
+                let items2 = comp.Items 
+                                |> FIXItem.map (GroupUtils.updateItemIfMergeableGroup groupMergeMap)
+                                |> FIXItem.filter (GroupUtils.excludeFieldsFilter lenFieldNames)
                 yield {comp with Items = items2}    ]
 
     let cmpNameMapAfterGroupMerge = componentsAfterGroupMerge 
@@ -99,29 +97,17 @@ let main _ =
                                         |> Map.ofList
 
     printfn "updating messages to use merged groups"  
-    printfn "\t\t\t\tERROR: application of the group merge to msgs should be done recursively"    
-    printfn "\t\t\t\tERROR: application of the group merge to msgs should be done recursively"    
-    printfn "\t\t\t\tERROR: application of the group merge to msgs should be done recursively"    
-    printfn "\t\t\t\tERROR: application of the group merge to msgs should be done recursively"    
-
     let msgsAfterGroupMerge =
             [   for msg in msgs do
-                let items2 = 
-                    [   for itm in msg.Items do
-                         // this does not recurse into nested groups
-                        let itm2 = GroupUtils.updateItemIfMergeableGroup groupMergeMap itm
-                        if GroupUtils.excludeFieldsFilter lenFieldNames itm2 then
-                            yield itm2  ]
+                let items2 =  msg.Items 
+                                |> FIXItem.map (GroupUtils.updateItemIfMergeableGroup groupMergeMap)
+                                |> FIXItem.filter (GroupUtils.excludeFieldsFilter lenFieldNames)
                 yield {msg with Items = items2}   ]
 
-
+    printfn "determining dependency order for groups and components"
     let allCompoundItemsAfterGroupMerge = 
         [   for msg in msgsAfterGroupMerge do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
-
-
-
-    //#### generate combined component+group definitions
 
     // extract the components and groups refered to in messages
     // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
@@ -130,25 +116,20 @@ let main _ =
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
 
 
-//    // get the compound items from the messages
-//    // flatten the compound items
-//    // get compound items in dependency order
-//    // must write compound items in same source file, as some components will depend on groups and visa versa
-//
-//
-//
-//
-//
-//
-//
-////    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
-//
-////    printfn "generating group source"
-//    use swGroups = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
-//    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
-////    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
-//    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swGroups swGroupWriteFuncs
+    // get the compound items from the messages
+    // flatten the compound items
+    // get compound items in dependency order
+    // must write compound items in same source file, as some components will depend on groups and visa versa
 
+
+//    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
+
+    printfn "generating group and component F# source"
+    use swGroups = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
+    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
+    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swGroups swGroupWriteFuncs
+
+//    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 
 

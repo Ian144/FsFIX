@@ -21,7 +21,7 @@ type Field = { FName:string; Required:Required }
 type ComponentRef = { CRName:ComponentName; Required:Required }
 
 
-// A FIXItem can contain groups containing Items.
+// A FIXItem can contain groups containing Items, so FIXItems are trees
 // ComponentRefs refer to a component by name, but do not contain Items directly, 
 // Components are not defined inline in FIX XML, whereas groups are.
 type FIXItem = Field of Field | Component of ComponentRef | Group of Group

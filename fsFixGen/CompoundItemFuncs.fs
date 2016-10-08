@@ -44,10 +44,12 @@ let getName (ci:CompoundItem) =
     | CompoundItem.Group grp        -> grp.GName
     
 
-
 let extractGroups (cis:CompoundItem list) : Group list =
     let extractGroup ci =
         match ci with
         | CompoundItem.Group grp    -> Some grp
         | CompoundItem.Component _  -> None
     cis |> List.choose extractGroup
+
+
+

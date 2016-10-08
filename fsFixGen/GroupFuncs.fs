@@ -81,8 +81,7 @@ let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXI
 
 let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
     match item with
-    | FIXItem.Group _       ->  false
-    | FIXItem.Component _   ->  false
-    | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames
-
+    | FIXItem.Group _       ->  true
+    | FIXItem.Component _   ->  true
+    | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames |> not
 

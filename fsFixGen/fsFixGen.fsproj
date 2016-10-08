@@ -56,7 +56,8 @@
     <Compile Include="FieldGenerator.fs" />
     <Compile Include="CompoundItemFuncs.fs" />
     <Compile Include="DependencyConstraintSolver.fs" />
-    <Compile Include="GroupUtils.fs" />
+    <Compile Include="FIXItemFuncs.fs" />
+    <Compile Include="GroupFuncs.fs" />
     <Compile Include="GroupGenerator.fs" />
     <Compile Include="ComponentGenerator.fs" />
     <Compile Include="CompoundItemGenerator.fs" />
