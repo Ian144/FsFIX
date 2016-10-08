@@ -54,8 +54,9 @@
     <Compile Include="FIXGenTypes.fs" />
     <Compile Include="ParsingFuncs.fs" />
     <Compile Include="FieldGenerator.fs" />
-    <Compile Include="GroupUtils.fs" />
+    <Compile Include="CompoundItemFuncs.fs" />
     <Compile Include="DependencyConstraintSolver.fs" />
+    <Compile Include="GroupUtils.fs" />
     <Compile Include="GroupGenerator.fs" />
     <Compile Include="ComponentGenerator.fs" />
     <Compile Include="MessageGenerator.fs" />

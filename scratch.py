@@ -74,9 +74,9 @@ fsFix article
 todo
 ----
     
+	module CompositeFix
     if groups can contain components and components can contain groups how can this be modelled in F#
-    dependency ordering in a single file as for groups alone????
-
+    dependency ordering in a single file as for groups alone - CompoundItems.fs????
 
 	could fix generation be done with a type provider?
 

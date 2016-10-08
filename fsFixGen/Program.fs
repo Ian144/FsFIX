@@ -40,28 +40,73 @@ let main _ =
 
     printfn "reading components"
     let xpthMsgs = doc.XPathSelectElement "fix/components"
-    let cmps = ComponentGenerator.Read xpthMsgs
+    let components = ComponentGenerator.Read xpthMsgs
+
+    // make a map of component name to component
+    // used for marrying up component refs with components
+    let cmpNameMap = components 
+                        |> List.map (fun cmp -> cmp.CName, cmp)
+                        |> Map.ofList
 
     printfn "reading messages"
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
-    // groups are defined in component and message elements.
-    // groups can contain sub-groups.
-    // groups with the same name in different messages or components may or may not contain the same fields.
-    // groups with the same name containing the same fields and subgroups should be merged into a single group.
-    // groups which are a dependency of other groups should appear before the other groups in the f# souce file, or there will be a compile error.
-    printfn "processing groups"
-    let cmpGrps = GroupUtils.extractLevel1GroupsFromComponents cmps
+
+    printfn "merging group definitions"
+    let cmpGrps = GroupUtils.extractLevel1GroupsFromComponents components
     let msgGrps = GroupUtils.extractLevel1GroupsFromMsgs msgs
     let allGrps = cmpGrps @ msgGrps
-    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
 
-    printfn "generating group source"
-    use swGroups = new StreamWriter (MkOutpath "Fix44.Groups.fs")
-    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
-    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
-    GroupGenerator.Gen depOrderGroups swGroups swGroupWriteFuncs
+    // a map of the groups longname (a compound name based on its parentage) to a merge candidate
+    let groupMerges = GroupUtils.makeMergeMap allGrps
+    groupMerges 
+        |> List.sortBy (fun (_,grp) -> grp.GName)
+        |> List.iter (fun (ln,grp) -> printfn "group merge: %A -> %A" ln grp.GName)
+
+    printf ""
+
+    //#### repoint groups to merged def in components and messages using groupMap
+    //#### generate combined component+group definitions
+
+
+
+//
+//
+//
+//    let msgItems = 
+//        [ for msg in msgs do
+//          yield! msg.Items ]
+//
+//    // extract the components and groups refered to in messages
+//    // these will in-turn contain nested components and groups
+//    // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)
+//    let msgCompoundItems  = msgItems |> (CompoundItemFuncs.extractCompoundItems cmpNameMap)
+//    let msgCompoundItems2 = msgCompoundItems |> List.distinct
+//    let flattenedMsgCompoundItems   = msgCompoundItems2 |> CompoundItemFuncs.flattenCompoundItems cmpNameMap
+//    let flattenedMsgCompoundItems2 = flattenedMsgCompoundItems |> List.distinct
+
+//    let depOrder = flattenedMsgCompoundItems2 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMap)
+
+
+    // get the compound items from the messages
+    // flatten the compound items
+    // get compound items in dependency order
+    // must write compound items in same source file, as some components will depend on groups and visa versa
+
+
+
+
+
+
+
+//    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
+
+//    printfn "generating group source"
+//    use swGroups = new StreamWriter (MkOutpath "Fix44.Groups.fs")
+//    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
+//    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
+//    GroupGenerator.Gen depOrderGroups swGroups swGroupWriteFuncs
 
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 

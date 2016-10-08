@@ -11,6 +11,7 @@ type Required = Required | NotRequired
 type Field = { FName:string; Required:Required }
     with override this.ToString () = sprintf "%s (%O)" this.FName this.Required
 
+// msgs refer to components, but the component is defined elsewhere, unlike groups which are defined inline
 type ComponentRef = { CRName:string; Required:Required }
 
 
@@ -21,7 +22,7 @@ type FIXItem = Field of Field | Component of ComponentRef | Group of Group
 //                        | FIXItem.Field fld -> fld.ToString()
 //                        | obj               -> obj.ToString()
 
-and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list}
+and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list }
 
 type Msg = {MName:string; Type:string; Cat:string; Items: FIXItem list}
 
@@ -29,6 +30,11 @@ type Component = {CName:string; Items: FIXItem list}
 
 
 
-// SubGroup and GroupGen are used when generating F# group code
-type SubGroup = {CountFieldName:string; SubGroupName:string}
-type Level1Group = {LGName:string; CountFieldName:string; Items: FIXItem list}
+type GroupLongName = GroupLongName of string
+
+
+// Groups can refer to Components, and Components can refer to Group
+// need a type that can hold either when generating them in dependency order
+type CompoundItem = Component of Component | Group of Group
+
+
