@@ -50,7 +50,7 @@ and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     match itemTypeStr with
     | "field"       ->  let fName =  gas el "name"
                         FIXItem.Field {FName = fName; Required = req}
-    | "component"   ->  let cmpName =  gas el "name"
+    | "component"   ->  let cmpName =  gas el "name" |> ComponentName
                         FIXItem.Component {CRName=cmpName; Required=req}
     | "group"       ->  let grp = ReadGroup parents el
                         FIXItem.Group grp

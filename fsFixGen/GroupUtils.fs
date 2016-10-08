@@ -35,7 +35,7 @@ let rec flattenGroups (groups:Group list) =
 
 
 
-let makeGroupCompoundName (grp:Group) : GroupLongName =
+let makeLongName (grp:Group) : GroupLongName =
     let parents = grp.Parents 
     let groupName = grp.GName
     let subNames = parents @ [groupName] |> List.toArray
@@ -55,7 +55,7 @@ let makeMergeMap (grps:Group list) : (GroupLongName*Group) list=
     let flattenedGroups = 
             grps 
             |> flattenGroups  
-            |> List.distinctBy makeGroupCompoundName // the same component nested in N different messages would result in N definitions for contained groups without this distinct
+            |> List.distinctBy makeLongName // the same component nested in N different messages would result in N definitions for contained groups without this distinct
 
     // Group the groups ignoring the parentage. Group parents can be messages, components or other groups (they can be nested). 
     // Many groups are identical except they have different parents i.e. they are defined inside a different message or component, but have the same name and contain the same fields, components and sub-groups.
@@ -70,13 +70,21 @@ let makeMergeMap (grps:Group list) : (GroupLongName*Group) list=
                                     let maxNumMerges = grpMerges |> List.maxBy (fun (_, grps) -> grps.Length)
                                     maxNumMerges )
 
-
     [   for (keyGrp, gs) in mergeables do
+        let keyGrp2 = {keyGrp with Parents = []}    // so that the long_name of the group is the same as the short name, merged groups do not required a long_name to differentiate them from other groups with the same short name
         for grp in gs do
-        let longName = makeGroupCompoundName grp
-        yield longName, keyGrp
-    ]
+        let longName = makeLongName grp
+        yield longName, keyGrp2  ]
 
 
 
 
+let replaceGroupIfMergable (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem) =
+    match item with
+    | FIXItem.Group grp     ->  let longName = makeLongName grp
+                                if grpMergeMap.ContainsKey longName then
+                                    FIXItem.Group grpMergeMap.[longName]
+                                else
+                                    item
+    | FIXItem.Component _   ->  item
+    | FIXItem.Field _       ->  item

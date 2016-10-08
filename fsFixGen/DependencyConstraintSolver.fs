@@ -6,7 +6,7 @@ open FIXGenTypes
 
 
 
-let private makeConstraints (componentNameMap:Map<string,Component>) (compoundItems:CompoundItem list) = 
+let private makeConstraints (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
     [   for itm in compoundItems do
         let subItms = itm |> CompoundItemFuncs.getSubCompoundItems componentNameMap
         for subItm in subItms do
@@ -38,7 +38,7 @@ let private listifyDependencyTree (grp:string) (mapIn:Map<string, string list>) 
 
 
 // returns a list of all groups, with groups that are depended upon earlier in the list than groups that depend on them.   
-let ConstrainGroupDependencyOrder (componentNameMap:Map<string,Component>) (compoundItems:CompoundItem list) = 
+let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
     let constraints = makeConstraints componentNameMap compoundItems
 
     // a group name is a root if it is not referred to as a dependency
@@ -105,8 +105,8 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<string,Component>) (comp
 
 
     // re-order the grps list to be in dependency order
-    let constrainedGroupsInDepOrder = dependencies |> List.map (fun itemName -> nameToItemMap.[itemName])
-    
-    constrainedGroupsInDepOrder @ unConstrained
+    let constrainedItemsInDepOrder = dependencies |> List.map (fun itemName -> nameToItemMap.[itemName])
+
+    constrainedItemsInDepOrder @ unConstrained
 
     

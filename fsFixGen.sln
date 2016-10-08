@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		scratch.py = scratch.py
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFix", "fsFix\fsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

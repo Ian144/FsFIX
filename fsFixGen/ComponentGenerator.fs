@@ -17,5 +17,5 @@ let Read (parentXL:XElement) =
     [   for compXL in compsXL do
         let compName = gas compXL "name" 
         let items = ParsingFuncs.ReadItems [compName] compXL
-        yield {CName = compName; Items = items}
+        yield {CName = ComponentName compName; Items = items}
     ]

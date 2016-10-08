@@ -53,40 +53,59 @@ let main _ =
     let msgs = MessageGenerator.Read xpthMsgs
 
 
-    printfn "merging group definitions"
+    printfn "merging groups"
     let cmpGrps = GroupUtils.extractLevel1GroupsFromComponents components
     let msgGrps = GroupUtils.extractLevel1GroupsFromMsgs msgs
     let allGrps = cmpGrps @ msgGrps
 
-    // a map of the groups longname (a compound name based on its parentage) to a merge candidate
+    // a map of group longname (a compound name based on its parentage) to a merge target
     let groupMerges = GroupUtils.makeMergeMap allGrps
+    
     groupMerges 
         |> List.sortBy (fun (_,grp) -> grp.GName)
         |> List.iter (fun (ln,grp) -> printfn "group merge: %A -> %A" ln grp.GName)
 
-    printf ""
+    
+    let groupMergeMap = groupMerges |> Map.ofList
+    
+    let groupsAfterMerge =
+        [   for oldGrp in allGrps do
+            let longName = GroupUtils.makeLongName oldGrp
+            if groupMergeMap.ContainsKey longName then
+                yield groupMergeMap.[longName] 
+            else
+                yield oldGrp
+            ] |> List.distinct // 'distinct' so there is only one instance of each merge group
 
-    //#### repoint groups to merged def in components and messages using groupMap
+
+    //#### repoint groups to merge target groups in components using groupMergeMap
+    let componentsWithMergedGroups = components |> List.map ( fun cmp -> 
+        let items2 = cmp.Items |> List.map (GroupUtils.replaceGroupIfMergable groupMergeMap)
+        {cmp with Items = items2} )
+
+    let msgsWithMergedGrps = msgs |> List.map ( fun msg -> 
+        let items2 = msg.Items |> List.map (GroupUtils.replaceGroupIfMergable groupMergeMap)
+        {msg with Items = items2} )
+
+    printfn ""
+
+
     //#### generate combined component+group definitions
 
+    let msgItems = [ for msg in msgs do yield! msg.Items ]
+
+    // extract the components and groups refered to in messages
+    // these will in-turn contain nested components and groups
+    // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)
+    let msgCompoundItems  = msgItems |> (CompoundItemFuncs.extractCompoundItems cmpNameMap) |> List.distinct
+    let msgCompoundItems2 = msgCompoundItems 
+    let flattenedMsgCompoundItems   = msgCompoundItems2 |> CompoundItemFuncs.flattenCompoundItems cmpNameMap
+    let flattenedMsgCompoundItems2 = flattenedMsgCompoundItems |> List.distinct
+
+    let constrainedCompoundItemsInDepOrder = flattenedMsgCompoundItems2 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMap)
 
 
-//
-//
-//
-//    let msgItems = 
-//        [ for msg in msgs do
-//          yield! msg.Items ]
-//
-//    // extract the components and groups refered to in messages
-//    // these will in-turn contain nested components and groups
-//    // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)
-//    let msgCompoundItems  = msgItems |> (CompoundItemFuncs.extractCompoundItems cmpNameMap)
-//    let msgCompoundItems2 = msgCompoundItems |> List.distinct
-//    let flattenedMsgCompoundItems   = msgCompoundItems2 |> CompoundItemFuncs.flattenCompoundItems cmpNameMap
-//    let flattenedMsgCompoundItems2 = flattenedMsgCompoundItems |> List.distinct
 
-//    let depOrder = flattenedMsgCompoundItems2 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMap)
 
 
     // get the compound items from the messages
@@ -103,10 +122,10 @@ let main _ =
 //    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
 
 //    printfn "generating group source"
-//    use swGroups = new StreamWriter (MkOutpath "Fix44.Groups.fs")
-//    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
+    use swGroups = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
+    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
 //    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
-//    GroupGenerator.Gen depOrderGroups swGroups swGroupWriteFuncs
+    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swGroups swGroupWriteFuncs
 
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 
