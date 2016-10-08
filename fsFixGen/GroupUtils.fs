@@ -6,7 +6,7 @@ open FIXGenTypes
 
 
 
-let extractGroups (itms:FIXItem list) : Group list =
+let private extractGroups (itms:FIXItem list) : Group list =
     let extractGroup (itm:FIXItem) =
         match itm with 
         | FIXItem.Group grp -> Some grp
@@ -15,19 +15,7 @@ let extractGroups (itms:FIXItem list) : Group list =
 
 
 
-let extractLevel1GroupsFromComponents (cmps:Component list) = 
-    [   for cmp in cmps do
-        yield! cmp.Items |> extractGroups ]
-
-    
-
-let extractLevel1GroupsFromMsgs (msg:Msg list) = 
-    [   for cmp in msg do
-        yield! cmp.Items |> extractGroups ]
-
-
-
-let rec flattenGroups (groups:Group list) = 
+let rec private flattenGroups (groups:Group list) = 
     [   for group in groups do
         let subGroups = group.Items |> extractGroups
         yield! flattenGroups subGroups 
@@ -79,7 +67,7 @@ let makeMergeMap (grps:Group list) : (GroupLongName*Group) list=
 
 
 
-let replaceGroupIfMergable (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem) =
+let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem) =
     match item with
     | FIXItem.Group grp     ->  let longName = makeLongName grp
                                 if grpMergeMap.ContainsKey longName then
@@ -91,22 +79,10 @@ let replaceGroupIfMergable (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem)
 
 
 
-
-let lenFieldFilter (set:Set<string>) (item:FIXItem) =
+let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
     match item with
     | FIXItem.Group _       ->  false
     | FIXItem.Component _   ->  false
-    | FIXItem.Field fld     ->  Set.contains fld.FName set
+    | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames
 
 
-let filterOutLenFieldsMsg (lenFieldNameSet:Set<string>) (msg:Msg) = 
-    let items2 = msg.Items |> List.filter (lenFieldFilter lenFieldNameSet)
-    {msg with Items = items2}
-
-let filterOutLenFieldsGrp (lenFieldNameSet:Set<string>) (grp:Group) = 
-    let items2 = grp.Items |> List.filter (lenFieldFilter lenFieldNameSet)
-    {grp with Items = items2}
-
-let filterOutLenFieldsComponent (lenFieldNameSet:Set<string>) (cmp:Component) = 
-    let items2 = cmp.Items |> List.filter (lenFieldFilter lenFieldNameSet)
-    {cmp with Items = items2}

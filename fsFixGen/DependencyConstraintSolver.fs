@@ -5,7 +5,7 @@ module DependencyConstraintSolver
 open FIXGenTypes
 
 
-
+// compoundItems must be flattened by this stage, don't recurse into the compoundItem trees
 let private makeConstraints (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
     [   for itm in compoundItems do
         let subItms = itm |> CompoundItemFuncs.getSubCompoundItems componentNameMap
@@ -29,11 +29,11 @@ let private buildDependencyTree (mapIn:Map<string, string list>) (grp,depGrp) =
 // turns a dependency tree into a list
 let private listifyDependencyTree (grp:string) (mapIn:Map<string, string list>) =
     let rec listifyDependencyTreeInner (grp:string) (mapIn:Map<string, string list>) =
-        let getVals (gn:string) (mp:Map<string, string list>) = if mp.ContainsKey gn then  mp.[gn] else []
+        let getVals (gn:string) (mp:Map<string, string list>) = if mp.ContainsKey gn then mp.[gn] else []
         [   for depGrp in getVals grp mapIn do
             yield depGrp
             yield! listifyDependencyTreeInner depGrp mapIn ]
-    grp :: listifyDependencyTreeInner grp mapIn
+    grp::listifyDependencyTreeInner grp mapIn
 
 
 
