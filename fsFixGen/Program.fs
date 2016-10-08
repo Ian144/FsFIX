@@ -68,14 +68,14 @@ let main _ =
     
     let groupMergeMap = groupMerges |> Map.ofList
     
-    let groupsAfterMerge =
-        [   for oldGrp in allGrps do
-            let longName = GroupUtils.makeLongName oldGrp
-            if groupMergeMap.ContainsKey longName then
-                yield groupMergeMap.[longName] 
-            else
-                yield oldGrp
-            ] |> List.distinct // 'distinct' so there is only one instance of each merge group
+//    let groupsAfterMerge =
+//        [   for oldGrp in allGrps do
+//            let longName = GroupUtils.makeLongName oldGrp
+//            if groupMergeMap.ContainsKey longName then
+//                yield groupMergeMap.[longName] 
+//            else
+//                yield oldGrp
+//            ] |> List.distinct // 'distinct' so there is only one instance of each merge group
 
 
     //#### repoint groups to merge target groups in components using groupMergeMap
@@ -84,15 +84,17 @@ let main _ =
         {cmp with Items = items2} )
 
     let msgsWithMergedGrps = msgs |> List.map ( fun msg -> 
-        let items2 = msg.Items |> List.map (GroupUtils.replaceGroupIfMergable groupMergeMap)
-        {msg with Items = items2} )
+                let items2 = msg.Items 
+                                |> List.map (GroupUtils.replaceGroupIfMergable groupMergeMap)
+                                |> List.filter (GroupUtils.lenFieldFilter lenFieldNames)
+                {msg with Items = items2} )
 
     printfn ""
 
 
     //#### generate combined component+group definitions
 
-    let msgItems = [ for msg in msgs do yield! msg.Items ]
+    let msgItems = [ for msg in msgsWithMergedGrps do yield! msg.Items ] |> List.distinct
 
     // extract the components and groups refered to in messages
     // these will in-turn contain nested components and groups

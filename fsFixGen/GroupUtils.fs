@@ -88,3 +88,25 @@ let replaceGroupIfMergable (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem)
                                     item
     | FIXItem.Component _   ->  item
     | FIXItem.Field _       ->  item
+
+
+
+
+let lenFieldFilter (set:Set<string>) (item:FIXItem) =
+    match item with
+    | FIXItem.Group _       ->  false
+    | FIXItem.Component _   ->  false
+    | FIXItem.Field fld     ->  Set.contains fld.FName set
+
+
+let filterOutLenFieldsMsg (lenFieldNameSet:Set<string>) (msg:Msg) = 
+    let items2 = msg.Items |> List.filter (lenFieldFilter lenFieldNameSet)
+    {msg with Items = items2}
+
+let filterOutLenFieldsGrp (lenFieldNameSet:Set<string>) (grp:Group) = 
+    let items2 = grp.Items |> List.filter (lenFieldFilter lenFieldNameSet)
+    {grp with Items = items2}
+
+let filterOutLenFieldsComponent (lenFieldNameSet:Set<string>) (cmp:Component) = 
+    let items2 = cmp.Items |> List.filter (lenFieldFilter lenFieldNameSet)
+    {cmp with Items = items2}
