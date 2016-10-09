@@ -11,10 +11,6 @@ open ParsingFuncs
 
 
 
-let private joinStrs (sep:string) (ss:string seq) =
-    String.Join( sep, ss)
-
-
 
 
 type FieldValue = {
@@ -44,20 +40,20 @@ type FieldData3 = SimpleField of RawField | CompoundField of CompoundField
 
 let private createFieldDUWithValues (typeName:string) (fixTag:int) (values:FieldValue list) =
     let typeStr = sprintf "type %s =" typeName
-    let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> joinStrs "\n"
+    let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> Utils.joinStrs "\n"
     let typeStr = sprintf "%s\n%s" typeStr caseStr
 
     let readerFuncBeg = sprintf "let Read%s (fldValIn:string) : %s = \n    match fldValIn with" typeName typeName
     let readerFuncMatchLines = values |> List.map (fun vv -> sprintf "    |\"%s\" -> %s.%s" vv.Enum typeName vv.Description )
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let readerFuncFailureCase =
-        "    | x -> failwith (sprintf \"" +
-        readerFuncErrMsg +
-        """ %A"  x) """
-    let readerFunc = seq{ yield readerFuncBeg; yield! readerFuncMatchLines; yield readerFuncFailureCase } |> joinStrs "\n"
+            "    | x -> failwith (sprintf \"" +
+            readerFuncErrMsg +
+            """ %A"  x) """
+    let readerFunc = seq{ yield readerFuncBeg; yield! readerFuncMatchLines; yield readerFuncFailureCase } |> Utils.joinStrs "\n"
     let writerFuncBeg = sprintf "let Write%s (strm:Stream) (xxIn:%s) =\n    match xxIn with" typeName typeName
     let writerFuncMatchLines = values |> List.map (fun vv -> sprintf "    | %s.%s -> strm.Write \"%d=%s\"B; strm.Write (delim, 0, 1)" typeName vv.Description fixTag vv.Enum  )
-    let writerFunc = seq{ yield writerFuncBeg; yield! writerFuncMatchLines } |> joinStrs "\n"
+    let writerFunc = seq{ yield writerFuncBeg; yield! writerFuncMatchLines } |> Utils.joinStrs "\n"
     typeStr, readerFunc, writerFunc
 
 
@@ -69,7 +65,7 @@ let private correctDUCaseNames (strIn:string) =
         sprintf "%c%s" ff (s.Substring(1))
     strIn.Split('_')
     |> Array.map (fun ss -> ss.ToLower() |> upperCaseFirst)
-    |> joinStrs ""
+    |> Utils.joinStrs ""
 
 
 
@@ -243,7 +239,7 @@ let private createLenStrFieldReadFunction (fld:CompoundField) =
             sprintf "    if tag <> \"%d\" then failwith \"invalid tag reading %s\"" fld.StrField.FixTag fld.Name //todo comparing string tags, not byte arrays, i.e. not - if tag <> "91"B
             sprintf "    if strLen <> raw.Length then failwith \"mismatched string len reading %s\"" fld.Name
             sprintf "    %s.%s raw" fld.Name fld.Name   ]
-    joinStrs "\n" lines
+    Utils.joinStrs "\n" lines
 
 
 
@@ -260,7 +256,7 @@ let private createLenStrFieldWriteFunction (fld:CompoundField) =
             sprintf "    strm.Write (ToBytes.Convert fld.Value)" 
             sprintf "    strm.Write (delim, 0, 1)" 
         ]
-    joinStrs "\n" lines
+    Utils.joinStrs "\n" lines
 
 
 

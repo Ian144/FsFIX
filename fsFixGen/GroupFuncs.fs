@@ -52,7 +52,7 @@ let makeMergeMap (grps:Group list) : (GroupLongName*Group) list=
     //     i.e. there may be two (or more) sets of NoLegs groups, because there are two (or more) sets of fields+components for NoLegs groups
     // The group-grouping (apologies for that) with the largest number of mergeable groups is selected in the event of a clash.
     let mergeables = flattenedGroups 
-                            |> List.groupBy (fun grp -> {grp with Parents = []})    // groupBy ignoring parentage, these groups are potentially mergeable
+                            |> List.groupBy (fun grp -> {grp with Parents = []; Required = Required.NotRequired})    // groupBy ignoring parentage and wether the group is required or not, as these have not effect on the definitation
                             |> List.groupBy (fun (keyGroup, _) -> keyGroup.GName)   // groupBy a second time to bring together mergings for groups of the same name but with different field sets
                             |> List.map (fun (_, grpMerges) ->                      // select the grouping for a given name that has the most members
                                     let maxNumMerges = grpMerges |> List.maxBy (fun (_, grps) -> grps.Length)
@@ -66,22 +66,4 @@ let makeMergeMap (grps:Group list) : (GroupLongName*Group) list=
 
 
 
-
-let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem) =
-    match item with
-    | FIXItem.Group grp     ->  let longName = makeLongName grp
-                                if grpMergeMap.ContainsKey longName then
-                                    FIXItem.Group grpMergeMap.[longName]
-                                else
-                                    item
-    | FIXItem.Component _   ->  item
-    | FIXItem.Field _       ->  item
-
-
-
-let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
-    match item with
-    | FIXItem.Group _       ->  true
-    | FIXItem.Component _   ->  true
-    | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames |> not
 

@@ -26,11 +26,11 @@ let rec flattenGroups (groups:Group list) =
 
 
 
-let private xmakeGroupCompoundName (grp:Group) : string =
-    let parents = grp.Parents 
-    let groupName = grp.GName
-    let subNames = parents @ [groupName] |> List.toArray
-    Utils.joinStrs "_" subNames
+//let private xmakeGroupCompoundName (grp:Group) : string =
+//    let parents = grp.Parents 
+//    let groupName = grp.GName
+//    let subNames = parents @ [groupName] |> List.toArray
+//    Utils.joinStrs "_" subNames
 
 
 
@@ -49,9 +49,10 @@ let writeComponent (xx:Component) (sw:StreamWriter) =
                 | FIXItem.Component cmp ->  match cmp.Required with
                                             | Required.Required     ->  sprintf "    %s: %s // component" cmp.CRName.Value cmp.CRName.Value
                                             | Required.NotRequired  ->  sprintf "    %s: %s option // component" cmp.CRName.Value cmp.CRName.Value
-                | FIXItem.Group grp     ->  match grp.Required with
-                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grp.GName grp.GName
-                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grp.GName grp.GName
+                | FIXItem.Group grp     ->  let (GroupLongName grpName) = GroupUtils.makeLongName grp
+                                            match grp.Required with
+                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grpName grpName
+                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grpName grpName
 
                 ) // end List.map
             
@@ -63,7 +64,8 @@ let writeComponent (xx:Component) (sw:StreamWriter) =
 
 let writeGroup (grp:Group) (sw:StreamWriter) = 
     sw.WriteLine "\n    // group"
-    let ss = sprintf "type %sGrp = {\n" grp.GName
+    let (GroupLongName grpName) = GroupUtils.makeLongName grp // merged groups have an empty parent list, so the long name is correct
+    let ss = sprintf "type %sGrp = {\n" grpName
     sw.Write ss
     let groupDefStrs = 
         grp.Items
@@ -75,9 +77,10 @@ let writeGroup (grp:Group) (sw:StreamWriter) =
                 | FIXItem.Component cmp ->  match cmp.Required with
                                             | Required.Required     ->  sprintf "    %s: %s // component" cmp.CRName.Value cmp.CRName.Value
                                             | Required.NotRequired  ->  sprintf "    %s: %s option // component" cmp.CRName.Value cmp.CRName.Value
-                | FIXItem.Group grp     ->  match grp.Required with
-                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grp.GName grp.GName
-                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grp.GName grp.GName
+                | FIXItem.Group grp     ->  let (GroupLongName grpNameInner) = GroupUtils.makeLongName grp
+                                            match grp.Required with
+                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grpNameInner grpNameInner
+                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grpNameInner grpNameInner
 
                 ) // end List.map
             

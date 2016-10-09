@@ -336,7 +336,7 @@ type NestedParties2 = {
     }
 
     // group
-type NoAllocsGrp = {
+type TradeCaptureReportAck_NoAllocs_NoAllocsGrp = {
     AllocAccount: AllocAccount option
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
@@ -422,8 +422,9 @@ type UnderlyingInstrument = {
     }
 
     // group
-type NoUnderlyingsGrp = {
+type CollateralResponse_NoUnderlyings_NoUnderlyingsGrp = {
     UnderlyingInstrument: UnderlyingInstrument option // component
+    CollAction: CollAction option
     }
 
     // group
@@ -505,7 +506,7 @@ type NoOrdersGrp = {
     }
 
     // group
-type NoBidComponentsGrp = {
+type BidResponse_NoBidComponents_NoBidComponentsGrp = {
     CommissionData: CommissionData // component
     ListID: ListID option
     Country: Country option
@@ -530,7 +531,7 @@ type NoContAmtsGrp = {
     }
 
     // group
-type NoSidesGrp = {
+type TradeCaptureReport_NoSides_NoSidesGrp = {
     Side: Side
     OrderID: OrderID
     SecondaryOrderID: SecondaryOrderID option
@@ -596,7 +597,7 @@ type NoSidesGrp = {
     TradeAllocIndicator: TradeAllocIndicator option
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
-    NoAllocsGrp: NoAllocsGrp option // group
+    TradeCaptureReport_NoAllocs_NoAllocsGrp: TradeCaptureReport_NoAllocs_NoAllocsGrp option // group
     AllocAccount: AllocAccount option
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
@@ -690,12 +691,23 @@ type NoLegAllocsGrp = {
     }
 
     // group
-type NoLegsGrp = {
+type TradeCaptureReportAck_NoLegs_NoLegsGrp = {
     InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegStipulations: LegStipulations option // component
+    LegPositionEffect: LegPositionEffect option
+    LegCoveredOrUncovered: LegCoveredOrUncovered option
+    NestedParties: NestedParties option // component
+    LegRefID: LegRefID option
+    LegPrice: LegPrice option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegLastPx: LegLastPx option
     }
 
     // group
-type NoMDEntriesGrp = {
+type MarketDataIncrementalRefresh_NoMDEntries_NoMDEntriesGrp = {
     MDUpdateAction: MDUpdateAction
     DeleteReason: DeleteReason option
     MDEntryType: MDEntryType option
@@ -756,7 +768,7 @@ type FinancingDetails = {
     }
 
     // group
-type NoQuoteEntriesGrp = {
+type MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp = {
     QuoteEntryID: QuoteEntryID option
     Instrument: Instrument option // component
     NoLegsGrp: NoLegsGrp option // group
@@ -788,12 +800,12 @@ type NoQuoteEntriesGrp = {
     }
 
     // group
-type NoQuoteSetsGrp = {
+type MassQuoteAcknowledgement_NoQuoteSets_NoQuoteSetsGrp = {
     QuoteSetID: QuoteSetID option
     UnderlyingInstrument: UnderlyingInstrument option // component
     TotNoQuoteEntries: TotNoQuoteEntries option
     LastFragment: LastFragment option
-    NoQuoteEntriesGrp: NoQuoteEntriesGrp option // group
+    MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp: MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp option // group
     QuoteEntryID: QuoteEntryID option
     Instrument: Instrument option // component
     NoLegsGrp: NoLegsGrp option // group
@@ -845,7 +857,7 @@ type InstrumentExtension = {
     }
 
     // group
-type NoRelatedSymGrp = {
+type DerivativeSecurityList_NoRelatedSym_NoRelatedSymGrp = {
     Instrument: Instrument option // component
     Currency: Currency option
     ExpirationCycle: ExpirationCycle option
@@ -867,24 +879,6 @@ type NoMsgTypesGrp = {
     // group
 type NoIOIQualifiersGrp = {
     IOIQualifier: IOIQualifier option
-    }
-
-    // group
-type NoRoutingIDsGrp = {
-    RoutingType: RoutingType option
-    RoutingID: RoutingID option
-    }
-
-    // group
-type NoRoutingIDsGrp = {
-    RoutingType: RoutingType option
-    RoutingID: RoutingID option
-    }
-
-    // group
-type LinesOfTextGrp = {
-    Text: Text
-    EncodedText: EncodedText option
     }
 
     // group
@@ -949,7 +943,7 @@ type NoBidDescriptorsGrp = {
     }
 
     // group
-type NoExecsGrp = {
+type AllocationInstruction_NoExecs_NoExecsGrp = {
     LastQty: LastQty option
     ExecID: ExecID option
     SecondaryExecID: SecondaryExecID option
@@ -959,7 +953,7 @@ type NoExecsGrp = {
     }
 
     // group
-type NoExecsGrp = {
+type AllocationReport_NoExecs_NoExecsGrp = {
     LastQty: LastQty option
     ExecID: ExecID option
     SecondaryExecID: SecondaryExecID option
@@ -1005,52 +999,8 @@ type NoTradesGrp = {
     }
 
     // group
-type NoExecsGrp = {
-    ExecID: ExecID option
-    }
-
-    // group
-type NoTradesGrp = {
-    TradeReportID: TradeReportID option
-    SecondaryTradeReportID: SecondaryTradeReportID option
-    }
-
-    // group
-type NoExecsGrp = {
-    ExecID: ExecID option
-    }
-
-    // group
-type NoTradesGrp = {
-    TradeReportID: TradeReportID option
-    SecondaryTradeReportID: SecondaryTradeReportID option
-    }
-
-    // group
-type NoExecsGrp = {
-    ExecID: ExecID option
-    }
-
-    // group
-type NoTradesGrp = {
-    TradeReportID: TradeReportID option
-    SecondaryTradeReportID: SecondaryTradeReportID option
-    }
-
-    // group
 type NoCollInquiryQualifierGrp = {
     CollInquiryQualifier: CollInquiryQualifier option
-    }
-
-    // group
-type NoExecsGrp = {
-    ExecID: ExecID option
-    }
-
-    // group
-type NoTradesGrp = {
-    TradeReportID: TradeReportID option
-    SecondaryTradeReportID: SecondaryTradeReportID option
     }
 
     // group
@@ -1062,27 +1012,11 @@ type NoCompIDsGrp = {
     }
 
     // group
-type NoCompIDsGrp = {
+type NetworkStatusResponse_NoCompIDs_NoCompIDsGrp = {
     RefCompID: RefCompID option
     RefSubID: RefSubID option
     LocationID: LocationID option
     DeskID: DeskID option
     StatusValue: StatusValue option
     StatusText: StatusText option
-    }
-
-    // group
-type NoCollInquiryQualifierGrp = {
-    CollInquiryQualifier: CollInquiryQualifier option
-    }
-
-    // group
-type NoExecsGrp = {
-    ExecID: ExecID option
-    }
-
-    // group
-type NoTradesGrp = {
-    TradeReportID: TradeReportID option
-    SecondaryTradeReportID: SecondaryTradeReportID option
     }

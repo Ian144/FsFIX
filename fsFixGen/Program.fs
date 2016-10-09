@@ -62,13 +62,24 @@ let main _ =
     
     let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
 
+    allGrps
+        |> List.filter (fun grp -> grp.GName.Contains "NoExecs")
+        |> List.iter (fun grp -> printfn "group b4 merge: %A -> %A" (GroupUtils.makeLongName grp) grp.GName)
+
+    printfn "\n------------------------------------\n"
+
     // a map of group longname (a compound name based on its parentage) to a merge target
     let groupMerges = GroupUtils.makeMergeMap allGrps
     
+    let gs = groupMerges 
+                |> List.map (fun (xx, yy) -> yy) 
+                |> List.groupBy (fun grp -> {grp with Required = Required.NotRequired})
+                |> List.filter (fun (_, gg) -> gg.Length > 1)
+    
     groupMerges 
         |> List.sortBy (fun (_,grp) -> grp.GName)
-        |> List.iter (fun (ln,grp) -> printfn "group merge: %A -> %A" ln grp.GName)
-
+        |> List.filter (fun (_,grp) -> grp.GName.Contains "NoExecs")
+        |> List.iter (fun (ln,grp) -> printfn "group merge: %A -> %A: %A" ln grp.GName grp.Items)
     
     let groupMergeMap = groupMerges |> Map.ofList
     
@@ -88,8 +99,8 @@ let main _ =
     let componentsAfterGroupMerge = 
             [   for comp in components do
                 let items2 = comp.Items 
-                                |> FIXItem.map (GroupUtils.updateItemIfMergeableGroup groupMergeMap)
-                                |> FIXItem.filter (GroupUtils.excludeFieldsFilter lenFieldNames)
+                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
+                                |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {comp with Items = items2}    ]
 
     let cmpNameMapAfterGroupMerge = componentsAfterGroupMerge 
@@ -100,9 +111,11 @@ let main _ =
     let msgsAfterGroupMerge =
             [   for msg in msgs do
                 let items2 =  msg.Items 
-                                |> FIXItem.map (GroupUtils.updateItemIfMergeableGroup groupMergeMap)
-                                |> FIXItem.filter (GroupUtils.excludeFieldsFilter lenFieldNames)
+                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
+                                |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {msg with Items = items2}   ]
+
+    let ms = msgsAfterGroupMerge |> List.filter (fun m -> m.MName.Contains "AllocationInstruction")
 
     printfn "determining dependency order for groups and components"
     let allCompoundItemsAfterGroupMerge = 
@@ -113,6 +126,7 @@ let main _ =
     // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
     // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)
     let constrainedCompoundItemsInDepOrder  = allCompoundItemsAfterGroupMerge
+                                                |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
 
 
