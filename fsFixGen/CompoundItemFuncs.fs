@@ -35,14 +35,19 @@ let rec private flattenCompoundItems (componentNameMap:Map<ComponentName,Compone
 // compound items are either groups or components, both of which may contain nested components and groups (nested to an arbitrary degree) 
 let recursivelyGetAllCompoundItems (componentNameMap:Map<ComponentName,Component>) (itms:FIXItem list) : CompoundItem list =
     let level0CompoundItems = extractCompoundItems componentNameMap itms
-    flattenCompoundItems componentNameMap level0CompoundItems |> List.distinct
+    flattenCompoundItems componentNameMap level0CompoundItems
 
 
 let getName (ci:CompoundItem) =
     match ci with
     | CompoundItem.Component cmp    -> cmp.CName.Value
-    | CompoundItem.Group grp        -> grp.GName
-    
+    | CompoundItem.Group grp        -> let (GroupLongName ln) = GroupUtils.makeLongName grp
+                                       ln
+let getNameAndTypeStr (ci:CompoundItem) =
+    match ci with
+    | CompoundItem.Component cmp    -> sprintf "component: %s" cmp.CName.Value
+    | CompoundItem.Group grp        -> let (GroupLongName ln) = GroupUtils.makeLongName grp
+                                       sprintf "    group: %s" ln    
 
 let extractGroups (cis:CompoundItem list) : Group list =
     let extractGroup ci =

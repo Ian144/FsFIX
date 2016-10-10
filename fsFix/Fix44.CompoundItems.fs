@@ -7,6 +7,101 @@ open Fix44.Fields
 
 
     // group
+type NoUnderlyingSecurityAltIDGrp = {
+    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
+    UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
+    }
+
+    // group
+type NoUnderlyingStipsGrp = {
+    UnderlyingStipType: UnderlyingStipType option
+    UnderlyingStipValue: UnderlyingStipValue option
+    }
+
+    // component
+type UnderlyingStipulations = {
+    NoUnderlyingStipsGrp: NoUnderlyingStipsGrp option // group
+    UnderlyingStipType: UnderlyingStipType option
+    UnderlyingStipValue: UnderlyingStipValue option
+    }
+
+    // component
+type UnderlyingInstrument = {
+    UnderlyingSymbol: UnderlyingSymbol
+    UnderlyingSymbolSfx: UnderlyingSymbolSfx option
+    UnderlyingSecurityID: UnderlyingSecurityID option
+    UnderlyingSecurityIDSource: UnderlyingSecurityIDSource option
+    NoUnderlyingSecurityAltIDGrp: NoUnderlyingSecurityAltIDGrp option // group
+    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
+    UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
+    UnderlyingProduct: UnderlyingProduct option
+    UnderlyingCFICode: UnderlyingCFICode option
+    UnderlyingSecurityType: UnderlyingSecurityType option
+    UnderlyingSecuritySubType: UnderlyingSecuritySubType option
+    UnderlyingMaturityMonthYear: UnderlyingMaturityMonthYear option
+    UnderlyingMaturityDate: UnderlyingMaturityDate option
+    UnderlyingPutOrCall: UnderlyingPutOrCall option
+    UnderlyingCouponPaymentDate: UnderlyingCouponPaymentDate option
+    UnderlyingIssueDate: UnderlyingIssueDate option
+    UnderlyingRepoCollateralSecurityType: UnderlyingRepoCollateralSecurityType option
+    UnderlyingRepurchaseTerm: UnderlyingRepurchaseTerm option
+    UnderlyingRepurchaseRate: UnderlyingRepurchaseRate option
+    UnderlyingFactor: UnderlyingFactor option
+    UnderlyingCreditRating: UnderlyingCreditRating option
+    UnderlyingInstrRegistry: UnderlyingInstrRegistry option
+    UnderlyingCountryOfIssue: UnderlyingCountryOfIssue option
+    UnderlyingStateOrProvinceOfIssue: UnderlyingStateOrProvinceOfIssue option
+    UnderlyingLocaleOfIssue: UnderlyingLocaleOfIssue option
+    UnderlyingRedemptionDate: UnderlyingRedemptionDate option
+    UnderlyingStrikePrice: UnderlyingStrikePrice option
+    UnderlyingStrikeCurrency: UnderlyingStrikeCurrency option
+    UnderlyingOptAttribute: UnderlyingOptAttribute option
+    UnderlyingContractMultiplier: UnderlyingContractMultiplier option
+    UnderlyingCouponRate: UnderlyingCouponRate option
+    UnderlyingSecurityExchange: UnderlyingSecurityExchange option
+    UnderlyingIssuer: UnderlyingIssuer option
+    EncodedUnderlyingIssuer: EncodedUnderlyingIssuer option
+    UnderlyingSecurityDesc: UnderlyingSecurityDesc option
+    EncodedUnderlyingSecurityDesc: EncodedUnderlyingSecurityDesc option
+    UnderlyingCPProgram: UnderlyingCPProgram option
+    UnderlyingCPRegType: UnderlyingCPRegType option
+    UnderlyingCurrency: UnderlyingCurrency option
+    UnderlyingQty: UnderlyingQty option
+    UnderlyingPx: UnderlyingPx option
+    UnderlyingDirtyPrice: UnderlyingDirtyPrice option
+    UnderlyingEndPrice: UnderlyingEndPrice option
+    UnderlyingStartValue: UnderlyingStartValue option
+    UnderlyingCurrentValue: UnderlyingCurrentValue option
+    UnderlyingEndValue: UnderlyingEndValue option
+    UnderlyingStipulations: UnderlyingStipulations option // component
+    }
+
+    // group
+type CollateralResponse_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    CollAction: CollAction option
+    }
+
+    // group
+type CollateralAssignment_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    CollAction: CollAction option
+    }
+
+    // group
+type CollateralRequest_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    CollAction: CollAction option
+    }
+
+    // group
+type PositionReport_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingSettlPrice: UnderlyingSettlPrice
+    UnderlyingSettlPriceType: UnderlyingSettlPriceType
+    }
+
+    // group
 type NoNestedPartySubIDsGrp = {
     NestedPartySubID: NestedPartySubID option
     NestedPartySubIDType: NestedPartySubIDType option
@@ -65,16 +160,121 @@ type NoRegistDtlsGrp = {
     }
 
     // group
-type NoPosAmtGrp = {
-    PosAmtType: PosAmtType
-    PosAmt: PosAmt
+type NoNested2PartySubIDsGrp = {
+    Nested2PartySubID: Nested2PartySubID option
+    Nested2PartySubIDType: Nested2PartySubIDType option
+    }
+
+    // group
+type NoNested2PartyIDsGrp = {
+    Nested2PartyID: Nested2PartyID option
+    Nested2PartyIDSource: Nested2PartyIDSource option
+    Nested2PartyRole: Nested2PartyRole option
+    NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
+    Nested2PartySubID: Nested2PartySubID option
+    Nested2PartySubIDType: Nested2PartySubIDType option
     }
 
     // component
-type PositionAmountData = {
-    NoPosAmtGrp: NoPosAmtGrp // group
-    PosAmtType: PosAmtType
-    PosAmt: PosAmt
+type NestedParties2 = {
+    NoNested2PartyIDsGrp: NoNested2PartyIDsGrp option // group
+    Nested2PartyID: Nested2PartyID option
+    Nested2PartyIDSource: Nested2PartyIDSource option
+    Nested2PartyRole: Nested2PartyRole option
+    NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
+    Nested2PartySubID: Nested2PartySubID option
+    Nested2PartySubIDType: Nested2PartySubIDType option
+    }
+
+    // group
+type TradeCaptureReportAck_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties2: NestedParties2 option // component
+    AllocQty: AllocQty option
+    }
+
+    // group
+type NoLegSecurityAltIDGrp = {
+    LegSecurityAltID: LegSecurityAltID option
+    LegSecurityAltIDSource: LegSecurityAltIDSource option
+    }
+
+    // component
+type InstrumentLeg = {
+    LegSymbol: LegSymbol option
+    LegSymbolSfx: LegSymbolSfx option
+    LegSecurityID: LegSecurityID option
+    LegSecurityIDSource: LegSecurityIDSource option
+    NoLegSecurityAltIDGrp: NoLegSecurityAltIDGrp option // group
+    LegSecurityAltID: LegSecurityAltID option
+    LegSecurityAltIDSource: LegSecurityAltIDSource option
+    LegProduct: LegProduct option
+    LegCFICode: LegCFICode option
+    LegSecurityType: LegSecurityType option
+    LegSecuritySubType: LegSecuritySubType option
+    LegMaturityMonthYear: LegMaturityMonthYear option
+    LegMaturityDate: LegMaturityDate option
+    LegCouponPaymentDate: LegCouponPaymentDate option
+    LegIssueDate: LegIssueDate option
+    LegRepoCollateralSecurityType: LegRepoCollateralSecurityType option
+    LegRepurchaseTerm: LegRepurchaseTerm option
+    LegRepurchaseRate: LegRepurchaseRate option
+    LegFactor: LegFactor option
+    LegCreditRating: LegCreditRating option
+    LegInstrRegistry: LegInstrRegistry option
+    LegCountryOfIssue: LegCountryOfIssue option
+    LegStateOrProvinceOfIssue: LegStateOrProvinceOfIssue option
+    LegLocaleOfIssue: LegLocaleOfIssue option
+    LegRedemptionDate: LegRedemptionDate option
+    LegStrikePrice: LegStrikePrice option
+    LegStrikeCurrency: LegStrikeCurrency option
+    LegOptAttribute: LegOptAttribute option
+    LegContractMultiplier: LegContractMultiplier option
+    LegCouponRate: LegCouponRate option
+    LegSecurityExchange: LegSecurityExchange option
+    LegIssuer: LegIssuer option
+    EncodedLegIssuer: EncodedLegIssuer option
+    LegSecurityDesc: LegSecurityDesc option
+    EncodedLegSecurityDesc: EncodedLegSecurityDesc option
+    LegRatioQty: LegRatioQty option
+    LegSide: LegSide option
+    LegCurrency: LegCurrency option
+    LegPool: LegPool option
+    LegDatedDate: LegDatedDate option
+    LegContractSettlMonth: LegContractSettlMonth option
+    LegInterestAccrualDate: LegInterestAccrualDate option
+    }
+
+    // group
+type NoLegStipulationsGrp = {
+    LegStipulationType: LegStipulationType option
+    LegStipulationValue: LegStipulationValue option
+    }
+
+    // component
+type LegStipulations = {
+    NoLegStipulationsGrp: NoLegStipulationsGrp option // group
+    LegStipulationType: LegStipulationType option
+    LegStipulationValue: LegStipulationValue option
+    }
+
+    // group
+type TradeCaptureReportAck_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegStipulations: LegStipulations option // component
+    LegPositionEffect: LegPositionEffect option
+    LegCoveredOrUncovered: LegCoveredOrUncovered option
+    NestedParties: NestedParties option // component
+    LegRefID: LegRefID option
+    LegPrice: LegPrice option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegLastPx: LegLastPx option
     }
 
     // group
@@ -102,6 +302,145 @@ type Parties = {
     NoPartySubIDsGrp: NoPartySubIDsGrp option // group
     PartySubID: PartySubID option
     PartySubIDType: PartySubIDType option
+    }
+
+    // group
+type NoClearingInstructionsGrp = {
+    ClearingInstruction: ClearingInstruction option
+    }
+
+    // component
+type CommissionData = {
+    Commission: Commission option
+    CommType: CommType option
+    CommCurrency: CommCurrency option
+    FundRenewWaiv: FundRenewWaiv option
+    }
+
+    // group
+type NoContAmtsGrp = {
+    ContAmtType: ContAmtType option
+    ContAmtValue: ContAmtValue option
+    ContAmtCurr: ContAmtCurr option
+    }
+
+    // group
+type NoStipulationsGrp = {
+    StipulationType: StipulationType option
+    StipulationValue: StipulationValue option
+    }
+
+    // component
+type Stipulations = {
+    NoStipulationsGrp: NoStipulationsGrp option // group
+    StipulationType: StipulationType option
+    StipulationValue: StipulationValue option
+    }
+
+    // group
+type NoMiscFeesGrp = {
+    MiscFeeAmt: MiscFeeAmt option
+    MiscFeeCurr: MiscFeeCurr option
+    MiscFeeType: MiscFeeType option
+    MiscFeeBasis: MiscFeeBasis option
+    }
+
+    // group
+type TradeCaptureReport_NoSides_NoSidesGrp = {
+    Side: Side
+    OrderID: OrderID
+    SecondaryOrderID: SecondaryOrderID option
+    ClOrdID: ClOrdID option
+    SecondaryClOrdID: SecondaryClOrdID option
+    ListID: ListID option
+    Parties: Parties option // component
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    ProcessCode: ProcessCode option
+    OddLot: OddLot option
+    NoClearingInstructionsGrp: NoClearingInstructionsGrp option // group
+    ClearingInstruction: ClearingInstruction option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    TradeInputSource: TradeInputSource option
+    TradeInputDevice: TradeInputDevice option
+    OrderInputDevice: OrderInputDevice option
+    Currency: Currency option
+    ComplianceID: ComplianceID option
+    SolicitedFlag: SolicitedFlag option
+    OrderCapacity: OrderCapacity option
+    OrderRestrictions: OrderRestrictions option
+    CustOrderCapacity: CustOrderCapacity option
+    OrdType: OrdType option
+    ExecInst: ExecInst option
+    TransBkdTime: TransBkdTime option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    TimeBracket: TimeBracket option
+    CommissionData: CommissionData option // component
+    GrossTradeAmt: GrossTradeAmt option
+    NumDaysInterest: NumDaysInterest option
+    ExDate: ExDate option
+    AccruedInterestRate: AccruedInterestRate option
+    AccruedInterestAmt: AccruedInterestAmt option
+    InterestAtMaturity: InterestAtMaturity option
+    EndAccruedInterestAmt: EndAccruedInterestAmt option
+    StartCash: StartCash option
+    EndCash: EndCash option
+    Concession: Concession option
+    TotalTakedown: TotalTakedown option
+    NetMoney: NetMoney option
+    SettlCurrAmt: SettlCurrAmt option
+    SettlCurrency: SettlCurrency option
+    SettlCurrFxRate: SettlCurrFxRate option
+    SettlCurrFxRateCalc: SettlCurrFxRateCalc option
+    PositionEffect: PositionEffect option
+    Text: Text option
+    EncodedText: EncodedText option
+    SideMultiLegReportingType: SideMultiLegReportingType option
+    NoContAmtsGrp: NoContAmtsGrp option // group
+    ContAmtType: ContAmtType option
+    ContAmtValue: ContAmtValue option
+    ContAmtCurr: ContAmtCurr option
+    Stipulations: Stipulations option // component
+    NoMiscFeesGrp: NoMiscFeesGrp option // group
+    MiscFeeAmt: MiscFeeAmt option
+    MiscFeeCurr: MiscFeeCurr option
+    MiscFeeType: MiscFeeType option
+    MiscFeeBasis: MiscFeeBasis option
+    ExchangeRule: ExchangeRule option
+    TradeAllocIndicator: TradeAllocIndicator option
+    PreallocMethod: PreallocMethod option
+    AllocID: AllocID option
+    }
+
+    // group
+type TradeCaptureReport_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegStipulations: LegStipulations option // component
+    LegPositionEffect: LegPositionEffect option
+    LegCoveredOrUncovered: LegCoveredOrUncovered option
+    NestedParties: NestedParties option // component
+    LegRefID: LegRefID option
+    LegPrice: LegPrice option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegLastPx: LegLastPx option
+    }
+
+    // group
+type NoPosAmtGrp = {
+    PosAmtType: PosAmtType
+    PosAmt: PosAmt
+    }
+
+    // component
+type PositionAmountData = {
+    NoPosAmtGrp: NoPosAmtGrp // group
+    PosAmtType: PosAmtType
+    PosAmt: PosAmt
     }
 
     // group
@@ -191,6 +530,108 @@ type TrdRegTimestamps = {
     }
 
     // group
+type AllocationReport_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    MatchStatus: MatchStatus option
+    AllocPrice: AllocPrice option
+    AllocQty: AllocQty
+    IndividualAllocID: IndividualAllocID option
+    ProcessCode: ProcessCode option
+    NestedParties: NestedParties option // component
+    NotifyBrokerOfCredit: NotifyBrokerOfCredit option
+    AllocHandlInst: AllocHandlInst option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    CommissionData: CommissionData option // component
+    AllocAvgPx: AllocAvgPx option
+    AllocNetMoney: AllocNetMoney option
+    SettlCurrAmt: SettlCurrAmt option
+    AllocSettlCurrAmt: AllocSettlCurrAmt option
+    SettlCurrency: SettlCurrency option
+    AllocSettlCurrency: AllocSettlCurrency option
+    SettlCurrFxRate: SettlCurrFxRate option
+    SettlCurrFxRateCalc: SettlCurrFxRateCalc option
+    AllocAccruedInterestAmt: AllocAccruedInterestAmt option
+    AllocInterestAtMaturity: AllocInterestAtMaturity option
+    NoMiscFeesGrp: NoMiscFeesGrp option // group
+    MiscFeeAmt: MiscFeeAmt option
+    MiscFeeCurr: MiscFeeCurr option
+    MiscFeeType: MiscFeeType option
+    MiscFeeBasis: MiscFeeBasis option
+    NoClearingInstructionsGrp: NoClearingInstructionsGrp option // group
+    ClearingInstruction: ClearingInstruction option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    AllocSettlInstType: AllocSettlInstType option
+    SettlInstructionsData: SettlInstructionsData option // component
+    }
+
+    // group
+type AllocationInstruction_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    MatchStatus: MatchStatus option
+    AllocPrice: AllocPrice option
+    AllocQty: AllocQty option
+    IndividualAllocID: IndividualAllocID option
+    ProcessCode: ProcessCode option
+    NestedParties: NestedParties option // component
+    NotifyBrokerOfCredit: NotifyBrokerOfCredit option
+    AllocHandlInst: AllocHandlInst option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    CommissionData: CommissionData option // component
+    AllocAvgPx: AllocAvgPx option
+    AllocNetMoney: AllocNetMoney option
+    SettlCurrAmt: SettlCurrAmt option
+    AllocSettlCurrAmt: AllocSettlCurrAmt option
+    SettlCurrency: SettlCurrency option
+    AllocSettlCurrency: AllocSettlCurrency option
+    SettlCurrFxRate: SettlCurrFxRate option
+    SettlCurrFxRateCalc: SettlCurrFxRateCalc option
+    AccruedInterestAmt: AccruedInterestAmt option
+    AllocAccruedInterestAmt: AllocAccruedInterestAmt option
+    AllocInterestAtMaturity: AllocInterestAtMaturity option
+    SettlInstMode: SettlInstMode option
+    NoMiscFeesGrp: NoMiscFeesGrp option // group
+    MiscFeeAmt: MiscFeeAmt option
+    MiscFeeCurr: MiscFeeCurr option
+    MiscFeeType: MiscFeeType option
+    MiscFeeBasis: MiscFeeBasis option
+    NoClearingInstructions: NoClearingInstructions option
+    ClearingInstruction: ClearingInstruction option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    AllocSettlInstType: AllocSettlInstType option
+    SettlInstructionsData: SettlInstructionsData option // component
+    }
+
+    // group
+type NoOrdersGrp = {
+    ClOrdID: ClOrdID option
+    OrderID: OrderID option
+    SecondaryOrderID: SecondaryOrderID option
+    SecondaryClOrdID: SecondaryClOrdID option
+    ListID: ListID option
+    NestedParties2: NestedParties2 option // component
+    OrderQty: OrderQty option
+    OrderAvgPx: OrderAvgPx option
+    OrderBookingQty: OrderBookingQty option
+    }
+
+    // group
+type ListStrikePrice_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    PrevClosePx: PrevClosePx option
+    ClOrdID: ClOrdID option
+    SecondaryClOrdID: SecondaryClOrdID option
+    Side: Side option
+    Price: Price
+    Currency: Currency option
+    Text: Text option
+    EncodedText: EncodedText option
+    }
+
+    // group
 type NoSecurityAltIDGrp = {
     SecurityAltID: SecurityAltID option
     SecurityAltIDSource: SecurityAltIDSource option
@@ -261,87 +702,12 @@ type NoStrikesGrp = {
     }
 
     // group
-type NoNested3PartySubIDsGrp = {
-    Nested3PartySubID: Nested3PartySubID option
-    Nested3PartySubIDType: Nested3PartySubIDType option
-    }
-
-    // group
-type NoNested3PartyIDsGrp = {
-    Nested3PartyID: Nested3PartyID option
-    Nested3PartyIDSource: Nested3PartyIDSource option
-    Nested3PartyRole: Nested3PartyRole option
-    NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
-    Nested3PartySubID: Nested3PartySubID option
-    Nested3PartySubIDType: Nested3PartySubIDType option
-    }
-
-    // component
-type NestedParties3 = {
-    NoNested3PartyIDsGrp: NoNested3PartyIDsGrp option // group
-    Nested3PartyID: Nested3PartyID option
-    Nested3PartyIDSource: Nested3PartyIDSource option
-    Nested3PartyRole: Nested3PartyRole option
-    NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
-    Nested3PartySubID: Nested3PartySubID option
-    Nested3PartySubIDType: Nested3PartySubIDType option
-    }
-
-    // component
-type CommissionData = {
-    Commission: Commission option
-    CommType: CommType option
-    CommCurrency: CommCurrency option
-    FundRenewWaiv: FundRenewWaiv option
-    }
-
-    // group
-type NoMiscFeesGrp = {
-    MiscFeeAmt: MiscFeeAmt option
-    MiscFeeCurr: MiscFeeCurr option
-    MiscFeeType: MiscFeeType option
-    MiscFeeBasis: MiscFeeBasis option
-    }
-
-    // group
-type NoClearingInstructionsGrp = {
-    ClearingInstruction: ClearingInstruction option
-    }
-
-    // group
-type NoNested2PartySubIDsGrp = {
-    Nested2PartySubID: Nested2PartySubID option
-    Nested2PartySubIDType: Nested2PartySubIDType option
-    }
-
-    // group
-type NoNested2PartyIDsGrp = {
-    Nested2PartyID: Nested2PartyID option
-    Nested2PartyIDSource: Nested2PartyIDSource option
-    Nested2PartyRole: Nested2PartyRole option
-    NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
-    Nested2PartySubID: Nested2PartySubID option
-    Nested2PartySubIDType: Nested2PartySubIDType option
-    }
-
-    // component
-type NestedParties2 = {
-    NoNested2PartyIDsGrp: NoNested2PartyIDsGrp option // group
-    Nested2PartyID: Nested2PartyID option
-    Nested2PartyIDSource: Nested2PartyIDSource option
-    Nested2PartyRole: Nested2PartyRole option
-    NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
-    Nested2PartySubID: Nested2PartySubID option
-    Nested2PartySubIDType: Nested2PartySubIDType option
-    }
-
-    // group
-type TradeCaptureReportAck_NoAllocs_NoAllocsGrp = {
+type NoAllocsGrp = {
     AllocAccount: AllocAccount option
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
     IndividualAllocID: IndividualAllocID option
-    NestedParties2: NestedParties2 option // component
+    NestedParties: NestedParties option // component
     AllocQty: AllocQty option
     }
 
@@ -352,92 +718,8 @@ type NoTradingSessionsGrp = {
     }
 
     // group
-type NoUnderlyingSecurityAltIDGrp = {
-    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
-    UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
-    }
-
-    // group
-type NoUnderlyingStipsGrp = {
-    UnderlyingStipType: UnderlyingStipType option
-    UnderlyingStipValue: UnderlyingStipValue option
-    }
-
-    // component
-type UnderlyingStipulations = {
-    NoUnderlyingStipsGrp: NoUnderlyingStipsGrp option // group
-    UnderlyingStipType: UnderlyingStipType option
-    UnderlyingStipValue: UnderlyingStipValue option
-    }
-
-    // component
-type UnderlyingInstrument = {
-    UnderlyingSymbol: UnderlyingSymbol
-    UnderlyingSymbolSfx: UnderlyingSymbolSfx option
-    UnderlyingSecurityID: UnderlyingSecurityID option
-    UnderlyingSecurityIDSource: UnderlyingSecurityIDSource option
-    NoUnderlyingSecurityAltIDGrp: NoUnderlyingSecurityAltIDGrp option // group
-    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
-    UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
-    UnderlyingProduct: UnderlyingProduct option
-    UnderlyingCFICode: UnderlyingCFICode option
-    UnderlyingSecurityType: UnderlyingSecurityType option
-    UnderlyingSecuritySubType: UnderlyingSecuritySubType option
-    UnderlyingMaturityMonthYear: UnderlyingMaturityMonthYear option
-    UnderlyingMaturityDate: UnderlyingMaturityDate option
-    UnderlyingPutOrCall: UnderlyingPutOrCall option
-    UnderlyingCouponPaymentDate: UnderlyingCouponPaymentDate option
-    UnderlyingIssueDate: UnderlyingIssueDate option
-    UnderlyingRepoCollateralSecurityType: UnderlyingRepoCollateralSecurityType option
-    UnderlyingRepurchaseTerm: UnderlyingRepurchaseTerm option
-    UnderlyingRepurchaseRate: UnderlyingRepurchaseRate option
-    UnderlyingFactor: UnderlyingFactor option
-    UnderlyingCreditRating: UnderlyingCreditRating option
-    UnderlyingInstrRegistry: UnderlyingInstrRegistry option
-    UnderlyingCountryOfIssue: UnderlyingCountryOfIssue option
-    UnderlyingStateOrProvinceOfIssue: UnderlyingStateOrProvinceOfIssue option
-    UnderlyingLocaleOfIssue: UnderlyingLocaleOfIssue option
-    UnderlyingRedemptionDate: UnderlyingRedemptionDate option
-    UnderlyingStrikePrice: UnderlyingStrikePrice option
-    UnderlyingStrikeCurrency: UnderlyingStrikeCurrency option
-    UnderlyingOptAttribute: UnderlyingOptAttribute option
-    UnderlyingContractMultiplier: UnderlyingContractMultiplier option
-    UnderlyingCouponRate: UnderlyingCouponRate option
-    UnderlyingSecurityExchange: UnderlyingSecurityExchange option
-    UnderlyingIssuer: UnderlyingIssuer option
-    EncodedUnderlyingIssuer: EncodedUnderlyingIssuer option
-    UnderlyingSecurityDesc: UnderlyingSecurityDesc option
-    EncodedUnderlyingSecurityDesc: EncodedUnderlyingSecurityDesc option
-    UnderlyingCPProgram: UnderlyingCPProgram option
-    UnderlyingCPRegType: UnderlyingCPRegType option
-    UnderlyingCurrency: UnderlyingCurrency option
-    UnderlyingQty: UnderlyingQty option
-    UnderlyingPx: UnderlyingPx option
-    UnderlyingDirtyPrice: UnderlyingDirtyPrice option
-    UnderlyingEndPrice: UnderlyingEndPrice option
-    UnderlyingStartValue: UnderlyingStartValue option
-    UnderlyingCurrentValue: UnderlyingCurrentValue option
-    UnderlyingEndValue: UnderlyingEndValue option
-    UnderlyingStipulations: UnderlyingStipulations option // component
-    }
-
-    // group
-type CollateralResponse_NoUnderlyings_NoUnderlyingsGrp = {
+type NoUnderlyingsGrp = {
     UnderlyingInstrument: UnderlyingInstrument option // component
-    CollAction: CollAction option
-    }
-
-    // group
-type NoStipulationsGrp = {
-    StipulationType: StipulationType option
-    StipulationValue: StipulationValue option
-    }
-
-    // component
-type Stipulations = {
-    NoStipulationsGrp: NoStipulationsGrp option // group
-    StipulationType: StipulationType option
-    StipulationValue: StipulationValue option
     }
 
     // component
@@ -493,16 +775,90 @@ type DiscretionInstructions = {
     }
 
     // group
-type NoOrdersGrp = {
-    ClOrdID: ClOrdID option
-    OrderID: OrderID option
-    SecondaryOrderID: SecondaryOrderID option
+type NewOrderList_NoOrders_NoOrdersGrp = {
+    ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
-    ListID: ListID option
-    NestedParties2: NestedParties2 option // component
-    OrderQty: OrderQty option
-    OrderAvgPx: OrderAvgPx option
-    OrderBookingQty: OrderBookingQty option
+    ListSeqNo: ListSeqNo
+    ClOrdLinkID: ClOrdLinkID option
+    SettlInstMode: SettlInstMode option
+    Parties: Parties option // component
+    TradeOriginationDate: TradeOriginationDate option
+    TradeDate: TradeDate option
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    DayBookingInst: DayBookingInst option
+    BookingUnit: BookingUnit option
+    AllocID: AllocID option
+    PreallocMethod: PreallocMethod option
+    NoAllocsGrp: NoAllocsGrp option // group
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties: NestedParties option // component
+    AllocQty: AllocQty option
+    SettlType: SettlType option
+    SettlDate: SettlDate option
+    CashMargin: CashMargin option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    HandlInst: HandlInst option
+    ExecInst: ExecInst option
+    MinQty: MinQty option
+    MaxFloor: MaxFloor option
+    ExDestination: ExDestination option
+    NoTradingSessionsGrp: NoTradingSessionsGrp option // group
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    ProcessCode: ProcessCode option
+    Instrument: Instrument // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    PrevClosePx: PrevClosePx option
+    Side: Side
+    SideValueInd: SideValueInd option
+    LocateReqd: LocateReqd option
+    TransactTime: TransactTime option
+    Stipulations: Stipulations option // component
+    QtyType: QtyType option
+    OrderQtyData: OrderQtyData // component
+    OrdType: OrdType option
+    PriceType: PriceType option
+    Price: Price option
+    StopPx: StopPx option
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    YieldData: YieldData option // component
+    Currency: Currency option
+    ComplianceID: ComplianceID option
+    SolicitedFlag: SolicitedFlag option
+    IOIid: IOIid option
+    QuoteID: QuoteID option
+    TimeInForce: TimeInForce option
+    EffectiveTime: EffectiveTime option
+    ExpireDate: ExpireDate option
+    ExpireTime: ExpireTime option
+    GTBookingInst: GTBookingInst option
+    CommissionData: CommissionData option // component
+    OrderCapacity: OrderCapacity option
+    OrderRestrictions: OrderRestrictions option
+    CustOrderCapacity: CustOrderCapacity option
+    ForexReq: ForexReq option
+    SettlCurrency: SettlCurrency option
+    BookingType: BookingType option
+    Text: Text option
+    EncodedText: EncodedText option
+    SettlDate2: SettlDate2 option
+    OrderQty2: OrderQty2 option
+    Price2: Price2 option
+    PositionEffect: PositionEffect option
+    CoveredOrUncovered: CoveredOrUncovered option
+    MaxShow: MaxShow option
+    PegInstructions: PegInstructions option // component
+    DiscretionInstructions: DiscretionInstructions option // component
+    TargetStrategy: TargetStrategy option
+    TargetStrategyParameters: TargetStrategyParameters option
+    ParticipationRate: ParticipationRate option
+    Designation: Designation option
     }
 
     // group
@@ -524,163 +880,6 @@ type BidResponse_NoBidComponents_NoBidComponentsGrp = {
     }
 
     // group
-type NoContAmtsGrp = {
-    ContAmtType: ContAmtType option
-    ContAmtValue: ContAmtValue option
-    ContAmtCurr: ContAmtCurr option
-    }
-
-    // group
-type TradeCaptureReport_NoSides_NoSidesGrp = {
-    Side: Side
-    OrderID: OrderID
-    SecondaryOrderID: SecondaryOrderID option
-    ClOrdID: ClOrdID option
-    SecondaryClOrdID: SecondaryClOrdID option
-    ListID: ListID option
-    Parties: Parties option // component
-    Account: Account option
-    AcctIDSource: AcctIDSource option
-    AccountType: AccountType option
-    ProcessCode: ProcessCode option
-    OddLot: OddLot option
-    NoClearingInstructionsGrp: NoClearingInstructionsGrp option // group
-    ClearingInstruction: ClearingInstruction option
-    ClearingFeeIndicator: ClearingFeeIndicator option
-    TradeInputSource: TradeInputSource option
-    TradeInputDevice: TradeInputDevice option
-    OrderInputDevice: OrderInputDevice option
-    Currency: Currency option
-    ComplianceID: ComplianceID option
-    SolicitedFlag: SolicitedFlag option
-    OrderCapacity: OrderCapacity option
-    OrderRestrictions: OrderRestrictions option
-    CustOrderCapacity: CustOrderCapacity option
-    OrdType: OrdType option
-    ExecInst: ExecInst option
-    TransBkdTime: TransBkdTime option
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    TimeBracket: TimeBracket option
-    CommissionData: CommissionData option // component
-    GrossTradeAmt: GrossTradeAmt option
-    NumDaysInterest: NumDaysInterest option
-    ExDate: ExDate option
-    AccruedInterestRate: AccruedInterestRate option
-    AccruedInterestAmt: AccruedInterestAmt option
-    InterestAtMaturity: InterestAtMaturity option
-    EndAccruedInterestAmt: EndAccruedInterestAmt option
-    StartCash: StartCash option
-    EndCash: EndCash option
-    Concession: Concession option
-    TotalTakedown: TotalTakedown option
-    NetMoney: NetMoney option
-    SettlCurrAmt: SettlCurrAmt option
-    SettlCurrency: SettlCurrency option
-    SettlCurrFxRate: SettlCurrFxRate option
-    SettlCurrFxRateCalc: SettlCurrFxRateCalc option
-    PositionEffect: PositionEffect option
-    Text: Text option
-    EncodedText: EncodedText option
-    SideMultiLegReportingType: SideMultiLegReportingType option
-    NoContAmtsGrp: NoContAmtsGrp option // group
-    ContAmtType: ContAmtType option
-    ContAmtValue: ContAmtValue option
-    ContAmtCurr: ContAmtCurr option
-    Stipulations: Stipulations option // component
-    NoMiscFeesGrp: NoMiscFeesGrp option // group
-    MiscFeeAmt: MiscFeeAmt option
-    MiscFeeCurr: MiscFeeCurr option
-    MiscFeeType: MiscFeeType option
-    MiscFeeBasis: MiscFeeBasis option
-    ExchangeRule: ExchangeRule option
-    TradeAllocIndicator: TradeAllocIndicator option
-    PreallocMethod: PreallocMethod option
-    AllocID: AllocID option
-    TradeCaptureReport_NoAllocs_NoAllocsGrp: TradeCaptureReport_NoAllocs_NoAllocsGrp option // group
-    AllocAccount: AllocAccount option
-    AllocAcctIDSource: AllocAcctIDSource option
-    AllocSettlCurrency: AllocSettlCurrency option
-    IndividualAllocID: IndividualAllocID option
-    NestedParties2: NestedParties2 option // component
-    AllocQty: AllocQty option
-    }
-
-    // group
-type NoLegSecurityAltIDGrp = {
-    LegSecurityAltID: LegSecurityAltID option
-    LegSecurityAltIDSource: LegSecurityAltIDSource option
-    }
-
-    // component
-type InstrumentLeg = {
-    LegSymbol: LegSymbol option
-    LegSymbolSfx: LegSymbolSfx option
-    LegSecurityID: LegSecurityID option
-    LegSecurityIDSource: LegSecurityIDSource option
-    NoLegSecurityAltIDGrp: NoLegSecurityAltIDGrp option // group
-    LegSecurityAltID: LegSecurityAltID option
-    LegSecurityAltIDSource: LegSecurityAltIDSource option
-    LegProduct: LegProduct option
-    LegCFICode: LegCFICode option
-    LegSecurityType: LegSecurityType option
-    LegSecuritySubType: LegSecuritySubType option
-    LegMaturityMonthYear: LegMaturityMonthYear option
-    LegMaturityDate: LegMaturityDate option
-    LegCouponPaymentDate: LegCouponPaymentDate option
-    LegIssueDate: LegIssueDate option
-    LegRepoCollateralSecurityType: LegRepoCollateralSecurityType option
-    LegRepurchaseTerm: LegRepurchaseTerm option
-    LegRepurchaseRate: LegRepurchaseRate option
-    LegFactor: LegFactor option
-    LegCreditRating: LegCreditRating option
-    LegInstrRegistry: LegInstrRegistry option
-    LegCountryOfIssue: LegCountryOfIssue option
-    LegStateOrProvinceOfIssue: LegStateOrProvinceOfIssue option
-    LegLocaleOfIssue: LegLocaleOfIssue option
-    LegRedemptionDate: LegRedemptionDate option
-    LegStrikePrice: LegStrikePrice option
-    LegStrikeCurrency: LegStrikeCurrency option
-    LegOptAttribute: LegOptAttribute option
-    LegContractMultiplier: LegContractMultiplier option
-    LegCouponRate: LegCouponRate option
-    LegSecurityExchange: LegSecurityExchange option
-    LegIssuer: LegIssuer option
-    EncodedLegIssuer: EncodedLegIssuer option
-    LegSecurityDesc: LegSecurityDesc option
-    EncodedLegSecurityDesc: EncodedLegSecurityDesc option
-    LegRatioQty: LegRatioQty option
-    LegSide: LegSide option
-    LegCurrency: LegCurrency option
-    LegPool: LegPool option
-    LegDatedDate: LegDatedDate option
-    LegContractSettlMonth: LegContractSettlMonth option
-    LegInterestAccrualDate: LegInterestAccrualDate option
-    }
-
-    // group
-type NoLegStipulationsGrp = {
-    LegStipulationType: LegStipulationType option
-    LegStipulationValue: LegStipulationValue option
-    }
-
-    // component
-type LegStipulations = {
-    NoLegStipulationsGrp: NoLegStipulationsGrp option // group
-    LegStipulationType: LegStipulationType option
-    LegStipulationValue: LegStipulationValue option
-    }
-
-    // component
-type LegBenchmarkCurveData = {
-    LegBenchmarkCurveCurrency: LegBenchmarkCurveCurrency option
-    LegBenchmarkCurveName: LegBenchmarkCurveName option
-    LegBenchmarkCurvePoint: LegBenchmarkCurvePoint option
-    LegBenchmarkPrice: LegBenchmarkPrice option
-    LegBenchmarkPriceType: LegBenchmarkPriceType option
-    }
-
-    // group
 type NoLegAllocsGrp = {
     LegAllocAccount: LegAllocAccount option
     LegIndividualAllocID: LegIndividualAllocID option
@@ -691,7 +890,201 @@ type NoLegAllocsGrp = {
     }
 
     // group
-type TradeCaptureReportAck_NoLegs_NoLegsGrp = {
+type MultilegOrderCancelReplaceRequest_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegStipulations: LegStipulations option // component
+    NoLegAllocsGrp: NoLegAllocsGrp option // group
+    LegAllocAccount: LegAllocAccount option
+    LegIndividualAllocID: LegIndividualAllocID option
+    NestedParties2: NestedParties2 option // component
+    LegAllocQty: LegAllocQty option
+    LegAllocAcctIDSource: LegAllocAcctIDSource option
+    LegSettlCurrency: LegSettlCurrency option
+    LegPositionEffect: LegPositionEffect option
+    LegCoveredOrUncovered: LegCoveredOrUncovered option
+    NestedParties: NestedParties option // component
+    LegRefID: LegRefID option
+    LegPrice: LegPrice option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    }
+
+    // group
+type NoNested3PartySubIDsGrp = {
+    Nested3PartySubID: Nested3PartySubID option
+    Nested3PartySubIDType: Nested3PartySubIDType option
+    }
+
+    // group
+type NoNested3PartyIDsGrp = {
+    Nested3PartyID: Nested3PartyID option
+    Nested3PartyIDSource: Nested3PartyIDSource option
+    Nested3PartyRole: Nested3PartyRole option
+    NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
+    Nested3PartySubID: Nested3PartySubID option
+    Nested3PartySubIDType: Nested3PartySubIDType option
+    }
+
+    // component
+type NestedParties3 = {
+    NoNested3PartyIDsGrp: NoNested3PartyIDsGrp option // group
+    Nested3PartyID: Nested3PartyID option
+    Nested3PartyIDSource: Nested3PartyIDSource option
+    Nested3PartyRole: Nested3PartyRole option
+    NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
+    Nested3PartySubID: Nested3PartySubID option
+    Nested3PartySubIDType: Nested3PartySubIDType option
+    }
+
+    // group
+type MultilegOrderCancelReplaceRequest_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties3: NestedParties3 option // component
+    AllocQty: AllocQty option
+    }
+
+    // group
+type NewOrderMultileg_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegStipulations: LegStipulations option // component
+    NoLegAllocsGrp: NoLegAllocsGrp option // group
+    LegAllocAccount: LegAllocAccount option
+    LegIndividualAllocID: LegIndividualAllocID option
+    NestedParties2: NestedParties2 option // component
+    LegAllocQty: LegAllocQty option
+    LegAllocAcctIDSource: LegAllocAcctIDSource option
+    LegSettlCurrency: LegSettlCurrency option
+    LegPositionEffect: LegPositionEffect option
+    LegCoveredOrUncovered: LegCoveredOrUncovered option
+    NestedParties: NestedParties option // component
+    LegRefID: LegRefID option
+    LegPrice: LegPrice option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    }
+
+    // group
+type NewOrderMultileg_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties3: NestedParties3 option // component
+    AllocQty: AllocQty option
+    }
+
+    // group
+type CrossOrderCancelRequest_NoSides_NoSidesGrp = {
+    Side: Side
+    OrigClOrdID: OrigClOrdID
+    ClOrdID: ClOrdID
+    SecondaryClOrdID: SecondaryClOrdID option
+    ClOrdLinkID: ClOrdLinkID option
+    OrigOrdModTime: OrigOrdModTime option
+    Parties: Parties option // component
+    TradeOriginationDate: TradeOriginationDate option
+    TradeDate: TradeDate option
+    OrderQtyData: OrderQtyData // component
+    ComplianceID: ComplianceID option
+    Text: Text option
+    EncodedText: EncodedText option
+    }
+
+    // group
+type CrossOrderCancelReplaceRequest_NoSides_NoSidesGrp = {
+    Side: Side
+    OrigClOrdID: OrigClOrdID
+    ClOrdID: ClOrdID
+    SecondaryClOrdID: SecondaryClOrdID option
+    ClOrdLinkID: ClOrdLinkID option
+    OrigOrdModTime: OrigOrdModTime option
+    Parties: Parties option // component
+    TradeOriginationDate: TradeOriginationDate option
+    TradeDate: TradeDate option
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    DayBookingInst: DayBookingInst option
+    BookingUnit: BookingUnit option
+    PreallocMethod: PreallocMethod option
+    AllocID: AllocID option
+    NoAllocsGrp: NoAllocsGrp option // group
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties: NestedParties option // component
+    AllocQty: AllocQty option
+    QtyType: QtyType option
+    OrderQtyData: OrderQtyData // component
+    CommissionData: CommissionData option // component
+    OrderCapacity: OrderCapacity option
+    OrderRestrictions: OrderRestrictions option
+    CustOrderCapacity: CustOrderCapacity option
+    ForexReq: ForexReq option
+    SettlCurrency: SettlCurrency option
+    BookingType: BookingType option
+    Text: Text option
+    EncodedText: EncodedText option
+    PositionEffect: PositionEffect option
+    CoveredOrUncovered: CoveredOrUncovered option
+    CashMargin: CashMargin option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    SolicitedFlag: SolicitedFlag option
+    SideComplianceID: SideComplianceID option
+    }
+
+    // group
+type NoSidesGrp = {
+    Side: Side
+    ClOrdID: ClOrdID
+    SecondaryClOrdID: SecondaryClOrdID option
+    ClOrdLinkID: ClOrdLinkID option
+    Parties: Parties option // component
+    TradeOriginationDate: TradeOriginationDate option
+    TradeDate: TradeDate option
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    DayBookingInst: DayBookingInst option
+    BookingUnit: BookingUnit option
+    PreallocMethod: PreallocMethod option
+    AllocID: AllocID option
+    NoAllocsGrp: NoAllocsGrp option // group
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NestedParties: NestedParties option // component
+    AllocQty: AllocQty option
+    QtyType: QtyType option
+    OrderQtyData: OrderQtyData // component
+    CommissionData: CommissionData option // component
+    OrderCapacity: OrderCapacity option
+    OrderRestrictions: OrderRestrictions option
+    CustOrderCapacity: CustOrderCapacity option
+    ForexReq: ForexReq option
+    SettlCurrency: SettlCurrency option
+    BookingType: BookingType option
+    Text: Text option
+    EncodedText: EncodedText option
+    PositionEffect: PositionEffect option
+    CoveredOrUncovered: CoveredOrUncovered option
+    CashMargin: CashMargin option
+    ClearingFeeIndicator: ClearingFeeIndicator option
+    SolicitedFlag: SolicitedFlag option
+    SideComplianceID: SideComplianceID option
+    }
+
+    // group
+type ExecutionReport_NoLegs_NoLegsGrp = {
     InstrumentLeg: InstrumentLeg option // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
@@ -704,6 +1097,97 @@ type TradeCaptureReportAck_NoLegs_NoLegsGrp = {
     LegSettlType: LegSettlType option
     LegSettlDate: LegSettlDate option
     LegLastPx: LegLastPx option
+    }
+
+    // group
+type NoInstrAttribGrp = {
+    InstrAttribType: InstrAttribType option
+    InstrAttribValue: InstrAttribValue option
+    }
+
+    // component
+type InstrumentExtension = {
+    DeliveryForm: DeliveryForm option
+    PctAtRisk: PctAtRisk option
+    NoInstrAttribGrp: NoInstrAttribGrp option // group
+    InstrAttribType: InstrAttribType option
+    InstrAttribValue: InstrAttribValue option
+    }
+
+    // group
+type NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    }
+
+    // group
+type DerivativeSecurityList_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument option // component
+    Currency: Currency option
+    ExpirationCycle: ExpirationCycle option
+    InstrumentExtension: InstrumentExtension option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    Text: Text option
+    EncodedText: EncodedText option
+    }
+
+    // component
+type FinancingDetails = {
+    AgreementDesc: AgreementDesc option
+    AgreementID: AgreementID option
+    AgreementDate: AgreementDate option
+    AgreementCurrency: AgreementCurrency option
+    TerminationType: TerminationType option
+    StartDate: StartDate option
+    EndDate: EndDate option
+    DeliveryType: DeliveryType option
+    MarginRatio: MarginRatio option
+    }
+
+    // component
+type LegBenchmarkCurveData = {
+    LegBenchmarkCurveCurrency: LegBenchmarkCurveCurrency option
+    LegBenchmarkCurveName: LegBenchmarkCurveName option
+    LegBenchmarkCurvePoint: LegBenchmarkCurvePoint option
+    LegBenchmarkPrice: LegBenchmarkPrice option
+    LegBenchmarkPriceType: LegBenchmarkPriceType option
+    }
+
+    // group
+type SecurityList_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegStipulations: LegStipulations option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
+type SecurityList_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument option // component
+    InstrumentExtension: InstrumentExtension option // component
+    FinancingDetails: FinancingDetails option // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    Currency: Currency option
+    Stipulations: Stipulations option // component
+    SecurityList_NoLegs_NoLegsGrp: SecurityList_NoLegs_NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegStipulations: LegStipulations option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    YieldData: YieldData option // component
+    RoundLot: RoundLot option
+    MinTradeVol: MinTradeVol option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    ExpirationCycle: ExpirationCycle option
+    Text: Text option
+    EncodedText: EncodedText option
     }
 
     // group
@@ -754,17 +1238,13 @@ type MarketDataIncrementalRefresh_NoMDEntries_NoMDEntriesGrp = {
     EncodedText: EncodedText option
     }
 
-    // component
-type FinancingDetails = {
-    AgreementDesc: AgreementDesc option
-    AgreementID: AgreementID option
-    AgreementDate: AgreementDate option
-    AgreementCurrency: AgreementCurrency option
-    TerminationType: TerminationType option
-    StartDate: StartDate option
-    EndDate: EndDate option
-    DeliveryType: DeliveryType option
-    MarginRatio: MarginRatio option
+    // group
+type MarketDataRequest_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
     }
 
     // group
@@ -837,37 +1317,265 @@ type MassQuoteAcknowledgement_NoQuoteSets_NoQuoteSetsGrp = {
     }
 
     // group
+type MassQuote_NoQuoteEntries_NoQuoteEntriesGrp = {
+    QuoteEntryID: QuoteEntryID
+    Instrument: Instrument option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    BidPx: BidPx option
+    OfferPx: OfferPx option
+    BidSize: BidSize option
+    OfferSize: OfferSize option
+    ValidUntilTime: ValidUntilTime option
+    BidSpotRate: BidSpotRate option
+    OfferSpotRate: OfferSpotRate option
+    BidForwardPoints: BidForwardPoints option
+    OfferForwardPoints: OfferForwardPoints option
+    MidPx: MidPx option
+    BidYield: BidYield option
+    MidYield: MidYield option
+    OfferYield: OfferYield option
+    TransactTime: TransactTime option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    SettlDate: SettlDate option
+    OrdType: OrdType option
+    SettlDate2: SettlDate2 option
+    OrderQty2: OrderQty2 option
+    BidForwardPoints2: BidForwardPoints2 option
+    OfferForwardPoints2: OfferForwardPoints2 option
+    Currency: Currency option
+    }
+
+    // group
+type NoQuoteSetsGrp = {
+    QuoteSetID: QuoteSetID
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    QuoteSetValidUntilTime: QuoteSetValidUntilTime option
+    TotNoQuoteEntries: TotNoQuoteEntries
+    LastFragment: LastFragment option
+    MassQuote_NoQuoteEntries_NoQuoteEntriesGrp: MassQuote_NoQuoteEntries_NoQuoteEntriesGrp // group
+    QuoteEntryID: QuoteEntryID
+    Instrument: Instrument option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    BidPx: BidPx option
+    OfferPx: OfferPx option
+    BidSize: BidSize option
+    OfferSize: OfferSize option
+    ValidUntilTime: ValidUntilTime option
+    BidSpotRate: BidSpotRate option
+    OfferSpotRate: OfferSpotRate option
+    BidForwardPoints: BidForwardPoints option
+    OfferForwardPoints: OfferForwardPoints option
+    MidPx: MidPx option
+    BidYield: BidYield option
+    MidYield: MidYield option
+    OfferYield: OfferYield option
+    TransactTime: TransactTime option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    SettlDate: SettlDate option
+    OrdType: OrdType option
+    SettlDate2: SettlDate2 option
+    OrderQty2: OrderQty2 option
+    BidForwardPoints2: BidForwardPoints2 option
+    OfferForwardPoints2: OfferForwardPoints2 option
+    Currency: Currency option
+    }
+
+    // group
+type QuoteStatusReport_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    }
+
+    // group
+type NoQuoteEntriesGrp = {
+    Instrument: Instrument option // component
+    FinancingDetails: FinancingDetails option // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    }
+
+    // group
+type Quote_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegPriceType: LegPriceType option
+    LegBidPx: LegBidPx option
+    LegOfferPx: LegOfferPx option
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
+type RFQRequest_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    NoLegsGrp: NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    PrevClosePx: PrevClosePx option
+    QuoteRequestType: QuoteRequestType option
+    QuoteType: QuoteType option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    }
+
+    // group
+type QuoteRequestReject_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
+type QuoteRequestReject_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument // component
+    FinancingDetails: FinancingDetails option // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    PrevClosePx: PrevClosePx option
+    QuoteRequestType: QuoteRequestType option
+    QuoteType: QuoteType option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    TradeOriginationDate: TradeOriginationDate option
+    Side: Side option
+    QtyType: QtyType option
+    OrderQtyData: OrderQtyData option // component
+    SettlType: SettlType option
+    SettlDate: SettlDate option
+    SettlDate2: SettlDate2 option
+    OrderQty2: OrderQty2 option
+    Currency: Currency option
+    Stipulations: Stipulations option // component
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    QuoteRequestReject_NoLegs_NoLegsGrp: QuoteRequestReject_NoLegs_NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
+type QuoteResponse_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegPriceType: LegPriceType option
+    LegBidPx: LegBidPx option
+    LegOfferPx: LegOfferPx option
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
+type QuoteRequest_NoLegs_NoLegsGrp = {
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    }
+
+    // group
 type NoQuoteQualifiersGrp = {
     QuoteQualifier: QuoteQualifier option
     }
 
     // group
-type NoInstrAttribGrp = {
-    InstrAttribType: InstrAttribType option
-    InstrAttribValue: InstrAttribValue option
-    }
-
-    // component
-type InstrumentExtension = {
-    DeliveryForm: DeliveryForm option
-    PctAtRisk: PctAtRisk option
-    NoInstrAttribGrp: NoInstrAttribGrp option // group
-    InstrAttribType: InstrAttribType option
-    InstrAttribValue: InstrAttribValue option
+type QuoteRequest_NoRelatedSym_NoRelatedSymGrp = {
+    Instrument: Instrument // component
+    FinancingDetails: FinancingDetails option // component
+    NoUnderlyingsGrp: NoUnderlyingsGrp option // group
+    UnderlyingInstrument: UnderlyingInstrument option // component
+    PrevClosePx: PrevClosePx option
+    QuoteRequestType: QuoteRequestType option
+    QuoteType: QuoteType option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    TradeOriginationDate: TradeOriginationDate option
+    Side: Side option
+    QtyType: QtyType option
+    OrderQtyData: OrderQtyData option // component
+    SettlType: SettlType option
+    SettlDate: SettlDate option
+    SettlDate2: SettlDate2 option
+    OrderQty2: OrderQty2 option
+    Currency: Currency option
+    Stipulations: Stipulations option // component
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    AccountType: AccountType option
+    QuoteRequest_NoLegs_NoLegsGrp: QuoteRequest_NoLegs_NoLegsGrp option // group
+    InstrumentLeg: InstrumentLeg option // component
+    LegQty: LegQty option
+    LegSwapType: LegSwapType option
+    LegSettlType: LegSettlType option
+    LegSettlDate: LegSettlDate option
+    LegStipulations: LegStipulations option // component
+    NestedParties: NestedParties option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    NoQuoteQualifiersGrp: NoQuoteQualifiersGrp option // group
+    QuoteQualifier: QuoteQualifier option
+    QuotePriceType: QuotePriceType option
+    OrdType: OrdType option
+    ValidUntilTime: ValidUntilTime option
+    ExpireTime: ExpireTime option
+    TransactTime: TransactTime option
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    PriceType: PriceType option
+    Price: Price option
+    Price2: Price2 option
+    YieldData: YieldData option // component
+    Parties: Parties option // component
     }
 
     // group
-type DerivativeSecurityList_NoRelatedSym_NoRelatedSymGrp = {
+type NoRelatedSymGrp = {
     Instrument: Instrument option // component
-    Currency: Currency option
-    ExpirationCycle: ExpirationCycle option
-    InstrumentExtension: InstrumentExtension option // component
-    NoLegsGrp: NoLegsGrp option // group
+    }
+
+    // group
+type IndicationOfInterest_NoLegs_NoLegsGrp = {
     InstrumentLeg: InstrumentLeg option // component
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    Text: Text option
-    EncodedText: EncodedText option
+    LegIOIQty: LegIOIQty option
+    LegStipulations: LegStipulations option // component
+    }
+
+    // group
+type Advertisement_NoUnderlyings_NoUnderlyingsGrp = {
+    UnderlyingInstrument: UnderlyingInstrument // component
     }
 
     // group
@@ -896,6 +1604,42 @@ type LinesOfTextGrp = {
     // group
 type NoMDEntryTypesGrp = {
     MDEntryType: MDEntryType
+    }
+
+    // group
+type NoMDEntriesGrp = {
+    MDEntryType: MDEntryType
+    MDEntryPx: MDEntryPx option
+    Currency: Currency option
+    MDEntrySize: MDEntrySize option
+    MDEntryDate: MDEntryDate option
+    MDEntryTime: MDEntryTime option
+    TickDirection: TickDirection option
+    MDMkt: MDMkt option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    QuoteCondition: QuoteCondition option
+    TradeCondition: TradeCondition option
+    MDEntryOriginator: MDEntryOriginator option
+    LocationID: LocationID option
+    DeskID: DeskID option
+    OpenCloseSettlFlag: OpenCloseSettlFlag option
+    TimeInForce: TimeInForce option
+    ExpireDate: ExpireDate option
+    ExpireTime: ExpireTime option
+    MinQty: MinQty option
+    ExecInst: ExecInst option
+    SellerDays: SellerDays option
+    OrderID: OrderID option
+    QuoteEntryID: QuoteEntryID option
+    MDEntryBuyer: MDEntryBuyer option
+    MDEntrySeller: MDEntrySeller option
+    NumberOfOrders: NumberOfOrders option
+    MDEntryPositionNo: MDEntryPositionNo option
+    Scope: Scope option
+    PriceDelta: PriceDelta option
+    Text: Text option
+    EncodedText: EncodedText option
     }
 
     // group
@@ -943,6 +1687,34 @@ type NoBidDescriptorsGrp = {
     }
 
     // group
+type NoBidComponentsGrp = {
+    ListID: ListID option
+    Side: Side option
+    TradingSessionID: TradingSessionID option
+    TradingSessionSubID: TradingSessionSubID option
+    NetGrossInd: NetGrossInd option
+    SettlType: SettlType option
+    SettlDate: SettlDate option
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    }
+
+    // group
+type ListStatus_NoOrders_NoOrdersGrp = {
+    ClOrdID: ClOrdID
+    SecondaryClOrdID: SecondaryClOrdID option
+    CumQty: CumQty
+    OrdStatus: OrdStatus
+    WorkingIndicator: WorkingIndicator option
+    LeavesQty: LeavesQty
+    CxlQty: CxlQty
+    AvgPx: AvgPx
+    OrdRejReason: OrdRejReason option
+    Text: Text option
+    EncodedText: EncodedText option
+    }
+
+    // group
 type AllocationInstruction_NoExecs_NoExecsGrp = {
     LastQty: LastQty option
     ExecID: ExecID option
@@ -953,6 +1725,17 @@ type AllocationInstruction_NoExecs_NoExecsGrp = {
     }
 
     // group
+type AllocationInstructionAck_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    }
+
+    // group
 type AllocationReport_NoExecs_NoExecsGrp = {
     LastQty: LastQty option
     ExecID: ExecID option
@@ -960,6 +1743,17 @@ type AllocationReport_NoExecs_NoExecsGrp = {
     LastPx: LastPx option
     LastParPx: LastParPx option
     LastCapacity: LastCapacity option
+    }
+
+    // group
+type AllocationReportAck_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
     }
 
     // group

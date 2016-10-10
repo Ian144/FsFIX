@@ -26,14 +26,16 @@ let private buildDependencyTree (mapIn:Map<string, string list>) (grp,depGrp) =
 
 
 
-// turns a dependency tree into a list
-let private listifyDependencyTree (grp:string) (mapIn:Map<string, string list>) =
+// Turns a dependency tree into a string list (the strings are either group or component names)
+// Dependents are after dependees (real word?), the results of this need to be reversed when generating
+// compound items F# code
+let private listifyDependencyTree (compoundItemName:string) (mapIn:Map<string, string list>) =
     let rec listifyDependencyTreeInner (grp:string) (mapIn:Map<string, string list>) =
         let getVals (gn:string) (mp:Map<string, string list>) = if mp.ContainsKey gn then mp.[gn] else []
         [   for depGrp in getVals grp mapIn do
             yield depGrp
             yield! listifyDependencyTreeInner depGrp mapIn ]
-    grp::listifyDependencyTreeInner grp mapIn
+    compoundItemName::listifyDependencyTreeInner compoundItemName mapIn
 
 
 
@@ -108,7 +110,6 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>
     // re-order the grps list to be in dependency order
     let constrainedItemsInDepOrder = dependencies |> List.map (fun itemName -> nameToItemMap.[itemName])
 
-    let ret = constrainedItemsInDepOrder @ unConstrained
-    ret
+    constrainedItemsInDepOrder @ unConstrained
 
     

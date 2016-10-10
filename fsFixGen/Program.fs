@@ -52,7 +52,6 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
-    // all groups and components, nested to any degree
 
     printfn "merging groups"
 
@@ -62,44 +61,21 @@ let main _ =
     
     let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
 
-    allGrps
-        |> List.filter (fun grp -> grp.GName.Contains "NoExecs")
-        |> List.iter (fun grp -> printfn "group b4 merge: %A -> %A" (GroupUtils.makeLongName grp) grp.GName)
-
-    printfn "\n------------------------------------\n"
 
     // a map of group longname (a compound name based on its parentage) to a merge target
     let groupMerges = GroupUtils.makeMergeMap allGrps
     
-    let gs = groupMerges 
-                |> List.map (fun (xx, yy) -> yy) 
-                |> List.groupBy (fun grp -> {grp with Required = Required.NotRequired})
-                |> List.filter (fun (_, gg) -> gg.Length > 1)
-    
     groupMerges 
-        |> List.sortBy (fun (_,grp) -> grp.GName)
-        |> List.filter (fun (_,grp) -> grp.GName.Contains "NoExecs")
-        |> List.iter (fun (ln,grp) -> printfn "group merge: %A -> %A: %A" ln grp.GName grp.Items)
+        |> List.sortBy (fun (ln,_) -> ln)
+        |> List.iter (fun (GroupLongName ln,grp) -> printfn "    group merge: %s -> %s" ln grp.GName)
     
     let groupMergeMap = groupMerges |> Map.ofList
-    
-
-    printfn "applying group merge"
-    // will the groups refered to by level0 groups still point to the old groups
-    let groupsAfterMerge =
-        [   for oldGrp in allGrps do
-            let longName = GroupUtils.makeLongName oldGrp
-            if groupMergeMap.ContainsKey longName then
-                yield groupMergeMap.[longName] 
-            else
-                yield oldGrp
-            ] |> List.distinct // 'distinct' so there is only one instance of each merge group
 
     printfn "updating components to use merged groups"  
     let componentsAfterGroupMerge = 
             [   for comp in components do
-                let items2 = comp.Items 
-                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
+                let items2 = comp.Items // FIXItems are trees, groups can contain components and other groups
+                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap) 
                                 |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {comp with Items = items2}    ]
 
@@ -115,12 +91,12 @@ let main _ =
                                 |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {msg with Items = items2}   ]
 
-    let ms = msgsAfterGroupMerge |> List.filter (fun m -> m.MName.Contains "AllocationInstruction")
 
     printfn "determining dependency order for groups and components"
     let allCompoundItemsAfterGroupMerge = 
         [   for msg in msgsAfterGroupMerge do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
+        |> List.distinct 
 
     // extract the components and groups refered to in messages
     // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
@@ -129,16 +105,12 @@ let main _ =
                                                 |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
 
+    printfn "generating group and component F# source in dependency order"
 
-    // get the compound items from the messages
-    // flatten the compound items
-    // get compound items in dependency order
-    // must write compound items in same source file, as some components will depend on groups and visa versa
+    constrainedCompoundItemsInDepOrder
+        |> List.map CompoundItemFuncs.getNameAndTypeStr
+        |> List.iter (printfn "    %s")
 
-
-//    let depOrderGroups = GroupGenerator.GetGroupsInDependencyOrder allGrps
-
-    printfn "generating group and component F# source"
     use swGroups = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swGroups swGroupWriteFuncs
@@ -147,4 +119,4 @@ let main _ =
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 
 
-    0 // return an integer exit code
+    0 // integer exit code
