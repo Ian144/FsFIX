@@ -59,8 +59,7 @@ let writeMsg (sw:StreamWriter) (msg:Msg)  =
     let ss = sprintf "type %s = {" msg.MName
     sw.Write ss
     sw.WriteLine ""
-    let itemsSorted = msg.Items |> List.sortBy CommonGenerator.makeItemStr
-    itemsSorted |> (CommonGenerator.writeFIXItemList sw)
+    msg.Items |> (CommonGenerator.writeFIXItemList sw)
     sw.Write  "    }"
     sw.WriteLine ""
 

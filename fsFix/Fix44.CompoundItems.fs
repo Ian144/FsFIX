@@ -1725,4 +1725,92 @@ type AllocationInstruction_NoExecs_NoExecsGrp = {
     }
 
 // group
-type AllocationInstructionAck_NoAllocs_No
+type AllocationInstructionAck_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    }
+
+// group
+type AllocationReport_NoExecs_NoExecsGrp = {
+    LastQty: LastQty option
+    ExecID: ExecID option
+    SecondaryExecID: SecondaryExecID option
+    LastPx: LastPx option
+    LastParPx: LastParPx option
+    LastCapacity: LastCapacity option
+    }
+
+// group
+type AllocationReportAck_NoAllocs_NoAllocsGrp = {
+    AllocAccount: AllocAccount option
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    }
+
+// group
+type NoCapacitiesGrp = {
+    OrderCapacity: OrderCapacity
+    OrderRestrictions: OrderRestrictions option
+    OrderCapacityQty: OrderCapacityQty
+    }
+
+// group
+type NoDatesGrp = {
+    TradeDate: TradeDate option
+    TransactTime: TransactTime option
+    }
+
+// group
+type NoDistribInstsGrp = {
+    DistribPaymentMethod: DistribPaymentMethod option
+    DistribPercentage: DistribPercentage option
+    CashDistribCurr: CashDistribCurr option
+    CashDistribAgentName: CashDistribAgentName option
+    CashDistribAgentCode: CashDistribAgentCode option
+    CashDistribAgentAcctNumber: CashDistribAgentAcctNumber option
+    CashDistribPayRef: CashDistribPayRef option
+    CashDistribAgentAcctName: CashDistribAgentAcctName option
+    }
+
+// group
+type NoExecsGrp = {
+    ExecID: ExecID option
+    }
+
+// group
+type NoTradesGrp = {
+    TradeReportID: TradeReportID option
+    SecondaryTradeReportID: SecondaryTradeReportID option
+    }
+
+// group
+type NoCollInquiryQualifierGrp = {
+    CollInquiryQualifier: CollInquiryQualifier option
+    }
+
+// group
+type NoCompIDsGrp = {
+    RefCompID: RefCompID option
+    RefSubID: RefSubID option
+    LocationID: LocationID option
+    DeskID: DeskID option
+    }
+
+// group
+type NetworkStatusResponse_NoCompIDs_NoCompIDsGrp = {
+    RefCompID: RefCompID option
+    RefSubID: RefSubID option
+    LocationID: LocationID option
+    DeskID: DeskID option
+    StatusValue: StatusValue option
+    StatusText: StatusText option
+    }

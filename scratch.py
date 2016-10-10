@@ -74,7 +74,10 @@ fsFix article
 
 todo
 ----
-    
+    testing 
+		convert types back to xml, and diff with original
+		CONVERT TYPES BACK TO XML, AND DIFF WITH ORIGINAL
+
 	module CompositeFix
     if groups can contain components and components can contain groups how can this be modelled in F#
     dependency ordering in a single file as for groups alone - CompoundItems.fs????
