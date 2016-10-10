@@ -56,6 +56,7 @@ fsFix article
         type safety
             single-case DU
         no separate len fields
+		first class components gives correct mapping for optional (or not) components with optional (or not) members
         immutable fields, groups and messages
         consiseness of generated code using ADTs compared to C# classes
         value equality

@@ -35,58 +35,28 @@ let rec flattenGroups (groups:Group list) =
 
 
 
-let writeComponent (xx:Component) (sw:StreamWriter) = 
-    sw.WriteLine "\n    // component"
-    let ss = sprintf "type %s = {\n" xx.CName.Value // different from write gropu
+let writeComponent (cmp:Component) (sw:StreamWriter) = 
+    sw.WriteLine ""
+    sw.WriteLine "// component"
+    let ss = sprintf "type %s = {" cmp.CName.Value // different from write group
     sw.Write ss
-    let groupDefStrs = 
-        xx.Items
-            |> List.map (fun item ->
-                match item with
-                | FIXItem.Field fld     ->  match fld.Required with
-                                            | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
-                                            | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
-                | FIXItem.Component cmp ->  match cmp.Required with
-                                            | Required.Required     ->  sprintf "    %s: %s // component" cmp.CRName.Value cmp.CRName.Value
-                                            | Required.NotRequired  ->  sprintf "    %s: %s option // component" cmp.CRName.Value cmp.CRName.Value
-                | FIXItem.Group grp     ->  let (GroupLongName grpName) = GroupUtils.makeLongName grp
-                                            match grp.Required with
-                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grpName grpName
-                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grpName grpName
-
-                ) // end List.map
-            
-    groupDefStrs |> List.iter sw.WriteLine
-    sw.Write  "    }\n"
-    ()
+    sw.WriteLine ""
+    cmp.Items |> (CommonGenerator.writeFIXItemList sw)
+    sw.Write  "    }"
+    sw.WriteLine ""
 
 
-
+// todo, use static class + overloading, dictionary of operations, or ^t + member constraints to write a single type generator function for components, groups and messages
 let writeGroup (grp:Group) (sw:StreamWriter) = 
-    sw.WriteLine "\n    // group"
+    sw.WriteLine ""
+    sw.WriteLine "// group"
     let (GroupLongName grpName) = GroupUtils.makeLongName grp // merged groups have an empty parent list, so the long name is correct
-    let ss = sprintf "type %sGrp = {\n" grpName
+    let ss = sprintf "type %sGrp = {" grpName
     sw.Write ss
-    let groupDefStrs = 
-        grp.Items
-            |> List.map (fun item ->
-                match item with
-                | FIXItem.Field fld     ->  match fld.Required with
-                                            | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
-                                            | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
-                | FIXItem.Component cmp ->  match cmp.Required with
-                                            | Required.Required     ->  sprintf "    %s: %s // component" cmp.CRName.Value cmp.CRName.Value
-                                            | Required.NotRequired  ->  sprintf "    %s: %s option // component" cmp.CRName.Value cmp.CRName.Value
-                | FIXItem.Group grp     ->  let (GroupLongName grpNameInner) = GroupUtils.makeLongName grp
-                                            match grp.Required with
-                                            | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grpNameInner grpNameInner
-                                            | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grpNameInner grpNameInner
-
-                ) // end List.map
-            
-    groupDefStrs |> List.iter sw.WriteLine
-    sw.Write  "    }\n"
-    ()
+    sw.WriteLine ""
+    grp.Items |> (CommonGenerator.writeFIXItemList sw)
+    sw.Write  "    }"
+    sw.WriteLine ""
 
 
 //let private writeGroups (allGroups:Group list) (sw:StreamWriter) =

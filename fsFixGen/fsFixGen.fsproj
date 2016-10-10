@@ -58,6 +58,7 @@
     <Compile Include="CompoundItemFuncs.fs" />
     <Compile Include="DependencyConstraintSolver.fs" />
     <Compile Include="FIXItemFuncs.fs" />
+    <Compile Include="CommonGenerator.fs" />
     <Compile Include="GroupGenerator.fs" />
     <Compile Include="ComponentGenerator.fs" />
     <Compile Include="CompoundItemGenerator.fs" />

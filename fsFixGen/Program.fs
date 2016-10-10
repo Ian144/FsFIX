@@ -52,6 +52,12 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
+    msgs |> List.iter (fun msg ->
+            if msg.MName = "AllocationInstruction" then
+            let itms2 = msg.Items |> FIXItem.filter (fun fi -> (FIXItem.getName fi) = "AccruedInterestAmt")
+            printfn ""
+        )
+
 
     printfn "merging groups"
 
@@ -118,5 +124,8 @@ let main _ =
 //    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs
 
+    printfn "generating message F# source"
+    use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
+    MessageGenerator.Gen msgsAfterGroupMerge swMsgs
 
     0 // integer exit code

@@ -8,10 +8,10 @@ let rec map (funcx:FIXItem -> FIXItem) (xs:FIXItem list) : FIXItem list =
     [   for x in xs do
         let x2 = funcx x
         match x2 with
-        | FIXItem.Field _           ->  yield x2
-        | FIXItem.Component _cmp    ->  yield x2
-        | FIXItem.Group grp         ->  let subItems = map funcx grp.Items
-                                        yield FIXItem.Group {grp with Items = subItems} ]       
+        | FIXItem.Field _        ->  yield x2
+        | FIXItem.Component _    ->  yield x2
+        | FIXItem.Group grp      ->  let subItems = map funcx grp.Items
+                                     yield FIXItem.Group {grp with Items = subItems} ]       
     
 
 let rec filter (predicate:FIXItem -> bool) (xs:FIXItem list) : FIXItem list =
@@ -44,3 +44,12 @@ let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
     | FIXItem.Component _   ->  true
     | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames |> not
 
+
+
+let getName (x2:FIXItem) : string =
+    match x2 with
+    | FIXItem.Field fld     ->  fld.FName
+    | FIXItem.Component cmp ->  let (ComponentName nm) = cmp.CRName
+                                nm
+    | FIXItem.Group grp     ->  grp.GName
+                                
