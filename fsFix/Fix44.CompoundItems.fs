@@ -21,8 +21,6 @@ type NoUnderlyingStipsGrp = {
 // component
 type UnderlyingStipulations = {
     NoUnderlyingStipsGrp: NoUnderlyingStipsGrp option // group
-    UnderlyingStipType: UnderlyingStipType option
-    UnderlyingStipValue: UnderlyingStipValue option
     }
 
 // component
@@ -32,8 +30,6 @@ type UnderlyingInstrument = {
     UnderlyingSecurityID: UnderlyingSecurityID option
     UnderlyingSecurityIDSource: UnderlyingSecurityIDSource option
     NoUnderlyingSecurityAltIDGrp: NoUnderlyingSecurityAltIDGrp option // group
-    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
-    UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
     UnderlyingProduct: UnderlyingProduct option
     UnderlyingCFICode: UnderlyingCFICode option
     UnderlyingSecurityType: UnderlyingSecurityType option
@@ -113,19 +109,11 @@ type NoNestedPartyIDsGrp = {
     NestedPartyIDSource: NestedPartyIDSource option
     NestedPartyRole: NestedPartyRole option
     NoNestedPartySubIDsGrp: NoNestedPartySubIDsGrp option // group
-    NestedPartySubID: NestedPartySubID option
-    NestedPartySubIDType: NestedPartySubIDType option
     }
 
 // component
 type NestedParties = {
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp option // group
-    NestedPartyID: NestedPartyID option
-    NestedPartyIDSource: NestedPartyIDSource option
-    NestedPartyRole: NestedPartyRole option
-    NoNestedPartySubIDsGrp: NoNestedPartySubIDsGrp option // group
-    NestedPartySubID: NestedPartySubID option
-    NestedPartySubIDType: NestedPartySubIDType option
     }
 
 // group
@@ -140,11 +128,6 @@ type NoPositionsGrp = {
 // component
 type PositionQty = {
     NoPositionsGrp: NoPositionsGrp // group
-    PosType: PosType option
-    LongQty: LongQty option
-    ShortQty: ShortQty option
-    PosQtyStatus: PosQtyStatus option
-    NestedParties: NestedParties option // component
     }
 
 // group
@@ -171,19 +154,11 @@ type NoNested2PartyIDsGrp = {
     Nested2PartyIDSource: Nested2PartyIDSource option
     Nested2PartyRole: Nested2PartyRole option
     NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
-    Nested2PartySubID: Nested2PartySubID option
-    Nested2PartySubIDType: Nested2PartySubIDType option
     }
 
 // component
 type NestedParties2 = {
     NoNested2PartyIDsGrp: NoNested2PartyIDsGrp option // group
-    Nested2PartyID: Nested2PartyID option
-    Nested2PartyIDSource: Nested2PartyIDSource option
-    Nested2PartyRole: Nested2PartyRole option
-    NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp option // group
-    Nested2PartySubID: Nested2PartySubID option
-    Nested2PartySubIDType: Nested2PartySubIDType option
     }
 
 // group
@@ -209,8 +184,6 @@ type InstrumentLeg = {
     LegSecurityID: LegSecurityID option
     LegSecurityIDSource: LegSecurityIDSource option
     NoLegSecurityAltIDGrp: NoLegSecurityAltIDGrp option // group
-    LegSecurityAltID: LegSecurityAltID option
-    LegSecurityAltIDSource: LegSecurityAltIDSource option
     LegProduct: LegProduct option
     LegCFICode: LegCFICode option
     LegSecurityType: LegSecurityType option
@@ -257,8 +230,6 @@ type NoLegStipulationsGrp = {
 // component
 type LegStipulations = {
     NoLegStipulationsGrp: NoLegStipulationsGrp option // group
-    LegStipulationType: LegStipulationType option
-    LegStipulationValue: LegStipulationValue option
     }
 
 // group
@@ -289,19 +260,11 @@ type NoPartyIDsGrp = {
     PartyIDSource: PartyIDSource option
     PartyRole: PartyRole option
     NoPartySubIDsGrp: NoPartySubIDsGrp option // group
-    PartySubID: PartySubID option
-    PartySubIDType: PartySubIDType option
     }
 
 // component
 type Parties = {
     NoPartyIDsGrp: NoPartyIDsGrp option // group
-    PartyID: PartyID option
-    PartyIDSource: PartyIDSource option
-    PartyRole: PartyRole option
-    NoPartySubIDsGrp: NoPartySubIDsGrp option // group
-    PartySubID: PartySubID option
-    PartySubIDType: PartySubIDType option
     }
 
 // group
@@ -333,8 +296,6 @@ type NoStipulationsGrp = {
 // component
 type Stipulations = {
     NoStipulationsGrp: NoStipulationsGrp option // group
-    StipulationType: StipulationType option
-    StipulationValue: StipulationValue option
     }
 
 // group
@@ -360,7 +321,6 @@ type TradeCaptureReport_NoSides_NoSidesGrp = {
     ProcessCode: ProcessCode option
     OddLot: OddLot option
     NoClearingInstructionsGrp: NoClearingInstructionsGrp option // group
-    ClearingInstruction: ClearingInstruction option
     ClearingFeeIndicator: ClearingFeeIndicator option
     TradeInputSource: TradeInputSource option
     TradeInputDevice: TradeInputDevice option
@@ -399,15 +359,8 @@ type TradeCaptureReport_NoSides_NoSidesGrp = {
     EncodedText: EncodedText option
     SideMultiLegReportingType: SideMultiLegReportingType option
     NoContAmtsGrp: NoContAmtsGrp option // group
-    ContAmtType: ContAmtType option
-    ContAmtValue: ContAmtValue option
-    ContAmtCurr: ContAmtCurr option
     Stipulations: Stipulations option // component
     NoMiscFeesGrp: NoMiscFeesGrp option // group
-    MiscFeeAmt: MiscFeeAmt option
-    MiscFeeCurr: MiscFeeCurr option
-    MiscFeeType: MiscFeeType option
-    MiscFeeBasis: MiscFeeBasis option
     ExchangeRule: ExchangeRule option
     TradeAllocIndicator: TradeAllocIndicator option
     PreallocMethod: PreallocMethod option
@@ -439,8 +392,6 @@ type NoPosAmtGrp = {
 // component
 type PositionAmountData = {
     NoPosAmtGrp: NoPosAmtGrp // group
-    PosAmtType: PosAmtType
-    PosAmt: PosAmt
     }
 
 // group
@@ -455,19 +406,11 @@ type NoSettlPartyIDsGrp = {
     SettlPartyIDSource: SettlPartyIDSource option
     SettlPartyRole: SettlPartyRole option
     NoSettlPartySubIDsGrp: NoSettlPartySubIDsGrp option // group
-    SettlPartySubID: SettlPartySubID option
-    SettlPartySubIDType: SettlPartySubIDType option
     }
 
 // component
 type SettlParties = {
     NoSettlPartyIDsGrp: NoSettlPartyIDsGrp option // group
-    SettlPartyID: SettlPartyID option
-    SettlPartyIDSource: SettlPartyIDSource option
-    SettlPartyRole: SettlPartyRole option
-    NoSettlPartySubIDsGrp: NoSettlPartySubIDsGrp option // group
-    SettlPartySubID: SettlPartySubID option
-    SettlPartySubIDType: SettlPartySubIDType option
     }
 
 // group
@@ -484,9 +427,6 @@ type SettlInstructionsData = {
     StandInstDbName: StandInstDbName option
     StandInstDbID: StandInstDbID option
     NoDlvyInstGrp: NoDlvyInstGrp option // group
-    SettlInstSource: SettlInstSource option
-    DlvyInstType: DlvyInstType option
-    SettlParties: SettlParties option // component
     }
 
 // group
@@ -524,9 +464,6 @@ type NoTrdRegTimestampsGrp = {
 // component
 type TrdRegTimestamps = {
     NoTrdRegTimestampsGrp: NoTrdRegTimestampsGrp // group
-    TrdRegTimestamp: TrdRegTimestamp option
-    TrdRegTimestampType: TrdRegTimestampType option
-    TrdRegTimestampOrigin: TrdRegTimestampOrigin option
     }
 
 // group
@@ -555,12 +492,7 @@ type AllocationReport_NoAllocs_NoAllocsGrp = {
     AllocAccruedInterestAmt: AllocAccruedInterestAmt option
     AllocInterestAtMaturity: AllocInterestAtMaturity option
     NoMiscFeesGrp: NoMiscFeesGrp option // group
-    MiscFeeAmt: MiscFeeAmt option
-    MiscFeeCurr: MiscFeeCurr option
-    MiscFeeType: MiscFeeType option
-    MiscFeeBasis: MiscFeeBasis option
     NoClearingInstructionsGrp: NoClearingInstructionsGrp option // group
-    ClearingInstruction: ClearingInstruction option
     ClearingFeeIndicator: ClearingFeeIndicator option
     AllocSettlInstType: AllocSettlInstType option
     SettlInstructionsData: SettlInstructionsData option // component
@@ -594,10 +526,6 @@ type AllocationInstruction_NoAllocs_NoAllocsGrp = {
     AllocInterestAtMaturity: AllocInterestAtMaturity option
     SettlInstMode: SettlInstMode option
     NoMiscFeesGrp: NoMiscFeesGrp option // group
-    MiscFeeAmt: MiscFeeAmt option
-    MiscFeeCurr: MiscFeeCurr option
-    MiscFeeType: MiscFeeType option
-    MiscFeeBasis: MiscFeeBasis option
     NoClearingInstructions: NoClearingInstructions option
     ClearingInstruction: ClearingInstruction option
     ClearingFeeIndicator: ClearingFeeIndicator option
@@ -652,8 +580,6 @@ type Instrument = {
     SecurityID: SecurityID option
     SecurityIDSource: SecurityIDSource option
     NoSecurityAltIDGrp: NoSecurityAltIDGrp option // group
-    SecurityAltID: SecurityAltID option
-    SecurityAltIDSource: SecurityAltIDSource option
     Product: Product option
     CFICode: CFICode option
     SecurityType: SecurityType option
@@ -688,10 +614,6 @@ type Instrument = {
     CPProgram: CPProgram option
     CPRegType: CPRegType option
     NoEventsGrp: NoEventsGrp option // group
-    EventType: EventType option
-    EventDate: EventDate option
-    EventPx: EventPx option
-    EventText: EventText option
     DatedDate: DatedDate option
     InterestAccrualDate: InterestAccrualDate option
     }
@@ -792,12 +714,6 @@ type NewOrderList_NoOrders_NoOrdersGrp = {
     AllocID: AllocID option
     PreallocMethod: PreallocMethod option
     NoAllocsGrp: NoAllocsGrp option // group
-    AllocAccount: AllocAccount option
-    AllocAcctIDSource: AllocAcctIDSource option
-    AllocSettlCurrency: AllocSettlCurrency option
-    IndividualAllocID: IndividualAllocID option
-    NestedParties: NestedParties option // component
-    AllocQty: AllocQty option
     SettlType: SettlType option
     SettlDate: SettlDate option
     CashMargin: CashMargin option
@@ -808,12 +724,9 @@ type NewOrderList_NoOrders_NoOrdersGrp = {
     MaxFloor: MaxFloor option
     ExDestination: ExDestination option
     NoTradingSessionsGrp: NoTradingSessionsGrp option // group
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
     ProcessCode: ProcessCode option
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     PrevClosePx: PrevClosePx option
     Side: Side
     SideValueInd: SideValueInd option
@@ -896,12 +809,6 @@ type MultilegOrderCancelReplaceRequest_NoLegs_NoLegsGrp = {
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
     NoLegAllocsGrp: NoLegAllocsGrp option // group
-    LegAllocAccount: LegAllocAccount option
-    LegIndividualAllocID: LegIndividualAllocID option
-    NestedParties2: NestedParties2 option // component
-    LegAllocQty: LegAllocQty option
-    LegAllocAcctIDSource: LegAllocAcctIDSource option
-    LegSettlCurrency: LegSettlCurrency option
     LegPositionEffect: LegPositionEffect option
     LegCoveredOrUncovered: LegCoveredOrUncovered option
     NestedParties: NestedParties option // component
@@ -923,19 +830,11 @@ type NoNested3PartyIDsGrp = {
     Nested3PartyIDSource: Nested3PartyIDSource option
     Nested3PartyRole: Nested3PartyRole option
     NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
-    Nested3PartySubID: Nested3PartySubID option
-    Nested3PartySubIDType: Nested3PartySubIDType option
     }
 
 // component
 type NestedParties3 = {
     NoNested3PartyIDsGrp: NoNested3PartyIDsGrp option // group
-    Nested3PartyID: Nested3PartyID option
-    Nested3PartyIDSource: Nested3PartyIDSource option
-    Nested3PartyRole: Nested3PartyRole option
-    NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp option // group
-    Nested3PartySubID: Nested3PartySubID option
-    Nested3PartySubIDType: Nested3PartySubIDType option
     }
 
 // group
@@ -955,12 +854,6 @@ type NewOrderMultileg_NoLegs_NoLegsGrp = {
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
     NoLegAllocsGrp: NoLegAllocsGrp option // group
-    LegAllocAccount: LegAllocAccount option
-    LegIndividualAllocID: LegIndividualAllocID option
-    NestedParties2: NestedParties2 option // component
-    LegAllocQty: LegAllocQty option
-    LegAllocAcctIDSource: LegAllocAcctIDSource option
-    LegSettlCurrency: LegSettlCurrency option
     LegPositionEffect: LegPositionEffect option
     LegCoveredOrUncovered: LegCoveredOrUncovered option
     NestedParties: NestedParties option // component
@@ -1016,12 +909,6 @@ type CrossOrderCancelReplaceRequest_NoSides_NoSidesGrp = {
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
     NoAllocsGrp: NoAllocsGrp option // group
-    AllocAccount: AllocAccount option
-    AllocAcctIDSource: AllocAcctIDSource option
-    AllocSettlCurrency: AllocSettlCurrency option
-    IndividualAllocID: IndividualAllocID option
-    NestedParties: NestedParties option // component
-    AllocQty: AllocQty option
     QtyType: QtyType option
     OrderQtyData: OrderQtyData // component
     CommissionData: CommissionData option // component
@@ -1058,12 +945,6 @@ type NoSidesGrp = {
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
     NoAllocsGrp: NoAllocsGrp option // group
-    AllocAccount: AllocAccount option
-    AllocAcctIDSource: AllocAcctIDSource option
-    AllocSettlCurrency: AllocSettlCurrency option
-    IndividualAllocID: IndividualAllocID option
-    NestedParties: NestedParties option // component
-    AllocQty: AllocQty option
     QtyType: QtyType option
     OrderQtyData: OrderQtyData // component
     CommissionData: CommissionData option // component
@@ -1110,8 +991,6 @@ type InstrumentExtension = {
     DeliveryForm: DeliveryForm option
     PctAtRisk: PctAtRisk option
     NoInstrAttribGrp: NoInstrAttribGrp option // group
-    InstrAttribType: InstrAttribType option
-    InstrAttribValue: InstrAttribValue option
     }
 
 // group
@@ -1126,7 +1005,6 @@ type DerivativeSecurityList_NoRelatedSym_NoRelatedSymGrp = {
     ExpirationCycle: ExpirationCycle option
     InstrumentExtension: InstrumentExtension option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     Text: Text option
@@ -1170,15 +1048,9 @@ type SecurityList_NoRelatedSym_NoRelatedSymGrp = {
     InstrumentExtension: InstrumentExtension option // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     Currency: Currency option
     Stipulations: Stipulations option // component
     SecurityList_NoLegs_NoLegsGrp: SecurityList_NoLegs_NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
-    LegSwapType: LegSwapType option
-    LegSettlType: LegSettlType option
-    LegStipulations: LegStipulations option // component
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
     YieldData: YieldData option // component
     RoundLot: RoundLot option
@@ -1199,9 +1071,7 @@ type MarketDataIncrementalRefresh_NoMDEntries_NoMDEntriesGrp = {
     MDEntryRefID: MDEntryRefID option
     Instrument: Instrument option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     FinancialStatus: FinancialStatus option
     CorporateAction: CorporateAction option
     MDEntryPx: MDEntryPx option
@@ -1242,9 +1112,7 @@ type MarketDataIncrementalRefresh_NoMDEntries_NoMDEntriesGrp = {
 type MarketDataRequest_NoRelatedSym_NoRelatedSymGrp = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     }
 
 // group
@@ -1252,7 +1120,6 @@ type MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp = {
     QuoteEntryID: QuoteEntryID option
     Instrument: Instrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     BidPx: BidPx option
     OfferPx: OfferPx option
     BidSize: BidSize option
@@ -1286,34 +1153,6 @@ type MassQuoteAcknowledgement_NoQuoteSets_NoQuoteSetsGrp = {
     TotNoQuoteEntries: TotNoQuoteEntries option
     LastFragment: LastFragment option
     MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp: MassQuoteAcknowledgement_NoQuoteEntries_NoQuoteEntriesGrp option // group
-    QuoteEntryID: QuoteEntryID option
-    Instrument: Instrument option // component
-    NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
-    BidPx: BidPx option
-    OfferPx: OfferPx option
-    BidSize: BidSize option
-    OfferSize: OfferSize option
-    ValidUntilTime: ValidUntilTime option
-    BidSpotRate: BidSpotRate option
-    OfferSpotRate: OfferSpotRate option
-    BidForwardPoints: BidForwardPoints option
-    OfferForwardPoints: OfferForwardPoints option
-    MidPx: MidPx option
-    BidYield: BidYield option
-    MidYield: MidYield option
-    OfferYield: OfferYield option
-    TransactTime: TransactTime option
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    SettlDate: SettlDate option
-    OrdType: OrdType option
-    SettlDate2: SettlDate2 option
-    OrderQty2: OrderQty2 option
-    BidForwardPoints2: BidForwardPoints2 option
-    OfferForwardPoints2: OfferForwardPoints2 option
-    Currency: Currency option
-    QuoteEntryRejectReason: QuoteEntryRejectReason option
     }
 
 // group
@@ -1321,7 +1160,6 @@ type MassQuote_NoQuoteEntries_NoQuoteEntriesGrp = {
     QuoteEntryID: QuoteEntryID
     Instrument: Instrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     BidPx: BidPx option
     OfferPx: OfferPx option
     BidSize: BidSize option
@@ -1355,33 +1193,6 @@ type NoQuoteSetsGrp = {
     TotNoQuoteEntries: TotNoQuoteEntries
     LastFragment: LastFragment option
     MassQuote_NoQuoteEntries_NoQuoteEntriesGrp: MassQuote_NoQuoteEntries_NoQuoteEntriesGrp // group
-    QuoteEntryID: QuoteEntryID
-    Instrument: Instrument option // component
-    NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
-    BidPx: BidPx option
-    OfferPx: OfferPx option
-    BidSize: BidSize option
-    OfferSize: OfferSize option
-    ValidUntilTime: ValidUntilTime option
-    BidSpotRate: BidSpotRate option
-    OfferSpotRate: OfferSpotRate option
-    BidForwardPoints: BidForwardPoints option
-    OfferForwardPoints: OfferForwardPoints option
-    MidPx: MidPx option
-    BidYield: BidYield option
-    MidYield: MidYield option
-    OfferYield: OfferYield option
-    TransactTime: TransactTime option
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    SettlDate: SettlDate option
-    OrdType: OrdType option
-    SettlDate2: SettlDate2 option
-    OrderQty2: OrderQty2 option
-    BidForwardPoints2: BidForwardPoints2 option
-    OfferForwardPoints2: OfferForwardPoints2 option
-    Currency: Currency option
     }
 
 // group
@@ -1400,9 +1211,7 @@ type NoQuoteEntriesGrp = {
     Instrument: Instrument option // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     }
 
 // group
@@ -1424,9 +1233,7 @@ type Quote_NoLegs_NoLegsGrp = {
 type RFQRequest_NoRelatedSym_NoRelatedSymGrp = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     NoLegsGrp: NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
     QuoteType: QuoteType option
@@ -1451,7 +1258,6 @@ type QuoteRequestReject_NoRelatedSym_NoRelatedSymGrp = {
     Instrument: Instrument // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
     QuoteType: QuoteType option
@@ -1471,14 +1277,6 @@ type QuoteRequestReject_NoRelatedSym_NoRelatedSymGrp = {
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
     QuoteRequestReject_NoLegs_NoLegsGrp: QuoteRequestReject_NoLegs_NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
-    LegQty: LegQty option
-    LegSwapType: LegSwapType option
-    LegSettlType: LegSettlType option
-    LegSettlDate: LegSettlDate option
-    LegStipulations: LegStipulations option // component
-    NestedParties: NestedParties option // component
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     }
 
 // group
@@ -1518,7 +1316,6 @@ type QuoteRequest_NoRelatedSym_NoRelatedSymGrp = {
     Instrument: Instrument // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp option // group
-    UnderlyingInstrument: UnderlyingInstrument option // component
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
     QuoteType: QuoteType option
@@ -1538,16 +1335,7 @@ type QuoteRequest_NoRelatedSym_NoRelatedSymGrp = {
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
     QuoteRequest_NoLegs_NoLegsGrp: QuoteRequest_NoLegs_NoLegsGrp option // group
-    InstrumentLeg: InstrumentLeg option // component
-    LegQty: LegQty option
-    LegSwapType: LegSwapType option
-    LegSettlType: LegSettlType option
-    LegSettlDate: LegSettlDate option
-    LegStipulations: LegStipulations option // component
-    NestedParties: NestedParties option // component
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp option // group
-    QuoteQualifier: QuoteQualifier option
     QuotePriceType: QuotePriceType option
     OrdType: OrdType option
     ValidUntilTime: ValidUntilTime option

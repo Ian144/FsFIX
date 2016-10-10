@@ -57,7 +57,7 @@ and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     | _             ->  failwith (sprintf "invalid msg item name: %s" itemTypeStr)
 
 and ReadItems (parents:string list) (parentXL:XElement) =
-    [    for el in parentXL.Descendants() do
+    [    for el in parentXL.Elements() do
          yield ReadFIXItem parents el    ]
 
 

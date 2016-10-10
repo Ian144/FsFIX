@@ -86,8 +86,8 @@ let Read (parentXL:XElement) =
         let msgName = gas msgXL "name" 
         let msgType = gas msgXL "msgtype"
         let msgCat = gas msgXL "msgcat"
-        if msgName = "AllocationInstruction" then
-            printfn ""
+//        if msgName = "AllocationInstruction" then
+//            printfn ""
         let items = ParsingFuncs.ReadItems [msgName] msgXL
         yield {MName = msgName; Type = msgType; Cat = msgCat; Items = items}
     ]
