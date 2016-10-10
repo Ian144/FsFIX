@@ -6,16 +6,16 @@ open FIXGenTypes
 
 
 
-let private extractGroups (itms:FIXItem list) : Group list =
-    let extractGroup (itm:FIXItem) =
-        match itm with 
-        | FIXItem.Group grp -> Some grp
-        | _                 -> None
-    itms |> List.choose extractGroup
 
 
 
 let rec private flattenGroups (groups:Group list) = 
+    let extractGroups (itms:FIXItem list) : Group list =
+        let extractGroup (itm:FIXItem) =
+            match itm with 
+            | FIXItem.Group grp -> Some grp
+            | _                 -> None
+        itms |> List.choose extractGroup
     [   for group in groups do
         let subGroups = group.Items |> extractGroups
         yield! flattenGroups subGroups 

@@ -3,16 +3,19 @@
 
 
 type ComponentName = ComponentName of string
-    with member this.Value =    let (ComponentName vv) = this
-                                vv
+
+
                                 
 type GroupLongName = GroupLongName of string
+
 
 
 type Required = Required | NotRequired
 
 
+
 type Field = { FName:string; Required:Required }
+
 
 
 // msgs refer to components, but the component is defined elsewhere, unlike groups which are defined inline.
@@ -21,17 +24,21 @@ type Field = { FName:string; Required:Required }
 type ComponentRef = { CRName:ComponentName; Required:Required }
 
 
-// A FIXItem can contain groups containing Items, so FIXItems are trees
+
+// A FIXItem can contain groups containing FIXItems, SO FIXITEMS ARE TREES
 // ComponentRefs refer to a component by name, but do not contain Items directly, 
 // Components are not defined inline in FIX XML, whereas groups are.
 type FIXItem = Field of Field | Component of ComponentRef | Group of Group
 and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list }
 
 
+
 type Msg = {MName:string; Type:string; Cat:string; Items: FIXItem list}
 
 
+
 type Component = {CName:ComponentName; Items: FIXItem list}
+
 
 
 // Groups can refer to Components, and Components can refer to Group, need a type 

@@ -46,8 +46,8 @@ let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
 
 
 
-let getName (x2:FIXItem) : string =
-    match x2 with
+let getName (fi:FIXItem) : string =
+    match fi with
     | FIXItem.Field fld     ->  fld.FName
     | FIXItem.Component cmp ->  let (ComponentName nm) = cmp.CRName
                                 nm

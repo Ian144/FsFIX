@@ -42,8 +42,8 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/components"
     let components = ComponentGenerator.Read xpthMsgs
 
-    // make a map of component name to component
-    // used for marrying up component refs with components
+    // make a map of component name to component.
+    // used for marrying up componentRefs with components.
     let cmpNameMap = components 
                         |> List.map (fun cmp -> cmp.CName, cmp)
                         |> Map.ofList
@@ -52,15 +52,8 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
-    msgs |> List.iter (fun msg ->
-            if msg.MName = "AllocationInstruction" then
-            let itms2 = msg.Items |> FIXItem.filter (fun fi -> (FIXItem.getName fi) = "AccruedInterestAmt")
-            printfn ""
-        )
-
 
     printfn "merging groups"
-
     let allCompoundItems = 
         [   for msg in msgs do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap msg.Items    ]
@@ -68,7 +61,7 @@ let main _ =
     let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
 
 
-    // a map of group longname (a compound name based on its parentage) to a merge target
+    // a map of group long name (a compound name based on its parentage) to a merge target
     let groupMerges = GroupUtils.makeMergeMap allGrps
     
     groupMerges 

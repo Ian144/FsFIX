@@ -1,36 +1,9 @@
 ﻿module GroupGenerator
 
-open System.Xml.Linq
-open System.Xml.XPath
 open System.IO
 
-open ParsingFuncs
 open FIXGenTypes
 
-
-
-let extractGroups (itms:FIXItem list) : Group list =
-    let extractGroup (itm:FIXItem) =
-        match itm with 
-        | FIXItem.Group grp -> Some grp
-        | _                 -> None
-    itms |> List.choose extractGroup
-
-
-
-let rec flattenGroups (groups:Group list) = 
-    [   for group in groups do
-        let subGroups = group.Items |> extractGroups
-        yield! flattenGroups subGroups 
-        yield group ]
-
-
-
-//let private xmakeGroupCompoundName (grp:Group) : string =
-//    let parents = grp.Parents 
-//    let groupName = grp.GName
-//    let subNames = parents @ [groupName] |> List.toArray
-//    Utils.joinStrs "_" subNames
 
 
 
@@ -38,7 +11,8 @@ let rec flattenGroups (groups:Group list) =
 let writeComponent (cmp:Component) (sw:StreamWriter) = 
     sw.WriteLine ""
     sw.WriteLine "// component"
-    let ss = sprintf "type %s = {" cmp.CName.Value // different from write group
+    let (ComponentName name) = cmp.CName
+    let ss = sprintf "type %s = {"  name// different from write group
     sw.Write ss
     sw.WriteLine ""
     cmp.Items |> (CommonGenerator.writeFIXItemList sw)
@@ -46,7 +20,8 @@ let writeComponent (cmp:Component) (sw:StreamWriter) =
     sw.WriteLine ""
 
 
-// todo, use static class + overloading, dictionary of operations, or ^t + member constraints to write a single type generator function for components, groups and messages
+
+// todo: use static class + overloading, dictionary of operations or ^t + member constraints to write a single type generator function for components, groups and messages
 let writeGroup (grp:Group) (sw:StreamWriter) = 
     sw.WriteLine ""
     sw.WriteLine "// group"
@@ -57,32 +32,6 @@ let writeGroup (grp:Group) (sw:StreamWriter) =
     grp.Items |> (CommonGenerator.writeFIXItemList sw)
     sw.Write  "    }"
     sw.WriteLine ""
-
-
-//let private writeGroups (allGroups:Group list) (sw:StreamWriter) =
-//    allGroups |> List.iter (fun grp ->
-//            sw.WriteLine "\n"
-//            let ss = sprintf "type %sGrp = {\n" grp.GName
-//            sw.Write ss
-//            let groupDefStrs = 
-//                grp.Items
-//                    |> List.map (fun item ->
-//                        match item with
-//                        | FIXItem.Field fld     ->  match fld.Required with
-//                                                    | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
-//                                                    | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
-//                        | FIXItem.Component cmp ->  match cmp.Required with
-//                                                    | Required.Required     ->  sprintf "    %s: %s // component" cmp.CRName.Value cmp.CRName.Value
-//                                                    | Required.NotRequired  ->  sprintf "    %s: %s option // component" cmp.CRName.Value cmp.CRName.Value
-//                        | FIXItem.Group grp     ->  match grp.Required with
-//                                                    | Required.Required     ->  sprintf "    %s: %s // group" grp.GName grp.GName
-//                                                    | Required.NotRequired  ->  sprintf "    %s: %s option // group" grp.GName grp.GName
-//
-//                        ) // end List.map
-//            
-//            groupDefStrs |> List.iter sw.WriteLine
-//            sw.Write  "    }"
-//            ) // end outer List.iter
 
 
 
