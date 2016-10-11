@@ -30,7 +30,6 @@ let rec ReadGroup (parents:string list) (el:XElement) =
     let req = MkRequired reqStr
     let name = gas el "name"
     let items = ReadItems parents el
-    let parents2 = parents @ [name] // older ancestors should appear first (to the left)
     { GName = name; Parents = parents; Required = req; Items = items}
 
 
