@@ -15,17 +15,14 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swGenGroupWriteF
     swCompItms.WriteLine "module Fix44.CompoundItems"
     swCompItms.WriteLine ""
     swCompItms.WriteLine "open Fix44.Fields"
-
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
-
     cmpItems |> List.iter (fun ci ->
                     match ci with
                     | CompoundItem.Group    grp     -> GroupGenerator.writeGroup grp swCompItms
-                    | CompoundItem.Component comp   -> GroupGenerator.writeComponent comp swCompItms
-         )
+                    | CompoundItem.Component comp   -> GroupGenerator.writeComponent comp swCompItms    )
 
 
 //    // write the 'group' DU

@@ -31,7 +31,7 @@ let rec ReadGroup (parents:string list) (el:XElement) =
     let name = gas el "name"
     let items = ReadItems parents el
     let parents2 = parents @ [name] // older ancestors should appear first (to the left)
-    { GName = name; Parents = parents2; Required = req; Items = items}
+    { GName = name; Parents = parents; Required = req; Items = items}
 
 
 // create a FIXItem from field, component or group XML element

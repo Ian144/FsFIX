@@ -39,7 +39,7 @@ let private genGroupWriterFunc (sw:StreamWriter) (grp:Group) =
     let grpName = grp.GName
     let funcSig = sprintf "let Write%sGrp (strm:System.IO.Stream) (grp:%sGrp) =" grpName grpName 
     sw.WriteLine funcSig
-    // todo: check the fix spec re`garding required fields in groups that might be optional? how can reading work if fields can be missing?
+    // todo: check the fix spec regarding required fields in groups that might be optional? how can reading work if fields can be missing?
     let writeGroupFuncStrs = 
         grp.Items |> List.map (fun item ->
                     match item with

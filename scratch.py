@@ -74,6 +74,37 @@ fsFix article
 
 todo
 ----
+
+	should be 
+		Advertisement_NoUnderlyingsGrp: Advertisement_NoUnderlyingsGrp option // group
+
+	type Advertisement = {
+		AdvId: AdvId
+		AdvTransType: AdvTransType
+		AdvRefID: AdvRefID option
+		Instrument: Instrument // component
+		NoLegsGrp: NoLegsGrp option // group
+		Advertisement_NoUnderlyings_NoUnderlyingsGrp: Advertisement_NoUnderlyings_NoUnderlyingsGrp option // group
+		AdvSide: AdvSide
+		Quantity: Quantity
+		QtyType: QtyType option
+		Price: Price option
+		Currency: Currency option
+		TradeDate: TradeDate option
+		TransactTime: TransactTime option
+		Text: Text option
+		EncodedText: EncodedText option
+		URLLink: URLLink option
+		LastMkt: LastMkt option
+		TradingSessionID: TradingSessionID option
+		Tr
+
+
+
+
+
+
+
     testing 
 		convert types back to xml, and diff with original
 		CONVERT TYPES BACK TO XML, AND DIFF WITH ORIGINAL
