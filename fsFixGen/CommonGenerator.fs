@@ -18,8 +18,8 @@ let makeItemStr (item:FIXItem) =
                                 | Required.NotRequired  ->  sprintf "    %s: %s option // component" nm nm
     | FIXItem.Group grp     ->  let (GroupLongName grpNameInner) = GroupUtils.makeLongName grp
                                 match grp.Required with
-                                | Required.Required     ->  sprintf "    %sGrp: %sGrp // group" grpNameInner grpNameInner
-                                | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp option // group" grpNameInner grpNameInner
+                                | Required.Required     ->  sprintf "    %sGrp: %sGrp list // group" grpNameInner grpNameInner
+                                | Required.NotRequired  ->  sprintf "    %sGrp: %sGrp list option // group" grpNameInner grpNameInner
     
 
 
