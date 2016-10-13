@@ -75,64 +75,21 @@ fsFix article
 todo
 ----
 
-	should be 
-		Advertisement_NoUnderlyingsGrp: Advertisement_NoUnderlyingsGrp option // group
+	
 
-	type Advertisement = {
-		AdvId: AdvId
-		AdvTransType: AdvTransType
-		AdvRefID: AdvRefID option
-		Instrument: Instrument // component
-		NoLegsGrp: NoLegsGrp option // group
-		Advertisement_NoUnderlyings_NoUnderlyingsGrp: Advertisement_NoUnderlyings_NoUnderlyingsGrp option // group
-		AdvSide: AdvSide
-		Quantity: Quantity
-		QtyType: QtyType option
-		Price: Price option
-		Currency: Currency option
-		TradeDate: TradeDate option
-		TransactTime: TransactTime option
-		Text: Text option
-		EncodedText: EncodedText option
-		URLLink: URLLink option
-		LastMkt: LastMkt option
-		TradingSessionID: TradingSessionID option
-		Tr
-
-
-
-
-
-
+	would the 'fixed' help with cache locality
 
     testing 
-		convert types back to xml, and diff with original
+		convert fsharp messages back to xml, and diff with original
 		CONVERT TYPES BACK TO XML, AND DIFF WITH ORIGINAL
 
-	module CompositeFix
-    if groups can contain components and components can contain groups how can this be modelled in F#
-    dependency ordering in a single file as for groups alone - CompoundItems.fs????
 
 	could fix generation be done with a type provider?
 
 	consider making the type generation a fredis article on its own
 
-	make components first class entities
-		components can be "not required" when their fields are required	
-			expanding components into messages does not capture this
 
-		msgs have a component ref
-			only the component name is required, 
-				components are defined in their own xml subElement
-				component names are unique
-		msgs have group member containing all group details, including subgroups nested to any degree
-				groups are not defined in their own xml subElement
-				group names are not unique, there are variations on item membership of the NoSides group
-
-	
-	FFS turn required into a bool
-
-	what does it mean for elements to be 'condtionally required'? 
+	what does it mean for elements to be 'condtionally required' (seen on FIX wiki)?  
 		could this be required fields of optional components
 
 	first confirm that the below is required
