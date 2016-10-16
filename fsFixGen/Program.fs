@@ -97,6 +97,7 @@ let main _ =
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
         |> List.distinct 
 
+
     // extract the components and groups refered to in messages
     // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
     // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)

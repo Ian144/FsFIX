@@ -23,15 +23,19 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swGenGroupWriteF
                     match ci with
                     | CompoundItem.Group    grp     -> GroupGenerator.writeGroup grp swCompItms
                     | CompoundItem.Component comp   -> GroupGenerator.writeComponent comp swCompItms    )
+    swCompItms.WriteLine ""
+    swCompItms.WriteLine ""
 
-
-//    // write the 'group' DU
-//    swGroups.WriteLine  "type FIXGroup ="
-//    groups 
-//    |> List.sort
-//    |> List.iter (fun grp ->
-//            let ss  = sprintf "    | %sGrp of %sGrp" grp.GName grp.GName
-//            swGroups.WriteLine ss  )
+    // write the 'group' DU
+    let groups = cmpItems |> CompoundItemFuncs.extractGroups
+    swCompItms.WriteLine  "type FIXGroup ="
+    groups 
+    |> List.map GroupUtils.makeLongName
+    |> List.sort 
+    |> List.iter (fun grpLngName ->
+            let (GroupLongName strName) = grpLngName
+            let ss  = sprintf "    | %sGrp of %sGrp" strName strName
+            swCompItms.WriteLine ss  )
 
 //    // generate the group write functions todo: generate group read funcs
 //    swGenGroupWriteFuncs.WriteLine "module Fix44.GroupWriteFuncs"
