@@ -43,7 +43,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NoGenTypes.fs" />
+    <Compile Include="NonGenTypes.fs" />
     <Compile Include="ReadWriteFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadWriteFuncs.fs" />
