@@ -14,7 +14,7 @@ http://fixwiki.org/fixwiki/BodyLength
 
 http://javarevisited.blogspot.co.uk/2011/04/fix-protocol-tutorial-for-beginners.html
 
-
+http://mechanical-sympathy.blogspot.co.uk/
 
 
 reading and writing bytes from sockets
@@ -75,14 +75,13 @@ fsFix article
 todo
 ----
 
-	
+	martin thompsons better fin messaging stuff: http://mechanical-sympathy.blogspot.co.uk/	
 
 	would the 'fixed' help with cache locality
 
     testing 
 		convert fsharp messages back to xml, and diff with original
 		CONVERT TYPES BACK TO XML, AND DIFF WITH ORIGINAL
-
 
 	could fix generation be done with a type provider?
 

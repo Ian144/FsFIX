@@ -5,7 +5,7 @@ module DependencyConstraintSolver
 open FIXGenTypes
 
 
-// compoundItems must be flattened by this stage, don't recurse into the compoundItem trees
+// compoundItems must be flattened by this stage, so there is no need to recurse into the compoundItem trees
 let private makeConstraints (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
     [   for itm in compoundItems do
         let subItms = itm |> CompoundItemFuncs.getSubCompoundItems componentNameMap
@@ -80,15 +80,6 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>
     // re-order the grps list to be in dependency order
     let constrainedItemsInDepOrder = dependencies |> List.map (fun itemName -> nameToItemMap.[itemName])
 
-    let ret = constrainedItemsInDepOrder @ unConstrained
-
-//  todo: confirm it is ok for the constrained compoundItem list to be two items shorter than the unconstrained
-//    let constrainedSet = ret |> Set.ofList
-//    let unconstrainedSet = compoundItems |> Set.ofList
-//    let diff = Set.difference unconstrainedSet constrainedSet 
-//    let inter = constrainedSet = unconstrainedSet
-
-
-    ret
+    constrainedItemsInDepOrder @ unConstrained
 
     

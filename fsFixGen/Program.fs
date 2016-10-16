@@ -104,8 +104,7 @@ let main _ =
                                                 |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
 
-    printfn "generating group and component F# source in dependency order"
-
+    printfn "generating group and component F# types in dependency order"
     constrainedCompoundItemsInDepOrder
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
