@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFixGen", "fsFixGen\fsFixGen.fsproj", "{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53C79F9C-38E6-40E9-BE39-D75560A18272}"
-	ProjectSection(SolutionItems) = preProject
-		scratch.py = scratch.py
-	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFix", "fsFix\fsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
 EndProject

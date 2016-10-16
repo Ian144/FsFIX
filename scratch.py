@@ -18,32 +18,32 @@ http://mechanical-sympathy.blogspot.co.uk/
 
 
 reading and writing bytes from sockets
-            remember it is possible to read a msg length
-            i want efficent read until '|' 
-                BinaryReader and SXXXReader do not have such a func 
-                    although SXXXReader does have ReadUntilNewLine 
-                        which shows how to do this
-            streams are handy, can test by using a memory stream instead of a network stream
-            maybe write my own stream like type, similar to SAEA funcs
-                ReadUntilDelim - for reading headers, as header length is unknown
-                ReadNBytes - for reading the msg len bytes
-                AsyncReadN - for waiting on a new msg, when doing async at the borders
-        
-                Write
-                AsyncFlush
-        
-            #### remember encoding
-            #### would this improve redis performance
-            #### would fredisnet.org article
-            #### put  this on nuget
+	remember it is possible to read a msg length
+	i want efficent read until '|' 
+		BinaryReader and SXXXReader do not have such a func 
+			although SXXXReader does have ReadUntilNewLine 
+				which shows how to do this
+	streams are handy, can test by using a memory stream instead of a network stream
+	maybe write my own stream like type, similar to SAEA funcs
+		ReadUntilDelim - for reading headers, as header length is unknown
+		ReadNBytes - for reading the msg len bytes
+		AsyncReadN - for waiting on a new msg, when doing async at the borders
+
+		Write
+		AsyncFlush
+
+	#### remember encoding
+	#### would this improve redis performance
+	#### would fredisnet.org article
+	#### put  this on nuget
 
 
 consider not publishing the generator
-    just publish the results with copyright
-        or open source this
-    just publish the binaries
+	just publish the results with copyright
+		or open source this
+	just publish the binaries
 
-    QUICKFIX may have copyright over the xml fix definition file
+	QUICKFIX may have copyright over the xml fix definition file
 
 
 
@@ -75,11 +75,19 @@ fsFix article
 todo
 ----
 
+todo
+	is generating DUs for groups, components and fields neccessary?
+		NO:     the code to read and write messages will know which group (DU case) or component to read or write
+		YES:    this enables fscheck to generate groups for testing
+					also requires read and write functions that take the DU
+					the DU and DU_read and DU_write could go in the fsTest test project
+
+
 	martin thompsons better fin messaging stuff: http://mechanical-sympathy.blogspot.co.uk/	
 
 	would the 'fixed' help with cache locality
 
-    testing 
+	testing 
 		convert fsharp messages back to xml, and diff with original
 		CONVERT TYPES BACK TO XML, AND DIFF WITH ORIGINAL
 
@@ -94,40 +102,19 @@ todo
 	first confirm that the below is required
 	have fields and groups appear in the order they do in fixXX.xml
 
-    refactor types, e.g. currently have 
-        GroupPC, GroupExp, GroupGen, SubGroup
+	refactor types, e.g. currently have 
+		GroupPC, GroupExp, GroupGen, SubGroup
 
-    finish group factory functions
-    
-    are any other groups compulsory in the same manner as NoSides
-        the NoSides group is compulsory (or else it is either 0, 1 or 2 NoSides groups)
+	finish group factory functions
+	
+	are any other groups compulsory in the same manner as NoSides
+		the NoSides group is compulsory (or else it is either 0, 1 or 2 NoSides groups)
 
-    avoid the need for ClOrdID.ClOrdID etc
+	avoid the need for ClOrdID.ClOrdID etc
 
-    is the length of some fields known? so CrapReadUntilDelim is not needed
-        will they always be the same length?
-        can this length be known at compile time
-
-
-
-    "how to read" msgs scratch
-        Manditory field checking
-            HashSet of manditory fields
-        Optional field checking
-            check that no non-thisMsg fields have been received
-
-        read fields in any order
-            then check the manditory fields are present
-        write fields in the same order
-
-        reading and writing msgs, should I
-            use a DU, e.g. FIXMessages and use pattern matching
-                runtime, therefore has a cost
-            use a static class, and (adhoc) overloading
-                compile time - potentially faster than pattern matching
-            a map of functions to                 
-
-        how does quickfix read?
+	is the length of some fields known? so CrapReadUntilDelim is not needed
+		will they always be the same length?
+		can this length be known at compile time
 
     
     how does the quickfix data dictionary relate to my ADT structure
@@ -219,7 +206,7 @@ misc thoughts
 
 
 misc
-    http://fixwiki.org/fixwiki/FPL:FIX_Specification#Communicating_using_FIX_over_different_transport_layers
+    
 
 
 
