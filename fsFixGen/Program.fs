@@ -110,9 +110,13 @@ let main _ =
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
 
-    use swGroups = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
+    use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
+    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
+
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
-    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swGroups swGroupWriteFuncs
+    let groups = constrainedCompoundItemsInDepOrder |> CompoundItemFuncs.extractGroups
+    do GroupGenerator.GenGroupWriterFuncs groups swGroupWriteFuncs
+
 
 //    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
 //    GroupGenerator.GenFactoryFuncs depOrderGroups swGroupFactoryFuncs

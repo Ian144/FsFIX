@@ -46,12 +46,24 @@ let private genGroupWriterFunc (sw:StreamWriter) (grp:Group) =
                     | FIXItem.Field fld     ->  match fld.Required with
                                                 | Required.Required     ->  sprintf "    Write%s strm grp.%s" fld.FName fld.FName
                                                 | Required.NotRequired  ->  sprintf "    grp.%s |> Option.iter (Write%s strm)" fld.FName fld.FName
-                    | FIXItem.Component cmp ->  "grp component writer func not implemented"
-                    | FIXItem.Group grp     ->  "grp subgroup writer func not implemented"
+                    | FIXItem.Component cmp ->  "    // grp component writer func not implemented"
+                    | FIXItem.Group grp     ->  "    // grp subgroup writer func not implemented"
                     ) // end List.map
     writeGroupFuncStrs |> List.iter sw.WriteLine
     sw.WriteLine ""
     sw.WriteLine ""
+
+
+let GenGroupWriterFuncs (groups:Group list) (swGroupWriteFuncs:StreamWriter) =
+    // generate the group write functions todo: generate group read funcs
+    swGroupWriteFuncs.WriteLine "module Fix44.GroupWriteFuncs"
+    swGroupWriteFuncs.WriteLine ""
+    swGroupWriteFuncs.WriteLine "open Fix44.Fields"
+    swGroupWriteFuncs.WriteLine "open Fix44.Groups"
+    swGroupWriteFuncs.WriteLine "open Fix44.FieldReadWriteFuncs"
+    swGroupWriteFuncs.WriteLine ""
+    swGroupWriteFuncs.WriteLine ""
+    groups |> List.iter (genGroupWriterFunc swGroupWriteFuncs)  
 
 
 

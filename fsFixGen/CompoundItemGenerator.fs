@@ -1,17 +1,12 @@
 ﻿module CompoundItemGenerator
 
 open System.IO
-open ParsingFuncs
 open FIXGenTypes
 
 
 
 
-
-
-
-
-let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swGenGroupWriteFuncs:StreamWriter) =
+let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) =
     swCompItms.WriteLine "module Fix44.CompoundItems"
     swCompItms.WriteLine ""
     swCompItms.WriteLine "open Fix44.Fields"
@@ -37,12 +32,3 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swGenGroupWriteF
             let ss  = sprintf "    | %sGrp of %sGrp" strName strName
             swCompItms.WriteLine ss  )
 
-//    // generate the group write functions todo: generate group read funcs
-//    swGenGroupWriteFuncs.WriteLine "module Fix44.GroupWriteFuncs"
-//    swGenGroupWriteFuncs.WriteLine ""
-//    swGenGroupWriteFuncs.WriteLine "open Fix44.Fields"
-//    swGenGroupWriteFuncs.WriteLine "open Fix44.Groups"
-//    swGenGroupWriteFuncs.WriteLine "open Fix44.FieldReadWriteFuncs"
-//    swGenGroupWriteFuncs.WriteLine ""
-//    swGenGroupWriteFuncs.WriteLine ""
-//    groups |> List.iter (genWriteGroupFunction swGenGroupWriteFuncs)
