@@ -1,8 +1,6 @@
 ﻿module ComponentGenerator
 
 
-
-
 open System.Xml.Linq
 open System.Xml.XPath
 
@@ -19,3 +17,14 @@ let Read (parentXL:XElement) =
         let items = ParsingFuncs.ReadItems [compName] compXL
         yield {CName = ComponentName compName; Items = items}
     ]
+
+
+
+
+
+
+
+
+
+
+

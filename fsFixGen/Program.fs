@@ -23,6 +23,8 @@ let MkOutpath flName =
 
 
 
+
+
 [<EntryPoint>]
 let main _ = 
 
@@ -110,12 +112,12 @@ let main _ =
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
 
+    printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
 
-    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.GroupWriteFuncs.fs")
-    let groups = constrainedCompoundItemsInDepOrder |> CompoundItemFuncs.extractGroups
-    do GroupGenerator.GenGroupWriterFuncs groups swGroupWriteFuncs
+    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
+    do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
 
 //    use swGroupFactoryFuncs = new StreamWriter (MkOutpath "Fix44.GroupFactoryFuncs.fs")
@@ -124,5 +126,8 @@ let main _ =
     printfn "generating message F# source"
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
+
+    printfn "press any key to exit"
+    stdin.Read() |> ignore
 
     0 // integer exit code
