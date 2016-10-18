@@ -3,6 +3,7 @@ module Fix44.CompoundItemWriteFuncs
 open Fix44.Fields
 open Fix44.FieldReadWriteFuncs
 open Fix44.CompoundItems
+open OneOrTwo
 
 
 // group
@@ -126,7 +127,7 @@ let WriteNoPositionsGrp (strm:System.IO.Stream) (grp:NoPositionsGrp) =
 
 // component
 let WritePositionQty (strm:System.IO.Stream) (grp:PositionQty) =
-    WriteNoPositionsGrp strm grp.NoPositions    // group
+    grp.NoPositionsGrp |> List.iter (WriteNoPositionsGrp strm)   // group
 
 
 // group
@@ -390,7 +391,7 @@ let WriteNoPosAmtGrp (strm:System.IO.Stream) (grp:NoPosAmtGrp) =
 
 // component
 let WritePositionAmountData (strm:System.IO.Stream) (grp:PositionAmountData) =
-    WriteNoPosAmtGrp strm grp.NoPosAmt    // group
+    grp.NoPosAmtGrp |> List.iter (WriteNoPosAmtGrp strm)   // group
 
 
 // group
@@ -462,7 +463,7 @@ let WriteNoTrdRegTimestampsGrp (strm:System.IO.Stream) (grp:NoTrdRegTimestampsGr
 
 // component
 let WriteTrdRegTimestamps (strm:System.IO.Stream) (grp:TrdRegTimestamps) =
-    WriteNoTrdRegTimestampsGrp strm grp.NoTrdRegTimestamps    // group
+    grp.NoTrdRegTimestampsGrp |> List.iter (WriteNoTrdRegTimestampsGrp strm)   // group
 
 
 // group
@@ -1003,7 +1004,7 @@ let WriteDerivativeSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (grp:Der
     grp.Currency |> Option.iter (WriteCurrency strm)
     grp.ExpirationCycle |> Option.iter (WriteExpirationCycle strm)
     grp.InstrumentExtension |> Option.iter (WriteInstrumentExtension strm) // component
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
     grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
     grp.Text |> Option.iter (WriteText strm)
@@ -1049,7 +1050,7 @@ let WriteSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (grp:SecurityList_
     grp.NoUnderlyingsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoUnderlyingsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.Currency |> Option.iter (WriteCurrency strm)
     grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.SecurityList_NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteSecurityList_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.SecurityList_NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteSecurityList_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
     grp.YieldData |> Option.iter (WriteYieldData strm) // component
     grp.RoundLot |> Option.iter (WriteRoundLot strm)
@@ -1070,7 +1071,7 @@ let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (strm:System.IO.Stream) (gr
     grp.MDEntryRefID |> Option.iter (WriteMDEntryRefID strm)
     grp.Instrument |> Option.iter (WriteInstrument strm) // component
     grp.NoUnderlyingsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoUnderlyingsGrp strm))    // group WRITE THE NOGROUP FIELD
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.FinancialStatus |> Option.iter (WriteFinancialStatus strm)
     grp.CorporateAction |> Option.iter (WriteCorporateAction strm)
     grp.MDEntryPx |> Option.iter (WriteMDEntryPx strm)
@@ -1111,14 +1112,14 @@ let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (strm:System.IO.Stream) (gr
 let WriteMarketDataRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:MarketDataRequest_NoRelatedSymGrp) =
     WriteInstrument strm grp.Instrument    // component
     grp.NoUnderlyingsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoUnderlyingsGrp strm))    // group WRITE THE NOGROUP FIELD
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
 
 
 // group
 let WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp (strm:System.IO.Stream) (grp:MassQuoteAcknowledgement_NoQuoteEntriesGrp) =
     grp.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
     grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.BidPx |> Option.iter (WriteBidPx strm)
     grp.OfferPx |> Option.iter (WriteOfferPx strm)
     grp.BidSize |> Option.iter (WriteBidSize strm)
@@ -1158,7 +1159,7 @@ let WriteMassQuoteAcknowledgement_NoQuoteSetsGrp (strm:System.IO.Stream) (grp:Ma
 let WriteMassQuote_NoQuoteEntriesGrp (strm:System.IO.Stream) (grp:MassQuote_NoQuoteEntriesGrp) =
     WriteQuoteEntryID strm grp.QuoteEntryID
     grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.BidPx |> Option.iter (WriteBidPx strm)
     grp.OfferPx |> Option.iter (WriteOfferPx strm)
     grp.BidSize |> Option.iter (WriteBidSize strm)
@@ -1191,7 +1192,7 @@ let WriteNoQuoteSetsGrp (strm:System.IO.Stream) (grp:NoQuoteSetsGrp) =
     grp.QuoteSetValidUntilTime |> Option.iter (WriteQuoteSetValidUntilTime strm)
     WriteTotNoQuoteEntries strm grp.TotNoQuoteEntries
     grp.LastFragment |> Option.iter (WriteLastFragment strm)
-    WriteMassQuote_NoQuoteEntriesGrp strm grp.MassQuote_NoQuoteEntries    // group
+    grp.MassQuote_NoQuoteEntriesGrp |> List.iter (WriteMassQuote_NoQuoteEntriesGrp strm)   // group
 
 
 // group
@@ -1210,7 +1211,7 @@ let WriteNoQuoteEntriesGrp (strm:System.IO.Stream) (grp:NoQuoteEntriesGrp) =
     grp.Instrument |> Option.iter (WriteInstrument strm) // component
     grp.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
     grp.NoUnderlyingsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoUnderlyingsGrp strm))    // group WRITE THE NOGROUP FIELD
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
 
 
 // group
@@ -1232,7 +1233,7 @@ let WriteQuote_NoLegsGrp (strm:System.IO.Stream) (grp:Quote_NoLegsGrp) =
 let WriteRFQRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:RFQRequest_NoRelatedSymGrp) =
     WriteInstrument strm grp.Instrument    // component
     grp.NoUnderlyingsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoUnderlyingsGrp strm))    // group WRITE THE NOGROUP FIELD
-    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteNoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
     grp.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
     grp.QuoteType |> Option.iter (WriteQuoteType strm)
@@ -1275,7 +1276,7 @@ let WriteQuoteRequestReject_NoRelatedSymGrp (strm:System.IO.Stream) (grp:QuoteRe
     grp.Account |> Option.iter (WriteAccount strm)
     grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
     grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.QuoteRequestReject_NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteQuoteRequestReject_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.QuoteRequestReject_NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteQuoteRequestReject_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
 
 
 // group
@@ -1333,7 +1334,7 @@ let WriteQuoteRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:QuoteRequest_
     grp.Account |> Option.iter (WriteAccount strm)
     grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
     grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.QuoteRequest_NoLegsGrp |> Option.iter (fun xs -> xs |> List.iter (WriteQuoteRequest_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
+    grp.QuoteRequest_NoLegsGrp |> Option.iter (fun xs -> xs |> OneOrTwo.iter (WriteQuoteRequest_NoLegsGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.NoQuoteQualifiersGrp |> Option.iter (fun xs -> xs |> List.iter (WriteNoQuoteQualifiersGrp strm))    // group WRITE THE NOGROUP FIELD
     grp.QuotePriceType |> Option.iter (WriteQuotePriceType strm)
     grp.OrdType |> Option.iter (WriteOrdType strm)

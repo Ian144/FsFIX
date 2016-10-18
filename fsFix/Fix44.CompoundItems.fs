@@ -1004,7 +1004,7 @@ type DerivativeSecurityList_NoRelatedSymGrp = {
     Currency: Currency option
     ExpirationCycle: ExpirationCycle option
     InstrumentExtension: InstrumentExtension option // component
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     Text: Text option
@@ -1050,7 +1050,7 @@ type SecurityList_NoRelatedSymGrp = {
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Currency: Currency option
     Stipulations: Stipulations option // component
-    SecurityList_NoLegsGrp: SecurityList_NoLegsGrp NonGenTypes.OneOrTwo option // group
+    SecurityList_NoLegsGrp: SecurityList_NoLegsGrp OneOrTwo.OneOrTwo option // group
     SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
     YieldData: YieldData option // component
     RoundLot: RoundLot option
@@ -1071,7 +1071,7 @@ type MarketDataIncrementalRefresh_NoMDEntriesGrp = {
     MDEntryRefID: MDEntryRefID option
     Instrument: Instrument option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     FinancialStatus: FinancialStatus option
     CorporateAction: CorporateAction option
     MDEntryPx: MDEntryPx option
@@ -1112,14 +1112,14 @@ type MarketDataIncrementalRefresh_NoMDEntriesGrp = {
 type MarketDataRequest_NoRelatedSymGrp = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     }
 
 // group
 type MassQuoteAcknowledgement_NoQuoteEntriesGrp = {
     QuoteEntryID: QuoteEntryID option
     Instrument: Instrument option // component
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     BidPx: BidPx option
     OfferPx: OfferPx option
     BidSize: BidSize option
@@ -1159,7 +1159,7 @@ type MassQuoteAcknowledgement_NoQuoteSetsGrp = {
 type MassQuote_NoQuoteEntriesGrp = {
     QuoteEntryID: QuoteEntryID
     Instrument: Instrument option // component
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     BidPx: BidPx option
     OfferPx: OfferPx option
     BidSize: BidSize option
@@ -1211,7 +1211,7 @@ type NoQuoteEntriesGrp = {
     Instrument: Instrument option // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     }
 
 // group
@@ -1233,7 +1233,7 @@ type Quote_NoLegsGrp = {
 type RFQRequest_NoRelatedSymGrp = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    NoLegsGrp: NoLegsGrp NonGenTypes.OneOrTwo option // group
+    NoLegsGrp: NoLegsGrp OneOrTwo.OneOrTwo option // group
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
     QuoteType: QuoteType option
@@ -1276,7 +1276,7 @@ type QuoteRequestReject_NoRelatedSymGrp = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    QuoteRequestReject_NoLegsGrp: QuoteRequestReject_NoLegsGrp NonGenTypes.OneOrTwo option // group
+    QuoteRequestReject_NoLegsGrp: QuoteRequestReject_NoLegsGrp OneOrTwo.OneOrTwo option // group
     }
 
 // group
@@ -1334,7 +1334,7 @@ type QuoteRequest_NoRelatedSymGrp = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    QuoteRequest_NoLegsGrp: QuoteRequest_NoLegsGrp NonGenTypes.OneOrTwo option // group
+    QuoteRequest_NoLegsGrp: QuoteRequest_NoLegsGrp OneOrTwo.OneOrTwo option // group
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
     QuotePriceType: QuotePriceType option
     OrdType: OrdType option

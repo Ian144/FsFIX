@@ -21,8 +21,8 @@ let makeItemStr (item:FIXItem) =
                                     match isLegsGroup, grp.Required with
                                     | false, Required.Required     ->  sprintf "    %sGrp: %sGrp list // group" grpNameInner grpNameInner
                                     | false, Required.NotRequired  ->  sprintf "    %sGrp: %sGrp list option // group" grpNameInner grpNameInner
-                                    | true,  Required.Required     ->  sprintf "    %sGrp: %sGrp NonGenTypes.OneOrTwo // group" grpNameInner grpNameInner
-                                    | true,  Required.NotRequired  ->  sprintf "    %sGrp: %sGrp NonGenTypes.OneOrTwo option // group" grpNameInner grpNameInner
+                                    | true,  Required.Required     ->  sprintf "    %sGrp: %sGrp OneOrTwo.OneOrTwo // group" grpNameInner grpNameInner
+                                    | true,  Required.NotRequired  ->  sprintf "    %sGrp: %sGrp OneOrTwo.OneOrTwo option // group" grpNameInner grpNameInner
     
 
 
