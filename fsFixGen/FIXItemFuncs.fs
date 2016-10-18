@@ -9,7 +9,7 @@ let rec map (funcx:FIXItem -> FIXItem) (xs:FIXItem list) : FIXItem list =
         let x2 = funcx x
         match x2 with
         | FIXItem.Field _        ->  yield x2
-        | FIXItem.Component _    ->  yield x2
+        | FIXItem.ComponentRef _    ->  yield x2
         | FIXItem.Group grp      ->  let subItems = map funcx grp.Items
                                      yield FIXItem.Group {grp with Items = subItems} ]       
     
@@ -19,7 +19,7 @@ let rec filter (predicate:FIXItem -> bool) (xs:FIXItem list) : FIXItem list =
     [   for x2 in xs2 do
         match x2 with
         | FIXItem.Field _       ->  yield x2
-        | FIXItem.Component _   ->  yield x2
+        | FIXItem.ComponentRef _   ->  yield x2
         | FIXItem.Group grp     ->  let subItems = filter predicate grp.Items
                                     yield FIXItem.Group {grp with Items = subItems} ] 
 
@@ -33,7 +33,7 @@ let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXI
                                     FIXItem.Group grp
                                 else
                                     item
-    | FIXItem.Component _   ->  item
+    | FIXItem.ComponentRef _   ->  item
     | FIXItem.Field _       ->  item
 
 
@@ -41,15 +41,15 @@ let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXI
 let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
     match item with
     | FIXItem.Group _       ->  true
-    | FIXItem.Component _   ->  true
+    | FIXItem.ComponentRef _   ->  true
     | FIXItem.Field fld     ->  Set.contains fld.FName excludeFieldNames |> not
 
 
 
 let getName (fi:FIXItem) : string =
     match fi with
-    | FIXItem.Field fld     ->  fld.FName
-    | FIXItem.Component cmp ->  let (ComponentName nm) = cmp.CRName
-                                nm
-    | FIXItem.Group grp     ->  grp.GName
+    | FIXItem.Field fld         ->  fld.FName
+    | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
+                                    nm
+    | FIXItem.Group grp         ->  grp.GName
                                 

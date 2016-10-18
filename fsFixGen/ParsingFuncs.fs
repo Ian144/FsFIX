@@ -50,7 +50,7 @@ and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     | "field"       ->  let fName =  gas el "name"
                         FIXItem.Field {FName = fName; Required = req}
     | "component"   ->  let cmpName =  gas el "name" |> ComponentName
-                        FIXItem.Component {CRName=cmpName; Required=req}
+                        FIXItem.ComponentRef {CRName=cmpName; Required=req}
     | "group"       ->  let grp = ReadGroup parents el
                         FIXItem.Group grp
     | _             ->  failwith (sprintf "invalid msg item name: %s" itemTypeStr)

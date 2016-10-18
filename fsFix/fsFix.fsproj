@@ -49,7 +49,7 @@
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadWriteFuncs.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
-    <Compile Include="Fix44.GroupWriteFuncs.fs" />
+    <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
     <Compile Include="Fix44.Messages.fs" />
   </ItemGroup>
   <PropertyGroup>

@@ -9,11 +9,11 @@ open FIXGenTypes
 let private extractCompoundItems (componentNameMap:Map<ComponentName,Component>) (itms:FIXItem list) : CompoundItem list =
     let extract (itm:FIXItem) : CompoundItem option =
         match itm with 
-        | FIXItem.Group     group   ->  Some (CompoundItem.Group group)
-        | FIXItem.Component cmpRef  ->  let componentName = cmpRef.CRName 
-                                        let comp = componentNameMap.[componentName] 
-                                        Some (CompoundItem.Component comp)
-        | FIXItem.Field _           ->  None
+        | FIXItem.Group     group       ->  Some (CompoundItem.Group group)
+        | FIXItem.ComponentRef cmpRef  ->   let componentName = cmpRef.CRName 
+                                            let comp = componentNameMap.[componentName] 
+                                            Some (CompoundItem.Component comp)
+        | FIXItem.Field _               ->  None
     itms |> List.choose extract 
 
 

@@ -61,31 +61,62 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) =
 
 
 
+let private genItemListWriterStrs (items:FIXItem list) =
+    items |> List.map (fun item ->
+
+
+
+
+                match item with
+                | FIXItem.Field fld         ->  match fld.Required with
+                                                | Required.Required     ->  
+                                                                            if fld.FName.Contains "CollAction" then
+                                                                                printfn ""
+                                                                            sprintf "    Write%s strm grp.%s" fld.FName fld.FName
+                                                | Required.NotRequired  ->  
+                                                                            if fld.FName.Contains "CollAction" then
+                                                                                printfn ""
+                                                                            sprintf "    grp.%s |> Option.iter (Write%s strm)" fld.FName fld.FName
+                | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
+                                                match cmp.Required with
+                                                | Required.Required     ->  sprintf "    Write%s strm grp.%s    // component" name name
+                                                | Required.NotRequired  ->  sprintf "    grp.%s |> Option.iter (Write%s strm) // component" name name
+                | FIXItem.Group grp         ->  let (GroupLongName name) = GroupUtils.makeLongName grp
+                                                match grp.Required with
+                                                | Required.Required     ->  sprintf "    Write%sGrp strm grp.%s    // group" name name
+                                                | Required.NotRequired  ->  sprintf "    grp.%sGrp |> Option.iter (fun xs -> xs |> List.iter (Write%sGrp strm))    // group WRITE THE NOGROUP FIELD" name name
+                ) // end List.map
+
+
 
 
 let private genGroupWriterFunc (sw:StreamWriter) (grp:Group) =
-    let grpName = grp.GName
+    sw.WriteLine "// group"
+    let (GroupLongName grpName) = GroupUtils.makeLongName grp
     let funcSig = sprintf "let Write%sGrp (strm:System.IO.Stream) (grp:%sGrp) =" grpName grpName 
     sw.WriteLine funcSig
     // todo: check the fix spec regarding required fields in groups that might be optional? how can reading work if fields can be missing?
-    let writeGroupFuncStrs = 
-        grp.Items |> List.map (fun item ->
-                    match item with
-                    | FIXItem.Field fld     ->  match fld.Required with
-                                                | Required.Required     ->  sprintf "    Write%s strm grp.%s" fld.FName fld.FName
-                                                | Required.NotRequired  ->  sprintf "    grp.%s |> Option.iter (Write%s strm)" fld.FName fld.FName
-                    | FIXItem.Component cmp ->  "    // grp component writer func not implemented"
-                    | FIXItem.Group grp     ->  "    // grp subgroup writer func not implemented"
-                    ) // end List.map
+    let writeGroupFuncStrs = genItemListWriterStrs grp.Items
+    writeGroupFuncStrs |> List.iter sw.WriteLine
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+let private genComponentWriterFunc (sw:StreamWriter) (cmp:Component) =
+    sw.WriteLine "// component"
+    let (ComponentName name) = cmp.CName
+    let funcSig = sprintf "let Write%s (strm:System.IO.Stream) (grp:%s) =" name name  // todo, don't call a component instance a group
+    sw.WriteLine funcSig
+    let writeGroupFuncStrs = genItemListWriterStrs cmp.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine
     sw.WriteLine ""
     sw.WriteLine ""
 
 
+
 let private funcx (sw:StreamWriter) (ci:CompoundItem) =
     match ci with
     | CompoundItem.Group grp        -> genGroupWriterFunc sw grp
-    | CompoundItem.Component cmp    -> ()
+    | CompoundItem.Component cmp    -> genComponentWriterFunc sw cmp
     
 
 

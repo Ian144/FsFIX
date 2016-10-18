@@ -127,7 +127,7 @@ let main _ =
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
 
-    printfn "press any key to exit"
-    stdin.Read() |> ignore
+//    printfn "press any key to exit"
+//    stdin.Read() |> ignore
 
     0 // integer exit code
