@@ -1,6 +1,5 @@
 ﻿module ReadWriteFuncs
 
-
 open System.IO
 
 
@@ -16,9 +15,9 @@ let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
 [<AbstractClass;Sealed>]
 type ToBytes private () =
     static member Convert (str:string) = sToB str
-    static member Convert (ii:int32)   = sprintf "%d" ii |> sToB            // what is FIX byte representation endianness
-    static member Convert (dd:decimal) = sprintf "%.32f" dd |> sToB         // todo: is "%.32f" ok for Decimal->string conversion, how does fix represent such types? what is thier byte representation
-    static member Convert (bb:bool)    = if bb then "true"B else "false"B   // todo: confirm "true" and "false" strings are how FIX sends bools down the wire
+    static member Convert (ii:int32)   = sprintf "%d" ii |> sToB     // todo: what is FIX byte representation endianness
+    static member Convert (dd:decimal) = sprintf "%.32f" dd |> sToB  // todo: is "%.32f" ok for Decimal->string conversion, how does fix represent such types? what is thier byte representation
+    static member Convert (bb:bool)    = if bb then "1"B else "0"B   // todo: confirm this is how FIX sends bools down the wire
 
 
 type Stream with
@@ -29,7 +28,7 @@ type Stream with
 let CrapReadUntilDelim (strm:Stream) : string =
     let rec innerRead () : int list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
-        | -1    ->  let buf = Array.zeroCreate<byte> 99
+        | -1    ->  let buf = Array.zeroCreate<byte> 999
                     let n = strm.Read(buf, 0, buf.Length)
                     failwith "unexpected end of stream"
         |  1    ->  []

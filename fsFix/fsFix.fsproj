@@ -45,12 +45,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
-    <Compile Include="ReadWriteFuncs.fs" />
+    <Compile Include="SocketIOUtils.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadWriteFuncs.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
     <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
     <Compile Include="Fix44.Messages.fs" />
+    <Compile Include="Fix44.MsgWriteFuncs.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
