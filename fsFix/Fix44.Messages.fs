@@ -1,5 +1,6 @@
 module Fix44.Messages
 
+open OneOrTwo
 open Fix44.Fields
 open Fix44.CompoundItems
 
@@ -1084,7 +1085,7 @@ type NewOrderCross = {
     CrossID: CrossID
     CrossType: CrossType
     CrossPrioritization: CrossPrioritization
-    NoSidesGrp: NoSidesGrp OneOrTwo.OneOrTwo // group
+    NoSidesGrp: NoSidesGrp OneOrTwo // group
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
@@ -1134,7 +1135,7 @@ type CrossOrderCancelReplaceRequest = {
     OrigCrossID: OrigCrossID
     CrossType: CrossType
     CrossPrioritization: CrossPrioritization
-    CrossOrderCancelReplaceRequest_NoSidesGrp: CrossOrderCancelReplaceRequest_NoSidesGrp OneOrTwo.OneOrTwo // group
+    CrossOrderCancelReplaceRequest_NoSidesGrp: CrossOrderCancelReplaceRequest_NoSidesGrp OneOrTwo // group
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
@@ -1184,7 +1185,7 @@ type CrossOrderCancelRequest = {
     OrigCrossID: OrigCrossID
     CrossType: CrossType
     CrossPrioritization: CrossPrioritization
-    CrossOrderCancelRequest_NoSidesGrp: CrossOrderCancelRequest_NoSidesGrp OneOrTwo.OneOrTwo // group
+    CrossOrderCancelRequest_NoSidesGrp: CrossOrderCancelRequest_NoSidesGrp OneOrTwo // group
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
@@ -1848,7 +1849,7 @@ type TradeCaptureReport = {
     SettlDate: SettlDate option
     MatchStatus: MatchStatus option
     MatchType: MatchType option
-    TradeCaptureReport_NoSidesGrp: TradeCaptureReport_NoSidesGrp OneOrTwo.OneOrTwo // group
+    TradeCaptureReport_NoSidesGrp: TradeCaptureReport_NoSidesGrp OneOrTwo // group
     CopyMsgIndicator: CopyMsgIndicator option
     PublishTrdIndicator: PublishTrdIndicator option
     ShortSaleReason: ShortSaleReason option
@@ -2266,104 +2267,4 @@ type CollateralReport = {
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     SettlSessID: SettlSessID option
-    SettlSessSubID: SettlSessSubID option
-    ClearingBusinessDate: ClearingBusinessDate option
-    Text: Text option
-    EncodedText: EncodedText option
-    }
-
-type CollateralInquiry = {
-    CollInquiryID: CollInquiryID option
-    NoCollInquiryQualifierGrp: NoCollInquiryQualifierGrp list option // group
-    SubscriptionRequestType: SubscriptionRequestType option
-    ResponseTransportType: ResponseTransportType option
-    ResponseDestination: ResponseDestination option
-    Parties: Parties option // component
-    Account: Account option
-    AccountType: AccountType option
-    ClOrdID: ClOrdID option
-    OrderID: OrderID option
-    SecondaryOrderID: SecondaryOrderID option
-    SecondaryClOrdID: SecondaryClOrdID option
-    NoExecsGrp: NoExecsGrp list option // group
-    NoTradesGrp: NoTradesGrp list option // group
-    Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
-    SettlDate: SettlDate option
-    Quantity: Quantity option
-    QtyType: QtyType option
-    Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
-    NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    MarginExcess: MarginExcess option
-    TotalNetValue: TotalNetValue option
-    CashOutstanding: CashOutstanding option
-    TrdRegTimestamps: TrdRegTimestamps option // component
-    Side: Side option
-    Price: Price option
-    PriceType: PriceType option
-    AccruedInterestAmt: AccruedInterestAmt option
-    EndAccruedInterestAmt: EndAccruedInterestAmt option
-    StartCash: StartCash option
-    EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
-    SettlInstructionsData: SettlInstructionsData option // component
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    SettlSessID: SettlSessID option
-    SettlSessSubID: SettlSessSubID option
-    ClearingBusinessDate: ClearingBusinessDate option
-    Text: Text option
-    EncodedText: EncodedText option
-    }
-
-type NetworkStatusRequest = {
-    NetworkRequestType: NetworkRequestType
-    NetworkRequestID: NetworkRequestID
-    NoCompIDsGrp: NoCompIDsGrp list option // group
-    }
-
-type NetworkStatusResponse = {
-    NetworkStatusResponseType: NetworkStatusResponseType
-    NetworkRequestID: NetworkRequestID option
-    NetworkResponseID: NetworkResponseID option
-    LastNetworkResponseID: LastNetworkResponseID option
-    NetworkStatusResponse_NoCompIDsGrp: NetworkStatusResponse_NoCompIDsGrp list // group
-    }
-
-type CollateralInquiryAck = {
-    CollInquiryID: CollInquiryID
-    CollInquiryStatus: CollInquiryStatus
-    CollInquiryResult: CollInquiryResult option
-    NoCollInquiryQualifierGrp: NoCollInquiryQualifierGrp list option // group
-    TotNumReports: TotNumReports option
-    Parties: Parties option // component
-    Account: Account option
-    AccountType: AccountType option
-    ClOrdID: ClOrdID option
-    OrderID: OrderID option
-    SecondaryOrderID: SecondaryOrderID option
-    SecondaryClOrdID: SecondaryClOrdID option
-    NoExecsGrp: NoExecsGrp list option // group
-    NoTradesGrp: NoTradesGrp list option // group
-    Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
-    SettlDate: SettlDate option
-    Quantity: Quantity option
-    QtyType: QtyType option
-    Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
-    NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
-    TradingSessionID: TradingSessionID option
-    TradingSessionSubID: TradingSessionSubID option
-    SettlSessID: SettlSessID option
-    SettlSessSubID: SettlSessSubID option
-    ClearingBusinessDate: ClearingBusinessDate option
-    ResponseTransportType: ResponseTransportType option
-    ResponseDestination: ResponseDestination option
-    Text: Text option
-    EncodedText: EncodedText option
-    }
+    Set

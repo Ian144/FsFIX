@@ -16,7 +16,7 @@ let Read (parentXL:XElement) =
         let msgType = gas msgXL "msgtype"
         let msgCat = gas msgXL "msgcat"
         let items = ParsingFuncs.ReadItems [msgName] msgXL
-        yield {MName = msgName; Type = msgType; Cat = msgCat; Items = items}
+        yield {MName = msgName; Tag = msgType; Cat = msgCat; Items = items}
     ]
 
 
@@ -35,6 +35,7 @@ let private writeMsg (sw:StreamWriter) (msg:Msg)  =
 let Gen (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.Messages"
     sw.WriteLine ""
+    sw.WriteLine "open OneOrTwo"
     sw.WriteLine "open Fix44.Fields"
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
@@ -57,6 +58,7 @@ let GenWriteFuncs (groups:Msg list) (sw:StreamWriter) =
     // generate the group write functions todo: generate group read funcs
     sw.WriteLine "module Fix44.MsgWriteFuncs"
     sw.WriteLine ""
+    sw.WriteLine "open OneOrTwo"
     sw.WriteLine "open Fix44.Fields"
     sw.WriteLine "open Fix44.FieldReadWriteFuncs"
     sw.WriteLine "open Fix44.CompoundItems"

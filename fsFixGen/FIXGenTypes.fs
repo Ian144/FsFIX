@@ -33,7 +33,7 @@ and Group = { GName:string; Parents:string list; Required:Required; Items: FIXIt
 
 
 
-type Msg = {MName:string; Type:string; Cat:string; Items: FIXItem list}
+type Msg = {MName:string; Tag:string; Cat:string; Items: FIXItem list}
 
 
 

@@ -7,7 +7,7 @@ open FIXGenTypes
 
 
 // used for building the FIXItem definition string for messages, groups and components
-let makeItemStr (item:FIXItem) = 
+let private makeItemStr (item:FIXItem) = 
     match item with
     | FIXItem.Field fld     ->      match fld.Required with
                                     | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
@@ -21,8 +21,8 @@ let makeItemStr (item:FIXItem) =
                                     match isSidesGroup, grp.Required with
                                     | false, Required.Required     ->  sprintf "    %sGrp: %sGrp list // group" grpNameInner grpNameInner
                                     | false, Required.NotRequired  ->  sprintf "    %sGrp: %sGrp list option // group" grpNameInner grpNameInner
-                                    | true,  Required.Required     ->  sprintf "    %sGrp: %sGrp OneOrTwo.OneOrTwo // group" grpNameInner grpNameInner
-                                    | true,  Required.NotRequired  ->  sprintf "    %sGrp: %sGrp OneOrTwo.OneOrTwo option // group" grpNameInner grpNameInner
+                                    | true,  Required.Required     ->  sprintf "    %sGrp: %sGrp OneOrTwo // group" grpNameInner grpNameInner
+                                    | true,  Required.NotRequired  ->  sprintf "    %sGrp: %sGrp OneOrTwo option // group" grpNameInner grpNameInner
     
 
 
@@ -50,8 +50,8 @@ let private genWriteGroup (parent:string) (grp:Group) =
         [
                        "    let noSidesField =  // ####";
             (sprintf   "        match %s.%sGrp with" parent longName);
-                       "        | OneOrTwo.OneOrTwo.One _ -> NoSides.OneSide";
-                       "        | OneOrTwo.OneOrTwo.Two _ -> NoSides.BothSides";
+                       "        | OneOrTwo.One _ -> NoSides.OneSide";
+                       "        | OneOrTwo.Two _ -> NoSides.BothSides";
                        "    WriteNoSides strm noSidesField";
             (sprintf   "    grp.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
         ]
@@ -101,8 +101,7 @@ let genItemListWriterStrs (items:FIXItem list) =
                                                 match cmp.Required with
                                                 | Required.Required     ->  [sprintf "    Write%s strm grp.%s    // component" name name]
                                                 | Required.NotRequired  ->  [sprintf "    grp.%s |> Option.iter (Write%s strm) // component" name name]
-                | FIXItem.Group grp         ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
-                                                match grp.Required with
+                | FIXItem.Group grp         ->  match grp.Required with
                                                 | Required.Required     ->  genWriteGroup "grp" grp
                                                 | Required.NotRequired  ->  genWriteOptionalGroup "grp" grp
                 ) // end List.map
