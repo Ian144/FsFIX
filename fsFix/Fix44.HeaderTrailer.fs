@@ -30,7 +30,7 @@ type Header = {
     XmlData: XmlData option
     MessageEncoding: MessageEncoding option
     LastMsgSeqNumProcessed: LastMsgSeqNumProcessed option
-    Header_NoHopsGrp: Header_NoHopsGrp list option // group
+    NoHopsGrp: NoHopsGrp list option // group
     }
 
 type Trailer = {

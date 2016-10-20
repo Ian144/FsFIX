@@ -49,11 +49,6 @@ let main _ =
     let xpthTrl = doc.XPathSelectElement "fix/trailer"
     let trl = HeaderTrailerGenerator.ReadTrailer lenFieldNames xpthTrl
 
-    printfn "generating header and trailer F# types"
-    use swHdrTrlr = new StreamWriter (MkOutpath "Fix44.HeaderTrailer.fs")
-    HeaderTrailerGenerator.genHeader swHdrTrlr hdr trl
-
-
     printfn "reading components"
     let xpthMsgs = doc.XPathSelectElement "fix/components"
     let components = ComponentGenerator.Read xpthMsgs
@@ -70,10 +65,11 @@ let main _ =
 
 
     printfn "merging groups"
-    let allCompoundItems = 
+    let headerTrailerCompoundItems = CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap (hdr.HItems @ trl.TItems)
+    let msgCompoundItems = 
         [   for msg in msgs do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap msg.Items    ]
-    
+    let allCompoundItems = headerTrailerCompoundItems @ msgCompoundItems
     let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
 
 
@@ -98,7 +94,16 @@ let main _ =
                                         |> List.map (fun cmp -> cmp.CName, cmp)
                                         |> Map.ofList
 
+    
+    printfn "updating header and trailer to use merged groups"  // there is only one group in the header, none in the trailer. 
+    let hdrItemsAfterGroupMerge = hdr.HItems |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
+    let hdrAfterGroupMerge = {hdr with HItems = hdrItemsAfterGroupMerge}
+    printfn "generating header and trailer F# types"
+    use swHdrTrlr = new StreamWriter (MkOutpath "Fix44.HeaderTrailer.fs")
+    HeaderTrailerGenerator.genHeader swHdrTrlr hdrAfterGroupMerge trl
+
     printfn "updating messages to use merged groups"  
+
     let msgsAfterGroupMerge =
             [   for msg in msgs do
                 let items2 =  msg.Items 
@@ -108,11 +113,13 @@ let main _ =
 
 
     printfn "determining dependency order for groups and components"
-    let allCompoundItemsAfterGroupMerge = 
+    let msgCompoundItemsAfterGroupMerge = 
         [   for msg in msgsAfterGroupMerge do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
         |> List.distinct 
-
+    
+    let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
+    let allCompoundItemsAfterGroupMerge = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
 
     // extract the components and groups refered to in messages
     // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
@@ -144,7 +151,7 @@ let main _ =
 
 
 
-//    printfn "press any key to exit"
-//    stdin.Read() |> ignore
+    printfn "press any key to exit"
+    stdin.Read() |> ignore
 
     0 // integer exit code

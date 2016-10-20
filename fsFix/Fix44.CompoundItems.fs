@@ -1603,6 +1603,13 @@ type NetworkStatusResponse_NoCompIDsGrp = {
     StatusText: StatusText option
     }
 
+// group
+type NoHopsGrp = {
+    HopCompID: HopCompID option
+    HopSendingTime: HopSendingTime option
+    HopRefID: HopRefID option
+    }
+
 
 type FIXGroup =
     | Advertisement_NoUnderlyingsGrp of Advertisement_NoUnderlyingsGrp
@@ -1651,6 +1658,7 @@ type FIXGroup =
     | NoDlvyInstGrp of NoDlvyInstGrp
     | NoEventsGrp of NoEventsGrp
     | NoExecsGrp of NoExecsGrp
+    | NoHopsGrp of NoHopsGrp
     | NoIOIQualifiersGrp of NoIOIQualifiersGrp
     | NoInstrAttribGrp of NoInstrAttribGrp
     | NoLegAllocsGrp of NoLegAllocsGrp

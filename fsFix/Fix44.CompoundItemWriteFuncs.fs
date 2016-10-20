@@ -1763,3 +1763,10 @@ let WriteNetworkStatusResponse_NoCompIDsGrp (strm:System.IO.Stream) (grp:Network
     grp.StatusText |> Option.iter (WriteStatusText strm)
 
 
+// group
+let WriteNoHopsGrp (strm:System.IO.Stream) (grp:NoHopsGrp) =
+    grp.HopCompID |> Option.iter (WriteHopCompID strm)
+    grp.HopSendingTime |> Option.iter (WriteHopSendingTime strm)
+    grp.HopRefID |> Option.iter (WriteHopRefID strm)
+
+
