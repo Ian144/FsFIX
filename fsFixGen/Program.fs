@@ -31,6 +31,7 @@ let main _ =
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)
     let doc = XDocument.Parse fixXml
 
+
     let xpthFields = doc.XPathSelectElement "fix/fields"
     use swFixFields = new StreamWriter (MkOutpath "Fix44.Fields.fs")
     use swFieldReadWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadWriteFuncs.fs")
@@ -39,6 +40,19 @@ let main _ =
     let fieldData = FieldGenerator.ParseFieldData2 xpthFields 
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fieldData
     FieldGenerator.Gen mergedFields swFixFields swFieldReadWriteFuncs
+
+    printfn "read header"
+    let xpthHrd = doc.XPathSelectElement "fix/header"
+    let hdr = HeaderTrailerGenerator.ReadHeader lenFieldNames xpthHrd
+    
+    printfn "read trailer"
+    let xpthTrl = doc.XPathSelectElement "fix/trailer"
+    let trl = HeaderTrailerGenerator.ReadTrailer lenFieldNames xpthTrl
+
+    printfn "generating header and trailer F# types"
+    use swHdrTrlr = new StreamWriter (MkOutpath "Fix44.HeaderTrailer.fs")
+    HeaderTrailerGenerator.genHeader swHdrTrlr hdr trl
+
 
     printfn "reading components"
     let xpthMsgs = doc.XPathSelectElement "fix/components"
@@ -119,14 +133,15 @@ let main _ =
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
-    printfn "generating message F# source"
+    printfn "generating message F# types"
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
 
 
     printfn "generating message writer funcs"
-    use swMsgs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
-    MessageGenerator.GenWriteFuncs msgsAfterGroupMerge swMsgs
+    use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
+    MessageGenerator.GenWriteFuncs msgsAfterGroupMerge swMsgFuncs
+
 
 
 //    printfn "press any key to exit"

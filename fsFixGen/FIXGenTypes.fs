@@ -40,10 +40,13 @@ type Msg = {MName:string; Tag:string; Cat:string; Items: FIXItem list}
 type Component = {CName:ComponentName; Items: FIXItem list}
 
 
-
 // Groups can refer to Components, and Components can refer to Groups, need a type 
 // that can hold either when generating groups and components in dependency order.
 // FIXItem cannot do this as it holds a ComponentRef (which contains no dependency information, just a name) not a Component
 type CompoundItem = Component of Component | Group of Group
 
 
+type Header = {HItems: FIXItem list}
+
+
+type Trailer = {TItems: FIXItem list}

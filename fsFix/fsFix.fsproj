@@ -52,6 +52,7 @@
     <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
     <Compile Include="Fix44.Messages.fs" />
     <Compile Include="Fix44.MsgWriteFuncs.fs" />
+    <Compile Include="Fix44.HeaderTrailer.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

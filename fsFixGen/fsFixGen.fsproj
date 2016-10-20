@@ -61,6 +61,7 @@
     <Compile Include="CommonGenerator.fs" />
     <Compile Include="ComponentGenerator.fs" />
     <Compile Include="CompoundItemGenerator.fs" />
+    <Compile Include="HeaderTrailerGenerator.fs" />
     <Compile Include="MessageGenerator.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

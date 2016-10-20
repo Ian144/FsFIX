@@ -31,7 +31,6 @@ let private writeMsg (sw:StreamWriter) (msg:Msg)  =
     sw.WriteLine ""
 
 
-
 let Gen (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.Messages"
     sw.WriteLine ""

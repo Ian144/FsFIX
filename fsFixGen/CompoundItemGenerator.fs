@@ -5,8 +5,6 @@ open FIXGenTypes
 
 
 
-
-
 let private writeComponent (cmp:Component) (sw:StreamWriter) = 
     sw.WriteLine ""
     sw.WriteLine "// component"
