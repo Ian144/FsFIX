@@ -9,7 +9,7 @@ open Fix44.Messages
 
 
 // tag: A
-let WriteLogon (xx:Logon) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (strm:System.IO.Stream) = 
+let WriteLogon (xx:Logon) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (strm:ResizeArray<byte>) = 
     WriteEncryptMethod strm xx.EncryptMethod
     WriteHeartBtInt strm xx.HeartBtInt
     xx.RawDataLength |> Option.iter (WriteRawDataLength strm)

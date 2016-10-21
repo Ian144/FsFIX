@@ -37,6 +37,20 @@ type FieldData3 = SimpleField of RawField | CompoundField of CompoundField
 
 
 
+let private createFieldDUWriterFunc (typeName:string) (fixTag:int) (values:FieldValue list) = 
+    let lines = [
+        yield (sprintf "let Write%s (strm:Stream) (xxIn:%s) =" typeName typeName)
+        yield (sprintf "    match xxIn with")
+        for vv in values do
+        yield (sprintf "    | %s.%s ->"  typeName vv.Description)
+        yield (sprintf "        let tag = \"%d=%s\"B"  fixTag  vv.Enum)
+        yield (sprintf "        strm.Write tag;")
+        yield (sprintf "        strm.Write (delim, 0, 1)")
+//        yield (sprintf "        tag.Length + 1 // delim is 1 byte long")
+        ]
+    lines  |> Utils.joinStrs "\n"
+
+
 
 let private createFieldDUWithValues (typeName:string) (fixTag:int) (values:FieldValue list) =
     let typeStr = sprintf "type %s =" typeName
@@ -51,9 +65,7 @@ let private createFieldDUWithValues (typeName:string) (fixTag:int) (values:Field
             readerFuncErrMsg +
             """ %A"  x) """
     let readerFunc = seq{ yield readerFuncBeg; yield! readerFuncMatchLines; yield readerFuncFailureCase } |> Utils.joinStrs "\n"
-    let writerFuncBeg = sprintf "let Write%s (strm:Stream) (xxIn:%s) =\n    match xxIn with" typeName typeName
-    let writerFuncMatchLines = values |> List.map (fun vv -> sprintf "    | %s.%s -> strm.Write \"%d=%s\"B; strm.Write (delim, 0, 1)" typeName vv.Description fixTag vv.Enum  )
-    let writerFunc = seq{ yield writerFuncBeg; yield! writerFuncMatchLines } |> Utils.joinStrs "\n"
+    let writerFunc = createFieldDUWriterFunc typeName fixTag values
     typeStr, readerFunc, writerFunc
 
 
@@ -105,10 +117,26 @@ let private getParseFuncString (typeName:string) =
 
 
 
+
+
+let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
+    let lines = 
+            [
+                sprintf "let Write%s (strm:Stream) (valIn:%s) = " typeName typeName
+                sprintf "   let tag = \"%d=\"B" fixTag
+                sprintf "   strm.Write tag"
+                sprintf "   let bs = ToBytes.Convert(valIn.Value)"
+                sprintf "   strm.Write bs"
+                sprintf "   strm.Write (delim, 0, 1)"
+//                sprintf "   tag.Length + bs.Length + 1 // delim is 1 byte long" 
+            ]
+    Utils.joinStrs "\n" lines
+
 let private makeSingleCaseDU (typeName:string) (fixTag:int) (fsharpInnerType:string) =
     let typeStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" typeName typeName fsharpInnerType typeName
     let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
-    let writerFunc = sprintf "let Write%s (strm:Stream) (valIn:%s) = \n    let tag = \"%d=\"B\n    strm.Write tag\n    let bs = ToBytes.Convert(valIn.Value)\n    strm.Write bs\n    strm.Write (delim, 0, 1)" typeName typeName fixTag
+//    let writerFunc = sprintf "let Write%s (strm:Stream) (valIn:%s) = \n    let tag = \"%d=\"B\n    strm.Write tag\n    let bs = ToBytes.Convert(valIn.Value)\n    strm.Write bs\n    strm.Write (delim, 0, 1)" typeName typeName fixTag
+    let writerFunc = makeSingleCaseDUWriterFunc typeName fixTag
     typeStr, readerFunc, writerFunc
 
 
@@ -245,16 +273,20 @@ let private createLenStrFieldReadFunction (fld:CompoundField) =
 
 let private createLenStrFieldWriteFunction (fld:CompoundField) =
     let lines = [   
-            sprintf "// compound write"
+            sprintf "// compound write, of a length field and the corresponding string field"
             sprintf "let Write%s (strm:System.IO.Stream) (fld:%s) =" fld.Name fld.Name
             sprintf "    let lenTag = \"%d=\"B" fld.LenField.FixTag
-            sprintf "    strm.Write lenTag"
-            sprintf "    strm.Write (ToBytes.Convert fld.Value.Length)"
+            sprintf "    strm.Write lenTag"                    
+            sprintf "    let lenBs = ToBytes.Convert fld.Value.Length"
+            sprintf "    strm.Write lenBs"
             sprintf "    strm.Write (delim, 0, 1)"
+            
             sprintf "    let strTag = \"%d=\"B" fld.StrField.FixTag
             sprintf "    strm.Write strTag"
-            sprintf "    strm.Write (ToBytes.Convert fld.Value)" 
+            sprintf "    let strBs = ToBytes.Convert fld.Value" 
+            sprintf "    strm.Write strBs" 
             sprintf "    strm.Write (delim, 0, 1)" 
+//            sprintf "    lenTag.Length + lenBs.Length + strTag.Length + strBs.Length + 2 // there are 2 delims" 
         ]
     Utils.joinStrs "\n" lines
 

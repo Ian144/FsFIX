@@ -12,11 +12,11 @@ let ReadAccount valIn =
 
 
 let WriteAccount (strm:Stream) (valIn:Account) = 
-    let tag = "1="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "1="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAdvId valIn =
@@ -25,11 +25,11 @@ let ReadAdvId valIn =
 
 
 let WriteAdvId (strm:Stream) (valIn:AdvId) = 
-    let tag = "2="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "2="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAdvRefID valIn =
@@ -38,11 +38,11 @@ let ReadAdvRefID valIn =
 
 
 let WriteAdvRefID (strm:Stream) (valIn:AdvRefID) = 
-    let tag = "3="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "3="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAdvSide (fldValIn:string) : AdvSide = 
@@ -56,10 +56,22 @@ let ReadAdvSide (fldValIn:string) : AdvSide =
 
 let WriteAdvSide (strm:Stream) (xxIn:AdvSide) =
     match xxIn with
-    | AdvSide.Buy -> strm.Write "4=B"B; strm.Write (delim, 0, 1)
-    | AdvSide.Sell -> strm.Write "4=S"B; strm.Write (delim, 0, 1)
-    | AdvSide.Cross -> strm.Write "4=X"B; strm.Write (delim, 0, 1)
-    | AdvSide.Trade -> strm.Write "4=T"B; strm.Write (delim, 0, 1)
+    | AdvSide.Buy ->
+        let tag = "4=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdvSide.Sell ->
+        let tag = "4=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdvSide.Cross ->
+        let tag = "4=X"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdvSide.Trade ->
+        let tag = "4=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAdvTransType (fldValIn:string) : AdvTransType = 
@@ -72,9 +84,18 @@ let ReadAdvTransType (fldValIn:string) : AdvTransType =
 
 let WriteAdvTransType (strm:Stream) (xxIn:AdvTransType) =
     match xxIn with
-    | AdvTransType.New -> strm.Write "5=N"B; strm.Write (delim, 0, 1)
-    | AdvTransType.Cancel -> strm.Write "5=C"B; strm.Write (delim, 0, 1)
-    | AdvTransType.Replace -> strm.Write "5=R"B; strm.Write (delim, 0, 1)
+    | AdvTransType.New ->
+        let tag = "5=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdvTransType.Cancel ->
+        let tag = "5=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdvTransType.Replace ->
+        let tag = "5=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAvgPx valIn =
@@ -83,11 +104,11 @@ let ReadAvgPx valIn =
 
 
 let WriteAvgPx (strm:Stream) (valIn:AvgPx) = 
-    let tag = "6="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "6="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBeginSeqNo valIn =
@@ -96,11 +117,11 @@ let ReadBeginSeqNo valIn =
 
 
 let WriteBeginSeqNo (strm:Stream) (valIn:BeginSeqNo) = 
-    let tag = "7="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "7="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBeginString valIn =
@@ -109,11 +130,11 @@ let ReadBeginString valIn =
 
 
 let WriteBeginString (strm:Stream) (valIn:BeginString) = 
-    let tag = "8="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "8="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBodyLength valIn =
@@ -122,11 +143,11 @@ let ReadBodyLength valIn =
 
 
 let WriteBodyLength (strm:Stream) (valIn:BodyLength) = 
-    let tag = "9="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "9="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCheckSum valIn =
@@ -135,11 +156,11 @@ let ReadCheckSum valIn =
 
 
 let WriteCheckSum (strm:Stream) (valIn:CheckSum) = 
-    let tag = "10="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "10="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadClOrdID valIn =
@@ -148,11 +169,11 @@ let ReadClOrdID valIn =
 
 
 let WriteClOrdID (strm:Stream) (valIn:ClOrdID) = 
-    let tag = "11="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "11="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCommission valIn =
@@ -161,11 +182,11 @@ let ReadCommission valIn =
 
 
 let WriteCommission (strm:Stream) (valIn:Commission) = 
-    let tag = "12="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "12="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCommType (fldValIn:string) : CommType = 
@@ -181,12 +202,30 @@ let ReadCommType (fldValIn:string) : CommType =
 
 let WriteCommType (strm:Stream) (xxIn:CommType) =
     match xxIn with
-    | CommType.PerUnit -> strm.Write "13=1"B; strm.Write (delim, 0, 1)
-    | CommType.Percentage -> strm.Write "13=2"B; strm.Write (delim, 0, 1)
-    | CommType.Absolute -> strm.Write "13=3"B; strm.Write (delim, 0, 1)
-    | CommType.PercentageWaivedCashDiscount -> strm.Write "13=4"B; strm.Write (delim, 0, 1)
-    | CommType.PercentageWaivedEnhancedUnits -> strm.Write "13=5"B; strm.Write (delim, 0, 1)
-    | CommType.PointsPerBondOrOrContract -> strm.Write "13=6"B; strm.Write (delim, 0, 1)
+    | CommType.PerUnit ->
+        let tag = "13=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CommType.Percentage ->
+        let tag = "13=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CommType.Absolute ->
+        let tag = "13=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CommType.PercentageWaivedCashDiscount ->
+        let tag = "13=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CommType.PercentageWaivedEnhancedUnits ->
+        let tag = "13=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CommType.PointsPerBondOrOrContract ->
+        let tag = "13=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCumQty valIn =
@@ -195,11 +234,11 @@ let ReadCumQty valIn =
 
 
 let WriteCumQty (strm:Stream) (valIn:CumQty) = 
-    let tag = "14="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "14="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCurrency valIn =
@@ -208,11 +247,11 @@ let ReadCurrency valIn =
 
 
 let WriteCurrency (strm:Stream) (valIn:Currency) = 
-    let tag = "15="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "15="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEndSeqNo valIn =
@@ -221,11 +260,11 @@ let ReadEndSeqNo valIn =
 
 
 let WriteEndSeqNo (strm:Stream) (valIn:EndSeqNo) = 
-    let tag = "16="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "16="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExecID valIn =
@@ -234,11 +273,11 @@ let ReadExecID valIn =
 
 
 let WriteExecID (strm:Stream) (valIn:ExecID) = 
-    let tag = "17="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "17="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExecInst (fldValIn:string) : ExecInst = 
@@ -289,47 +328,170 @@ let ReadExecInst (fldValIn:string) : ExecInst =
 
 let WriteExecInst (strm:Stream) (xxIn:ExecInst) =
     match xxIn with
-    | ExecInst.NotHeld -> strm.Write "18=1"B; strm.Write (delim, 0, 1)
-    | ExecInst.Work -> strm.Write "18=2"B; strm.Write (delim, 0, 1)
-    | ExecInst.GoAlong -> strm.Write "18=3"B; strm.Write (delim, 0, 1)
-    | ExecInst.OverTheDay -> strm.Write "18=4"B; strm.Write (delim, 0, 1)
-    | ExecInst.Held -> strm.Write "18=5"B; strm.Write (delim, 0, 1)
-    | ExecInst.ParticipateDontInitiate -> strm.Write "18=6"B; strm.Write (delim, 0, 1)
-    | ExecInst.StrictScale -> strm.Write "18=7"B; strm.Write (delim, 0, 1)
-    | ExecInst.TryToScale -> strm.Write "18=8"B; strm.Write (delim, 0, 1)
-    | ExecInst.StayOnBidside -> strm.Write "18=9"B; strm.Write (delim, 0, 1)
-    | ExecInst.StayOnOfferside -> strm.Write "18=0"B; strm.Write (delim, 0, 1)
-    | ExecInst.NoCross -> strm.Write "18=A"B; strm.Write (delim, 0, 1)
-    | ExecInst.OkToCross -> strm.Write "18=B"B; strm.Write (delim, 0, 1)
-    | ExecInst.CallFirst -> strm.Write "18=C"B; strm.Write (delim, 0, 1)
-    | ExecInst.PercentOfVolume -> strm.Write "18=D"B; strm.Write (delim, 0, 1)
-    | ExecInst.DoNotIncrease -> strm.Write "18=E"B; strm.Write (delim, 0, 1)
-    | ExecInst.DoNotReduce -> strm.Write "18=F"B; strm.Write (delim, 0, 1)
-    | ExecInst.AllOrNone -> strm.Write "18=G"B; strm.Write (delim, 0, 1)
-    | ExecInst.ReinstateOnSystemFailure -> strm.Write "18=H"B; strm.Write (delim, 0, 1)
-    | ExecInst.InstitutionsOnly -> strm.Write "18=I"B; strm.Write (delim, 0, 1)
-    | ExecInst.ReinstateOnTradingHalt -> strm.Write "18=J"B; strm.Write (delim, 0, 1)
-    | ExecInst.CancelOnTradingHalt -> strm.Write "18=K"B; strm.Write (delim, 0, 1)
-    | ExecInst.LastPeg -> strm.Write "18=L"B; strm.Write (delim, 0, 1)
-    | ExecInst.MidPrice -> strm.Write "18=M"B; strm.Write (delim, 0, 1)
-    | ExecInst.NonNegotiable -> strm.Write "18=N"B; strm.Write (delim, 0, 1)
-    | ExecInst.OpeningPeg -> strm.Write "18=O"B; strm.Write (delim, 0, 1)
-    | ExecInst.MarketPeg -> strm.Write "18=P"B; strm.Write (delim, 0, 1)
-    | ExecInst.CancelOnSystemFailure -> strm.Write "18=Q"B; strm.Write (delim, 0, 1)
-    | ExecInst.PrimaryPeg -> strm.Write "18=R"B; strm.Write (delim, 0, 1)
-    | ExecInst.Suspend -> strm.Write "18=S"B; strm.Write (delim, 0, 1)
-    | ExecInst.FixedPegToLocalBestBidOrOfferAtTimeOfOrder -> strm.Write "18=T"B; strm.Write (delim, 0, 1)
-    | ExecInst.CustomerDisplayInstruction -> strm.Write "18=U"B; strm.Write (delim, 0, 1)
-    | ExecInst.Netting -> strm.Write "18=V"B; strm.Write (delim, 0, 1)
-    | ExecInst.PegToVwap -> strm.Write "18=W"B; strm.Write (delim, 0, 1)
-    | ExecInst.TradeAlong -> strm.Write "18=X"B; strm.Write (delim, 0, 1)
-    | ExecInst.TryToStop -> strm.Write "18=Y"B; strm.Write (delim, 0, 1)
-    | ExecInst.CancelIfNotBest -> strm.Write "18=Z"B; strm.Write (delim, 0, 1)
-    | ExecInst.TrailingStopPeg -> strm.Write "18=a"B; strm.Write (delim, 0, 1)
-    | ExecInst.StrictLimit -> strm.Write "18=b"B; strm.Write (delim, 0, 1)
-    | ExecInst.IgnorePriceValidityChecks -> strm.Write "18=c"B; strm.Write (delim, 0, 1)
-    | ExecInst.PegToLimitPrice -> strm.Write "18=d"B; strm.Write (delim, 0, 1)
-    | ExecInst.WorkToTargetStrategy -> strm.Write "18=e"B; strm.Write (delim, 0, 1)
+    | ExecInst.NotHeld ->
+        let tag = "18=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.Work ->
+        let tag = "18=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.GoAlong ->
+        let tag = "18=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.OverTheDay ->
+        let tag = "18=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.Held ->
+        let tag = "18=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.ParticipateDontInitiate ->
+        let tag = "18=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.StrictScale ->
+        let tag = "18=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.TryToScale ->
+        let tag = "18=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.StayOnBidside ->
+        let tag = "18=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.StayOnOfferside ->
+        let tag = "18=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.NoCross ->
+        let tag = "18=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.OkToCross ->
+        let tag = "18=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.CallFirst ->
+        let tag = "18=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.PercentOfVolume ->
+        let tag = "18=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.DoNotIncrease ->
+        let tag = "18=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.DoNotReduce ->
+        let tag = "18=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.AllOrNone ->
+        let tag = "18=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.ReinstateOnSystemFailure ->
+        let tag = "18=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.InstitutionsOnly ->
+        let tag = "18=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.ReinstateOnTradingHalt ->
+        let tag = "18=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.CancelOnTradingHalt ->
+        let tag = "18=K"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.LastPeg ->
+        let tag = "18=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.MidPrice ->
+        let tag = "18=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.NonNegotiable ->
+        let tag = "18=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.OpeningPeg ->
+        let tag = "18=O"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.MarketPeg ->
+        let tag = "18=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.CancelOnSystemFailure ->
+        let tag = "18=Q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.PrimaryPeg ->
+        let tag = "18=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.Suspend ->
+        let tag = "18=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.FixedPegToLocalBestBidOrOfferAtTimeOfOrder ->
+        let tag = "18=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.CustomerDisplayInstruction ->
+        let tag = "18=U"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.Netting ->
+        let tag = "18=V"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.PegToVwap ->
+        let tag = "18=W"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.TradeAlong ->
+        let tag = "18=X"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.TryToStop ->
+        let tag = "18=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.CancelIfNotBest ->
+        let tag = "18=Z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.TrailingStopPeg ->
+        let tag = "18=a"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.StrictLimit ->
+        let tag = "18=b"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.IgnorePriceValidityChecks ->
+        let tag = "18=c"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.PegToLimitPrice ->
+        let tag = "18=d"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecInst.WorkToTargetStrategy ->
+        let tag = "18=e"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadExecRefID valIn =
@@ -338,11 +500,11 @@ let ReadExecRefID valIn =
 
 
 let WriteExecRefID (strm:Stream) (valIn:ExecRefID) = 
-    let tag = "19="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "19="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHandlInst (fldValIn:string) : HandlInst = 
@@ -355,9 +517,18 @@ let ReadHandlInst (fldValIn:string) : HandlInst =
 
 let WriteHandlInst (strm:Stream) (xxIn:HandlInst) =
     match xxIn with
-    | HandlInst.AutomatedExecutionOrderPrivate -> strm.Write "21=1"B; strm.Write (delim, 0, 1)
-    | HandlInst.AutomatedExecutionOrderPublic -> strm.Write "21=2"B; strm.Write (delim, 0, 1)
-    | HandlInst.ManualOrder -> strm.Write "21=3"B; strm.Write (delim, 0, 1)
+    | HandlInst.AutomatedExecutionOrderPrivate ->
+        let tag = "21=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HandlInst.AutomatedExecutionOrderPublic ->
+        let tag = "21=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HandlInst.ManualOrder ->
+        let tag = "21=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecurityIDSource (fldValIn:string) : SecurityIDSource = 
@@ -386,25 +557,82 @@ let ReadSecurityIDSource (fldValIn:string) : SecurityIDSource =
 
 let WriteSecurityIDSource (strm:Stream) (xxIn:SecurityIDSource) =
     match xxIn with
-    | SecurityIDSource.Cusip -> strm.Write "22=1"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Sedol -> strm.Write "22=2"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Quik -> strm.Write "22=3"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.IsinNumber -> strm.Write "22=4"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.RicCode -> strm.Write "22=5"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.IsoCurrencyCode -> strm.Write "22=6"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.IsoCountryCode -> strm.Write "22=7"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.ExchangeSymbol -> strm.Write "22=8"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.ConsolidatedTapeAssociation -> strm.Write "22=9"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.BloombergSymbol -> strm.Write "22=A"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Wertpapier -> strm.Write "22=B"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Dutch -> strm.Write "22=C"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Valoren -> strm.Write "22=D"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Sicovam -> strm.Write "22=E"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Belgian -> strm.Write "22=F"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.Common -> strm.Write "22=G"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.ClearingHouseClearingOrganization -> strm.Write "22=H"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.IsdaFpmlProductSpecification -> strm.Write "22=I"B; strm.Write (delim, 0, 1)
-    | SecurityIDSource.OptionsPriceReportingAuthority -> strm.Write "22=J"B; strm.Write (delim, 0, 1)
+    | SecurityIDSource.Cusip ->
+        let tag = "22=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Sedol ->
+        let tag = "22=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Quik ->
+        let tag = "22=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.IsinNumber ->
+        let tag = "22=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.RicCode ->
+        let tag = "22=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.IsoCurrencyCode ->
+        let tag = "22=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.IsoCountryCode ->
+        let tag = "22=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.ExchangeSymbol ->
+        let tag = "22=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.ConsolidatedTapeAssociation ->
+        let tag = "22=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.BloombergSymbol ->
+        let tag = "22=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Wertpapier ->
+        let tag = "22=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Dutch ->
+        let tag = "22=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Valoren ->
+        let tag = "22=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Sicovam ->
+        let tag = "22=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Belgian ->
+        let tag = "22=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.Common ->
+        let tag = "22=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.ClearingHouseClearingOrganization ->
+        let tag = "22=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.IsdaFpmlProductSpecification ->
+        let tag = "22=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityIDSource.OptionsPriceReportingAuthority ->
+        let tag = "22=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadIOIid valIn =
@@ -413,11 +641,11 @@ let ReadIOIid valIn =
 
 
 let WriteIOIid (strm:Stream) (valIn:IOIid) = 
-    let tag = "23="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "23="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIOIQltyInd (fldValIn:string) : IOIQltyInd = 
@@ -430,9 +658,18 @@ let ReadIOIQltyInd (fldValIn:string) : IOIQltyInd =
 
 let WriteIOIQltyInd (strm:Stream) (xxIn:IOIQltyInd) =
     match xxIn with
-    | IOIQltyInd.Low -> strm.Write "25=L"B; strm.Write (delim, 0, 1)
-    | IOIQltyInd.Medium -> strm.Write "25=M"B; strm.Write (delim, 0, 1)
-    | IOIQltyInd.High -> strm.Write "25=H"B; strm.Write (delim, 0, 1)
+    | IOIQltyInd.Low ->
+        let tag = "25=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQltyInd.Medium ->
+        let tag = "25=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQltyInd.High ->
+        let tag = "25=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadIOIRefID valIn =
@@ -441,11 +678,11 @@ let ReadIOIRefID valIn =
 
 
 let WriteIOIRefID (strm:Stream) (valIn:IOIRefID) = 
-    let tag = "26="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "26="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIOIQty valIn =
@@ -454,11 +691,11 @@ let ReadIOIQty valIn =
 
 
 let WriteIOIQty (strm:Stream) (valIn:IOIQty) = 
-    let tag = "27="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "27="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIOITransType (fldValIn:string) : IOITransType = 
@@ -471,9 +708,18 @@ let ReadIOITransType (fldValIn:string) : IOITransType =
 
 let WriteIOITransType (strm:Stream) (xxIn:IOITransType) =
     match xxIn with
-    | IOITransType.New -> strm.Write "28=N"B; strm.Write (delim, 0, 1)
-    | IOITransType.Cancel -> strm.Write "28=C"B; strm.Write (delim, 0, 1)
-    | IOITransType.Replace -> strm.Write "28=R"B; strm.Write (delim, 0, 1)
+    | IOITransType.New ->
+        let tag = "28=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOITransType.Cancel ->
+        let tag = "28=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOITransType.Replace ->
+        let tag = "28=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLastCapacity (fldValIn:string) : LastCapacity = 
@@ -487,10 +733,22 @@ let ReadLastCapacity (fldValIn:string) : LastCapacity =
 
 let WriteLastCapacity (strm:Stream) (xxIn:LastCapacity) =
     match xxIn with
-    | LastCapacity.Agent -> strm.Write "29=1"B; strm.Write (delim, 0, 1)
-    | LastCapacity.CrossAsAgent -> strm.Write "29=2"B; strm.Write (delim, 0, 1)
-    | LastCapacity.CrossAsPrincipal -> strm.Write "29=3"B; strm.Write (delim, 0, 1)
-    | LastCapacity.Principal -> strm.Write "29=4"B; strm.Write (delim, 0, 1)
+    | LastCapacity.Agent ->
+        let tag = "29=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LastCapacity.CrossAsAgent ->
+        let tag = "29=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LastCapacity.CrossAsPrincipal ->
+        let tag = "29=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LastCapacity.Principal ->
+        let tag = "29=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLastMkt valIn =
@@ -499,11 +757,11 @@ let ReadLastMkt valIn =
 
 
 let WriteLastMkt (strm:Stream) (valIn:LastMkt) = 
-    let tag = "30="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "30="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastPx valIn =
@@ -512,11 +770,11 @@ let ReadLastPx valIn =
 
 
 let WriteLastPx (strm:Stream) (valIn:LastPx) = 
-    let tag = "31="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "31="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastQty valIn =
@@ -525,11 +783,11 @@ let ReadLastQty valIn =
 
 
 let WriteLastQty (strm:Stream) (valIn:LastQty) = 
-    let tag = "32="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "32="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLinesOfText valIn =
@@ -538,11 +796,11 @@ let ReadLinesOfText valIn =
 
 
 let WriteLinesOfText (strm:Stream) (valIn:LinesOfText) = 
-    let tag = "33="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "33="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMsgSeqNum valIn =
@@ -551,11 +809,11 @@ let ReadMsgSeqNum valIn =
 
 
 let WriteMsgSeqNum (strm:Stream) (valIn:MsgSeqNum) = 
-    let tag = "34="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "34="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMsgType (fldValIn:string) : MsgType = 
@@ -658,99 +916,378 @@ let ReadMsgType (fldValIn:string) : MsgType =
 
 let WriteMsgType (strm:Stream) (xxIn:MsgType) =
     match xxIn with
-    | MsgType.Heartbeat -> strm.Write "35=0"B; strm.Write (delim, 0, 1)
-    | MsgType.TestRequest -> strm.Write "35=1"B; strm.Write (delim, 0, 1)
-    | MsgType.ResendRequest -> strm.Write "35=2"B; strm.Write (delim, 0, 1)
-    | MsgType.Reject -> strm.Write "35=3"B; strm.Write (delim, 0, 1)
-    | MsgType.SequenceReset -> strm.Write "35=4"B; strm.Write (delim, 0, 1)
-    | MsgType.Logout -> strm.Write "35=5"B; strm.Write (delim, 0, 1)
-    | MsgType.IndicationOfInterest -> strm.Write "35=6"B; strm.Write (delim, 0, 1)
-    | MsgType.Advertisement -> strm.Write "35=7"B; strm.Write (delim, 0, 1)
-    | MsgType.ExecutionReport -> strm.Write "35=8"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderCancelReject -> strm.Write "35=9"B; strm.Write (delim, 0, 1)
-    | MsgType.Logon -> strm.Write "35=A"B; strm.Write (delim, 0, 1)
-    | MsgType.News -> strm.Write "35=B"B; strm.Write (delim, 0, 1)
-    | MsgType.Email -> strm.Write "35=C"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderSingle -> strm.Write "35=D"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderList -> strm.Write "35=E"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderCancelRequest -> strm.Write "35=F"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderCancelReplaceRequest -> strm.Write "35=G"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderStatusRequest -> strm.Write "35=H"B; strm.Write (delim, 0, 1)
-    | MsgType.AllocationInstruction -> strm.Write "35=J"B; strm.Write (delim, 0, 1)
-    | MsgType.ListCancelRequest -> strm.Write "35=K"B; strm.Write (delim, 0, 1)
-    | MsgType.ListExecute -> strm.Write "35=L"B; strm.Write (delim, 0, 1)
-    | MsgType.ListStatusRequest -> strm.Write "35=M"B; strm.Write (delim, 0, 1)
-    | MsgType.ListStatus -> strm.Write "35=N"B; strm.Write (delim, 0, 1)
-    | MsgType.AllocationInstructionAck -> strm.Write "35=P"B; strm.Write (delim, 0, 1)
-    | MsgType.DontKnowTrade -> strm.Write "35=Q"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteRequest -> strm.Write "35=R"B; strm.Write (delim, 0, 1)
-    | MsgType.Quote -> strm.Write "35=S"B; strm.Write (delim, 0, 1)
-    | MsgType.SettlementInstructions -> strm.Write "35=T"B; strm.Write (delim, 0, 1)
-    | MsgType.MarketDataRequest -> strm.Write "35=V"B; strm.Write (delim, 0, 1)
-    | MsgType.MarketDataSnapshotFullRefresh -> strm.Write "35=W"B; strm.Write (delim, 0, 1)
-    | MsgType.MarketDataIncrementalRefresh -> strm.Write "35=X"B; strm.Write (delim, 0, 1)
-    | MsgType.MarketDataRequestReject -> strm.Write "35=Y"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteCancel -> strm.Write "35=Z"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteStatusRequest -> strm.Write "35=a"B; strm.Write (delim, 0, 1)
-    | MsgType.MassQuoteAcknowledgement -> strm.Write "35=b"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityDefinitionRequest -> strm.Write "35=c"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityDefinition -> strm.Write "35=d"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityStatusRequest -> strm.Write "35=e"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityStatus -> strm.Write "35=f"B; strm.Write (delim, 0, 1)
-    | MsgType.TradingSessionStatusRequest -> strm.Write "35=g"B; strm.Write (delim, 0, 1)
-    | MsgType.TradingSessionStatus -> strm.Write "35=h"B; strm.Write (delim, 0, 1)
-    | MsgType.MassQuote -> strm.Write "35=i"B; strm.Write (delim, 0, 1)
-    | MsgType.BusinessMessageReject -> strm.Write "35=j"B; strm.Write (delim, 0, 1)
-    | MsgType.BidRequest -> strm.Write "35=k"B; strm.Write (delim, 0, 1)
-    | MsgType.BidResponse -> strm.Write "35=l"B; strm.Write (delim, 0, 1)
-    | MsgType.ListStrikePrice -> strm.Write "35=m"B; strm.Write (delim, 0, 1)
-    | MsgType.XmlMessage -> strm.Write "35=n"B; strm.Write (delim, 0, 1)
-    | MsgType.RegistrationInstructions -> strm.Write "35=o"B; strm.Write (delim, 0, 1)
-    | MsgType.RegistrationInstructionsResponse -> strm.Write "35=p"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderMassCancelRequest -> strm.Write "35=q"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderMassCancelReport -> strm.Write "35=r"B; strm.Write (delim, 0, 1)
-    | MsgType.NewOrderCross -> strm.Write "35=s"B; strm.Write (delim, 0, 1)
-    | MsgType.CrossOrderCancelReplaceRequest -> strm.Write "35=t"B; strm.Write (delim, 0, 1)
-    | MsgType.CrossOrderCancelRequest -> strm.Write "35=u"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityTypeRequest -> strm.Write "35=v"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityTypes -> strm.Write "35=w"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityListRequest -> strm.Write "35=x"B; strm.Write (delim, 0, 1)
-    | MsgType.SecurityList -> strm.Write "35=y"B; strm.Write (delim, 0, 1)
-    | MsgType.DerivativeSecurityListRequest -> strm.Write "35=z"B; strm.Write (delim, 0, 1)
-    | MsgType.DerivativeSecurityList -> strm.Write "35=AA"B; strm.Write (delim, 0, 1)
-    | MsgType.NewOrderMultileg -> strm.Write "35=AB"B; strm.Write (delim, 0, 1)
-    | MsgType.MultilegOrderCancelReplace -> strm.Write "35=AC"B; strm.Write (delim, 0, 1)
-    | MsgType.TradeCaptureReportRequest -> strm.Write "35=AD"B; strm.Write (delim, 0, 1)
-    | MsgType.TradeCaptureReport -> strm.Write "35=AE"B; strm.Write (delim, 0, 1)
-    | MsgType.OrderMassStatusRequest -> strm.Write "35=AF"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteRequestReject -> strm.Write "35=AG"B; strm.Write (delim, 0, 1)
-    | MsgType.RfqRequest -> strm.Write "35=AH"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteStatusReport -> strm.Write "35=AI"B; strm.Write (delim, 0, 1)
-    | MsgType.QuoteResponse -> strm.Write "35=AJ"B; strm.Write (delim, 0, 1)
-    | MsgType.Confirmation -> strm.Write "35=AK"B; strm.Write (delim, 0, 1)
-    | MsgType.PositionMaintenanceRequest -> strm.Write "35=AL"B; strm.Write (delim, 0, 1)
-    | MsgType.PositionMaintenanceReport -> strm.Write "35=AM"B; strm.Write (delim, 0, 1)
-    | MsgType.RequestForPositions -> strm.Write "35=AN"B; strm.Write (delim, 0, 1)
-    | MsgType.RequestForPositionsAck -> strm.Write "35=AO"B; strm.Write (delim, 0, 1)
-    | MsgType.PositionReport -> strm.Write "35=AP"B; strm.Write (delim, 0, 1)
-    | MsgType.TradeCaptureReportRequestAck -> strm.Write "35=AQ"B; strm.Write (delim, 0, 1)
-    | MsgType.TradeCaptureReportAck -> strm.Write "35=AR"B; strm.Write (delim, 0, 1)
-    | MsgType.AllocationReport -> strm.Write "35=AS"B; strm.Write (delim, 0, 1)
-    | MsgType.AllocationReportAck -> strm.Write "35=AT"B; strm.Write (delim, 0, 1)
-    | MsgType.ConfirmationAck -> strm.Write "35=AU"B; strm.Write (delim, 0, 1)
-    | MsgType.SettlementInstructionRequest -> strm.Write "35=AV"B; strm.Write (delim, 0, 1)
-    | MsgType.AssignmentReport -> strm.Write "35=AW"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralRequest -> strm.Write "35=AX"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralAssignment -> strm.Write "35=AY"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralResponse -> strm.Write "35=AZ"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralReport -> strm.Write "35=BA"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralInquiry -> strm.Write "35=BB"B; strm.Write (delim, 0, 1)
-    | MsgType.NetworkStatusRequest -> strm.Write "35=BC"B; strm.Write (delim, 0, 1)
-    | MsgType.NetworkStatusResponse -> strm.Write "35=BD"B; strm.Write (delim, 0, 1)
-    | MsgType.UserRequest -> strm.Write "35=BE"B; strm.Write (delim, 0, 1)
-    | MsgType.UserResponse -> strm.Write "35=BF"B; strm.Write (delim, 0, 1)
-    | MsgType.CollateralInquiryAck -> strm.Write "35=BG"B; strm.Write (delim, 0, 1)
-    | MsgType.ConfirmationRequest -> strm.Write "35=BH"B; strm.Write (delim, 0, 1)
+    | MsgType.Heartbeat ->
+        let tag = "35=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TestRequest ->
+        let tag = "35=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ResendRequest ->
+        let tag = "35=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Reject ->
+        let tag = "35=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SequenceReset ->
+        let tag = "35=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Logout ->
+        let tag = "35=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.IndicationOfInterest ->
+        let tag = "35=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Advertisement ->
+        let tag = "35=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ExecutionReport ->
+        let tag = "35=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderCancelReject ->
+        let tag = "35=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Logon ->
+        let tag = "35=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.News ->
+        let tag = "35=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Email ->
+        let tag = "35=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderSingle ->
+        let tag = "35=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderList ->
+        let tag = "35=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderCancelRequest ->
+        let tag = "35=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderCancelReplaceRequest ->
+        let tag = "35=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderStatusRequest ->
+        let tag = "35=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.AllocationInstruction ->
+        let tag = "35=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ListCancelRequest ->
+        let tag = "35=K"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ListExecute ->
+        let tag = "35=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ListStatusRequest ->
+        let tag = "35=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ListStatus ->
+        let tag = "35=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.AllocationInstructionAck ->
+        let tag = "35=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.DontKnowTrade ->
+        let tag = "35=Q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteRequest ->
+        let tag = "35=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Quote ->
+        let tag = "35=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SettlementInstructions ->
+        let tag = "35=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MarketDataRequest ->
+        let tag = "35=V"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MarketDataSnapshotFullRefresh ->
+        let tag = "35=W"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MarketDataIncrementalRefresh ->
+        let tag = "35=X"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MarketDataRequestReject ->
+        let tag = "35=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteCancel ->
+        let tag = "35=Z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteStatusRequest ->
+        let tag = "35=a"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MassQuoteAcknowledgement ->
+        let tag = "35=b"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityDefinitionRequest ->
+        let tag = "35=c"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityDefinition ->
+        let tag = "35=d"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityStatusRequest ->
+        let tag = "35=e"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityStatus ->
+        let tag = "35=f"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradingSessionStatusRequest ->
+        let tag = "35=g"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradingSessionStatus ->
+        let tag = "35=h"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MassQuote ->
+        let tag = "35=i"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.BusinessMessageReject ->
+        let tag = "35=j"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.BidRequest ->
+        let tag = "35=k"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.BidResponse ->
+        let tag = "35=l"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ListStrikePrice ->
+        let tag = "35=m"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.XmlMessage ->
+        let tag = "35=n"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.RegistrationInstructions ->
+        let tag = "35=o"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.RegistrationInstructionsResponse ->
+        let tag = "35=p"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderMassCancelRequest ->
+        let tag = "35=q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderMassCancelReport ->
+        let tag = "35=r"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.NewOrderCross ->
+        let tag = "35=s"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CrossOrderCancelReplaceRequest ->
+        let tag = "35=t"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CrossOrderCancelRequest ->
+        let tag = "35=u"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityTypeRequest ->
+        let tag = "35=v"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityTypes ->
+        let tag = "35=w"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityListRequest ->
+        let tag = "35=x"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SecurityList ->
+        let tag = "35=y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.DerivativeSecurityListRequest ->
+        let tag = "35=z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.DerivativeSecurityList ->
+        let tag = "35=AA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.NewOrderMultileg ->
+        let tag = "35=AB"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.MultilegOrderCancelReplace ->
+        let tag = "35=AC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradeCaptureReportRequest ->
+        let tag = "35=AD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradeCaptureReport ->
+        let tag = "35=AE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.OrderMassStatusRequest ->
+        let tag = "35=AF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteRequestReject ->
+        let tag = "35=AG"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.RfqRequest ->
+        let tag = "35=AH"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteStatusReport ->
+        let tag = "35=AI"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.QuoteResponse ->
+        let tag = "35=AJ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.Confirmation ->
+        let tag = "35=AK"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.PositionMaintenanceRequest ->
+        let tag = "35=AL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.PositionMaintenanceReport ->
+        let tag = "35=AM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.RequestForPositions ->
+        let tag = "35=AN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.RequestForPositionsAck ->
+        let tag = "35=AO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.PositionReport ->
+        let tag = "35=AP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradeCaptureReportRequestAck ->
+        let tag = "35=AQ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.TradeCaptureReportAck ->
+        let tag = "35=AR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.AllocationReport ->
+        let tag = "35=AS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.AllocationReportAck ->
+        let tag = "35=AT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ConfirmationAck ->
+        let tag = "35=AU"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.SettlementInstructionRequest ->
+        let tag = "35=AV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.AssignmentReport ->
+        let tag = "35=AW"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralRequest ->
+        let tag = "35=AX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralAssignment ->
+        let tag = "35=AY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralResponse ->
+        let tag = "35=AZ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralReport ->
+        let tag = "35=BA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralInquiry ->
+        let tag = "35=BB"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.NetworkStatusRequest ->
+        let tag = "35=BC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.NetworkStatusResponse ->
+        let tag = "35=BD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.UserRequest ->
+        let tag = "35=BE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.UserResponse ->
+        let tag = "35=BF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.CollateralInquiryAck ->
+        let tag = "35=BG"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgType.ConfirmationRequest ->
+        let tag = "35=BH"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNewSeqNo valIn =
@@ -759,11 +1296,11 @@ let ReadNewSeqNo valIn =
 
 
 let WriteNewSeqNo (strm:Stream) (valIn:NewSeqNo) = 
-    let tag = "36="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "36="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderID valIn =
@@ -772,11 +1309,11 @@ let ReadOrderID valIn =
 
 
 let WriteOrderID (strm:Stream) (valIn:OrderID) = 
-    let tag = "37="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "37="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderQty valIn =
@@ -785,11 +1322,11 @@ let ReadOrderQty valIn =
 
 
 let WriteOrderQty (strm:Stream) (valIn:OrderQty) = 
-    let tag = "38="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "38="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrdStatus (fldValIn:string) : OrdStatus = 
@@ -814,21 +1351,66 @@ let ReadOrdStatus (fldValIn:string) : OrdStatus =
 
 let WriteOrdStatus (strm:Stream) (xxIn:OrdStatus) =
     match xxIn with
-    | OrdStatus.New -> strm.Write "39=0"B; strm.Write (delim, 0, 1)
-    | OrdStatus.PartiallyFilled -> strm.Write "39=1"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Filled -> strm.Write "39=2"B; strm.Write (delim, 0, 1)
-    | OrdStatus.DoneForDay -> strm.Write "39=3"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Canceled -> strm.Write "39=4"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Replaced -> strm.Write "39=5"B; strm.Write (delim, 0, 1)
-    | OrdStatus.PendingCancel -> strm.Write "39=6"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Stopped -> strm.Write "39=7"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Rejected -> strm.Write "39=8"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Suspended -> strm.Write "39=9"B; strm.Write (delim, 0, 1)
-    | OrdStatus.PendingNew -> strm.Write "39=A"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Calculated -> strm.Write "39=B"B; strm.Write (delim, 0, 1)
-    | OrdStatus.Expired -> strm.Write "39=C"B; strm.Write (delim, 0, 1)
-    | OrdStatus.AcceptedForBidding -> strm.Write "39=D"B; strm.Write (delim, 0, 1)
-    | OrdStatus.PendingReplace -> strm.Write "39=E"B; strm.Write (delim, 0, 1)
+    | OrdStatus.New ->
+        let tag = "39=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.PartiallyFilled ->
+        let tag = "39=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Filled ->
+        let tag = "39=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.DoneForDay ->
+        let tag = "39=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Canceled ->
+        let tag = "39=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Replaced ->
+        let tag = "39=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.PendingCancel ->
+        let tag = "39=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Stopped ->
+        let tag = "39=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Rejected ->
+        let tag = "39=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Suspended ->
+        let tag = "39=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.PendingNew ->
+        let tag = "39=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Calculated ->
+        let tag = "39=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.Expired ->
+        let tag = "39=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.AcceptedForBidding ->
+        let tag = "39=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdStatus.PendingReplace ->
+        let tag = "39=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrdType (fldValIn:string) : OrdType = 
@@ -861,29 +1443,98 @@ let ReadOrdType (fldValIn:string) : OrdType =
 
 let WriteOrdType (strm:Stream) (xxIn:OrdType) =
     match xxIn with
-    | OrdType.Market -> strm.Write "40=1"B; strm.Write (delim, 0, 1)
-    | OrdType.Limit -> strm.Write "40=2"B; strm.Write (delim, 0, 1)
-    | OrdType.Stop -> strm.Write "40=3"B; strm.Write (delim, 0, 1)
-    | OrdType.StopLimit -> strm.Write "40=4"B; strm.Write (delim, 0, 1)
-    | OrdType.MarketOnClose -> strm.Write "40=5"B; strm.Write (delim, 0, 1)
-    | OrdType.WithOrWithout -> strm.Write "40=6"B; strm.Write (delim, 0, 1)
-    | OrdType.LimitOrBetter -> strm.Write "40=7"B; strm.Write (delim, 0, 1)
-    | OrdType.LimitWithOrWithout -> strm.Write "40=8"B; strm.Write (delim, 0, 1)
-    | OrdType.OnBasis -> strm.Write "40=9"B; strm.Write (delim, 0, 1)
-    | OrdType.OnClose -> strm.Write "40=A"B; strm.Write (delim, 0, 1)
-    | OrdType.LimitOnClose -> strm.Write "40=B"B; strm.Write (delim, 0, 1)
-    | OrdType.ForexMarket -> strm.Write "40=C"B; strm.Write (delim, 0, 1)
-    | OrdType.PreviouslyQuoted -> strm.Write "40=D"B; strm.Write (delim, 0, 1)
-    | OrdType.PreviouslyIndicated -> strm.Write "40=E"B; strm.Write (delim, 0, 1)
-    | OrdType.ForexLimit -> strm.Write "40=F"B; strm.Write (delim, 0, 1)
-    | OrdType.ForexSwap -> strm.Write "40=G"B; strm.Write (delim, 0, 1)
-    | OrdType.ForexPreviouslyQuoted -> strm.Write "40=H"B; strm.Write (delim, 0, 1)
-    | OrdType.Funari -> strm.Write "40=I"B; strm.Write (delim, 0, 1)
-    | OrdType.MarketIfTouched -> strm.Write "40=J"B; strm.Write (delim, 0, 1)
-    | OrdType.MarketWithLeftoverAsLimit -> strm.Write "40=K"B; strm.Write (delim, 0, 1)
-    | OrdType.PreviousFundValuationPoint -> strm.Write "40=L"B; strm.Write (delim, 0, 1)
-    | OrdType.NextFundValuationPoint -> strm.Write "40=M"B; strm.Write (delim, 0, 1)
-    | OrdType.Pegged -> strm.Write "40=P"B; strm.Write (delim, 0, 1)
+    | OrdType.Market ->
+        let tag = "40=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.Limit ->
+        let tag = "40=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.Stop ->
+        let tag = "40=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.StopLimit ->
+        let tag = "40=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.MarketOnClose ->
+        let tag = "40=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.WithOrWithout ->
+        let tag = "40=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.LimitOrBetter ->
+        let tag = "40=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.LimitWithOrWithout ->
+        let tag = "40=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.OnBasis ->
+        let tag = "40=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.OnClose ->
+        let tag = "40=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.LimitOnClose ->
+        let tag = "40=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.ForexMarket ->
+        let tag = "40=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.PreviouslyQuoted ->
+        let tag = "40=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.PreviouslyIndicated ->
+        let tag = "40=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.ForexLimit ->
+        let tag = "40=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.ForexSwap ->
+        let tag = "40=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.ForexPreviouslyQuoted ->
+        let tag = "40=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.Funari ->
+        let tag = "40=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.MarketIfTouched ->
+        let tag = "40=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.MarketWithLeftoverAsLimit ->
+        let tag = "40=K"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.PreviousFundValuationPoint ->
+        let tag = "40=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.NextFundValuationPoint ->
+        let tag = "40=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdType.Pegged ->
+        let tag = "40=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrigClOrdID valIn =
@@ -892,11 +1543,11 @@ let ReadOrigClOrdID valIn =
 
 
 let WriteOrigClOrdID (strm:Stream) (valIn:OrigClOrdID) = 
-    let tag = "41="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "41="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrigTime valIn =
@@ -905,11 +1556,11 @@ let ReadOrigTime valIn =
 
 
 let WriteOrigTime (strm:Stream) (valIn:OrigTime) = 
-    let tag = "42="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "42="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPossDupFlag valIn =
@@ -918,11 +1569,11 @@ let ReadPossDupFlag valIn =
 
 
 let WritePossDupFlag (strm:Stream) (valIn:PossDupFlag) = 
-    let tag = "43="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "43="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPrice valIn =
@@ -931,11 +1582,11 @@ let ReadPrice valIn =
 
 
 let WritePrice (strm:Stream) (valIn:Price) = 
-    let tag = "44="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "44="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRefSeqNum valIn =
@@ -944,11 +1595,11 @@ let ReadRefSeqNum valIn =
 
 
 let WriteRefSeqNum (strm:Stream) (valIn:RefSeqNum) = 
-    let tag = "45="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "45="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityID valIn =
@@ -957,11 +1608,11 @@ let ReadSecurityID valIn =
 
 
 let WriteSecurityID (strm:Stream) (valIn:SecurityID) = 
-    let tag = "48="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "48="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSenderCompID valIn =
@@ -970,11 +1621,11 @@ let ReadSenderCompID valIn =
 
 
 let WriteSenderCompID (strm:Stream) (valIn:SenderCompID) = 
-    let tag = "49="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "49="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSenderSubID valIn =
@@ -983,11 +1634,11 @@ let ReadSenderSubID valIn =
 
 
 let WriteSenderSubID (strm:Stream) (valIn:SenderSubID) = 
-    let tag = "50="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "50="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSendingTime valIn =
@@ -996,11 +1647,11 @@ let ReadSendingTime valIn =
 
 
 let WriteSendingTime (strm:Stream) (valIn:SendingTime) = 
-    let tag = "52="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "52="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuantity valIn =
@@ -1009,11 +1660,11 @@ let ReadQuantity valIn =
 
 
 let WriteQuantity (strm:Stream) (valIn:Quantity) = 
-    let tag = "53="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "53="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSide (fldValIn:string) : Side = 
@@ -1039,22 +1690,70 @@ let ReadSide (fldValIn:string) : Side =
 
 let WriteSide (strm:Stream) (xxIn:Side) =
     match xxIn with
-    | Side.Buy -> strm.Write "54=1"B; strm.Write (delim, 0, 1)
-    | Side.Sell -> strm.Write "54=2"B; strm.Write (delim, 0, 1)
-    | Side.BuyMinus -> strm.Write "54=3"B; strm.Write (delim, 0, 1)
-    | Side.SellPlus -> strm.Write "54=4"B; strm.Write (delim, 0, 1)
-    | Side.SellShort -> strm.Write "54=5"B; strm.Write (delim, 0, 1)
-    | Side.SellShortExempt -> strm.Write "54=6"B; strm.Write (delim, 0, 1)
-    | Side.Undisclosed -> strm.Write "54=7"B; strm.Write (delim, 0, 1)
-    | Side.Cross -> strm.Write "54=8"B; strm.Write (delim, 0, 1)
-    | Side.CrossShort -> strm.Write "54=9"B; strm.Write (delim, 0, 1)
-    | Side.CrossShortExempt -> strm.Write "54=A"B; strm.Write (delim, 0, 1)
-    | Side.AsDefined -> strm.Write "54=B"B; strm.Write (delim, 0, 1)
-    | Side.Opposite -> strm.Write "54=C"B; strm.Write (delim, 0, 1)
-    | Side.Subscribe -> strm.Write "54=D"B; strm.Write (delim, 0, 1)
-    | Side.Redeem -> strm.Write "54=E"B; strm.Write (delim, 0, 1)
-    | Side.Lend -> strm.Write "54=F"B; strm.Write (delim, 0, 1)
-    | Side.Borrow -> strm.Write "54=G"B; strm.Write (delim, 0, 1)
+    | Side.Buy ->
+        let tag = "54=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Sell ->
+        let tag = "54=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.BuyMinus ->
+        let tag = "54=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.SellPlus ->
+        let tag = "54=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.SellShort ->
+        let tag = "54=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.SellShortExempt ->
+        let tag = "54=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Undisclosed ->
+        let tag = "54=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Cross ->
+        let tag = "54=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.CrossShort ->
+        let tag = "54=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.CrossShortExempt ->
+        let tag = "54=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.AsDefined ->
+        let tag = "54=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Opposite ->
+        let tag = "54=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Subscribe ->
+        let tag = "54=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Redeem ->
+        let tag = "54=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Lend ->
+        let tag = "54=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Side.Borrow ->
+        let tag = "54=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSymbol valIn =
@@ -1063,11 +1762,11 @@ let ReadSymbol valIn =
 
 
 let WriteSymbol (strm:Stream) (valIn:Symbol) = 
-    let tag = "55="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "55="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTargetCompID valIn =
@@ -1076,11 +1775,11 @@ let ReadTargetCompID valIn =
 
 
 let WriteTargetCompID (strm:Stream) (valIn:TargetCompID) = 
-    let tag = "56="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "56="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTargetSubID valIn =
@@ -1089,11 +1788,11 @@ let ReadTargetSubID valIn =
 
 
 let WriteTargetSubID (strm:Stream) (valIn:TargetSubID) = 
-    let tag = "57="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "57="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadText valIn =
@@ -1102,11 +1801,11 @@ let ReadText valIn =
 
 
 let WriteText (strm:Stream) (valIn:Text) = 
-    let tag = "58="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "58="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTimeInForce (fldValIn:string) : TimeInForce = 
@@ -1124,14 +1823,38 @@ let ReadTimeInForce (fldValIn:string) : TimeInForce =
 
 let WriteTimeInForce (strm:Stream) (xxIn:TimeInForce) =
     match xxIn with
-    | TimeInForce.Day -> strm.Write "59=0"B; strm.Write (delim, 0, 1)
-    | TimeInForce.GoodTillCancel -> strm.Write "59=1"B; strm.Write (delim, 0, 1)
-    | TimeInForce.AtTheOpening -> strm.Write "59=2"B; strm.Write (delim, 0, 1)
-    | TimeInForce.ImmediateOrCancel -> strm.Write "59=3"B; strm.Write (delim, 0, 1)
-    | TimeInForce.FillOrKill -> strm.Write "59=4"B; strm.Write (delim, 0, 1)
-    | TimeInForce.GoodTillCrossing -> strm.Write "59=5"B; strm.Write (delim, 0, 1)
-    | TimeInForce.GoodTillDate -> strm.Write "59=6"B; strm.Write (delim, 0, 1)
-    | TimeInForce.AtTheClose -> strm.Write "59=7"B; strm.Write (delim, 0, 1)
+    | TimeInForce.Day ->
+        let tag = "59=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.GoodTillCancel ->
+        let tag = "59=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.AtTheOpening ->
+        let tag = "59=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.ImmediateOrCancel ->
+        let tag = "59=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.FillOrKill ->
+        let tag = "59=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.GoodTillCrossing ->
+        let tag = "59=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.GoodTillDate ->
+        let tag = "59=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TimeInForce.AtTheClose ->
+        let tag = "59=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTransactTime valIn =
@@ -1140,11 +1863,11 @@ let ReadTransactTime valIn =
 
 
 let WriteTransactTime (strm:Stream) (valIn:TransactTime) = 
-    let tag = "60="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "60="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUrgency (fldValIn:string) : Urgency = 
@@ -1157,9 +1880,18 @@ let ReadUrgency (fldValIn:string) : Urgency =
 
 let WriteUrgency (strm:Stream) (xxIn:Urgency) =
     match xxIn with
-    | Urgency.Normal -> strm.Write "61=0"B; strm.Write (delim, 0, 1)
-    | Urgency.Flash -> strm.Write "61=1"B; strm.Write (delim, 0, 1)
-    | Urgency.Background -> strm.Write "61=2"B; strm.Write (delim, 0, 1)
+    | Urgency.Normal ->
+        let tag = "61=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Urgency.Flash ->
+        let tag = "61=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Urgency.Background ->
+        let tag = "61=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadValidUntilTime valIn =
@@ -1168,11 +1900,11 @@ let ReadValidUntilTime valIn =
 
 
 let WriteValidUntilTime (strm:Stream) (valIn:ValidUntilTime) = 
-    let tag = "62="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "62="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlType (fldValIn:string) : SettlType = 
@@ -1192,16 +1924,46 @@ let ReadSettlType (fldValIn:string) : SettlType =
 
 let WriteSettlType (strm:Stream) (xxIn:SettlType) =
     match xxIn with
-    | SettlType.Regular -> strm.Write "63=0"B; strm.Write (delim, 0, 1)
-    | SettlType.Cash -> strm.Write "63=1"B; strm.Write (delim, 0, 1)
-    | SettlType.NextDay -> strm.Write "63=2"B; strm.Write (delim, 0, 1)
-    | SettlType.TPlus2 -> strm.Write "63=3"B; strm.Write (delim, 0, 1)
-    | SettlType.TPlus3 -> strm.Write "63=4"B; strm.Write (delim, 0, 1)
-    | SettlType.TPlus4 -> strm.Write "63=5"B; strm.Write (delim, 0, 1)
-    | SettlType.Future -> strm.Write "63=6"B; strm.Write (delim, 0, 1)
-    | SettlType.WhenAndIfIssued -> strm.Write "63=7"B; strm.Write (delim, 0, 1)
-    | SettlType.SellersOption -> strm.Write "63=8"B; strm.Write (delim, 0, 1)
-    | SettlType.TPlus5 -> strm.Write "63=9"B; strm.Write (delim, 0, 1)
+    | SettlType.Regular ->
+        let tag = "63=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.Cash ->
+        let tag = "63=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.NextDay ->
+        let tag = "63=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.TPlus2 ->
+        let tag = "63=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.TPlus3 ->
+        let tag = "63=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.TPlus4 ->
+        let tag = "63=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.Future ->
+        let tag = "63=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.WhenAndIfIssued ->
+        let tag = "63=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.SellersOption ->
+        let tag = "63=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlType.TPlus5 ->
+        let tag = "63=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSettlDate valIn =
@@ -1210,11 +1972,11 @@ let ReadSettlDate valIn =
 
 
 let WriteSettlDate (strm:Stream) (valIn:SettlDate) = 
-    let tag = "64="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "64="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSymbolSfx (fldValIn:string) : SymbolSfx = 
@@ -1226,8 +1988,14 @@ let ReadSymbolSfx (fldValIn:string) : SymbolSfx =
 
 let WriteSymbolSfx (strm:Stream) (xxIn:SymbolSfx) =
     match xxIn with
-    | SymbolSfx.WhenIssued -> strm.Write "65=WI"B; strm.Write (delim, 0, 1)
-    | SymbolSfx.AEucpWithLumpSumInterest -> strm.Write "65=CD"B; strm.Write (delim, 0, 1)
+    | SymbolSfx.WhenIssued ->
+        let tag = "65=WI"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SymbolSfx.AEucpWithLumpSumInterest ->
+        let tag = "65=CD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadListID valIn =
@@ -1236,11 +2004,11 @@ let ReadListID valIn =
 
 
 let WriteListID (strm:Stream) (valIn:ListID) = 
-    let tag = "66="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "66="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListSeqNo valIn =
@@ -1249,11 +2017,11 @@ let ReadListSeqNo valIn =
 
 
 let WriteListSeqNo (strm:Stream) (valIn:ListSeqNo) = 
-    let tag = "67="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "67="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotNoOrders valIn =
@@ -1262,11 +2030,11 @@ let ReadTotNoOrders valIn =
 
 
 let WriteTotNoOrders (strm:Stream) (valIn:TotNoOrders) = 
-    let tag = "68="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "68="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListExecInst valIn =
@@ -1275,11 +2043,11 @@ let ReadListExecInst valIn =
 
 
 let WriteListExecInst (strm:Stream) (valIn:ListExecInst) = 
-    let tag = "69="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "69="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocID valIn =
@@ -1288,11 +2056,11 @@ let ReadAllocID valIn =
 
 
 let WriteAllocID (strm:Stream) (valIn:AllocID) = 
-    let tag = "70="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "70="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocTransType (fldValIn:string) : AllocTransType = 
@@ -1305,9 +2073,18 @@ let ReadAllocTransType (fldValIn:string) : AllocTransType =
 
 let WriteAllocTransType (strm:Stream) (xxIn:AllocTransType) =
     match xxIn with
-    | AllocTransType.New -> strm.Write "71=0"B; strm.Write (delim, 0, 1)
-    | AllocTransType.Replace -> strm.Write "71=1"B; strm.Write (delim, 0, 1)
-    | AllocTransType.Cancel -> strm.Write "71=2"B; strm.Write (delim, 0, 1)
+    | AllocTransType.New ->
+        let tag = "71=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocTransType.Replace ->
+        let tag = "71=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocTransType.Cancel ->
+        let tag = "71=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRefAllocID valIn =
@@ -1316,11 +2093,11 @@ let ReadRefAllocID valIn =
 
 
 let WriteRefAllocID (strm:Stream) (valIn:RefAllocID) = 
-    let tag = "72="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "72="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoOrders valIn =
@@ -1329,11 +2106,11 @@ let ReadNoOrders valIn =
 
 
 let WriteNoOrders (strm:Stream) (valIn:NoOrders) = 
-    let tag = "73="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "73="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAvgPxPrecision valIn =
@@ -1342,11 +2119,11 @@ let ReadAvgPxPrecision valIn =
 
 
 let WriteAvgPxPrecision (strm:Stream) (valIn:AvgPxPrecision) = 
-    let tag = "74="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "74="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeDate valIn =
@@ -1355,11 +2132,11 @@ let ReadTradeDate valIn =
 
 
 let WriteTradeDate (strm:Stream) (valIn:TradeDate) = 
-    let tag = "75="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "75="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPositionEffect (fldValIn:string) : PositionEffect = 
@@ -1373,10 +2150,22 @@ let ReadPositionEffect (fldValIn:string) : PositionEffect =
 
 let WritePositionEffect (strm:Stream) (xxIn:PositionEffect) =
     match xxIn with
-    | PositionEffect.Open -> strm.Write "77=O"B; strm.Write (delim, 0, 1)
-    | PositionEffect.Close -> strm.Write "77=C"B; strm.Write (delim, 0, 1)
-    | PositionEffect.Rolled -> strm.Write "77=R"B; strm.Write (delim, 0, 1)
-    | PositionEffect.Fifo -> strm.Write "77=F"B; strm.Write (delim, 0, 1)
+    | PositionEffect.Open ->
+        let tag = "77=O"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PositionEffect.Close ->
+        let tag = "77=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PositionEffect.Rolled ->
+        let tag = "77=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PositionEffect.Fifo ->
+        let tag = "77=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoAllocs valIn =
@@ -1385,11 +2174,11 @@ let ReadNoAllocs valIn =
 
 
 let WriteNoAllocs (strm:Stream) (valIn:NoAllocs) = 
-    let tag = "78="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "78="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocAccount valIn =
@@ -1398,11 +2187,11 @@ let ReadAllocAccount valIn =
 
 
 let WriteAllocAccount (strm:Stream) (valIn:AllocAccount) = 
-    let tag = "79="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "79="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocQty valIn =
@@ -1411,11 +2200,11 @@ let ReadAllocQty valIn =
 
 
 let WriteAllocQty (strm:Stream) (valIn:AllocQty) = 
-    let tag = "80="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "80="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadProcessCode (fldValIn:string) : ProcessCode = 
@@ -1432,13 +2221,34 @@ let ReadProcessCode (fldValIn:string) : ProcessCode =
 
 let WriteProcessCode (strm:Stream) (xxIn:ProcessCode) =
     match xxIn with
-    | ProcessCode.Regular -> strm.Write "81=0"B; strm.Write (delim, 0, 1)
-    | ProcessCode.SoftDollar -> strm.Write "81=1"B; strm.Write (delim, 0, 1)
-    | ProcessCode.StepIn -> strm.Write "81=2"B; strm.Write (delim, 0, 1)
-    | ProcessCode.StepOut -> strm.Write "81=3"B; strm.Write (delim, 0, 1)
-    | ProcessCode.SoftDollarStepIn -> strm.Write "81=4"B; strm.Write (delim, 0, 1)
-    | ProcessCode.SoftDollarStepOut -> strm.Write "81=5"B; strm.Write (delim, 0, 1)
-    | ProcessCode.PlanSponsor -> strm.Write "81=6"B; strm.Write (delim, 0, 1)
+    | ProcessCode.Regular ->
+        let tag = "81=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.SoftDollar ->
+        let tag = "81=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.StepIn ->
+        let tag = "81=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.StepOut ->
+        let tag = "81=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.SoftDollarStepIn ->
+        let tag = "81=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.SoftDollarStepOut ->
+        let tag = "81=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProcessCode.PlanSponsor ->
+        let tag = "81=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoRpts valIn =
@@ -1447,11 +2257,11 @@ let ReadNoRpts valIn =
 
 
 let WriteNoRpts (strm:Stream) (valIn:NoRpts) = 
-    let tag = "82="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "82="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRptSeq valIn =
@@ -1460,11 +2270,11 @@ let ReadRptSeq valIn =
 
 
 let WriteRptSeq (strm:Stream) (valIn:RptSeq) = 
-    let tag = "83="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "83="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCxlQty valIn =
@@ -1473,11 +2283,11 @@ let ReadCxlQty valIn =
 
 
 let WriteCxlQty (strm:Stream) (valIn:CxlQty) = 
-    let tag = "84="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "84="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoDlvyInst valIn =
@@ -1486,11 +2296,11 @@ let ReadNoDlvyInst valIn =
 
 
 let WriteNoDlvyInst (strm:Stream) (valIn:NoDlvyInst) = 
-    let tag = "85="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "85="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocStatus (fldValIn:string) : AllocStatus = 
@@ -1506,12 +2316,30 @@ let ReadAllocStatus (fldValIn:string) : AllocStatus =
 
 let WriteAllocStatus (strm:Stream) (xxIn:AllocStatus) =
     match xxIn with
-    | AllocStatus.Accepted -> strm.Write "87=0"B; strm.Write (delim, 0, 1)
-    | AllocStatus.BlockLevelReject -> strm.Write "87=1"B; strm.Write (delim, 0, 1)
-    | AllocStatus.AccountLevelReject -> strm.Write "87=2"B; strm.Write (delim, 0, 1)
-    | AllocStatus.Received -> strm.Write "87=3"B; strm.Write (delim, 0, 1)
-    | AllocStatus.Incomplete -> strm.Write "87=4"B; strm.Write (delim, 0, 1)
-    | AllocStatus.RejectedByIntermediary -> strm.Write "87=5"B; strm.Write (delim, 0, 1)
+    | AllocStatus.Accepted ->
+        let tag = "87=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocStatus.BlockLevelReject ->
+        let tag = "87=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocStatus.AccountLevelReject ->
+        let tag = "87=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocStatus.Received ->
+        let tag = "87=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocStatus.Incomplete ->
+        let tag = "87=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocStatus.RejectedByIntermediary ->
+        let tag = "87=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAllocRejCode (fldValIn:string) : AllocRejCode = 
@@ -1535,20 +2363,62 @@ let ReadAllocRejCode (fldValIn:string) : AllocRejCode =
 
 let WriteAllocRejCode (strm:Stream) (xxIn:AllocRejCode) =
     match xxIn with
-    | AllocRejCode.UnknownAccount -> strm.Write "88=0"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.IncorrectQuantity -> strm.Write "88=1"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.IncorrectAveragePrice -> strm.Write "88=2"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.UnknownExecutingBrokerMnemonic -> strm.Write "88=3"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.CommissionDifference -> strm.Write "88=4"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.UnknownOrderid -> strm.Write "88=5"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.UnknownListid -> strm.Write "88=6"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.Other -> strm.Write "88=7"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.IncorrectAllocatedQuantity -> strm.Write "88=8"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.CalculationDifference -> strm.Write "88=9"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.UnknownOrStaleExecId -> strm.Write "88=10"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.MismatchedDataValue -> strm.Write "88=11"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.UnknownClordid -> strm.Write "88=12"B; strm.Write (delim, 0, 1)
-    | AllocRejCode.WarehouseRequestRejected -> strm.Write "88=13"B; strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownAccount ->
+        let tag = "88=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.IncorrectQuantity ->
+        let tag = "88=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.IncorrectAveragePrice ->
+        let tag = "88=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownExecutingBrokerMnemonic ->
+        let tag = "88=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.CommissionDifference ->
+        let tag = "88=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownOrderid ->
+        let tag = "88=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownListid ->
+        let tag = "88=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.Other ->
+        let tag = "88=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.IncorrectAllocatedQuantity ->
+        let tag = "88=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.CalculationDifference ->
+        let tag = "88=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownOrStaleExecId ->
+        let tag = "88=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.MismatchedDataValue ->
+        let tag = "88=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.UnknownClordid ->
+        let tag = "88=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocRejCode.WarehouseRequestRejected ->
+        let tag = "88=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSignature valIn =
@@ -1557,22 +2427,24 @@ let ReadSignature valIn =
 
 
 let WriteSignature (strm:Stream) (valIn:Signature) = 
-    let tag = "89="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "89="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteSecureData (strm:System.IO.Stream) (fld:SecureData) =
     let lenTag = "90="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "91="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -1597,11 +2469,11 @@ let ReadSignatureLength valIn =
 
 
 let WriteSignatureLength (strm:Stream) (valIn:SignatureLength) = 
-    let tag = "93="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "93="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEmailType (fldValIn:string) : EmailType = 
@@ -1614,9 +2486,18 @@ let ReadEmailType (fldValIn:string) : EmailType =
 
 let WriteEmailType (strm:Stream) (xxIn:EmailType) =
     match xxIn with
-    | EmailType.New -> strm.Write "94=0"B; strm.Write (delim, 0, 1)
-    | EmailType.Reply -> strm.Write "94=1"B; strm.Write (delim, 0, 1)
-    | EmailType.AdminReply -> strm.Write "94=2"B; strm.Write (delim, 0, 1)
+    | EmailType.New ->
+        let tag = "94=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EmailType.Reply ->
+        let tag = "94=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EmailType.AdminReply ->
+        let tag = "94=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRawDataLength valIn =
@@ -1625,11 +2506,11 @@ let ReadRawDataLength valIn =
 
 
 let WriteRawDataLength (strm:Stream) (valIn:RawDataLength) = 
-    let tag = "95="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "95="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRawData valIn =
@@ -1638,11 +2519,11 @@ let ReadRawData valIn =
 
 
 let WriteRawData (strm:Stream) (valIn:RawData) = 
-    let tag = "96="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "96="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPossResend valIn =
@@ -1651,11 +2532,11 @@ let ReadPossResend valIn =
 
 
 let WritePossResend (strm:Stream) (valIn:PossResend) = 
-    let tag = "97="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "97="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEncryptMethod (fldValIn:string) : EncryptMethod = 
@@ -1672,13 +2553,34 @@ let ReadEncryptMethod (fldValIn:string) : EncryptMethod =
 
 let WriteEncryptMethod (strm:Stream) (xxIn:EncryptMethod) =
     match xxIn with
-    | EncryptMethod.NoneOther -> strm.Write "98=0"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.Pkcs -> strm.Write "98=1"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.Des -> strm.Write "98=2"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.PkcsDes -> strm.Write "98=3"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.PgpDes -> strm.Write "98=4"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.PgpDesMd5 -> strm.Write "98=5"B; strm.Write (delim, 0, 1)
-    | EncryptMethod.PemDesMd5 -> strm.Write "98=6"B; strm.Write (delim, 0, 1)
+    | EncryptMethod.NoneOther ->
+        let tag = "98=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.Pkcs ->
+        let tag = "98=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.Des ->
+        let tag = "98=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.PkcsDes ->
+        let tag = "98=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.PgpDes ->
+        let tag = "98=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.PgpDesMd5 ->
+        let tag = "98=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EncryptMethod.PemDesMd5 ->
+        let tag = "98=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStopPx valIn =
@@ -1687,11 +2589,11 @@ let ReadStopPx valIn =
 
 
 let WriteStopPx (strm:Stream) (valIn:StopPx) = 
-    let tag = "99="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "99="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExDestination valIn =
@@ -1700,11 +2602,11 @@ let ReadExDestination valIn =
 
 
 let WriteExDestination (strm:Stream) (valIn:ExDestination) = 
-    let tag = "100="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "100="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCxlRejReason (fldValIn:string) : CxlRejReason = 
@@ -1722,14 +2624,38 @@ let ReadCxlRejReason (fldValIn:string) : CxlRejReason =
 
 let WriteCxlRejReason (strm:Stream) (xxIn:CxlRejReason) =
     match xxIn with
-    | CxlRejReason.TooLateToCancel -> strm.Write "102=0"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.UnknownOrder -> strm.Write "102=1"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.BrokerExchangeOption -> strm.Write "102=2"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.OrderAlreadyInPendingCancelOrPendingReplaceStatus -> strm.Write "102=3"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.UnableToProcessOrderMassCancelRequest -> strm.Write "102=4"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder -> strm.Write "102=5"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.DuplicateClordidReceived -> strm.Write "102=6"B; strm.Write (delim, 0, 1)
-    | CxlRejReason.Other -> strm.Write "102=99"B; strm.Write (delim, 0, 1)
+    | CxlRejReason.TooLateToCancel ->
+        let tag = "102=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.UnknownOrder ->
+        let tag = "102=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.BrokerExchangeOption ->
+        let tag = "102=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.OrderAlreadyInPendingCancelOrPendingReplaceStatus ->
+        let tag = "102=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.UnableToProcessOrderMassCancelRequest ->
+        let tag = "102=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder ->
+        let tag = "102=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.DuplicateClordidReceived ->
+        let tag = "102=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejReason.Other ->
+        let tag = "102=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrdRejReason (fldValIn:string) : OrdRejReason = 
@@ -1756,23 +2682,74 @@ let ReadOrdRejReason (fldValIn:string) : OrdRejReason =
 
 let WriteOrdRejReason (strm:Stream) (xxIn:OrdRejReason) =
     match xxIn with
-    | OrdRejReason.BrokerExchangeOption -> strm.Write "103=0"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.UnknownSymbol -> strm.Write "103=1"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.ExchangeClosed -> strm.Write "103=2"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.OrderExceedsLimit -> strm.Write "103=3"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.TooLateToEnter -> strm.Write "103=4"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.UnknownOrder -> strm.Write "103=5"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.DuplicateOrder -> strm.Write "103=6"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.DuplicateOfAVerballyCommunicatedOrder -> strm.Write "103=7"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.StaleOrder -> strm.Write "103=8"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.TradeAlongRequired -> strm.Write "103=9"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.InvalidInvestorId -> strm.Write "103=10"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.UnsupportedOrderCharacteristic -> strm.Write "103=11"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.SurveillenceOption -> strm.Write "103=12"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.IncorrectQuantity -> strm.Write "103=13"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.IncorrectAllocatedQuantity -> strm.Write "103=14"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.UnknownAccount -> strm.Write "103=15"B; strm.Write (delim, 0, 1)
-    | OrdRejReason.Other -> strm.Write "103=99"B; strm.Write (delim, 0, 1)
+    | OrdRejReason.BrokerExchangeOption ->
+        let tag = "103=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.UnknownSymbol ->
+        let tag = "103=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.ExchangeClosed ->
+        let tag = "103=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.OrderExceedsLimit ->
+        let tag = "103=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.TooLateToEnter ->
+        let tag = "103=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.UnknownOrder ->
+        let tag = "103=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.DuplicateOrder ->
+        let tag = "103=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.DuplicateOfAVerballyCommunicatedOrder ->
+        let tag = "103=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.StaleOrder ->
+        let tag = "103=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.TradeAlongRequired ->
+        let tag = "103=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.InvalidInvestorId ->
+        let tag = "103=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.UnsupportedOrderCharacteristic ->
+        let tag = "103=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.SurveillenceOption ->
+        let tag = "103=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.IncorrectQuantity ->
+        let tag = "103=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.IncorrectAllocatedQuantity ->
+        let tag = "103=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.UnknownAccount ->
+        let tag = "103=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrdRejReason.Other ->
+        let tag = "103=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadIOIQualifier (fldValIn:string) : IOIQualifier = 
@@ -1800,24 +2777,78 @@ let ReadIOIQualifier (fldValIn:string) : IOIQualifier =
 
 let WriteIOIQualifier (strm:Stream) (xxIn:IOIQualifier) =
     match xxIn with
-    | IOIQualifier.AllOrNone -> strm.Write "104=A"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.MarketOnClose -> strm.Write "104=B"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.AtTheClose -> strm.Write "104=C"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.Vwap -> strm.Write "104=D"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.InTouchWith -> strm.Write "104=I"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.Limit -> strm.Write "104=L"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.MoreBehind -> strm.Write "104=M"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.AtTheOpen -> strm.Write "104=O"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.TakingAPosition -> strm.Write "104=P"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.AtTheMarket -> strm.Write "104=Q"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.ReadyToTrade -> strm.Write "104=R"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.PortfolioShown -> strm.Write "104=S"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.ThroughTheDay -> strm.Write "104=T"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.Versus -> strm.Write "104=V"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.IndicationWorkingAway -> strm.Write "104=W"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.CrossingOpportunity -> strm.Write "104=X"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.AtTheMidpoint -> strm.Write "104=Y"B; strm.Write (delim, 0, 1)
-    | IOIQualifier.PreOpen -> strm.Write "104=Z"B; strm.Write (delim, 0, 1)
+    | IOIQualifier.AllOrNone ->
+        let tag = "104=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.MarketOnClose ->
+        let tag = "104=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.AtTheClose ->
+        let tag = "104=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.Vwap ->
+        let tag = "104=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.InTouchWith ->
+        let tag = "104=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.Limit ->
+        let tag = "104=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.MoreBehind ->
+        let tag = "104=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.AtTheOpen ->
+        let tag = "104=O"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.TakingAPosition ->
+        let tag = "104=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.AtTheMarket ->
+        let tag = "104=Q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.ReadyToTrade ->
+        let tag = "104=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.PortfolioShown ->
+        let tag = "104=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.ThroughTheDay ->
+        let tag = "104=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.Versus ->
+        let tag = "104=V"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.IndicationWorkingAway ->
+        let tag = "104=W"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.CrossingOpportunity ->
+        let tag = "104=X"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.AtTheMidpoint ->
+        let tag = "104=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IOIQualifier.PreOpen ->
+        let tag = "104=Z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadWaveNo valIn =
@@ -1826,11 +2857,11 @@ let ReadWaveNo valIn =
 
 
 let WriteWaveNo (strm:Stream) (valIn:WaveNo) = 
-    let tag = "105="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "105="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIssuer valIn =
@@ -1839,11 +2870,11 @@ let ReadIssuer valIn =
 
 
 let WriteIssuer (strm:Stream) (valIn:Issuer) = 
-    let tag = "106="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "106="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityDesc valIn =
@@ -1852,11 +2883,11 @@ let ReadSecurityDesc valIn =
 
 
 let WriteSecurityDesc (strm:Stream) (valIn:SecurityDesc) = 
-    let tag = "107="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "107="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHeartBtInt valIn =
@@ -1865,11 +2896,11 @@ let ReadHeartBtInt valIn =
 
 
 let WriteHeartBtInt (strm:Stream) (valIn:HeartBtInt) = 
-    let tag = "108="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "108="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMinQty valIn =
@@ -1878,11 +2909,11 @@ let ReadMinQty valIn =
 
 
 let WriteMinQty (strm:Stream) (valIn:MinQty) = 
-    let tag = "110="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "110="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMaxFloor valIn =
@@ -1891,11 +2922,11 @@ let ReadMaxFloor valIn =
 
 
 let WriteMaxFloor (strm:Stream) (valIn:MaxFloor) = 
-    let tag = "111="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "111="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTestReqID valIn =
@@ -1904,11 +2935,11 @@ let ReadTestReqID valIn =
 
 
 let WriteTestReqID (strm:Stream) (valIn:TestReqID) = 
-    let tag = "112="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "112="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadReportToExch valIn =
@@ -1917,11 +2948,11 @@ let ReadReportToExch valIn =
 
 
 let WriteReportToExch (strm:Stream) (valIn:ReportToExch) = 
-    let tag = "113="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "113="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLocateReqd valIn =
@@ -1930,11 +2961,11 @@ let ReadLocateReqd valIn =
 
 
 let WriteLocateReqd (strm:Stream) (valIn:LocateReqd) = 
-    let tag = "114="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "114="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOnBehalfOfCompID valIn =
@@ -1943,11 +2974,11 @@ let ReadOnBehalfOfCompID valIn =
 
 
 let WriteOnBehalfOfCompID (strm:Stream) (valIn:OnBehalfOfCompID) = 
-    let tag = "115="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "115="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOnBehalfOfSubID valIn =
@@ -1956,11 +2987,11 @@ let ReadOnBehalfOfSubID valIn =
 
 
 let WriteOnBehalfOfSubID (strm:Stream) (valIn:OnBehalfOfSubID) = 
-    let tag = "116="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "116="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteID valIn =
@@ -1969,11 +3000,11 @@ let ReadQuoteID valIn =
 
 
 let WriteQuoteID (strm:Stream) (valIn:QuoteID) = 
-    let tag = "117="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "117="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetMoney valIn =
@@ -1982,11 +3013,11 @@ let ReadNetMoney valIn =
 
 
 let WriteNetMoney (strm:Stream) (valIn:NetMoney) = 
-    let tag = "118="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "118="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrAmt valIn =
@@ -1995,11 +3026,11 @@ let ReadSettlCurrAmt valIn =
 
 
 let WriteSettlCurrAmt (strm:Stream) (valIn:SettlCurrAmt) = 
-    let tag = "119="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "119="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrency valIn =
@@ -2008,11 +3039,11 @@ let ReadSettlCurrency valIn =
 
 
 let WriteSettlCurrency (strm:Stream) (valIn:SettlCurrency) = 
-    let tag = "120="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "120="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadForexReq valIn =
@@ -2021,11 +3052,11 @@ let ReadForexReq valIn =
 
 
 let WriteForexReq (strm:Stream) (valIn:ForexReq) = 
-    let tag = "121="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "121="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrigSendingTime valIn =
@@ -2034,11 +3065,11 @@ let ReadOrigSendingTime valIn =
 
 
 let WriteOrigSendingTime (strm:Stream) (valIn:OrigSendingTime) = 
-    let tag = "122="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "122="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadGapFillFlag valIn =
@@ -2047,11 +3078,11 @@ let ReadGapFillFlag valIn =
 
 
 let WriteGapFillFlag (strm:Stream) (valIn:GapFillFlag) = 
-    let tag = "123="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "123="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoExecs valIn =
@@ -2060,11 +3091,11 @@ let ReadNoExecs valIn =
 
 
 let WriteNoExecs (strm:Stream) (valIn:NoExecs) = 
-    let tag = "124="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "124="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExpireTime valIn =
@@ -2073,11 +3104,11 @@ let ReadExpireTime valIn =
 
 
 let WriteExpireTime (strm:Stream) (valIn:ExpireTime) = 
-    let tag = "126="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "126="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDKReason (fldValIn:string) : DKReason = 
@@ -2094,13 +3125,34 @@ let ReadDKReason (fldValIn:string) : DKReason =
 
 let WriteDKReason (strm:Stream) (xxIn:DKReason) =
     match xxIn with
-    | DKReason.UnknownSymbol -> strm.Write "127=A"B; strm.Write (delim, 0, 1)
-    | DKReason.WrongSide -> strm.Write "127=B"B; strm.Write (delim, 0, 1)
-    | DKReason.QuantityExceedsOrder -> strm.Write "127=C"B; strm.Write (delim, 0, 1)
-    | DKReason.NoMatchingOrder -> strm.Write "127=D"B; strm.Write (delim, 0, 1)
-    | DKReason.PriceExceedsLimit -> strm.Write "127=E"B; strm.Write (delim, 0, 1)
-    | DKReason.CalculationDifference -> strm.Write "127=F"B; strm.Write (delim, 0, 1)
-    | DKReason.Other -> strm.Write "127=Z"B; strm.Write (delim, 0, 1)
+    | DKReason.UnknownSymbol ->
+        let tag = "127=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.WrongSide ->
+        let tag = "127=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.QuantityExceedsOrder ->
+        let tag = "127=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.NoMatchingOrder ->
+        let tag = "127=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.PriceExceedsLimit ->
+        let tag = "127=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.CalculationDifference ->
+        let tag = "127=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DKReason.Other ->
+        let tag = "127=Z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDeliverToCompID valIn =
@@ -2109,11 +3161,11 @@ let ReadDeliverToCompID valIn =
 
 
 let WriteDeliverToCompID (strm:Stream) (valIn:DeliverToCompID) = 
-    let tag = "128="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "128="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeliverToSubID valIn =
@@ -2122,11 +3174,11 @@ let ReadDeliverToSubID valIn =
 
 
 let WriteDeliverToSubID (strm:Stream) (valIn:DeliverToSubID) = 
-    let tag = "129="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "129="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIOINaturalFlag valIn =
@@ -2135,11 +3187,11 @@ let ReadIOINaturalFlag valIn =
 
 
 let WriteIOINaturalFlag (strm:Stream) (valIn:IOINaturalFlag) = 
-    let tag = "130="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "130="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteReqID valIn =
@@ -2148,11 +3200,11 @@ let ReadQuoteReqID valIn =
 
 
 let WriteQuoteReqID (strm:Stream) (valIn:QuoteReqID) = 
-    let tag = "131="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "131="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidPx valIn =
@@ -2161,11 +3213,11 @@ let ReadBidPx valIn =
 
 
 let WriteBidPx (strm:Stream) (valIn:BidPx) = 
-    let tag = "132="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "132="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferPx valIn =
@@ -2174,11 +3226,11 @@ let ReadOfferPx valIn =
 
 
 let WriteOfferPx (strm:Stream) (valIn:OfferPx) = 
-    let tag = "133="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "133="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidSize valIn =
@@ -2187,11 +3239,11 @@ let ReadBidSize valIn =
 
 
 let WriteBidSize (strm:Stream) (valIn:BidSize) = 
-    let tag = "134="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "134="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferSize valIn =
@@ -2200,11 +3252,11 @@ let ReadOfferSize valIn =
 
 
 let WriteOfferSize (strm:Stream) (valIn:OfferSize) = 
-    let tag = "135="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "135="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoMiscFees valIn =
@@ -2213,11 +3265,11 @@ let ReadNoMiscFees valIn =
 
 
 let WriteNoMiscFees (strm:Stream) (valIn:NoMiscFees) = 
-    let tag = "136="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "136="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMiscFeeAmt valIn =
@@ -2226,11 +3278,11 @@ let ReadMiscFeeAmt valIn =
 
 
 let WriteMiscFeeAmt (strm:Stream) (valIn:MiscFeeAmt) = 
-    let tag = "137="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "137="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMiscFeeCurr valIn =
@@ -2239,11 +3291,11 @@ let ReadMiscFeeCurr valIn =
 
 
 let WriteMiscFeeCurr (strm:Stream) (valIn:MiscFeeCurr) = 
-    let tag = "138="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "138="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMiscFeeType (fldValIn:string) : MiscFeeType = 
@@ -2265,18 +3317,54 @@ let ReadMiscFeeType (fldValIn:string) : MiscFeeType =
 
 let WriteMiscFeeType (strm:Stream) (xxIn:MiscFeeType) =
     match xxIn with
-    | MiscFeeType.Regulatory -> strm.Write "139=1"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Tax -> strm.Write "139=2"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.LocalCommission -> strm.Write "139=3"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.ExchangeFees -> strm.Write "139=4"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Stamp -> strm.Write "139=5"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Levy -> strm.Write "139=6"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Other -> strm.Write "139=7"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Markup -> strm.Write "139=8"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.ConsumptionTax -> strm.Write "139=9"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.PerTransaction -> strm.Write "139=10"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Conversion -> strm.Write "139=11"B; strm.Write (delim, 0, 1)
-    | MiscFeeType.Agent -> strm.Write "139=12"B; strm.Write (delim, 0, 1)
+    | MiscFeeType.Regulatory ->
+        let tag = "139=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Tax ->
+        let tag = "139=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.LocalCommission ->
+        let tag = "139=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.ExchangeFees ->
+        let tag = "139=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Stamp ->
+        let tag = "139=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Levy ->
+        let tag = "139=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Other ->
+        let tag = "139=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Markup ->
+        let tag = "139=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.ConsumptionTax ->
+        let tag = "139=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.PerTransaction ->
+        let tag = "139=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Conversion ->
+        let tag = "139=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeType.Agent ->
+        let tag = "139=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPrevClosePx valIn =
@@ -2285,11 +3373,11 @@ let ReadPrevClosePx valIn =
 
 
 let WritePrevClosePx (strm:Stream) (valIn:PrevClosePx) = 
-    let tag = "140="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "140="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadResetSeqNumFlag valIn =
@@ -2298,11 +3386,11 @@ let ReadResetSeqNumFlag valIn =
 
 
 let WriteResetSeqNumFlag (strm:Stream) (valIn:ResetSeqNumFlag) = 
-    let tag = "141="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "141="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSenderLocationID valIn =
@@ -2311,11 +3399,11 @@ let ReadSenderLocationID valIn =
 
 
 let WriteSenderLocationID (strm:Stream) (valIn:SenderLocationID) = 
-    let tag = "142="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "142="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTargetLocationID valIn =
@@ -2324,11 +3412,11 @@ let ReadTargetLocationID valIn =
 
 
 let WriteTargetLocationID (strm:Stream) (valIn:TargetLocationID) = 
-    let tag = "143="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "143="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOnBehalfOfLocationID valIn =
@@ -2337,11 +3425,11 @@ let ReadOnBehalfOfLocationID valIn =
 
 
 let WriteOnBehalfOfLocationID (strm:Stream) (valIn:OnBehalfOfLocationID) = 
-    let tag = "144="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "144="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeliverToLocationID valIn =
@@ -2350,11 +3438,11 @@ let ReadDeliverToLocationID valIn =
 
 
 let WriteDeliverToLocationID (strm:Stream) (valIn:DeliverToLocationID) = 
-    let tag = "145="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "145="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoRelatedSym valIn =
@@ -2363,11 +3451,11 @@ let ReadNoRelatedSym valIn =
 
 
 let WriteNoRelatedSym (strm:Stream) (valIn:NoRelatedSym) = 
-    let tag = "146="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "146="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSubject valIn =
@@ -2376,11 +3464,11 @@ let ReadSubject valIn =
 
 
 let WriteSubject (strm:Stream) (valIn:Subject) = 
-    let tag = "147="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "147="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHeadline valIn =
@@ -2389,11 +3477,11 @@ let ReadHeadline valIn =
 
 
 let WriteHeadline (strm:Stream) (valIn:Headline) = 
-    let tag = "148="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "148="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadURLLink valIn =
@@ -2402,11 +3490,11 @@ let ReadURLLink valIn =
 
 
 let WriteURLLink (strm:Stream) (valIn:URLLink) = 
-    let tag = "149="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "149="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExecType (fldValIn:string) : ExecType = 
@@ -2435,25 +3523,82 @@ let ReadExecType (fldValIn:string) : ExecType =
 
 let WriteExecType (strm:Stream) (xxIn:ExecType) =
     match xxIn with
-    | ExecType.New -> strm.Write "150=0"B; strm.Write (delim, 0, 1)
-    | ExecType.PartialFill -> strm.Write "150=1"B; strm.Write (delim, 0, 1)
-    | ExecType.Fill -> strm.Write "150=2"B; strm.Write (delim, 0, 1)
-    | ExecType.DoneForDay -> strm.Write "150=3"B; strm.Write (delim, 0, 1)
-    | ExecType.Canceled -> strm.Write "150=4"B; strm.Write (delim, 0, 1)
-    | ExecType.Replace -> strm.Write "150=5"B; strm.Write (delim, 0, 1)
-    | ExecType.PendingCancel -> strm.Write "150=6"B; strm.Write (delim, 0, 1)
-    | ExecType.Stopped -> strm.Write "150=7"B; strm.Write (delim, 0, 1)
-    | ExecType.Rejected -> strm.Write "150=8"B; strm.Write (delim, 0, 1)
-    | ExecType.Suspended -> strm.Write "150=9"B; strm.Write (delim, 0, 1)
-    | ExecType.PendingNew -> strm.Write "150=A"B; strm.Write (delim, 0, 1)
-    | ExecType.Calculated -> strm.Write "150=B"B; strm.Write (delim, 0, 1)
-    | ExecType.Expired -> strm.Write "150=C"B; strm.Write (delim, 0, 1)
-    | ExecType.Restated -> strm.Write "150=D"B; strm.Write (delim, 0, 1)
-    | ExecType.PendingReplace -> strm.Write "150=E"B; strm.Write (delim, 0, 1)
-    | ExecType.Trade -> strm.Write "150=F"B; strm.Write (delim, 0, 1)
-    | ExecType.TradeCorrect -> strm.Write "150=G"B; strm.Write (delim, 0, 1)
-    | ExecType.TradeCancel -> strm.Write "150=H"B; strm.Write (delim, 0, 1)
-    | ExecType.OrderStatus -> strm.Write "150=I"B; strm.Write (delim, 0, 1)
+    | ExecType.New ->
+        let tag = "150=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.PartialFill ->
+        let tag = "150=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Fill ->
+        let tag = "150=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.DoneForDay ->
+        let tag = "150=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Canceled ->
+        let tag = "150=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Replace ->
+        let tag = "150=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.PendingCancel ->
+        let tag = "150=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Stopped ->
+        let tag = "150=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Rejected ->
+        let tag = "150=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Suspended ->
+        let tag = "150=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.PendingNew ->
+        let tag = "150=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Calculated ->
+        let tag = "150=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Expired ->
+        let tag = "150=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Restated ->
+        let tag = "150=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.PendingReplace ->
+        let tag = "150=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.Trade ->
+        let tag = "150=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.TradeCorrect ->
+        let tag = "150=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.TradeCancel ->
+        let tag = "150=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecType.OrderStatus ->
+        let tag = "150=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLeavesQty valIn =
@@ -2462,11 +3607,11 @@ let ReadLeavesQty valIn =
 
 
 let WriteLeavesQty (strm:Stream) (valIn:LeavesQty) = 
-    let tag = "151="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "151="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashOrderQty valIn =
@@ -2475,11 +3620,11 @@ let ReadCashOrderQty valIn =
 
 
 let WriteCashOrderQty (strm:Stream) (valIn:CashOrderQty) = 
-    let tag = "152="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "152="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocAvgPx valIn =
@@ -2488,11 +3633,11 @@ let ReadAllocAvgPx valIn =
 
 
 let WriteAllocAvgPx (strm:Stream) (valIn:AllocAvgPx) = 
-    let tag = "153="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "153="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocNetMoney valIn =
@@ -2501,11 +3646,11 @@ let ReadAllocNetMoney valIn =
 
 
 let WriteAllocNetMoney (strm:Stream) (valIn:AllocNetMoney) = 
-    let tag = "154="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "154="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrFxRate valIn =
@@ -2514,11 +3659,11 @@ let ReadSettlCurrFxRate valIn =
 
 
 let WriteSettlCurrFxRate (strm:Stream) (valIn:SettlCurrFxRate) = 
-    let tag = "155="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "155="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrFxRateCalc (fldValIn:string) : SettlCurrFxRateCalc = 
@@ -2530,8 +3675,14 @@ let ReadSettlCurrFxRateCalc (fldValIn:string) : SettlCurrFxRateCalc =
 
 let WriteSettlCurrFxRateCalc (strm:Stream) (xxIn:SettlCurrFxRateCalc) =
     match xxIn with
-    | SettlCurrFxRateCalc.Multiply -> strm.Write "156=M"B; strm.Write (delim, 0, 1)
-    | SettlCurrFxRateCalc.Divide -> strm.Write "156=D"B; strm.Write (delim, 0, 1)
+    | SettlCurrFxRateCalc.Multiply ->
+        let tag = "156=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlCurrFxRateCalc.Divide ->
+        let tag = "156=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNumDaysInterest valIn =
@@ -2540,11 +3691,11 @@ let ReadNumDaysInterest valIn =
 
 
 let WriteNumDaysInterest (strm:Stream) (valIn:NumDaysInterest) = 
-    let tag = "157="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "157="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAccruedInterestRate valIn =
@@ -2553,11 +3704,11 @@ let ReadAccruedInterestRate valIn =
 
 
 let WriteAccruedInterestRate (strm:Stream) (valIn:AccruedInterestRate) = 
-    let tag = "158="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "158="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAccruedInterestAmt valIn =
@@ -2566,11 +3717,11 @@ let ReadAccruedInterestAmt valIn =
 
 
 let WriteAccruedInterestAmt (strm:Stream) (valIn:AccruedInterestAmt) = 
-    let tag = "159="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "159="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstMode (fldValIn:string) : SettlInstMode = 
@@ -2584,10 +3735,22 @@ let ReadSettlInstMode (fldValIn:string) : SettlInstMode =
 
 let WriteSettlInstMode (strm:Stream) (xxIn:SettlInstMode) =
     match xxIn with
-    | SettlInstMode.Default -> strm.Write "160=0"B; strm.Write (delim, 0, 1)
-    | SettlInstMode.StandingInstructionsProvided -> strm.Write "160=1"B; strm.Write (delim, 0, 1)
-    | SettlInstMode.SpecificOrderForASingleAccount -> strm.Write "160=4"B; strm.Write (delim, 0, 1)
-    | SettlInstMode.RequestReject -> strm.Write "160=5"B; strm.Write (delim, 0, 1)
+    | SettlInstMode.Default ->
+        let tag = "160=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstMode.StandingInstructionsProvided ->
+        let tag = "160=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstMode.SpecificOrderForASingleAccount ->
+        let tag = "160=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstMode.RequestReject ->
+        let tag = "160=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAllocText valIn =
@@ -2596,11 +3759,11 @@ let ReadAllocText valIn =
 
 
 let WriteAllocText (strm:Stream) (valIn:AllocText) = 
-    let tag = "161="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "161="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstID valIn =
@@ -2609,11 +3772,11 @@ let ReadSettlInstID valIn =
 
 
 let WriteSettlInstID (strm:Stream) (valIn:SettlInstID) = 
-    let tag = "162="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "162="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstTransType (fldValIn:string) : SettlInstTransType = 
@@ -2627,10 +3790,22 @@ let ReadSettlInstTransType (fldValIn:string) : SettlInstTransType =
 
 let WriteSettlInstTransType (strm:Stream) (xxIn:SettlInstTransType) =
     match xxIn with
-    | SettlInstTransType.New -> strm.Write "163=N"B; strm.Write (delim, 0, 1)
-    | SettlInstTransType.Cancel -> strm.Write "163=C"B; strm.Write (delim, 0, 1)
-    | SettlInstTransType.Replace -> strm.Write "163=R"B; strm.Write (delim, 0, 1)
-    | SettlInstTransType.Restate -> strm.Write "163=T"B; strm.Write (delim, 0, 1)
+    | SettlInstTransType.New ->
+        let tag = "163=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstTransType.Cancel ->
+        let tag = "163=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstTransType.Replace ->
+        let tag = "163=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstTransType.Restate ->
+        let tag = "163=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadEmailThreadID valIn =
@@ -2639,11 +3814,11 @@ let ReadEmailThreadID valIn =
 
 
 let WriteEmailThreadID (strm:Stream) (valIn:EmailThreadID) = 
-    let tag = "164="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "164="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstSource (fldValIn:string) : SettlInstSource = 
@@ -2656,9 +3831,18 @@ let ReadSettlInstSource (fldValIn:string) : SettlInstSource =
 
 let WriteSettlInstSource (strm:Stream) (xxIn:SettlInstSource) =
     match xxIn with
-    | SettlInstSource.BrokersInstructions -> strm.Write "165=1"B; strm.Write (delim, 0, 1)
-    | SettlInstSource.InstitutionsInstructions -> strm.Write "165=2"B; strm.Write (delim, 0, 1)
-    | SettlInstSource.Investor -> strm.Write "165=3"B; strm.Write (delim, 0, 1)
+    | SettlInstSource.BrokersInstructions ->
+        let tag = "165=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstSource.InstitutionsInstructions ->
+        let tag = "165=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstSource.Investor ->
+        let tag = "165=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecurityType (fldValIn:string) : SecurityType = 
@@ -2762,100 +3946,382 @@ let ReadSecurityType (fldValIn:string) : SecurityType =
 
 let WriteSecurityType (strm:Stream) (xxIn:SecurityType) =
     match xxIn with
-    | SecurityType.EuroSupranationalCoupons -> strm.Write "167=EUSUPRA"B; strm.Write (delim, 0, 1)
-    | SecurityType.FederalAgencyCoupon -> strm.Write "167=FAC"B; strm.Write (delim, 0, 1)
-    | SecurityType.FederalAgencyDiscountNote -> strm.Write "167=FADN"B; strm.Write (delim, 0, 1)
-    | SecurityType.PrivateExportFunding -> strm.Write "167=PEF"B; strm.Write (delim, 0, 1)
-    | SecurityType.UsdSupranationalCoupons -> strm.Write "167=SUPRA"B; strm.Write (delim, 0, 1)
-    | SecurityType.Future -> strm.Write "167=FUT"B; strm.Write (delim, 0, 1)
-    | SecurityType.Option -> strm.Write "167=OPT"B; strm.Write (delim, 0, 1)
-    | SecurityType.CorporateBond -> strm.Write "167=CORP"B; strm.Write (delim, 0, 1)
-    | SecurityType.CorporatePrivatePlacement -> strm.Write "167=CPP"B; strm.Write (delim, 0, 1)
-    | SecurityType.ConvertibleBond -> strm.Write "167=CB"B; strm.Write (delim, 0, 1)
-    | SecurityType.DualCurrency -> strm.Write "167=DUAL"B; strm.Write (delim, 0, 1)
-    | SecurityType.EuroCorporateBond -> strm.Write "167=EUCORP"B; strm.Write (delim, 0, 1)
-    | SecurityType.IndexedLinked -> strm.Write "167=XLINKD"B; strm.Write (delim, 0, 1)
-    | SecurityType.StructuredNotes -> strm.Write "167=STRUCT"B; strm.Write (delim, 0, 1)
-    | SecurityType.YankeeCorporateBond -> strm.Write "167=YANK"B; strm.Write (delim, 0, 1)
-    | SecurityType.ForeignExchangeContract -> strm.Write "167=FOR"B; strm.Write (delim, 0, 1)
-    | SecurityType.CommonStock -> strm.Write "167=CS"B; strm.Write (delim, 0, 1)
-    | SecurityType.PreferredStock -> strm.Write "167=PS"B; strm.Write (delim, 0, 1)
-    | SecurityType.BradyBond -> strm.Write "167=BRADY"B; strm.Write (delim, 0, 1)
-    | SecurityType.EuroSovereigns -> strm.Write "167=EUSOV"B; strm.Write (delim, 0, 1)
-    | SecurityType.UsTreasuryBond -> strm.Write "167=TBOND"B; strm.Write (delim, 0, 1)
-    | SecurityType.InterestStripFromAnyBondOrNote -> strm.Write "167=TINT"B; strm.Write (delim, 0, 1)
-    | SecurityType.TreasuryInflationProtectedSecurities -> strm.Write "167=TIPS"B; strm.Write (delim, 0, 1)
-    | SecurityType.PrincipalStripOfACallableBondOrNote -> strm.Write "167=TCAL"B; strm.Write (delim, 0, 1)
-    | SecurityType.PrincipalStripFromANonCallableBondOrNote -> strm.Write "167=TPRN"B; strm.Write (delim, 0, 1)
-    | SecurityType.UsTreasuryNote -> strm.Write "167=TNOTE"B; strm.Write (delim, 0, 1)
-    | SecurityType.UsTreasuryBill -> strm.Write "167=TBILL"B; strm.Write (delim, 0, 1)
-    | SecurityType.Repurchase -> strm.Write "167=REPO"B; strm.Write (delim, 0, 1)
-    | SecurityType.Forward -> strm.Write "167=FORWARD"B; strm.Write (delim, 0, 1)
-    | SecurityType.BuySellback -> strm.Write "167=BUYSELL"B; strm.Write (delim, 0, 1)
-    | SecurityType.SecuritiesLoan -> strm.Write "167=SECLOAN"B; strm.Write (delim, 0, 1)
-    | SecurityType.SecuritiesPledge -> strm.Write "167=SECPLEDGE"B; strm.Write (delim, 0, 1)
-    | SecurityType.TermLoan -> strm.Write "167=TERM"B; strm.Write (delim, 0, 1)
-    | SecurityType.RevolverLoan -> strm.Write "167=RVLV"B; strm.Write (delim, 0, 1)
-    | SecurityType.RevolverTermLoan -> strm.Write "167=RVLVTRM"B; strm.Write (delim, 0, 1)
-    | SecurityType.BridgeLoan -> strm.Write "167=BRIDGE"B; strm.Write (delim, 0, 1)
-    | SecurityType.LetterOfCredit -> strm.Write "167=LOFC"B; strm.Write (delim, 0, 1)
-    | SecurityType.SwingLineFacility -> strm.Write "167=SWING"B; strm.Write (delim, 0, 1)
-    | SecurityType.DebtorInPossession -> strm.Write "167=DINP"B; strm.Write (delim, 0, 1)
-    | SecurityType.Defaulted -> strm.Write "167=DEFLTED"B; strm.Write (delim, 0, 1)
-    | SecurityType.Withdrawn -> strm.Write "167=WITHDRN"B; strm.Write (delim, 0, 1)
-    | SecurityType.Replaced -> strm.Write "167=REPLACD"B; strm.Write (delim, 0, 1)
-    | SecurityType.Matured -> strm.Write "167=MATURED"B; strm.Write (delim, 0, 1)
-    | SecurityType.AmendedAndRestated -> strm.Write "167=AMENDED"B; strm.Write (delim, 0, 1)
-    | SecurityType.Retired -> strm.Write "167=RETIRED"B; strm.Write (delim, 0, 1)
-    | SecurityType.BankersAcceptance -> strm.Write "167=BA"B; strm.Write (delim, 0, 1)
-    | SecurityType.BankNotes -> strm.Write "167=BN"B; strm.Write (delim, 0, 1)
-    | SecurityType.BillOfExchanges -> strm.Write "167=BOX"B; strm.Write (delim, 0, 1)
-    | SecurityType.CertificateOfDeposit -> strm.Write "167=CD"B; strm.Write (delim, 0, 1)
-    | SecurityType.CallLoans -> strm.Write "167=CL"B; strm.Write (delim, 0, 1)
-    | SecurityType.CommercialPaper -> strm.Write "167=CP"B; strm.Write (delim, 0, 1)
-    | SecurityType.DepositNotes -> strm.Write "167=DN"B; strm.Write (delim, 0, 1)
-    | SecurityType.EuroCertificateOfDeposit -> strm.Write "167=EUCD"B; strm.Write (delim, 0, 1)
-    | SecurityType.EuroCommercialPaper -> strm.Write "167=EUCP"B; strm.Write (delim, 0, 1)
-    | SecurityType.LiquidityNote -> strm.Write "167=LQN"B; strm.Write (delim, 0, 1)
-    | SecurityType.MediumTermNotes -> strm.Write "167=MTN"B; strm.Write (delim, 0, 1)
-    | SecurityType.Overnight -> strm.Write "167=ONITE"B; strm.Write (delim, 0, 1)
-    | SecurityType.PromissoryNote -> strm.Write "167=PN"B; strm.Write (delim, 0, 1)
-    | SecurityType.PlazosFijos -> strm.Write "167=PZFJ"B; strm.Write (delim, 0, 1)
-    | SecurityType.ShortTermLoanNote -> strm.Write "167=STN"B; strm.Write (delim, 0, 1)
-    | SecurityType.TimeDeposit -> strm.Write "167=TD"B; strm.Write (delim, 0, 1)
-    | SecurityType.ExtendedCommNote -> strm.Write "167=XCN"B; strm.Write (delim, 0, 1)
-    | SecurityType.YankeeCertificateOfDeposit -> strm.Write "167=YCD"B; strm.Write (delim, 0, 1)
-    | SecurityType.AssetBackedSecurities -> strm.Write "167=ABS"B; strm.Write (delim, 0, 1)
-    | SecurityType.CorpMortgageBackedSecurities -> strm.Write "167=CMBS"B; strm.Write (delim, 0, 1)
-    | SecurityType.CollateralizedMortgageObligation -> strm.Write "167=CMO"B; strm.Write (delim, 0, 1)
-    | SecurityType.IoetteMortgage -> strm.Write "167=IET"B; strm.Write (delim, 0, 1)
-    | SecurityType.MortgageBackedSecurities -> strm.Write "167=MBS"B; strm.Write (delim, 0, 1)
-    | SecurityType.MortgageInterestOnly -> strm.Write "167=MIO"B; strm.Write (delim, 0, 1)
-    | SecurityType.MortgagePrincipalOnly -> strm.Write "167=MPO"B; strm.Write (delim, 0, 1)
-    | SecurityType.MortgagePrivatePlacement -> strm.Write "167=MPP"B; strm.Write (delim, 0, 1)
-    | SecurityType.MiscellaneousPassThrough -> strm.Write "167=MPT"B; strm.Write (delim, 0, 1)
-    | SecurityType.Pfandbriefe -> strm.Write "167=PFAND"B; strm.Write (delim, 0, 1)
-    | SecurityType.ToBeAnnounced -> strm.Write "167=TBA"B; strm.Write (delim, 0, 1)
-    | SecurityType.OtherAnticipationNotes -> strm.Write "167=AN"B; strm.Write (delim, 0, 1)
-    | SecurityType.CertificateOfObligation -> strm.Write "167=COFO"B; strm.Write (delim, 0, 1)
-    | SecurityType.CertificateOfParticipation -> strm.Write "167=COFP"B; strm.Write (delim, 0, 1)
-    | SecurityType.GeneralObligationBonds -> strm.Write "167=GO"B; strm.Write (delim, 0, 1)
-    | SecurityType.MandatoryTender -> strm.Write "167=MT"B; strm.Write (delim, 0, 1)
-    | SecurityType.RevenueAnticipationNote -> strm.Write "167=RAN"B; strm.Write (delim, 0, 1)
-    | SecurityType.RevenueBonds -> strm.Write "167=REV"B; strm.Write (delim, 0, 1)
-    | SecurityType.SpecialAssessment -> strm.Write "167=SPCLA"B; strm.Write (delim, 0, 1)
-    | SecurityType.SpecialObligation -> strm.Write "167=SPCLO"B; strm.Write (delim, 0, 1)
-    | SecurityType.SpecialTax -> strm.Write "167=SPCLT"B; strm.Write (delim, 0, 1)
-    | SecurityType.TaxAnticipationNote -> strm.Write "167=TAN"B; strm.Write (delim, 0, 1)
-    | SecurityType.TaxAllocation -> strm.Write "167=TAXA"B; strm.Write (delim, 0, 1)
-    | SecurityType.TaxExemptCommercialPaper -> strm.Write "167=TECP"B; strm.Write (delim, 0, 1)
-    | SecurityType.TaxAndRevenueAnticipationNote -> strm.Write "167=TRAN"B; strm.Write (delim, 0, 1)
-    | SecurityType.VariableRateDemandNote -> strm.Write "167=VRDN"B; strm.Write (delim, 0, 1)
-    | SecurityType.Warrant -> strm.Write "167=WAR"B; strm.Write (delim, 0, 1)
-    | SecurityType.MutualFund -> strm.Write "167=MF"B; strm.Write (delim, 0, 1)
-    | SecurityType.MultiLegInstrument -> strm.Write "167=MLEG"B; strm.Write (delim, 0, 1)
-    | SecurityType.NoSecurityType -> strm.Write "167=NONE"B; strm.Write (delim, 0, 1)
-    | SecurityType.Wildcard -> strm.Write "167=?"B; strm.Write (delim, 0, 1)
+    | SecurityType.EuroSupranationalCoupons ->
+        let tag = "167=EUSUPRA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.FederalAgencyCoupon ->
+        let tag = "167=FAC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.FederalAgencyDiscountNote ->
+        let tag = "167=FADN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PrivateExportFunding ->
+        let tag = "167=PEF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.UsdSupranationalCoupons ->
+        let tag = "167=SUPRA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Future ->
+        let tag = "167=FUT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Option ->
+        let tag = "167=OPT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CorporateBond ->
+        let tag = "167=CORP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CorporatePrivatePlacement ->
+        let tag = "167=CPP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.ConvertibleBond ->
+        let tag = "167=CB"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.DualCurrency ->
+        let tag = "167=DUAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.EuroCorporateBond ->
+        let tag = "167=EUCORP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.IndexedLinked ->
+        let tag = "167=XLINKD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.StructuredNotes ->
+        let tag = "167=STRUCT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.YankeeCorporateBond ->
+        let tag = "167=YANK"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.ForeignExchangeContract ->
+        let tag = "167=FOR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CommonStock ->
+        let tag = "167=CS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PreferredStock ->
+        let tag = "167=PS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BradyBond ->
+        let tag = "167=BRADY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.EuroSovereigns ->
+        let tag = "167=EUSOV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.UsTreasuryBond ->
+        let tag = "167=TBOND"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.InterestStripFromAnyBondOrNote ->
+        let tag = "167=TINT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TreasuryInflationProtectedSecurities ->
+        let tag = "167=TIPS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PrincipalStripOfACallableBondOrNote ->
+        let tag = "167=TCAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PrincipalStripFromANonCallableBondOrNote ->
+        let tag = "167=TPRN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.UsTreasuryNote ->
+        let tag = "167=TNOTE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.UsTreasuryBill ->
+        let tag = "167=TBILL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Repurchase ->
+        let tag = "167=REPO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Forward ->
+        let tag = "167=FORWARD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BuySellback ->
+        let tag = "167=BUYSELL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SecuritiesLoan ->
+        let tag = "167=SECLOAN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SecuritiesPledge ->
+        let tag = "167=SECPLEDGE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TermLoan ->
+        let tag = "167=TERM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.RevolverLoan ->
+        let tag = "167=RVLV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.RevolverTermLoan ->
+        let tag = "167=RVLVTRM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BridgeLoan ->
+        let tag = "167=BRIDGE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.LetterOfCredit ->
+        let tag = "167=LOFC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SwingLineFacility ->
+        let tag = "167=SWING"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.DebtorInPossession ->
+        let tag = "167=DINP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Defaulted ->
+        let tag = "167=DEFLTED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Withdrawn ->
+        let tag = "167=WITHDRN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Replaced ->
+        let tag = "167=REPLACD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Matured ->
+        let tag = "167=MATURED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.AmendedAndRestated ->
+        let tag = "167=AMENDED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Retired ->
+        let tag = "167=RETIRED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BankersAcceptance ->
+        let tag = "167=BA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BankNotes ->
+        let tag = "167=BN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.BillOfExchanges ->
+        let tag = "167=BOX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CertificateOfDeposit ->
+        let tag = "167=CD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CallLoans ->
+        let tag = "167=CL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CommercialPaper ->
+        let tag = "167=CP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.DepositNotes ->
+        let tag = "167=DN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.EuroCertificateOfDeposit ->
+        let tag = "167=EUCD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.EuroCommercialPaper ->
+        let tag = "167=EUCP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.LiquidityNote ->
+        let tag = "167=LQN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MediumTermNotes ->
+        let tag = "167=MTN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Overnight ->
+        let tag = "167=ONITE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PromissoryNote ->
+        let tag = "167=PN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.PlazosFijos ->
+        let tag = "167=PZFJ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.ShortTermLoanNote ->
+        let tag = "167=STN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TimeDeposit ->
+        let tag = "167=TD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.ExtendedCommNote ->
+        let tag = "167=XCN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.YankeeCertificateOfDeposit ->
+        let tag = "167=YCD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.AssetBackedSecurities ->
+        let tag = "167=ABS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CorpMortgageBackedSecurities ->
+        let tag = "167=CMBS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CollateralizedMortgageObligation ->
+        let tag = "167=CMO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.IoetteMortgage ->
+        let tag = "167=IET"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MortgageBackedSecurities ->
+        let tag = "167=MBS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MortgageInterestOnly ->
+        let tag = "167=MIO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MortgagePrincipalOnly ->
+        let tag = "167=MPO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MortgagePrivatePlacement ->
+        let tag = "167=MPP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MiscellaneousPassThrough ->
+        let tag = "167=MPT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Pfandbriefe ->
+        let tag = "167=PFAND"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.ToBeAnnounced ->
+        let tag = "167=TBA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.OtherAnticipationNotes ->
+        let tag = "167=AN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CertificateOfObligation ->
+        let tag = "167=COFO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.CertificateOfParticipation ->
+        let tag = "167=COFP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.GeneralObligationBonds ->
+        let tag = "167=GO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MandatoryTender ->
+        let tag = "167=MT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.RevenueAnticipationNote ->
+        let tag = "167=RAN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.RevenueBonds ->
+        let tag = "167=REV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SpecialAssessment ->
+        let tag = "167=SPCLA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SpecialObligation ->
+        let tag = "167=SPCLO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.SpecialTax ->
+        let tag = "167=SPCLT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TaxAnticipationNote ->
+        let tag = "167=TAN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TaxAllocation ->
+        let tag = "167=TAXA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TaxExemptCommercialPaper ->
+        let tag = "167=TECP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.TaxAndRevenueAnticipationNote ->
+        let tag = "167=TRAN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.VariableRateDemandNote ->
+        let tag = "167=VRDN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Warrant ->
+        let tag = "167=WAR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MutualFund ->
+        let tag = "167=MF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.MultiLegInstrument ->
+        let tag = "167=MLEG"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.NoSecurityType ->
+        let tag = "167=NONE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityType.Wildcard ->
+        let tag = "167=?"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadEffectiveTime valIn =
@@ -2864,11 +4330,11 @@ let ReadEffectiveTime valIn =
 
 
 let WriteEffectiveTime (strm:Stream) (valIn:EffectiveTime) = 
-    let tag = "168="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "168="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStandInstDbType (fldValIn:string) : StandInstDbType = 
@@ -2883,11 +4349,26 @@ let ReadStandInstDbType (fldValIn:string) : StandInstDbType =
 
 let WriteStandInstDbType (strm:Stream) (xxIn:StandInstDbType) =
     match xxIn with
-    | StandInstDbType.Other -> strm.Write "169=0"B; strm.Write (delim, 0, 1)
-    | StandInstDbType.DtcSid -> strm.Write "169=1"B; strm.Write (delim, 0, 1)
-    | StandInstDbType.ThomsonAlert -> strm.Write "169=2"B; strm.Write (delim, 0, 1)
-    | StandInstDbType.AGlobalCustodian -> strm.Write "169=3"B; strm.Write (delim, 0, 1)
-    | StandInstDbType.Accountnet -> strm.Write "169=4"B; strm.Write (delim, 0, 1)
+    | StandInstDbType.Other ->
+        let tag = "169=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StandInstDbType.DtcSid ->
+        let tag = "169=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StandInstDbType.ThomsonAlert ->
+        let tag = "169=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StandInstDbType.AGlobalCustodian ->
+        let tag = "169=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StandInstDbType.Accountnet ->
+        let tag = "169=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStandInstDbName valIn =
@@ -2896,11 +4377,11 @@ let ReadStandInstDbName valIn =
 
 
 let WriteStandInstDbName (strm:Stream) (valIn:StandInstDbName) = 
-    let tag = "170="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "170="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStandInstDbID valIn =
@@ -2909,11 +4390,11 @@ let ReadStandInstDbID valIn =
 
 
 let WriteStandInstDbID (strm:Stream) (valIn:StandInstDbID) = 
-    let tag = "171="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "171="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlDeliveryType (fldValIn:string) : SettlDeliveryType = 
@@ -2927,10 +4408,22 @@ let ReadSettlDeliveryType (fldValIn:string) : SettlDeliveryType =
 
 let WriteSettlDeliveryType (strm:Stream) (xxIn:SettlDeliveryType) =
     match xxIn with
-    | SettlDeliveryType.VersusPayment -> strm.Write "172=0"B; strm.Write (delim, 0, 1)
-    | SettlDeliveryType.Free -> strm.Write "172=1"B; strm.Write (delim, 0, 1)
-    | SettlDeliveryType.TriParty -> strm.Write "172=2"B; strm.Write (delim, 0, 1)
-    | SettlDeliveryType.HoldInCustody -> strm.Write "172=3"B; strm.Write (delim, 0, 1)
+    | SettlDeliveryType.VersusPayment ->
+        let tag = "172=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlDeliveryType.Free ->
+        let tag = "172=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlDeliveryType.TriParty ->
+        let tag = "172=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlDeliveryType.HoldInCustody ->
+        let tag = "172=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBidSpotRate valIn =
@@ -2939,11 +4432,11 @@ let ReadBidSpotRate valIn =
 
 
 let WriteBidSpotRate (strm:Stream) (valIn:BidSpotRate) = 
-    let tag = "188="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "188="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidForwardPoints valIn =
@@ -2952,11 +4445,11 @@ let ReadBidForwardPoints valIn =
 
 
 let WriteBidForwardPoints (strm:Stream) (valIn:BidForwardPoints) = 
-    let tag = "189="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "189="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferSpotRate valIn =
@@ -2965,11 +4458,11 @@ let ReadOfferSpotRate valIn =
 
 
 let WriteOfferSpotRate (strm:Stream) (valIn:OfferSpotRate) = 
-    let tag = "190="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "190="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferForwardPoints valIn =
@@ -2978,11 +4471,11 @@ let ReadOfferForwardPoints valIn =
 
 
 let WriteOfferForwardPoints (strm:Stream) (valIn:OfferForwardPoints) = 
-    let tag = "191="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "191="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderQty2 valIn =
@@ -2991,11 +4484,11 @@ let ReadOrderQty2 valIn =
 
 
 let WriteOrderQty2 (strm:Stream) (valIn:OrderQty2) = 
-    let tag = "192="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "192="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlDate2 valIn =
@@ -3004,11 +4497,11 @@ let ReadSettlDate2 valIn =
 
 
 let WriteSettlDate2 (strm:Stream) (valIn:SettlDate2) = 
-    let tag = "193="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "193="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastSpotRate valIn =
@@ -3017,11 +4510,11 @@ let ReadLastSpotRate valIn =
 
 
 let WriteLastSpotRate (strm:Stream) (valIn:LastSpotRate) = 
-    let tag = "194="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "194="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastForwardPoints valIn =
@@ -3030,11 +4523,11 @@ let ReadLastForwardPoints valIn =
 
 
 let WriteLastForwardPoints (strm:Stream) (valIn:LastForwardPoints) = 
-    let tag = "195="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "195="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocLinkID valIn =
@@ -3043,11 +4536,11 @@ let ReadAllocLinkID valIn =
 
 
 let WriteAllocLinkID (strm:Stream) (valIn:AllocLinkID) = 
-    let tag = "196="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "196="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocLinkType (fldValIn:string) : AllocLinkType = 
@@ -3059,8 +4552,14 @@ let ReadAllocLinkType (fldValIn:string) : AllocLinkType =
 
 let WriteAllocLinkType (strm:Stream) (xxIn:AllocLinkType) =
     match xxIn with
-    | AllocLinkType.FXNetting -> strm.Write "197=0"B; strm.Write (delim, 0, 1)
-    | AllocLinkType.FXSwap -> strm.Write "197=1"B; strm.Write (delim, 0, 1)
+    | AllocLinkType.FXNetting ->
+        let tag = "197=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocLinkType.FXSwap ->
+        let tag = "197=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryOrderID valIn =
@@ -3069,11 +4568,11 @@ let ReadSecondaryOrderID valIn =
 
 
 let WriteSecondaryOrderID (strm:Stream) (valIn:SecondaryOrderID) = 
-    let tag = "198="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "198="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoIOIQualifiers valIn =
@@ -3082,11 +4581,11 @@ let ReadNoIOIQualifiers valIn =
 
 
 let WriteNoIOIQualifiers (strm:Stream) (valIn:NoIOIQualifiers) = 
-    let tag = "199="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "199="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMaturityMonthYear valIn =
@@ -3095,11 +4594,11 @@ let ReadMaturityMonthYear valIn =
 
 
 let WriteMaturityMonthYear (strm:Stream) (valIn:MaturityMonthYear) = 
-    let tag = "200="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "200="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPutOrCall (fldValIn:string) : PutOrCall = 
@@ -3111,8 +4610,14 @@ let ReadPutOrCall (fldValIn:string) : PutOrCall =
 
 let WritePutOrCall (strm:Stream) (xxIn:PutOrCall) =
     match xxIn with
-    | PutOrCall.Put -> strm.Write "201=0"B; strm.Write (delim, 0, 1)
-    | PutOrCall.Call -> strm.Write "201=1"B; strm.Write (delim, 0, 1)
+    | PutOrCall.Put ->
+        let tag = "201=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PutOrCall.Call ->
+        let tag = "201=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStrikePrice valIn =
@@ -3121,11 +4626,11 @@ let ReadStrikePrice valIn =
 
 
 let WriteStrikePrice (strm:Stream) (valIn:StrikePrice) = 
-    let tag = "202="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "202="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCoveredOrUncovered (fldValIn:string) : CoveredOrUncovered = 
@@ -3137,8 +4642,14 @@ let ReadCoveredOrUncovered (fldValIn:string) : CoveredOrUncovered =
 
 let WriteCoveredOrUncovered (strm:Stream) (xxIn:CoveredOrUncovered) =
     match xxIn with
-    | CoveredOrUncovered.Covered -> strm.Write "203=0"B; strm.Write (delim, 0, 1)
-    | CoveredOrUncovered.Uncovered -> strm.Write "203=1"B; strm.Write (delim, 0, 1)
+    | CoveredOrUncovered.Covered ->
+        let tag = "203=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CoveredOrUncovered.Uncovered ->
+        let tag = "203=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOptAttribute valIn =
@@ -3147,11 +4658,11 @@ let ReadOptAttribute valIn =
 
 
 let WriteOptAttribute (strm:Stream) (valIn:OptAttribute) = 
-    let tag = "206="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "206="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityExchange valIn =
@@ -3160,11 +4671,11 @@ let ReadSecurityExchange valIn =
 
 
 let WriteSecurityExchange (strm:Stream) (valIn:SecurityExchange) = 
-    let tag = "207="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "207="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNotifyBrokerOfCredit valIn =
@@ -3173,11 +4684,11 @@ let ReadNotifyBrokerOfCredit valIn =
 
 
 let WriteNotifyBrokerOfCredit (strm:Stream) (valIn:NotifyBrokerOfCredit) = 
-    let tag = "208="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "208="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocHandlInst (fldValIn:string) : AllocHandlInst = 
@@ -3190,9 +4701,18 @@ let ReadAllocHandlInst (fldValIn:string) : AllocHandlInst =
 
 let WriteAllocHandlInst (strm:Stream) (xxIn:AllocHandlInst) =
     match xxIn with
-    | AllocHandlInst.Match -> strm.Write "209=1"B; strm.Write (delim, 0, 1)
-    | AllocHandlInst.Forward -> strm.Write "209=2"B; strm.Write (delim, 0, 1)
-    | AllocHandlInst.ForwardAndMatch -> strm.Write "209=3"B; strm.Write (delim, 0, 1)
+    | AllocHandlInst.Match ->
+        let tag = "209=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocHandlInst.Forward ->
+        let tag = "209=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocHandlInst.ForwardAndMatch ->
+        let tag = "209=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMaxShow valIn =
@@ -3201,11 +4721,11 @@ let ReadMaxShow valIn =
 
 
 let WriteMaxShow (strm:Stream) (valIn:MaxShow) = 
-    let tag = "210="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "210="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPegOffsetValue valIn =
@@ -3214,22 +4734,24 @@ let ReadPegOffsetValue valIn =
 
 
 let WritePegOffsetValue (strm:Stream) (valIn:PegOffsetValue) = 
-    let tag = "211="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "211="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteXmlData (strm:System.IO.Stream) (fld:XmlData) =
     let lenTag = "212="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "213="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -3254,11 +4776,11 @@ let ReadSettlInstRefID valIn =
 
 
 let WriteSettlInstRefID (strm:Stream) (valIn:SettlInstRefID) = 
-    let tag = "214="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "214="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoRoutingIDs valIn =
@@ -3267,11 +4789,11 @@ let ReadNoRoutingIDs valIn =
 
 
 let WriteNoRoutingIDs (strm:Stream) (valIn:NoRoutingIDs) = 
-    let tag = "215="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "215="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRoutingType (fldValIn:string) : RoutingType = 
@@ -3285,10 +4807,22 @@ let ReadRoutingType (fldValIn:string) : RoutingType =
 
 let WriteRoutingType (strm:Stream) (xxIn:RoutingType) =
     match xxIn with
-    | RoutingType.TargetFirm -> strm.Write "216=1"B; strm.Write (delim, 0, 1)
-    | RoutingType.TargetList -> strm.Write "216=2"B; strm.Write (delim, 0, 1)
-    | RoutingType.BlockFirm -> strm.Write "216=3"B; strm.Write (delim, 0, 1)
-    | RoutingType.BlockList -> strm.Write "216=4"B; strm.Write (delim, 0, 1)
+    | RoutingType.TargetFirm ->
+        let tag = "216=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RoutingType.TargetList ->
+        let tag = "216=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RoutingType.BlockFirm ->
+        let tag = "216=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RoutingType.BlockList ->
+        let tag = "216=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRoutingID valIn =
@@ -3297,11 +4831,11 @@ let ReadRoutingID valIn =
 
 
 let WriteRoutingID (strm:Stream) (valIn:RoutingID) = 
-    let tag = "217="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "217="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSpread valIn =
@@ -3310,11 +4844,11 @@ let ReadSpread valIn =
 
 
 let WriteSpread (strm:Stream) (valIn:Spread) = 
-    let tag = "218="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "218="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkCurveCurrency valIn =
@@ -3323,11 +4857,11 @@ let ReadBenchmarkCurveCurrency valIn =
 
 
 let WriteBenchmarkCurveCurrency (strm:Stream) (valIn:BenchmarkCurveCurrency) = 
-    let tag = "220="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "220="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkCurveName (fldValIn:string) : BenchmarkCurveName = 
@@ -3349,18 +4883,54 @@ let ReadBenchmarkCurveName (fldValIn:string) : BenchmarkCurveName =
 
 let WriteBenchmarkCurveName (strm:Stream) (xxIn:BenchmarkCurveName) =
     match xxIn with
-    | BenchmarkCurveName.Muniaaa -> strm.Write "221=MuniAAA"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Futureswap -> strm.Write "221=FutureSWAP"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Libid -> strm.Write "221=LIBID"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Libor -> strm.Write "221=LIBOR"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Other -> strm.Write "221=OTHER"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Swap -> strm.Write "221=SWAP"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Treasury -> strm.Write "221=Treasury"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Euribor -> strm.Write "221=Euribor"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Pfandbriefe -> strm.Write "221=Pfandbriefe"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Eonia -> strm.Write "221=EONIA"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Sonia -> strm.Write "221=SONIA"B; strm.Write (delim, 0, 1)
-    | BenchmarkCurveName.Eurepo -> strm.Write "221=EUREPO"B; strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Muniaaa ->
+        let tag = "221=MuniAAA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Futureswap ->
+        let tag = "221=FutureSWAP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Libid ->
+        let tag = "221=LIBID"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Libor ->
+        let tag = "221=LIBOR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Other ->
+        let tag = "221=OTHER"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Swap ->
+        let tag = "221=SWAP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Treasury ->
+        let tag = "221=Treasury"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Euribor ->
+        let tag = "221=Euribor"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Pfandbriefe ->
+        let tag = "221=Pfandbriefe"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Eonia ->
+        let tag = "221=EONIA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Sonia ->
+        let tag = "221=SONIA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BenchmarkCurveName.Eurepo ->
+        let tag = "221=EUREPO"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkCurvePoint valIn =
@@ -3369,11 +4939,11 @@ let ReadBenchmarkCurvePoint valIn =
 
 
 let WriteBenchmarkCurvePoint (strm:Stream) (valIn:BenchmarkCurvePoint) = 
-    let tag = "222="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "222="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCouponRate valIn =
@@ -3382,11 +4952,11 @@ let ReadCouponRate valIn =
 
 
 let WriteCouponRate (strm:Stream) (valIn:CouponRate) = 
-    let tag = "223="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "223="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCouponPaymentDate valIn =
@@ -3395,11 +4965,11 @@ let ReadCouponPaymentDate valIn =
 
 
 let WriteCouponPaymentDate (strm:Stream) (valIn:CouponPaymentDate) = 
-    let tag = "224="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "224="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIssueDate valIn =
@@ -3408,11 +4978,11 @@ let ReadIssueDate valIn =
 
 
 let WriteIssueDate (strm:Stream) (valIn:IssueDate) = 
-    let tag = "225="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "225="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRepurchaseTerm valIn =
@@ -3421,11 +4991,11 @@ let ReadRepurchaseTerm valIn =
 
 
 let WriteRepurchaseTerm (strm:Stream) (valIn:RepurchaseTerm) = 
-    let tag = "226="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "226="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRepurchaseRate valIn =
@@ -3434,11 +5004,11 @@ let ReadRepurchaseRate valIn =
 
 
 let WriteRepurchaseRate (strm:Stream) (valIn:RepurchaseRate) = 
-    let tag = "227="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "227="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadFactor valIn =
@@ -3447,11 +5017,11 @@ let ReadFactor valIn =
 
 
 let WriteFactor (strm:Stream) (valIn:Factor) = 
-    let tag = "228="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "228="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeOriginationDate valIn =
@@ -3460,11 +5030,11 @@ let ReadTradeOriginationDate valIn =
 
 
 let WriteTradeOriginationDate (strm:Stream) (valIn:TradeOriginationDate) = 
-    let tag = "229="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "229="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExDate valIn =
@@ -3473,11 +5043,11 @@ let ReadExDate valIn =
 
 
 let WriteExDate (strm:Stream) (valIn:ExDate) = 
-    let tag = "230="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "230="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContractMultiplier valIn =
@@ -3486,11 +5056,11 @@ let ReadContractMultiplier valIn =
 
 
 let WriteContractMultiplier (strm:Stream) (valIn:ContractMultiplier) = 
-    let tag = "231="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "231="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoStipulations valIn =
@@ -3499,11 +5069,11 @@ let ReadNoStipulations valIn =
 
 
 let WriteNoStipulations (strm:Stream) (valIn:NoStipulations) = 
-    let tag = "232="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "232="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStipulationType (fldValIn:string) : StipulationType = 
@@ -3572,65 +5142,242 @@ let ReadStipulationType (fldValIn:string) : StipulationType =
 
 let WriteStipulationType (strm:Stream) (xxIn:StipulationType) =
     match xxIn with
-    | StipulationType.Amt -> strm.Write "233=AMT"B; strm.Write (delim, 0, 1)
-    | StipulationType.AutoReinvestmentAtOrBetter -> strm.Write "233=AUTOREINV"B; strm.Write (delim, 0, 1)
-    | StipulationType.BankQualified -> strm.Write "233=BANKQUAL"B; strm.Write (delim, 0, 1)
-    | StipulationType.BargainConditions -> strm.Write "233=BGNCON"B; strm.Write (delim, 0, 1)
-    | StipulationType.CouponRange -> strm.Write "233=COUPON"B; strm.Write (delim, 0, 1)
-    | StipulationType.IsoCurrencyCode -> strm.Write "233=CURRENCY"B; strm.Write (delim, 0, 1)
-    | StipulationType.CustomStartEndDate -> strm.Write "233=CUSTOMDATE"B; strm.Write (delim, 0, 1)
-    | StipulationType.GeographicsAndPercentRange -> strm.Write "233=GEOG"B; strm.Write (delim, 0, 1)
-    | StipulationType.ValuationDiscount -> strm.Write "233=HAIRCUT"B; strm.Write (delim, 0, 1)
-    | StipulationType.Insured -> strm.Write "233=INSURED"B; strm.Write (delim, 0, 1)
-    | StipulationType.YearOrYearMonthOfIssue -> strm.Write "233=ISSUE"B; strm.Write (delim, 0, 1)
-    | StipulationType.IssuersTicker -> strm.Write "233=ISSUER"B; strm.Write (delim, 0, 1)
-    | StipulationType.IssueSizeRange -> strm.Write "233=ISSUESIZE"B; strm.Write (delim, 0, 1)
-    | StipulationType.LookbackDays -> strm.Write "233=LOOKBACK"B; strm.Write (delim, 0, 1)
-    | StipulationType.ExplicitLotIdentifier -> strm.Write "233=LOT"B; strm.Write (delim, 0, 1)
-    | StipulationType.LotVariance -> strm.Write "233=LOTVAR"B; strm.Write (delim, 0, 1)
-    | StipulationType.MaturityYearAndMonth -> strm.Write "233=MAT"B; strm.Write (delim, 0, 1)
-    | StipulationType.MaturityRange -> strm.Write "233=MATURITY"B; strm.Write (delim, 0, 1)
-    | StipulationType.MaximumSubstitutions -> strm.Write "233=MAXSUBS"B; strm.Write (delim, 0, 1)
-    | StipulationType.MinimumQuantity -> strm.Write "233=MINQTY"B; strm.Write (delim, 0, 1)
-    | StipulationType.MinimumIncrement -> strm.Write "233=MININCR"B; strm.Write (delim, 0, 1)
-    | StipulationType.MinimumDenomination -> strm.Write "233=MINDNOM"B; strm.Write (delim, 0, 1)
-    | StipulationType.PaymentFrequencyCalendar -> strm.Write "233=PAYFREQ"B; strm.Write (delim, 0, 1)
-    | StipulationType.NumberOfPieces -> strm.Write "233=PIECES"B; strm.Write (delim, 0, 1)
-    | StipulationType.PoolsMaximum -> strm.Write "233=PMAX"B; strm.Write (delim, 0, 1)
-    | StipulationType.PoolsPerMillion -> strm.Write "233=PPM"B; strm.Write (delim, 0, 1)
-    | StipulationType.PoolsPerLot -> strm.Write "233=PPL"B; strm.Write (delim, 0, 1)
-    | StipulationType.PoolsPerTrade -> strm.Write "233=PPT"B; strm.Write (delim, 0, 1)
-    | StipulationType.PriceRange -> strm.Write "233=PRICE"B; strm.Write (delim, 0, 1)
-    | StipulationType.PricingFrequency -> strm.Write "233=PRICEFREQ"B; strm.Write (delim, 0, 1)
-    | StipulationType.ProductionYear -> strm.Write "233=PROD"B; strm.Write (delim, 0, 1)
-    | StipulationType.CallProtection -> strm.Write "233=PROTECT"B; strm.Write (delim, 0, 1)
-    | StipulationType.Purpose -> strm.Write "233=PURPOSE"B; strm.Write (delim, 0, 1)
-    | StipulationType.BenchmarkPriceSource -> strm.Write "233=PXSOURCE"B; strm.Write (delim, 0, 1)
-    | StipulationType.RatingSourceAndRange -> strm.Write "233=RATING"B; strm.Write (delim, 0, 1)
-    | StipulationType.Restricted -> strm.Write "233=RESTRICTED"B; strm.Write (delim, 0, 1)
-    | StipulationType.MarketSector -> strm.Write "233=SECTOR"B; strm.Write (delim, 0, 1)
-    | StipulationType.SecuritytypeIncludedOrExcluded -> strm.Write "233=SECTYPE"B; strm.Write (delim, 0, 1)
-    | StipulationType.Structure -> strm.Write "233=STRUCT"B; strm.Write (delim, 0, 1)
-    | StipulationType.SubstitutionsFrequency -> strm.Write "233=SUBSFREQ"B; strm.Write (delim, 0, 1)
-    | StipulationType.SubstitutionsLeft -> strm.Write "233=SUBSLEFT"B; strm.Write (delim, 0, 1)
-    | StipulationType.FreeformText -> strm.Write "233=TEXT"B; strm.Write (delim, 0, 1)
-    | StipulationType.TradeVariance -> strm.Write "233=TRDVAR"B; strm.Write (delim, 0, 1)
-    | StipulationType.WeightedAverageCoupon -> strm.Write "233=WAC"B; strm.Write (delim, 0, 1)
-    | StipulationType.WeightedAverageLifeCoupon -> strm.Write "233=WAL"B; strm.Write (delim, 0, 1)
-    | StipulationType.WeightedAverageLoanAge -> strm.Write "233=WALA"B; strm.Write (delim, 0, 1)
-    | StipulationType.WeightedAverageMaturity -> strm.Write "233=WAM"B; strm.Write (delim, 0, 1)
-    | StipulationType.WholePool -> strm.Write "233=WHOLE"B; strm.Write (delim, 0, 1)
-    | StipulationType.YieldRange -> strm.Write "233=YIELD"B; strm.Write (delim, 0, 1)
-    | StipulationType.SingleMonthlyMortality -> strm.Write "233=SMM"B; strm.Write (delim, 0, 1)
-    | StipulationType.ConstantPrepaymentRate -> strm.Write "233=CPR"B; strm.Write (delim, 0, 1)
-    | StipulationType.ConstantPrepaymentYield -> strm.Write "233=CPY"B; strm.Write (delim, 0, 1)
-    | StipulationType.ConstantPrepaymentPenalty -> strm.Write "233=CPP"B; strm.Write (delim, 0, 1)
-    | StipulationType.AbsolutePrepaymentSpeed -> strm.Write "233=ABS"B; strm.Write (delim, 0, 1)
-    | StipulationType.MonthlyPrepaymentRate -> strm.Write "233=MPR"B; strm.Write (delim, 0, 1)
-    | StipulationType.PercentOfBmaPrepaymentCurve -> strm.Write "233=PSA"B; strm.Write (delim, 0, 1)
-    | StipulationType.PercentOfProspectusPrepaymentCurve -> strm.Write "233=PPC"B; strm.Write (delim, 0, 1)
-    | StipulationType.PercentOfManufacturedHousingPrepaymentCurve -> strm.Write "233=MHP"B; strm.Write (delim, 0, 1)
-    | StipulationType.FinalCprOfHomeEquityPrepaymentCurve -> strm.Write "233=HEP"B; strm.Write (delim, 0, 1)
+    | StipulationType.Amt ->
+        let tag = "233=AMT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.AutoReinvestmentAtOrBetter ->
+        let tag = "233=AUTOREINV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.BankQualified ->
+        let tag = "233=BANKQUAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.BargainConditions ->
+        let tag = "233=BGNCON"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.CouponRange ->
+        let tag = "233=COUPON"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.IsoCurrencyCode ->
+        let tag = "233=CURRENCY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.CustomStartEndDate ->
+        let tag = "233=CUSTOMDATE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.GeographicsAndPercentRange ->
+        let tag = "233=GEOG"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ValuationDiscount ->
+        let tag = "233=HAIRCUT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.Insured ->
+        let tag = "233=INSURED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.YearOrYearMonthOfIssue ->
+        let tag = "233=ISSUE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.IssuersTicker ->
+        let tag = "233=ISSUER"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.IssueSizeRange ->
+        let tag = "233=ISSUESIZE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.LookbackDays ->
+        let tag = "233=LOOKBACK"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ExplicitLotIdentifier ->
+        let tag = "233=LOT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.LotVariance ->
+        let tag = "233=LOTVAR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MaturityYearAndMonth ->
+        let tag = "233=MAT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MaturityRange ->
+        let tag = "233=MATURITY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MaximumSubstitutions ->
+        let tag = "233=MAXSUBS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MinimumQuantity ->
+        let tag = "233=MINQTY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MinimumIncrement ->
+        let tag = "233=MININCR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MinimumDenomination ->
+        let tag = "233=MINDNOM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PaymentFrequencyCalendar ->
+        let tag = "233=PAYFREQ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.NumberOfPieces ->
+        let tag = "233=PIECES"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PoolsMaximum ->
+        let tag = "233=PMAX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PoolsPerMillion ->
+        let tag = "233=PPM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PoolsPerLot ->
+        let tag = "233=PPL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PoolsPerTrade ->
+        let tag = "233=PPT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PriceRange ->
+        let tag = "233=PRICE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PricingFrequency ->
+        let tag = "233=PRICEFREQ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ProductionYear ->
+        let tag = "233=PROD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.CallProtection ->
+        let tag = "233=PROTECT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.Purpose ->
+        let tag = "233=PURPOSE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.BenchmarkPriceSource ->
+        let tag = "233=PXSOURCE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.RatingSourceAndRange ->
+        let tag = "233=RATING"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.Restricted ->
+        let tag = "233=RESTRICTED"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MarketSector ->
+        let tag = "233=SECTOR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.SecuritytypeIncludedOrExcluded ->
+        let tag = "233=SECTYPE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.Structure ->
+        let tag = "233=STRUCT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.SubstitutionsFrequency ->
+        let tag = "233=SUBSFREQ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.SubstitutionsLeft ->
+        let tag = "233=SUBSLEFT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.FreeformText ->
+        let tag = "233=TEXT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.TradeVariance ->
+        let tag = "233=TRDVAR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.WeightedAverageCoupon ->
+        let tag = "233=WAC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.WeightedAverageLifeCoupon ->
+        let tag = "233=WAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.WeightedAverageLoanAge ->
+        let tag = "233=WALA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.WeightedAverageMaturity ->
+        let tag = "233=WAM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.WholePool ->
+        let tag = "233=WHOLE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.YieldRange ->
+        let tag = "233=YIELD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.SingleMonthlyMortality ->
+        let tag = "233=SMM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ConstantPrepaymentRate ->
+        let tag = "233=CPR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ConstantPrepaymentYield ->
+        let tag = "233=CPY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.ConstantPrepaymentPenalty ->
+        let tag = "233=CPP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.AbsolutePrepaymentSpeed ->
+        let tag = "233=ABS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.MonthlyPrepaymentRate ->
+        let tag = "233=MPR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PercentOfBmaPrepaymentCurve ->
+        let tag = "233=PSA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PercentOfProspectusPrepaymentCurve ->
+        let tag = "233=PPC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.PercentOfManufacturedHousingPrepaymentCurve ->
+        let tag = "233=MHP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationType.FinalCprOfHomeEquityPrepaymentCurve ->
+        let tag = "233=HEP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStipulationValue (fldValIn:string) : StipulationValue = 
@@ -3654,20 +5401,62 @@ let ReadStipulationValue (fldValIn:string) : StipulationValue =
 
 let WriteStipulationValue (strm:Stream) (xxIn:StipulationValue) =
     match xxIn with
-    | StipulationValue.SpecialCumDividend -> strm.Write "234=CD"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialExDividend -> strm.Write "234=XD"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialCumCoupon -> strm.Write "234=CC"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialExCoupon -> strm.Write "234=XC"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialCumBonus -> strm.Write "234=CB"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialExBonus -> strm.Write "234=XB"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialCumRights -> strm.Write "234=CR"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialExRights -> strm.Write "234=XR"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialCumCapitalRepayments -> strm.Write "234=CP"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialExCapitalRepayments -> strm.Write "234=XP"B; strm.Write (delim, 0, 1)
-    | StipulationValue.CashSettlement -> strm.Write "234=CS"B; strm.Write (delim, 0, 1)
-    | StipulationValue.SpecialPrice -> strm.Write "234=SP"B; strm.Write (delim, 0, 1)
-    | StipulationValue.ReportForEuropeanEquityMarketSecurities -> strm.Write "234=TR"B; strm.Write (delim, 0, 1)
-    | StipulationValue.GuaranteedDelivery -> strm.Write "234=GD"B; strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialCumDividend ->
+        let tag = "234=CD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialExDividend ->
+        let tag = "234=XD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialCumCoupon ->
+        let tag = "234=CC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialExCoupon ->
+        let tag = "234=XC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialCumBonus ->
+        let tag = "234=CB"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialExBonus ->
+        let tag = "234=XB"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialCumRights ->
+        let tag = "234=CR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialExRights ->
+        let tag = "234=XR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialCumCapitalRepayments ->
+        let tag = "234=CP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialExCapitalRepayments ->
+        let tag = "234=XP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.CashSettlement ->
+        let tag = "234=CS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.SpecialPrice ->
+        let tag = "234=SP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.ReportForEuropeanEquityMarketSecurities ->
+        let tag = "234=TR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StipulationValue.GuaranteedDelivery ->
+        let tag = "234=GD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadYieldType (fldValIn:string) : YieldType = 
@@ -3711,40 +5500,142 @@ let ReadYieldType (fldValIn:string) : YieldType =
 
 let WriteYieldType (strm:Stream) (xxIn:YieldType) =
     match xxIn with
-    | YieldType.AfterTaxYield -> strm.Write "235=AFTERTAX"B; strm.Write (delim, 0, 1)
-    | YieldType.AnnualYield -> strm.Write "235=ANNUAL"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldAtIssue -> strm.Write "235=ATISSUE"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToAverageMaturity -> strm.Write "235=AVGMATURITY"B; strm.Write (delim, 0, 1)
-    | YieldType.BookYield -> strm.Write "235=BOOK"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToNextCall -> strm.Write "235=CALL"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldChangeSinceClose -> strm.Write "235=CHANGE"B; strm.Write (delim, 0, 1)
-    | YieldType.ClosingYield -> strm.Write "235=CLOSE"B; strm.Write (delim, 0, 1)
-    | YieldType.CompoundYield -> strm.Write "235=COMPOUND"B; strm.Write (delim, 0, 1)
-    | YieldType.CurrentYield -> strm.Write "235=CURRENT"B; strm.Write (delim, 0, 1)
-    | YieldType.TrueGrossYield -> strm.Write "235=GROSS"B; strm.Write (delim, 0, 1)
-    | YieldType.GovernmentEquivalentYield -> strm.Write "235=GOVTEQUIV"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldWithInflationAssumption -> strm.Write "235=INFLATION"B; strm.Write (delim, 0, 1)
-    | YieldType.InverseFloaterBondYield -> strm.Write "235=INVERSEFLOATER"B; strm.Write (delim, 0, 1)
-    | YieldType.MostRecentClosingYield -> strm.Write "235=LASTCLOSE"B; strm.Write (delim, 0, 1)
-    | YieldType.ClosingYieldMostRecentMonth -> strm.Write "235=LASTMONTH"B; strm.Write (delim, 0, 1)
-    | YieldType.ClosingYieldMostRecentQuarter -> strm.Write "235=LASTQUARTER"B; strm.Write (delim, 0, 1)
-    | YieldType.ClosingYieldMostRecentYear -> strm.Write "235=LASTYEAR"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToLongestAverageLife -> strm.Write "235=LONGAVGLIFE"B; strm.Write (delim, 0, 1)
-    | YieldType.MarkToMarketYield -> strm.Write "235=MARK"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToMaturity -> strm.Write "235=MATURITY"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToNextRefund -> strm.Write "235=NEXTREFUND"B; strm.Write (delim, 0, 1)
-    | YieldType.OpenAverageYield -> strm.Write "235=OPENAVG"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToNextPut -> strm.Write "235=PUT"B; strm.Write (delim, 0, 1)
-    | YieldType.PreviousCloseYield -> strm.Write "235=PREVCLOSE"B; strm.Write (delim, 0, 1)
-    | YieldType.ProceedsYield -> strm.Write "235=PROCEEDS"B; strm.Write (delim, 0, 1)
-    | YieldType.SemiAnnualYield -> strm.Write "235=SEMIANNUAL"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToShortestAverageLife -> strm.Write "235=SHORTAVGLIFE"B; strm.Write (delim, 0, 1)
-    | YieldType.SimpleYield -> strm.Write "235=SIMPLE"B; strm.Write (delim, 0, 1)
-    | YieldType.TaxEquivalentYield -> strm.Write "235=TAXEQUIV"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToTenderDate -> strm.Write "235=TENDER"B; strm.Write (delim, 0, 1)
-    | YieldType.TrueYield -> strm.Write "235=TRUE"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldValueOf132 -> strm.Write "235=VALUE1_32"B; strm.Write (delim, 0, 1)
-    | YieldType.YieldToWorst -> strm.Write "235=WORST"B; strm.Write (delim, 0, 1)
+    | YieldType.AfterTaxYield ->
+        let tag = "235=AFTERTAX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.AnnualYield ->
+        let tag = "235=ANNUAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldAtIssue ->
+        let tag = "235=ATISSUE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToAverageMaturity ->
+        let tag = "235=AVGMATURITY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.BookYield ->
+        let tag = "235=BOOK"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToNextCall ->
+        let tag = "235=CALL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldChangeSinceClose ->
+        let tag = "235=CHANGE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.ClosingYield ->
+        let tag = "235=CLOSE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.CompoundYield ->
+        let tag = "235=COMPOUND"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.CurrentYield ->
+        let tag = "235=CURRENT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.TrueGrossYield ->
+        let tag = "235=GROSS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.GovernmentEquivalentYield ->
+        let tag = "235=GOVTEQUIV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldWithInflationAssumption ->
+        let tag = "235=INFLATION"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.InverseFloaterBondYield ->
+        let tag = "235=INVERSEFLOATER"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.MostRecentClosingYield ->
+        let tag = "235=LASTCLOSE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.ClosingYieldMostRecentMonth ->
+        let tag = "235=LASTMONTH"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.ClosingYieldMostRecentQuarter ->
+        let tag = "235=LASTQUARTER"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.ClosingYieldMostRecentYear ->
+        let tag = "235=LASTYEAR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToLongestAverageLife ->
+        let tag = "235=LONGAVGLIFE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.MarkToMarketYield ->
+        let tag = "235=MARK"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToMaturity ->
+        let tag = "235=MATURITY"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToNextRefund ->
+        let tag = "235=NEXTREFUND"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.OpenAverageYield ->
+        let tag = "235=OPENAVG"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToNextPut ->
+        let tag = "235=PUT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.PreviousCloseYield ->
+        let tag = "235=PREVCLOSE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.ProceedsYield ->
+        let tag = "235=PROCEEDS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.SemiAnnualYield ->
+        let tag = "235=SEMIANNUAL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToShortestAverageLife ->
+        let tag = "235=SHORTAVGLIFE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.SimpleYield ->
+        let tag = "235=SIMPLE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.TaxEquivalentYield ->
+        let tag = "235=TAXEQUIV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToTenderDate ->
+        let tag = "235=TENDER"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.TrueYield ->
+        let tag = "235=TRUE"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldValueOf132 ->
+        let tag = "235=VALUE1_32"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | YieldType.YieldToWorst ->
+        let tag = "235=WORST"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadYield valIn =
@@ -3753,11 +5644,11 @@ let ReadYield valIn =
 
 
 let WriteYield (strm:Stream) (valIn:Yield) = 
-    let tag = "236="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "236="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotalTakedown valIn =
@@ -3766,11 +5657,11 @@ let ReadTotalTakedown valIn =
 
 
 let WriteTotalTakedown (strm:Stream) (valIn:TotalTakedown) = 
-    let tag = "237="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "237="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConcession valIn =
@@ -3779,11 +5670,11 @@ let ReadConcession valIn =
 
 
 let WriteConcession (strm:Stream) (valIn:Concession) = 
-    let tag = "238="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "238="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRepoCollateralSecurityType valIn =
@@ -3792,11 +5683,11 @@ let ReadRepoCollateralSecurityType valIn =
 
 
 let WriteRepoCollateralSecurityType (strm:Stream) (valIn:RepoCollateralSecurityType) = 
-    let tag = "239="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "239="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRedemptionDate valIn =
@@ -3805,11 +5696,11 @@ let ReadRedemptionDate valIn =
 
 
 let WriteRedemptionDate (strm:Stream) (valIn:RedemptionDate) = 
-    let tag = "240="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "240="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCouponPaymentDate valIn =
@@ -3818,11 +5709,11 @@ let ReadUnderlyingCouponPaymentDate valIn =
 
 
 let WriteUnderlyingCouponPaymentDate (strm:Stream) (valIn:UnderlyingCouponPaymentDate) = 
-    let tag = "241="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "241="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingIssueDate valIn =
@@ -3831,11 +5722,11 @@ let ReadUnderlyingIssueDate valIn =
 
 
 let WriteUnderlyingIssueDate (strm:Stream) (valIn:UnderlyingIssueDate) = 
-    let tag = "242="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "242="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingRepoCollateralSecurityType valIn =
@@ -3844,11 +5735,11 @@ let ReadUnderlyingRepoCollateralSecurityType valIn =
 
 
 let WriteUnderlyingRepoCollateralSecurityType (strm:Stream) (valIn:UnderlyingRepoCollateralSecurityType) = 
-    let tag = "243="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "243="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingRepurchaseTerm valIn =
@@ -3857,11 +5748,11 @@ let ReadUnderlyingRepurchaseTerm valIn =
 
 
 let WriteUnderlyingRepurchaseTerm (strm:Stream) (valIn:UnderlyingRepurchaseTerm) = 
-    let tag = "244="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "244="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingRepurchaseRate valIn =
@@ -3870,11 +5761,11 @@ let ReadUnderlyingRepurchaseRate valIn =
 
 
 let WriteUnderlyingRepurchaseRate (strm:Stream) (valIn:UnderlyingRepurchaseRate) = 
-    let tag = "245="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "245="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingFactor valIn =
@@ -3883,11 +5774,11 @@ let ReadUnderlyingFactor valIn =
 
 
 let WriteUnderlyingFactor (strm:Stream) (valIn:UnderlyingFactor) = 
-    let tag = "246="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "246="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingRedemptionDate valIn =
@@ -3896,11 +5787,11 @@ let ReadUnderlyingRedemptionDate valIn =
 
 
 let WriteUnderlyingRedemptionDate (strm:Stream) (valIn:UnderlyingRedemptionDate) = 
-    let tag = "247="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "247="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCouponPaymentDate valIn =
@@ -3909,11 +5800,11 @@ let ReadLegCouponPaymentDate valIn =
 
 
 let WriteLegCouponPaymentDate (strm:Stream) (valIn:LegCouponPaymentDate) = 
-    let tag = "248="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "248="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegIssueDate valIn =
@@ -3922,11 +5813,11 @@ let ReadLegIssueDate valIn =
 
 
 let WriteLegIssueDate (strm:Stream) (valIn:LegIssueDate) = 
-    let tag = "249="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "249="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegRepoCollateralSecurityType valIn =
@@ -3935,11 +5826,11 @@ let ReadLegRepoCollateralSecurityType valIn =
 
 
 let WriteLegRepoCollateralSecurityType (strm:Stream) (valIn:LegRepoCollateralSecurityType) = 
-    let tag = "250="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "250="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegRepurchaseTerm valIn =
@@ -3948,11 +5839,11 @@ let ReadLegRepurchaseTerm valIn =
 
 
 let WriteLegRepurchaseTerm (strm:Stream) (valIn:LegRepurchaseTerm) = 
-    let tag = "251="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "251="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegRepurchaseRate valIn =
@@ -3961,11 +5852,11 @@ let ReadLegRepurchaseRate valIn =
 
 
 let WriteLegRepurchaseRate (strm:Stream) (valIn:LegRepurchaseRate) = 
-    let tag = "252="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "252="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegFactor valIn =
@@ -3974,11 +5865,11 @@ let ReadLegFactor valIn =
 
 
 let WriteLegFactor (strm:Stream) (valIn:LegFactor) = 
-    let tag = "253="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "253="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegRedemptionDate valIn =
@@ -3987,11 +5878,11 @@ let ReadLegRedemptionDate valIn =
 
 
 let WriteLegRedemptionDate (strm:Stream) (valIn:LegRedemptionDate) = 
-    let tag = "254="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "254="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCreditRating valIn =
@@ -4000,11 +5891,11 @@ let ReadCreditRating valIn =
 
 
 let WriteCreditRating (strm:Stream) (valIn:CreditRating) = 
-    let tag = "255="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "255="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCreditRating valIn =
@@ -4013,11 +5904,11 @@ let ReadUnderlyingCreditRating valIn =
 
 
 let WriteUnderlyingCreditRating (strm:Stream) (valIn:UnderlyingCreditRating) = 
-    let tag = "256="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "256="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCreditRating valIn =
@@ -4026,11 +5917,11 @@ let ReadLegCreditRating valIn =
 
 
 let WriteLegCreditRating (strm:Stream) (valIn:LegCreditRating) = 
-    let tag = "257="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "257="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradedFlatSwitch valIn =
@@ -4039,11 +5930,11 @@ let ReadTradedFlatSwitch valIn =
 
 
 let WriteTradedFlatSwitch (strm:Stream) (valIn:TradedFlatSwitch) = 
-    let tag = "258="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "258="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBasisFeatureDate valIn =
@@ -4052,11 +5943,11 @@ let ReadBasisFeatureDate valIn =
 
 
 let WriteBasisFeatureDate (strm:Stream) (valIn:BasisFeatureDate) = 
-    let tag = "259="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "259="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBasisFeaturePrice valIn =
@@ -4065,11 +5956,11 @@ let ReadBasisFeaturePrice valIn =
 
 
 let WriteBasisFeaturePrice (strm:Stream) (valIn:BasisFeaturePrice) = 
-    let tag = "260="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "260="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDReqID valIn =
@@ -4078,11 +5969,11 @@ let ReadMDReqID valIn =
 
 
 let WriteMDReqID (strm:Stream) (valIn:MDReqID) = 
-    let tag = "262="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "262="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSubscriptionRequestType (fldValIn:string) : SubscriptionRequestType = 
@@ -4095,9 +5986,18 @@ let ReadSubscriptionRequestType (fldValIn:string) : SubscriptionRequestType =
 
 let WriteSubscriptionRequestType (strm:Stream) (xxIn:SubscriptionRequestType) =
     match xxIn with
-    | SubscriptionRequestType.Snapshot -> strm.Write "263=0"B; strm.Write (delim, 0, 1)
-    | SubscriptionRequestType.SnapshotPlusUpdates -> strm.Write "263=1"B; strm.Write (delim, 0, 1)
-    | SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest -> strm.Write "263=2"B; strm.Write (delim, 0, 1)
+    | SubscriptionRequestType.Snapshot ->
+        let tag = "263=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SubscriptionRequestType.SnapshotPlusUpdates ->
+        let tag = "263=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest ->
+        let tag = "263=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMarketDepth valIn =
@@ -4106,11 +6006,11 @@ let ReadMarketDepth valIn =
 
 
 let WriteMarketDepth (strm:Stream) (valIn:MarketDepth) = 
-    let tag = "264="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "264="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDUpdateType (fldValIn:string) : MDUpdateType = 
@@ -4122,8 +6022,14 @@ let ReadMDUpdateType (fldValIn:string) : MDUpdateType =
 
 let WriteMDUpdateType (strm:Stream) (xxIn:MDUpdateType) =
     match xxIn with
-    | MDUpdateType.FullRefresh -> strm.Write "265=0"B; strm.Write (delim, 0, 1)
-    | MDUpdateType.IncrementalRefresh -> strm.Write "265=1"B; strm.Write (delim, 0, 1)
+    | MDUpdateType.FullRefresh ->
+        let tag = "265=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDUpdateType.IncrementalRefresh ->
+        let tag = "265=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAggregatedBook valIn =
@@ -4132,11 +6038,11 @@ let ReadAggregatedBook valIn =
 
 
 let WriteAggregatedBook (strm:Stream) (valIn:AggregatedBook) = 
-    let tag = "266="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "266="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoMDEntryTypes valIn =
@@ -4145,11 +6051,11 @@ let ReadNoMDEntryTypes valIn =
 
 
 let WriteNoMDEntryTypes (strm:Stream) (valIn:NoMDEntryTypes) = 
-    let tag = "267="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "267="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoMDEntries valIn =
@@ -4158,11 +6064,11 @@ let ReadNoMDEntries valIn =
 
 
 let WriteNoMDEntries (strm:Stream) (valIn:NoMDEntries) = 
-    let tag = "268="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "268="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryType (fldValIn:string) : MDEntryType = 
@@ -4185,19 +6091,58 @@ let ReadMDEntryType (fldValIn:string) : MDEntryType =
 
 let WriteMDEntryType (strm:Stream) (xxIn:MDEntryType) =
     match xxIn with
-    | MDEntryType.Bid -> strm.Write "269=0"B; strm.Write (delim, 0, 1)
-    | MDEntryType.Offer -> strm.Write "269=1"B; strm.Write (delim, 0, 1)
-    | MDEntryType.Trade -> strm.Write "269=2"B; strm.Write (delim, 0, 1)
-    | MDEntryType.IndexValue -> strm.Write "269=3"B; strm.Write (delim, 0, 1)
-    | MDEntryType.OpeningPrice -> strm.Write "269=4"B; strm.Write (delim, 0, 1)
-    | MDEntryType.ClosingPrice -> strm.Write "269=5"B; strm.Write (delim, 0, 1)
-    | MDEntryType.SettlementPrice -> strm.Write "269=6"B; strm.Write (delim, 0, 1)
-    | MDEntryType.TradingSessionHighPrice -> strm.Write "269=7"B; strm.Write (delim, 0, 1)
-    | MDEntryType.TradingSessionLowPrice -> strm.Write "269=8"B; strm.Write (delim, 0, 1)
-    | MDEntryType.TradingSessionVwapPrice -> strm.Write "269=9"B; strm.Write (delim, 0, 1)
-    | MDEntryType.Imbalance -> strm.Write "269=A"B; strm.Write (delim, 0, 1)
-    | MDEntryType.TradeVolume -> strm.Write "269=B"B; strm.Write (delim, 0, 1)
-    | MDEntryType.OpenInterest -> strm.Write "269=C"B; strm.Write (delim, 0, 1)
+    | MDEntryType.Bid ->
+        let tag = "269=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.Offer ->
+        let tag = "269=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.Trade ->
+        let tag = "269=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.IndexValue ->
+        let tag = "269=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.OpeningPrice ->
+        let tag = "269=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.ClosingPrice ->
+        let tag = "269=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.SettlementPrice ->
+        let tag = "269=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.TradingSessionHighPrice ->
+        let tag = "269=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.TradingSessionLowPrice ->
+        let tag = "269=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.TradingSessionVwapPrice ->
+        let tag = "269=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.Imbalance ->
+        let tag = "269=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.TradeVolume ->
+        let tag = "269=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDEntryType.OpenInterest ->
+        let tag = "269=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryPx valIn =
@@ -4206,11 +6151,11 @@ let ReadMDEntryPx valIn =
 
 
 let WriteMDEntryPx (strm:Stream) (valIn:MDEntryPx) = 
-    let tag = "270="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "270="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntrySize valIn =
@@ -4219,11 +6164,11 @@ let ReadMDEntrySize valIn =
 
 
 let WriteMDEntrySize (strm:Stream) (valIn:MDEntrySize) = 
-    let tag = "271="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "271="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryDate valIn =
@@ -4232,11 +6177,11 @@ let ReadMDEntryDate valIn =
 
 
 let WriteMDEntryDate (strm:Stream) (valIn:MDEntryDate) = 
-    let tag = "272="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "272="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryTime valIn =
@@ -4245,11 +6190,11 @@ let ReadMDEntryTime valIn =
 
 
 let WriteMDEntryTime (strm:Stream) (valIn:MDEntryTime) = 
-    let tag = "273="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "273="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTickDirection (fldValIn:string) : TickDirection = 
@@ -4263,10 +6208,22 @@ let ReadTickDirection (fldValIn:string) : TickDirection =
 
 let WriteTickDirection (strm:Stream) (xxIn:TickDirection) =
     match xxIn with
-    | TickDirection.PlusTick -> strm.Write "274=0"B; strm.Write (delim, 0, 1)
-    | TickDirection.ZeroPlusTick -> strm.Write "274=1"B; strm.Write (delim, 0, 1)
-    | TickDirection.MinusTick -> strm.Write "274=2"B; strm.Write (delim, 0, 1)
-    | TickDirection.ZeroMinusTick -> strm.Write "274=3"B; strm.Write (delim, 0, 1)
+    | TickDirection.PlusTick ->
+        let tag = "274=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TickDirection.ZeroPlusTick ->
+        let tag = "274=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TickDirection.MinusTick ->
+        let tag = "274=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TickDirection.ZeroMinusTick ->
+        let tag = "274=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDMkt valIn =
@@ -4275,11 +6232,11 @@ let ReadMDMkt valIn =
 
 
 let WriteMDMkt (strm:Stream) (valIn:MDMkt) = 
-    let tag = "275="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "275="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteCondition (fldValIn:string) : QuoteCondition = 
@@ -4298,15 +6255,42 @@ let ReadQuoteCondition (fldValIn:string) : QuoteCondition =
 
 let WriteQuoteCondition (strm:Stream) (xxIn:QuoteCondition) =
     match xxIn with
-    | QuoteCondition.OpenActive -> strm.Write "276=A"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.ClosedInactive -> strm.Write "276=B"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.ExchangeBest -> strm.Write "276=C"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.ConsolidatedBest -> strm.Write "276=D"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.Locked -> strm.Write "276=E"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.Crossed -> strm.Write "276=F"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.Depth -> strm.Write "276=G"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.FastTrading -> strm.Write "276=H"B; strm.Write (delim, 0, 1)
-    | QuoteCondition.NonFirm -> strm.Write "276=I"B; strm.Write (delim, 0, 1)
+    | QuoteCondition.OpenActive ->
+        let tag = "276=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.ClosedInactive ->
+        let tag = "276=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.ExchangeBest ->
+        let tag = "276=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.ConsolidatedBest ->
+        let tag = "276=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.Locked ->
+        let tag = "276=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.Crossed ->
+        let tag = "276=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.Depth ->
+        let tag = "276=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.FastTrading ->
+        let tag = "276=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCondition.NonFirm ->
+        let tag = "276=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeCondition (fldValIn:string) : TradeCondition = 
@@ -4333,23 +6317,74 @@ let ReadTradeCondition (fldValIn:string) : TradeCondition =
 
 let WriteTradeCondition (strm:Stream) (xxIn:TradeCondition) =
     match xxIn with
-    | TradeCondition.CashMarket -> strm.Write "277=A"B; strm.Write (delim, 0, 1)
-    | TradeCondition.AveragePriceTrade -> strm.Write "277=B"B; strm.Write (delim, 0, 1)
-    | TradeCondition.CashTrade -> strm.Write "277=C"B; strm.Write (delim, 0, 1)
-    | TradeCondition.NextDayMarket -> strm.Write "277=D"B; strm.Write (delim, 0, 1)
-    | TradeCondition.OpeningReopeningTradeDetail -> strm.Write "277=E"B; strm.Write (delim, 0, 1)
-    | TradeCondition.IntradayTradeDetail -> strm.Write "277=F"B; strm.Write (delim, 0, 1)
-    | TradeCondition.Rule127 -> strm.Write "277=G"B; strm.Write (delim, 0, 1)
-    | TradeCondition.Rule155 -> strm.Write "277=H"B; strm.Write (delim, 0, 1)
-    | TradeCondition.SoldLast -> strm.Write "277=I"B; strm.Write (delim, 0, 1)
-    | TradeCondition.NextDayTrade -> strm.Write "277=J"B; strm.Write (delim, 0, 1)
-    | TradeCondition.Opened -> strm.Write "277=K"B; strm.Write (delim, 0, 1)
-    | TradeCondition.Seller -> strm.Write "277=L"B; strm.Write (delim, 0, 1)
-    | TradeCondition.Sold -> strm.Write "277=M"B; strm.Write (delim, 0, 1)
-    | TradeCondition.StoppedStock -> strm.Write "277=N"B; strm.Write (delim, 0, 1)
-    | TradeCondition.ImbalanceMoreBuyers -> strm.Write "277=P"B; strm.Write (delim, 0, 1)
-    | TradeCondition.ImbalanceMoreSellers -> strm.Write "277=Q"B; strm.Write (delim, 0, 1)
-    | TradeCondition.OpeningPrice -> strm.Write "277=R"B; strm.Write (delim, 0, 1)
+    | TradeCondition.CashMarket ->
+        let tag = "277=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.AveragePriceTrade ->
+        let tag = "277=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.CashTrade ->
+        let tag = "277=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.NextDayMarket ->
+        let tag = "277=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.OpeningReopeningTradeDetail ->
+        let tag = "277=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.IntradayTradeDetail ->
+        let tag = "277=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.Rule127 ->
+        let tag = "277=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.Rule155 ->
+        let tag = "277=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.SoldLast ->
+        let tag = "277=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.NextDayTrade ->
+        let tag = "277=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.Opened ->
+        let tag = "277=K"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.Seller ->
+        let tag = "277=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.Sold ->
+        let tag = "277=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.StoppedStock ->
+        let tag = "277=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.ImbalanceMoreBuyers ->
+        let tag = "277=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.ImbalanceMoreSellers ->
+        let tag = "277=Q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeCondition.OpeningPrice ->
+        let tag = "277=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryID valIn =
@@ -4358,11 +6393,11 @@ let ReadMDEntryID valIn =
 
 
 let WriteMDEntryID (strm:Stream) (valIn:MDEntryID) = 
-    let tag = "278="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "278="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDUpdateAction (fldValIn:string) : MDUpdateAction = 
@@ -4375,9 +6410,18 @@ let ReadMDUpdateAction (fldValIn:string) : MDUpdateAction =
 
 let WriteMDUpdateAction (strm:Stream) (xxIn:MDUpdateAction) =
     match xxIn with
-    | MDUpdateAction.New -> strm.Write "279=0"B; strm.Write (delim, 0, 1)
-    | MDUpdateAction.Change -> strm.Write "279=1"B; strm.Write (delim, 0, 1)
-    | MDUpdateAction.Delete -> strm.Write "279=2"B; strm.Write (delim, 0, 1)
+    | MDUpdateAction.New ->
+        let tag = "279=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDUpdateAction.Change ->
+        let tag = "279=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDUpdateAction.Delete ->
+        let tag = "279=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryRefID valIn =
@@ -4386,11 +6430,11 @@ let ReadMDEntryRefID valIn =
 
 
 let WriteMDEntryRefID (strm:Stream) (valIn:MDEntryRefID) = 
-    let tag = "280="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "280="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDReqRejReason (fldValIn:string) : MDReqRejReason = 
@@ -4413,19 +6457,58 @@ let ReadMDReqRejReason (fldValIn:string) : MDReqRejReason =
 
 let WriteMDReqRejReason (strm:Stream) (xxIn:MDReqRejReason) =
     match xxIn with
-    | MDReqRejReason.UnknownSymbol -> strm.Write "281=0"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.DuplicateMdreqid -> strm.Write "281=1"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.InsufficientBandwidth -> strm.Write "281=2"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.InsufficientPermissions -> strm.Write "281=3"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedSubscriptionrequesttype -> strm.Write "281=4"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedMarketdepth -> strm.Write "281=5"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedMdupdatetype -> strm.Write "281=6"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedAggregatedbook -> strm.Write "281=7"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedMdentrytype -> strm.Write "281=8"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedTradingsessionid -> strm.Write "281=9"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedScope -> strm.Write "281=A"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedOpenclosesettleflag -> strm.Write "281=B"B; strm.Write (delim, 0, 1)
-    | MDReqRejReason.UnsupportedMdimplicitdelete -> strm.Write "281=C"B; strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnknownSymbol ->
+        let tag = "281=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.DuplicateMdreqid ->
+        let tag = "281=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.InsufficientBandwidth ->
+        let tag = "281=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.InsufficientPermissions ->
+        let tag = "281=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedSubscriptionrequesttype ->
+        let tag = "281=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedMarketdepth ->
+        let tag = "281=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedMdupdatetype ->
+        let tag = "281=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedAggregatedbook ->
+        let tag = "281=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedMdentrytype ->
+        let tag = "281=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedTradingsessionid ->
+        let tag = "281=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedScope ->
+        let tag = "281=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedOpenclosesettleflag ->
+        let tag = "281=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MDReqRejReason.UnsupportedMdimplicitdelete ->
+        let tag = "281=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryOriginator valIn =
@@ -4434,11 +6517,11 @@ let ReadMDEntryOriginator valIn =
 
 
 let WriteMDEntryOriginator (strm:Stream) (valIn:MDEntryOriginator) = 
-    let tag = "282="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "282="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLocationID valIn =
@@ -4447,11 +6530,11 @@ let ReadLocationID valIn =
 
 
 let WriteLocationID (strm:Stream) (valIn:LocationID) = 
-    let tag = "283="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "283="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeskID valIn =
@@ -4460,11 +6543,11 @@ let ReadDeskID valIn =
 
 
 let WriteDeskID (strm:Stream) (valIn:DeskID) = 
-    let tag = "284="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "284="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeleteReason (fldValIn:string) : DeleteReason = 
@@ -4476,8 +6559,14 @@ let ReadDeleteReason (fldValIn:string) : DeleteReason =
 
 let WriteDeleteReason (strm:Stream) (xxIn:DeleteReason) =
     match xxIn with
-    | DeleteReason.CancelationTradeBust -> strm.Write "285=0"B; strm.Write (delim, 0, 1)
-    | DeleteReason.Error -> strm.Write "285=1"B; strm.Write (delim, 0, 1)
+    | DeleteReason.CancelationTradeBust ->
+        let tag = "285=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DeleteReason.Error ->
+        let tag = "285=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOpenCloseSettlFlag (fldValIn:string) : OpenCloseSettlFlag = 
@@ -4493,12 +6582,30 @@ let ReadOpenCloseSettlFlag (fldValIn:string) : OpenCloseSettlFlag =
 
 let WriteOpenCloseSettlFlag (strm:Stream) (xxIn:OpenCloseSettlFlag) =
     match xxIn with
-    | OpenCloseSettlFlag.DailyOpenCloseSettlementEntry -> strm.Write "286=0"B; strm.Write (delim, 0, 1)
-    | OpenCloseSettlFlag.SessionOpenCloseSettlementEntry -> strm.Write "286=1"B; strm.Write (delim, 0, 1)
-    | OpenCloseSettlFlag.DeliverySettlementEntry -> strm.Write "286=2"B; strm.Write (delim, 0, 1)
-    | OpenCloseSettlFlag.ExpectedEntry -> strm.Write "286=3"B; strm.Write (delim, 0, 1)
-    | OpenCloseSettlFlag.EntryFromPreviousBusinessDay -> strm.Write "286=4"B; strm.Write (delim, 0, 1)
-    | OpenCloseSettlFlag.TheoreticalPriceValue -> strm.Write "286=5"B; strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.DailyOpenCloseSettlementEntry ->
+        let tag = "286=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.SessionOpenCloseSettlementEntry ->
+        let tag = "286=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.DeliverySettlementEntry ->
+        let tag = "286=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.ExpectedEntry ->
+        let tag = "286=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.EntryFromPreviousBusinessDay ->
+        let tag = "286=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OpenCloseSettlFlag.TheoreticalPriceValue ->
+        let tag = "286=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSellerDays valIn =
@@ -4507,11 +6614,11 @@ let ReadSellerDays valIn =
 
 
 let WriteSellerDays (strm:Stream) (valIn:SellerDays) = 
-    let tag = "287="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "287="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryBuyer valIn =
@@ -4520,11 +6627,11 @@ let ReadMDEntryBuyer valIn =
 
 
 let WriteMDEntryBuyer (strm:Stream) (valIn:MDEntryBuyer) = 
-    let tag = "288="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "288="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntrySeller valIn =
@@ -4533,11 +6640,11 @@ let ReadMDEntrySeller valIn =
 
 
 let WriteMDEntrySeller (strm:Stream) (valIn:MDEntrySeller) = 
-    let tag = "289="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "289="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMDEntryPositionNo valIn =
@@ -4546,11 +6653,11 @@ let ReadMDEntryPositionNo valIn =
 
 
 let WriteMDEntryPositionNo (strm:Stream) (valIn:MDEntryPositionNo) = 
-    let tag = "290="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "290="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadFinancialStatus (fldValIn:string) : FinancialStatus = 
@@ -4562,8 +6669,14 @@ let ReadFinancialStatus (fldValIn:string) : FinancialStatus =
 
 let WriteFinancialStatus (strm:Stream) (xxIn:FinancialStatus) =
     match xxIn with
-    | FinancialStatus.Bankrupt -> strm.Write "291=1"B; strm.Write (delim, 0, 1)
-    | FinancialStatus.PendingDelisting -> strm.Write "291=2"B; strm.Write (delim, 0, 1)
+    | FinancialStatus.Bankrupt ->
+        let tag = "291=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | FinancialStatus.PendingDelisting ->
+        let tag = "291=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCorporateAction (fldValIn:string) : CorporateAction = 
@@ -4578,11 +6691,26 @@ let ReadCorporateAction (fldValIn:string) : CorporateAction =
 
 let WriteCorporateAction (strm:Stream) (xxIn:CorporateAction) =
     match xxIn with
-    | CorporateAction.ExDividend -> strm.Write "292=A"B; strm.Write (delim, 0, 1)
-    | CorporateAction.ExDistribution -> strm.Write "292=B"B; strm.Write (delim, 0, 1)
-    | CorporateAction.ExRights -> strm.Write "292=C"B; strm.Write (delim, 0, 1)
-    | CorporateAction.New -> strm.Write "292=D"B; strm.Write (delim, 0, 1)
-    | CorporateAction.ExInterest -> strm.Write "292=E"B; strm.Write (delim, 0, 1)
+    | CorporateAction.ExDividend ->
+        let tag = "292=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CorporateAction.ExDistribution ->
+        let tag = "292=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CorporateAction.ExRights ->
+        let tag = "292=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CorporateAction.New ->
+        let tag = "292=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CorporateAction.ExInterest ->
+        let tag = "292=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDefBidSize valIn =
@@ -4591,11 +6719,11 @@ let ReadDefBidSize valIn =
 
 
 let WriteDefBidSize (strm:Stream) (valIn:DefBidSize) = 
-    let tag = "293="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "293="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDefOfferSize valIn =
@@ -4604,11 +6732,11 @@ let ReadDefOfferSize valIn =
 
 
 let WriteDefOfferSize (strm:Stream) (valIn:DefOfferSize) = 
-    let tag = "294="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "294="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoQuoteEntries valIn =
@@ -4617,11 +6745,11 @@ let ReadNoQuoteEntries valIn =
 
 
 let WriteNoQuoteEntries (strm:Stream) (valIn:NoQuoteEntries) = 
-    let tag = "295="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "295="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoQuoteSets valIn =
@@ -4630,11 +6758,11 @@ let ReadNoQuoteSets valIn =
 
 
 let WriteNoQuoteSets (strm:Stream) (valIn:NoQuoteSets) = 
-    let tag = "296="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "296="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteStatus (fldValIn:string) : QuoteStatus = 
@@ -4660,22 +6788,70 @@ let ReadQuoteStatus (fldValIn:string) : QuoteStatus =
 
 let WriteQuoteStatus (strm:Stream) (xxIn:QuoteStatus) =
     match xxIn with
-    | QuoteStatus.Accepted -> strm.Write "297=0"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledForSymbol -> strm.Write "297=1"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledForSecurityType -> strm.Write "297=2"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledForUnderlying -> strm.Write "297=3"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledAll -> strm.Write "297=4"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.Rejected -> strm.Write "297=5"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.RemovedFromMarket -> strm.Write "297=6"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.Expired -> strm.Write "297=7"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.Query -> strm.Write "297=8"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.QuoteNotFound -> strm.Write "297=9"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.Pending -> strm.Write "297=10"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.Pass -> strm.Write "297=11"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.LockedMarketWarning -> strm.Write "297=12"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CrossMarketWarning -> strm.Write "297=13"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledDueToLockMarket -> strm.Write "297=14"B; strm.Write (delim, 0, 1)
-    | QuoteStatus.CanceledDueToCrossMarket -> strm.Write "297=15"B; strm.Write (delim, 0, 1)
+    | QuoteStatus.Accepted ->
+        let tag = "297=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledForSymbol ->
+        let tag = "297=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledForSecurityType ->
+        let tag = "297=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledForUnderlying ->
+        let tag = "297=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledAll ->
+        let tag = "297=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.Rejected ->
+        let tag = "297=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.RemovedFromMarket ->
+        let tag = "297=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.Expired ->
+        let tag = "297=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.Query ->
+        let tag = "297=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.QuoteNotFound ->
+        let tag = "297=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.Pending ->
+        let tag = "297=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.Pass ->
+        let tag = "297=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.LockedMarketWarning ->
+        let tag = "297=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CrossMarketWarning ->
+        let tag = "297=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledDueToLockMarket ->
+        let tag = "297=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteStatus.CanceledDueToCrossMarket ->
+        let tag = "297=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteCancelType (fldValIn:string) : QuoteCancelType = 
@@ -4689,10 +6865,22 @@ let ReadQuoteCancelType (fldValIn:string) : QuoteCancelType =
 
 let WriteQuoteCancelType (strm:Stream) (xxIn:QuoteCancelType) =
     match xxIn with
-    | QuoteCancelType.CancelForSymbol -> strm.Write "298=1"B; strm.Write (delim, 0, 1)
-    | QuoteCancelType.CancelForSecurityType -> strm.Write "298=2"B; strm.Write (delim, 0, 1)
-    | QuoteCancelType.CancelForUnderlyingSymbol -> strm.Write "298=3"B; strm.Write (delim, 0, 1)
-    | QuoteCancelType.CancelAllQuotes -> strm.Write "298=4"B; strm.Write (delim, 0, 1)
+    | QuoteCancelType.CancelForSymbol ->
+        let tag = "298=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCancelType.CancelForSecurityType ->
+        let tag = "298=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCancelType.CancelForUnderlyingSymbol ->
+        let tag = "298=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteCancelType.CancelAllQuotes ->
+        let tag = "298=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteEntryID valIn =
@@ -4701,11 +6889,11 @@ let ReadQuoteEntryID valIn =
 
 
 let WriteQuoteEntryID (strm:Stream) (valIn:QuoteEntryID) = 
-    let tag = "299="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "299="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteRejectReason (fldValIn:string) : QuoteRejectReason = 
@@ -4725,16 +6913,46 @@ let ReadQuoteRejectReason (fldValIn:string) : QuoteRejectReason =
 
 let WriteQuoteRejectReason (strm:Stream) (xxIn:QuoteRejectReason) =
     match xxIn with
-    | QuoteRejectReason.UnknownSymbol -> strm.Write "300=1"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.ExchangeClosed -> strm.Write "300=2"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.QuoteRequestExceedsLimit -> strm.Write "300=3"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.TooLateToEnter -> strm.Write "300=4"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.UnknownQuote -> strm.Write "300=5"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.DuplicateQuote -> strm.Write "300=6"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.InvalidBidAskSpread -> strm.Write "300=7"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.InvalidPrice -> strm.Write "300=8"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.NotAuthorizedToQuoteSecurity -> strm.Write "300=9"B; strm.Write (delim, 0, 1)
-    | QuoteRejectReason.Other -> strm.Write "300=99"B; strm.Write (delim, 0, 1)
+    | QuoteRejectReason.UnknownSymbol ->
+        let tag = "300=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.ExchangeClosed ->
+        let tag = "300=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.QuoteRequestExceedsLimit ->
+        let tag = "300=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.TooLateToEnter ->
+        let tag = "300=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.UnknownQuote ->
+        let tag = "300=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.DuplicateQuote ->
+        let tag = "300=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.InvalidBidAskSpread ->
+        let tag = "300=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.InvalidPrice ->
+        let tag = "300=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.NotAuthorizedToQuoteSecurity ->
+        let tag = "300=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRejectReason.Other ->
+        let tag = "300=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteResponseLevel (fldValIn:string) : QuoteResponseLevel = 
@@ -4747,9 +6965,18 @@ let ReadQuoteResponseLevel (fldValIn:string) : QuoteResponseLevel =
 
 let WriteQuoteResponseLevel (strm:Stream) (xxIn:QuoteResponseLevel) =
     match xxIn with
-    | QuoteResponseLevel.NoAcknowledgement -> strm.Write "301=0"B; strm.Write (delim, 0, 1)
-    | QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes -> strm.Write "301=1"B; strm.Write (delim, 0, 1)
-    | QuoteResponseLevel.AcknowledgeEachQuoteMessages -> strm.Write "301=2"B; strm.Write (delim, 0, 1)
+    | QuoteResponseLevel.NoAcknowledgement ->
+        let tag = "301=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes ->
+        let tag = "301=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteResponseLevel.AcknowledgeEachQuoteMessages ->
+        let tag = "301=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteSetID valIn =
@@ -4758,11 +6985,11 @@ let ReadQuoteSetID valIn =
 
 
 let WriteQuoteSetID (strm:Stream) (valIn:QuoteSetID) = 
-    let tag = "302="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "302="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteRequestType (fldValIn:string) : QuoteRequestType = 
@@ -4774,8 +7001,14 @@ let ReadQuoteRequestType (fldValIn:string) : QuoteRequestType =
 
 let WriteQuoteRequestType (strm:Stream) (xxIn:QuoteRequestType) =
     match xxIn with
-    | QuoteRequestType.Manual -> strm.Write "303=1"B; strm.Write (delim, 0, 1)
-    | QuoteRequestType.Automatic -> strm.Write "303=2"B; strm.Write (delim, 0, 1)
+    | QuoteRequestType.Manual ->
+        let tag = "303=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestType.Automatic ->
+        let tag = "303=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTotNoQuoteEntries valIn =
@@ -4784,11 +7017,11 @@ let ReadTotNoQuoteEntries valIn =
 
 
 let WriteTotNoQuoteEntries (strm:Stream) (valIn:TotNoQuoteEntries) = 
-    let tag = "304="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "304="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityIDSource valIn =
@@ -4797,11 +7030,11 @@ let ReadUnderlyingSecurityIDSource valIn =
 
 
 let WriteUnderlyingSecurityIDSource (strm:Stream) (valIn:UnderlyingSecurityIDSource) = 
-    let tag = "305="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "305="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingIssuer valIn =
@@ -4810,11 +7043,11 @@ let ReadUnderlyingIssuer valIn =
 
 
 let WriteUnderlyingIssuer (strm:Stream) (valIn:UnderlyingIssuer) = 
-    let tag = "306="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "306="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityDesc valIn =
@@ -4823,11 +7056,11 @@ let ReadUnderlyingSecurityDesc valIn =
 
 
 let WriteUnderlyingSecurityDesc (strm:Stream) (valIn:UnderlyingSecurityDesc) = 
-    let tag = "307="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "307="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityExchange valIn =
@@ -4836,11 +7069,11 @@ let ReadUnderlyingSecurityExchange valIn =
 
 
 let WriteUnderlyingSecurityExchange (strm:Stream) (valIn:UnderlyingSecurityExchange) = 
-    let tag = "308="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "308="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityID valIn =
@@ -4849,11 +7082,11 @@ let ReadUnderlyingSecurityID valIn =
 
 
 let WriteUnderlyingSecurityID (strm:Stream) (valIn:UnderlyingSecurityID) = 
-    let tag = "309="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "309="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityType valIn =
@@ -4862,11 +7095,11 @@ let ReadUnderlyingSecurityType valIn =
 
 
 let WriteUnderlyingSecurityType (strm:Stream) (valIn:UnderlyingSecurityType) = 
-    let tag = "310="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "310="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSymbol valIn =
@@ -4875,11 +7108,11 @@ let ReadUnderlyingSymbol valIn =
 
 
 let WriteUnderlyingSymbol (strm:Stream) (valIn:UnderlyingSymbol) = 
-    let tag = "311="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "311="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSymbolSfx valIn =
@@ -4888,11 +7121,11 @@ let ReadUnderlyingSymbolSfx valIn =
 
 
 let WriteUnderlyingSymbolSfx (strm:Stream) (valIn:UnderlyingSymbolSfx) = 
-    let tag = "312="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "312="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingMaturityMonthYear valIn =
@@ -4901,11 +7134,11 @@ let ReadUnderlyingMaturityMonthYear valIn =
 
 
 let WriteUnderlyingMaturityMonthYear (strm:Stream) (valIn:UnderlyingMaturityMonthYear) = 
-    let tag = "313="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "313="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingPutOrCall (fldValIn:string) : UnderlyingPutOrCall = 
@@ -4917,8 +7150,14 @@ let ReadUnderlyingPutOrCall (fldValIn:string) : UnderlyingPutOrCall =
 
 let WriteUnderlyingPutOrCall (strm:Stream) (xxIn:UnderlyingPutOrCall) =
     match xxIn with
-    | UnderlyingPutOrCall.Put -> strm.Write "315=0"B; strm.Write (delim, 0, 1)
-    | UnderlyingPutOrCall.Call -> strm.Write "315=1"B; strm.Write (delim, 0, 1)
+    | UnderlyingPutOrCall.Put ->
+        let tag = "315=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UnderlyingPutOrCall.Call ->
+        let tag = "315=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStrikePrice valIn =
@@ -4927,11 +7166,11 @@ let ReadUnderlyingStrikePrice valIn =
 
 
 let WriteUnderlyingStrikePrice (strm:Stream) (valIn:UnderlyingStrikePrice) = 
-    let tag = "316="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "316="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingOptAttribute valIn =
@@ -4940,11 +7179,11 @@ let ReadUnderlyingOptAttribute valIn =
 
 
 let WriteUnderlyingOptAttribute (strm:Stream) (valIn:UnderlyingOptAttribute) = 
-    let tag = "317="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "317="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCurrency valIn =
@@ -4953,11 +7192,11 @@ let ReadUnderlyingCurrency valIn =
 
 
 let WriteUnderlyingCurrency (strm:Stream) (valIn:UnderlyingCurrency) = 
-    let tag = "318="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "318="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityReqID valIn =
@@ -4966,11 +7205,11 @@ let ReadSecurityReqID valIn =
 
 
 let WriteSecurityReqID (strm:Stream) (valIn:SecurityReqID) = 
-    let tag = "320="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "320="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityRequestType (fldValIn:string) : SecurityRequestType = 
@@ -4984,10 +7223,22 @@ let ReadSecurityRequestType (fldValIn:string) : SecurityRequestType =
 
 let WriteSecurityRequestType (strm:Stream) (xxIn:SecurityRequestType) =
     match xxIn with
-    | SecurityRequestType.RequestSecurityIdentityAndSpecifications -> strm.Write "321=0"B; strm.Write (delim, 0, 1)
-    | SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided -> strm.Write "321=1"B; strm.Write (delim, 0, 1)
-    | SecurityRequestType.RequestListSecurityTypes -> strm.Write "321=2"B; strm.Write (delim, 0, 1)
-    | SecurityRequestType.RequestListSecurities -> strm.Write "321=3"B; strm.Write (delim, 0, 1)
+    | SecurityRequestType.RequestSecurityIdentityAndSpecifications ->
+        let tag = "321=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided ->
+        let tag = "321=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestType.RequestListSecurityTypes ->
+        let tag = "321=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestType.RequestListSecurities ->
+        let tag = "321=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecurityResponseID valIn =
@@ -4996,11 +7247,11 @@ let ReadSecurityResponseID valIn =
 
 
 let WriteSecurityResponseID (strm:Stream) (valIn:SecurityResponseID) = 
-    let tag = "322="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "322="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityResponseType (fldValIn:string) : SecurityResponseType = 
@@ -5016,12 +7267,30 @@ let ReadSecurityResponseType (fldValIn:string) : SecurityResponseType =
 
 let WriteSecurityResponseType (strm:Stream) (xxIn:SecurityResponseType) =
     match xxIn with
-    | SecurityResponseType.AcceptSecurityProposalAsIs -> strm.Write "323=1"B; strm.Write (delim, 0, 1)
-    | SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage -> strm.Write "323=2"B; strm.Write (delim, 0, 1)
-    | SecurityResponseType.ListOfSecurityTypesReturnedPerRequest -> strm.Write "323=3"B; strm.Write (delim, 0, 1)
-    | SecurityResponseType.ListOfSecuritiesReturnedPerRequest -> strm.Write "323=4"B; strm.Write (delim, 0, 1)
-    | SecurityResponseType.RejectSecurityProposal -> strm.Write "323=5"B; strm.Write (delim, 0, 1)
-    | SecurityResponseType.CanNotMatchSelectionCriteria -> strm.Write "323=6"B; strm.Write (delim, 0, 1)
+    | SecurityResponseType.AcceptSecurityProposalAsIs ->
+        let tag = "323=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage ->
+        let tag = "323=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityResponseType.ListOfSecurityTypesReturnedPerRequest ->
+        let tag = "323=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityResponseType.ListOfSecuritiesReturnedPerRequest ->
+        let tag = "323=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityResponseType.RejectSecurityProposal ->
+        let tag = "323=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityResponseType.CanNotMatchSelectionCriteria ->
+        let tag = "323=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecurityStatusReqID valIn =
@@ -5030,11 +7299,11 @@ let ReadSecurityStatusReqID valIn =
 
 
 let WriteSecurityStatusReqID (strm:Stream) (valIn:SecurityStatusReqID) = 
-    let tag = "324="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "324="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnsolicitedIndicator valIn =
@@ -5043,11 +7312,11 @@ let ReadUnsolicitedIndicator valIn =
 
 
 let WriteUnsolicitedIndicator (strm:Stream) (valIn:UnsolicitedIndicator) = 
-    let tag = "325="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "325="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityTradingStatus (fldValIn:string) : SecurityTradingStatus = 
@@ -5080,29 +7349,98 @@ let ReadSecurityTradingStatus (fldValIn:string) : SecurityTradingStatus =
 
 let WriteSecurityTradingStatus (strm:Stream) (xxIn:SecurityTradingStatus) =
     match xxIn with
-    | SecurityTradingStatus.OpeningDelay -> strm.Write "326=1"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.TradingHalt -> strm.Write "326=2"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.Resume -> strm.Write "326=3"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NoOpenNoResume -> strm.Write "326=4"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.PriceIndication -> strm.Write "326=5"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.TradingRangeIndication -> strm.Write "326=6"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.MarketImbalanceBuy -> strm.Write "326=7"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.MarketImbalanceSell -> strm.Write "326=8"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.MarketOnCloseImbalanceBuy -> strm.Write "326=9"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.MarketOnCloseImbalanceSell -> strm.Write "326=10"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NotAssigned -> strm.Write "326=11"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NoMarketImbalance -> strm.Write "326=12"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NoMarketOnCloseImbalance -> strm.Write "326=13"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.ItsPreOpening -> strm.Write "326=14"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NewPriceIndication -> strm.Write "326=15"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.TradeDisseminationTime -> strm.Write "326=16"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.ReadyToTradeStartOfSession -> strm.Write "326=17"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NotAvailableForTradingEndOfSession -> strm.Write "326=18"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.NotTradedOnThisMarket -> strm.Write "326=19"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.UnknownOrInvalid -> strm.Write "326=20"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.PreOpen -> strm.Write "326=21"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.OpeningRotation -> strm.Write "326=22"B; strm.Write (delim, 0, 1)
-    | SecurityTradingStatus.FastMarket -> strm.Write "326=23"B; strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.OpeningDelay ->
+        let tag = "326=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.TradingHalt ->
+        let tag = "326=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.Resume ->
+        let tag = "326=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NoOpenNoResume ->
+        let tag = "326=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.PriceIndication ->
+        let tag = "326=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.TradingRangeIndication ->
+        let tag = "326=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.MarketImbalanceBuy ->
+        let tag = "326=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.MarketImbalanceSell ->
+        let tag = "326=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.MarketOnCloseImbalanceBuy ->
+        let tag = "326=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.MarketOnCloseImbalanceSell ->
+        let tag = "326=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NotAssigned ->
+        let tag = "326=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NoMarketImbalance ->
+        let tag = "326=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NoMarketOnCloseImbalance ->
+        let tag = "326=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.ItsPreOpening ->
+        let tag = "326=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NewPriceIndication ->
+        let tag = "326=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.TradeDisseminationTime ->
+        let tag = "326=16"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.ReadyToTradeStartOfSession ->
+        let tag = "326=17"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NotAvailableForTradingEndOfSession ->
+        let tag = "326=18"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.NotTradedOnThisMarket ->
+        let tag = "326=19"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.UnknownOrInvalid ->
+        let tag = "326=20"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.PreOpen ->
+        let tag = "326=21"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.OpeningRotation ->
+        let tag = "326=22"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityTradingStatus.FastMarket ->
+        let tag = "326=23"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadHaltReason (fldValIn:string) : HaltReason = 
@@ -5118,12 +7456,30 @@ let ReadHaltReason (fldValIn:string) : HaltReason =
 
 let WriteHaltReason (strm:Stream) (xxIn:HaltReason) =
     match xxIn with
-    | HaltReason.OrderImbalance -> strm.Write "327=I"B; strm.Write (delim, 0, 1)
-    | HaltReason.EquipmentChangeover -> strm.Write "327=X"B; strm.Write (delim, 0, 1)
-    | HaltReason.NewsPending -> strm.Write "327=P"B; strm.Write (delim, 0, 1)
-    | HaltReason.NewsDissemination -> strm.Write "327=D"B; strm.Write (delim, 0, 1)
-    | HaltReason.OrderInflux -> strm.Write "327=E"B; strm.Write (delim, 0, 1)
-    | HaltReason.AdditionalInformation -> strm.Write "327=M"B; strm.Write (delim, 0, 1)
+    | HaltReason.OrderImbalance ->
+        let tag = "327=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HaltReason.EquipmentChangeover ->
+        let tag = "327=X"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HaltReason.NewsPending ->
+        let tag = "327=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HaltReason.NewsDissemination ->
+        let tag = "327=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HaltReason.OrderInflux ->
+        let tag = "327=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | HaltReason.AdditionalInformation ->
+        let tag = "327=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadInViewOfCommon valIn =
@@ -5132,11 +7488,11 @@ let ReadInViewOfCommon valIn =
 
 
 let WriteInViewOfCommon (strm:Stream) (valIn:InViewOfCommon) = 
-    let tag = "328="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "328="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDueToRelated valIn =
@@ -5145,11 +7501,11 @@ let ReadDueToRelated valIn =
 
 
 let WriteDueToRelated (strm:Stream) (valIn:DueToRelated) = 
-    let tag = "329="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "329="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBuyVolume valIn =
@@ -5158,11 +7514,11 @@ let ReadBuyVolume valIn =
 
 
 let WriteBuyVolume (strm:Stream) (valIn:BuyVolume) = 
-    let tag = "330="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "330="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSellVolume valIn =
@@ -5171,11 +7527,11 @@ let ReadSellVolume valIn =
 
 
 let WriteSellVolume (strm:Stream) (valIn:SellVolume) = 
-    let tag = "331="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "331="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHighPx valIn =
@@ -5184,11 +7540,11 @@ let ReadHighPx valIn =
 
 
 let WriteHighPx (strm:Stream) (valIn:HighPx) = 
-    let tag = "332="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "332="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLowPx valIn =
@@ -5197,11 +7553,11 @@ let ReadLowPx valIn =
 
 
 let WriteLowPx (strm:Stream) (valIn:LowPx) = 
-    let tag = "333="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "333="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAdjustment (fldValIn:string) : Adjustment = 
@@ -5214,9 +7570,18 @@ let ReadAdjustment (fldValIn:string) : Adjustment =
 
 let WriteAdjustment (strm:Stream) (xxIn:Adjustment) =
     match xxIn with
-    | Adjustment.Cancel -> strm.Write "334=1"B; strm.Write (delim, 0, 1)
-    | Adjustment.Error -> strm.Write "334=2"B; strm.Write (delim, 0, 1)
-    | Adjustment.Correction -> strm.Write "334=3"B; strm.Write (delim, 0, 1)
+    | Adjustment.Cancel ->
+        let tag = "334=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Adjustment.Error ->
+        let tag = "334=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Adjustment.Correction ->
+        let tag = "334=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradSesReqID valIn =
@@ -5225,11 +7590,11 @@ let ReadTradSesReqID valIn =
 
 
 let WriteTradSesReqID (strm:Stream) (valIn:TradSesReqID) = 
-    let tag = "335="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "335="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradingSessionID valIn =
@@ -5238,11 +7603,11 @@ let ReadTradingSessionID valIn =
 
 
 let WriteTradingSessionID (strm:Stream) (valIn:TradingSessionID) = 
-    let tag = "336="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "336="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContraTrader valIn =
@@ -5251,11 +7616,11 @@ let ReadContraTrader valIn =
 
 
 let WriteContraTrader (strm:Stream) (valIn:ContraTrader) = 
-    let tag = "337="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "337="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesMethod (fldValIn:string) : TradSesMethod = 
@@ -5268,9 +7633,18 @@ let ReadTradSesMethod (fldValIn:string) : TradSesMethod =
 
 let WriteTradSesMethod (strm:Stream) (xxIn:TradSesMethod) =
     match xxIn with
-    | TradSesMethod.Electronic -> strm.Write "338=1"B; strm.Write (delim, 0, 1)
-    | TradSesMethod.OpenOutcry -> strm.Write "338=2"B; strm.Write (delim, 0, 1)
-    | TradSesMethod.TwoParty -> strm.Write "338=3"B; strm.Write (delim, 0, 1)
+    | TradSesMethod.Electronic ->
+        let tag = "338=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesMethod.OpenOutcry ->
+        let tag = "338=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesMethod.TwoParty ->
+        let tag = "338=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradSesMode (fldValIn:string) : TradSesMode = 
@@ -5283,9 +7657,18 @@ let ReadTradSesMode (fldValIn:string) : TradSesMode =
 
 let WriteTradSesMode (strm:Stream) (xxIn:TradSesMode) =
     match xxIn with
-    | TradSesMode.Testing -> strm.Write "339=1"B; strm.Write (delim, 0, 1)
-    | TradSesMode.Simulated -> strm.Write "339=2"B; strm.Write (delim, 0, 1)
-    | TradSesMode.Production -> strm.Write "339=3"B; strm.Write (delim, 0, 1)
+    | TradSesMode.Testing ->
+        let tag = "339=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesMode.Simulated ->
+        let tag = "339=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesMode.Production ->
+        let tag = "339=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradSesStatus (fldValIn:string) : TradSesStatus = 
@@ -5302,13 +7685,34 @@ let ReadTradSesStatus (fldValIn:string) : TradSesStatus =
 
 let WriteTradSesStatus (strm:Stream) (xxIn:TradSesStatus) =
     match xxIn with
-    | TradSesStatus.Unknown -> strm.Write "340=0"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.Halted -> strm.Write "340=1"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.Open -> strm.Write "340=2"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.Closed -> strm.Write "340=3"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.PreOpen -> strm.Write "340=4"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.PreClose -> strm.Write "340=5"B; strm.Write (delim, 0, 1)
-    | TradSesStatus.RequestRejected -> strm.Write "340=6"B; strm.Write (delim, 0, 1)
+    | TradSesStatus.Unknown ->
+        let tag = "340=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.Halted ->
+        let tag = "340=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.Open ->
+        let tag = "340=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.Closed ->
+        let tag = "340=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.PreOpen ->
+        let tag = "340=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.PreClose ->
+        let tag = "340=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradSesStatus.RequestRejected ->
+        let tag = "340=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradSesStartTime valIn =
@@ -5317,11 +7721,11 @@ let ReadTradSesStartTime valIn =
 
 
 let WriteTradSesStartTime (strm:Stream) (valIn:TradSesStartTime) = 
-    let tag = "341="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "341="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesOpenTime valIn =
@@ -5330,11 +7734,11 @@ let ReadTradSesOpenTime valIn =
 
 
 let WriteTradSesOpenTime (strm:Stream) (valIn:TradSesOpenTime) = 
-    let tag = "342="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "342="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesPreCloseTime valIn =
@@ -5343,11 +7747,11 @@ let ReadTradSesPreCloseTime valIn =
 
 
 let WriteTradSesPreCloseTime (strm:Stream) (valIn:TradSesPreCloseTime) = 
-    let tag = "343="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "343="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesCloseTime valIn =
@@ -5356,11 +7760,11 @@ let ReadTradSesCloseTime valIn =
 
 
 let WriteTradSesCloseTime (strm:Stream) (valIn:TradSesCloseTime) = 
-    let tag = "344="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "344="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesEndTime valIn =
@@ -5369,11 +7773,11 @@ let ReadTradSesEndTime valIn =
 
 
 let WriteTradSesEndTime (strm:Stream) (valIn:TradSesEndTime) = 
-    let tag = "345="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "345="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNumberOfOrders valIn =
@@ -5382,11 +7786,11 @@ let ReadNumberOfOrders valIn =
 
 
 let WriteNumberOfOrders (strm:Stream) (valIn:NumberOfOrders) = 
-    let tag = "346="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "346="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMessageEncoding (fldValIn:string) : MessageEncoding = 
@@ -5400,21 +7804,35 @@ let ReadMessageEncoding (fldValIn:string) : MessageEncoding =
 
 let WriteMessageEncoding (strm:Stream) (xxIn:MessageEncoding) =
     match xxIn with
-    | MessageEncoding.Iso2022Jp -> strm.Write "347=ISO-2022-JP"B; strm.Write (delim, 0, 1)
-    | MessageEncoding.EucJp -> strm.Write "347=EUC-JP"B; strm.Write (delim, 0, 1)
-    | MessageEncoding.ShiftJis -> strm.Write "347=SHIFT_JIS"B; strm.Write (delim, 0, 1)
-    | MessageEncoding.Utf8 -> strm.Write "347=UTF-8"B; strm.Write (delim, 0, 1)
+    | MessageEncoding.Iso2022Jp ->
+        let tag = "347=ISO-2022-JP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MessageEncoding.EucJp ->
+        let tag = "347=EUC-JP"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MessageEncoding.ShiftJis ->
+        let tag = "347=SHIFT_JIS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MessageEncoding.Utf8 ->
+        let tag = "347=UTF-8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedIssuer (strm:System.IO.Stream) (fld:EncodedIssuer) =
     let lenTag = "348="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "349="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5433,15 +7851,17 @@ let ReadEncodedIssuer valIn (strm:System.IO.Stream) =
     EncodedIssuer.EncodedIssuer raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedSecurityDesc (strm:System.IO.Stream) (fld:EncodedSecurityDesc) =
     let lenTag = "350="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "351="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5460,15 +7880,17 @@ let ReadEncodedSecurityDesc valIn (strm:System.IO.Stream) =
     EncodedSecurityDesc.EncodedSecurityDesc raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedListExecInst (strm:System.IO.Stream) (fld:EncodedListExecInst) =
     let lenTag = "352="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "353="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5487,15 +7909,17 @@ let ReadEncodedListExecInst valIn (strm:System.IO.Stream) =
     EncodedListExecInst.EncodedListExecInst raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedText (strm:System.IO.Stream) (fld:EncodedText) =
     let lenTag = "354="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "355="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5514,15 +7938,17 @@ let ReadEncodedText valIn (strm:System.IO.Stream) =
     EncodedText.EncodedText raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedSubject (strm:System.IO.Stream) (fld:EncodedSubject) =
     let lenTag = "356="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "357="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5541,15 +7967,17 @@ let ReadEncodedSubject valIn (strm:System.IO.Stream) =
     EncodedSubject.EncodedSubject raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedHeadline (strm:System.IO.Stream) (fld:EncodedHeadline) =
     let lenTag = "358="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "359="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5568,15 +7996,17 @@ let ReadEncodedHeadline valIn (strm:System.IO.Stream) =
     EncodedHeadline.EncodedHeadline raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedAllocText (strm:System.IO.Stream) (fld:EncodedAllocText) =
     let lenTag = "360="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "361="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5595,15 +8025,17 @@ let ReadEncodedAllocText valIn (strm:System.IO.Stream) =
     EncodedAllocText.EncodedAllocText raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedUnderlyingIssuer (strm:System.IO.Stream) (fld:EncodedUnderlyingIssuer) =
     let lenTag = "362="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "363="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5622,15 +8054,17 @@ let ReadEncodedUnderlyingIssuer valIn (strm:System.IO.Stream) =
     EncodedUnderlyingIssuer.EncodedUnderlyingIssuer raw
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedUnderlyingSecurityDesc (strm:System.IO.Stream) (fld:EncodedUnderlyingSecurityDesc) =
     let lenTag = "364="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "365="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -5655,11 +8089,11 @@ let ReadAllocPrice valIn =
 
 
 let WriteAllocPrice (strm:Stream) (valIn:AllocPrice) = 
-    let tag = "366="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "366="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteSetValidUntilTime valIn =
@@ -5668,11 +8102,11 @@ let ReadQuoteSetValidUntilTime valIn =
 
 
 let WriteQuoteSetValidUntilTime (strm:Stream) (valIn:QuoteSetValidUntilTime) = 
-    let tag = "367="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "367="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteEntryRejectReason (fldValIn:string) : QuoteEntryRejectReason = 
@@ -5691,15 +8125,42 @@ let ReadQuoteEntryRejectReason (fldValIn:string) : QuoteEntryRejectReason =
 
 let WriteQuoteEntryRejectReason (strm:Stream) (xxIn:QuoteEntryRejectReason) =
     match xxIn with
-    | QuoteEntryRejectReason.UnknownSymbol -> strm.Write "368=1"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.ExchangeClosed -> strm.Write "368=2"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.QuoteExceedsLimit -> strm.Write "368=3"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.TooLateToEnter -> strm.Write "368=4"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.UnknownQuote -> strm.Write "368=5"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.DuplicateQuote -> strm.Write "368=6"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.InvalidBidAskSpread -> strm.Write "368=7"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.InvalidPrice -> strm.Write "368=8"B; strm.Write (delim, 0, 1)
-    | QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity -> strm.Write "368=9"B; strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.UnknownSymbol ->
+        let tag = "368=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.ExchangeClosed ->
+        let tag = "368=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.QuoteExceedsLimit ->
+        let tag = "368=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.TooLateToEnter ->
+        let tag = "368=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.UnknownQuote ->
+        let tag = "368=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.DuplicateQuote ->
+        let tag = "368=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.InvalidBidAskSpread ->
+        let tag = "368=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.InvalidPrice ->
+        let tag = "368=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity ->
+        let tag = "368=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLastMsgSeqNumProcessed valIn =
@@ -5708,11 +8169,11 @@ let ReadLastMsgSeqNumProcessed valIn =
 
 
 let WriteLastMsgSeqNumProcessed (strm:Stream) (valIn:LastMsgSeqNumProcessed) = 
-    let tag = "369="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "369="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRefTagID valIn =
@@ -5721,11 +8182,11 @@ let ReadRefTagID valIn =
 
 
 let WriteRefTagID (strm:Stream) (valIn:RefTagID) = 
-    let tag = "371="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "371="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRefMsgType valIn =
@@ -5734,11 +8195,11 @@ let ReadRefMsgType valIn =
 
 
 let WriteRefMsgType (strm:Stream) (valIn:RefMsgType) = 
-    let tag = "372="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "372="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSessionRejectReason (fldValIn:string) : SessionRejectReason = 
@@ -5767,25 +8228,82 @@ let ReadSessionRejectReason (fldValIn:string) : SessionRejectReason =
 
 let WriteSessionRejectReason (strm:Stream) (xxIn:SessionRejectReason) =
     match xxIn with
-    | SessionRejectReason.InvalidTagNumber -> strm.Write "373=0"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.RequiredTagMissing -> strm.Write "373=1"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.TagNotDefinedForThisMessageType -> strm.Write "373=2"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.UndefinedTag -> strm.Write "373=3"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.TagSpecifiedWithoutAValue -> strm.Write "373=4"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.ValueIsIncorrect -> strm.Write "373=5"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.IncorrectDataFormatForValue -> strm.Write "373=6"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.DecryptionProblem -> strm.Write "373=7"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.SignatureProblem -> strm.Write "373=8"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.CompidProblem -> strm.Write "373=9"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.SendingtimeAccuracyProblem -> strm.Write "373=10"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.InvalidMsgtype -> strm.Write "373=11"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.XmlValidationError -> strm.Write "373=12"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.TagAppearsMoreThanOnce -> strm.Write "373=13"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.TagSpecifiedOutOfRequiredOrder -> strm.Write "373=14"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.RepeatingGroupFieldsOutOfOrder -> strm.Write "373=15"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup -> strm.Write "373=16"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.NonDataValueIncludesFieldDelimiter -> strm.Write "373=17"B; strm.Write (delim, 0, 1)
-    | SessionRejectReason.Other -> strm.Write "373=99"B; strm.Write (delim, 0, 1)
+    | SessionRejectReason.InvalidTagNumber ->
+        let tag = "373=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.RequiredTagMissing ->
+        let tag = "373=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.TagNotDefinedForThisMessageType ->
+        let tag = "373=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.UndefinedTag ->
+        let tag = "373=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.TagSpecifiedWithoutAValue ->
+        let tag = "373=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.ValueIsIncorrect ->
+        let tag = "373=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.IncorrectDataFormatForValue ->
+        let tag = "373=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.DecryptionProblem ->
+        let tag = "373=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.SignatureProblem ->
+        let tag = "373=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.CompidProblem ->
+        let tag = "373=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.SendingtimeAccuracyProblem ->
+        let tag = "373=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.InvalidMsgtype ->
+        let tag = "373=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.XmlValidationError ->
+        let tag = "373=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.TagAppearsMoreThanOnce ->
+        let tag = "373=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.TagSpecifiedOutOfRequiredOrder ->
+        let tag = "373=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.RepeatingGroupFieldsOutOfOrder ->
+        let tag = "373=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup ->
+        let tag = "373=16"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.NonDataValueIncludesFieldDelimiter ->
+        let tag = "373=17"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SessionRejectReason.Other ->
+        let tag = "373=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBidRequestTransType (fldValIn:string) : BidRequestTransType = 
@@ -5797,8 +8315,14 @@ let ReadBidRequestTransType (fldValIn:string) : BidRequestTransType =
 
 let WriteBidRequestTransType (strm:Stream) (xxIn:BidRequestTransType) =
     match xxIn with
-    | BidRequestTransType.New -> strm.Write "374=N"B; strm.Write (delim, 0, 1)
-    | BidRequestTransType.Cancel -> strm.Write "374=C"B; strm.Write (delim, 0, 1)
+    | BidRequestTransType.New ->
+        let tag = "374=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidRequestTransType.Cancel ->
+        let tag = "374=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadContraBroker valIn =
@@ -5807,11 +8331,11 @@ let ReadContraBroker valIn =
 
 
 let WriteContraBroker (strm:Stream) (valIn:ContraBroker) = 
-    let tag = "375="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "375="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadComplianceID valIn =
@@ -5820,11 +8344,11 @@ let ReadComplianceID valIn =
 
 
 let WriteComplianceID (strm:Stream) (valIn:ComplianceID) = 
-    let tag = "376="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "376="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSolicitedFlag valIn =
@@ -5833,11 +8357,11 @@ let ReadSolicitedFlag valIn =
 
 
 let WriteSolicitedFlag (strm:Stream) (valIn:SolicitedFlag) = 
-    let tag = "377="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "377="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExecRestatementReason (fldValIn:string) : ExecRestatementReason = 
@@ -5857,16 +8381,46 @@ let ReadExecRestatementReason (fldValIn:string) : ExecRestatementReason =
 
 let WriteExecRestatementReason (strm:Stream) (xxIn:ExecRestatementReason) =
     match xxIn with
-    | ExecRestatementReason.GtCorporateAction -> strm.Write "378=0"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.GtRenewalRestatement -> strm.Write "378=1"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.VerbalChange -> strm.Write "378=2"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.RepricingOfOrder -> strm.Write "378=3"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.BrokerOption -> strm.Write "378=4"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.PartialDeclineOfOrderqty -> strm.Write "378=5"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.CancelOnTradingHalt -> strm.Write "378=6"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.CancelOnSystemFailure -> strm.Write "378=7"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.MarketOption -> strm.Write "378=8"B; strm.Write (delim, 0, 1)
-    | ExecRestatementReason.CanceledNotBest -> strm.Write "378=9"B; strm.Write (delim, 0, 1)
+    | ExecRestatementReason.GtCorporateAction ->
+        let tag = "378=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.GtRenewalRestatement ->
+        let tag = "378=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.VerbalChange ->
+        let tag = "378=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.RepricingOfOrder ->
+        let tag = "378=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.BrokerOption ->
+        let tag = "378=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.PartialDeclineOfOrderqty ->
+        let tag = "378=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.CancelOnTradingHalt ->
+        let tag = "378=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.CancelOnSystemFailure ->
+        let tag = "378=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.MarketOption ->
+        let tag = "378=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecRestatementReason.CanceledNotBest ->
+        let tag = "378=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBusinessRejectRefID valIn =
@@ -5875,11 +8429,11 @@ let ReadBusinessRejectRefID valIn =
 
 
 let WriteBusinessRejectRefID (strm:Stream) (valIn:BusinessRejectRefID) = 
-    let tag = "379="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "379="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBusinessRejectReason (fldValIn:string) : BusinessRejectReason = 
@@ -5897,14 +8451,38 @@ let ReadBusinessRejectReason (fldValIn:string) : BusinessRejectReason =
 
 let WriteBusinessRejectReason (strm:Stream) (xxIn:BusinessRejectReason) =
     match xxIn with
-    | BusinessRejectReason.Other -> strm.Write "380=0"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.UnkownId -> strm.Write "380=1"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.UnknownSecurity -> strm.Write "380=2"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.UnsupportedMessageType -> strm.Write "380=3"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.ApplicationNotAvailable -> strm.Write "380=4"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.ConditionallyRequiredFieldMissing -> strm.Write "380=5"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.NotAuthorized -> strm.Write "380=6"B; strm.Write (delim, 0, 1)
-    | BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime -> strm.Write "380=7"B; strm.Write (delim, 0, 1)
+    | BusinessRejectReason.Other ->
+        let tag = "380=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.UnkownId ->
+        let tag = "380=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.UnknownSecurity ->
+        let tag = "380=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.UnsupportedMessageType ->
+        let tag = "380=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.ApplicationNotAvailable ->
+        let tag = "380=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.ConditionallyRequiredFieldMissing ->
+        let tag = "380=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.NotAuthorized ->
+        let tag = "380=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime ->
+        let tag = "380=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadGrossTradeAmt valIn =
@@ -5913,11 +8491,11 @@ let ReadGrossTradeAmt valIn =
 
 
 let WriteGrossTradeAmt (strm:Stream) (valIn:GrossTradeAmt) = 
-    let tag = "381="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "381="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoContraBrokers valIn =
@@ -5926,11 +8504,11 @@ let ReadNoContraBrokers valIn =
 
 
 let WriteNoContraBrokers (strm:Stream) (valIn:NoContraBrokers) = 
-    let tag = "382="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "382="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMaxMessageSize valIn =
@@ -5939,11 +8517,11 @@ let ReadMaxMessageSize valIn =
 
 
 let WriteMaxMessageSize (strm:Stream) (valIn:MaxMessageSize) = 
-    let tag = "383="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "383="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoMsgTypes valIn =
@@ -5952,11 +8530,11 @@ let ReadNoMsgTypes valIn =
 
 
 let WriteNoMsgTypes (strm:Stream) (valIn:NoMsgTypes) = 
-    let tag = "384="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "384="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMsgDirection (fldValIn:string) : MsgDirection = 
@@ -5968,8 +8546,14 @@ let ReadMsgDirection (fldValIn:string) : MsgDirection =
 
 let WriteMsgDirection (strm:Stream) (xxIn:MsgDirection) =
     match xxIn with
-    | MsgDirection.Send -> strm.Write "385=S"B; strm.Write (delim, 0, 1)
-    | MsgDirection.Receive -> strm.Write "385=R"B; strm.Write (delim, 0, 1)
+    | MsgDirection.Send ->
+        let tag = "385=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MsgDirection.Receive ->
+        let tag = "385=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoTradingSessions valIn =
@@ -5978,11 +8562,11 @@ let ReadNoTradingSessions valIn =
 
 
 let WriteNoTradingSessions (strm:Stream) (valIn:NoTradingSessions) = 
-    let tag = "386="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "386="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotalVolumeTraded valIn =
@@ -5991,11 +8575,11 @@ let ReadTotalVolumeTraded valIn =
 
 
 let WriteTotalVolumeTraded (strm:Stream) (valIn:TotalVolumeTraded) = 
-    let tag = "387="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "387="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionInst (fldValIn:string) : DiscretionInst = 
@@ -6012,13 +8596,34 @@ let ReadDiscretionInst (fldValIn:string) : DiscretionInst =
 
 let WriteDiscretionInst (strm:Stream) (xxIn:DiscretionInst) =
     match xxIn with
-    | DiscretionInst.RelatedToDisplayedPrice -> strm.Write "388=0"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToMarketPrice -> strm.Write "388=1"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToPrimaryPrice -> strm.Write "388=2"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToLocalPrimaryPrice -> strm.Write "388=3"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToMidpointPrice -> strm.Write "388=4"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToLastTradePrice -> strm.Write "388=5"B; strm.Write (delim, 0, 1)
-    | DiscretionInst.RelatedToVwap -> strm.Write "388=6"B; strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToDisplayedPrice ->
+        let tag = "388=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToMarketPrice ->
+        let tag = "388=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToPrimaryPrice ->
+        let tag = "388=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToLocalPrimaryPrice ->
+        let tag = "388=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToMidpointPrice ->
+        let tag = "388=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToLastTradePrice ->
+        let tag = "388=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionInst.RelatedToVwap ->
+        let tag = "388=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionOffsetValue valIn =
@@ -6027,11 +8632,11 @@ let ReadDiscretionOffsetValue valIn =
 
 
 let WriteDiscretionOffsetValue (strm:Stream) (valIn:DiscretionOffsetValue) = 
-    let tag = "389="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "389="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidID valIn =
@@ -6040,11 +8645,11 @@ let ReadBidID valIn =
 
 
 let WriteBidID (strm:Stream) (valIn:BidID) = 
-    let tag = "390="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "390="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadClientBidID valIn =
@@ -6053,11 +8658,11 @@ let ReadClientBidID valIn =
 
 
 let WriteClientBidID (strm:Stream) (valIn:ClientBidID) = 
-    let tag = "391="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "391="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListName valIn =
@@ -6066,11 +8671,11 @@ let ReadListName valIn =
 
 
 let WriteListName (strm:Stream) (valIn:ListName) = 
-    let tag = "392="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "392="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotNoRelatedSym valIn =
@@ -6079,11 +8684,11 @@ let ReadTotNoRelatedSym valIn =
 
 
 let WriteTotNoRelatedSym (strm:Stream) (valIn:TotNoRelatedSym) = 
-    let tag = "393="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "393="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidType (fldValIn:string) : BidType = 
@@ -6096,9 +8701,18 @@ let ReadBidType (fldValIn:string) : BidType =
 
 let WriteBidType (strm:Stream) (xxIn:BidType) =
     match xxIn with
-    | BidType.NonDisclosed -> strm.Write "394=1"B; strm.Write (delim, 0, 1)
-    | BidType.DisclosedStyle -> strm.Write "394=2"B; strm.Write (delim, 0, 1)
-    | BidType.NoBiddingProcess -> strm.Write "394=3"B; strm.Write (delim, 0, 1)
+    | BidType.NonDisclosed ->
+        let tag = "394=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidType.DisclosedStyle ->
+        let tag = "394=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidType.NoBiddingProcess ->
+        let tag = "394=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNumTickets valIn =
@@ -6107,11 +8721,11 @@ let ReadNumTickets valIn =
 
 
 let WriteNumTickets (strm:Stream) (valIn:NumTickets) = 
-    let tag = "395="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "395="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSideValue1 valIn =
@@ -6120,11 +8734,11 @@ let ReadSideValue1 valIn =
 
 
 let WriteSideValue1 (strm:Stream) (valIn:SideValue1) = 
-    let tag = "396="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "396="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSideValue2 valIn =
@@ -6133,11 +8747,11 @@ let ReadSideValue2 valIn =
 
 
 let WriteSideValue2 (strm:Stream) (valIn:SideValue2) = 
-    let tag = "397="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "397="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoBidDescriptors valIn =
@@ -6146,11 +8760,11 @@ let ReadNoBidDescriptors valIn =
 
 
 let WriteNoBidDescriptors (strm:Stream) (valIn:NoBidDescriptors) = 
-    let tag = "398="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "398="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidDescriptorType (fldValIn:string) : BidDescriptorType = 
@@ -6163,9 +8777,18 @@ let ReadBidDescriptorType (fldValIn:string) : BidDescriptorType =
 
 let WriteBidDescriptorType (strm:Stream) (xxIn:BidDescriptorType) =
     match xxIn with
-    | BidDescriptorType.Sector -> strm.Write "399=1"B; strm.Write (delim, 0, 1)
-    | BidDescriptorType.Country -> strm.Write "399=2"B; strm.Write (delim, 0, 1)
-    | BidDescriptorType.Index -> strm.Write "399=3"B; strm.Write (delim, 0, 1)
+    | BidDescriptorType.Sector ->
+        let tag = "399=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidDescriptorType.Country ->
+        let tag = "399=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidDescriptorType.Index ->
+        let tag = "399=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBidDescriptor valIn =
@@ -6174,11 +8797,11 @@ let ReadBidDescriptor valIn =
 
 
 let WriteBidDescriptor (strm:Stream) (valIn:BidDescriptor) = 
-    let tag = "400="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "400="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSideValueInd (fldValIn:string) : SideValueInd = 
@@ -6190,8 +8813,14 @@ let ReadSideValueInd (fldValIn:string) : SideValueInd =
 
 let WriteSideValueInd (strm:Stream) (xxIn:SideValueInd) =
     match xxIn with
-    | SideValueInd.Sidevalue1 -> strm.Write "401=1"B; strm.Write (delim, 0, 1)
-    | SideValueInd.Sidevalue2 -> strm.Write "401=2"B; strm.Write (delim, 0, 1)
+    | SideValueInd.Sidevalue1 ->
+        let tag = "401=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SideValueInd.Sidevalue2 ->
+        let tag = "401=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLiquidityPctLow valIn =
@@ -6200,11 +8829,11 @@ let ReadLiquidityPctLow valIn =
 
 
 let WriteLiquidityPctLow (strm:Stream) (valIn:LiquidityPctLow) = 
-    let tag = "402="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "402="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLiquidityPctHigh valIn =
@@ -6213,11 +8842,11 @@ let ReadLiquidityPctHigh valIn =
 
 
 let WriteLiquidityPctHigh (strm:Stream) (valIn:LiquidityPctHigh) = 
-    let tag = "403="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "403="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLiquidityValue valIn =
@@ -6226,11 +8855,11 @@ let ReadLiquidityValue valIn =
 
 
 let WriteLiquidityValue (strm:Stream) (valIn:LiquidityValue) = 
-    let tag = "404="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "404="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEFPTrackingError valIn =
@@ -6239,11 +8868,11 @@ let ReadEFPTrackingError valIn =
 
 
 let WriteEFPTrackingError (strm:Stream) (valIn:EFPTrackingError) = 
-    let tag = "405="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "405="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadFairValue valIn =
@@ -6252,11 +8881,11 @@ let ReadFairValue valIn =
 
 
 let WriteFairValue (strm:Stream) (valIn:FairValue) = 
-    let tag = "406="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "406="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOutsideIndexPct valIn =
@@ -6265,11 +8894,11 @@ let ReadOutsideIndexPct valIn =
 
 
 let WriteOutsideIndexPct (strm:Stream) (valIn:OutsideIndexPct) = 
-    let tag = "407="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "407="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadValueOfFutures valIn =
@@ -6278,11 +8907,11 @@ let ReadValueOfFutures valIn =
 
 
 let WriteValueOfFutures (strm:Stream) (valIn:ValueOfFutures) = 
-    let tag = "408="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "408="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLiquidityIndType (fldValIn:string) : LiquidityIndType = 
@@ -6296,10 +8925,22 @@ let ReadLiquidityIndType (fldValIn:string) : LiquidityIndType =
 
 let WriteLiquidityIndType (strm:Stream) (xxIn:LiquidityIndType) =
     match xxIn with
-    | LiquidityIndType.FivedayMovingAverage -> strm.Write "409=1"B; strm.Write (delim, 0, 1)
-    | LiquidityIndType.TwentydayMovingAverage -> strm.Write "409=2"B; strm.Write (delim, 0, 1)
-    | LiquidityIndType.NormalMarketSize -> strm.Write "409=3"B; strm.Write (delim, 0, 1)
-    | LiquidityIndType.Other -> strm.Write "409=4"B; strm.Write (delim, 0, 1)
+    | LiquidityIndType.FivedayMovingAverage ->
+        let tag = "409=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LiquidityIndType.TwentydayMovingAverage ->
+        let tag = "409=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LiquidityIndType.NormalMarketSize ->
+        let tag = "409=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LiquidityIndType.Other ->
+        let tag = "409=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadWtAverageLiquidity valIn =
@@ -6308,11 +8949,11 @@ let ReadWtAverageLiquidity valIn =
 
 
 let WriteWtAverageLiquidity (strm:Stream) (valIn:WtAverageLiquidity) = 
-    let tag = "410="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "410="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExchangeForPhysical valIn =
@@ -6321,11 +8962,11 @@ let ReadExchangeForPhysical valIn =
 
 
 let WriteExchangeForPhysical (strm:Stream) (valIn:ExchangeForPhysical) = 
-    let tag = "411="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "411="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOutMainCntryUIndex valIn =
@@ -6334,11 +8975,11 @@ let ReadOutMainCntryUIndex valIn =
 
 
 let WriteOutMainCntryUIndex (strm:Stream) (valIn:OutMainCntryUIndex) = 
-    let tag = "412="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "412="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCrossPercent valIn =
@@ -6347,11 +8988,11 @@ let ReadCrossPercent valIn =
 
 
 let WriteCrossPercent (strm:Stream) (valIn:CrossPercent) = 
-    let tag = "413="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "413="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadProgRptReqs (fldValIn:string) : ProgRptReqs = 
@@ -6364,9 +9005,18 @@ let ReadProgRptReqs (fldValIn:string) : ProgRptReqs =
 
 let WriteProgRptReqs (strm:Stream) (xxIn:ProgRptReqs) =
     match xxIn with
-    | ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest -> strm.Write "414=1"B; strm.Write (delim, 0, 1)
-    | ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus -> strm.Write "414=2"B; strm.Write (delim, 0, 1)
-    | ProgRptReqs.RealTimeExecutionReports -> strm.Write "414=3"B; strm.Write (delim, 0, 1)
+    | ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest ->
+        let tag = "414=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus ->
+        let tag = "414=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ProgRptReqs.RealTimeExecutionReports ->
+        let tag = "414=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadProgPeriodInterval valIn =
@@ -6375,11 +9025,11 @@ let ReadProgPeriodInterval valIn =
 
 
 let WriteProgPeriodInterval (strm:Stream) (valIn:ProgPeriodInterval) = 
-    let tag = "415="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "415="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIncTaxInd (fldValIn:string) : IncTaxInd = 
@@ -6391,8 +9041,14 @@ let ReadIncTaxInd (fldValIn:string) : IncTaxInd =
 
 let WriteIncTaxInd (strm:Stream) (xxIn:IncTaxInd) =
     match xxIn with
-    | IncTaxInd.Net -> strm.Write "416=1"B; strm.Write (delim, 0, 1)
-    | IncTaxInd.Gross -> strm.Write "416=2"B; strm.Write (delim, 0, 1)
+    | IncTaxInd.Net ->
+        let tag = "416=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | IncTaxInd.Gross ->
+        let tag = "416=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNumBidders valIn =
@@ -6401,11 +9057,11 @@ let ReadNumBidders valIn =
 
 
 let WriteNumBidders (strm:Stream) (valIn:NumBidders) = 
-    let tag = "417="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "417="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidTradeType (fldValIn:string) : BidTradeType = 
@@ -6419,10 +9075,22 @@ let ReadBidTradeType (fldValIn:string) : BidTradeType =
 
 let WriteBidTradeType (strm:Stream) (xxIn:BidTradeType) =
     match xxIn with
-    | BidTradeType.RiskTrade -> strm.Write "418=R"B; strm.Write (delim, 0, 1)
-    | BidTradeType.VwapGuarantee -> strm.Write "418=G"B; strm.Write (delim, 0, 1)
-    | BidTradeType.Agency -> strm.Write "418=A"B; strm.Write (delim, 0, 1)
-    | BidTradeType.GuaranteedClose -> strm.Write "418=J"B; strm.Write (delim, 0, 1)
+    | BidTradeType.RiskTrade ->
+        let tag = "418=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidTradeType.VwapGuarantee ->
+        let tag = "418=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidTradeType.Agency ->
+        let tag = "418=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BidTradeType.GuaranteedClose ->
+        let tag = "418=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBasisPxType (fldValIn:string) : BasisPxType = 
@@ -6445,19 +9113,58 @@ let ReadBasisPxType (fldValIn:string) : BasisPxType =
 
 let WriteBasisPxType (strm:Stream) (xxIn:BasisPxType) =
     match xxIn with
-    | BasisPxType.ClosingPriceAtMorningSession -> strm.Write "419=2"B; strm.Write (delim, 0, 1)
-    | BasisPxType.ClosingPrice -> strm.Write "419=3"B; strm.Write (delim, 0, 1)
-    | BasisPxType.CurrentPrice -> strm.Write "419=4"B; strm.Write (delim, 0, 1)
-    | BasisPxType.Sq -> strm.Write "419=5"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughADay -> strm.Write "419=6"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughAMorningSession -> strm.Write "419=7"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughAnAfternoonSession -> strm.Write "419=8"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughADayExceptYori -> strm.Write "419=9"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughAMorningSessionExceptYori -> strm.Write "419=A"B; strm.Write (delim, 0, 1)
-    | BasisPxType.VwapThroughAnAfternoonSessionExceptYori -> strm.Write "419=B"B; strm.Write (delim, 0, 1)
-    | BasisPxType.Strike -> strm.Write "419=C"B; strm.Write (delim, 0, 1)
-    | BasisPxType.Open -> strm.Write "419=D"B; strm.Write (delim, 0, 1)
-    | BasisPxType.Others -> strm.Write "419=Z"B; strm.Write (delim, 0, 1)
+    | BasisPxType.ClosingPriceAtMorningSession ->
+        let tag = "419=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.ClosingPrice ->
+        let tag = "419=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.CurrentPrice ->
+        let tag = "419=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.Sq ->
+        let tag = "419=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughADay ->
+        let tag = "419=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughAMorningSession ->
+        let tag = "419=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughAnAfternoonSession ->
+        let tag = "419=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughADayExceptYori ->
+        let tag = "419=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughAMorningSessionExceptYori ->
+        let tag = "419=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.VwapThroughAnAfternoonSessionExceptYori ->
+        let tag = "419=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.Strike ->
+        let tag = "419=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.Open ->
+        let tag = "419=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BasisPxType.Others ->
+        let tag = "419=Z"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoBidComponents valIn =
@@ -6466,11 +9173,11 @@ let ReadNoBidComponents valIn =
 
 
 let WriteNoBidComponents (strm:Stream) (valIn:NoBidComponents) = 
-    let tag = "420="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "420="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCountry valIn =
@@ -6479,11 +9186,11 @@ let ReadCountry valIn =
 
 
 let WriteCountry (strm:Stream) (valIn:Country) = 
-    let tag = "421="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "421="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotNoStrikes valIn =
@@ -6492,11 +9199,11 @@ let ReadTotNoStrikes valIn =
 
 
 let WriteTotNoStrikes (strm:Stream) (valIn:TotNoStrikes) = 
-    let tag = "422="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "422="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPriceType (fldValIn:string) : PriceType = 
@@ -6517,17 +9224,50 @@ let ReadPriceType (fldValIn:string) : PriceType =
 
 let WritePriceType (strm:Stream) (xxIn:PriceType) =
     match xxIn with
-    | PriceType.Percentage -> strm.Write "423=1"B; strm.Write (delim, 0, 1)
-    | PriceType.PerUnit -> strm.Write "423=2"B; strm.Write (delim, 0, 1)
-    | PriceType.FixedAmount -> strm.Write "423=3"B; strm.Write (delim, 0, 1)
-    | PriceType.Discount -> strm.Write "423=4"B; strm.Write (delim, 0, 1)
-    | PriceType.Premium -> strm.Write "423=5"B; strm.Write (delim, 0, 1)
-    | PriceType.Spread -> strm.Write "423=6"B; strm.Write (delim, 0, 1)
-    | PriceType.TedPrice -> strm.Write "423=7"B; strm.Write (delim, 0, 1)
-    | PriceType.TedYield -> strm.Write "423=8"B; strm.Write (delim, 0, 1)
-    | PriceType.Yield -> strm.Write "423=9"B; strm.Write (delim, 0, 1)
-    | PriceType.FixedCabinetTradePrice -> strm.Write "423=10"B; strm.Write (delim, 0, 1)
-    | PriceType.VariableCabinetTradePrice -> strm.Write "423=11"B; strm.Write (delim, 0, 1)
+    | PriceType.Percentage ->
+        let tag = "423=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.PerUnit ->
+        let tag = "423=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.FixedAmount ->
+        let tag = "423=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.Discount ->
+        let tag = "423=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.Premium ->
+        let tag = "423=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.Spread ->
+        let tag = "423=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.TedPrice ->
+        let tag = "423=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.TedYield ->
+        let tag = "423=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.Yield ->
+        let tag = "423=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.FixedCabinetTradePrice ->
+        let tag = "423=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriceType.VariableCabinetTradePrice ->
+        let tag = "423=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDayOrderQty valIn =
@@ -6536,11 +9276,11 @@ let ReadDayOrderQty valIn =
 
 
 let WriteDayOrderQty (strm:Stream) (valIn:DayOrderQty) = 
-    let tag = "424="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "424="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDayCumQty valIn =
@@ -6549,11 +9289,11 @@ let ReadDayCumQty valIn =
 
 
 let WriteDayCumQty (strm:Stream) (valIn:DayCumQty) = 
-    let tag = "425="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "425="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDayAvgPx valIn =
@@ -6562,11 +9302,11 @@ let ReadDayAvgPx valIn =
 
 
 let WriteDayAvgPx (strm:Stream) (valIn:DayAvgPx) = 
-    let tag = "426="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "426="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadGTBookingInst (fldValIn:string) : GTBookingInst = 
@@ -6579,9 +9319,18 @@ let ReadGTBookingInst (fldValIn:string) : GTBookingInst =
 
 let WriteGTBookingInst (strm:Stream) (xxIn:GTBookingInst) =
     match xxIn with
-    | GTBookingInst.BookOutAllTradesOnDayOfExecution -> strm.Write "427=0"B; strm.Write (delim, 0, 1)
-    | GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires -> strm.Write "427=1"B; strm.Write (delim, 0, 1)
-    | GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise -> strm.Write "427=2"B; strm.Write (delim, 0, 1)
+    | GTBookingInst.BookOutAllTradesOnDayOfExecution ->
+        let tag = "427=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires ->
+        let tag = "427=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise ->
+        let tag = "427=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoStrikes valIn =
@@ -6590,11 +9339,11 @@ let ReadNoStrikes valIn =
 
 
 let WriteNoStrikes (strm:Stream) (valIn:NoStrikes) = 
-    let tag = "428="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "428="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListStatusType (fldValIn:string) : ListStatusType = 
@@ -6610,12 +9359,30 @@ let ReadListStatusType (fldValIn:string) : ListStatusType =
 
 let WriteListStatusType (strm:Stream) (xxIn:ListStatusType) =
     match xxIn with
-    | ListStatusType.Ack -> strm.Write "429=1"B; strm.Write (delim, 0, 1)
-    | ListStatusType.Response -> strm.Write "429=2"B; strm.Write (delim, 0, 1)
-    | ListStatusType.Timed -> strm.Write "429=3"B; strm.Write (delim, 0, 1)
-    | ListStatusType.Execstarted -> strm.Write "429=4"B; strm.Write (delim, 0, 1)
-    | ListStatusType.Alldone -> strm.Write "429=5"B; strm.Write (delim, 0, 1)
-    | ListStatusType.Alert -> strm.Write "429=6"B; strm.Write (delim, 0, 1)
+    | ListStatusType.Ack ->
+        let tag = "429=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListStatusType.Response ->
+        let tag = "429=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListStatusType.Timed ->
+        let tag = "429=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListStatusType.Execstarted ->
+        let tag = "429=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListStatusType.Alldone ->
+        let tag = "429=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListStatusType.Alert ->
+        let tag = "429=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNetGrossInd (fldValIn:string) : NetGrossInd = 
@@ -6627,8 +9394,14 @@ let ReadNetGrossInd (fldValIn:string) : NetGrossInd =
 
 let WriteNetGrossInd (strm:Stream) (xxIn:NetGrossInd) =
     match xxIn with
-    | NetGrossInd.Net -> strm.Write "430=1"B; strm.Write (delim, 0, 1)
-    | NetGrossInd.Gross -> strm.Write "430=2"B; strm.Write (delim, 0, 1)
+    | NetGrossInd.Net ->
+        let tag = "430=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NetGrossInd.Gross ->
+        let tag = "430=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadListOrderStatus (fldValIn:string) : ListOrderStatus = 
@@ -6645,13 +9418,34 @@ let ReadListOrderStatus (fldValIn:string) : ListOrderStatus =
 
 let WriteListOrderStatus (strm:Stream) (xxIn:ListOrderStatus) =
     match xxIn with
-    | ListOrderStatus.Inbiddingprocess -> strm.Write "431=1"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.Receivedforexecution -> strm.Write "431=2"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.Executing -> strm.Write "431=3"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.Canceling -> strm.Write "431=4"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.Alert -> strm.Write "431=5"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.AllDone -> strm.Write "431=6"B; strm.Write (delim, 0, 1)
-    | ListOrderStatus.Reject -> strm.Write "431=7"B; strm.Write (delim, 0, 1)
+    | ListOrderStatus.Inbiddingprocess ->
+        let tag = "431=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.Receivedforexecution ->
+        let tag = "431=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.Executing ->
+        let tag = "431=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.Canceling ->
+        let tag = "431=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.Alert ->
+        let tag = "431=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.AllDone ->
+        let tag = "431=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListOrderStatus.Reject ->
+        let tag = "431=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadExpireDate valIn =
@@ -6660,11 +9454,11 @@ let ReadExpireDate valIn =
 
 
 let WriteExpireDate (strm:Stream) (valIn:ExpireDate) = 
-    let tag = "432="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "432="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListExecInstType (fldValIn:string) : ListExecInstType = 
@@ -6679,11 +9473,26 @@ let ReadListExecInstType (fldValIn:string) : ListExecInstType =
 
 let WriteListExecInstType (strm:Stream) (xxIn:ListExecInstType) =
     match xxIn with
-    | ListExecInstType.Immediate -> strm.Write "433=1"B; strm.Write (delim, 0, 1)
-    | ListExecInstType.WaitForExecuteInstruction -> strm.Write "433=2"B; strm.Write (delim, 0, 1)
-    | ListExecInstType.ExchangeSwitchCivOrderSellDriven -> strm.Write "433=3"B; strm.Write (delim, 0, 1)
-    | ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp -> strm.Write "433=4"B; strm.Write (delim, 0, 1)
-    | ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw -> strm.Write "433=5"B; strm.Write (delim, 0, 1)
+    | ListExecInstType.Immediate ->
+        let tag = "433=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListExecInstType.WaitForExecuteInstruction ->
+        let tag = "433=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListExecInstType.ExchangeSwitchCivOrderSellDriven ->
+        let tag = "433=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp ->
+        let tag = "433=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw ->
+        let tag = "433=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCxlRejResponseTo (fldValIn:string) : CxlRejResponseTo = 
@@ -6695,8 +9504,14 @@ let ReadCxlRejResponseTo (fldValIn:string) : CxlRejResponseTo =
 
 let WriteCxlRejResponseTo (strm:Stream) (xxIn:CxlRejResponseTo) =
     match xxIn with
-    | CxlRejResponseTo.OrderCancelRequest -> strm.Write "434=1"B; strm.Write (delim, 0, 1)
-    | CxlRejResponseTo.OrderCancelReplaceRequest -> strm.Write "434=2"B; strm.Write (delim, 0, 1)
+    | CxlRejResponseTo.OrderCancelRequest ->
+        let tag = "434=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CxlRejResponseTo.OrderCancelReplaceRequest ->
+        let tag = "434=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCouponRate valIn =
@@ -6705,11 +9520,11 @@ let ReadUnderlyingCouponRate valIn =
 
 
 let WriteUnderlyingCouponRate (strm:Stream) (valIn:UnderlyingCouponRate) = 
-    let tag = "435="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "435="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingContractMultiplier valIn =
@@ -6718,11 +9533,11 @@ let ReadUnderlyingContractMultiplier valIn =
 
 
 let WriteUnderlyingContractMultiplier (strm:Stream) (valIn:UnderlyingContractMultiplier) = 
-    let tag = "436="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "436="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContraTradeQty valIn =
@@ -6731,11 +9546,11 @@ let ReadContraTradeQty valIn =
 
 
 let WriteContraTradeQty (strm:Stream) (valIn:ContraTradeQty) = 
-    let tag = "437="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "437="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContraTradeTime valIn =
@@ -6744,11 +9559,11 @@ let ReadContraTradeTime valIn =
 
 
 let WriteContraTradeTime (strm:Stream) (valIn:ContraTradeTime) = 
-    let tag = "438="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "438="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLiquidityNumSecurities valIn =
@@ -6757,11 +9572,11 @@ let ReadLiquidityNumSecurities valIn =
 
 
 let WriteLiquidityNumSecurities (strm:Stream) (valIn:LiquidityNumSecurities) = 
-    let tag = "441="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "441="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMultiLegReportingType (fldValIn:string) : MultiLegReportingType = 
@@ -6774,9 +9589,18 @@ let ReadMultiLegReportingType (fldValIn:string) : MultiLegReportingType =
 
 let WriteMultiLegReportingType (strm:Stream) (xxIn:MultiLegReportingType) =
     match xxIn with
-    | MultiLegReportingType.SingleSecurity -> strm.Write "442=1"B; strm.Write (delim, 0, 1)
-    | MultiLegReportingType.IndividualLegOfAMultiLegSecurity -> strm.Write "442=2"B; strm.Write (delim, 0, 1)
-    | MultiLegReportingType.MultiLegSecurity -> strm.Write "442=3"B; strm.Write (delim, 0, 1)
+    | MultiLegReportingType.SingleSecurity ->
+        let tag = "442=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MultiLegReportingType.IndividualLegOfAMultiLegSecurity ->
+        let tag = "442=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MultiLegReportingType.MultiLegSecurity ->
+        let tag = "442=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStrikeTime valIn =
@@ -6785,11 +9609,11 @@ let ReadStrikeTime valIn =
 
 
 let WriteStrikeTime (strm:Stream) (valIn:StrikeTime) = 
-    let tag = "443="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "443="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadListStatusText valIn =
@@ -6798,22 +9622,24 @@ let ReadListStatusText valIn =
 
 
 let WriteListStatusText (strm:Stream) (valIn:ListStatusText) = 
-    let tag = "444="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "444="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedListStatusText (strm:System.IO.Stream) (fld:EncodedListStatusText) =
     let lenTag = "445="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "446="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -6857,24 +9683,78 @@ let ReadPartyIDSource (fldValIn:string) : PartyIDSource =
 
 let WritePartyIDSource (strm:Stream) (xxIn:PartyIDSource) =
     match xxIn with
-    | PartyIDSource.Bic -> strm.Write "447=B"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier -> strm.Write "447=C"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.ProprietaryCustomCode -> strm.Write "447=D"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.IsoCountryCode -> strm.Write "447=E"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.SettlementEntityLocation -> strm.Write "447=F"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.Mic -> strm.Write "447=G"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.CsdParticipantMemberCode -> strm.Write "447=H"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.KoreanInvestorId -> strm.Write "447=1"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.TaiwaneseQualifiedForeignInvestorIdQfiiFid -> strm.Write "447=2"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.TaiwaneseTradingAccount -> strm.Write "447=3"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.MalaysianCentralDepositoryNumber -> strm.Write "447=4"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.ChineseBShare -> strm.Write "447=5"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.UkNationalInsuranceOrPensionNumber -> strm.Write "447=6"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.UsSocialSecurityNumber -> strm.Write "447=7"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.UsEmployerIdentificationNumber -> strm.Write "447=8"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.AustralianBusinessNumber -> strm.Write "447=9"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.AustralianTaxFileNumber -> strm.Write "447=A"B; strm.Write (delim, 0, 1)
-    | PartyIDSource.DirectedBroker -> strm.Write "447=I"B; strm.Write (delim, 0, 1)
+    | PartyIDSource.Bic ->
+        let tag = "447=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier ->
+        let tag = "447=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.ProprietaryCustomCode ->
+        let tag = "447=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.IsoCountryCode ->
+        let tag = "447=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.SettlementEntityLocation ->
+        let tag = "447=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.Mic ->
+        let tag = "447=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.CsdParticipantMemberCode ->
+        let tag = "447=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.KoreanInvestorId ->
+        let tag = "447=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.TaiwaneseQualifiedForeignInvestorIdQfiiFid ->
+        let tag = "447=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.TaiwaneseTradingAccount ->
+        let tag = "447=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.MalaysianCentralDepositoryNumber ->
+        let tag = "447=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.ChineseBShare ->
+        let tag = "447=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.UkNationalInsuranceOrPensionNumber ->
+        let tag = "447=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.UsSocialSecurityNumber ->
+        let tag = "447=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.UsEmployerIdentificationNumber ->
+        let tag = "447=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.AustralianBusinessNumber ->
+        let tag = "447=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.AustralianTaxFileNumber ->
+        let tag = "447=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyIDSource.DirectedBroker ->
+        let tag = "447=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPartyID valIn =
@@ -6883,11 +9763,11 @@ let ReadPartyID valIn =
 
 
 let WritePartyID (strm:Stream) (valIn:PartyID) = 
-    let tag = "448="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "448="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetChgPrevDay valIn =
@@ -6896,11 +9776,11 @@ let ReadNetChgPrevDay valIn =
 
 
 let WriteNetChgPrevDay (strm:Stream) (valIn:NetChgPrevDay) = 
-    let tag = "451="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "451="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPartyRole (fldValIn:string) : PartyRole = 
@@ -6947,43 +9827,154 @@ let ReadPartyRole (fldValIn:string) : PartyRole =
 
 let WritePartyRole (strm:Stream) (xxIn:PartyRole) =
     match xxIn with
-    | PartyRole.ExecutingFirm -> strm.Write "452=1"B; strm.Write (delim, 0, 1)
-    | PartyRole.BrokerOfCredit -> strm.Write "452=2"B; strm.Write (delim, 0, 1)
-    | PartyRole.ClientId -> strm.Write "452=3"B; strm.Write (delim, 0, 1)
-    | PartyRole.ClearingFirm -> strm.Write "452=4"B; strm.Write (delim, 0, 1)
-    | PartyRole.InvestorId -> strm.Write "452=5"B; strm.Write (delim, 0, 1)
-    | PartyRole.IntroducingFirm -> strm.Write "452=6"B; strm.Write (delim, 0, 1)
-    | PartyRole.EnteringFirm -> strm.Write "452=7"B; strm.Write (delim, 0, 1)
-    | PartyRole.LocateLendingFirm -> strm.Write "452=8"B; strm.Write (delim, 0, 1)
-    | PartyRole.FundManagerClientId -> strm.Write "452=9"B; strm.Write (delim, 0, 1)
-    | PartyRole.SettlementLocation -> strm.Write "452=10"B; strm.Write (delim, 0, 1)
-    | PartyRole.OrderOriginationTrader -> strm.Write "452=11"B; strm.Write (delim, 0, 1)
-    | PartyRole.ExecutingTrader -> strm.Write "452=12"B; strm.Write (delim, 0, 1)
-    | PartyRole.OrderOriginationFirm -> strm.Write "452=13"B; strm.Write (delim, 0, 1)
-    | PartyRole.GiveupClearingFirm -> strm.Write "452=14"B; strm.Write (delim, 0, 1)
-    | PartyRole.CorrespondantClearingFirm -> strm.Write "452=15"B; strm.Write (delim, 0, 1)
-    | PartyRole.ExecutingSystem -> strm.Write "452=16"B; strm.Write (delim, 0, 1)
-    | PartyRole.ContraFirm -> strm.Write "452=17"B; strm.Write (delim, 0, 1)
-    | PartyRole.ContraClearingFirm -> strm.Write "452=18"B; strm.Write (delim, 0, 1)
-    | PartyRole.SponsoringFirm -> strm.Write "452=19"B; strm.Write (delim, 0, 1)
-    | PartyRole.UnderlyingContraFirm -> strm.Write "452=20"B; strm.Write (delim, 0, 1)
-    | PartyRole.ClearingOrganization -> strm.Write "452=21"B; strm.Write (delim, 0, 1)
-    | PartyRole.Exchange -> strm.Write "452=22"B; strm.Write (delim, 0, 1)
-    | PartyRole.CustomerAccount -> strm.Write "452=24"B; strm.Write (delim, 0, 1)
-    | PartyRole.CorrespondentClearingOrganization -> strm.Write "452=25"B; strm.Write (delim, 0, 1)
-    | PartyRole.CorrespondentBroker -> strm.Write "452=26"B; strm.Write (delim, 0, 1)
-    | PartyRole.BuyerSeller -> strm.Write "452=27"B; strm.Write (delim, 0, 1)
-    | PartyRole.Custodian -> strm.Write "452=28"B; strm.Write (delim, 0, 1)
-    | PartyRole.Intermediary -> strm.Write "452=29"B; strm.Write (delim, 0, 1)
-    | PartyRole.Agent -> strm.Write "452=30"B; strm.Write (delim, 0, 1)
-    | PartyRole.SubCustodian -> strm.Write "452=31"B; strm.Write (delim, 0, 1)
-    | PartyRole.Beneficiary -> strm.Write "452=32"B; strm.Write (delim, 0, 1)
-    | PartyRole.InterestedParty -> strm.Write "452=33"B; strm.Write (delim, 0, 1)
-    | PartyRole.RegulatoryBody -> strm.Write "452=34"B; strm.Write (delim, 0, 1)
-    | PartyRole.LiquidityProvider -> strm.Write "452=35"B; strm.Write (delim, 0, 1)
-    | PartyRole.EnteringTrader -> strm.Write "452=36"B; strm.Write (delim, 0, 1)
-    | PartyRole.ContraTrader -> strm.Write "452=37"B; strm.Write (delim, 0, 1)
-    | PartyRole.PositionAccount -> strm.Write "452=38"B; strm.Write (delim, 0, 1)
+    | PartyRole.ExecutingFirm ->
+        let tag = "452=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.BrokerOfCredit ->
+        let tag = "452=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ClientId ->
+        let tag = "452=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ClearingFirm ->
+        let tag = "452=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.InvestorId ->
+        let tag = "452=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.IntroducingFirm ->
+        let tag = "452=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.EnteringFirm ->
+        let tag = "452=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.LocateLendingFirm ->
+        let tag = "452=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.FundManagerClientId ->
+        let tag = "452=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.SettlementLocation ->
+        let tag = "452=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.OrderOriginationTrader ->
+        let tag = "452=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ExecutingTrader ->
+        let tag = "452=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.OrderOriginationFirm ->
+        let tag = "452=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.GiveupClearingFirm ->
+        let tag = "452=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.CorrespondantClearingFirm ->
+        let tag = "452=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ExecutingSystem ->
+        let tag = "452=16"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ContraFirm ->
+        let tag = "452=17"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ContraClearingFirm ->
+        let tag = "452=18"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.SponsoringFirm ->
+        let tag = "452=19"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.UnderlyingContraFirm ->
+        let tag = "452=20"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ClearingOrganization ->
+        let tag = "452=21"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.Exchange ->
+        let tag = "452=22"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.CustomerAccount ->
+        let tag = "452=24"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.CorrespondentClearingOrganization ->
+        let tag = "452=25"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.CorrespondentBroker ->
+        let tag = "452=26"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.BuyerSeller ->
+        let tag = "452=27"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.Custodian ->
+        let tag = "452=28"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.Intermediary ->
+        let tag = "452=29"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.Agent ->
+        let tag = "452=30"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.SubCustodian ->
+        let tag = "452=31"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.Beneficiary ->
+        let tag = "452=32"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.InterestedParty ->
+        let tag = "452=33"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.RegulatoryBody ->
+        let tag = "452=34"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.LiquidityProvider ->
+        let tag = "452=35"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.EnteringTrader ->
+        let tag = "452=36"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.ContraTrader ->
+        let tag = "452=37"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PartyRole.PositionAccount ->
+        let tag = "452=38"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoPartyIDs valIn =
@@ -6992,11 +9983,11 @@ let ReadNoPartyIDs valIn =
 
 
 let WriteNoPartyIDs (strm:Stream) (valIn:NoPartyIDs) = 
-    let tag = "453="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "453="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoSecurityAltID valIn =
@@ -7005,11 +9996,11 @@ let ReadNoSecurityAltID valIn =
 
 
 let WriteNoSecurityAltID (strm:Stream) (valIn:NoSecurityAltID) = 
-    let tag = "454="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "454="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityAltID valIn =
@@ -7018,11 +10009,11 @@ let ReadSecurityAltID valIn =
 
 
 let WriteSecurityAltID (strm:Stream) (valIn:SecurityAltID) = 
-    let tag = "455="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "455="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityAltIDSource valIn =
@@ -7031,11 +10022,11 @@ let ReadSecurityAltIDSource valIn =
 
 
 let WriteSecurityAltIDSource (strm:Stream) (valIn:SecurityAltIDSource) = 
-    let tag = "456="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "456="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoUnderlyingSecurityAltID valIn =
@@ -7044,11 +10035,11 @@ let ReadNoUnderlyingSecurityAltID valIn =
 
 
 let WriteNoUnderlyingSecurityAltID (strm:Stream) (valIn:NoUnderlyingSecurityAltID) = 
-    let tag = "457="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "457="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityAltID valIn =
@@ -7057,11 +10048,11 @@ let ReadUnderlyingSecurityAltID valIn =
 
 
 let WriteUnderlyingSecurityAltID (strm:Stream) (valIn:UnderlyingSecurityAltID) = 
-    let tag = "458="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "458="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecurityAltIDSource valIn =
@@ -7070,11 +10061,11 @@ let ReadUnderlyingSecurityAltIDSource valIn =
 
 
 let WriteUnderlyingSecurityAltIDSource (strm:Stream) (valIn:UnderlyingSecurityAltIDSource) = 
-    let tag = "459="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "459="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadProduct (fldValIn:string) : Product = 
@@ -7097,19 +10088,58 @@ let ReadProduct (fldValIn:string) : Product =
 
 let WriteProduct (strm:Stream) (xxIn:Product) =
     match xxIn with
-    | Product.Agency -> strm.Write "460=1"B; strm.Write (delim, 0, 1)
-    | Product.Commodity -> strm.Write "460=2"B; strm.Write (delim, 0, 1)
-    | Product.Corporate -> strm.Write "460=3"B; strm.Write (delim, 0, 1)
-    | Product.Currency -> strm.Write "460=4"B; strm.Write (delim, 0, 1)
-    | Product.Equity -> strm.Write "460=5"B; strm.Write (delim, 0, 1)
-    | Product.Government -> strm.Write "460=6"B; strm.Write (delim, 0, 1)
-    | Product.Index -> strm.Write "460=7"B; strm.Write (delim, 0, 1)
-    | Product.Loan -> strm.Write "460=8"B; strm.Write (delim, 0, 1)
-    | Product.Moneymarket -> strm.Write "460=9"B; strm.Write (delim, 0, 1)
-    | Product.Mortgage -> strm.Write "460=10"B; strm.Write (delim, 0, 1)
-    | Product.Municipal -> strm.Write "460=11"B; strm.Write (delim, 0, 1)
-    | Product.Other -> strm.Write "460=12"B; strm.Write (delim, 0, 1)
-    | Product.Financing -> strm.Write "460=13"B; strm.Write (delim, 0, 1)
+    | Product.Agency ->
+        let tag = "460=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Commodity ->
+        let tag = "460=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Corporate ->
+        let tag = "460=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Currency ->
+        let tag = "460=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Equity ->
+        let tag = "460=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Government ->
+        let tag = "460=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Index ->
+        let tag = "460=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Loan ->
+        let tag = "460=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Moneymarket ->
+        let tag = "460=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Mortgage ->
+        let tag = "460=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Municipal ->
+        let tag = "460=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Other ->
+        let tag = "460=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Product.Financing ->
+        let tag = "460=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCFICode valIn =
@@ -7118,11 +10148,11 @@ let ReadCFICode valIn =
 
 
 let WriteCFICode (strm:Stream) (valIn:CFICode) = 
-    let tag = "461="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "461="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingProduct valIn =
@@ -7131,11 +10161,11 @@ let ReadUnderlyingProduct valIn =
 
 
 let WriteUnderlyingProduct (strm:Stream) (valIn:UnderlyingProduct) = 
-    let tag = "462="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "462="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCFICode valIn =
@@ -7144,11 +10174,11 @@ let ReadUnderlyingCFICode valIn =
 
 
 let WriteUnderlyingCFICode (strm:Stream) (valIn:UnderlyingCFICode) = 
-    let tag = "463="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "463="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTestMessageIndicator valIn =
@@ -7157,11 +10187,11 @@ let ReadTestMessageIndicator valIn =
 
 
 let WriteTestMessageIndicator (strm:Stream) (valIn:TestMessageIndicator) = 
-    let tag = "464="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "464="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuantityType (fldValIn:string) : QuantityType = 
@@ -7179,14 +10209,38 @@ let ReadQuantityType (fldValIn:string) : QuantityType =
 
 let WriteQuantityType (strm:Stream) (xxIn:QuantityType) =
     match xxIn with
-    | QuantityType.Shares -> strm.Write "465=1"B; strm.Write (delim, 0, 1)
-    | QuantityType.Bonds -> strm.Write "465=2"B; strm.Write (delim, 0, 1)
-    | QuantityType.Currentface -> strm.Write "465=3"B; strm.Write (delim, 0, 1)
-    | QuantityType.Originalface -> strm.Write "465=4"B; strm.Write (delim, 0, 1)
-    | QuantityType.Currency -> strm.Write "465=5"B; strm.Write (delim, 0, 1)
-    | QuantityType.Contracts -> strm.Write "465=6"B; strm.Write (delim, 0, 1)
-    | QuantityType.Other -> strm.Write "465=7"B; strm.Write (delim, 0, 1)
-    | QuantityType.Par -> strm.Write "465=8"B; strm.Write (delim, 0, 1)
+    | QuantityType.Shares ->
+        let tag = "465=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Bonds ->
+        let tag = "465=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Currentface ->
+        let tag = "465=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Originalface ->
+        let tag = "465=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Currency ->
+        let tag = "465=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Contracts ->
+        let tag = "465=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Other ->
+        let tag = "465=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuantityType.Par ->
+        let tag = "465=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBookingRefID valIn =
@@ -7195,11 +10249,11 @@ let ReadBookingRefID valIn =
 
 
 let WriteBookingRefID (strm:Stream) (valIn:BookingRefID) = 
-    let tag = "466="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "466="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadIndividualAllocID valIn =
@@ -7208,11 +10262,11 @@ let ReadIndividualAllocID valIn =
 
 
 let WriteIndividualAllocID (strm:Stream) (valIn:IndividualAllocID) = 
-    let tag = "467="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "467="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRoundingDirection (fldValIn:string) : RoundingDirection = 
@@ -7225,9 +10279,18 @@ let ReadRoundingDirection (fldValIn:string) : RoundingDirection =
 
 let WriteRoundingDirection (strm:Stream) (xxIn:RoundingDirection) =
     match xxIn with
-    | RoundingDirection.RoundToNearest -> strm.Write "468=0"B; strm.Write (delim, 0, 1)
-    | RoundingDirection.RoundDown -> strm.Write "468=1"B; strm.Write (delim, 0, 1)
-    | RoundingDirection.RoundUp -> strm.Write "468=2"B; strm.Write (delim, 0, 1)
+    | RoundingDirection.RoundToNearest ->
+        let tag = "468=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RoundingDirection.RoundDown ->
+        let tag = "468=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RoundingDirection.RoundUp ->
+        let tag = "468=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRoundingModulus valIn =
@@ -7236,11 +10299,11 @@ let ReadRoundingModulus valIn =
 
 
 let WriteRoundingModulus (strm:Stream) (valIn:RoundingModulus) = 
-    let tag = "469="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "469="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCountryOfIssue valIn =
@@ -7249,11 +10312,11 @@ let ReadCountryOfIssue valIn =
 
 
 let WriteCountryOfIssue (strm:Stream) (valIn:CountryOfIssue) = 
-    let tag = "470="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "470="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStateOrProvinceOfIssue valIn =
@@ -7262,11 +10325,11 @@ let ReadStateOrProvinceOfIssue valIn =
 
 
 let WriteStateOrProvinceOfIssue (strm:Stream) (valIn:StateOrProvinceOfIssue) = 
-    let tag = "471="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "471="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLocaleOfIssue valIn =
@@ -7275,11 +10338,11 @@ let ReadLocaleOfIssue valIn =
 
 
 let WriteLocaleOfIssue (strm:Stream) (valIn:LocaleOfIssue) = 
-    let tag = "472="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "472="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoRegistDtls valIn =
@@ -7288,11 +10351,11 @@ let ReadNoRegistDtls valIn =
 
 
 let WriteNoRegistDtls (strm:Stream) (valIn:NoRegistDtls) = 
-    let tag = "473="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "473="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMailingDtls valIn =
@@ -7301,11 +10364,11 @@ let ReadMailingDtls valIn =
 
 
 let WriteMailingDtls (strm:Stream) (valIn:MailingDtls) = 
-    let tag = "474="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "474="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadInvestorCountryOfResidence valIn =
@@ -7314,11 +10377,11 @@ let ReadInvestorCountryOfResidence valIn =
 
 
 let WriteInvestorCountryOfResidence (strm:Stream) (valIn:InvestorCountryOfResidence) = 
-    let tag = "475="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "475="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPaymentRef valIn =
@@ -7327,11 +10390,11 @@ let ReadPaymentRef valIn =
 
 
 let WritePaymentRef (strm:Stream) (valIn:PaymentRef) = 
-    let tag = "476="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "476="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDistribPaymentMethod (fldValIn:string) : DistribPaymentMethod = 
@@ -7353,18 +10416,54 @@ let ReadDistribPaymentMethod (fldValIn:string) : DistribPaymentMethod =
 
 let WriteDistribPaymentMethod (strm:Stream) (xxIn:DistribPaymentMethod) =
     match xxIn with
-    | DistribPaymentMethod.Crest -> strm.Write "477=1"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Nscc -> strm.Write "477=2"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Euroclear -> strm.Write "477=3"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Clearstream -> strm.Write "477=4"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Cheque -> strm.Write "477=5"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.TelegraphicTransfer -> strm.Write "477=6"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Fedwire -> strm.Write "477=7"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.DirectCredit -> strm.Write "477=8"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.AchCredit -> strm.Write "477=9"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.Bpay -> strm.Write "477=10"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.HighValueClearingSystem -> strm.Write "477=11"B; strm.Write (delim, 0, 1)
-    | DistribPaymentMethod.ReinvestInFund -> strm.Write "477=12"B; strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Crest ->
+        let tag = "477=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Nscc ->
+        let tag = "477=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Euroclear ->
+        let tag = "477=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Clearstream ->
+        let tag = "477=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Cheque ->
+        let tag = "477=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.TelegraphicTransfer ->
+        let tag = "477=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Fedwire ->
+        let tag = "477=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.DirectCredit ->
+        let tag = "477=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.AchCredit ->
+        let tag = "477=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.Bpay ->
+        let tag = "477=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.HighValueClearingSystem ->
+        let tag = "477=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DistribPaymentMethod.ReinvestInFund ->
+        let tag = "477=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribCurr valIn =
@@ -7373,11 +10472,11 @@ let ReadCashDistribCurr valIn =
 
 
 let WriteCashDistribCurr (strm:Stream) (valIn:CashDistribCurr) = 
-    let tag = "478="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "478="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCommCurrency valIn =
@@ -7386,11 +10485,11 @@ let ReadCommCurrency valIn =
 
 
 let WriteCommCurrency (strm:Stream) (valIn:CommCurrency) = 
-    let tag = "479="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "479="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCancellationRights (fldValIn:string) : CancellationRights = 
@@ -7404,10 +10503,22 @@ let ReadCancellationRights (fldValIn:string) : CancellationRights =
 
 let WriteCancellationRights (strm:Stream) (xxIn:CancellationRights) =
     match xxIn with
-    | CancellationRights.Yes -> strm.Write "480=Y"B; strm.Write (delim, 0, 1)
-    | CancellationRights.NoExecutionOnly -> strm.Write "480=N"B; strm.Write (delim, 0, 1)
-    | CancellationRights.NoWaiverAgreement -> strm.Write "480=M"B; strm.Write (delim, 0, 1)
-    | CancellationRights.NoInstitutional -> strm.Write "480=O"B; strm.Write (delim, 0, 1)
+    | CancellationRights.Yes ->
+        let tag = "480=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CancellationRights.NoExecutionOnly ->
+        let tag = "480=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CancellationRights.NoWaiverAgreement ->
+        let tag = "480=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CancellationRights.NoInstitutional ->
+        let tag = "480=O"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMoneyLaunderingStatus (fldValIn:string) : MoneyLaunderingStatus = 
@@ -7422,11 +10533,26 @@ let ReadMoneyLaunderingStatus (fldValIn:string) : MoneyLaunderingStatus =
 
 let WriteMoneyLaunderingStatus (strm:Stream) (xxIn:MoneyLaunderingStatus) =
     match xxIn with
-    | MoneyLaunderingStatus.Passed -> strm.Write "481=Y"B; strm.Write (delim, 0, 1)
-    | MoneyLaunderingStatus.NotChecked -> strm.Write "481=N"B; strm.Write (delim, 0, 1)
-    | MoneyLaunderingStatus.ExemptBelowTheLimit -> strm.Write "481=1"B; strm.Write (delim, 0, 1)
-    | MoneyLaunderingStatus.ExemptClientMoneyTypeExemption -> strm.Write "481=2"B; strm.Write (delim, 0, 1)
-    | MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution -> strm.Write "481=3"B; strm.Write (delim, 0, 1)
+    | MoneyLaunderingStatus.Passed ->
+        let tag = "481=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MoneyLaunderingStatus.NotChecked ->
+        let tag = "481=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MoneyLaunderingStatus.ExemptBelowTheLimit ->
+        let tag = "481=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MoneyLaunderingStatus.ExemptClientMoneyTypeExemption ->
+        let tag = "481=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution ->
+        let tag = "481=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMailingInst valIn =
@@ -7435,11 +10561,11 @@ let ReadMailingInst valIn =
 
 
 let WriteMailingInst (strm:Stream) (valIn:MailingInst) = 
-    let tag = "482="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "482="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTransBkdTime valIn =
@@ -7448,11 +10574,11 @@ let ReadTransBkdTime valIn =
 
 
 let WriteTransBkdTime (strm:Stream) (valIn:TransBkdTime) = 
-    let tag = "483="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "483="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExecPriceType (fldValIn:string) : ExecPriceType = 
@@ -7470,14 +10596,38 @@ let ReadExecPriceType (fldValIn:string) : ExecPriceType =
 
 let WriteExecPriceType (strm:Stream) (xxIn:ExecPriceType) =
     match xxIn with
-    | ExecPriceType.BidPrice -> strm.Write "484=B"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.CreationPrice -> strm.Write "484=C"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.CreationPricePlusAdjustmentPercent -> strm.Write "484=D"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.CreationPricePlusAdjustmentAmount -> strm.Write "484=E"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.OfferPrice -> strm.Write "484=O"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.OfferPriceMinusAdjustmentPercent -> strm.Write "484=P"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.OfferPriceMinusAdjustmentAmount -> strm.Write "484=Q"B; strm.Write (delim, 0, 1)
-    | ExecPriceType.SinglePrice -> strm.Write "484=S"B; strm.Write (delim, 0, 1)
+    | ExecPriceType.BidPrice ->
+        let tag = "484=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.CreationPrice ->
+        let tag = "484=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.CreationPricePlusAdjustmentPercent ->
+        let tag = "484=D"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.CreationPricePlusAdjustmentAmount ->
+        let tag = "484=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.OfferPrice ->
+        let tag = "484=O"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.OfferPriceMinusAdjustmentPercent ->
+        let tag = "484=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.OfferPriceMinusAdjustmentAmount ->
+        let tag = "484=Q"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExecPriceType.SinglePrice ->
+        let tag = "484=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadExecPriceAdjustment valIn =
@@ -7486,11 +10636,11 @@ let ReadExecPriceAdjustment valIn =
 
 
 let WriteExecPriceAdjustment (strm:Stream) (valIn:ExecPriceAdjustment) = 
-    let tag = "485="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "485="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDateOfBirth valIn =
@@ -7499,11 +10649,11 @@ let ReadDateOfBirth valIn =
 
 
 let WriteDateOfBirth (strm:Stream) (valIn:DateOfBirth) = 
-    let tag = "486="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "486="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeReportTransType (fldValIn:string) : TradeReportTransType = 
@@ -7518,11 +10668,26 @@ let ReadTradeReportTransType (fldValIn:string) : TradeReportTransType =
 
 let WriteTradeReportTransType (strm:Stream) (xxIn:TradeReportTransType) =
     match xxIn with
-    | TradeReportTransType.New -> strm.Write "487=0"B; strm.Write (delim, 0, 1)
-    | TradeReportTransType.Cancel -> strm.Write "487=1"B; strm.Write (delim, 0, 1)
-    | TradeReportTransType.Replace -> strm.Write "487=2"B; strm.Write (delim, 0, 1)
-    | TradeReportTransType.Release -> strm.Write "487=3"B; strm.Write (delim, 0, 1)
-    | TradeReportTransType.Reverse -> strm.Write "487=4"B; strm.Write (delim, 0, 1)
+    | TradeReportTransType.New ->
+        let tag = "487=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportTransType.Cancel ->
+        let tag = "487=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportTransType.Replace ->
+        let tag = "487=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportTransType.Release ->
+        let tag = "487=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportTransType.Reverse ->
+        let tag = "487=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCardHolderName valIn =
@@ -7531,11 +10696,11 @@ let ReadCardHolderName valIn =
 
 
 let WriteCardHolderName (strm:Stream) (valIn:CardHolderName) = 
-    let tag = "488="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "488="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCardNumber valIn =
@@ -7544,11 +10709,11 @@ let ReadCardNumber valIn =
 
 
 let WriteCardNumber (strm:Stream) (valIn:CardNumber) = 
-    let tag = "489="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "489="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCardExpDate valIn =
@@ -7557,11 +10722,11 @@ let ReadCardExpDate valIn =
 
 
 let WriteCardExpDate (strm:Stream) (valIn:CardExpDate) = 
-    let tag = "490="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "490="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCardIssNum valIn =
@@ -7570,11 +10735,11 @@ let ReadCardIssNum valIn =
 
 
 let WriteCardIssNum (strm:Stream) (valIn:CardIssNum) = 
-    let tag = "491="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "491="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPaymentMethod (fldValIn:string) : PaymentMethod = 
@@ -7599,21 +10764,66 @@ let ReadPaymentMethod (fldValIn:string) : PaymentMethod =
 
 let WritePaymentMethod (strm:Stream) (xxIn:PaymentMethod) =
     match xxIn with
-    | PaymentMethod.Crest -> strm.Write "492=1"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Nscc -> strm.Write "492=2"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Euroclear -> strm.Write "492=3"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Clearstream -> strm.Write "492=4"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Cheque -> strm.Write "492=5"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.TelegraphicTransfer -> strm.Write "492=6"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Fedwire -> strm.Write "492=7"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.DebitCard -> strm.Write "492=8"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.DirectDebit -> strm.Write "492=9"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.DirectCredit -> strm.Write "492=10"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.CreditCard -> strm.Write "492=11"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.AchDebit -> strm.Write "492=12"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.AchCredit -> strm.Write "492=13"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.Bpay -> strm.Write "492=14"B; strm.Write (delim, 0, 1)
-    | PaymentMethod.HighValueClearingSystem -> strm.Write "492=15"B; strm.Write (delim, 0, 1)
+    | PaymentMethod.Crest ->
+        let tag = "492=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Nscc ->
+        let tag = "492=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Euroclear ->
+        let tag = "492=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Clearstream ->
+        let tag = "492=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Cheque ->
+        let tag = "492=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.TelegraphicTransfer ->
+        let tag = "492=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Fedwire ->
+        let tag = "492=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.DebitCard ->
+        let tag = "492=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.DirectDebit ->
+        let tag = "492=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.DirectCredit ->
+        let tag = "492=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.CreditCard ->
+        let tag = "492=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.AchDebit ->
+        let tag = "492=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.AchCredit ->
+        let tag = "492=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.Bpay ->
+        let tag = "492=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PaymentMethod.HighValueClearingSystem ->
+        let tag = "492=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRegistAcctType valIn =
@@ -7622,11 +10832,11 @@ let ReadRegistAcctType valIn =
 
 
 let WriteRegistAcctType (strm:Stream) (valIn:RegistAcctType) = 
-    let tag = "493="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "493="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDesignation valIn =
@@ -7635,11 +10845,11 @@ let ReadDesignation valIn =
 
 
 let WriteDesignation (strm:Stream) (valIn:Designation) = 
-    let tag = "494="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "494="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTaxAdvantageType (fldValIn:string) : TaxAdvantageType = 
@@ -7660,17 +10870,50 @@ let ReadTaxAdvantageType (fldValIn:string) : TaxAdvantageType =
 
 let WriteTaxAdvantageType (strm:Stream) (xxIn:TaxAdvantageType) =
     match xxIn with
-    | TaxAdvantageType.NNone -> strm.Write "495=0"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.MaxiIsa -> strm.Write "495=1"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.Tessa -> strm.Write "495=2"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.MiniCashIsa -> strm.Write "495=3"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.MiniStocksAndSharesIsa -> strm.Write "495=4"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.MiniInsuranceIsa -> strm.Write "495=5"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.CurrentYearPayment -> strm.Write "495=6"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.PriorYearPayment -> strm.Write "495=7"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.AssetTransfer -> strm.Write "495=8"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.EmployeePriorYear -> strm.Write "495=9"B; strm.Write (delim, 0, 1)
-    | TaxAdvantageType.Other -> strm.Write "495=999"B; strm.Write (delim, 0, 1)
+    | TaxAdvantageType.NNone ->
+        let tag = "495=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.MaxiIsa ->
+        let tag = "495=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.Tessa ->
+        let tag = "495=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.MiniCashIsa ->
+        let tag = "495=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.MiniStocksAndSharesIsa ->
+        let tag = "495=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.MiniInsuranceIsa ->
+        let tag = "495=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.CurrentYearPayment ->
+        let tag = "495=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.PriorYearPayment ->
+        let tag = "495=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.AssetTransfer ->
+        let tag = "495=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.EmployeePriorYear ->
+        let tag = "495=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TaxAdvantageType.Other ->
+        let tag = "495=999"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRegistRejReasonText valIn =
@@ -7679,11 +10922,11 @@ let ReadRegistRejReasonText valIn =
 
 
 let WriteRegistRejReasonText (strm:Stream) (valIn:RegistRejReasonText) = 
-    let tag = "496="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "496="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadFundRenewWaiv (fldValIn:string) : FundRenewWaiv = 
@@ -7695,8 +10938,14 @@ let ReadFundRenewWaiv (fldValIn:string) : FundRenewWaiv =
 
 let WriteFundRenewWaiv (strm:Stream) (xxIn:FundRenewWaiv) =
     match xxIn with
-    | FundRenewWaiv.Yes -> strm.Write "497=Y"B; strm.Write (delim, 0, 1)
-    | FundRenewWaiv.No -> strm.Write "497=N"B; strm.Write (delim, 0, 1)
+    | FundRenewWaiv.Yes ->
+        let tag = "497=Y"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | FundRenewWaiv.No ->
+        let tag = "497=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribAgentName valIn =
@@ -7705,11 +10954,11 @@ let ReadCashDistribAgentName valIn =
 
 
 let WriteCashDistribAgentName (strm:Stream) (valIn:CashDistribAgentName) = 
-    let tag = "498="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "498="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribAgentCode valIn =
@@ -7718,11 +10967,11 @@ let ReadCashDistribAgentCode valIn =
 
 
 let WriteCashDistribAgentCode (strm:Stream) (valIn:CashDistribAgentCode) = 
-    let tag = "499="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "499="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribAgentAcctNumber valIn =
@@ -7731,11 +10980,11 @@ let ReadCashDistribAgentAcctNumber valIn =
 
 
 let WriteCashDistribAgentAcctNumber (strm:Stream) (valIn:CashDistribAgentAcctNumber) = 
-    let tag = "500="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "500="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribPayRef valIn =
@@ -7744,11 +10993,11 @@ let ReadCashDistribPayRef valIn =
 
 
 let WriteCashDistribPayRef (strm:Stream) (valIn:CashDistribPayRef) = 
-    let tag = "501="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "501="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashDistribAgentAcctName valIn =
@@ -7757,11 +11006,11 @@ let ReadCashDistribAgentAcctName valIn =
 
 
 let WriteCashDistribAgentAcctName (strm:Stream) (valIn:CashDistribAgentAcctName) = 
-    let tag = "502="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "502="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCardStartDate valIn =
@@ -7770,11 +11019,11 @@ let ReadCardStartDate valIn =
 
 
 let WriteCardStartDate (strm:Stream) (valIn:CardStartDate) = 
-    let tag = "503="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "503="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPaymentDate valIn =
@@ -7783,11 +11032,11 @@ let ReadPaymentDate valIn =
 
 
 let WritePaymentDate (strm:Stream) (valIn:PaymentDate) = 
-    let tag = "504="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "504="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPaymentRemitterID valIn =
@@ -7796,11 +11045,11 @@ let ReadPaymentRemitterID valIn =
 
 
 let WritePaymentRemitterID (strm:Stream) (valIn:PaymentRemitterID) = 
-    let tag = "505="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "505="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRegistStatus (fldValIn:string) : RegistStatus = 
@@ -7814,10 +11063,22 @@ let ReadRegistStatus (fldValIn:string) : RegistStatus =
 
 let WriteRegistStatus (strm:Stream) (xxIn:RegistStatus) =
     match xxIn with
-    | RegistStatus.Accepted -> strm.Write "506=A"B; strm.Write (delim, 0, 1)
-    | RegistStatus.Rejected -> strm.Write "506=R"B; strm.Write (delim, 0, 1)
-    | RegistStatus.Held -> strm.Write "506=H"B; strm.Write (delim, 0, 1)
-    | RegistStatus.Reminder -> strm.Write "506=N"B; strm.Write (delim, 0, 1)
+    | RegistStatus.Accepted ->
+        let tag = "506=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistStatus.Rejected ->
+        let tag = "506=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistStatus.Held ->
+        let tag = "506=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistStatus.Reminder ->
+        let tag = "506=N"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRegistRejReasonCode (fldValIn:string) : RegistRejReasonCode = 
@@ -7846,25 +11107,82 @@ let ReadRegistRejReasonCode (fldValIn:string) : RegistRejReasonCode =
 
 let WriteRegistRejReasonCode (strm:Stream) (xxIn:RegistRejReasonCode) =
     match xxIn with
-    | RegistRejReasonCode.InvalidUnacceptableAccountType -> strm.Write "507=1"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableTaxExemptType -> strm.Write "507=2"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableOwnershipType -> strm.Write "507=3"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableNoRegDetls -> strm.Write "507=4"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableRegSeqNo -> strm.Write "507=5"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableRegDtls -> strm.Write "507=6"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableMailingDtls -> strm.Write "507=7"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableMailingInst -> strm.Write "507=8"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableInvestorId -> strm.Write "507=9"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableInvestorIdSource -> strm.Write "507=10"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableDateOfBirth -> strm.Write "507=11"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableInvestorCountryOfResidence -> strm.Write "507=12"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableNodistribinstns -> strm.Write "507=13"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableDistribPercentage -> strm.Write "507=14"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableDistribPaymentMethod -> strm.Write "507=15"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctName -> strm.Write "507=16"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode -> strm.Write "507=17"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum -> strm.Write "507=18"B; strm.Write (delim, 0, 1)
-    | RegistRejReasonCode.Other -> strm.Write "507=99"B; strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableAccountType ->
+        let tag = "507=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableTaxExemptType ->
+        let tag = "507=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableOwnershipType ->
+        let tag = "507=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableNoRegDetls ->
+        let tag = "507=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableRegSeqNo ->
+        let tag = "507=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableRegDtls ->
+        let tag = "507=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableMailingDtls ->
+        let tag = "507=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableMailingInst ->
+        let tag = "507=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableInvestorId ->
+        let tag = "507=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableInvestorIdSource ->
+        let tag = "507=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableDateOfBirth ->
+        let tag = "507=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableInvestorCountryOfResidence ->
+        let tag = "507=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableNodistribinstns ->
+        let tag = "507=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableDistribPercentage ->
+        let tag = "507=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableDistribPaymentMethod ->
+        let tag = "507=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctName ->
+        let tag = "507=16"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode ->
+        let tag = "507=17"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum ->
+        let tag = "507=18"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistRejReasonCode.Other ->
+        let tag = "507=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRegistRefID valIn =
@@ -7873,11 +11191,11 @@ let ReadRegistRefID valIn =
 
 
 let WriteRegistRefID (strm:Stream) (valIn:RegistRefID) = 
-    let tag = "508="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "508="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRegistDtls valIn =
@@ -7886,11 +11204,11 @@ let ReadRegistDtls valIn =
 
 
 let WriteRegistDtls (strm:Stream) (valIn:RegistDtls) = 
-    let tag = "509="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "509="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoDistribInsts valIn =
@@ -7899,11 +11217,11 @@ let ReadNoDistribInsts valIn =
 
 
 let WriteNoDistribInsts (strm:Stream) (valIn:NoDistribInsts) = 
-    let tag = "510="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "510="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRegistEmail valIn =
@@ -7912,11 +11230,11 @@ let ReadRegistEmail valIn =
 
 
 let WriteRegistEmail (strm:Stream) (valIn:RegistEmail) = 
-    let tag = "511="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "511="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDistribPercentage valIn =
@@ -7925,11 +11243,11 @@ let ReadDistribPercentage valIn =
 
 
 let WriteDistribPercentage (strm:Stream) (valIn:DistribPercentage) = 
-    let tag = "512="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "512="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRegistID valIn =
@@ -7938,11 +11256,11 @@ let ReadRegistID valIn =
 
 
 let WriteRegistID (strm:Stream) (valIn:RegistID) = 
-    let tag = "513="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "513="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRegistTransType (fldValIn:string) : RegistTransType = 
@@ -7955,9 +11273,18 @@ let ReadRegistTransType (fldValIn:string) : RegistTransType =
 
 let WriteRegistTransType (strm:Stream) (xxIn:RegistTransType) =
     match xxIn with
-    | RegistTransType.New -> strm.Write "514=0"B; strm.Write (delim, 0, 1)
-    | RegistTransType.Replace -> strm.Write "514=1"B; strm.Write (delim, 0, 1)
-    | RegistTransType.Cancel -> strm.Write "514=2"B; strm.Write (delim, 0, 1)
+    | RegistTransType.New ->
+        let tag = "514=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistTransType.Replace ->
+        let tag = "514=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | RegistTransType.Cancel ->
+        let tag = "514=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadExecValuationPoint valIn =
@@ -7966,11 +11293,11 @@ let ReadExecValuationPoint valIn =
 
 
 let WriteExecValuationPoint (strm:Stream) (valIn:ExecValuationPoint) = 
-    let tag = "515="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "515="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderPercent valIn =
@@ -7979,11 +11306,11 @@ let ReadOrderPercent valIn =
 
 
 let WriteOrderPercent (strm:Stream) (valIn:OrderPercent) = 
-    let tag = "516="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "516="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOwnershipType (fldValIn:string) : OwnershipType = 
@@ -7996,9 +11323,18 @@ let ReadOwnershipType (fldValIn:string) : OwnershipType =
 
 let WriteOwnershipType (strm:Stream) (xxIn:OwnershipType) =
     match xxIn with
-    | OwnershipType.JointInvestors -> strm.Write "517=J"B; strm.Write (delim, 0, 1)
-    | OwnershipType.TenantsInCommon -> strm.Write "517=T"B; strm.Write (delim, 0, 1)
-    | OwnershipType.JointTrustees -> strm.Write "517=2"B; strm.Write (delim, 0, 1)
+    | OwnershipType.JointInvestors ->
+        let tag = "517=J"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnershipType.TenantsInCommon ->
+        let tag = "517=T"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnershipType.JointTrustees ->
+        let tag = "517=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoContAmts valIn =
@@ -8007,11 +11343,11 @@ let ReadNoContAmts valIn =
 
 
 let WriteNoContAmts (strm:Stream) (valIn:NoContAmts) = 
-    let tag = "518="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "518="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContAmtType (fldValIn:string) : ContAmtType = 
@@ -8030,15 +11366,42 @@ let ReadContAmtType (fldValIn:string) : ContAmtType =
 
 let WriteContAmtType (strm:Stream) (xxIn:ContAmtType) =
     match xxIn with
-    | ContAmtType.CommissionAmount -> strm.Write "519=1"B; strm.Write (delim, 0, 1)
-    | ContAmtType.CommissionPercent -> strm.Write "519=2"B; strm.Write (delim, 0, 1)
-    | ContAmtType.InitialChargeAmount -> strm.Write "519=3"B; strm.Write (delim, 0, 1)
-    | ContAmtType.InitialChargePercent -> strm.Write "519=4"B; strm.Write (delim, 0, 1)
-    | ContAmtType.DiscountAmount -> strm.Write "519=5"B; strm.Write (delim, 0, 1)
-    | ContAmtType.DiscountPercent -> strm.Write "519=6"B; strm.Write (delim, 0, 1)
-    | ContAmtType.DilutionLevyAmount -> strm.Write "519=7"B; strm.Write (delim, 0, 1)
-    | ContAmtType.DilutionLevyPercent -> strm.Write "519=8"B; strm.Write (delim, 0, 1)
-    | ContAmtType.ExitChargeAmount -> strm.Write "519=9"B; strm.Write (delim, 0, 1)
+    | ContAmtType.CommissionAmount ->
+        let tag = "519=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.CommissionPercent ->
+        let tag = "519=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.InitialChargeAmount ->
+        let tag = "519=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.InitialChargePercent ->
+        let tag = "519=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.DiscountAmount ->
+        let tag = "519=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.DiscountPercent ->
+        let tag = "519=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.DilutionLevyAmount ->
+        let tag = "519=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.DilutionLevyPercent ->
+        let tag = "519=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ContAmtType.ExitChargeAmount ->
+        let tag = "519=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadContAmtValue valIn =
@@ -8047,11 +11410,11 @@ let ReadContAmtValue valIn =
 
 
 let WriteContAmtValue (strm:Stream) (valIn:ContAmtValue) = 
-    let tag = "520="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "520="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContAmtCurr valIn =
@@ -8060,11 +11423,11 @@ let ReadContAmtCurr valIn =
 
 
 let WriteContAmtCurr (strm:Stream) (valIn:ContAmtCurr) = 
-    let tag = "521="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "521="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOwnerType (fldValIn:string) : OwnerType = 
@@ -8087,19 +11450,58 @@ let ReadOwnerType (fldValIn:string) : OwnerType =
 
 let WriteOwnerType (strm:Stream) (xxIn:OwnerType) =
     match xxIn with
-    | OwnerType.IndividualInvestor -> strm.Write "522=1"B; strm.Write (delim, 0, 1)
-    | OwnerType.PublicCompany -> strm.Write "522=2"B; strm.Write (delim, 0, 1)
-    | OwnerType.PrivateCompany -> strm.Write "522=3"B; strm.Write (delim, 0, 1)
-    | OwnerType.IndividualTrustee -> strm.Write "522=4"B; strm.Write (delim, 0, 1)
-    | OwnerType.CompanyTrustee -> strm.Write "522=5"B; strm.Write (delim, 0, 1)
-    | OwnerType.PensionPlan -> strm.Write "522=6"B; strm.Write (delim, 0, 1)
-    | OwnerType.CustodianUnderGiftsToMinorsAct -> strm.Write "522=7"B; strm.Write (delim, 0, 1)
-    | OwnerType.Trusts -> strm.Write "522=8"B; strm.Write (delim, 0, 1)
-    | OwnerType.Fiduciaries -> strm.Write "522=9"B; strm.Write (delim, 0, 1)
-    | OwnerType.NetworkingSubAccount -> strm.Write "522=10"B; strm.Write (delim, 0, 1)
-    | OwnerType.NonProfitOrganization -> strm.Write "522=11"B; strm.Write (delim, 0, 1)
-    | OwnerType.CorporateBody -> strm.Write "522=12"B; strm.Write (delim, 0, 1)
-    | OwnerType.Nominee -> strm.Write "522=13"B; strm.Write (delim, 0, 1)
+    | OwnerType.IndividualInvestor ->
+        let tag = "522=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.PublicCompany ->
+        let tag = "522=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.PrivateCompany ->
+        let tag = "522=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.IndividualTrustee ->
+        let tag = "522=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.CompanyTrustee ->
+        let tag = "522=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.PensionPlan ->
+        let tag = "522=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.CustodianUnderGiftsToMinorsAct ->
+        let tag = "522=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.Trusts ->
+        let tag = "522=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.Fiduciaries ->
+        let tag = "522=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.NetworkingSubAccount ->
+        let tag = "522=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.NonProfitOrganization ->
+        let tag = "522=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.CorporateBody ->
+        let tag = "522=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OwnerType.Nominee ->
+        let tag = "522=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPartySubID valIn =
@@ -8108,11 +11510,11 @@ let ReadPartySubID valIn =
 
 
 let WritePartySubID (strm:Stream) (valIn:PartySubID) = 
-    let tag = "523="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "523="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNestedPartyID valIn =
@@ -8121,11 +11523,11 @@ let ReadNestedPartyID valIn =
 
 
 let WriteNestedPartyID (strm:Stream) (valIn:NestedPartyID) = 
-    let tag = "524="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "524="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNestedPartyIDSource valIn =
@@ -8134,11 +11536,11 @@ let ReadNestedPartyIDSource valIn =
 
 
 let WriteNestedPartyIDSource (strm:Stream) (valIn:NestedPartyIDSource) = 
-    let tag = "525="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "525="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryClOrdID valIn =
@@ -8147,11 +11549,11 @@ let ReadSecondaryClOrdID valIn =
 
 
 let WriteSecondaryClOrdID (strm:Stream) (valIn:SecondaryClOrdID) = 
-    let tag = "526="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "526="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryExecID valIn =
@@ -8160,11 +11562,11 @@ let ReadSecondaryExecID valIn =
 
 
 let WriteSecondaryExecID (strm:Stream) (valIn:SecondaryExecID) = 
-    let tag = "527="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "527="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderCapacity (fldValIn:string) : OrderCapacity = 
@@ -8180,12 +11582,30 @@ let ReadOrderCapacity (fldValIn:string) : OrderCapacity =
 
 let WriteOrderCapacity (strm:Stream) (xxIn:OrderCapacity) =
     match xxIn with
-    | OrderCapacity.Agency -> strm.Write "528=A"B; strm.Write (delim, 0, 1)
-    | OrderCapacity.Proprietary -> strm.Write "528=G"B; strm.Write (delim, 0, 1)
-    | OrderCapacity.Individual -> strm.Write "528=I"B; strm.Write (delim, 0, 1)
-    | OrderCapacity.Principal -> strm.Write "528=P"B; strm.Write (delim, 0, 1)
-    | OrderCapacity.RisklessPrincipal -> strm.Write "528=R"B; strm.Write (delim, 0, 1)
-    | OrderCapacity.AgentForOtherMember -> strm.Write "528=W"B; strm.Write (delim, 0, 1)
+    | OrderCapacity.Agency ->
+        let tag = "528=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderCapacity.Proprietary ->
+        let tag = "528=G"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderCapacity.Individual ->
+        let tag = "528=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderCapacity.Principal ->
+        let tag = "528=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderCapacity.RisklessPrincipal ->
+        let tag = "528=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderCapacity.AgentForOtherMember ->
+        let tag = "528=W"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrderRestrictions (fldValIn:string) : OrderRestrictions = 
@@ -8205,16 +11625,46 @@ let ReadOrderRestrictions (fldValIn:string) : OrderRestrictions =
 
 let WriteOrderRestrictions (strm:Stream) (xxIn:OrderRestrictions) =
     match xxIn with
-    | OrderRestrictions.ProgramTrade -> strm.Write "529=1"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.IndexArbitrage -> strm.Write "529=2"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.NonIndexArbitrage -> strm.Write "529=3"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.CompetingMarketMaker -> strm.Write "529=4"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheSecurity -> strm.Write "529=5"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheUnderlyingSecurityOfADerivativeSecurity -> strm.Write "529=6"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.ForeignEntity -> strm.Write "529=7"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.ExternalMarketParticipant -> strm.Write "529=8"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.ExternalInterConnectedMarketLinkage -> strm.Write "529=9"B; strm.Write (delim, 0, 1)
-    | OrderRestrictions.RisklessArbitrage -> strm.Write "529=A"B; strm.Write (delim, 0, 1)
+    | OrderRestrictions.ProgramTrade ->
+        let tag = "529=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.IndexArbitrage ->
+        let tag = "529=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.NonIndexArbitrage ->
+        let tag = "529=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.CompetingMarketMaker ->
+        let tag = "529=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheSecurity ->
+        let tag = "529=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheUnderlyingSecurityOfADerivativeSecurity ->
+        let tag = "529=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.ForeignEntity ->
+        let tag = "529=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.ExternalMarketParticipant ->
+        let tag = "529=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.ExternalInterConnectedMarketLinkage ->
+        let tag = "529=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | OrderRestrictions.RisklessArbitrage ->
+        let tag = "529=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMassCancelRequestType (fldValIn:string) : MassCancelRequestType = 
@@ -8231,13 +11681,34 @@ let ReadMassCancelRequestType (fldValIn:string) : MassCancelRequestType =
 
 let WriteMassCancelRequestType (strm:Stream) (xxIn:MassCancelRequestType) =
     match xxIn with
-    | MassCancelRequestType.CancelOrdersForASecurity -> strm.Write "530=1"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity -> strm.Write "530=2"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelOrdersForAProduct -> strm.Write "530=3"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelOrdersForACficode -> strm.Write "530=4"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelOrdersForASecuritytype -> strm.Write "530=5"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelOrdersForATradingSession -> strm.Write "530=6"B; strm.Write (delim, 0, 1)
-    | MassCancelRequestType.CancelAllOrders -> strm.Write "530=7"B; strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForASecurity ->
+        let tag = "530=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity ->
+        let tag = "530=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForAProduct ->
+        let tag = "530=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForACficode ->
+        let tag = "530=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForASecuritytype ->
+        let tag = "530=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelOrdersForATradingSession ->
+        let tag = "530=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRequestType.CancelAllOrders ->
+        let tag = "530=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMassCancelResponse (fldValIn:string) : MassCancelResponse = 
@@ -8255,14 +11726,38 @@ let ReadMassCancelResponse (fldValIn:string) : MassCancelResponse =
 
 let WriteMassCancelResponse (strm:Stream) (xxIn:MassCancelResponse) =
     match xxIn with
-    | MassCancelResponse.CancelRequestRejected -> strm.Write "531=0"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForASecurity -> strm.Write "531=1"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForAnUnderlyingSecurity -> strm.Write "531=2"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForAProduct -> strm.Write "531=3"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForACficode -> strm.Write "531=4"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForASecuritytype -> strm.Write "531=5"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelOrdersForATradingSession -> strm.Write "531=6"B; strm.Write (delim, 0, 1)
-    | MassCancelResponse.CancelAllOrders -> strm.Write "531=7"B; strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelRequestRejected ->
+        let tag = "531=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForASecurity ->
+        let tag = "531=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForAnUnderlyingSecurity ->
+        let tag = "531=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForAProduct ->
+        let tag = "531=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForACficode ->
+        let tag = "531=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForASecuritytype ->
+        let tag = "531=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelOrdersForATradingSession ->
+        let tag = "531=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelResponse.CancelAllOrders ->
+        let tag = "531=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMassCancelRejectReason (fldValIn:string) : MassCancelRejectReason = 
@@ -8280,14 +11775,38 @@ let ReadMassCancelRejectReason (fldValIn:string) : MassCancelRejectReason =
 
 let WriteMassCancelRejectReason (strm:Stream) (xxIn:MassCancelRejectReason) =
     match xxIn with
-    | MassCancelRejectReason.MassCancelNotSupported -> strm.Write "532=0"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownSecurity -> strm.Write "532=1"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownUnderlying -> strm.Write "532=2"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownProduct -> strm.Write "532=3"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownCficode -> strm.Write "532=4"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownSecurityType -> strm.Write "532=5"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.InvalidOrUnknownTradingSession -> strm.Write "532=6"B; strm.Write (delim, 0, 1)
-    | MassCancelRejectReason.Other -> strm.Write "532=99"B; strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.MassCancelNotSupported ->
+        let tag = "532=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownSecurity ->
+        let tag = "532=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownUnderlying ->
+        let tag = "532=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownProduct ->
+        let tag = "532=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownCficode ->
+        let tag = "532=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownSecurityType ->
+        let tag = "532=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.InvalidOrUnknownTradingSession ->
+        let tag = "532=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassCancelRejectReason.Other ->
+        let tag = "532=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTotalAffectedOrders valIn =
@@ -8296,11 +11815,11 @@ let ReadTotalAffectedOrders valIn =
 
 
 let WriteTotalAffectedOrders (strm:Stream) (valIn:TotalAffectedOrders) = 
-    let tag = "533="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "533="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoAffectedOrders valIn =
@@ -8309,11 +11828,11 @@ let ReadNoAffectedOrders valIn =
 
 
 let WriteNoAffectedOrders (strm:Stream) (valIn:NoAffectedOrders) = 
-    let tag = "534="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "534="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAffectedOrderID valIn =
@@ -8322,11 +11841,11 @@ let ReadAffectedOrderID valIn =
 
 
 let WriteAffectedOrderID (strm:Stream) (valIn:AffectedOrderID) = 
-    let tag = "535="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "535="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAffectedSecondaryOrderID valIn =
@@ -8335,11 +11854,11 @@ let ReadAffectedSecondaryOrderID valIn =
 
 
 let WriteAffectedSecondaryOrderID (strm:Stream) (valIn:AffectedSecondaryOrderID) = 
-    let tag = "536="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "536="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteType (fldValIn:string) : QuoteType = 
@@ -8353,10 +11872,22 @@ let ReadQuoteType (fldValIn:string) : QuoteType =
 
 let WriteQuoteType (strm:Stream) (xxIn:QuoteType) =
     match xxIn with
-    | QuoteType.Indicative -> strm.Write "537=0"B; strm.Write (delim, 0, 1)
-    | QuoteType.Tradeable -> strm.Write "537=1"B; strm.Write (delim, 0, 1)
-    | QuoteType.RestrictedTradeable -> strm.Write "537=2"B; strm.Write (delim, 0, 1)
-    | QuoteType.Counter -> strm.Write "537=3"B; strm.Write (delim, 0, 1)
+    | QuoteType.Indicative ->
+        let tag = "537=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteType.Tradeable ->
+        let tag = "537=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteType.RestrictedTradeable ->
+        let tag = "537=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteType.Counter ->
+        let tag = "537=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNestedPartyRole valIn =
@@ -8365,11 +11896,11 @@ let ReadNestedPartyRole valIn =
 
 
 let WriteNestedPartyRole (strm:Stream) (valIn:NestedPartyRole) = 
-    let tag = "538="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "538="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNestedPartyIDs valIn =
@@ -8378,11 +11909,11 @@ let ReadNoNestedPartyIDs valIn =
 
 
 let WriteNoNestedPartyIDs (strm:Stream) (valIn:NoNestedPartyIDs) = 
-    let tag = "539="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "539="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotalAccruedInterestAmt valIn =
@@ -8391,11 +11922,11 @@ let ReadTotalAccruedInterestAmt valIn =
 
 
 let WriteTotalAccruedInterestAmt (strm:Stream) (valIn:TotalAccruedInterestAmt) = 
-    let tag = "540="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "540="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMaturityDate valIn =
@@ -8404,11 +11935,11 @@ let ReadMaturityDate valIn =
 
 
 let WriteMaturityDate (strm:Stream) (valIn:MaturityDate) = 
-    let tag = "541="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "541="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingMaturityDate valIn =
@@ -8417,11 +11948,11 @@ let ReadUnderlyingMaturityDate valIn =
 
 
 let WriteUnderlyingMaturityDate (strm:Stream) (valIn:UnderlyingMaturityDate) = 
-    let tag = "542="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "542="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadInstrRegistry valIn =
@@ -8430,11 +11961,11 @@ let ReadInstrRegistry valIn =
 
 
 let WriteInstrRegistry (strm:Stream) (valIn:InstrRegistry) = 
-    let tag = "543="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "543="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashMargin (fldValIn:string) : CashMargin = 
@@ -8447,9 +11978,18 @@ let ReadCashMargin (fldValIn:string) : CashMargin =
 
 let WriteCashMargin (strm:Stream) (xxIn:CashMargin) =
     match xxIn with
-    | CashMargin.Cash -> strm.Write "544=1"B; strm.Write (delim, 0, 1)
-    | CashMargin.MarginOpen -> strm.Write "544=2"B; strm.Write (delim, 0, 1)
-    | CashMargin.MarginClose -> strm.Write "544=3"B; strm.Write (delim, 0, 1)
+    | CashMargin.Cash ->
+        let tag = "544=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CashMargin.MarginOpen ->
+        let tag = "544=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CashMargin.MarginClose ->
+        let tag = "544=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNestedPartySubID valIn =
@@ -8458,11 +11998,11 @@ let ReadNestedPartySubID valIn =
 
 
 let WriteNestedPartySubID (strm:Stream) (valIn:NestedPartySubID) = 
-    let tag = "545="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "545="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadScope (fldValIn:string) : Scope = 
@@ -8475,9 +12015,18 @@ let ReadScope (fldValIn:string) : Scope =
 
 let WriteScope (strm:Stream) (xxIn:Scope) =
     match xxIn with
-    | Scope.Local -> strm.Write "546=1"B; strm.Write (delim, 0, 1)
-    | Scope.National -> strm.Write "546=2"B; strm.Write (delim, 0, 1)
-    | Scope.Global -> strm.Write "546=3"B; strm.Write (delim, 0, 1)
+    | Scope.Local ->
+        let tag = "546=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Scope.National ->
+        let tag = "546=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | Scope.Global ->
+        let tag = "546=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMDImplicitDelete valIn =
@@ -8486,11 +12035,11 @@ let ReadMDImplicitDelete valIn =
 
 
 let WriteMDImplicitDelete (strm:Stream) (valIn:MDImplicitDelete) = 
-    let tag = "547="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "547="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCrossID valIn =
@@ -8499,11 +12048,11 @@ let ReadCrossID valIn =
 
 
 let WriteCrossID (strm:Stream) (valIn:CrossID) = 
-    let tag = "548="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "548="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCrossType (fldValIn:string) : CrossType = 
@@ -8517,10 +12066,22 @@ let ReadCrossType (fldValIn:string) : CrossType =
 
 let WriteCrossType (strm:Stream) (xxIn:CrossType) =
     match xxIn with
-    | CrossType.CrossTradeWhichIsExecutedCompletelyOrNot -> strm.Write "549=1"B; strm.Write (delim, 0, 1)
-    | CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled -> strm.Write "549=2"B; strm.Write (delim, 0, 1)
-    | CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive -> strm.Write "549=3"B; strm.Write (delim, 0, 1)
-    | CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice -> strm.Write "549=4"B; strm.Write (delim, 0, 1)
+    | CrossType.CrossTradeWhichIsExecutedCompletelyOrNot ->
+        let tag = "549=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled ->
+        let tag = "549=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive ->
+        let tag = "549=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice ->
+        let tag = "549=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCrossPrioritization (fldValIn:string) : CrossPrioritization = 
@@ -8533,9 +12094,18 @@ let ReadCrossPrioritization (fldValIn:string) : CrossPrioritization =
 
 let WriteCrossPrioritization (strm:Stream) (xxIn:CrossPrioritization) =
     match xxIn with
-    | CrossPrioritization.NNone -> strm.Write "550=0"B; strm.Write (delim, 0, 1)
-    | CrossPrioritization.BuySideIsPrioritized -> strm.Write "550=1"B; strm.Write (delim, 0, 1)
-    | CrossPrioritization.SellSideIsPrioritized -> strm.Write "550=2"B; strm.Write (delim, 0, 1)
+    | CrossPrioritization.NNone ->
+        let tag = "550=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CrossPrioritization.BuySideIsPrioritized ->
+        let tag = "550=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CrossPrioritization.SellSideIsPrioritized ->
+        let tag = "550=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrigCrossID valIn =
@@ -8544,11 +12114,11 @@ let ReadOrigCrossID valIn =
 
 
 let WriteOrigCrossID (strm:Stream) (valIn:OrigCrossID) = 
-    let tag = "551="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "551="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoSides (fldValIn:string) : NoSides = 
@@ -8560,8 +12130,14 @@ let ReadNoSides (fldValIn:string) : NoSides =
 
 let WriteNoSides (strm:Stream) (xxIn:NoSides) =
     match xxIn with
-    | NoSides.OneSide -> strm.Write "552=1"B; strm.Write (delim, 0, 1)
-    | NoSides.BothSides -> strm.Write "552=2"B; strm.Write (delim, 0, 1)
+    | NoSides.OneSide ->
+        let tag = "552=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NoSides.BothSides ->
+        let tag = "552=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUsername valIn =
@@ -8570,11 +12146,11 @@ let ReadUsername valIn =
 
 
 let WriteUsername (strm:Stream) (valIn:Username) = 
-    let tag = "553="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "553="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPassword valIn =
@@ -8583,11 +12159,11 @@ let ReadPassword valIn =
 
 
 let WritePassword (strm:Stream) (valIn:Password) = 
-    let tag = "554="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "554="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoLegs valIn =
@@ -8596,11 +12172,11 @@ let ReadNoLegs valIn =
 
 
 let WriteNoLegs (strm:Stream) (valIn:NoLegs) = 
-    let tag = "555="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "555="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCurrency valIn =
@@ -8609,11 +12185,11 @@ let ReadLegCurrency valIn =
 
 
 let WriteLegCurrency (strm:Stream) (valIn:LegCurrency) = 
-    let tag = "556="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "556="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotNoSecurityTypes valIn =
@@ -8622,11 +12198,11 @@ let ReadTotNoSecurityTypes valIn =
 
 
 let WriteTotNoSecurityTypes (strm:Stream) (valIn:TotNoSecurityTypes) = 
-    let tag = "557="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "557="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoSecurityTypes valIn =
@@ -8635,11 +12211,11 @@ let ReadNoSecurityTypes valIn =
 
 
 let WriteNoSecurityTypes (strm:Stream) (valIn:NoSecurityTypes) = 
-    let tag = "558="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "558="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecurityListRequestType (fldValIn:string) : SecurityListRequestType = 
@@ -8654,11 +12230,26 @@ let ReadSecurityListRequestType (fldValIn:string) : SecurityListRequestType =
 
 let WriteSecurityListRequestType (strm:Stream) (xxIn:SecurityListRequestType) =
     match xxIn with
-    | SecurityListRequestType.Symbol -> strm.Write "559=0"B; strm.Write (delim, 0, 1)
-    | SecurityListRequestType.SecuritytypeAndOrCficode -> strm.Write "559=1"B; strm.Write (delim, 0, 1)
-    | SecurityListRequestType.Product -> strm.Write "559=2"B; strm.Write (delim, 0, 1)
-    | SecurityListRequestType.Tradingsessionid -> strm.Write "559=3"B; strm.Write (delim, 0, 1)
-    | SecurityListRequestType.AllSecurities -> strm.Write "559=4"B; strm.Write (delim, 0, 1)
+    | SecurityListRequestType.Symbol ->
+        let tag = "559=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityListRequestType.SecuritytypeAndOrCficode ->
+        let tag = "559=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityListRequestType.Product ->
+        let tag = "559=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityListRequestType.Tradingsessionid ->
+        let tag = "559=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityListRequestType.AllSecurities ->
+        let tag = "559=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecurityRequestResult (fldValIn:string) : SecurityRequestResult = 
@@ -8674,12 +12265,30 @@ let ReadSecurityRequestResult (fldValIn:string) : SecurityRequestResult =
 
 let WriteSecurityRequestResult (strm:Stream) (xxIn:SecurityRequestResult) =
     match xxIn with
-    | SecurityRequestResult.ValidRequest -> strm.Write "560=0"B; strm.Write (delim, 0, 1)
-    | SecurityRequestResult.InvalidOrUnsupportedRequest -> strm.Write "560=1"B; strm.Write (delim, 0, 1)
-    | SecurityRequestResult.NoInstrumentsFoundThatMatchSelectionCriteria -> strm.Write "560=2"B; strm.Write (delim, 0, 1)
-    | SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData -> strm.Write "560=3"B; strm.Write (delim, 0, 1)
-    | SecurityRequestResult.InstrumentDataTemporarilyUnavailable -> strm.Write "560=4"B; strm.Write (delim, 0, 1)
-    | SecurityRequestResult.RequestForInstrumentDataNotSupported -> strm.Write "560=5"B; strm.Write (delim, 0, 1)
+    | SecurityRequestResult.ValidRequest ->
+        let tag = "560=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestResult.InvalidOrUnsupportedRequest ->
+        let tag = "560=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestResult.NoInstrumentsFoundThatMatchSelectionCriteria ->
+        let tag = "560=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData ->
+        let tag = "560=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestResult.InstrumentDataTemporarilyUnavailable ->
+        let tag = "560=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SecurityRequestResult.RequestForInstrumentDataNotSupported ->
+        let tag = "560=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadRoundLot valIn =
@@ -8688,11 +12297,11 @@ let ReadRoundLot valIn =
 
 
 let WriteRoundLot (strm:Stream) (valIn:RoundLot) = 
-    let tag = "561="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "561="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMinTradeVol valIn =
@@ -8701,11 +12310,11 @@ let ReadMinTradeVol valIn =
 
 
 let WriteMinTradeVol (strm:Stream) (valIn:MinTradeVol) = 
-    let tag = "562="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "562="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMultiLegRptTypeReq (fldValIn:string) : MultiLegRptTypeReq = 
@@ -8718,9 +12327,18 @@ let ReadMultiLegRptTypeReq (fldValIn:string) : MultiLegRptTypeReq =
 
 let WriteMultiLegRptTypeReq (strm:Stream) (xxIn:MultiLegRptTypeReq) =
     match xxIn with
-    | MultiLegRptTypeReq.ReportByMulitlegSecurityOnly -> strm.Write "563=0"B; strm.Write (delim, 0, 1)
-    | MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity -> strm.Write "563=1"B; strm.Write (delim, 0, 1)
-    | MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly -> strm.Write "563=2"B; strm.Write (delim, 0, 1)
+    | MultiLegRptTypeReq.ReportByMulitlegSecurityOnly ->
+        let tag = "563=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity ->
+        let tag = "563=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly ->
+        let tag = "563=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLegPositionEffect valIn =
@@ -8729,11 +12347,11 @@ let ReadLegPositionEffect valIn =
 
 
 let WriteLegPositionEffect (strm:Stream) (valIn:LegPositionEffect) = 
-    let tag = "564="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "564="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCoveredOrUncovered valIn =
@@ -8742,11 +12360,11 @@ let ReadLegCoveredOrUncovered valIn =
 
 
 let WriteLegCoveredOrUncovered (strm:Stream) (valIn:LegCoveredOrUncovered) = 
-    let tag = "565="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "565="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegPrice valIn =
@@ -8755,11 +12373,11 @@ let ReadLegPrice valIn =
 
 
 let WriteLegPrice (strm:Stream) (valIn:LegPrice) = 
-    let tag = "566="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "566="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradSesStatusRejReason (fldValIn:string) : TradSesStatusRejReason = 
@@ -8770,7 +12388,10 @@ let ReadTradSesStatusRejReason (fldValIn:string) : TradSesStatusRejReason =
 
 let WriteTradSesStatusRejReason (strm:Stream) (xxIn:TradSesStatusRejReason) =
     match xxIn with
-    | TradSesStatusRejReason.UnknownOrInvalidTradingsessionid -> strm.Write "567=1"B; strm.Write (delim, 0, 1)
+    | TradSesStatusRejReason.UnknownOrInvalidTradingsessionid ->
+        let tag = "567=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeRequestID valIn =
@@ -8779,11 +12400,11 @@ let ReadTradeRequestID valIn =
 
 
 let WriteTradeRequestID (strm:Stream) (valIn:TradeRequestID) = 
-    let tag = "568="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "568="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeRequestType (fldValIn:string) : TradeRequestType = 
@@ -8798,11 +12419,26 @@ let ReadTradeRequestType (fldValIn:string) : TradeRequestType =
 
 let WriteTradeRequestType (strm:Stream) (xxIn:TradeRequestType) =
     match xxIn with
-    | TradeRequestType.AllTrades -> strm.Write "569=0"B; strm.Write (delim, 0, 1)
-    | TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest -> strm.Write "569=1"B; strm.Write (delim, 0, 1)
-    | TradeRequestType.UnmatchedTradesThatMatchCriteria -> strm.Write "569=2"B; strm.Write (delim, 0, 1)
-    | TradeRequestType.UnreportedTradesThatMatchCriteria -> strm.Write "569=3"B; strm.Write (delim, 0, 1)
-    | TradeRequestType.AdvisoriesThatMatchCriteria -> strm.Write "569=4"B; strm.Write (delim, 0, 1)
+    | TradeRequestType.AllTrades ->
+        let tag = "569=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest ->
+        let tag = "569=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestType.UnmatchedTradesThatMatchCriteria ->
+        let tag = "569=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestType.UnreportedTradesThatMatchCriteria ->
+        let tag = "569=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestType.AdvisoriesThatMatchCriteria ->
+        let tag = "569=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPreviouslyReported valIn =
@@ -8811,11 +12447,11 @@ let ReadPreviouslyReported valIn =
 
 
 let WritePreviouslyReported (strm:Stream) (valIn:PreviouslyReported) = 
-    let tag = "570="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "570="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeReportID valIn =
@@ -8824,11 +12460,11 @@ let ReadTradeReportID valIn =
 
 
 let WriteTradeReportID (strm:Stream) (valIn:TradeReportID) = 
-    let tag = "571="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "571="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeReportRefID valIn =
@@ -8837,11 +12473,11 @@ let ReadTradeReportRefID valIn =
 
 
 let WriteTradeReportRefID (strm:Stream) (valIn:TradeReportRefID) = 
-    let tag = "572="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "572="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMatchStatus (fldValIn:string) : MatchStatus = 
@@ -8854,9 +12490,18 @@ let ReadMatchStatus (fldValIn:string) : MatchStatus =
 
 let WriteMatchStatus (strm:Stream) (xxIn:MatchStatus) =
     match xxIn with
-    | MatchStatus.ComparedMatchedOrAffirmed -> strm.Write "573=0"B; strm.Write (delim, 0, 1)
-    | MatchStatus.UncomparedUnmatchedOrUnaffirmed -> strm.Write "573=1"B; strm.Write (delim, 0, 1)
-    | MatchStatus.AdvisoryOrAlert -> strm.Write "573=2"B; strm.Write (delim, 0, 1)
+    | MatchStatus.ComparedMatchedOrAffirmed ->
+        let tag = "573=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MatchStatus.UncomparedUnmatchedOrUnaffirmed ->
+        let tag = "573=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MatchStatus.AdvisoryOrAlert ->
+        let tag = "573=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadMatchType valIn =
@@ -8865,11 +12510,11 @@ let ReadMatchType valIn =
 
 
 let WriteMatchType (strm:Stream) (valIn:MatchType) = 
-    let tag = "574="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "574="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOddLot valIn =
@@ -8878,11 +12523,11 @@ let ReadOddLot valIn =
 
 
 let WriteOddLot (strm:Stream) (valIn:OddLot) = 
-    let tag = "575="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "575="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoClearingInstructions valIn =
@@ -8891,11 +12536,11 @@ let ReadNoClearingInstructions valIn =
 
 
 let WriteNoClearingInstructions (strm:Stream) (valIn:NoClearingInstructions) = 
-    let tag = "576="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "576="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadClearingInstruction (fldValIn:string) : ClearingInstruction = 
@@ -8919,20 +12564,62 @@ let ReadClearingInstruction (fldValIn:string) : ClearingInstruction =
 
 let WriteClearingInstruction (strm:Stream) (xxIn:ClearingInstruction) =
     match xxIn with
-    | ClearingInstruction.ProcessNormally -> strm.Write "577=0"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.ExcludeFromAllNetting -> strm.Write "577=1"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.BilateralNettingOnly -> strm.Write "577=2"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.ExClearing -> strm.Write "577=3"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.SpecialTrade -> strm.Write "577=4"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.MultilateralNetting -> strm.Write "577=5"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.ClearAgainstCentralCounterparty -> strm.Write "577=6"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.ExcludeFromCentralCounterparty -> strm.Write "577=7"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.ManualMode -> strm.Write "577=8"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.AutomaticPostingMode -> strm.Write "577=9"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.AutomaticGiveUpMode -> strm.Write "577=10"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.QualifiedServiceRepresentative -> strm.Write "577=11"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.CustomerTrade -> strm.Write "577=12"B; strm.Write (delim, 0, 1)
-    | ClearingInstruction.SelfClearing -> strm.Write "577=13"B; strm.Write (delim, 0, 1)
+    | ClearingInstruction.ProcessNormally ->
+        let tag = "577=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.ExcludeFromAllNetting ->
+        let tag = "577=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.BilateralNettingOnly ->
+        let tag = "577=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.ExClearing ->
+        let tag = "577=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.SpecialTrade ->
+        let tag = "577=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.MultilateralNetting ->
+        let tag = "577=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.ClearAgainstCentralCounterparty ->
+        let tag = "577=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.ExcludeFromCentralCounterparty ->
+        let tag = "577=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.ManualMode ->
+        let tag = "577=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.AutomaticPostingMode ->
+        let tag = "577=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.AutomaticGiveUpMode ->
+        let tag = "577=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.QualifiedServiceRepresentative ->
+        let tag = "577=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.CustomerTrade ->
+        let tag = "577=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingInstruction.SelfClearing ->
+        let tag = "577=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeInputSource valIn =
@@ -8941,11 +12628,11 @@ let ReadTradeInputSource valIn =
 
 
 let WriteTradeInputSource (strm:Stream) (valIn:TradeInputSource) = 
-    let tag = "578="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "578="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeInputDevice valIn =
@@ -8954,11 +12641,11 @@ let ReadTradeInputDevice valIn =
 
 
 let WriteTradeInputDevice (strm:Stream) (valIn:TradeInputDevice) = 
-    let tag = "579="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "579="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoDates valIn =
@@ -8967,11 +12654,11 @@ let ReadNoDates valIn =
 
 
 let WriteNoDates (strm:Stream) (valIn:NoDates) = 
-    let tag = "580="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "580="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAccountType (fldValIn:string) : AccountType = 
@@ -8988,13 +12675,34 @@ let ReadAccountType (fldValIn:string) : AccountType =
 
 let WriteAccountType (strm:Stream) (xxIn:AccountType) =
     match xxIn with
-    | AccountType.AccountIsCarriedOnCustomerSideOfBooks -> strm.Write "581=1"B; strm.Write (delim, 0, 1)
-    | AccountType.AccountIsCarriedOnNonCustomerSideOfBooks -> strm.Write "581=2"B; strm.Write (delim, 0, 1)
-    | AccountType.HouseTrader -> strm.Write "581=3"B; strm.Write (delim, 0, 1)
-    | AccountType.FloorTrader -> strm.Write "581=4"B; strm.Write (delim, 0, 1)
-    | AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined -> strm.Write "581=6"B; strm.Write (delim, 0, 1)
-    | AccountType.AccountIsHouseTraderAndIsCrossMargined -> strm.Write "581=7"B; strm.Write (delim, 0, 1)
-    | AccountType.JointBackofficeAccount -> strm.Write "581=8"B; strm.Write (delim, 0, 1)
+    | AccountType.AccountIsCarriedOnCustomerSideOfBooks ->
+        let tag = "581=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.AccountIsCarriedOnNonCustomerSideOfBooks ->
+        let tag = "581=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.HouseTrader ->
+        let tag = "581=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.FloorTrader ->
+        let tag = "581=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined ->
+        let tag = "581=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.AccountIsHouseTraderAndIsCrossMargined ->
+        let tag = "581=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AccountType.JointBackofficeAccount ->
+        let tag = "581=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCustOrderCapacity (fldValIn:string) : CustOrderCapacity = 
@@ -9008,10 +12716,22 @@ let ReadCustOrderCapacity (fldValIn:string) : CustOrderCapacity =
 
 let WriteCustOrderCapacity (strm:Stream) (xxIn:CustOrderCapacity) =
     match xxIn with
-    | CustOrderCapacity.MemberTradingForTheirOwnAccount -> strm.Write "582=1"B; strm.Write (delim, 0, 1)
-    | CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount -> strm.Write "582=2"B; strm.Write (delim, 0, 1)
-    | CustOrderCapacity.MemberTradingForAnotherMember -> strm.Write "582=3"B; strm.Write (delim, 0, 1)
-    | CustOrderCapacity.AllOther -> strm.Write "582=4"B; strm.Write (delim, 0, 1)
+    | CustOrderCapacity.MemberTradingForTheirOwnAccount ->
+        let tag = "582=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount ->
+        let tag = "582=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CustOrderCapacity.MemberTradingForAnotherMember ->
+        let tag = "582=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CustOrderCapacity.AllOther ->
+        let tag = "582=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadClOrdLinkID valIn =
@@ -9020,11 +12740,11 @@ let ReadClOrdLinkID valIn =
 
 
 let WriteClOrdLinkID (strm:Stream) (valIn:ClOrdLinkID) = 
-    let tag = "583="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "583="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMassStatusReqID valIn =
@@ -9033,11 +12753,11 @@ let ReadMassStatusReqID valIn =
 
 
 let WriteMassStatusReqID (strm:Stream) (valIn:MassStatusReqID) = 
-    let tag = "584="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "584="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMassStatusReqType (fldValIn:string) : MassStatusReqType = 
@@ -9055,14 +12775,38 @@ let ReadMassStatusReqType (fldValIn:string) : MassStatusReqType =
 
 let WriteMassStatusReqType (strm:Stream) (xxIn:MassStatusReqType) =
     match xxIn with
-    | MassStatusReqType.StatusForOrdersForASecurity -> strm.Write "585=1"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity -> strm.Write "585=2"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForAProduct -> strm.Write "585=3"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForACficode -> strm.Write "585=4"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForASecuritytype -> strm.Write "585=5"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForATradingSession -> strm.Write "585=6"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForAllOrders -> strm.Write "585=7"B; strm.Write (delim, 0, 1)
-    | MassStatusReqType.StatusForOrdersForAPartyid -> strm.Write "585=8"B; strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForASecurity ->
+        let tag = "585=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity ->
+        let tag = "585=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForAProduct ->
+        let tag = "585=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForACficode ->
+        let tag = "585=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForASecuritytype ->
+        let tag = "585=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForATradingSession ->
+        let tag = "585=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForAllOrders ->
+        let tag = "585=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MassStatusReqType.StatusForOrdersForAPartyid ->
+        let tag = "585=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrigOrdModTime valIn =
@@ -9071,11 +12815,11 @@ let ReadOrigOrdModTime valIn =
 
 
 let WriteOrigOrdModTime (strm:Stream) (valIn:OrigOrdModTime) = 
-    let tag = "586="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "586="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSettlType valIn =
@@ -9084,11 +12828,11 @@ let ReadLegSettlType valIn =
 
 
 let WriteLegSettlType (strm:Stream) (valIn:LegSettlType) = 
-    let tag = "587="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "587="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSettlDate valIn =
@@ -9097,11 +12841,11 @@ let ReadLegSettlDate valIn =
 
 
 let WriteLegSettlDate (strm:Stream) (valIn:LegSettlDate) = 
-    let tag = "588="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "588="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDayBookingInst (fldValIn:string) : DayBookingInst = 
@@ -9114,9 +12858,18 @@ let ReadDayBookingInst (fldValIn:string) : DayBookingInst =
 
 let WriteDayBookingInst (strm:Stream) (xxIn:DayBookingInst) =
     match xxIn with
-    | DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator -> strm.Write "589=0"B; strm.Write (delim, 0, 1)
-    | DayBookingInst.SpeakWithOrderInitiatorBeforeBooking -> strm.Write "589=1"B; strm.Write (delim, 0, 1)
-    | DayBookingInst.Accumulate -> strm.Write "589=2"B; strm.Write (delim, 0, 1)
+    | DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator ->
+        let tag = "589=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DayBookingInst.SpeakWithOrderInitiatorBeforeBooking ->
+        let tag = "589=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DayBookingInst.Accumulate ->
+        let tag = "589=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBookingUnit (fldValIn:string) : BookingUnit = 
@@ -9129,9 +12882,18 @@ let ReadBookingUnit (fldValIn:string) : BookingUnit =
 
 let WriteBookingUnit (strm:Stream) (xxIn:BookingUnit) =
     match xxIn with
-    | BookingUnit.EachPartialExecutionIsABookableUnit -> strm.Write "590=0"B; strm.Write (delim, 0, 1)
-    | BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder -> strm.Write "590=1"B; strm.Write (delim, 0, 1)
-    | BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate -> strm.Write "590=2"B; strm.Write (delim, 0, 1)
+    | BookingUnit.EachPartialExecutionIsABookableUnit ->
+        let tag = "590=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder ->
+        let tag = "590=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate ->
+        let tag = "590=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPreallocMethod (fldValIn:string) : PreallocMethod = 
@@ -9143,8 +12905,14 @@ let ReadPreallocMethod (fldValIn:string) : PreallocMethod =
 
 let WritePreallocMethod (strm:Stream) (xxIn:PreallocMethod) =
     match xxIn with
-    | PreallocMethod.ProRata -> strm.Write "591=0"B; strm.Write (delim, 0, 1)
-    | PreallocMethod.DoNotProRata -> strm.Write "591=1"B; strm.Write (delim, 0, 1)
+    | PreallocMethod.ProRata ->
+        let tag = "591=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PreallocMethod.DoNotProRata ->
+        let tag = "591=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCountryOfIssue valIn =
@@ -9153,11 +12921,11 @@ let ReadUnderlyingCountryOfIssue valIn =
 
 
 let WriteUnderlyingCountryOfIssue (strm:Stream) (valIn:UnderlyingCountryOfIssue) = 
-    let tag = "592="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "592="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStateOrProvinceOfIssue valIn =
@@ -9166,11 +12934,11 @@ let ReadUnderlyingStateOrProvinceOfIssue valIn =
 
 
 let WriteUnderlyingStateOrProvinceOfIssue (strm:Stream) (valIn:UnderlyingStateOrProvinceOfIssue) = 
-    let tag = "593="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "593="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingLocaleOfIssue valIn =
@@ -9179,11 +12947,11 @@ let ReadUnderlyingLocaleOfIssue valIn =
 
 
 let WriteUnderlyingLocaleOfIssue (strm:Stream) (valIn:UnderlyingLocaleOfIssue) = 
-    let tag = "594="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "594="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingInstrRegistry valIn =
@@ -9192,11 +12960,11 @@ let ReadUnderlyingInstrRegistry valIn =
 
 
 let WriteUnderlyingInstrRegistry (strm:Stream) (valIn:UnderlyingInstrRegistry) = 
-    let tag = "595="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "595="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCountryOfIssue valIn =
@@ -9205,11 +12973,11 @@ let ReadLegCountryOfIssue valIn =
 
 
 let WriteLegCountryOfIssue (strm:Stream) (valIn:LegCountryOfIssue) = 
-    let tag = "596="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "596="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegStateOrProvinceOfIssue valIn =
@@ -9218,11 +12986,11 @@ let ReadLegStateOrProvinceOfIssue valIn =
 
 
 let WriteLegStateOrProvinceOfIssue (strm:Stream) (valIn:LegStateOrProvinceOfIssue) = 
-    let tag = "597="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "597="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegLocaleOfIssue valIn =
@@ -9231,11 +12999,11 @@ let ReadLegLocaleOfIssue valIn =
 
 
 let WriteLegLocaleOfIssue (strm:Stream) (valIn:LegLocaleOfIssue) = 
-    let tag = "598="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "598="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegInstrRegistry valIn =
@@ -9244,11 +13012,11 @@ let ReadLegInstrRegistry valIn =
 
 
 let WriteLegInstrRegistry (strm:Stream) (valIn:LegInstrRegistry) = 
-    let tag = "599="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "599="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSymbol valIn =
@@ -9257,11 +13025,11 @@ let ReadLegSymbol valIn =
 
 
 let WriteLegSymbol (strm:Stream) (valIn:LegSymbol) = 
-    let tag = "600="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "600="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSymbolSfx valIn =
@@ -9270,11 +13038,11 @@ let ReadLegSymbolSfx valIn =
 
 
 let WriteLegSymbolSfx (strm:Stream) (valIn:LegSymbolSfx) = 
-    let tag = "601="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "601="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityID valIn =
@@ -9283,11 +13051,11 @@ let ReadLegSecurityID valIn =
 
 
 let WriteLegSecurityID (strm:Stream) (valIn:LegSecurityID) = 
-    let tag = "602="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "602="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityIDSource valIn =
@@ -9296,11 +13064,11 @@ let ReadLegSecurityIDSource valIn =
 
 
 let WriteLegSecurityIDSource (strm:Stream) (valIn:LegSecurityIDSource) = 
-    let tag = "603="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "603="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoLegSecurityAltID valIn =
@@ -9309,11 +13077,11 @@ let ReadNoLegSecurityAltID valIn =
 
 
 let WriteNoLegSecurityAltID (strm:Stream) (valIn:NoLegSecurityAltID) = 
-    let tag = "604="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "604="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityAltID valIn =
@@ -9322,11 +13090,11 @@ let ReadLegSecurityAltID valIn =
 
 
 let WriteLegSecurityAltID (strm:Stream) (valIn:LegSecurityAltID) = 
-    let tag = "605="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "605="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityAltIDSource valIn =
@@ -9335,11 +13103,11 @@ let ReadLegSecurityAltIDSource valIn =
 
 
 let WriteLegSecurityAltIDSource (strm:Stream) (valIn:LegSecurityAltIDSource) = 
-    let tag = "606="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "606="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegProduct valIn =
@@ -9348,11 +13116,11 @@ let ReadLegProduct valIn =
 
 
 let WriteLegProduct (strm:Stream) (valIn:LegProduct) = 
-    let tag = "607="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "607="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCFICode valIn =
@@ -9361,11 +13129,11 @@ let ReadLegCFICode valIn =
 
 
 let WriteLegCFICode (strm:Stream) (valIn:LegCFICode) = 
-    let tag = "608="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "608="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityType valIn =
@@ -9374,11 +13142,11 @@ let ReadLegSecurityType valIn =
 
 
 let WriteLegSecurityType (strm:Stream) (valIn:LegSecurityType) = 
-    let tag = "609="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "609="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegMaturityMonthYear valIn =
@@ -9387,11 +13155,11 @@ let ReadLegMaturityMonthYear valIn =
 
 
 let WriteLegMaturityMonthYear (strm:Stream) (valIn:LegMaturityMonthYear) = 
-    let tag = "610="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "610="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegMaturityDate valIn =
@@ -9400,11 +13168,11 @@ let ReadLegMaturityDate valIn =
 
 
 let WriteLegMaturityDate (strm:Stream) (valIn:LegMaturityDate) = 
-    let tag = "611="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "611="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegStrikePrice valIn =
@@ -9413,11 +13181,11 @@ let ReadLegStrikePrice valIn =
 
 
 let WriteLegStrikePrice (strm:Stream) (valIn:LegStrikePrice) = 
-    let tag = "612="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "612="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegOptAttribute valIn =
@@ -9426,11 +13194,11 @@ let ReadLegOptAttribute valIn =
 
 
 let WriteLegOptAttribute (strm:Stream) (valIn:LegOptAttribute) = 
-    let tag = "613="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "613="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegContractMultiplier valIn =
@@ -9439,11 +13207,11 @@ let ReadLegContractMultiplier valIn =
 
 
 let WriteLegContractMultiplier (strm:Stream) (valIn:LegContractMultiplier) = 
-    let tag = "614="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "614="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegCouponRate valIn =
@@ -9452,11 +13220,11 @@ let ReadLegCouponRate valIn =
 
 
 let WriteLegCouponRate (strm:Stream) (valIn:LegCouponRate) = 
-    let tag = "615="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "615="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecurityExchange valIn =
@@ -9465,11 +13233,11 @@ let ReadLegSecurityExchange valIn =
 
 
 let WriteLegSecurityExchange (strm:Stream) (valIn:LegSecurityExchange) = 
-    let tag = "616="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "616="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegIssuer valIn =
@@ -9478,22 +13246,24 @@ let ReadLegIssuer valIn =
 
 
 let WriteLegIssuer (strm:Stream) (valIn:LegIssuer) = 
-    let tag = "617="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "617="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedLegIssuer (strm:System.IO.Stream) (fld:EncodedLegIssuer) =
     let lenTag = "618="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "619="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -9518,22 +13288,24 @@ let ReadLegSecurityDesc valIn =
 
 
 let WriteLegSecurityDesc (strm:Stream) (valIn:LegSecurityDesc) = 
-    let tag = "620="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "620="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
-// compound write
+// compound write, of a length field and the corresponding string field
 let WriteEncodedLegSecurityDesc (strm:System.IO.Stream) (fld:EncodedLegSecurityDesc) =
     let lenTag = "621="B
     strm.Write lenTag
-    strm.Write (ToBytes.Convert fld.Value.Length)
+    let lenBs = ToBytes.Convert fld.Value.Length
+    strm.Write lenBs
     strm.Write (delim, 0, 1)
     let strTag = "622="B
     strm.Write strTag
-    strm.Write (ToBytes.Convert fld.Value)
+    let strBs = ToBytes.Convert fld.Value
+    strm.Write strBs
     strm.Write (delim, 0, 1)
 
 
@@ -9558,11 +13330,11 @@ let ReadLegRatioQty valIn =
 
 
 let WriteLegRatioQty (strm:Stream) (valIn:LegRatioQty) = 
-    let tag = "623="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "623="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSide valIn =
@@ -9571,11 +13343,11 @@ let ReadLegSide valIn =
 
 
 let WriteLegSide (strm:Stream) (valIn:LegSide) = 
-    let tag = "624="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "624="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradingSessionSubID valIn =
@@ -9584,11 +13356,11 @@ let ReadTradingSessionSubID valIn =
 
 
 let WriteTradingSessionSubID (strm:Stream) (valIn:TradingSessionSubID) = 
-    let tag = "625="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "625="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocType (fldValIn:string) : AllocType = 
@@ -9603,11 +13375,26 @@ let ReadAllocType (fldValIn:string) : AllocType =
 
 let WriteAllocType (strm:Stream) (xxIn:AllocType) =
     match xxIn with
-    | AllocType.Calculated -> strm.Write "626=1"B; strm.Write (delim, 0, 1)
-    | AllocType.Preliminary -> strm.Write "626=2"B; strm.Write (delim, 0, 1)
-    | AllocType.ReadyToBookSingleOrder -> strm.Write "626=5"B; strm.Write (delim, 0, 1)
-    | AllocType.WarehouseInstruction -> strm.Write "626=7"B; strm.Write (delim, 0, 1)
-    | AllocType.RequestToIntermediary -> strm.Write "626=8"B; strm.Write (delim, 0, 1)
+    | AllocType.Calculated ->
+        let tag = "626=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocType.Preliminary ->
+        let tag = "626=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocType.ReadyToBookSingleOrder ->
+        let tag = "626=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocType.WarehouseInstruction ->
+        let tag = "626=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocType.RequestToIntermediary ->
+        let tag = "626=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoHops valIn =
@@ -9616,11 +13403,11 @@ let ReadNoHops valIn =
 
 
 let WriteNoHops (strm:Stream) (valIn:NoHops) = 
-    let tag = "627="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "627="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHopCompID valIn =
@@ -9629,11 +13416,11 @@ let ReadHopCompID valIn =
 
 
 let WriteHopCompID (strm:Stream) (valIn:HopCompID) = 
-    let tag = "628="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "628="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHopSendingTime valIn =
@@ -9642,11 +13429,11 @@ let ReadHopSendingTime valIn =
 
 
 let WriteHopSendingTime (strm:Stream) (valIn:HopSendingTime) = 
-    let tag = "629="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "629="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadHopRefID valIn =
@@ -9655,11 +13442,11 @@ let ReadHopRefID valIn =
 
 
 let WriteHopRefID (strm:Stream) (valIn:HopRefID) = 
-    let tag = "630="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "630="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMidPx valIn =
@@ -9668,11 +13455,11 @@ let ReadMidPx valIn =
 
 
 let WriteMidPx (strm:Stream) (valIn:MidPx) = 
-    let tag = "631="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "631="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidYield valIn =
@@ -9681,11 +13468,11 @@ let ReadBidYield valIn =
 
 
 let WriteBidYield (strm:Stream) (valIn:BidYield) = 
-    let tag = "632="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "632="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMidYield valIn =
@@ -9694,11 +13481,11 @@ let ReadMidYield valIn =
 
 
 let WriteMidYield (strm:Stream) (valIn:MidYield) = 
-    let tag = "633="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "633="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferYield valIn =
@@ -9707,11 +13494,11 @@ let ReadOfferYield valIn =
 
 
 let WriteOfferYield (strm:Stream) (valIn:OfferYield) = 
-    let tag = "634="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "634="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadClearingFeeIndicator (fldValIn:string) : ClearingFeeIndicator = 
@@ -9729,14 +13516,38 @@ let ReadClearingFeeIndicator (fldValIn:string) : ClearingFeeIndicator =
 
 let WriteClearingFeeIndicator (strm:Stream) (xxIn:ClearingFeeIndicator) =
     match xxIn with
-    | ClearingFeeIndicator.CboeMember -> strm.Write "635=B"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.NonMemberAndCustomer -> strm.Write "635=C"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.EquityMemberAndClearingMember -> strm.Write "635=E"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.FullAndAssociateMemberTradingForOwnAccountAndAsFloorBrokers -> strm.Write "635=F"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.Firms106hAnd106j -> strm.Write "635=H"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders -> strm.Write "635=I"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.LesseeAnd106fEmployees -> strm.Write "635=L"B; strm.Write (delim, 0, 1)
-    | ClearingFeeIndicator.AllOtherOwnershipTypes -> strm.Write "635=M"B; strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.CboeMember ->
+        let tag = "635=B"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.NonMemberAndCustomer ->
+        let tag = "635=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.EquityMemberAndClearingMember ->
+        let tag = "635=E"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.FullAndAssociateMemberTradingForOwnAccountAndAsFloorBrokers ->
+        let tag = "635=F"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.Firms106hAnd106j ->
+        let tag = "635=H"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders ->
+        let tag = "635=I"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.LesseeAnd106fEmployees ->
+        let tag = "635=L"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ClearingFeeIndicator.AllOtherOwnershipTypes ->
+        let tag = "635=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadWorkingIndicator valIn =
@@ -9745,11 +13556,11 @@ let ReadWorkingIndicator valIn =
 
 
 let WriteWorkingIndicator (strm:Stream) (valIn:WorkingIndicator) = 
-    let tag = "636="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "636="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegLastPx valIn =
@@ -9758,11 +13569,11 @@ let ReadLegLastPx valIn =
 
 
 let WriteLegLastPx (strm:Stream) (valIn:LegLastPx) = 
-    let tag = "637="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "637="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPriorityIndicator (fldValIn:string) : PriorityIndicator = 
@@ -9774,8 +13585,14 @@ let ReadPriorityIndicator (fldValIn:string) : PriorityIndicator =
 
 let WritePriorityIndicator (strm:Stream) (xxIn:PriorityIndicator) =
     match xxIn with
-    | PriorityIndicator.PriorityUnchanged -> strm.Write "638=0"B; strm.Write (delim, 0, 1)
-    | PriorityIndicator.LostPriorityAsResultOfOrderChange -> strm.Write "638=1"B; strm.Write (delim, 0, 1)
+    | PriorityIndicator.PriorityUnchanged ->
+        let tag = "638=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PriorityIndicator.LostPriorityAsResultOfOrderChange ->
+        let tag = "638=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPriceImprovement valIn =
@@ -9784,11 +13601,11 @@ let ReadPriceImprovement valIn =
 
 
 let WritePriceImprovement (strm:Stream) (valIn:PriceImprovement) = 
-    let tag = "639="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "639="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPrice2 valIn =
@@ -9797,11 +13614,11 @@ let ReadPrice2 valIn =
 
 
 let WritePrice2 (strm:Stream) (valIn:Price2) = 
-    let tag = "640="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "640="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastForwardPoints2 valIn =
@@ -9810,11 +13627,11 @@ let ReadLastForwardPoints2 valIn =
 
 
 let WriteLastForwardPoints2 (strm:Stream) (valIn:LastForwardPoints2) = 
-    let tag = "641="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "641="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBidForwardPoints2 valIn =
@@ -9823,11 +13640,11 @@ let ReadBidForwardPoints2 valIn =
 
 
 let WriteBidForwardPoints2 (strm:Stream) (valIn:BidForwardPoints2) = 
-    let tag = "642="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "642="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOfferForwardPoints2 valIn =
@@ -9836,11 +13653,11 @@ let ReadOfferForwardPoints2 valIn =
 
 
 let WriteOfferForwardPoints2 (strm:Stream) (valIn:OfferForwardPoints2) = 
-    let tag = "643="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "643="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRFQReqID valIn =
@@ -9849,11 +13666,11 @@ let ReadRFQReqID valIn =
 
 
 let WriteRFQReqID (strm:Stream) (valIn:RFQReqID) = 
-    let tag = "644="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "644="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMktBidPx valIn =
@@ -9862,11 +13679,11 @@ let ReadMktBidPx valIn =
 
 
 let WriteMktBidPx (strm:Stream) (valIn:MktBidPx) = 
-    let tag = "645="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "645="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMktOfferPx valIn =
@@ -9875,11 +13692,11 @@ let ReadMktOfferPx valIn =
 
 
 let WriteMktOfferPx (strm:Stream) (valIn:MktOfferPx) = 
-    let tag = "646="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "646="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMinBidSize valIn =
@@ -9888,11 +13705,11 @@ let ReadMinBidSize valIn =
 
 
 let WriteMinBidSize (strm:Stream) (valIn:MinBidSize) = 
-    let tag = "647="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "647="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMinOfferSize valIn =
@@ -9901,11 +13718,11 @@ let ReadMinOfferSize valIn =
 
 
 let WriteMinOfferSize (strm:Stream) (valIn:MinOfferSize) = 
-    let tag = "648="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "648="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteStatusReqID valIn =
@@ -9914,11 +13731,11 @@ let ReadQuoteStatusReqID valIn =
 
 
 let WriteQuoteStatusReqID (strm:Stream) (valIn:QuoteStatusReqID) = 
-    let tag = "649="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "649="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegalConfirm valIn =
@@ -9927,11 +13744,11 @@ let ReadLegalConfirm valIn =
 
 
 let WriteLegalConfirm (strm:Stream) (valIn:LegalConfirm) = 
-    let tag = "650="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "650="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingLastPx valIn =
@@ -9940,11 +13757,11 @@ let ReadUnderlyingLastPx valIn =
 
 
 let WriteUnderlyingLastPx (strm:Stream) (valIn:UnderlyingLastPx) = 
-    let tag = "651="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "651="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingLastQty valIn =
@@ -9953,11 +13770,11 @@ let ReadUnderlyingLastQty valIn =
 
 
 let WriteUnderlyingLastQty (strm:Stream) (valIn:UnderlyingLastQty) = 
-    let tag = "652="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "652="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegRefID valIn =
@@ -9966,11 +13783,11 @@ let ReadLegRefID valIn =
 
 
 let WriteLegRefID (strm:Stream) (valIn:LegRefID) = 
-    let tag = "654="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "654="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadContraLegRefID valIn =
@@ -9979,11 +13796,11 @@ let ReadContraLegRefID valIn =
 
 
 let WriteContraLegRefID (strm:Stream) (valIn:ContraLegRefID) = 
-    let tag = "655="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "655="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrBidFxRate valIn =
@@ -9992,11 +13809,11 @@ let ReadSettlCurrBidFxRate valIn =
 
 
 let WriteSettlCurrBidFxRate (strm:Stream) (valIn:SettlCurrBidFxRate) = 
-    let tag = "656="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "656="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlCurrOfferFxRate valIn =
@@ -10005,11 +13822,11 @@ let ReadSettlCurrOfferFxRate valIn =
 
 
 let WriteSettlCurrOfferFxRate (strm:Stream) (valIn:SettlCurrOfferFxRate) = 
-    let tag = "657="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "657="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteRequestRejectReason (fldValIn:string) : QuoteRequestRejectReason = 
@@ -10030,17 +13847,50 @@ let ReadQuoteRequestRejectReason (fldValIn:string) : QuoteRequestRejectReason =
 
 let WriteQuoteRequestRejectReason (strm:Stream) (xxIn:QuoteRequestRejectReason) =
     match xxIn with
-    | QuoteRequestRejectReason.UnknownSymbol -> strm.Write "658=1"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.ExchangeClosed -> strm.Write "658=2"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.QuoteRequestExceedsLimit -> strm.Write "658=3"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.TooLateToEnter -> strm.Write "658=4"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.InvalidPrice -> strm.Write "658=5"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.NotAuthorizedToRequestQuote -> strm.Write "658=6"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.NoMatchForInquiry -> strm.Write "658=7"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.NoMarketForInstrument -> strm.Write "658=8"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.NoInventory -> strm.Write "658=9"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.Pass -> strm.Write "658=10"B; strm.Write (delim, 0, 1)
-    | QuoteRequestRejectReason.Other -> strm.Write "658=99"B; strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.UnknownSymbol ->
+        let tag = "658=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.ExchangeClosed ->
+        let tag = "658=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.QuoteRequestExceedsLimit ->
+        let tag = "658=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.TooLateToEnter ->
+        let tag = "658=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.InvalidPrice ->
+        let tag = "658=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.NotAuthorizedToRequestQuote ->
+        let tag = "658=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.NoMatchForInquiry ->
+        let tag = "658=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.NoMarketForInstrument ->
+        let tag = "658=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.NoInventory ->
+        let tag = "658=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.Pass ->
+        let tag = "658=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRequestRejectReason.Other ->
+        let tag = "658=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSideComplianceID valIn =
@@ -10049,11 +13899,11 @@ let ReadSideComplianceID valIn =
 
 
 let WriteSideComplianceID (strm:Stream) (valIn:SideComplianceID) = 
-    let tag = "659="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "659="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAcctIDSource (fldValIn:string) : AcctIDSource = 
@@ -10069,12 +13919,30 @@ let ReadAcctIDSource (fldValIn:string) : AcctIDSource =
 
 let WriteAcctIDSource (strm:Stream) (xxIn:AcctIDSource) =
     match xxIn with
-    | AcctIDSource.Bic -> strm.Write "660=1"B; strm.Write (delim, 0, 1)
-    | AcctIDSource.SidCode -> strm.Write "660=2"B; strm.Write (delim, 0, 1)
-    | AcctIDSource.Tfm -> strm.Write "660=3"B; strm.Write (delim, 0, 1)
-    | AcctIDSource.Omgeo -> strm.Write "660=4"B; strm.Write (delim, 0, 1)
-    | AcctIDSource.DtccCode -> strm.Write "660=5"B; strm.Write (delim, 0, 1)
-    | AcctIDSource.Other -> strm.Write "660=99"B; strm.Write (delim, 0, 1)
+    | AcctIDSource.Bic ->
+        let tag = "660=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AcctIDSource.SidCode ->
+        let tag = "660=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AcctIDSource.Tfm ->
+        let tag = "660=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AcctIDSource.Omgeo ->
+        let tag = "660=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AcctIDSource.DtccCode ->
+        let tag = "660=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AcctIDSource.Other ->
+        let tag = "660=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAllocAcctIDSource valIn =
@@ -10083,11 +13951,11 @@ let ReadAllocAcctIDSource valIn =
 
 
 let WriteAllocAcctIDSource (strm:Stream) (valIn:AllocAcctIDSource) = 
-    let tag = "661="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "661="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkPrice valIn =
@@ -10096,11 +13964,11 @@ let ReadBenchmarkPrice valIn =
 
 
 let WriteBenchmarkPrice (strm:Stream) (valIn:BenchmarkPrice) = 
-    let tag = "662="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "662="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkPriceType valIn =
@@ -10109,11 +13977,11 @@ let ReadBenchmarkPriceType valIn =
 
 
 let WriteBenchmarkPriceType (strm:Stream) (valIn:BenchmarkPriceType) = 
-    let tag = "663="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "663="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConfirmID valIn =
@@ -10122,11 +13990,11 @@ let ReadConfirmID valIn =
 
 
 let WriteConfirmID (strm:Stream) (valIn:ConfirmID) = 
-    let tag = "664="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "664="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConfirmStatus (fldValIn:string) : ConfirmStatus = 
@@ -10141,11 +14009,26 @@ let ReadConfirmStatus (fldValIn:string) : ConfirmStatus =
 
 let WriteConfirmStatus (strm:Stream) (xxIn:ConfirmStatus) =
     match xxIn with
-    | ConfirmStatus.Received -> strm.Write "665=1"B; strm.Write (delim, 0, 1)
-    | ConfirmStatus.MismatchedAccount -> strm.Write "665=2"B; strm.Write (delim, 0, 1)
-    | ConfirmStatus.MissingSettlementInstructions -> strm.Write "665=3"B; strm.Write (delim, 0, 1)
-    | ConfirmStatus.Confirmed -> strm.Write "665=4"B; strm.Write (delim, 0, 1)
-    | ConfirmStatus.RequestRejected -> strm.Write "665=5"B; strm.Write (delim, 0, 1)
+    | ConfirmStatus.Received ->
+        let tag = "665=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmStatus.MismatchedAccount ->
+        let tag = "665=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmStatus.MissingSettlementInstructions ->
+        let tag = "665=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmStatus.Confirmed ->
+        let tag = "665=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmStatus.RequestRejected ->
+        let tag = "665=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadConfirmTransType (fldValIn:string) : ConfirmTransType = 
@@ -10158,9 +14041,18 @@ let ReadConfirmTransType (fldValIn:string) : ConfirmTransType =
 
 let WriteConfirmTransType (strm:Stream) (xxIn:ConfirmTransType) =
     match xxIn with
-    | ConfirmTransType.New -> strm.Write "666=0"B; strm.Write (delim, 0, 1)
-    | ConfirmTransType.Replace -> strm.Write "666=1"B; strm.Write (delim, 0, 1)
-    | ConfirmTransType.Cancel -> strm.Write "666=2"B; strm.Write (delim, 0, 1)
+    | ConfirmTransType.New ->
+        let tag = "666=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmTransType.Replace ->
+        let tag = "666=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmTransType.Cancel ->
+        let tag = "666=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadContractSettlMonth valIn =
@@ -10169,11 +14061,11 @@ let ReadContractSettlMonth valIn =
 
 
 let WriteContractSettlMonth (strm:Stream) (valIn:ContractSettlMonth) = 
-    let tag = "667="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "667="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeliveryForm (fldValIn:string) : DeliveryForm = 
@@ -10185,8 +14077,14 @@ let ReadDeliveryForm (fldValIn:string) : DeliveryForm =
 
 let WriteDeliveryForm (strm:Stream) (xxIn:DeliveryForm) =
     match xxIn with
-    | DeliveryForm.Bookentry -> strm.Write "668=1"B; strm.Write (delim, 0, 1)
-    | DeliveryForm.Bearer -> strm.Write "668=2"B; strm.Write (delim, 0, 1)
+    | DeliveryForm.Bookentry ->
+        let tag = "668=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DeliveryForm.Bearer ->
+        let tag = "668=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLastParPx valIn =
@@ -10195,11 +14093,11 @@ let ReadLastParPx valIn =
 
 
 let WriteLastParPx (strm:Stream) (valIn:LastParPx) = 
-    let tag = "669="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "669="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoLegAllocs valIn =
@@ -10208,11 +14106,11 @@ let ReadNoLegAllocs valIn =
 
 
 let WriteNoLegAllocs (strm:Stream) (valIn:NoLegAllocs) = 
-    let tag = "670="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "670="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegAllocAccount valIn =
@@ -10221,11 +14119,11 @@ let ReadLegAllocAccount valIn =
 
 
 let WriteLegAllocAccount (strm:Stream) (valIn:LegAllocAccount) = 
-    let tag = "671="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "671="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegIndividualAllocID valIn =
@@ -10234,11 +14132,11 @@ let ReadLegIndividualAllocID valIn =
 
 
 let WriteLegIndividualAllocID (strm:Stream) (valIn:LegIndividualAllocID) = 
-    let tag = "672="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "672="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegAllocQty valIn =
@@ -10247,11 +14145,11 @@ let ReadLegAllocQty valIn =
 
 
 let WriteLegAllocQty (strm:Stream) (valIn:LegAllocQty) = 
-    let tag = "673="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "673="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegAllocAcctIDSource valIn =
@@ -10260,11 +14158,11 @@ let ReadLegAllocAcctIDSource valIn =
 
 
 let WriteLegAllocAcctIDSource (strm:Stream) (valIn:LegAllocAcctIDSource) = 
-    let tag = "674="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "674="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSettlCurrency valIn =
@@ -10273,11 +14171,11 @@ let ReadLegSettlCurrency valIn =
 
 
 let WriteLegSettlCurrency (strm:Stream) (valIn:LegSettlCurrency) = 
-    let tag = "675="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "675="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBenchmarkCurveCurrency valIn =
@@ -10286,11 +14184,11 @@ let ReadLegBenchmarkCurveCurrency valIn =
 
 
 let WriteLegBenchmarkCurveCurrency (strm:Stream) (valIn:LegBenchmarkCurveCurrency) = 
-    let tag = "676="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "676="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBenchmarkCurveName valIn =
@@ -10299,11 +14197,11 @@ let ReadLegBenchmarkCurveName valIn =
 
 
 let WriteLegBenchmarkCurveName (strm:Stream) (valIn:LegBenchmarkCurveName) = 
-    let tag = "677="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "677="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBenchmarkCurvePoint valIn =
@@ -10312,11 +14210,11 @@ let ReadLegBenchmarkCurvePoint valIn =
 
 
 let WriteLegBenchmarkCurvePoint (strm:Stream) (valIn:LegBenchmarkCurvePoint) = 
-    let tag = "678="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "678="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBenchmarkPrice valIn =
@@ -10325,11 +14223,11 @@ let ReadLegBenchmarkPrice valIn =
 
 
 let WriteLegBenchmarkPrice (strm:Stream) (valIn:LegBenchmarkPrice) = 
-    let tag = "679="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "679="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBenchmarkPriceType valIn =
@@ -10338,11 +14236,11 @@ let ReadLegBenchmarkPriceType valIn =
 
 
 let WriteLegBenchmarkPriceType (strm:Stream) (valIn:LegBenchmarkPriceType) = 
-    let tag = "680="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "680="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegBidPx valIn =
@@ -10351,11 +14249,11 @@ let ReadLegBidPx valIn =
 
 
 let WriteLegBidPx (strm:Stream) (valIn:LegBidPx) = 
-    let tag = "681="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "681="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegIOIQty valIn =
@@ -10364,11 +14262,11 @@ let ReadLegIOIQty valIn =
 
 
 let WriteLegIOIQty (strm:Stream) (valIn:LegIOIQty) = 
-    let tag = "682="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "682="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoLegStipulations valIn =
@@ -10377,11 +14275,11 @@ let ReadNoLegStipulations valIn =
 
 
 let WriteNoLegStipulations (strm:Stream) (valIn:NoLegStipulations) = 
-    let tag = "683="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "683="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegOfferPx valIn =
@@ -10390,11 +14288,11 @@ let ReadLegOfferPx valIn =
 
 
 let WriteLegOfferPx (strm:Stream) (valIn:LegOfferPx) = 
-    let tag = "684="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "684="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegOrderQty valIn =
@@ -10403,11 +14301,11 @@ let ReadLegOrderQty valIn =
 
 
 let WriteLegOrderQty (strm:Stream) (valIn:LegOrderQty) = 
-    let tag = "685="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "685="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegPriceType valIn =
@@ -10416,11 +14314,11 @@ let ReadLegPriceType valIn =
 
 
 let WriteLegPriceType (strm:Stream) (valIn:LegPriceType) = 
-    let tag = "686="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "686="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegQty valIn =
@@ -10429,11 +14327,11 @@ let ReadLegQty valIn =
 
 
 let WriteLegQty (strm:Stream) (valIn:LegQty) = 
-    let tag = "687="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "687="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegStipulationType valIn =
@@ -10442,11 +14340,11 @@ let ReadLegStipulationType valIn =
 
 
 let WriteLegStipulationType (strm:Stream) (valIn:LegStipulationType) = 
-    let tag = "688="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "688="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegStipulationValue valIn =
@@ -10455,11 +14353,11 @@ let ReadLegStipulationValue valIn =
 
 
 let WriteLegStipulationValue (strm:Stream) (valIn:LegStipulationValue) = 
-    let tag = "689="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "689="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSwapType (fldValIn:string) : LegSwapType = 
@@ -10473,10 +14371,22 @@ let ReadLegSwapType (fldValIn:string) : LegSwapType =
 
 let WriteLegSwapType (strm:Stream) (xxIn:LegSwapType) =
     match xxIn with
-    | LegSwapType.ParForPar -> strm.Write "690=1"B; strm.Write (delim, 0, 1)
-    | LegSwapType.ModifiedDuration -> strm.Write "690=2"B; strm.Write (delim, 0, 1)
-    | LegSwapType.Risk -> strm.Write "690=4"B; strm.Write (delim, 0, 1)
-    | LegSwapType.Proceeds -> strm.Write "690=5"B; strm.Write (delim, 0, 1)
+    | LegSwapType.ParForPar ->
+        let tag = "690=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LegSwapType.ModifiedDuration ->
+        let tag = "690=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LegSwapType.Risk ->
+        let tag = "690=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LegSwapType.Proceeds ->
+        let tag = "690=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPool valIn =
@@ -10485,11 +14395,11 @@ let ReadPool valIn =
 
 
 let WritePool (strm:Stream) (valIn:Pool) = 
-    let tag = "691="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "691="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuotePriceType (fldValIn:string) : QuotePriceType = 
@@ -10509,16 +14419,46 @@ let ReadQuotePriceType (fldValIn:string) : QuotePriceType =
 
 let WriteQuotePriceType (strm:Stream) (xxIn:QuotePriceType) =
     match xxIn with
-    | QuotePriceType.Percent -> strm.Write "692=1"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.PerShare -> strm.Write "692=2"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.FixedAmount -> strm.Write "692=3"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.Discount -> strm.Write "692=4"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.Premium -> strm.Write "692=5"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.BasisPointsRelativeToBenchmark -> strm.Write "692=6"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.TedPrice -> strm.Write "692=7"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.TedYield -> strm.Write "692=8"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.YieldSpread -> strm.Write "692=9"B; strm.Write (delim, 0, 1)
-    | QuotePriceType.Yield -> strm.Write "692=10"B; strm.Write (delim, 0, 1)
+    | QuotePriceType.Percent ->
+        let tag = "692=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.PerShare ->
+        let tag = "692=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.FixedAmount ->
+        let tag = "692=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.Discount ->
+        let tag = "692=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.Premium ->
+        let tag = "692=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.BasisPointsRelativeToBenchmark ->
+        let tag = "692=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.TedPrice ->
+        let tag = "692=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.TedYield ->
+        let tag = "692=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.YieldSpread ->
+        let tag = "692=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuotePriceType.Yield ->
+        let tag = "692=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteRespID valIn =
@@ -10527,11 +14467,11 @@ let ReadQuoteRespID valIn =
 
 
 let WriteQuoteRespID (strm:Stream) (valIn:QuoteRespID) = 
-    let tag = "693="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "693="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadQuoteRespType (fldValIn:string) : QuoteRespType = 
@@ -10547,12 +14487,30 @@ let ReadQuoteRespType (fldValIn:string) : QuoteRespType =
 
 let WriteQuoteRespType (strm:Stream) (xxIn:QuoteRespType) =
     match xxIn with
-    | QuoteRespType.HitLift -> strm.Write "694=1"B; strm.Write (delim, 0, 1)
-    | QuoteRespType.Counter -> strm.Write "694=2"B; strm.Write (delim, 0, 1)
-    | QuoteRespType.Expired -> strm.Write "694=3"B; strm.Write (delim, 0, 1)
-    | QuoteRespType.Cover -> strm.Write "694=4"B; strm.Write (delim, 0, 1)
-    | QuoteRespType.DoneAway -> strm.Write "694=5"B; strm.Write (delim, 0, 1)
-    | QuoteRespType.Pass -> strm.Write "694=6"B; strm.Write (delim, 0, 1)
+    | QuoteRespType.HitLift ->
+        let tag = "694=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRespType.Counter ->
+        let tag = "694=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRespType.Expired ->
+        let tag = "694=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRespType.Cover ->
+        let tag = "694=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRespType.DoneAway ->
+        let tag = "694=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QuoteRespType.Pass ->
+        let tag = "694=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQuoteQualifier valIn =
@@ -10561,11 +14519,11 @@ let ReadQuoteQualifier valIn =
 
 
 let WriteQuoteQualifier (strm:Stream) (valIn:QuoteQualifier) = 
-    let tag = "695="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "695="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadYieldRedemptionDate valIn =
@@ -10574,11 +14532,11 @@ let ReadYieldRedemptionDate valIn =
 
 
 let WriteYieldRedemptionDate (strm:Stream) (valIn:YieldRedemptionDate) = 
-    let tag = "696="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "696="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadYieldRedemptionPrice valIn =
@@ -10587,11 +14545,11 @@ let ReadYieldRedemptionPrice valIn =
 
 
 let WriteYieldRedemptionPrice (strm:Stream) (valIn:YieldRedemptionPrice) = 
-    let tag = "697="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "697="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadYieldRedemptionPriceType valIn =
@@ -10600,11 +14558,11 @@ let ReadYieldRedemptionPriceType valIn =
 
 
 let WriteYieldRedemptionPriceType (strm:Stream) (valIn:YieldRedemptionPriceType) = 
-    let tag = "698="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "698="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkSecurityID valIn =
@@ -10613,11 +14571,11 @@ let ReadBenchmarkSecurityID valIn =
 
 
 let WriteBenchmarkSecurityID (strm:Stream) (valIn:BenchmarkSecurityID) = 
-    let tag = "699="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "699="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadReversalIndicator valIn =
@@ -10626,11 +14584,11 @@ let ReadReversalIndicator valIn =
 
 
 let WriteReversalIndicator (strm:Stream) (valIn:ReversalIndicator) = 
-    let tag = "700="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "700="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadYieldCalcDate valIn =
@@ -10639,11 +14597,11 @@ let ReadYieldCalcDate valIn =
 
 
 let WriteYieldCalcDate (strm:Stream) (valIn:YieldCalcDate) = 
-    let tag = "701="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "701="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoPositions valIn =
@@ -10652,11 +14610,11 @@ let ReadNoPositions valIn =
 
 
 let WriteNoPositions (strm:Stream) (valIn:NoPositions) = 
-    let tag = "702="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "702="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosType (fldValIn:string) : PosType = 
@@ -10685,25 +14643,82 @@ let ReadPosType (fldValIn:string) : PosType =
 
 let WritePosType (strm:Stream) (xxIn:PosType) =
     match xxIn with
-    | PosType.TransactionQuantity -> strm.Write "703=TQ"B; strm.Write (delim, 0, 1)
-    | PosType.IntraSpreadQty -> strm.Write "703=IAS"B; strm.Write (delim, 0, 1)
-    | PosType.InterSpreadQty -> strm.Write "703=IES"B; strm.Write (delim, 0, 1)
-    | PosType.EndOfDayQty -> strm.Write "703=FIN"B; strm.Write (delim, 0, 1)
-    | PosType.StartOfDayQty -> strm.Write "703=SOD"B; strm.Write (delim, 0, 1)
-    | PosType.OptionExerciseQty -> strm.Write "703=EX"B; strm.Write (delim, 0, 1)
-    | PosType.OptionAssignment -> strm.Write "703=AS"B; strm.Write (delim, 0, 1)
-    | PosType.TransactionFromExercise -> strm.Write "703=TX"B; strm.Write (delim, 0, 1)
-    | PosType.TransactionFromAssignment -> strm.Write "703=TA"B; strm.Write (delim, 0, 1)
-    | PosType.PitTradeQty -> strm.Write "703=PIT"B; strm.Write (delim, 0, 1)
-    | PosType.TransferTradeQty -> strm.Write "703=TRF"B; strm.Write (delim, 0, 1)
-    | PosType.ElectronicTradeQty -> strm.Write "703=ETR"B; strm.Write (delim, 0, 1)
-    | PosType.AllocationTradeQty -> strm.Write "703=ALC"B; strm.Write (delim, 0, 1)
-    | PosType.AdjustmentQty -> strm.Write "703=PA"B; strm.Write (delim, 0, 1)
-    | PosType.AsOfTradeQty -> strm.Write "703=ASF"B; strm.Write (delim, 0, 1)
-    | PosType.DeliveryQty -> strm.Write "703=DLV"B; strm.Write (delim, 0, 1)
-    | PosType.TotalTransactionQty -> strm.Write "703=TOT"B; strm.Write (delim, 0, 1)
-    | PosType.CrossMarginQty -> strm.Write "703=XM"B; strm.Write (delim, 0, 1)
-    | PosType.IntegralSplit -> strm.Write "703=SPL"B; strm.Write (delim, 0, 1)
+    | PosType.TransactionQuantity ->
+        let tag = "703=TQ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.IntraSpreadQty ->
+        let tag = "703=IAS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.InterSpreadQty ->
+        let tag = "703=IES"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.EndOfDayQty ->
+        let tag = "703=FIN"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.StartOfDayQty ->
+        let tag = "703=SOD"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.OptionExerciseQty ->
+        let tag = "703=EX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.OptionAssignment ->
+        let tag = "703=AS"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.TransactionFromExercise ->
+        let tag = "703=TX"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.TransactionFromAssignment ->
+        let tag = "703=TA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.PitTradeQty ->
+        let tag = "703=PIT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.TransferTradeQty ->
+        let tag = "703=TRF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.ElectronicTradeQty ->
+        let tag = "703=ETR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.AllocationTradeQty ->
+        let tag = "703=ALC"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.AdjustmentQty ->
+        let tag = "703=PA"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.AsOfTradeQty ->
+        let tag = "703=ASF"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.DeliveryQty ->
+        let tag = "703=DLV"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.TotalTransactionQty ->
+        let tag = "703=TOT"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.CrossMarginQty ->
+        let tag = "703=XM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosType.IntegralSplit ->
+        let tag = "703=SPL"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadLongQty valIn =
@@ -10712,11 +14727,11 @@ let ReadLongQty valIn =
 
 
 let WriteLongQty (strm:Stream) (valIn:LongQty) = 
-    let tag = "704="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "704="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadShortQty valIn =
@@ -10725,11 +14740,11 @@ let ReadShortQty valIn =
 
 
 let WriteShortQty (strm:Stream) (valIn:ShortQty) = 
-    let tag = "705="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "705="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosQtyStatus (fldValIn:string) : PosQtyStatus = 
@@ -10742,9 +14757,18 @@ let ReadPosQtyStatus (fldValIn:string) : PosQtyStatus =
 
 let WritePosQtyStatus (strm:Stream) (xxIn:PosQtyStatus) =
     match xxIn with
-    | PosQtyStatus.Submitted -> strm.Write "706=0"B; strm.Write (delim, 0, 1)
-    | PosQtyStatus.Accepted -> strm.Write "706=1"B; strm.Write (delim, 0, 1)
-    | PosQtyStatus.Rejected -> strm.Write "706=2"B; strm.Write (delim, 0, 1)
+    | PosQtyStatus.Submitted ->
+        let tag = "706=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosQtyStatus.Accepted ->
+        let tag = "706=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosQtyStatus.Rejected ->
+        let tag = "706=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosAmtType (fldValIn:string) : PosAmtType = 
@@ -10762,14 +14786,38 @@ let ReadPosAmtType (fldValIn:string) : PosAmtType =
 
 let WritePosAmtType (strm:Stream) (xxIn:PosAmtType) =
     match xxIn with
-    | PosAmtType.FinalMarkToMarketAmount -> strm.Write "707=FMTM"B; strm.Write (delim, 0, 1)
-    | PosAmtType.IncrementalMarkToMarketAmount -> strm.Write "707=IMTM"B; strm.Write (delim, 0, 1)
-    | PosAmtType.TradeVariationAmount -> strm.Write "707=TVAR"B; strm.Write (delim, 0, 1)
-    | PosAmtType.StartOfDayMarkToMarketAmount -> strm.Write "707=SMTM"B; strm.Write (delim, 0, 1)
-    | PosAmtType.PremiumAmount -> strm.Write "707=PREM"B; strm.Write (delim, 0, 1)
-    | PosAmtType.CashResidualAmount -> strm.Write "707=CRES"B; strm.Write (delim, 0, 1)
-    | PosAmtType.CashAmount -> strm.Write "707=CASH"B; strm.Write (delim, 0, 1)
-    | PosAmtType.ValueAdjustedAmount -> strm.Write "707=VADJ"B; strm.Write (delim, 0, 1)
+    | PosAmtType.FinalMarkToMarketAmount ->
+        let tag = "707=FMTM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.IncrementalMarkToMarketAmount ->
+        let tag = "707=IMTM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.TradeVariationAmount ->
+        let tag = "707=TVAR"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.StartOfDayMarkToMarketAmount ->
+        let tag = "707=SMTM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.PremiumAmount ->
+        let tag = "707=PREM"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.CashResidualAmount ->
+        let tag = "707=CRES"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.CashAmount ->
+        let tag = "707=CASH"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosAmtType.ValueAdjustedAmount ->
+        let tag = "707=VADJ"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosAmt valIn =
@@ -10778,11 +14826,11 @@ let ReadPosAmt valIn =
 
 
 let WritePosAmt (strm:Stream) (valIn:PosAmt) = 
-    let tag = "708="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "708="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosTransType (fldValIn:string) : PosTransType = 
@@ -10797,11 +14845,26 @@ let ReadPosTransType (fldValIn:string) : PosTransType =
 
 let WritePosTransType (strm:Stream) (xxIn:PosTransType) =
     match xxIn with
-    | PosTransType.Exercise -> strm.Write "709=1"B; strm.Write (delim, 0, 1)
-    | PosTransType.DoNotExercise -> strm.Write "709=2"B; strm.Write (delim, 0, 1)
-    | PosTransType.PositionAdjustment -> strm.Write "709=3"B; strm.Write (delim, 0, 1)
-    | PosTransType.PositionChangeSubmissionMarginDisposition -> strm.Write "709=4"B; strm.Write (delim, 0, 1)
-    | PosTransType.Pledge -> strm.Write "709=5"B; strm.Write (delim, 0, 1)
+    | PosTransType.Exercise ->
+        let tag = "709=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosTransType.DoNotExercise ->
+        let tag = "709=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosTransType.PositionAdjustment ->
+        let tag = "709=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosTransType.PositionChangeSubmissionMarginDisposition ->
+        let tag = "709=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosTransType.Pledge ->
+        let tag = "709=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosReqID valIn =
@@ -10810,11 +14873,11 @@ let ReadPosReqID valIn =
 
 
 let WritePosReqID (strm:Stream) (valIn:PosReqID) = 
-    let tag = "710="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "710="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoUnderlyings valIn =
@@ -10823,11 +14886,11 @@ let ReadNoUnderlyings valIn =
 
 
 let WriteNoUnderlyings (strm:Stream) (valIn:NoUnderlyings) = 
-    let tag = "711="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "711="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosMaintAction (fldValIn:string) : PosMaintAction = 
@@ -10840,9 +14903,18 @@ let ReadPosMaintAction (fldValIn:string) : PosMaintAction =
 
 let WritePosMaintAction (strm:Stream) (xxIn:PosMaintAction) =
     match xxIn with
-    | PosMaintAction.New -> strm.Write "712=1"B; strm.Write (delim, 0, 1)
-    | PosMaintAction.Replace -> strm.Write "712=2"B; strm.Write (delim, 0, 1)
-    | PosMaintAction.Cancel -> strm.Write "712=3"B; strm.Write (delim, 0, 1)
+    | PosMaintAction.New ->
+        let tag = "712=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintAction.Replace ->
+        let tag = "712=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintAction.Cancel ->
+        let tag = "712=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrigPosReqRefID valIn =
@@ -10851,11 +14923,11 @@ let ReadOrigPosReqRefID valIn =
 
 
 let WriteOrigPosReqRefID (strm:Stream) (valIn:OrigPosReqRefID) = 
-    let tag = "713="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "713="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosMaintRptRefID valIn =
@@ -10864,11 +14936,11 @@ let ReadPosMaintRptRefID valIn =
 
 
 let WritePosMaintRptRefID (strm:Stream) (valIn:PosMaintRptRefID) = 
-    let tag = "714="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "714="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadClearingBusinessDate valIn =
@@ -10877,11 +14949,11 @@ let ReadClearingBusinessDate valIn =
 
 
 let WriteClearingBusinessDate (strm:Stream) (valIn:ClearingBusinessDate) = 
-    let tag = "715="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "715="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlSessID valIn =
@@ -10890,11 +14962,11 @@ let ReadSettlSessID valIn =
 
 
 let WriteSettlSessID (strm:Stream) (valIn:SettlSessID) = 
-    let tag = "716="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "716="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlSessSubID valIn =
@@ -10903,11 +14975,11 @@ let ReadSettlSessSubID valIn =
 
 
 let WriteSettlSessSubID (strm:Stream) (valIn:SettlSessSubID) = 
-    let tag = "717="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "717="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAdjustmentType (fldValIn:string) : AdjustmentType = 
@@ -10921,10 +14993,22 @@ let ReadAdjustmentType (fldValIn:string) : AdjustmentType =
 
 let WriteAdjustmentType (strm:Stream) (xxIn:AdjustmentType) =
     match xxIn with
-    | AdjustmentType.ProcessRequestAsMarginDisposition -> strm.Write "718=0"B; strm.Write (delim, 0, 1)
-    | AdjustmentType.DeltaPlus -> strm.Write "718=1"B; strm.Write (delim, 0, 1)
-    | AdjustmentType.DeltaMinus -> strm.Write "718=2"B; strm.Write (delim, 0, 1)
-    | AdjustmentType.Final -> strm.Write "718=3"B; strm.Write (delim, 0, 1)
+    | AdjustmentType.ProcessRequestAsMarginDisposition ->
+        let tag = "718=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdjustmentType.DeltaPlus ->
+        let tag = "718=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdjustmentType.DeltaMinus ->
+        let tag = "718=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AdjustmentType.Final ->
+        let tag = "718=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadContraryInstructionIndicator valIn =
@@ -10933,11 +15017,11 @@ let ReadContraryInstructionIndicator valIn =
 
 
 let WriteContraryInstructionIndicator (strm:Stream) (valIn:ContraryInstructionIndicator) = 
-    let tag = "719="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "719="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPriorSpreadIndicator valIn =
@@ -10946,11 +15030,11 @@ let ReadPriorSpreadIndicator valIn =
 
 
 let WritePriorSpreadIndicator (strm:Stream) (valIn:PriorSpreadIndicator) = 
-    let tag = "720="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "720="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosMaintRptID valIn =
@@ -10959,11 +15043,11 @@ let ReadPosMaintRptID valIn =
 
 
 let WritePosMaintRptID (strm:Stream) (valIn:PosMaintRptID) = 
-    let tag = "721="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "721="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosMaintStatus (fldValIn:string) : PosMaintStatus = 
@@ -10978,11 +15062,26 @@ let ReadPosMaintStatus (fldValIn:string) : PosMaintStatus =
 
 let WritePosMaintStatus (strm:Stream) (xxIn:PosMaintStatus) =
     match xxIn with
-    | PosMaintStatus.Accepted -> strm.Write "722=0"B; strm.Write (delim, 0, 1)
-    | PosMaintStatus.AcceptedWithWarnings -> strm.Write "722=1"B; strm.Write (delim, 0, 1)
-    | PosMaintStatus.Rejected -> strm.Write "722=2"B; strm.Write (delim, 0, 1)
-    | PosMaintStatus.Completed -> strm.Write "722=3"B; strm.Write (delim, 0, 1)
-    | PosMaintStatus.CompletedWithWarnings -> strm.Write "722=4"B; strm.Write (delim, 0, 1)
+    | PosMaintStatus.Accepted ->
+        let tag = "722=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintStatus.AcceptedWithWarnings ->
+        let tag = "722=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintStatus.Rejected ->
+        let tag = "722=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintStatus.Completed ->
+        let tag = "722=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintStatus.CompletedWithWarnings ->
+        let tag = "722=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosMaintResult (fldValIn:string) : PosMaintResult = 
@@ -10995,9 +15094,18 @@ let ReadPosMaintResult (fldValIn:string) : PosMaintResult =
 
 let WritePosMaintResult (strm:Stream) (xxIn:PosMaintResult) =
     match xxIn with
-    | PosMaintResult.SuccessfulCompletionNoWarningsOrErrors -> strm.Write "723=0"B; strm.Write (delim, 0, 1)
-    | PosMaintResult.Rejected -> strm.Write "723=1"B; strm.Write (delim, 0, 1)
-    | PosMaintResult.Other -> strm.Write "723=99"B; strm.Write (delim, 0, 1)
+    | PosMaintResult.SuccessfulCompletionNoWarningsOrErrors ->
+        let tag = "723=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintResult.Rejected ->
+        let tag = "723=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosMaintResult.Other ->
+        let tag = "723=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosReqType (fldValIn:string) : PosReqType = 
@@ -11011,10 +15119,22 @@ let ReadPosReqType (fldValIn:string) : PosReqType =
 
 let WritePosReqType (strm:Stream) (xxIn:PosReqType) =
     match xxIn with
-    | PosReqType.Positions -> strm.Write "724=0"B; strm.Write (delim, 0, 1)
-    | PosReqType.Trades -> strm.Write "724=1"B; strm.Write (delim, 0, 1)
-    | PosReqType.Exercises -> strm.Write "724=2"B; strm.Write (delim, 0, 1)
-    | PosReqType.Assignments -> strm.Write "724=3"B; strm.Write (delim, 0, 1)
+    | PosReqType.Positions ->
+        let tag = "724=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqType.Trades ->
+        let tag = "724=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqType.Exercises ->
+        let tag = "724=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqType.Assignments ->
+        let tag = "724=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadResponseTransportType (fldValIn:string) : ResponseTransportType = 
@@ -11026,8 +15146,14 @@ let ReadResponseTransportType (fldValIn:string) : ResponseTransportType =
 
 let WriteResponseTransportType (strm:Stream) (xxIn:ResponseTransportType) =
     match xxIn with
-    | ResponseTransportType.Inband -> strm.Write "725=0"B; strm.Write (delim, 0, 1)
-    | ResponseTransportType.OutOfBand -> strm.Write "725=1"B; strm.Write (delim, 0, 1)
+    | ResponseTransportType.Inband ->
+        let tag = "725=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ResponseTransportType.OutOfBand ->
+        let tag = "725=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadResponseDestination valIn =
@@ -11036,11 +15162,11 @@ let ReadResponseDestination valIn =
 
 
 let WriteResponseDestination (strm:Stream) (valIn:ResponseDestination) = 
-    let tag = "726="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "726="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotalNumPosReports valIn =
@@ -11049,11 +15175,11 @@ let ReadTotalNumPosReports valIn =
 
 
 let WriteTotalNumPosReports (strm:Stream) (valIn:TotalNumPosReports) = 
-    let tag = "727="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "727="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPosReqResult (fldValIn:string) : PosReqResult = 
@@ -11069,12 +15195,30 @@ let ReadPosReqResult (fldValIn:string) : PosReqResult =
 
 let WritePosReqResult (strm:Stream) (xxIn:PosReqResult) =
     match xxIn with
-    | PosReqResult.ValidRequest -> strm.Write "728=0"B; strm.Write (delim, 0, 1)
-    | PosReqResult.InvalidOrUnsupportedRequest -> strm.Write "728=1"B; strm.Write (delim, 0, 1)
-    | PosReqResult.NoPositionsFoundThatMatchCriteria -> strm.Write "728=2"B; strm.Write (delim, 0, 1)
-    | PosReqResult.NotAuthorizedToRequestPositions -> strm.Write "728=3"B; strm.Write (delim, 0, 1)
-    | PosReqResult.RequestForPositionNotSupported -> strm.Write "728=4"B; strm.Write (delim, 0, 1)
-    | PosReqResult.Other -> strm.Write "728=99"B; strm.Write (delim, 0, 1)
+    | PosReqResult.ValidRequest ->
+        let tag = "728=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqResult.InvalidOrUnsupportedRequest ->
+        let tag = "728=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqResult.NoPositionsFoundThatMatchCriteria ->
+        let tag = "728=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqResult.NotAuthorizedToRequestPositions ->
+        let tag = "728=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqResult.RequestForPositionNotSupported ->
+        let tag = "728=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqResult.Other ->
+        let tag = "728=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPosReqStatus (fldValIn:string) : PosReqStatus = 
@@ -11087,9 +15231,18 @@ let ReadPosReqStatus (fldValIn:string) : PosReqStatus =
 
 let WritePosReqStatus (strm:Stream) (xxIn:PosReqStatus) =
     match xxIn with
-    | PosReqStatus.Completed -> strm.Write "729=0"B; strm.Write (delim, 0, 1)
-    | PosReqStatus.CompletedWithWarnings -> strm.Write "729=1"B; strm.Write (delim, 0, 1)
-    | PosReqStatus.Rejected -> strm.Write "729=2"B; strm.Write (delim, 0, 1)
+    | PosReqStatus.Completed ->
+        let tag = "729=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqStatus.CompletedWithWarnings ->
+        let tag = "729=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PosReqStatus.Rejected ->
+        let tag = "729=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSettlPrice valIn =
@@ -11098,11 +15251,11 @@ let ReadSettlPrice valIn =
 
 
 let WriteSettlPrice (strm:Stream) (valIn:SettlPrice) = 
-    let tag = "730="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "730="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPriceType (fldValIn:string) : SettlPriceType = 
@@ -11114,8 +15267,14 @@ let ReadSettlPriceType (fldValIn:string) : SettlPriceType =
 
 let WriteSettlPriceType (strm:Stream) (xxIn:SettlPriceType) =
     match xxIn with
-    | SettlPriceType.Final -> strm.Write "731=1"B; strm.Write (delim, 0, 1)
-    | SettlPriceType.Theoretical -> strm.Write "731=2"B; strm.Write (delim, 0, 1)
+    | SettlPriceType.Final ->
+        let tag = "731=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlPriceType.Theoretical ->
+        let tag = "731=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSettlPrice valIn =
@@ -11124,11 +15283,11 @@ let ReadUnderlyingSettlPrice valIn =
 
 
 let WriteUnderlyingSettlPrice (strm:Stream) (valIn:UnderlyingSettlPrice) = 
-    let tag = "732="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "732="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSettlPriceType valIn =
@@ -11137,11 +15296,11 @@ let ReadUnderlyingSettlPriceType valIn =
 
 
 let WriteUnderlyingSettlPriceType (strm:Stream) (valIn:UnderlyingSettlPriceType) = 
-    let tag = "733="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "733="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPriorSettlPrice valIn =
@@ -11150,11 +15309,11 @@ let ReadPriorSettlPrice valIn =
 
 
 let WritePriorSettlPrice (strm:Stream) (valIn:PriorSettlPrice) = 
-    let tag = "734="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "734="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoQuoteQualifiers valIn =
@@ -11163,11 +15322,11 @@ let ReadNoQuoteQualifiers valIn =
 
 
 let WriteNoQuoteQualifiers (strm:Stream) (valIn:NoQuoteQualifiers) = 
-    let tag = "735="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "735="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocSettlCurrency valIn =
@@ -11176,11 +15335,11 @@ let ReadAllocSettlCurrency valIn =
 
 
 let WriteAllocSettlCurrency (strm:Stream) (valIn:AllocSettlCurrency) = 
-    let tag = "736="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "736="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocSettlCurrAmt valIn =
@@ -11189,11 +15348,11 @@ let ReadAllocSettlCurrAmt valIn =
 
 
 let WriteAllocSettlCurrAmt (strm:Stream) (valIn:AllocSettlCurrAmt) = 
-    let tag = "737="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "737="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadInterestAtMaturity valIn =
@@ -11202,11 +15361,11 @@ let ReadInterestAtMaturity valIn =
 
 
 let WriteInterestAtMaturity (strm:Stream) (valIn:InterestAtMaturity) = 
-    let tag = "738="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "738="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegDatedDate valIn =
@@ -11215,11 +15374,11 @@ let ReadLegDatedDate valIn =
 
 
 let WriteLegDatedDate (strm:Stream) (valIn:LegDatedDate) = 
-    let tag = "739="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "739="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegPool valIn =
@@ -11228,11 +15387,11 @@ let ReadLegPool valIn =
 
 
 let WriteLegPool (strm:Stream) (valIn:LegPool) = 
-    let tag = "740="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "740="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocInterestAtMaturity valIn =
@@ -11241,11 +15400,11 @@ let ReadAllocInterestAtMaturity valIn =
 
 
 let WriteAllocInterestAtMaturity (strm:Stream) (valIn:AllocInterestAtMaturity) = 
-    let tag = "741="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "741="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocAccruedInterestAmt valIn =
@@ -11254,11 +15413,11 @@ let ReadAllocAccruedInterestAmt valIn =
 
 
 let WriteAllocAccruedInterestAmt (strm:Stream) (valIn:AllocAccruedInterestAmt) = 
-    let tag = "742="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "742="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeliveryDate valIn =
@@ -11267,11 +15426,11 @@ let ReadDeliveryDate valIn =
 
 
 let WriteDeliveryDate (strm:Stream) (valIn:DeliveryDate) = 
-    let tag = "743="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "743="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAssignmentMethod (fldValIn:string) : AssignmentMethod = 
@@ -11283,8 +15442,14 @@ let ReadAssignmentMethod (fldValIn:string) : AssignmentMethod =
 
 let WriteAssignmentMethod (strm:Stream) (xxIn:AssignmentMethod) =
     match xxIn with
-    | AssignmentMethod.Random -> strm.Write "744=R"B; strm.Write (delim, 0, 1)
-    | AssignmentMethod.Prorata -> strm.Write "744=P"B; strm.Write (delim, 0, 1)
+    | AssignmentMethod.Random ->
+        let tag = "744=R"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AssignmentMethod.Prorata ->
+        let tag = "744=P"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAssignmentUnit valIn =
@@ -11293,11 +15458,11 @@ let ReadAssignmentUnit valIn =
 
 
 let WriteAssignmentUnit (strm:Stream) (valIn:AssignmentUnit) = 
-    let tag = "745="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "745="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOpenInterest valIn =
@@ -11306,11 +15471,11 @@ let ReadOpenInterest valIn =
 
 
 let WriteOpenInterest (strm:Stream) (valIn:OpenInterest) = 
-    let tag = "746="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "746="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExerciseMethod (fldValIn:string) : ExerciseMethod = 
@@ -11322,8 +15487,14 @@ let ReadExerciseMethod (fldValIn:string) : ExerciseMethod =
 
 let WriteExerciseMethod (strm:Stream) (xxIn:ExerciseMethod) =
     match xxIn with
-    | ExerciseMethod.Automatic -> strm.Write "747=A"B; strm.Write (delim, 0, 1)
-    | ExerciseMethod.Manual -> strm.Write "747=M"B; strm.Write (delim, 0, 1)
+    | ExerciseMethod.Automatic ->
+        let tag = "747=A"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExerciseMethod.Manual ->
+        let tag = "747=M"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTotNumTradeReports valIn =
@@ -11332,11 +15503,11 @@ let ReadTotNumTradeReports valIn =
 
 
 let WriteTotNumTradeReports (strm:Stream) (valIn:TotNumTradeReports) = 
-    let tag = "748="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "748="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeRequestResult (fldValIn:string) : TradeRequestResult = 
@@ -11355,15 +15526,42 @@ let ReadTradeRequestResult (fldValIn:string) : TradeRequestResult =
 
 let WriteTradeRequestResult (strm:Stream) (xxIn:TradeRequestResult) =
     match xxIn with
-    | TradeRequestResult.Successful -> strm.Write "749=0"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.InvalidOrUnknownInstrument -> strm.Write "749=1"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.InvalidTypeOfTradeRequested -> strm.Write "749=2"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.InvalidParties -> strm.Write "749=3"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.InvalidTransportTypeRequested -> strm.Write "749=4"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.InvalidDestinationRequested -> strm.Write "749=5"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.TraderequesttypeNotSupported -> strm.Write "749=8"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.UnauthorizedForTradeCaptureReportRequest -> strm.Write "749=9"B; strm.Write (delim, 0, 1)
-    | TradeRequestResult.Yield -> strm.Write "749=10"B; strm.Write (delim, 0, 1)
+    | TradeRequestResult.Successful ->
+        let tag = "749=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.InvalidOrUnknownInstrument ->
+        let tag = "749=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.InvalidTypeOfTradeRequested ->
+        let tag = "749=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.InvalidParties ->
+        let tag = "749=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.InvalidTransportTypeRequested ->
+        let tag = "749=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.InvalidDestinationRequested ->
+        let tag = "749=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.TraderequesttypeNotSupported ->
+        let tag = "749=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.UnauthorizedForTradeCaptureReportRequest ->
+        let tag = "749=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestResult.Yield ->
+        let tag = "749=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeRequestStatus (fldValIn:string) : TradeRequestStatus = 
@@ -11376,9 +15574,18 @@ let ReadTradeRequestStatus (fldValIn:string) : TradeRequestStatus =
 
 let WriteTradeRequestStatus (strm:Stream) (xxIn:TradeRequestStatus) =
     match xxIn with
-    | TradeRequestStatus.Accepted -> strm.Write "750=0"B; strm.Write (delim, 0, 1)
-    | TradeRequestStatus.Completed -> strm.Write "750=1"B; strm.Write (delim, 0, 1)
-    | TradeRequestStatus.Rejected -> strm.Write "750=2"B; strm.Write (delim, 0, 1)
+    | TradeRequestStatus.Accepted ->
+        let tag = "750=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestStatus.Completed ->
+        let tag = "750=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeRequestStatus.Rejected ->
+        let tag = "750=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeReportRejectReason (fldValIn:string) : TradeReportRejectReason = 
@@ -11394,12 +15601,30 @@ let ReadTradeReportRejectReason (fldValIn:string) : TradeReportRejectReason =
 
 let WriteTradeReportRejectReason (strm:Stream) (xxIn:TradeReportRejectReason) =
     match xxIn with
-    | TradeReportRejectReason.Successful -> strm.Write "751=0"B; strm.Write (delim, 0, 1)
-    | TradeReportRejectReason.InvalidPartyInformation -> strm.Write "751=1"B; strm.Write (delim, 0, 1)
-    | TradeReportRejectReason.UnknownInstrument -> strm.Write "751=2"B; strm.Write (delim, 0, 1)
-    | TradeReportRejectReason.UnauthorizedToReportTrades -> strm.Write "751=3"B; strm.Write (delim, 0, 1)
-    | TradeReportRejectReason.InvalidTradeType -> strm.Write "751=4"B; strm.Write (delim, 0, 1)
-    | TradeReportRejectReason.Yield -> strm.Write "751=10"B; strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.Successful ->
+        let tag = "751=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.InvalidPartyInformation ->
+        let tag = "751=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.UnknownInstrument ->
+        let tag = "751=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.UnauthorizedToReportTrades ->
+        let tag = "751=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.InvalidTradeType ->
+        let tag = "751=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportRejectReason.Yield ->
+        let tag = "751=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSideMultiLegReportingType (fldValIn:string) : SideMultiLegReportingType = 
@@ -11412,9 +15637,18 @@ let ReadSideMultiLegReportingType (fldValIn:string) : SideMultiLegReportingType 
 
 let WriteSideMultiLegReportingType (strm:Stream) (xxIn:SideMultiLegReportingType) =
     match xxIn with
-    | SideMultiLegReportingType.SingleSecurity -> strm.Write "752=1"B; strm.Write (delim, 0, 1)
-    | SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity -> strm.Write "752=2"B; strm.Write (delim, 0, 1)
-    | SideMultiLegReportingType.MultiLegSecurity -> strm.Write "752=3"B; strm.Write (delim, 0, 1)
+    | SideMultiLegReportingType.SingleSecurity ->
+        let tag = "752=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity ->
+        let tag = "752=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SideMultiLegReportingType.MultiLegSecurity ->
+        let tag = "752=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoPosAmt valIn =
@@ -11423,11 +15657,11 @@ let ReadNoPosAmt valIn =
 
 
 let WriteNoPosAmt (strm:Stream) (valIn:NoPosAmt) = 
-    let tag = "753="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "753="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAutoAcceptIndicator valIn =
@@ -11436,11 +15670,11 @@ let ReadAutoAcceptIndicator valIn =
 
 
 let WriteAutoAcceptIndicator (strm:Stream) (valIn:AutoAcceptIndicator) = 
-    let tag = "754="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "754="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocReportID valIn =
@@ -11449,11 +15683,11 @@ let ReadAllocReportID valIn =
 
 
 let WriteAllocReportID (strm:Stream) (valIn:AllocReportID) = 
-    let tag = "755="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "755="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNested2PartyIDs valIn =
@@ -11462,11 +15696,11 @@ let ReadNoNested2PartyIDs valIn =
 
 
 let WriteNoNested2PartyIDs (strm:Stream) (valIn:NoNested2PartyIDs) = 
-    let tag = "756="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "756="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested2PartyID valIn =
@@ -11475,11 +15709,11 @@ let ReadNested2PartyID valIn =
 
 
 let WriteNested2PartyID (strm:Stream) (valIn:Nested2PartyID) = 
-    let tag = "757="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "757="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested2PartyIDSource valIn =
@@ -11488,11 +15722,11 @@ let ReadNested2PartyIDSource valIn =
 
 
 let WriteNested2PartyIDSource (strm:Stream) (valIn:Nested2PartyIDSource) = 
-    let tag = "758="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "758="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested2PartyRole valIn =
@@ -11501,11 +15735,11 @@ let ReadNested2PartyRole valIn =
 
 
 let WriteNested2PartyRole (strm:Stream) (valIn:Nested2PartyRole) = 
-    let tag = "759="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "759="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested2PartySubID valIn =
@@ -11514,11 +15748,11 @@ let ReadNested2PartySubID valIn =
 
 
 let WriteNested2PartySubID (strm:Stream) (valIn:Nested2PartySubID) = 
-    let tag = "760="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "760="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadBenchmarkSecurityIDSource valIn =
@@ -11527,11 +15761,11 @@ let ReadBenchmarkSecurityIDSource valIn =
 
 
 let WriteBenchmarkSecurityIDSource (strm:Stream) (valIn:BenchmarkSecurityIDSource) = 
-    let tag = "761="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "761="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecuritySubType valIn =
@@ -11540,11 +15774,11 @@ let ReadSecuritySubType valIn =
 
 
 let WriteSecuritySubType (strm:Stream) (valIn:SecuritySubType) = 
-    let tag = "762="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "762="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingSecuritySubType valIn =
@@ -11553,11 +15787,11 @@ let ReadUnderlyingSecuritySubType valIn =
 
 
 let WriteUnderlyingSecuritySubType (strm:Stream) (valIn:UnderlyingSecuritySubType) = 
-    let tag = "763="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "763="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegSecuritySubType valIn =
@@ -11566,11 +15800,11 @@ let ReadLegSecuritySubType valIn =
 
 
 let WriteLegSecuritySubType (strm:Stream) (valIn:LegSecuritySubType) = 
-    let tag = "764="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "764="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllowableOneSidednessPct valIn =
@@ -11579,11 +15813,11 @@ let ReadAllowableOneSidednessPct valIn =
 
 
 let WriteAllowableOneSidednessPct (strm:Stream) (valIn:AllowableOneSidednessPct) = 
-    let tag = "765="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "765="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllowableOneSidednessValue valIn =
@@ -11592,11 +15826,11 @@ let ReadAllowableOneSidednessValue valIn =
 
 
 let WriteAllowableOneSidednessValue (strm:Stream) (valIn:AllowableOneSidednessValue) = 
-    let tag = "766="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "766="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllowableOneSidednessCurr valIn =
@@ -11605,11 +15839,11 @@ let ReadAllowableOneSidednessCurr valIn =
 
 
 let WriteAllowableOneSidednessCurr (strm:Stream) (valIn:AllowableOneSidednessCurr) = 
-    let tag = "767="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "767="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoTrdRegTimestamps valIn =
@@ -11618,11 +15852,11 @@ let ReadNoTrdRegTimestamps valIn =
 
 
 let WriteNoTrdRegTimestamps (strm:Stream) (valIn:NoTrdRegTimestamps) = 
-    let tag = "768="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "768="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTrdRegTimestamp valIn =
@@ -11631,11 +15865,11 @@ let ReadTrdRegTimestamp valIn =
 
 
 let WriteTrdRegTimestamp (strm:Stream) (valIn:TrdRegTimestamp) = 
-    let tag = "769="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "769="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTrdRegTimestampType (fldValIn:string) : TrdRegTimestampType = 
@@ -11650,11 +15884,26 @@ let ReadTrdRegTimestampType (fldValIn:string) : TrdRegTimestampType =
 
 let WriteTrdRegTimestampType (strm:Stream) (xxIn:TrdRegTimestampType) =
     match xxIn with
-    | TrdRegTimestampType.ExecutionTime -> strm.Write "770=1"B; strm.Write (delim, 0, 1)
-    | TrdRegTimestampType.TimeIn -> strm.Write "770=2"B; strm.Write (delim, 0, 1)
-    | TrdRegTimestampType.TimeOut -> strm.Write "770=3"B; strm.Write (delim, 0, 1)
-    | TrdRegTimestampType.BrokerReceipt -> strm.Write "770=4"B; strm.Write (delim, 0, 1)
-    | TrdRegTimestampType.BrokerExecution -> strm.Write "770=5"B; strm.Write (delim, 0, 1)
+    | TrdRegTimestampType.ExecutionTime ->
+        let tag = "770=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdRegTimestampType.TimeIn ->
+        let tag = "770=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdRegTimestampType.TimeOut ->
+        let tag = "770=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdRegTimestampType.BrokerReceipt ->
+        let tag = "770=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdRegTimestampType.BrokerExecution ->
+        let tag = "770=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTrdRegTimestampOrigin valIn =
@@ -11663,11 +15912,11 @@ let ReadTrdRegTimestampOrigin valIn =
 
 
 let WriteTrdRegTimestampOrigin (strm:Stream) (valIn:TrdRegTimestampOrigin) = 
-    let tag = "771="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "771="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConfirmRefID valIn =
@@ -11676,11 +15925,11 @@ let ReadConfirmRefID valIn =
 
 
 let WriteConfirmRefID (strm:Stream) (valIn:ConfirmRefID) = 
-    let tag = "772="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "772="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConfirmType (fldValIn:string) : ConfirmType = 
@@ -11693,9 +15942,18 @@ let ReadConfirmType (fldValIn:string) : ConfirmType =
 
 let WriteConfirmType (strm:Stream) (xxIn:ConfirmType) =
     match xxIn with
-    | ConfirmType.Status -> strm.Write "773=1"B; strm.Write (delim, 0, 1)
-    | ConfirmType.Confirmation -> strm.Write "773=2"B; strm.Write (delim, 0, 1)
-    | ConfirmType.ConfirmationRequestRejected -> strm.Write "773=3"B; strm.Write (delim, 0, 1)
+    | ConfirmType.Status ->
+        let tag = "773=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmType.Confirmation ->
+        let tag = "773=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmType.ConfirmationRequestRejected ->
+        let tag = "773=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadConfirmRejReason (fldValIn:string) : ConfirmRejReason = 
@@ -11708,9 +15966,18 @@ let ReadConfirmRejReason (fldValIn:string) : ConfirmRejReason =
 
 let WriteConfirmRejReason (strm:Stream) (xxIn:ConfirmRejReason) =
     match xxIn with
-    | ConfirmRejReason.MismatchedAccount -> strm.Write "774=1"B; strm.Write (delim, 0, 1)
-    | ConfirmRejReason.MissingSettlementInstructions -> strm.Write "774=2"B; strm.Write (delim, 0, 1)
-    | ConfirmRejReason.Other -> strm.Write "774=99"B; strm.Write (delim, 0, 1)
+    | ConfirmRejReason.MismatchedAccount ->
+        let tag = "774=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmRejReason.MissingSettlementInstructions ->
+        let tag = "774=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ConfirmRejReason.Other ->
+        let tag = "774=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadBookingType (fldValIn:string) : BookingType = 
@@ -11723,9 +15990,18 @@ let ReadBookingType (fldValIn:string) : BookingType =
 
 let WriteBookingType (strm:Stream) (xxIn:BookingType) =
     match xxIn with
-    | BookingType.RegularBooking -> strm.Write "775=0"B; strm.Write (delim, 0, 1)
-    | BookingType.Cfd -> strm.Write "775=1"B; strm.Write (delim, 0, 1)
-    | BookingType.TotalReturnSwap -> strm.Write "775=2"B; strm.Write (delim, 0, 1)
+    | BookingType.RegularBooking ->
+        let tag = "775=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BookingType.Cfd ->
+        let tag = "775=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | BookingType.TotalReturnSwap ->
+        let tag = "775=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadIndividualAllocRejCode valIn =
@@ -11734,11 +16010,11 @@ let ReadIndividualAllocRejCode valIn =
 
 
 let WriteIndividualAllocRejCode (strm:Stream) (valIn:IndividualAllocRejCode) = 
-    let tag = "776="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "776="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstMsgID valIn =
@@ -11747,11 +16023,11 @@ let ReadSettlInstMsgID valIn =
 
 
 let WriteSettlInstMsgID (strm:Stream) (valIn:SettlInstMsgID) = 
-    let tag = "777="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "777="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoSettlInst valIn =
@@ -11760,11 +16036,11 @@ let ReadNoSettlInst valIn =
 
 
 let WriteNoSettlInst (strm:Stream) (valIn:NoSettlInst) = 
-    let tag = "778="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "778="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastUpdateTime valIn =
@@ -11773,11 +16049,11 @@ let ReadLastUpdateTime valIn =
 
 
 let WriteLastUpdateTime (strm:Stream) (valIn:LastUpdateTime) = 
-    let tag = "779="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "779="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocSettlInstType (fldValIn:string) : AllocSettlInstType = 
@@ -11792,11 +16068,26 @@ let ReadAllocSettlInstType (fldValIn:string) : AllocSettlInstType =
 
 let WriteAllocSettlInstType (strm:Stream) (xxIn:AllocSettlInstType) =
     match xxIn with
-    | AllocSettlInstType.UseDefaultInstructions -> strm.Write "780=0"B; strm.Write (delim, 0, 1)
-    | AllocSettlInstType.DeriveFromParametersProvided -> strm.Write "780=1"B; strm.Write (delim, 0, 1)
-    | AllocSettlInstType.FullDetailsProvided -> strm.Write "780=2"B; strm.Write (delim, 0, 1)
-    | AllocSettlInstType.SsiDbIdsProvided -> strm.Write "780=3"B; strm.Write (delim, 0, 1)
-    | AllocSettlInstType.PhoneForInstructions -> strm.Write "780=4"B; strm.Write (delim, 0, 1)
+    | AllocSettlInstType.UseDefaultInstructions ->
+        let tag = "780=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocSettlInstType.DeriveFromParametersProvided ->
+        let tag = "780=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocSettlInstType.FullDetailsProvided ->
+        let tag = "780=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocSettlInstType.SsiDbIdsProvided ->
+        let tag = "780=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocSettlInstType.PhoneForInstructions ->
+        let tag = "780=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoSettlPartyIDs valIn =
@@ -11805,11 +16096,11 @@ let ReadNoSettlPartyIDs valIn =
 
 
 let WriteNoSettlPartyIDs (strm:Stream) (valIn:NoSettlPartyIDs) = 
-    let tag = "781="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "781="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPartyID valIn =
@@ -11818,11 +16109,11 @@ let ReadSettlPartyID valIn =
 
 
 let WriteSettlPartyID (strm:Stream) (valIn:SettlPartyID) = 
-    let tag = "782="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "782="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPartyIDSource valIn =
@@ -11831,11 +16122,11 @@ let ReadSettlPartyIDSource valIn =
 
 
 let WriteSettlPartyIDSource (strm:Stream) (valIn:SettlPartyIDSource) = 
-    let tag = "783="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "783="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPartyRole valIn =
@@ -11844,11 +16135,11 @@ let ReadSettlPartyRole valIn =
 
 
 let WriteSettlPartyRole (strm:Stream) (valIn:SettlPartyRole) = 
-    let tag = "784="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "784="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPartySubID valIn =
@@ -11857,11 +16148,11 @@ let ReadSettlPartySubID valIn =
 
 
 let WriteSettlPartySubID (strm:Stream) (valIn:SettlPartySubID) = 
-    let tag = "785="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "785="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlPartySubIDType valIn =
@@ -11870,11 +16161,11 @@ let ReadSettlPartySubIDType valIn =
 
 
 let WriteSettlPartySubIDType (strm:Stream) (valIn:SettlPartySubIDType) = 
-    let tag = "786="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "786="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDlvyInstType (fldValIn:string) : DlvyInstType = 
@@ -11886,8 +16177,14 @@ let ReadDlvyInstType (fldValIn:string) : DlvyInstType =
 
 let WriteDlvyInstType (strm:Stream) (xxIn:DlvyInstType) =
     match xxIn with
-    | DlvyInstType.Securities -> strm.Write "787=S"B; strm.Write (delim, 0, 1)
-    | DlvyInstType.Cash -> strm.Write "787=C"B; strm.Write (delim, 0, 1)
+    | DlvyInstType.Securities ->
+        let tag = "787=S"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DlvyInstType.Cash ->
+        let tag = "787=C"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTerminationType (fldValIn:string) : TerminationType = 
@@ -11901,10 +16198,22 @@ let ReadTerminationType (fldValIn:string) : TerminationType =
 
 let WriteTerminationType (strm:Stream) (xxIn:TerminationType) =
     match xxIn with
-    | TerminationType.Overnight -> strm.Write "788=1"B; strm.Write (delim, 0, 1)
-    | TerminationType.Term -> strm.Write "788=2"B; strm.Write (delim, 0, 1)
-    | TerminationType.Flexible -> strm.Write "788=3"B; strm.Write (delim, 0, 1)
-    | TerminationType.Open -> strm.Write "788=4"B; strm.Write (delim, 0, 1)
+    | TerminationType.Overnight ->
+        let tag = "788=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TerminationType.Term ->
+        let tag = "788=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TerminationType.Flexible ->
+        let tag = "788=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TerminationType.Open ->
+        let tag = "788=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNextExpectedMsgSeqNum valIn =
@@ -11913,11 +16222,11 @@ let ReadNextExpectedMsgSeqNum valIn =
 
 
 let WriteNextExpectedMsgSeqNum (strm:Stream) (valIn:NextExpectedMsgSeqNum) = 
-    let tag = "789="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "789="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrdStatusReqID valIn =
@@ -11926,11 +16235,11 @@ let ReadOrdStatusReqID valIn =
 
 
 let WriteOrdStatusReqID (strm:Stream) (valIn:OrdStatusReqID) = 
-    let tag = "790="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "790="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstReqID valIn =
@@ -11939,11 +16248,11 @@ let ReadSettlInstReqID valIn =
 
 
 let WriteSettlInstReqID (strm:Stream) (valIn:SettlInstReqID) = 
-    let tag = "791="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "791="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSettlInstReqRejCode (fldValIn:string) : SettlInstReqRejCode = 
@@ -11957,10 +16266,22 @@ let ReadSettlInstReqRejCode (fldValIn:string) : SettlInstReqRejCode =
 
 let WriteSettlInstReqRejCode (strm:Stream) (xxIn:SettlInstReqRejCode) =
     match xxIn with
-    | SettlInstReqRejCode.UnableToProcessRequest -> strm.Write "792=0"B; strm.Write (delim, 0, 1)
-    | SettlInstReqRejCode.UnknownAccount -> strm.Write "792=1"B; strm.Write (delim, 0, 1)
-    | SettlInstReqRejCode.NoMatchingSettlementInstructionsFound -> strm.Write "792=2"B; strm.Write (delim, 0, 1)
-    | SettlInstReqRejCode.Other -> strm.Write "792=99"B; strm.Write (delim, 0, 1)
+    | SettlInstReqRejCode.UnableToProcessRequest ->
+        let tag = "792=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstReqRejCode.UnknownAccount ->
+        let tag = "792=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstReqRejCode.NoMatchingSettlementInstructionsFound ->
+        let tag = "792=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | SettlInstReqRejCode.Other ->
+        let tag = "792=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryAllocID valIn =
@@ -11969,11 +16290,11 @@ let ReadSecondaryAllocID valIn =
 
 
 let WriteSecondaryAllocID (strm:Stream) (valIn:SecondaryAllocID) = 
-    let tag = "793="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "793="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocReportType (fldValIn:string) : AllocReportType = 
@@ -11987,10 +16308,22 @@ let ReadAllocReportType (fldValIn:string) : AllocReportType =
 
 let WriteAllocReportType (strm:Stream) (xxIn:AllocReportType) =
     match xxIn with
-    | AllocReportType.SellsideCalculatedUsingPreliminary -> strm.Write "794=3"B; strm.Write (delim, 0, 1)
-    | AllocReportType.SellsideCalculatedWithoutPreliminary -> strm.Write "794=4"B; strm.Write (delim, 0, 1)
-    | AllocReportType.WarehouseRecap -> strm.Write "794=5"B; strm.Write (delim, 0, 1)
-    | AllocReportType.RequestToIntermediary -> strm.Write "794=8"B; strm.Write (delim, 0, 1)
+    | AllocReportType.SellsideCalculatedUsingPreliminary ->
+        let tag = "794=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocReportType.SellsideCalculatedWithoutPreliminary ->
+        let tag = "794=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocReportType.WarehouseRecap ->
+        let tag = "794=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocReportType.RequestToIntermediary ->
+        let tag = "794=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAllocReportRefID valIn =
@@ -11999,11 +16332,11 @@ let ReadAllocReportRefID valIn =
 
 
 let WriteAllocReportRefID (strm:Stream) (valIn:AllocReportRefID) = 
-    let tag = "795="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "795="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocCancReplaceReason (fldValIn:string) : AllocCancReplaceReason = 
@@ -12015,8 +16348,14 @@ let ReadAllocCancReplaceReason (fldValIn:string) : AllocCancReplaceReason =
 
 let WriteAllocCancReplaceReason (strm:Stream) (xxIn:AllocCancReplaceReason) =
     match xxIn with
-    | AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect -> strm.Write "796=1"B; strm.Write (delim, 0, 1)
-    | AllocCancReplaceReason.ChangeInUnderlyingOrderDetails -> strm.Write "796=2"B; strm.Write (delim, 0, 1)
+    | AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect ->
+        let tag = "796=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocCancReplaceReason.ChangeInUnderlyingOrderDetails ->
+        let tag = "796=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCopyMsgIndicator valIn =
@@ -12025,11 +16364,11 @@ let ReadCopyMsgIndicator valIn =
 
 
 let WriteCopyMsgIndicator (strm:Stream) (valIn:CopyMsgIndicator) = 
-    let tag = "797="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "797="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocAccountType (fldValIn:string) : AllocAccountType = 
@@ -12046,13 +16385,34 @@ let ReadAllocAccountType (fldValIn:string) : AllocAccountType =
 
 let WriteAllocAccountType (strm:Stream) (xxIn:AllocAccountType) =
     match xxIn with
-    | AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks -> strm.Write "798=1"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks -> strm.Write "798=2"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.HouseTrader -> strm.Write "798=3"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.FloorTrader -> strm.Write "798=4"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined -> strm.Write "798=6"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.AccountIsHouseTraderAndIsCrossMargined -> strm.Write "798=7"B; strm.Write (delim, 0, 1)
-    | AllocAccountType.JointBackofficeAccount -> strm.Write "798=8"B; strm.Write (delim, 0, 1)
+    | AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks ->
+        let tag = "798=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks ->
+        let tag = "798=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.HouseTrader ->
+        let tag = "798=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.FloorTrader ->
+        let tag = "798=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined ->
+        let tag = "798=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.AccountIsHouseTraderAndIsCrossMargined ->
+        let tag = "798=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocAccountType.JointBackofficeAccount ->
+        let tag = "798=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadOrderAvgPx valIn =
@@ -12061,11 +16421,11 @@ let ReadOrderAvgPx valIn =
 
 
 let WriteOrderAvgPx (strm:Stream) (valIn:OrderAvgPx) = 
-    let tag = "799="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "799="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderBookingQty valIn =
@@ -12074,11 +16434,11 @@ let ReadOrderBookingQty valIn =
 
 
 let WriteOrderBookingQty (strm:Stream) (valIn:OrderBookingQty) = 
-    let tag = "800="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "800="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoSettlPartySubIDs valIn =
@@ -12087,11 +16447,11 @@ let ReadNoSettlPartySubIDs valIn =
 
 
 let WriteNoSettlPartySubIDs (strm:Stream) (valIn:NoSettlPartySubIDs) = 
-    let tag = "801="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "801="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoPartySubIDs valIn =
@@ -12100,11 +16460,11 @@ let ReadNoPartySubIDs valIn =
 
 
 let WriteNoPartySubIDs (strm:Stream) (valIn:NoPartySubIDs) = 
-    let tag = "802="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "802="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPartySubIDType valIn =
@@ -12113,11 +16473,11 @@ let ReadPartySubIDType valIn =
 
 
 let WritePartySubIDType (strm:Stream) (valIn:PartySubIDType) = 
-    let tag = "803="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "803="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNestedPartySubIDs valIn =
@@ -12126,11 +16486,11 @@ let ReadNoNestedPartySubIDs valIn =
 
 
 let WriteNoNestedPartySubIDs (strm:Stream) (valIn:NoNestedPartySubIDs) = 
-    let tag = "804="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "804="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNestedPartySubIDType valIn =
@@ -12139,11 +16499,11 @@ let ReadNestedPartySubIDType valIn =
 
 
 let WriteNestedPartySubIDType (strm:Stream) (valIn:NestedPartySubIDType) = 
-    let tag = "805="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "805="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNested2PartySubIDs valIn =
@@ -12152,11 +16512,11 @@ let ReadNoNested2PartySubIDs valIn =
 
 
 let WriteNoNested2PartySubIDs (strm:Stream) (valIn:NoNested2PartySubIDs) = 
-    let tag = "806="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "806="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested2PartySubIDType valIn =
@@ -12165,11 +16525,11 @@ let ReadNested2PartySubIDType valIn =
 
 
 let WriteNested2PartySubIDType (strm:Stream) (valIn:Nested2PartySubIDType) = 
-    let tag = "807="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "807="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAllocIntermedReqType (fldValIn:string) : AllocIntermedReqType = 
@@ -12185,12 +16545,30 @@ let ReadAllocIntermedReqType (fldValIn:string) : AllocIntermedReqType =
 
 let WriteAllocIntermedReqType (strm:Stream) (xxIn:AllocIntermedReqType) =
     match xxIn with
-    | AllocIntermedReqType.PendingAccept -> strm.Write "808=1"B; strm.Write (delim, 0, 1)
-    | AllocIntermedReqType.PendingRelease -> strm.Write "808=2"B; strm.Write (delim, 0, 1)
-    | AllocIntermedReqType.PendingReversal -> strm.Write "808=3"B; strm.Write (delim, 0, 1)
-    | AllocIntermedReqType.Accept -> strm.Write "808=4"B; strm.Write (delim, 0, 1)
-    | AllocIntermedReqType.BlockLevelReject -> strm.Write "808=5"B; strm.Write (delim, 0, 1)
-    | AllocIntermedReqType.AccountLevelReject -> strm.Write "808=6"B; strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.PendingAccept ->
+        let tag = "808=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.PendingRelease ->
+        let tag = "808=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.PendingReversal ->
+        let tag = "808=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.Accept ->
+        let tag = "808=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.BlockLevelReject ->
+        let tag = "808=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocIntermedReqType.AccountLevelReject ->
+        let tag = "808=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingPx valIn =
@@ -12199,11 +16577,11 @@ let ReadUnderlyingPx valIn =
 
 
 let WriteUnderlyingPx (strm:Stream) (valIn:UnderlyingPx) = 
-    let tag = "810="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "810="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPriceDelta valIn =
@@ -12212,11 +16590,11 @@ let ReadPriceDelta valIn =
 
 
 let WritePriceDelta (strm:Stream) (valIn:PriceDelta) = 
-    let tag = "811="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "811="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadApplQueueMax valIn =
@@ -12225,11 +16603,11 @@ let ReadApplQueueMax valIn =
 
 
 let WriteApplQueueMax (strm:Stream) (valIn:ApplQueueMax) = 
-    let tag = "812="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "812="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadApplQueueDepth valIn =
@@ -12238,11 +16616,11 @@ let ReadApplQueueDepth valIn =
 
 
 let WriteApplQueueDepth (strm:Stream) (valIn:ApplQueueDepth) = 
-    let tag = "813="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "813="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadApplQueueResolution (fldValIn:string) : ApplQueueResolution = 
@@ -12256,10 +16634,22 @@ let ReadApplQueueResolution (fldValIn:string) : ApplQueueResolution =
 
 let WriteApplQueueResolution (strm:Stream) (xxIn:ApplQueueResolution) =
     match xxIn with
-    | ApplQueueResolution.NoActionTaken -> strm.Write "814=0"B; strm.Write (delim, 0, 1)
-    | ApplQueueResolution.QueueFlushed -> strm.Write "814=1"B; strm.Write (delim, 0, 1)
-    | ApplQueueResolution.OverlayLast -> strm.Write "814=2"B; strm.Write (delim, 0, 1)
-    | ApplQueueResolution.EndSession -> strm.Write "814=3"B; strm.Write (delim, 0, 1)
+    | ApplQueueResolution.NoActionTaken ->
+        let tag = "814=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueResolution.QueueFlushed ->
+        let tag = "814=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueResolution.OverlayLast ->
+        let tag = "814=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueResolution.EndSession ->
+        let tag = "814=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadApplQueueAction (fldValIn:string) : ApplQueueAction = 
@@ -12273,10 +16663,22 @@ let ReadApplQueueAction (fldValIn:string) : ApplQueueAction =
 
 let WriteApplQueueAction (strm:Stream) (xxIn:ApplQueueAction) =
     match xxIn with
-    | ApplQueueAction.NoActionTaken -> strm.Write "815=0"B; strm.Write (delim, 0, 1)
-    | ApplQueueAction.QueueFlushed -> strm.Write "815=1"B; strm.Write (delim, 0, 1)
-    | ApplQueueAction.OverlayLast -> strm.Write "815=2"B; strm.Write (delim, 0, 1)
-    | ApplQueueAction.EndSession -> strm.Write "815=3"B; strm.Write (delim, 0, 1)
+    | ApplQueueAction.NoActionTaken ->
+        let tag = "815=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueAction.QueueFlushed ->
+        let tag = "815=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueAction.OverlayLast ->
+        let tag = "815=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ApplQueueAction.EndSession ->
+        let tag = "815=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoAltMDSource valIn =
@@ -12285,11 +16687,11 @@ let ReadNoAltMDSource valIn =
 
 
 let WriteNoAltMDSource (strm:Stream) (valIn:NoAltMDSource) = 
-    let tag = "816="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "816="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAltMDSourceID valIn =
@@ -12298,11 +16700,11 @@ let ReadAltMDSourceID valIn =
 
 
 let WriteAltMDSourceID (strm:Stream) (valIn:AltMDSourceID) = 
-    let tag = "817="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "817="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryTradeReportID valIn =
@@ -12311,11 +16713,11 @@ let ReadSecondaryTradeReportID valIn =
 
 
 let WriteSecondaryTradeReportID (strm:Stream) (valIn:SecondaryTradeReportID) = 
-    let tag = "818="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "818="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAvgPxIndicator (fldValIn:string) : AvgPxIndicator = 
@@ -12328,9 +16730,18 @@ let ReadAvgPxIndicator (fldValIn:string) : AvgPxIndicator =
 
 let WriteAvgPxIndicator (strm:Stream) (xxIn:AvgPxIndicator) =
     match xxIn with
-    | AvgPxIndicator.NoAveragePricing -> strm.Write "819=0"B; strm.Write (delim, 0, 1)
-    | AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid -> strm.Write "819=1"B; strm.Write (delim, 0, 1)
-    | AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid -> strm.Write "819=2"B; strm.Write (delim, 0, 1)
+    | AvgPxIndicator.NoAveragePricing ->
+        let tag = "819=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid ->
+        let tag = "819=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid ->
+        let tag = "819=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTradeLinkID valIn =
@@ -12339,11 +16750,11 @@ let ReadTradeLinkID valIn =
 
 
 let WriteTradeLinkID (strm:Stream) (valIn:TradeLinkID) = 
-    let tag = "820="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "820="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderInputDevice valIn =
@@ -12352,11 +16763,11 @@ let ReadOrderInputDevice valIn =
 
 
 let WriteOrderInputDevice (strm:Stream) (valIn:OrderInputDevice) = 
-    let tag = "821="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "821="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingTradingSessionID valIn =
@@ -12365,11 +16776,11 @@ let ReadUnderlyingTradingSessionID valIn =
 
 
 let WriteUnderlyingTradingSessionID (strm:Stream) (valIn:UnderlyingTradingSessionID) = 
-    let tag = "822="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "822="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingTradingSessionSubID valIn =
@@ -12378,11 +16789,11 @@ let ReadUnderlyingTradingSessionSubID valIn =
 
 
 let WriteUnderlyingTradingSessionSubID (strm:Stream) (valIn:UnderlyingTradingSessionSubID) = 
-    let tag = "823="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "823="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeLegRefID valIn =
@@ -12391,11 +16802,11 @@ let ReadTradeLegRefID valIn =
 
 
 let WriteTradeLegRefID (strm:Stream) (valIn:TradeLegRefID) = 
-    let tag = "824="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "824="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadExchangeRule valIn =
@@ -12404,11 +16815,11 @@ let ReadExchangeRule valIn =
 
 
 let WriteExchangeRule (strm:Stream) (valIn:ExchangeRule) = 
-    let tag = "825="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "825="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeAllocIndicator (fldValIn:string) : TradeAllocIndicator = 
@@ -12421,9 +16832,18 @@ let ReadTradeAllocIndicator (fldValIn:string) : TradeAllocIndicator =
 
 let WriteTradeAllocIndicator (strm:Stream) (xxIn:TradeAllocIndicator) =
     match xxIn with
-    | TradeAllocIndicator.AllocationNotRequired -> strm.Write "826=0"B; strm.Write (delim, 0, 1)
-    | TradeAllocIndicator.AllocationRequired -> strm.Write "826=1"B; strm.Write (delim, 0, 1)
-    | TradeAllocIndicator.UseAllocationProvidedWithTheTrade -> strm.Write "826=2"B; strm.Write (delim, 0, 1)
+    | TradeAllocIndicator.AllocationNotRequired ->
+        let tag = "826=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeAllocIndicator.AllocationRequired ->
+        let tag = "826=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeAllocIndicator.UseAllocationProvidedWithTheTrade ->
+        let tag = "826=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadExpirationCycle (fldValIn:string) : ExpirationCycle = 
@@ -12435,8 +16855,14 @@ let ReadExpirationCycle (fldValIn:string) : ExpirationCycle =
 
 let WriteExpirationCycle (strm:Stream) (xxIn:ExpirationCycle) =
     match xxIn with
-    | ExpirationCycle.ExpireOnTradingSessionClose -> strm.Write "827=0"B; strm.Write (delim, 0, 1)
-    | ExpirationCycle.ExpireOnTradingSessionOpen -> strm.Write "827=1"B; strm.Write (delim, 0, 1)
+    | ExpirationCycle.ExpireOnTradingSessionClose ->
+        let tag = "827=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ExpirationCycle.ExpireOnTradingSessionOpen ->
+        let tag = "827=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTrdType (fldValIn:string) : TrdType = 
@@ -12457,17 +16883,50 @@ let ReadTrdType (fldValIn:string) : TrdType =
 
 let WriteTrdType (strm:Stream) (xxIn:TrdType) =
     match xxIn with
-    | TrdType.RegularTrade -> strm.Write "828=0"B; strm.Write (delim, 0, 1)
-    | TrdType.BlockTrade -> strm.Write "828=1"B; strm.Write (delim, 0, 1)
-    | TrdType.Efp -> strm.Write "828=2"B; strm.Write (delim, 0, 1)
-    | TrdType.Transfer -> strm.Write "828=3"B; strm.Write (delim, 0, 1)
-    | TrdType.LateTrade -> strm.Write "828=4"B; strm.Write (delim, 0, 1)
-    | TrdType.TTrade -> strm.Write "828=5"B; strm.Write (delim, 0, 1)
-    | TrdType.WeightedAveragePriceTrade -> strm.Write "828=6"B; strm.Write (delim, 0, 1)
-    | TrdType.BunchedTrade -> strm.Write "828=7"B; strm.Write (delim, 0, 1)
-    | TrdType.LateBunchedTrade -> strm.Write "828=8"B; strm.Write (delim, 0, 1)
-    | TrdType.PriorReferencePriceTrade -> strm.Write "828=9"B; strm.Write (delim, 0, 1)
-    | TrdType.AfterHoursTrade -> strm.Write "828=10"B; strm.Write (delim, 0, 1)
+    | TrdType.RegularTrade ->
+        let tag = "828=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.BlockTrade ->
+        let tag = "828=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.Efp ->
+        let tag = "828=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.Transfer ->
+        let tag = "828=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.LateTrade ->
+        let tag = "828=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.TTrade ->
+        let tag = "828=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.WeightedAveragePriceTrade ->
+        let tag = "828=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.BunchedTrade ->
+        let tag = "828=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.LateBunchedTrade ->
+        let tag = "828=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.PriorReferencePriceTrade ->
+        let tag = "828=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdType.AfterHoursTrade ->
+        let tag = "828=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTrdSubType valIn =
@@ -12476,11 +16935,11 @@ let ReadTrdSubType valIn =
 
 
 let WriteTrdSubType (strm:Stream) (valIn:TrdSubType) = 
-    let tag = "829="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "829="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTransferReason valIn =
@@ -12489,11 +16948,11 @@ let ReadTransferReason valIn =
 
 
 let WriteTransferReason (strm:Stream) (valIn:TransferReason) = 
-    let tag = "830="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "830="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAsgnReqID valIn =
@@ -12502,11 +16961,11 @@ let ReadAsgnReqID valIn =
 
 
 let WriteAsgnReqID (strm:Stream) (valIn:AsgnReqID) = 
-    let tag = "831="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "831="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotNumAssignmentReports valIn =
@@ -12515,11 +16974,11 @@ let ReadTotNumAssignmentReports valIn =
 
 
 let WriteTotNumAssignmentReports (strm:Stream) (valIn:TotNumAssignmentReports) = 
-    let tag = "832="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "832="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAsgnRptID valIn =
@@ -12528,11 +16987,11 @@ let ReadAsgnRptID valIn =
 
 
 let WriteAsgnRptID (strm:Stream) (valIn:AsgnRptID) = 
-    let tag = "833="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "833="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadThresholdAmount valIn =
@@ -12541,11 +17000,11 @@ let ReadThresholdAmount valIn =
 
 
 let WriteThresholdAmount (strm:Stream) (valIn:ThresholdAmount) = 
-    let tag = "834="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "834="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPegMoveType (fldValIn:string) : PegMoveType = 
@@ -12557,8 +17016,14 @@ let ReadPegMoveType (fldValIn:string) : PegMoveType =
 
 let WritePegMoveType (strm:Stream) (xxIn:PegMoveType) =
     match xxIn with
-    | PegMoveType.Floating -> strm.Write "835=0"B; strm.Write (delim, 0, 1)
-    | PegMoveType.Fixed -> strm.Write "835=1"B; strm.Write (delim, 0, 1)
+    | PegMoveType.Floating ->
+        let tag = "835=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegMoveType.Fixed ->
+        let tag = "835=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPegOffsetType (fldValIn:string) : PegOffsetType = 
@@ -12572,10 +17037,22 @@ let ReadPegOffsetType (fldValIn:string) : PegOffsetType =
 
 let WritePegOffsetType (strm:Stream) (xxIn:PegOffsetType) =
     match xxIn with
-    | PegOffsetType.Price -> strm.Write "836=0"B; strm.Write (delim, 0, 1)
-    | PegOffsetType.BasisPoints -> strm.Write "836=1"B; strm.Write (delim, 0, 1)
-    | PegOffsetType.Ticks -> strm.Write "836=2"B; strm.Write (delim, 0, 1)
-    | PegOffsetType.PriceTierLevel -> strm.Write "836=3"B; strm.Write (delim, 0, 1)
+    | PegOffsetType.Price ->
+        let tag = "836=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegOffsetType.BasisPoints ->
+        let tag = "836=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegOffsetType.Ticks ->
+        let tag = "836=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegOffsetType.PriceTierLevel ->
+        let tag = "836=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPegLimitType (fldValIn:string) : PegLimitType = 
@@ -12588,9 +17065,18 @@ let ReadPegLimitType (fldValIn:string) : PegLimitType =
 
 let WritePegLimitType (strm:Stream) (xxIn:PegLimitType) =
     match xxIn with
-    | PegLimitType.OrBetter -> strm.Write "837=0"B; strm.Write (delim, 0, 1)
-    | PegLimitType.Strict -> strm.Write "837=1"B; strm.Write (delim, 0, 1)
-    | PegLimitType.OrWorse -> strm.Write "837=2"B; strm.Write (delim, 0, 1)
+    | PegLimitType.OrBetter ->
+        let tag = "837=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegLimitType.Strict ->
+        let tag = "837=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegLimitType.OrWorse ->
+        let tag = "837=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPegRoundDirection (fldValIn:string) : PegRoundDirection = 
@@ -12602,8 +17088,14 @@ let ReadPegRoundDirection (fldValIn:string) : PegRoundDirection =
 
 let WritePegRoundDirection (strm:Stream) (xxIn:PegRoundDirection) =
     match xxIn with
-    | PegRoundDirection.MoreAggressive -> strm.Write "838=1"B; strm.Write (delim, 0, 1)
-    | PegRoundDirection.MorePassive -> strm.Write "838=2"B; strm.Write (delim, 0, 1)
+    | PegRoundDirection.MoreAggressive ->
+        let tag = "838=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegRoundDirection.MorePassive ->
+        let tag = "838=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPeggedPrice valIn =
@@ -12612,11 +17104,11 @@ let ReadPeggedPrice valIn =
 
 
 let WritePeggedPrice (strm:Stream) (valIn:PeggedPrice) = 
-    let tag = "839="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "839="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPegScope (fldValIn:string) : PegScope = 
@@ -12630,10 +17122,22 @@ let ReadPegScope (fldValIn:string) : PegScope =
 
 let WritePegScope (strm:Stream) (xxIn:PegScope) =
     match xxIn with
-    | PegScope.Local -> strm.Write "840=1"B; strm.Write (delim, 0, 1)
-    | PegScope.National -> strm.Write "840=2"B; strm.Write (delim, 0, 1)
-    | PegScope.Global -> strm.Write "840=3"B; strm.Write (delim, 0, 1)
-    | PegScope.NationalExcludingLocal -> strm.Write "840=4"B; strm.Write (delim, 0, 1)
+    | PegScope.Local ->
+        let tag = "840=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegScope.National ->
+        let tag = "840=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegScope.Global ->
+        let tag = "840=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | PegScope.NationalExcludingLocal ->
+        let tag = "840=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionMoveType (fldValIn:string) : DiscretionMoveType = 
@@ -12645,8 +17149,14 @@ let ReadDiscretionMoveType (fldValIn:string) : DiscretionMoveType =
 
 let WriteDiscretionMoveType (strm:Stream) (xxIn:DiscretionMoveType) =
     match xxIn with
-    | DiscretionMoveType.Floating -> strm.Write "841=0"B; strm.Write (delim, 0, 1)
-    | DiscretionMoveType.Fixed -> strm.Write "841=1"B; strm.Write (delim, 0, 1)
+    | DiscretionMoveType.Floating ->
+        let tag = "841=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionMoveType.Fixed ->
+        let tag = "841=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionOffsetType (fldValIn:string) : DiscretionOffsetType = 
@@ -12660,10 +17170,22 @@ let ReadDiscretionOffsetType (fldValIn:string) : DiscretionOffsetType =
 
 let WriteDiscretionOffsetType (strm:Stream) (xxIn:DiscretionOffsetType) =
     match xxIn with
-    | DiscretionOffsetType.Price -> strm.Write "842=0"B; strm.Write (delim, 0, 1)
-    | DiscretionOffsetType.BasisPoints -> strm.Write "842=1"B; strm.Write (delim, 0, 1)
-    | DiscretionOffsetType.Ticks -> strm.Write "842=2"B; strm.Write (delim, 0, 1)
-    | DiscretionOffsetType.PriceTierLevel -> strm.Write "842=3"B; strm.Write (delim, 0, 1)
+    | DiscretionOffsetType.Price ->
+        let tag = "842=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionOffsetType.BasisPoints ->
+        let tag = "842=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionOffsetType.Ticks ->
+        let tag = "842=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionOffsetType.PriceTierLevel ->
+        let tag = "842=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionLimitType (fldValIn:string) : DiscretionLimitType = 
@@ -12676,9 +17198,18 @@ let ReadDiscretionLimitType (fldValIn:string) : DiscretionLimitType =
 
 let WriteDiscretionLimitType (strm:Stream) (xxIn:DiscretionLimitType) =
     match xxIn with
-    | DiscretionLimitType.OrBetter -> strm.Write "843=0"B; strm.Write (delim, 0, 1)
-    | DiscretionLimitType.Strict -> strm.Write "843=1"B; strm.Write (delim, 0, 1)
-    | DiscretionLimitType.OrWorse -> strm.Write "843=2"B; strm.Write (delim, 0, 1)
+    | DiscretionLimitType.OrBetter ->
+        let tag = "843=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionLimitType.Strict ->
+        let tag = "843=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionLimitType.OrWorse ->
+        let tag = "843=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionRoundDirection (fldValIn:string) : DiscretionRoundDirection = 
@@ -12690,8 +17221,14 @@ let ReadDiscretionRoundDirection (fldValIn:string) : DiscretionRoundDirection =
 
 let WriteDiscretionRoundDirection (strm:Stream) (xxIn:DiscretionRoundDirection) =
     match xxIn with
-    | DiscretionRoundDirection.MoreAggressive -> strm.Write "844=1"B; strm.Write (delim, 0, 1)
-    | DiscretionRoundDirection.MorePassive -> strm.Write "844=2"B; strm.Write (delim, 0, 1)
+    | DiscretionRoundDirection.MoreAggressive ->
+        let tag = "844=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionRoundDirection.MorePassive ->
+        let tag = "844=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionPrice valIn =
@@ -12700,11 +17237,11 @@ let ReadDiscretionPrice valIn =
 
 
 let WriteDiscretionPrice (strm:Stream) (valIn:DiscretionPrice) = 
-    let tag = "845="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "845="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDiscretionScope (fldValIn:string) : DiscretionScope = 
@@ -12718,10 +17255,22 @@ let ReadDiscretionScope (fldValIn:string) : DiscretionScope =
 
 let WriteDiscretionScope (strm:Stream) (xxIn:DiscretionScope) =
     match xxIn with
-    | DiscretionScope.Local -> strm.Write "846=1"B; strm.Write (delim, 0, 1)
-    | DiscretionScope.National -> strm.Write "846=2"B; strm.Write (delim, 0, 1)
-    | DiscretionScope.Global -> strm.Write "846=3"B; strm.Write (delim, 0, 1)
-    | DiscretionScope.NationalExcludingLocal -> strm.Write "846=4"B; strm.Write (delim, 0, 1)
+    | DiscretionScope.Local ->
+        let tag = "846=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionScope.National ->
+        let tag = "846=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionScope.Global ->
+        let tag = "846=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DiscretionScope.NationalExcludingLocal ->
+        let tag = "846=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTargetStrategy valIn =
@@ -12730,11 +17279,11 @@ let ReadTargetStrategy valIn =
 
 
 let WriteTargetStrategy (strm:Stream) (valIn:TargetStrategy) = 
-    let tag = "847="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "847="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTargetStrategyParameters valIn =
@@ -12743,11 +17292,11 @@ let ReadTargetStrategyParameters valIn =
 
 
 let WriteTargetStrategyParameters (strm:Stream) (valIn:TargetStrategyParameters) = 
-    let tag = "848="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "848="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadParticipationRate valIn =
@@ -12756,11 +17305,11 @@ let ReadParticipationRate valIn =
 
 
 let WriteParticipationRate (strm:Stream) (valIn:ParticipationRate) = 
-    let tag = "849="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "849="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTargetStrategyPerformance valIn =
@@ -12769,11 +17318,11 @@ let ReadTargetStrategyPerformance valIn =
 
 
 let WriteTargetStrategyPerformance (strm:Stream) (valIn:TargetStrategyPerformance) = 
-    let tag = "850="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "850="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastLiquidityInd (fldValIn:string) : LastLiquidityInd = 
@@ -12786,9 +17335,18 @@ let ReadLastLiquidityInd (fldValIn:string) : LastLiquidityInd =
 
 let WriteLastLiquidityInd (strm:Stream) (xxIn:LastLiquidityInd) =
     match xxIn with
-    | LastLiquidityInd.AddedLiquidity -> strm.Write "851=1"B; strm.Write (delim, 0, 1)
-    | LastLiquidityInd.RemovedLiquidity -> strm.Write "851=2"B; strm.Write (delim, 0, 1)
-    | LastLiquidityInd.LiquidityRoutedOut -> strm.Write "851=3"B; strm.Write (delim, 0, 1)
+    | LastLiquidityInd.AddedLiquidity ->
+        let tag = "851=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LastLiquidityInd.RemovedLiquidity ->
+        let tag = "851=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | LastLiquidityInd.LiquidityRoutedOut ->
+        let tag = "851=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadPublishTrdIndicator valIn =
@@ -12797,11 +17355,11 @@ let ReadPublishTrdIndicator valIn =
 
 
 let WritePublishTrdIndicator (strm:Stream) (valIn:PublishTrdIndicator) = 
-    let tag = "852="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "852="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadShortSaleReason (fldValIn:string) : ShortSaleReason = 
@@ -12817,12 +17375,30 @@ let ReadShortSaleReason (fldValIn:string) : ShortSaleReason =
 
 let WriteShortSaleReason (strm:Stream) (xxIn:ShortSaleReason) =
     match xxIn with
-    | ShortSaleReason.DealerSoldShort -> strm.Write "853=0"B; strm.Write (delim, 0, 1)
-    | ShortSaleReason.DealerSoldShortExempt -> strm.Write "853=1"B; strm.Write (delim, 0, 1)
-    | ShortSaleReason.SellingCustomerSoldShort -> strm.Write "853=2"B; strm.Write (delim, 0, 1)
-    | ShortSaleReason.SellingCustomerSoldShortExempt -> strm.Write "853=3"B; strm.Write (delim, 0, 1)
-    | ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort -> strm.Write "853=4"B; strm.Write (delim, 0, 1)
-    | ShortSaleReason.QsrOrAguContraSideSoldShortExempt -> strm.Write "853=5"B; strm.Write (delim, 0, 1)
+    | ShortSaleReason.DealerSoldShort ->
+        let tag = "853=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ShortSaleReason.DealerSoldShortExempt ->
+        let tag = "853=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ShortSaleReason.SellingCustomerSoldShort ->
+        let tag = "853=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ShortSaleReason.SellingCustomerSoldShortExempt ->
+        let tag = "853=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort ->
+        let tag = "853=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | ShortSaleReason.QsrOrAguContraSideSoldShortExempt ->
+        let tag = "853=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadQtyType (fldValIn:string) : QtyType = 
@@ -12834,8 +17410,14 @@ let ReadQtyType (fldValIn:string) : QtyType =
 
 let WriteQtyType (strm:Stream) (xxIn:QtyType) =
     match xxIn with
-    | QtyType.Units -> strm.Write "854=0"B; strm.Write (delim, 0, 1)
-    | QtyType.Contracts -> strm.Write "854=1"B; strm.Write (delim, 0, 1)
+    | QtyType.Units ->
+        let tag = "854=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | QtyType.Contracts ->
+        let tag = "854=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryTrdType valIn =
@@ -12844,11 +17426,11 @@ let ReadSecondaryTrdType valIn =
 
 
 let WriteSecondaryTrdType (strm:Stream) (valIn:SecondaryTrdType) = 
-    let tag = "855="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "855="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTradeReportType (fldValIn:string) : TradeReportType = 
@@ -12866,14 +17448,38 @@ let ReadTradeReportType (fldValIn:string) : TradeReportType =
 
 let WriteTradeReportType (strm:Stream) (xxIn:TradeReportType) =
     match xxIn with
-    | TradeReportType.Submit -> strm.Write "856=0"B; strm.Write (delim, 0, 1)
-    | TradeReportType.Alleged -> strm.Write "856=1"B; strm.Write (delim, 0, 1)
-    | TradeReportType.Accept -> strm.Write "856=2"B; strm.Write (delim, 0, 1)
-    | TradeReportType.Decline -> strm.Write "856=3"B; strm.Write (delim, 0, 1)
-    | TradeReportType.Addendum -> strm.Write "856=4"B; strm.Write (delim, 0, 1)
-    | TradeReportType.NoWas -> strm.Write "856=5"B; strm.Write (delim, 0, 1)
-    | TradeReportType.TradeReportCancel -> strm.Write "856=6"B; strm.Write (delim, 0, 1)
-    | TradeReportType.LockedInTradeBreak -> strm.Write "856=7"B; strm.Write (delim, 0, 1)
+    | TradeReportType.Submit ->
+        let tag = "856=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.Alleged ->
+        let tag = "856=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.Accept ->
+        let tag = "856=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.Decline ->
+        let tag = "856=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.Addendum ->
+        let tag = "856=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.NoWas ->
+        let tag = "856=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.TradeReportCancel ->
+        let tag = "856=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TradeReportType.LockedInTradeBreak ->
+        let tag = "856=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAllocNoOrdersType (fldValIn:string) : AllocNoOrdersType = 
@@ -12885,8 +17491,14 @@ let ReadAllocNoOrdersType (fldValIn:string) : AllocNoOrdersType =
 
 let WriteAllocNoOrdersType (strm:Stream) (xxIn:AllocNoOrdersType) =
     match xxIn with
-    | AllocNoOrdersType.NotSpecified -> strm.Write "857=0"B; strm.Write (delim, 0, 1)
-    | AllocNoOrdersType.ExplicitListProvided -> strm.Write "857=1"B; strm.Write (delim, 0, 1)
+    | AllocNoOrdersType.NotSpecified ->
+        let tag = "857=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AllocNoOrdersType.ExplicitListProvided ->
+        let tag = "857=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadSharedCommission valIn =
@@ -12895,11 +17507,11 @@ let ReadSharedCommission valIn =
 
 
 let WriteSharedCommission (strm:Stream) (valIn:SharedCommission) = 
-    let tag = "858="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "858="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadConfirmReqID valIn =
@@ -12908,11 +17520,11 @@ let ReadConfirmReqID valIn =
 
 
 let WriteConfirmReqID (strm:Stream) (valIn:ConfirmReqID) = 
-    let tag = "859="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "859="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAvgParPx valIn =
@@ -12921,11 +17533,11 @@ let ReadAvgParPx valIn =
 
 
 let WriteAvgParPx (strm:Stream) (valIn:AvgParPx) = 
-    let tag = "860="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "860="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadReportedPx valIn =
@@ -12934,11 +17546,11 @@ let ReadReportedPx valIn =
 
 
 let WriteReportedPx (strm:Stream) (valIn:ReportedPx) = 
-    let tag = "861="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "861="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoCapacities valIn =
@@ -12947,11 +17559,11 @@ let ReadNoCapacities valIn =
 
 
 let WriteNoCapacities (strm:Stream) (valIn:NoCapacities) = 
-    let tag = "862="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "862="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadOrderCapacityQty valIn =
@@ -12960,11 +17572,11 @@ let ReadOrderCapacityQty valIn =
 
 
 let WriteOrderCapacityQty (strm:Stream) (valIn:OrderCapacityQty) = 
-    let tag = "863="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "863="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoEvents valIn =
@@ -12973,11 +17585,11 @@ let ReadNoEvents valIn =
 
 
 let WriteNoEvents (strm:Stream) (valIn:NoEvents) = 
-    let tag = "864="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "864="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEventType (fldValIn:string) : EventType = 
@@ -12992,11 +17604,26 @@ let ReadEventType (fldValIn:string) : EventType =
 
 let WriteEventType (strm:Stream) (xxIn:EventType) =
     match xxIn with
-    | EventType.Put -> strm.Write "865=1"B; strm.Write (delim, 0, 1)
-    | EventType.Call -> strm.Write "865=2"B; strm.Write (delim, 0, 1)
-    | EventType.Tender -> strm.Write "865=3"B; strm.Write (delim, 0, 1)
-    | EventType.SinkingFundCall -> strm.Write "865=4"B; strm.Write (delim, 0, 1)
-    | EventType.Other -> strm.Write "865=99"B; strm.Write (delim, 0, 1)
+    | EventType.Put ->
+        let tag = "865=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EventType.Call ->
+        let tag = "865=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EventType.Tender ->
+        let tag = "865=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EventType.SinkingFundCall ->
+        let tag = "865=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | EventType.Other ->
+        let tag = "865=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadEventDate valIn =
@@ -13005,11 +17632,11 @@ let ReadEventDate valIn =
 
 
 let WriteEventDate (strm:Stream) (valIn:EventDate) = 
-    let tag = "866="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "866="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEventPx valIn =
@@ -13018,11 +17645,11 @@ let ReadEventPx valIn =
 
 
 let WriteEventPx (strm:Stream) (valIn:EventPx) = 
-    let tag = "867="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "867="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEventText valIn =
@@ -13031,11 +17658,11 @@ let ReadEventText valIn =
 
 
 let WriteEventText (strm:Stream) (valIn:EventText) = 
-    let tag = "868="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "868="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadPctAtRisk valIn =
@@ -13044,11 +17671,11 @@ let ReadPctAtRisk valIn =
 
 
 let WritePctAtRisk (strm:Stream) (valIn:PctAtRisk) = 
-    let tag = "869="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "869="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoInstrAttrib valIn =
@@ -13057,11 +17684,11 @@ let ReadNoInstrAttrib valIn =
 
 
 let WriteNoInstrAttrib (strm:Stream) (valIn:NoInstrAttrib) = 
-    let tag = "870="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "870="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadInstrAttribType (fldValIn:string) : InstrAttribType = 
@@ -13094,29 +17721,98 @@ let ReadInstrAttribType (fldValIn:string) : InstrAttribType =
 
 let WriteInstrAttribType (strm:Stream) (xxIn:InstrAttribType) =
     match xxIn with
-    | InstrAttribType.Flat -> strm.Write "871=1"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.ZeroCoupon -> strm.Write "871=2"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.InterestBearing -> strm.Write "871=3"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.NoPeriodicPayments -> strm.Write "871=4"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.VariableRate -> strm.Write "871=5"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.LessFeeForPut -> strm.Write "871=6"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.SteppedCoupon -> strm.Write "871=7"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.CouponPeriod -> strm.Write "871=8"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.WhenAndIfIssued -> strm.Write "871=9"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.OriginalIssueDiscount -> strm.Write "871=10"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.CallablePuttable -> strm.Write "871=11"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.EscrowedToMaturity -> strm.Write "871=12"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.EscrowedToRedemptionDate -> strm.Write "871=13"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.PreRefunded -> strm.Write "871=14"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.InDefault -> strm.Write "871=15"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.Unrated -> strm.Write "871=16"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.Taxable -> strm.Write "871=17"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.Indexed -> strm.Write "871=18"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.SubjectToAlternativeMinimumTax -> strm.Write "871=19"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.OriginalIssueDiscountPrice -> strm.Write "871=20"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.CallableBelowMaturityValue -> strm.Write "871=21"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered -> strm.Write "871=22"B; strm.Write (delim, 0, 1)
-    | InstrAttribType.Text -> strm.Write "871=99"B; strm.Write (delim, 0, 1)
+    | InstrAttribType.Flat ->
+        let tag = "871=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.ZeroCoupon ->
+        let tag = "871=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.InterestBearing ->
+        let tag = "871=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.NoPeriodicPayments ->
+        let tag = "871=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.VariableRate ->
+        let tag = "871=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.LessFeeForPut ->
+        let tag = "871=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.SteppedCoupon ->
+        let tag = "871=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.CouponPeriod ->
+        let tag = "871=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.WhenAndIfIssued ->
+        let tag = "871=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.OriginalIssueDiscount ->
+        let tag = "871=10"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.CallablePuttable ->
+        let tag = "871=11"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.EscrowedToMaturity ->
+        let tag = "871=12"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.EscrowedToRedemptionDate ->
+        let tag = "871=13"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.PreRefunded ->
+        let tag = "871=14"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.InDefault ->
+        let tag = "871=15"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.Unrated ->
+        let tag = "871=16"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.Taxable ->
+        let tag = "871=17"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.Indexed ->
+        let tag = "871=18"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.SubjectToAlternativeMinimumTax ->
+        let tag = "871=19"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.OriginalIssueDiscountPrice ->
+        let tag = "871=20"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.CallableBelowMaturityValue ->
+        let tag = "871=21"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered ->
+        let tag = "871=22"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | InstrAttribType.Text ->
+        let tag = "871=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadInstrAttribValue valIn =
@@ -13125,11 +17821,11 @@ let ReadInstrAttribValue valIn =
 
 
 let WriteInstrAttribValue (strm:Stream) (valIn:InstrAttribValue) = 
-    let tag = "872="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "872="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDatedDate valIn =
@@ -13138,11 +17834,11 @@ let ReadDatedDate valIn =
 
 
 let WriteDatedDate (strm:Stream) (valIn:DatedDate) = 
-    let tag = "873="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "873="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadInterestAccrualDate valIn =
@@ -13151,11 +17847,11 @@ let ReadInterestAccrualDate valIn =
 
 
 let WriteInterestAccrualDate (strm:Stream) (valIn:InterestAccrualDate) = 
-    let tag = "874="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "874="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCPProgram valIn =
@@ -13164,11 +17860,11 @@ let ReadCPProgram valIn =
 
 
 let WriteCPProgram (strm:Stream) (valIn:CPProgram) = 
-    let tag = "875="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "875="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCPRegType valIn =
@@ -13177,11 +17873,11 @@ let ReadCPRegType valIn =
 
 
 let WriteCPRegType (strm:Stream) (valIn:CPRegType) = 
-    let tag = "876="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "876="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCPProgram valIn =
@@ -13190,11 +17886,11 @@ let ReadUnderlyingCPProgram valIn =
 
 
 let WriteUnderlyingCPProgram (strm:Stream) (valIn:UnderlyingCPProgram) = 
-    let tag = "877="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "877="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCPRegType valIn =
@@ -13203,11 +17899,11 @@ let ReadUnderlyingCPRegType valIn =
 
 
 let WriteUnderlyingCPRegType (strm:Stream) (valIn:UnderlyingCPRegType) = 
-    let tag = "878="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "878="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingQty valIn =
@@ -13216,11 +17912,11 @@ let ReadUnderlyingQty valIn =
 
 
 let WriteUnderlyingQty (strm:Stream) (valIn:UnderlyingQty) = 
-    let tag = "879="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "879="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTrdMatchID valIn =
@@ -13229,11 +17925,11 @@ let ReadTrdMatchID valIn =
 
 
 let WriteTrdMatchID (strm:Stream) (valIn:TrdMatchID) = 
-    let tag = "880="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "880="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadSecondaryTradeReportRefID valIn =
@@ -13242,11 +17938,11 @@ let ReadSecondaryTradeReportRefID valIn =
 
 
 let WriteSecondaryTradeReportRefID (strm:Stream) (valIn:SecondaryTradeReportRefID) = 
-    let tag = "881="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "881="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingDirtyPrice valIn =
@@ -13255,11 +17951,11 @@ let ReadUnderlyingDirtyPrice valIn =
 
 
 let WriteUnderlyingDirtyPrice (strm:Stream) (valIn:UnderlyingDirtyPrice) = 
-    let tag = "882="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "882="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingEndPrice valIn =
@@ -13268,11 +17964,11 @@ let ReadUnderlyingEndPrice valIn =
 
 
 let WriteUnderlyingEndPrice (strm:Stream) (valIn:UnderlyingEndPrice) = 
-    let tag = "883="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "883="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStartValue valIn =
@@ -13281,11 +17977,11 @@ let ReadUnderlyingStartValue valIn =
 
 
 let WriteUnderlyingStartValue (strm:Stream) (valIn:UnderlyingStartValue) = 
-    let tag = "884="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "884="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingCurrentValue valIn =
@@ -13294,11 +17990,11 @@ let ReadUnderlyingCurrentValue valIn =
 
 
 let WriteUnderlyingCurrentValue (strm:Stream) (valIn:UnderlyingCurrentValue) = 
-    let tag = "885="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "885="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingEndValue valIn =
@@ -13307,11 +18003,11 @@ let ReadUnderlyingEndValue valIn =
 
 
 let WriteUnderlyingEndValue (strm:Stream) (valIn:UnderlyingEndValue) = 
-    let tag = "886="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "886="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoUnderlyingStips valIn =
@@ -13320,11 +18016,11 @@ let ReadNoUnderlyingStips valIn =
 
 
 let WriteNoUnderlyingStips (strm:Stream) (valIn:NoUnderlyingStips) = 
-    let tag = "887="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "887="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStipType valIn =
@@ -13333,11 +18029,11 @@ let ReadUnderlyingStipType valIn =
 
 
 let WriteUnderlyingStipType (strm:Stream) (valIn:UnderlyingStipType) = 
-    let tag = "888="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "888="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStipValue valIn =
@@ -13346,11 +18042,11 @@ let ReadUnderlyingStipValue valIn =
 
 
 let WriteUnderlyingStipValue (strm:Stream) (valIn:UnderlyingStipValue) = 
-    let tag = "889="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "889="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMaturityNetMoney valIn =
@@ -13359,11 +18055,11 @@ let ReadMaturityNetMoney valIn =
 
 
 let WriteMaturityNetMoney (strm:Stream) (valIn:MaturityNetMoney) = 
-    let tag = "890="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "890="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMiscFeeBasis (fldValIn:string) : MiscFeeBasis = 
@@ -13376,9 +18072,18 @@ let ReadMiscFeeBasis (fldValIn:string) : MiscFeeBasis =
 
 let WriteMiscFeeBasis (strm:Stream) (xxIn:MiscFeeBasis) =
     match xxIn with
-    | MiscFeeBasis.Absolute -> strm.Write "891=0"B; strm.Write (delim, 0, 1)
-    | MiscFeeBasis.PerUnit -> strm.Write "891=1"B; strm.Write (delim, 0, 1)
-    | MiscFeeBasis.Percentage -> strm.Write "891=2"B; strm.Write (delim, 0, 1)
+    | MiscFeeBasis.Absolute ->
+        let tag = "891=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeBasis.PerUnit ->
+        let tag = "891=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | MiscFeeBasis.Percentage ->
+        let tag = "891=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTotNoAllocs valIn =
@@ -13387,11 +18092,11 @@ let ReadTotNoAllocs valIn =
 
 
 let WriteTotNoAllocs (strm:Stream) (valIn:TotNoAllocs) = 
-    let tag = "892="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "892="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastFragment valIn =
@@ -13400,11 +18105,11 @@ let ReadLastFragment valIn =
 
 
 let WriteLastFragment (strm:Stream) (valIn:LastFragment) = 
-    let tag = "893="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "893="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollReqID valIn =
@@ -13413,11 +18118,11 @@ let ReadCollReqID valIn =
 
 
 let WriteCollReqID (strm:Stream) (valIn:CollReqID) = 
-    let tag = "894="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "894="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnReason (fldValIn:string) : CollAsgnReason = 
@@ -13435,14 +18140,38 @@ let ReadCollAsgnReason (fldValIn:string) : CollAsgnReason =
 
 let WriteCollAsgnReason (strm:Stream) (xxIn:CollAsgnReason) =
     match xxIn with
-    | CollAsgnReason.Initial -> strm.Write "895=0"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.Scheduled -> strm.Write "895=1"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.TimeWarning -> strm.Write "895=2"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.MarginDeficiency -> strm.Write "895=3"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.MarginExcess -> strm.Write "895=4"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.ForwardCollateralDemand -> strm.Write "895=5"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.EventOfDefault -> strm.Write "895=6"B; strm.Write (delim, 0, 1)
-    | CollAsgnReason.AdverseTaxEvent -> strm.Write "895=7"B; strm.Write (delim, 0, 1)
+    | CollAsgnReason.Initial ->
+        let tag = "895=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.Scheduled ->
+        let tag = "895=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.TimeWarning ->
+        let tag = "895=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.MarginDeficiency ->
+        let tag = "895=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.MarginExcess ->
+        let tag = "895=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.ForwardCollateralDemand ->
+        let tag = "895=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.EventOfDefault ->
+        let tag = "895=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnReason.AdverseTaxEvent ->
+        let tag = "895=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollInquiryQualifier (fldValIn:string) : CollInquiryQualifier = 
@@ -13460,14 +18189,38 @@ let ReadCollInquiryQualifier (fldValIn:string) : CollInquiryQualifier =
 
 let WriteCollInquiryQualifier (strm:Stream) (xxIn:CollInquiryQualifier) =
     match xxIn with
-    | CollInquiryQualifier.Tradedate -> strm.Write "896=0"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.GcInstrument -> strm.Write "896=1"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.Collateralinstrument -> strm.Write "896=2"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.SubstitutionEligible -> strm.Write "896=3"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.NotAssigned -> strm.Write "896=4"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.PartiallyAssigned -> strm.Write "896=5"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.FullyAssigned -> strm.Write "896=6"B; strm.Write (delim, 0, 1)
-    | CollInquiryQualifier.OutstandingTrades -> strm.Write "896=7"B; strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.Tradedate ->
+        let tag = "896=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.GcInstrument ->
+        let tag = "896=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.Collateralinstrument ->
+        let tag = "896=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.SubstitutionEligible ->
+        let tag = "896=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.NotAssigned ->
+        let tag = "896=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.PartiallyAssigned ->
+        let tag = "896=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.FullyAssigned ->
+        let tag = "896=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryQualifier.OutstandingTrades ->
+        let tag = "896=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoTrades valIn =
@@ -13476,11 +18229,11 @@ let ReadNoTrades valIn =
 
 
 let WriteNoTrades (strm:Stream) (valIn:NoTrades) = 
-    let tag = "897="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "897="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMarginRatio valIn =
@@ -13489,11 +18242,11 @@ let ReadMarginRatio valIn =
 
 
 let WriteMarginRatio (strm:Stream) (valIn:MarginRatio) = 
-    let tag = "898="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "898="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadMarginExcess valIn =
@@ -13502,11 +18255,11 @@ let ReadMarginExcess valIn =
 
 
 let WriteMarginExcess (strm:Stream) (valIn:MarginExcess) = 
-    let tag = "899="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "899="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTotalNetValue valIn =
@@ -13515,11 +18268,11 @@ let ReadTotalNetValue valIn =
 
 
 let WriteTotalNetValue (strm:Stream) (valIn:TotalNetValue) = 
-    let tag = "900="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "900="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCashOutstanding valIn =
@@ -13528,11 +18281,11 @@ let ReadCashOutstanding valIn =
 
 
 let WriteCashOutstanding (strm:Stream) (valIn:CashOutstanding) = 
-    let tag = "901="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "901="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnID valIn =
@@ -13541,11 +18294,11 @@ let ReadCollAsgnID valIn =
 
 
 let WriteCollAsgnID (strm:Stream) (valIn:CollAsgnID) = 
-    let tag = "902="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "902="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnTransType (fldValIn:string) : CollAsgnTransType = 
@@ -13560,11 +18313,26 @@ let ReadCollAsgnTransType (fldValIn:string) : CollAsgnTransType =
 
 let WriteCollAsgnTransType (strm:Stream) (xxIn:CollAsgnTransType) =
     match xxIn with
-    | CollAsgnTransType.New -> strm.Write "903=0"B; strm.Write (delim, 0, 1)
-    | CollAsgnTransType.Replace -> strm.Write "903=1"B; strm.Write (delim, 0, 1)
-    | CollAsgnTransType.Cancel -> strm.Write "903=2"B; strm.Write (delim, 0, 1)
-    | CollAsgnTransType.Release -> strm.Write "903=3"B; strm.Write (delim, 0, 1)
-    | CollAsgnTransType.Reverse -> strm.Write "903=4"B; strm.Write (delim, 0, 1)
+    | CollAsgnTransType.New ->
+        let tag = "903=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnTransType.Replace ->
+        let tag = "903=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnTransType.Cancel ->
+        let tag = "903=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnTransType.Release ->
+        let tag = "903=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnTransType.Reverse ->
+        let tag = "903=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollRespID valIn =
@@ -13573,11 +18341,11 @@ let ReadCollRespID valIn =
 
 
 let WriteCollRespID (strm:Stream) (valIn:CollRespID) = 
-    let tag = "904="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "904="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnRespType (fldValIn:string) : CollAsgnRespType = 
@@ -13591,10 +18359,22 @@ let ReadCollAsgnRespType (fldValIn:string) : CollAsgnRespType =
 
 let WriteCollAsgnRespType (strm:Stream) (xxIn:CollAsgnRespType) =
     match xxIn with
-    | CollAsgnRespType.Received -> strm.Write "905=0"B; strm.Write (delim, 0, 1)
-    | CollAsgnRespType.Accepted -> strm.Write "905=1"B; strm.Write (delim, 0, 1)
-    | CollAsgnRespType.Declined -> strm.Write "905=2"B; strm.Write (delim, 0, 1)
-    | CollAsgnRespType.Rejected -> strm.Write "905=3"B; strm.Write (delim, 0, 1)
+    | CollAsgnRespType.Received ->
+        let tag = "905=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRespType.Accepted ->
+        let tag = "905=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRespType.Declined ->
+        let tag = "905=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRespType.Rejected ->
+        let tag = "905=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnRejectReason (fldValIn:string) : CollAsgnRejectReason = 
@@ -13611,13 +18391,34 @@ let ReadCollAsgnRejectReason (fldValIn:string) : CollAsgnRejectReason =
 
 let WriteCollAsgnRejectReason (strm:Stream) (xxIn:CollAsgnRejectReason) =
     match xxIn with
-    | CollAsgnRejectReason.UnknownDeal -> strm.Write "906=0"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.UnknownOrInvalidInstrument -> strm.Write "906=1"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.UnauthorizedTransaction -> strm.Write "906=2"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.InsufficientCollateral -> strm.Write "906=3"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.InvalidTypeOfCollateral -> strm.Write "906=4"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.ExcessiveSubstitution -> strm.Write "906=5"B; strm.Write (delim, 0, 1)
-    | CollAsgnRejectReason.Other -> strm.Write "906=99"B; strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.UnknownDeal ->
+        let tag = "906=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.UnknownOrInvalidInstrument ->
+        let tag = "906=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.UnauthorizedTransaction ->
+        let tag = "906=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.InsufficientCollateral ->
+        let tag = "906=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.InvalidTypeOfCollateral ->
+        let tag = "906=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.ExcessiveSubstitution ->
+        let tag = "906=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAsgnRejectReason.Other ->
+        let tag = "906=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollAsgnRefID valIn =
@@ -13626,11 +18427,11 @@ let ReadCollAsgnRefID valIn =
 
 
 let WriteCollAsgnRefID (strm:Stream) (valIn:CollAsgnRefID) = 
-    let tag = "907="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "907="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollRptID valIn =
@@ -13639,11 +18440,11 @@ let ReadCollRptID valIn =
 
 
 let WriteCollRptID (strm:Stream) (valIn:CollRptID) = 
-    let tag = "908="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "908="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollInquiryID valIn =
@@ -13652,11 +18453,11 @@ let ReadCollInquiryID valIn =
 
 
 let WriteCollInquiryID (strm:Stream) (valIn:CollInquiryID) = 
-    let tag = "909="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "909="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollStatus (fldValIn:string) : CollStatus = 
@@ -13671,11 +18472,26 @@ let ReadCollStatus (fldValIn:string) : CollStatus =
 
 let WriteCollStatus (strm:Stream) (xxIn:CollStatus) =
     match xxIn with
-    | CollStatus.Unassigned -> strm.Write "910=0"B; strm.Write (delim, 0, 1)
-    | CollStatus.PartiallyAssigned -> strm.Write "910=1"B; strm.Write (delim, 0, 1)
-    | CollStatus.AssignmentProposed -> strm.Write "910=2"B; strm.Write (delim, 0, 1)
-    | CollStatus.Assigned -> strm.Write "910=3"B; strm.Write (delim, 0, 1)
-    | CollStatus.Challenged -> strm.Write "910=4"B; strm.Write (delim, 0, 1)
+    | CollStatus.Unassigned ->
+        let tag = "910=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollStatus.PartiallyAssigned ->
+        let tag = "910=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollStatus.AssignmentProposed ->
+        let tag = "910=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollStatus.Assigned ->
+        let tag = "910=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollStatus.Challenged ->
+        let tag = "910=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadTotNumReports valIn =
@@ -13684,11 +18500,11 @@ let ReadTotNumReports valIn =
 
 
 let WriteTotNumReports (strm:Stream) (valIn:TotNumReports) = 
-    let tag = "911="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "911="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastRptRequested valIn =
@@ -13697,11 +18513,11 @@ let ReadLastRptRequested valIn =
 
 
 let WriteLastRptRequested (strm:Stream) (valIn:LastRptRequested) = 
-    let tag = "912="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "912="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAgreementDesc valIn =
@@ -13710,11 +18526,11 @@ let ReadAgreementDesc valIn =
 
 
 let WriteAgreementDesc (strm:Stream) (valIn:AgreementDesc) = 
-    let tag = "913="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "913="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAgreementID valIn =
@@ -13723,11 +18539,11 @@ let ReadAgreementID valIn =
 
 
 let WriteAgreementID (strm:Stream) (valIn:AgreementID) = 
-    let tag = "914="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "914="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAgreementDate valIn =
@@ -13736,11 +18552,11 @@ let ReadAgreementDate valIn =
 
 
 let WriteAgreementDate (strm:Stream) (valIn:AgreementDate) = 
-    let tag = "915="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "915="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStartDate valIn =
@@ -13749,11 +18565,11 @@ let ReadStartDate valIn =
 
 
 let WriteStartDate (strm:Stream) (valIn:StartDate) = 
-    let tag = "916="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "916="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEndDate valIn =
@@ -13762,11 +18578,11 @@ let ReadEndDate valIn =
 
 
 let WriteEndDate (strm:Stream) (valIn:EndDate) = 
-    let tag = "917="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "917="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadAgreementCurrency valIn =
@@ -13775,11 +18591,11 @@ let ReadAgreementCurrency valIn =
 
 
 let WriteAgreementCurrency (strm:Stream) (valIn:AgreementCurrency) = 
-    let tag = "918="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "918="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadDeliveryType (fldValIn:string) : DeliveryType = 
@@ -13793,10 +18609,22 @@ let ReadDeliveryType (fldValIn:string) : DeliveryType =
 
 let WriteDeliveryType (strm:Stream) (xxIn:DeliveryType) =
     match xxIn with
-    | DeliveryType.VersusPayment -> strm.Write "919=0"B; strm.Write (delim, 0, 1)
-    | DeliveryType.Free -> strm.Write "919=1"B; strm.Write (delim, 0, 1)
-    | DeliveryType.TriParty -> strm.Write "919=2"B; strm.Write (delim, 0, 1)
-    | DeliveryType.HoldInCustody -> strm.Write "919=3"B; strm.Write (delim, 0, 1)
+    | DeliveryType.VersusPayment ->
+        let tag = "919=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DeliveryType.Free ->
+        let tag = "919=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DeliveryType.TriParty ->
+        let tag = "919=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | DeliveryType.HoldInCustody ->
+        let tag = "919=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadEndAccruedInterestAmt valIn =
@@ -13805,11 +18633,11 @@ let ReadEndAccruedInterestAmt valIn =
 
 
 let WriteEndAccruedInterestAmt (strm:Stream) (valIn:EndAccruedInterestAmt) = 
-    let tag = "920="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "920="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStartCash valIn =
@@ -13818,11 +18646,11 @@ let ReadStartCash valIn =
 
 
 let WriteStartCash (strm:Stream) (valIn:StartCash) = 
-    let tag = "921="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "921="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadEndCash valIn =
@@ -13831,11 +18659,11 @@ let ReadEndCash valIn =
 
 
 let WriteEndCash (strm:Stream) (valIn:EndCash) = 
-    let tag = "922="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "922="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUserRequestID valIn =
@@ -13844,11 +18672,11 @@ let ReadUserRequestID valIn =
 
 
 let WriteUserRequestID (strm:Stream) (valIn:UserRequestID) = 
-    let tag = "923="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "923="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUserRequestType (fldValIn:string) : UserRequestType = 
@@ -13862,10 +18690,22 @@ let ReadUserRequestType (fldValIn:string) : UserRequestType =
 
 let WriteUserRequestType (strm:Stream) (xxIn:UserRequestType) =
     match xxIn with
-    | UserRequestType.Logonuser -> strm.Write "924=1"B; strm.Write (delim, 0, 1)
-    | UserRequestType.Logoffuser -> strm.Write "924=2"B; strm.Write (delim, 0, 1)
-    | UserRequestType.Changepasswordforuser -> strm.Write "924=3"B; strm.Write (delim, 0, 1)
-    | UserRequestType.RequestIndividualUserStatus -> strm.Write "924=4"B; strm.Write (delim, 0, 1)
+    | UserRequestType.Logonuser ->
+        let tag = "924=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserRequestType.Logoffuser ->
+        let tag = "924=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserRequestType.Changepasswordforuser ->
+        let tag = "924=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserRequestType.RequestIndividualUserStatus ->
+        let tag = "924=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNewPassword valIn =
@@ -13874,11 +18714,11 @@ let ReadNewPassword valIn =
 
 
 let WriteNewPassword (strm:Stream) (valIn:NewPassword) = 
-    let tag = "925="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "925="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadUserStatus (fldValIn:string) : UserStatus = 
@@ -13894,12 +18734,30 @@ let ReadUserStatus (fldValIn:string) : UserStatus =
 
 let WriteUserStatus (strm:Stream) (xxIn:UserStatus) =
     match xxIn with
-    | UserStatus.LoggedIn -> strm.Write "926=1"B; strm.Write (delim, 0, 1)
-    | UserStatus.NotLoggedIn -> strm.Write "926=2"B; strm.Write (delim, 0, 1)
-    | UserStatus.UserNotRecognised -> strm.Write "926=3"B; strm.Write (delim, 0, 1)
-    | UserStatus.PasswordIncorrect -> strm.Write "926=4"B; strm.Write (delim, 0, 1)
-    | UserStatus.PasswordChanged -> strm.Write "926=5"B; strm.Write (delim, 0, 1)
-    | UserStatus.Other -> strm.Write "926=6"B; strm.Write (delim, 0, 1)
+    | UserStatus.LoggedIn ->
+        let tag = "926=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserStatus.NotLoggedIn ->
+        let tag = "926=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserStatus.UserNotRecognised ->
+        let tag = "926=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserStatus.PasswordIncorrect ->
+        let tag = "926=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserStatus.PasswordChanged ->
+        let tag = "926=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | UserStatus.Other ->
+        let tag = "926=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUserStatusText valIn =
@@ -13908,11 +18766,11 @@ let ReadUserStatusText valIn =
 
 
 let WriteUserStatusText (strm:Stream) (valIn:UserStatusText) = 
-    let tag = "927="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "927="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadStatusValue (fldValIn:string) : StatusValue = 
@@ -13926,10 +18784,22 @@ let ReadStatusValue (fldValIn:string) : StatusValue =
 
 let WriteStatusValue (strm:Stream) (xxIn:StatusValue) =
     match xxIn with
-    | StatusValue.Connected -> strm.Write "928=1"B; strm.Write (delim, 0, 1)
-    | StatusValue.NotConnectedDownExpectedUp -> strm.Write "928=2"B; strm.Write (delim, 0, 1)
-    | StatusValue.NotConnectedDownExpectedDown -> strm.Write "928=3"B; strm.Write (delim, 0, 1)
-    | StatusValue.InProcess -> strm.Write "928=4"B; strm.Write (delim, 0, 1)
+    | StatusValue.Connected ->
+        let tag = "928=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StatusValue.NotConnectedDownExpectedUp ->
+        let tag = "928=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StatusValue.NotConnectedDownExpectedDown ->
+        let tag = "928=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | StatusValue.InProcess ->
+        let tag = "928=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStatusText valIn =
@@ -13938,11 +18808,11 @@ let ReadStatusText valIn =
 
 
 let WriteStatusText (strm:Stream) (valIn:StatusText) = 
-    let tag = "929="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "929="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRefCompID valIn =
@@ -13951,11 +18821,11 @@ let ReadRefCompID valIn =
 
 
 let WriteRefCompID (strm:Stream) (valIn:RefCompID) = 
-    let tag = "930="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "930="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadRefSubID valIn =
@@ -13964,11 +18834,11 @@ let ReadRefSubID valIn =
 
 
 let WriteRefSubID (strm:Stream) (valIn:RefSubID) = 
-    let tag = "931="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "931="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetworkResponseID valIn =
@@ -13977,11 +18847,11 @@ let ReadNetworkResponseID valIn =
 
 
 let WriteNetworkResponseID (strm:Stream) (valIn:NetworkResponseID) = 
-    let tag = "932="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "932="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetworkRequestID valIn =
@@ -13990,11 +18860,11 @@ let ReadNetworkRequestID valIn =
 
 
 let WriteNetworkRequestID (strm:Stream) (valIn:NetworkRequestID) = 
-    let tag = "933="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "933="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLastNetworkResponseID valIn =
@@ -14003,11 +18873,11 @@ let ReadLastNetworkResponseID valIn =
 
 
 let WriteLastNetworkResponseID (strm:Stream) (valIn:LastNetworkResponseID) = 
-    let tag = "934="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "934="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetworkRequestType (fldValIn:string) : NetworkRequestType = 
@@ -14021,10 +18891,22 @@ let ReadNetworkRequestType (fldValIn:string) : NetworkRequestType =
 
 let WriteNetworkRequestType (strm:Stream) (xxIn:NetworkRequestType) =
     match xxIn with
-    | NetworkRequestType.Snapshot -> strm.Write "935=1"B; strm.Write (delim, 0, 1)
-    | NetworkRequestType.Subscribe -> strm.Write "935=2"B; strm.Write (delim, 0, 1)
-    | NetworkRequestType.StopSubscribing -> strm.Write "935=4"B; strm.Write (delim, 0, 1)
-    | NetworkRequestType.LevelOfDetail -> strm.Write "935=8"B; strm.Write (delim, 0, 1)
+    | NetworkRequestType.Snapshot ->
+        let tag = "935=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NetworkRequestType.Subscribe ->
+        let tag = "935=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NetworkRequestType.StopSubscribing ->
+        let tag = "935=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NetworkRequestType.LevelOfDetail ->
+        let tag = "935=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoCompIDs valIn =
@@ -14033,11 +18915,11 @@ let ReadNoCompIDs valIn =
 
 
 let WriteNoCompIDs (strm:Stream) (valIn:NoCompIDs) = 
-    let tag = "936="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "936="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNetworkStatusResponseType (fldValIn:string) : NetworkStatusResponseType = 
@@ -14049,8 +18931,14 @@ let ReadNetworkStatusResponseType (fldValIn:string) : NetworkStatusResponseType 
 
 let WriteNetworkStatusResponseType (strm:Stream) (xxIn:NetworkStatusResponseType) =
     match xxIn with
-    | NetworkStatusResponseType.Full -> strm.Write "937=1"B; strm.Write (delim, 0, 1)
-    | NetworkStatusResponseType.IncrementalUpdate -> strm.Write "937=2"B; strm.Write (delim, 0, 1)
+    | NetworkStatusResponseType.Full ->
+        let tag = "937=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | NetworkStatusResponseType.IncrementalUpdate ->
+        let tag = "937=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadNoCollInquiryQualifier valIn =
@@ -14059,11 +18947,11 @@ let ReadNoCollInquiryQualifier valIn =
 
 
 let WriteNoCollInquiryQualifier (strm:Stream) (valIn:NoCollInquiryQualifier) = 
-    let tag = "938="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "938="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTrdRptStatus (fldValIn:string) : TrdRptStatus = 
@@ -14075,8 +18963,14 @@ let ReadTrdRptStatus (fldValIn:string) : TrdRptStatus =
 
 let WriteTrdRptStatus (strm:Stream) (xxIn:TrdRptStatus) =
     match xxIn with
-    | TrdRptStatus.Accepted -> strm.Write "939=0"B; strm.Write (delim, 0, 1)
-    | TrdRptStatus.Rejected -> strm.Write "939=1"B; strm.Write (delim, 0, 1)
+    | TrdRptStatus.Accepted ->
+        let tag = "939=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | TrdRptStatus.Rejected ->
+        let tag = "939=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadAffirmStatus (fldValIn:string) : AffirmStatus = 
@@ -14089,9 +18983,18 @@ let ReadAffirmStatus (fldValIn:string) : AffirmStatus =
 
 let WriteAffirmStatus (strm:Stream) (xxIn:AffirmStatus) =
     match xxIn with
-    | AffirmStatus.Received -> strm.Write "940=1"B; strm.Write (delim, 0, 1)
-    | AffirmStatus.ConfirmRejected -> strm.Write "940=2"B; strm.Write (delim, 0, 1)
-    | AffirmStatus.Affirmed -> strm.Write "940=3"B; strm.Write (delim, 0, 1)
+    | AffirmStatus.Received ->
+        let tag = "940=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AffirmStatus.ConfirmRejected ->
+        let tag = "940=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | AffirmStatus.Affirmed ->
+        let tag = "940=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadUnderlyingStrikeCurrency valIn =
@@ -14100,11 +19003,11 @@ let ReadUnderlyingStrikeCurrency valIn =
 
 
 let WriteUnderlyingStrikeCurrency (strm:Stream) (valIn:UnderlyingStrikeCurrency) = 
-    let tag = "941="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "941="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegStrikeCurrency valIn =
@@ -14113,11 +19016,11 @@ let ReadLegStrikeCurrency valIn =
 
 
 let WriteLegStrikeCurrency (strm:Stream) (valIn:LegStrikeCurrency) = 
-    let tag = "942="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "942="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadTimeBracket valIn =
@@ -14126,11 +19029,11 @@ let ReadTimeBracket valIn =
 
 
 let WriteTimeBracket (strm:Stream) (valIn:TimeBracket) = 
-    let tag = "943="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "943="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadCollAction (fldValIn:string) : CollAction = 
@@ -14143,9 +19046,18 @@ let ReadCollAction (fldValIn:string) : CollAction =
 
 let WriteCollAction (strm:Stream) (xxIn:CollAction) =
     match xxIn with
-    | CollAction.Retain -> strm.Write "944=0"B; strm.Write (delim, 0, 1)
-    | CollAction.Add -> strm.Write "944=1"B; strm.Write (delim, 0, 1)
-    | CollAction.Remove -> strm.Write "944=2"B; strm.Write (delim, 0, 1)
+    | CollAction.Retain ->
+        let tag = "944=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAction.Add ->
+        let tag = "944=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollAction.Remove ->
+        let tag = "944=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollInquiryStatus (fldValIn:string) : CollInquiryStatus = 
@@ -14160,11 +19072,26 @@ let ReadCollInquiryStatus (fldValIn:string) : CollInquiryStatus =
 
 let WriteCollInquiryStatus (strm:Stream) (xxIn:CollInquiryStatus) =
     match xxIn with
-    | CollInquiryStatus.Accepted -> strm.Write "945=0"B; strm.Write (delim, 0, 1)
-    | CollInquiryStatus.AcceptedWithWarnings -> strm.Write "945=1"B; strm.Write (delim, 0, 1)
-    | CollInquiryStatus.Completed -> strm.Write "945=2"B; strm.Write (delim, 0, 1)
-    | CollInquiryStatus.CompletedWithWarnings -> strm.Write "945=3"B; strm.Write (delim, 0, 1)
-    | CollInquiryStatus.Rejected -> strm.Write "945=4"B; strm.Write (delim, 0, 1)
+    | CollInquiryStatus.Accepted ->
+        let tag = "945=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryStatus.AcceptedWithWarnings ->
+        let tag = "945=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryStatus.Completed ->
+        let tag = "945=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryStatus.CompletedWithWarnings ->
+        let tag = "945=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryStatus.Rejected ->
+        let tag = "945=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadCollInquiryResult (fldValIn:string) : CollInquiryResult = 
@@ -14185,17 +19112,50 @@ let ReadCollInquiryResult (fldValIn:string) : CollInquiryResult =
 
 let WriteCollInquiryResult (strm:Stream) (xxIn:CollInquiryResult) =
     match xxIn with
-    | CollInquiryResult.Successful -> strm.Write "946=0"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.InvalidOrUnknownInstrument -> strm.Write "946=1"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.InvalidOrUnknownCollateralType -> strm.Write "946=2"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.InvalidParties -> strm.Write "946=3"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.InvalidTransportTypeRequested -> strm.Write "946=4"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.InvalidDestinationRequested -> strm.Write "946=5"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.NoCollateralFoundForTheTradeSpecified -> strm.Write "946=6"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.NoCollateralFoundForTheOrderSpecified -> strm.Write "946=7"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.CollateralInquiryTypeNotSupported -> strm.Write "946=8"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.UnauthorizedForCollateralInquiry -> strm.Write "946=9"B; strm.Write (delim, 0, 1)
-    | CollInquiryResult.Other -> strm.Write "946=99"B; strm.Write (delim, 0, 1)
+    | CollInquiryResult.Successful ->
+        let tag = "946=0"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.InvalidOrUnknownInstrument ->
+        let tag = "946=1"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.InvalidOrUnknownCollateralType ->
+        let tag = "946=2"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.InvalidParties ->
+        let tag = "946=3"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.InvalidTransportTypeRequested ->
+        let tag = "946=4"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.InvalidDestinationRequested ->
+        let tag = "946=5"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.NoCollateralFoundForTheTradeSpecified ->
+        let tag = "946=6"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.NoCollateralFoundForTheOrderSpecified ->
+        let tag = "946=7"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.CollateralInquiryTypeNotSupported ->
+        let tag = "946=8"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.UnauthorizedForCollateralInquiry ->
+        let tag = "946=9"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
+    | CollInquiryResult.Other ->
+        let tag = "946=99"B
+        strm.Write tag;
+        strm.Write (delim, 0, 1)
 
 
 let ReadStrikeCurrency valIn =
@@ -14204,11 +19164,11 @@ let ReadStrikeCurrency valIn =
 
 
 let WriteStrikeCurrency (strm:Stream) (valIn:StrikeCurrency) = 
-    let tag = "947="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "947="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNested3PartyIDs valIn =
@@ -14217,11 +19177,11 @@ let ReadNoNested3PartyIDs valIn =
 
 
 let WriteNoNested3PartyIDs (strm:Stream) (valIn:NoNested3PartyIDs) = 
-    let tag = "948="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "948="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested3PartyID valIn =
@@ -14230,11 +19190,11 @@ let ReadNested3PartyID valIn =
 
 
 let WriteNested3PartyID (strm:Stream) (valIn:Nested3PartyID) = 
-    let tag = "949="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "949="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested3PartyIDSource valIn =
@@ -14243,11 +19203,11 @@ let ReadNested3PartyIDSource valIn =
 
 
 let WriteNested3PartyIDSource (strm:Stream) (valIn:Nested3PartyIDSource) = 
-    let tag = "950="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "950="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested3PartyRole valIn =
@@ -14256,11 +19216,11 @@ let ReadNested3PartyRole valIn =
 
 
 let WriteNested3PartyRole (strm:Stream) (valIn:Nested3PartyRole) = 
-    let tag = "951="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "951="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNoNested3PartySubIDs valIn =
@@ -14269,11 +19229,11 @@ let ReadNoNested3PartySubIDs valIn =
 
 
 let WriteNoNested3PartySubIDs (strm:Stream) (valIn:NoNested3PartySubIDs) = 
-    let tag = "952="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "952="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested3PartySubID valIn =
@@ -14282,11 +19242,11 @@ let ReadNested3PartySubID valIn =
 
 
 let WriteNested3PartySubID (strm:Stream) (valIn:Nested3PartySubID) = 
-    let tag = "953="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "953="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadNested3PartySubIDType valIn =
@@ -14295,11 +19255,11 @@ let ReadNested3PartySubIDType valIn =
 
 
 let WriteNested3PartySubIDType (strm:Stream) (valIn:Nested3PartySubIDType) = 
-    let tag = "954="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "954="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegContractSettlMonth valIn =
@@ -14308,11 +19268,11 @@ let ReadLegContractSettlMonth valIn =
 
 
 let WriteLegContractSettlMonth (strm:Stream) (valIn:LegContractSettlMonth) = 
-    let tag = "955="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "955="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 let ReadLegInterestAccrualDate valIn =
@@ -14321,11 +19281,11 @@ let ReadLegInterestAccrualDate valIn =
 
 
 let WriteLegInterestAccrualDate (strm:Stream) (valIn:LegInterestAccrualDate) = 
-    let tag = "956="B
-    strm.Write tag
-    let bs = ToBytes.Convert(valIn.Value)
-    strm.Write bs
-    strm.Write (delim, 0, 1)
+   let tag = "956="B
+   strm.Write tag
+   let bs = ToBytes.Convert(valIn.Value)
+   strm.Write bs
+   strm.Write (delim, 0, 1)
 
 
 

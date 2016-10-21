@@ -13,7 +13,7 @@ open FieldGenerator
 
 
 
-let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.xml"""
+let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.ian.xml"""
 
 
 let MkOutpath flName = 
@@ -136,7 +136,6 @@ let main _ =
     printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
-
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
