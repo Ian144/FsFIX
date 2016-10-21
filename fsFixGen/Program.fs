@@ -147,7 +147,7 @@ let main _ =
 
     printfn "generating message writer funcs"
     use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
-    MessageGenerator.GenWriteFuncs msgsAfterGroupMerge swMsgFuncs
+    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
 
 
 

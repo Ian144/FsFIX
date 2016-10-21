@@ -53,7 +53,7 @@ let private genWriteGroup (parent:string) (grp:Group) =
                        "        | OneOrTwo.One _ -> NoSides.OneSide";
                        "        | OneOrTwo.Two _ -> NoSides.BothSides";
                        "    WriteNoSides strm noSidesField";
-            (sprintf   "    grp.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
+            (sprintf   "    xx.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
         ]
     else
         [
@@ -71,18 +71,18 @@ let private genWriteOptionalGroup (parent:string) (grp:Group) =
     let isNoSides = countFieldName.Contains "NoSides" 
     if isNoSides then
         [
-            (sprintf   "    grp.%sGrp |> Option.iter (fun gs ->     // group" longName );
+            (sprintf   "    xx.%sGrp |> Option.iter (fun gs ->     // group" longName );
                        "        let noSidesField =";
             (sprintf   "            match %s.%sGrp with" parent longName);
                        "            | One _ -> NoSides.OneSide";
                        "            | Two _ -> NoSides.BothSides";
                        "        WriteNoSides strm noSidesField";
             (sprintf   "        %s.NoSidesGrp |> FixTypes.OneOrTwoIter (WriteNoSidesGrp strm)" parent);
-            (sprintf   "        grp.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
+            (sprintf   "        xx.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
         ]
     else
         [
-            (sprintf   "    grp.%sGrp |> Option.iter (fun gs ->     // group" longName );
+            (sprintf   "    xx.%sGrp |> Option.iter (fun gs ->     // group" longName );
             (sprintf   "        let numGrps = gs.Length");
             (sprintf   "        Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName);
             (sprintf   "        gs |> List.iter (fun gg -> Write%sGrp strm gg)    ) // end Option.iter" longName);
@@ -95,15 +95,15 @@ let genItemListWriterStrs (items:FIXItem list) =
         |> List.map (fun item ->
                 match item with
                 | FIXItem.Field fld         ->  match fld.Required with
-                                                | Required.Required     ->  [sprintf "    Write%s strm grp.%s" fld.FName fld.FName]
-                                                | Required.NotRequired  ->  [sprintf "    grp.%s |> Option.iter (Write%s strm)" fld.FName fld.FName]
+                                                | Required.Required     ->  [sprintf "    Write%s strm xx.%s" fld.FName fld.FName]
+                                                | Required.NotRequired  ->  [sprintf "    xx.%s |> Option.iter (Write%s strm)" fld.FName fld.FName]
                 | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                                 match cmp.Required with
-                                                | Required.Required     ->  [sprintf "    Write%s strm grp.%s    // component" name name]
-                                                | Required.NotRequired  ->  [sprintf "    grp.%s |> Option.iter (Write%s strm) // component" name name]
+                                                | Required.Required     ->  [sprintf "    Write%s strm xx.%s    // component" name name]
+                                                | Required.NotRequired  ->  [sprintf "    xx.%s |> Option.iter (Write%s strm) // component" name name]
                 | FIXItem.Group grp         ->  match grp.Required with
-                                                | Required.Required     ->  genWriteGroup "grp" grp
-                                                | Required.NotRequired  ->  genWriteOptionalGroup "grp" grp
+                                                | Required.Required     ->  genWriteGroup "xx" grp
+                                                | Required.NotRequired  ->  genWriteOptionalGroup "xx" grp
                 ) // end List.map
         |> List.concat // flatten the 'string list list' into a 'string list'
 

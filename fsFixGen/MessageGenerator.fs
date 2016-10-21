@@ -43,9 +43,25 @@ let Gen (msgs:Msg list) (sw:StreamWriter) =
     msgs |> List.iter (writeMsg sw)
 
 
-let private genMsgWriterFunc (sw:StreamWriter) (msg:Msg) =
+let private makeParamStr (fi:FIXItem) =
+    let typeName = fi |> FIXItem.getName
+    let valName  = typeName |> Utils.lCaseFirstChar
+    sprintf "(%s:%s)" valName typeName
+
+
+let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
     let name = msg.MName
-    let funcSig = sprintf "let Write%s (strm:System.IO.Stream) (grp:%s) =" name name  // todo, don't call a component instance a group
+    let paramStr = requiredHdrItems |> List.map makeParamStr
+    let allParamStr = paramStr |> Utils.joinStrs " "
+    let funcSig = sprintf "let Write%s (xx:%s) %s (strm:System.IO.Stream) = " name name allParamStr
+    funcSig
+
+
+let private genMsgWriterFunc (requiredHdrItems:FIXItem list) (sw:StreamWriter) (msg:Msg) =
+    let name = msg.MName
+    let cmnt = sprintf "// tag: %s" msg.Tag
+    sw.WriteLine cmnt
+    let funcSig = makeFuncSig requiredHdrItems msg
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs msg.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine
@@ -53,7 +69,9 @@ let private genMsgWriterFunc (sw:StreamWriter) (msg:Msg) =
     sw.WriteLine ""
 
 
-let GenWriteFuncs (groups:Msg list) (sw:StreamWriter) =
+let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
+    let requiredHdrFields, optionalHdrFields = hdrItems |> List.partition FIXItem.getIsRequired
+
     // generate the group write functions todo: generate group read funcs
     sw.WriteLine "module Fix44.MsgWriteFuncs"
     sw.WriteLine ""
@@ -65,6 +83,6 @@ let GenWriteFuncs (groups:Msg list) (sw:StreamWriter) =
     sw.WriteLine "open Fix44.Messages"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genMsgWriterFunc sw)  
+    groups |> List.iter (genMsgWriterFunc requiredHdrFields sw)  
 
 

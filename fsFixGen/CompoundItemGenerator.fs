@@ -61,7 +61,7 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) =
 let private genGroupWriterFunc (sw:StreamWriter) (grp:Group) =
     sw.WriteLine "// group"
     let (GroupLongName grpName) = GroupUtils.makeLongName grp
-    let funcSig = sprintf "let Write%sGrp (strm:System.IO.Stream) (grp:%sGrp) =" grpName grpName 
+    let funcSig = sprintf "let Write%sGrp (strm:System.IO.Stream) (xx:%sGrp) =" grpName grpName 
     sw.WriteLine funcSig
     // todo: check the fix spec regarding required fields in groups that might be optional? how can reading work if fields can be missing?
     let writeGroupFuncStrs =CommonGenerator.genItemListWriterStrs grp.Items
@@ -74,7 +74,7 @@ let private genGroupWriterFunc (sw:StreamWriter) (grp:Group) =
 let private genComponentWriterFunc (sw:StreamWriter) (cmp:Component) =
     sw.WriteLine "// component"
     let (ComponentName name) = cmp.CName
-    let funcSig = sprintf "let Write%s (strm:System.IO.Stream) (grp:%s) =" name name  // todo, don't call a component instance a group
+    let funcSig = sprintf "let Write%s (strm:System.IO.Stream) (xx:%s) =" name name  // todo, don't call a component instance a group
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs cmp.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine

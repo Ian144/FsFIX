@@ -46,10 +46,17 @@ let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
 
 
 
-let getName (fi:FIXItem) : string =
+let getName (fi:FIXItem) =
     match fi with
     | FIXItem.Field fld         ->  fld.FName
     | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
                                     nm
     | FIXItem.Group grp         ->  grp.GName
-                                
+
+
+
+let getIsRequired (fi:FIXItem) =
+    match fi with
+    | FIXItem.Field fld         ->  fld.Required = Required.Required
+    | FIXItem.ComponentRef cmp  ->  cmp.Required = Required.Required
+    | FIXItem.Group grp         ->  grp.Required = Required.Required

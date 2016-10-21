@@ -6,1767 +6,1767 @@ open Fix44.CompoundItems
 
 
 // group
-let WriteNoUnderlyingSecurityAltIDGrp (strm:System.IO.Stream) (grp:NoUnderlyingSecurityAltIDGrp) =
-    grp.UnderlyingSecurityAltID |> Option.iter (WriteUnderlyingSecurityAltID strm)
-    grp.UnderlyingSecurityAltIDSource |> Option.iter (WriteUnderlyingSecurityAltIDSource strm)
+let WriteNoUnderlyingSecurityAltIDGrp (strm:System.IO.Stream) (xx:NoUnderlyingSecurityAltIDGrp) =
+    xx.UnderlyingSecurityAltID |> Option.iter (WriteUnderlyingSecurityAltID strm)
+    xx.UnderlyingSecurityAltIDSource |> Option.iter (WriteUnderlyingSecurityAltIDSource strm)
 
 
 // group
-let WriteNoUnderlyingStipsGrp (strm:System.IO.Stream) (grp:NoUnderlyingStipsGrp) =
-    grp.UnderlyingStipType |> Option.iter (WriteUnderlyingStipType strm)
-    grp.UnderlyingStipValue |> Option.iter (WriteUnderlyingStipValue strm)
+let WriteNoUnderlyingStipsGrp (strm:System.IO.Stream) (xx:NoUnderlyingStipsGrp) =
+    xx.UnderlyingStipType |> Option.iter (WriteUnderlyingStipType strm)
+    xx.UnderlyingStipValue |> Option.iter (WriteUnderlyingStipValue strm)
 
 
 // component
-let WriteUnderlyingStipulations (strm:System.IO.Stream) (grp:UnderlyingStipulations) =
-    grp.NoUnderlyingStipsGrp |> Option.iter (fun gs ->     // group
+let WriteUnderlyingStipulations (strm:System.IO.Stream) (xx:UnderlyingStipulations) =
+    xx.NoUnderlyingStipsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyingStips strm (Fix44.Fields.NoUnderlyingStips numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingStipsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteUnderlyingInstrument (strm:System.IO.Stream) (grp:UnderlyingInstrument) =
-    WriteUnderlyingSymbol strm grp.UnderlyingSymbol
-    grp.UnderlyingSymbolSfx |> Option.iter (WriteUnderlyingSymbolSfx strm)
-    grp.UnderlyingSecurityID |> Option.iter (WriteUnderlyingSecurityID strm)
-    grp.UnderlyingSecurityIDSource |> Option.iter (WriteUnderlyingSecurityIDSource strm)
-    grp.NoUnderlyingSecurityAltIDGrp |> Option.iter (fun gs ->     // group
+let WriteUnderlyingInstrument (strm:System.IO.Stream) (xx:UnderlyingInstrument) =
+    WriteUnderlyingSymbol strm xx.UnderlyingSymbol
+    xx.UnderlyingSymbolSfx |> Option.iter (WriteUnderlyingSymbolSfx strm)
+    xx.UnderlyingSecurityID |> Option.iter (WriteUnderlyingSecurityID strm)
+    xx.UnderlyingSecurityIDSource |> Option.iter (WriteUnderlyingSecurityIDSource strm)
+    xx.NoUnderlyingSecurityAltIDGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyingSecurityAltID strm (Fix44.Fields.NoUnderlyingSecurityAltID numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingSecurityAltIDGrp strm gg)    ) // end Option.iter
-    grp.UnderlyingProduct |> Option.iter (WriteUnderlyingProduct strm)
-    grp.UnderlyingCFICode |> Option.iter (WriteUnderlyingCFICode strm)
-    grp.UnderlyingSecurityType |> Option.iter (WriteUnderlyingSecurityType strm)
-    grp.UnderlyingSecuritySubType |> Option.iter (WriteUnderlyingSecuritySubType strm)
-    grp.UnderlyingMaturityMonthYear |> Option.iter (WriteUnderlyingMaturityMonthYear strm)
-    grp.UnderlyingMaturityDate |> Option.iter (WriteUnderlyingMaturityDate strm)
-    grp.UnderlyingPutOrCall |> Option.iter (WriteUnderlyingPutOrCall strm)
-    grp.UnderlyingCouponPaymentDate |> Option.iter (WriteUnderlyingCouponPaymentDate strm)
-    grp.UnderlyingIssueDate |> Option.iter (WriteUnderlyingIssueDate strm)
-    grp.UnderlyingRepoCollateralSecurityType |> Option.iter (WriteUnderlyingRepoCollateralSecurityType strm)
-    grp.UnderlyingRepurchaseTerm |> Option.iter (WriteUnderlyingRepurchaseTerm strm)
-    grp.UnderlyingRepurchaseRate |> Option.iter (WriteUnderlyingRepurchaseRate strm)
-    grp.UnderlyingFactor |> Option.iter (WriteUnderlyingFactor strm)
-    grp.UnderlyingCreditRating |> Option.iter (WriteUnderlyingCreditRating strm)
-    grp.UnderlyingInstrRegistry |> Option.iter (WriteUnderlyingInstrRegistry strm)
-    grp.UnderlyingCountryOfIssue |> Option.iter (WriteUnderlyingCountryOfIssue strm)
-    grp.UnderlyingStateOrProvinceOfIssue |> Option.iter (WriteUnderlyingStateOrProvinceOfIssue strm)
-    grp.UnderlyingLocaleOfIssue |> Option.iter (WriteUnderlyingLocaleOfIssue strm)
-    grp.UnderlyingRedemptionDate |> Option.iter (WriteUnderlyingRedemptionDate strm)
-    grp.UnderlyingStrikePrice |> Option.iter (WriteUnderlyingStrikePrice strm)
-    grp.UnderlyingStrikeCurrency |> Option.iter (WriteUnderlyingStrikeCurrency strm)
-    grp.UnderlyingOptAttribute |> Option.iter (WriteUnderlyingOptAttribute strm)
-    grp.UnderlyingContractMultiplier |> Option.iter (WriteUnderlyingContractMultiplier strm)
-    grp.UnderlyingCouponRate |> Option.iter (WriteUnderlyingCouponRate strm)
-    grp.UnderlyingSecurityExchange |> Option.iter (WriteUnderlyingSecurityExchange strm)
-    grp.UnderlyingIssuer |> Option.iter (WriteUnderlyingIssuer strm)
-    grp.EncodedUnderlyingIssuer |> Option.iter (WriteEncodedUnderlyingIssuer strm)
-    grp.UnderlyingSecurityDesc |> Option.iter (WriteUnderlyingSecurityDesc strm)
-    grp.EncodedUnderlyingSecurityDesc |> Option.iter (WriteEncodedUnderlyingSecurityDesc strm)
-    grp.UnderlyingCPProgram |> Option.iter (WriteUnderlyingCPProgram strm)
-    grp.UnderlyingCPRegType |> Option.iter (WriteUnderlyingCPRegType strm)
-    grp.UnderlyingCurrency |> Option.iter (WriteUnderlyingCurrency strm)
-    grp.UnderlyingQty |> Option.iter (WriteUnderlyingQty strm)
-    grp.UnderlyingPx |> Option.iter (WriteUnderlyingPx strm)
-    grp.UnderlyingDirtyPrice |> Option.iter (WriteUnderlyingDirtyPrice strm)
-    grp.UnderlyingEndPrice |> Option.iter (WriteUnderlyingEndPrice strm)
-    grp.UnderlyingStartValue |> Option.iter (WriteUnderlyingStartValue strm)
-    grp.UnderlyingCurrentValue |> Option.iter (WriteUnderlyingCurrentValue strm)
-    grp.UnderlyingEndValue |> Option.iter (WriteUnderlyingEndValue strm)
-    grp.UnderlyingStipulations |> Option.iter (WriteUnderlyingStipulations strm) // component
+    xx.UnderlyingProduct |> Option.iter (WriteUnderlyingProduct strm)
+    xx.UnderlyingCFICode |> Option.iter (WriteUnderlyingCFICode strm)
+    xx.UnderlyingSecurityType |> Option.iter (WriteUnderlyingSecurityType strm)
+    xx.UnderlyingSecuritySubType |> Option.iter (WriteUnderlyingSecuritySubType strm)
+    xx.UnderlyingMaturityMonthYear |> Option.iter (WriteUnderlyingMaturityMonthYear strm)
+    xx.UnderlyingMaturityDate |> Option.iter (WriteUnderlyingMaturityDate strm)
+    xx.UnderlyingPutOrCall |> Option.iter (WriteUnderlyingPutOrCall strm)
+    xx.UnderlyingCouponPaymentDate |> Option.iter (WriteUnderlyingCouponPaymentDate strm)
+    xx.UnderlyingIssueDate |> Option.iter (WriteUnderlyingIssueDate strm)
+    xx.UnderlyingRepoCollateralSecurityType |> Option.iter (WriteUnderlyingRepoCollateralSecurityType strm)
+    xx.UnderlyingRepurchaseTerm |> Option.iter (WriteUnderlyingRepurchaseTerm strm)
+    xx.UnderlyingRepurchaseRate |> Option.iter (WriteUnderlyingRepurchaseRate strm)
+    xx.UnderlyingFactor |> Option.iter (WriteUnderlyingFactor strm)
+    xx.UnderlyingCreditRating |> Option.iter (WriteUnderlyingCreditRating strm)
+    xx.UnderlyingInstrRegistry |> Option.iter (WriteUnderlyingInstrRegistry strm)
+    xx.UnderlyingCountryOfIssue |> Option.iter (WriteUnderlyingCountryOfIssue strm)
+    xx.UnderlyingStateOrProvinceOfIssue |> Option.iter (WriteUnderlyingStateOrProvinceOfIssue strm)
+    xx.UnderlyingLocaleOfIssue |> Option.iter (WriteUnderlyingLocaleOfIssue strm)
+    xx.UnderlyingRedemptionDate |> Option.iter (WriteUnderlyingRedemptionDate strm)
+    xx.UnderlyingStrikePrice |> Option.iter (WriteUnderlyingStrikePrice strm)
+    xx.UnderlyingStrikeCurrency |> Option.iter (WriteUnderlyingStrikeCurrency strm)
+    xx.UnderlyingOptAttribute |> Option.iter (WriteUnderlyingOptAttribute strm)
+    xx.UnderlyingContractMultiplier |> Option.iter (WriteUnderlyingContractMultiplier strm)
+    xx.UnderlyingCouponRate |> Option.iter (WriteUnderlyingCouponRate strm)
+    xx.UnderlyingSecurityExchange |> Option.iter (WriteUnderlyingSecurityExchange strm)
+    xx.UnderlyingIssuer |> Option.iter (WriteUnderlyingIssuer strm)
+    xx.EncodedUnderlyingIssuer |> Option.iter (WriteEncodedUnderlyingIssuer strm)
+    xx.UnderlyingSecurityDesc |> Option.iter (WriteUnderlyingSecurityDesc strm)
+    xx.EncodedUnderlyingSecurityDesc |> Option.iter (WriteEncodedUnderlyingSecurityDesc strm)
+    xx.UnderlyingCPProgram |> Option.iter (WriteUnderlyingCPProgram strm)
+    xx.UnderlyingCPRegType |> Option.iter (WriteUnderlyingCPRegType strm)
+    xx.UnderlyingCurrency |> Option.iter (WriteUnderlyingCurrency strm)
+    xx.UnderlyingQty |> Option.iter (WriteUnderlyingQty strm)
+    xx.UnderlyingPx |> Option.iter (WriteUnderlyingPx strm)
+    xx.UnderlyingDirtyPrice |> Option.iter (WriteUnderlyingDirtyPrice strm)
+    xx.UnderlyingEndPrice |> Option.iter (WriteUnderlyingEndPrice strm)
+    xx.UnderlyingStartValue |> Option.iter (WriteUnderlyingStartValue strm)
+    xx.UnderlyingCurrentValue |> Option.iter (WriteUnderlyingCurrentValue strm)
+    xx.UnderlyingEndValue |> Option.iter (WriteUnderlyingEndValue strm)
+    xx.UnderlyingStipulations |> Option.iter (WriteUnderlyingStipulations strm) // component
 
 
 // group
-let WriteCollateralResponse_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:CollateralResponse_NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.CollAction |> Option.iter (WriteCollAction strm)
+let WriteCollateralResponse_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:CollateralResponse_NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.CollAction |> Option.iter (WriteCollAction strm)
 
 
 // group
-let WriteCollateralAssignment_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:CollateralAssignment_NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.CollAction |> Option.iter (WriteCollAction strm)
+let WriteCollateralAssignment_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:CollateralAssignment_NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.CollAction |> Option.iter (WriteCollAction strm)
 
 
 // group
-let WriteCollateralRequest_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:CollateralRequest_NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.CollAction |> Option.iter (WriteCollAction strm)
+let WriteCollateralRequest_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:CollateralRequest_NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.CollAction |> Option.iter (WriteCollAction strm)
 
 
 // group
-let WritePositionReport_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:PositionReport_NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    WriteUnderlyingSettlPrice strm grp.UnderlyingSettlPrice
-    WriteUnderlyingSettlPriceType strm grp.UnderlyingSettlPriceType
+let WritePositionReport_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:PositionReport_NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    WriteUnderlyingSettlPrice strm xx.UnderlyingSettlPrice
+    WriteUnderlyingSettlPriceType strm xx.UnderlyingSettlPriceType
 
 
 // group
-let WriteNoNestedPartySubIDsGrp (strm:System.IO.Stream) (grp:NoNestedPartySubIDsGrp) =
-    grp.NestedPartySubID |> Option.iter (WriteNestedPartySubID strm)
-    grp.NestedPartySubIDType |> Option.iter (WriteNestedPartySubIDType strm)
+let WriteNoNestedPartySubIDsGrp (strm:System.IO.Stream) (xx:NoNestedPartySubIDsGrp) =
+    xx.NestedPartySubID |> Option.iter (WriteNestedPartySubID strm)
+    xx.NestedPartySubIDType |> Option.iter (WriteNestedPartySubIDType strm)
 
 
 // group
-let WriteNoNestedPartyIDsGrp (strm:System.IO.Stream) (grp:NoNestedPartyIDsGrp) =
-    grp.NestedPartyID |> Option.iter (WriteNestedPartyID strm)
-    grp.NestedPartyIDSource |> Option.iter (WriteNestedPartyIDSource strm)
-    grp.NestedPartyRole |> Option.iter (WriteNestedPartyRole strm)
-    grp.NoNestedPartySubIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNoNestedPartyIDsGrp (strm:System.IO.Stream) (xx:NoNestedPartyIDsGrp) =
+    xx.NestedPartyID |> Option.iter (WriteNestedPartyID strm)
+    xx.NestedPartyIDSource |> Option.iter (WriteNestedPartyIDSource strm)
+    xx.NestedPartyRole |> Option.iter (WriteNestedPartyRole strm)
+    xx.NoNestedPartySubIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNestedPartySubIDs strm (Fix44.Fields.NoNestedPartySubIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNestedPartySubIDsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteNestedParties (strm:System.IO.Stream) (grp:NestedParties) =
-    grp.NoNestedPartyIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNestedParties (strm:System.IO.Stream) (xx:NestedParties) =
+    xx.NoNestedPartyIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNestedPartyIDs strm (Fix44.Fields.NoNestedPartyIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNestedPartyIDsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoPositionsGrp (strm:System.IO.Stream) (grp:NoPositionsGrp) =
-    grp.PosType |> Option.iter (WritePosType strm)
-    grp.LongQty |> Option.iter (WriteLongQty strm)
-    grp.ShortQty |> Option.iter (WriteShortQty strm)
-    grp.PosQtyStatus |> Option.iter (WritePosQtyStatus strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
+let WriteNoPositionsGrp (strm:System.IO.Stream) (xx:NoPositionsGrp) =
+    xx.PosType |> Option.iter (WritePosType strm)
+    xx.LongQty |> Option.iter (WriteLongQty strm)
+    xx.ShortQty |> Option.iter (WriteShortQty strm)
+    xx.PosQtyStatus |> Option.iter (WritePosQtyStatus strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
 
 
 // component
-let WritePositionQty (strm:System.IO.Stream) (grp:PositionQty) =
-    let numGrps = grp.NoPositionsGrp.Length
+let WritePositionQty (strm:System.IO.Stream) (xx:PositionQty) =
+    let numGrps = xx.NoPositionsGrp.Length
     WriteNoPositions strm (Fix44.Fields.NoPositions numGrps) // write the 'num group repeats' field
-    grp.NoPositionsGrp |> List.iter (fun gg -> WriteNoPositionsGrp strm gg)
+    xx.NoPositionsGrp |> List.iter (fun gg -> WriteNoPositionsGrp strm gg)
 
 
 // group
-let WriteNoRegistDtlsGrp (strm:System.IO.Stream) (grp:NoRegistDtlsGrp) =
-    grp.RegistDtls |> Option.iter (WriteRegistDtls strm)
-    grp.RegistEmail |> Option.iter (WriteRegistEmail strm)
-    grp.MailingDtls |> Option.iter (WriteMailingDtls strm)
-    grp.MailingInst |> Option.iter (WriteMailingInst strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.OwnerType |> Option.iter (WriteOwnerType strm)
-    grp.DateOfBirth |> Option.iter (WriteDateOfBirth strm)
-    grp.InvestorCountryOfResidence |> Option.iter (WriteInvestorCountryOfResidence strm)
+let WriteNoRegistDtlsGrp (strm:System.IO.Stream) (xx:NoRegistDtlsGrp) =
+    xx.RegistDtls |> Option.iter (WriteRegistDtls strm)
+    xx.RegistEmail |> Option.iter (WriteRegistEmail strm)
+    xx.MailingDtls |> Option.iter (WriteMailingDtls strm)
+    xx.MailingInst |> Option.iter (WriteMailingInst strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.OwnerType |> Option.iter (WriteOwnerType strm)
+    xx.DateOfBirth |> Option.iter (WriteDateOfBirth strm)
+    xx.InvestorCountryOfResidence |> Option.iter (WriteInvestorCountryOfResidence strm)
 
 
 // group
-let WriteNoNested2PartySubIDsGrp (strm:System.IO.Stream) (grp:NoNested2PartySubIDsGrp) =
-    grp.Nested2PartySubID |> Option.iter (WriteNested2PartySubID strm)
-    grp.Nested2PartySubIDType |> Option.iter (WriteNested2PartySubIDType strm)
+let WriteNoNested2PartySubIDsGrp (strm:System.IO.Stream) (xx:NoNested2PartySubIDsGrp) =
+    xx.Nested2PartySubID |> Option.iter (WriteNested2PartySubID strm)
+    xx.Nested2PartySubIDType |> Option.iter (WriteNested2PartySubIDType strm)
 
 
 // group
-let WriteNoNested2PartyIDsGrp (strm:System.IO.Stream) (grp:NoNested2PartyIDsGrp) =
-    grp.Nested2PartyID |> Option.iter (WriteNested2PartyID strm)
-    grp.Nested2PartyIDSource |> Option.iter (WriteNested2PartyIDSource strm)
-    grp.Nested2PartyRole |> Option.iter (WriteNested2PartyRole strm)
-    grp.NoNested2PartySubIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNoNested2PartyIDsGrp (strm:System.IO.Stream) (xx:NoNested2PartyIDsGrp) =
+    xx.Nested2PartyID |> Option.iter (WriteNested2PartyID strm)
+    xx.Nested2PartyIDSource |> Option.iter (WriteNested2PartyIDSource strm)
+    xx.Nested2PartyRole |> Option.iter (WriteNested2PartyRole strm)
+    xx.NoNested2PartySubIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNested2PartySubIDs strm (Fix44.Fields.NoNested2PartySubIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNested2PartySubIDsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteNestedParties2 (strm:System.IO.Stream) (grp:NestedParties2) =
-    grp.NoNested2PartyIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNestedParties2 (strm:System.IO.Stream) (xx:NestedParties2) =
+    xx.NoNested2PartyIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNested2PartyIDs strm (Fix44.Fields.NoNested2PartyIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNested2PartyIDsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteTradeCaptureReportAck_NoAllocsGrp (strm:System.IO.Stream) (grp:TradeCaptureReportAck_NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
-    grp.AllocQty |> Option.iter (WriteAllocQty strm)
+let WriteTradeCaptureReportAck_NoAllocsGrp (strm:System.IO.Stream) (xx:TradeCaptureReportAck_NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
+    xx.AllocQty |> Option.iter (WriteAllocQty strm)
 
 
 // group
-let WriteNoLegSecurityAltIDGrp (strm:System.IO.Stream) (grp:NoLegSecurityAltIDGrp) =
-    grp.LegSecurityAltID |> Option.iter (WriteLegSecurityAltID strm)
-    grp.LegSecurityAltIDSource |> Option.iter (WriteLegSecurityAltIDSource strm)
+let WriteNoLegSecurityAltIDGrp (strm:System.IO.Stream) (xx:NoLegSecurityAltIDGrp) =
+    xx.LegSecurityAltID |> Option.iter (WriteLegSecurityAltID strm)
+    xx.LegSecurityAltIDSource |> Option.iter (WriteLegSecurityAltIDSource strm)
 
 
 // component
-let WriteInstrumentLeg (strm:System.IO.Stream) (grp:InstrumentLeg) =
-    grp.LegSymbol |> Option.iter (WriteLegSymbol strm)
-    grp.LegSymbolSfx |> Option.iter (WriteLegSymbolSfx strm)
-    grp.LegSecurityID |> Option.iter (WriteLegSecurityID strm)
-    grp.LegSecurityIDSource |> Option.iter (WriteLegSecurityIDSource strm)
-    grp.NoLegSecurityAltIDGrp |> Option.iter (fun gs ->     // group
+let WriteInstrumentLeg (strm:System.IO.Stream) (xx:InstrumentLeg) =
+    xx.LegSymbol |> Option.iter (WriteLegSymbol strm)
+    xx.LegSymbolSfx |> Option.iter (WriteLegSymbolSfx strm)
+    xx.LegSecurityID |> Option.iter (WriteLegSecurityID strm)
+    xx.LegSecurityIDSource |> Option.iter (WriteLegSecurityIDSource strm)
+    xx.NoLegSecurityAltIDGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegSecurityAltID strm (Fix44.Fields.NoLegSecurityAltID numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegSecurityAltIDGrp strm gg)    ) // end Option.iter
-    grp.LegProduct |> Option.iter (WriteLegProduct strm)
-    grp.LegCFICode |> Option.iter (WriteLegCFICode strm)
-    grp.LegSecurityType |> Option.iter (WriteLegSecurityType strm)
-    grp.LegSecuritySubType |> Option.iter (WriteLegSecuritySubType strm)
-    grp.LegMaturityMonthYear |> Option.iter (WriteLegMaturityMonthYear strm)
-    grp.LegMaturityDate |> Option.iter (WriteLegMaturityDate strm)
-    grp.LegCouponPaymentDate |> Option.iter (WriteLegCouponPaymentDate strm)
-    grp.LegIssueDate |> Option.iter (WriteLegIssueDate strm)
-    grp.LegRepoCollateralSecurityType |> Option.iter (WriteLegRepoCollateralSecurityType strm)
-    grp.LegRepurchaseTerm |> Option.iter (WriteLegRepurchaseTerm strm)
-    grp.LegRepurchaseRate |> Option.iter (WriteLegRepurchaseRate strm)
-    grp.LegFactor |> Option.iter (WriteLegFactor strm)
-    grp.LegCreditRating |> Option.iter (WriteLegCreditRating strm)
-    grp.LegInstrRegistry |> Option.iter (WriteLegInstrRegistry strm)
-    grp.LegCountryOfIssue |> Option.iter (WriteLegCountryOfIssue strm)
-    grp.LegStateOrProvinceOfIssue |> Option.iter (WriteLegStateOrProvinceOfIssue strm)
-    grp.LegLocaleOfIssue |> Option.iter (WriteLegLocaleOfIssue strm)
-    grp.LegRedemptionDate |> Option.iter (WriteLegRedemptionDate strm)
-    grp.LegStrikePrice |> Option.iter (WriteLegStrikePrice strm)
-    grp.LegStrikeCurrency |> Option.iter (WriteLegStrikeCurrency strm)
-    grp.LegOptAttribute |> Option.iter (WriteLegOptAttribute strm)
-    grp.LegContractMultiplier |> Option.iter (WriteLegContractMultiplier strm)
-    grp.LegCouponRate |> Option.iter (WriteLegCouponRate strm)
-    grp.LegSecurityExchange |> Option.iter (WriteLegSecurityExchange strm)
-    grp.LegIssuer |> Option.iter (WriteLegIssuer strm)
-    grp.EncodedLegIssuer |> Option.iter (WriteEncodedLegIssuer strm)
-    grp.LegSecurityDesc |> Option.iter (WriteLegSecurityDesc strm)
-    grp.EncodedLegSecurityDesc |> Option.iter (WriteEncodedLegSecurityDesc strm)
-    grp.LegRatioQty |> Option.iter (WriteLegRatioQty strm)
-    grp.LegSide |> Option.iter (WriteLegSide strm)
-    grp.LegCurrency |> Option.iter (WriteLegCurrency strm)
-    grp.LegPool |> Option.iter (WriteLegPool strm)
-    grp.LegDatedDate |> Option.iter (WriteLegDatedDate strm)
-    grp.LegContractSettlMonth |> Option.iter (WriteLegContractSettlMonth strm)
-    grp.LegInterestAccrualDate |> Option.iter (WriteLegInterestAccrualDate strm)
+    xx.LegProduct |> Option.iter (WriteLegProduct strm)
+    xx.LegCFICode |> Option.iter (WriteLegCFICode strm)
+    xx.LegSecurityType |> Option.iter (WriteLegSecurityType strm)
+    xx.LegSecuritySubType |> Option.iter (WriteLegSecuritySubType strm)
+    xx.LegMaturityMonthYear |> Option.iter (WriteLegMaturityMonthYear strm)
+    xx.LegMaturityDate |> Option.iter (WriteLegMaturityDate strm)
+    xx.LegCouponPaymentDate |> Option.iter (WriteLegCouponPaymentDate strm)
+    xx.LegIssueDate |> Option.iter (WriteLegIssueDate strm)
+    xx.LegRepoCollateralSecurityType |> Option.iter (WriteLegRepoCollateralSecurityType strm)
+    xx.LegRepurchaseTerm |> Option.iter (WriteLegRepurchaseTerm strm)
+    xx.LegRepurchaseRate |> Option.iter (WriteLegRepurchaseRate strm)
+    xx.LegFactor |> Option.iter (WriteLegFactor strm)
+    xx.LegCreditRating |> Option.iter (WriteLegCreditRating strm)
+    xx.LegInstrRegistry |> Option.iter (WriteLegInstrRegistry strm)
+    xx.LegCountryOfIssue |> Option.iter (WriteLegCountryOfIssue strm)
+    xx.LegStateOrProvinceOfIssue |> Option.iter (WriteLegStateOrProvinceOfIssue strm)
+    xx.LegLocaleOfIssue |> Option.iter (WriteLegLocaleOfIssue strm)
+    xx.LegRedemptionDate |> Option.iter (WriteLegRedemptionDate strm)
+    xx.LegStrikePrice |> Option.iter (WriteLegStrikePrice strm)
+    xx.LegStrikeCurrency |> Option.iter (WriteLegStrikeCurrency strm)
+    xx.LegOptAttribute |> Option.iter (WriteLegOptAttribute strm)
+    xx.LegContractMultiplier |> Option.iter (WriteLegContractMultiplier strm)
+    xx.LegCouponRate |> Option.iter (WriteLegCouponRate strm)
+    xx.LegSecurityExchange |> Option.iter (WriteLegSecurityExchange strm)
+    xx.LegIssuer |> Option.iter (WriteLegIssuer strm)
+    xx.EncodedLegIssuer |> Option.iter (WriteEncodedLegIssuer strm)
+    xx.LegSecurityDesc |> Option.iter (WriteLegSecurityDesc strm)
+    xx.EncodedLegSecurityDesc |> Option.iter (WriteEncodedLegSecurityDesc strm)
+    xx.LegRatioQty |> Option.iter (WriteLegRatioQty strm)
+    xx.LegSide |> Option.iter (WriteLegSide strm)
+    xx.LegCurrency |> Option.iter (WriteLegCurrency strm)
+    xx.LegPool |> Option.iter (WriteLegPool strm)
+    xx.LegDatedDate |> Option.iter (WriteLegDatedDate strm)
+    xx.LegContractSettlMonth |> Option.iter (WriteLegContractSettlMonth strm)
+    xx.LegInterestAccrualDate |> Option.iter (WriteLegInterestAccrualDate strm)
 
 
 // group
-let WriteNoLegStipulationsGrp (strm:System.IO.Stream) (grp:NoLegStipulationsGrp) =
-    grp.LegStipulationType |> Option.iter (WriteLegStipulationType strm)
-    grp.LegStipulationValue |> Option.iter (WriteLegStipulationValue strm)
+let WriteNoLegStipulationsGrp (strm:System.IO.Stream) (xx:NoLegStipulationsGrp) =
+    xx.LegStipulationType |> Option.iter (WriteLegStipulationType strm)
+    xx.LegStipulationValue |> Option.iter (WriteLegStipulationValue strm)
 
 
 // component
-let WriteLegStipulations (strm:System.IO.Stream) (grp:LegStipulations) =
-    grp.NoLegStipulationsGrp |> Option.iter (fun gs ->     // group
+let WriteLegStipulations (strm:System.IO.Stream) (xx:LegStipulations) =
+    xx.NoLegStipulationsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegStipulations strm (Fix44.Fields.NoLegStipulations numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegStipulationsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteTradeCaptureReportAck_NoLegsGrp (strm:System.IO.Stream) (grp:TradeCaptureReportAck_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
-    grp.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegRefID |> Option.iter (WriteLegRefID strm)
-    grp.LegPrice |> Option.iter (WriteLegPrice strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegLastPx |> Option.iter (WriteLegLastPx strm)
+let WriteTradeCaptureReportAck_NoLegsGrp (strm:System.IO.Stream) (xx:TradeCaptureReportAck_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
+    xx.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegRefID |> Option.iter (WriteLegRefID strm)
+    xx.LegPrice |> Option.iter (WriteLegPrice strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegLastPx |> Option.iter (WriteLegLastPx strm)
 
 
 // group
-let WriteNoPartySubIDsGrp (strm:System.IO.Stream) (grp:NoPartySubIDsGrp) =
-    grp.PartySubID |> Option.iter (WritePartySubID strm)
-    grp.PartySubIDType |> Option.iter (WritePartySubIDType strm)
+let WriteNoPartySubIDsGrp (strm:System.IO.Stream) (xx:NoPartySubIDsGrp) =
+    xx.PartySubID |> Option.iter (WritePartySubID strm)
+    xx.PartySubIDType |> Option.iter (WritePartySubIDType strm)
 
 
 // group
-let WriteNoPartyIDsGrp (strm:System.IO.Stream) (grp:NoPartyIDsGrp) =
-    grp.PartyID |> Option.iter (WritePartyID strm)
-    grp.PartyIDSource |> Option.iter (WritePartyIDSource strm)
-    grp.PartyRole |> Option.iter (WritePartyRole strm)
-    grp.NoPartySubIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNoPartyIDsGrp (strm:System.IO.Stream) (xx:NoPartyIDsGrp) =
+    xx.PartyID |> Option.iter (WritePartyID strm)
+    xx.PartyIDSource |> Option.iter (WritePartyIDSource strm)
+    xx.PartyRole |> Option.iter (WritePartyRole strm)
+    xx.NoPartySubIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoPartySubIDs strm (Fix44.Fields.NoPartySubIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoPartySubIDsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteParties (strm:System.IO.Stream) (grp:Parties) =
-    grp.NoPartyIDsGrp |> Option.iter (fun gs ->     // group
+let WriteParties (strm:System.IO.Stream) (xx:Parties) =
+    xx.NoPartyIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoPartyIDs strm (Fix44.Fields.NoPartyIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoPartyIDsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoClearingInstructionsGrp (strm:System.IO.Stream) (grp:NoClearingInstructionsGrp) =
-    grp.ClearingInstruction |> Option.iter (WriteClearingInstruction strm)
+let WriteNoClearingInstructionsGrp (strm:System.IO.Stream) (xx:NoClearingInstructionsGrp) =
+    xx.ClearingInstruction |> Option.iter (WriteClearingInstruction strm)
 
 
 // component
-let WriteCommissionData (strm:System.IO.Stream) (grp:CommissionData) =
-    grp.Commission |> Option.iter (WriteCommission strm)
-    grp.CommType |> Option.iter (WriteCommType strm)
-    grp.CommCurrency |> Option.iter (WriteCommCurrency strm)
-    grp.FundRenewWaiv |> Option.iter (WriteFundRenewWaiv strm)
+let WriteCommissionData (strm:System.IO.Stream) (xx:CommissionData) =
+    xx.Commission |> Option.iter (WriteCommission strm)
+    xx.CommType |> Option.iter (WriteCommType strm)
+    xx.CommCurrency |> Option.iter (WriteCommCurrency strm)
+    xx.FundRenewWaiv |> Option.iter (WriteFundRenewWaiv strm)
 
 
 // group
-let WriteNoContAmtsGrp (strm:System.IO.Stream) (grp:NoContAmtsGrp) =
-    grp.ContAmtType |> Option.iter (WriteContAmtType strm)
-    grp.ContAmtValue |> Option.iter (WriteContAmtValue strm)
-    grp.ContAmtCurr |> Option.iter (WriteContAmtCurr strm)
+let WriteNoContAmtsGrp (strm:System.IO.Stream) (xx:NoContAmtsGrp) =
+    xx.ContAmtType |> Option.iter (WriteContAmtType strm)
+    xx.ContAmtValue |> Option.iter (WriteContAmtValue strm)
+    xx.ContAmtCurr |> Option.iter (WriteContAmtCurr strm)
 
 
 // group
-let WriteNoStipulationsGrp (strm:System.IO.Stream) (grp:NoStipulationsGrp) =
-    grp.StipulationType |> Option.iter (WriteStipulationType strm)
-    grp.StipulationValue |> Option.iter (WriteStipulationValue strm)
+let WriteNoStipulationsGrp (strm:System.IO.Stream) (xx:NoStipulationsGrp) =
+    xx.StipulationType |> Option.iter (WriteStipulationType strm)
+    xx.StipulationValue |> Option.iter (WriteStipulationValue strm)
 
 
 // component
-let WriteStipulations (strm:System.IO.Stream) (grp:Stipulations) =
-    grp.NoStipulationsGrp |> Option.iter (fun gs ->     // group
+let WriteStipulations (strm:System.IO.Stream) (xx:Stipulations) =
+    xx.NoStipulationsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoStipulations strm (Fix44.Fields.NoStipulations numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoStipulationsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoMiscFeesGrp (strm:System.IO.Stream) (grp:NoMiscFeesGrp) =
-    grp.MiscFeeAmt |> Option.iter (WriteMiscFeeAmt strm)
-    grp.MiscFeeCurr |> Option.iter (WriteMiscFeeCurr strm)
-    grp.MiscFeeType |> Option.iter (WriteMiscFeeType strm)
-    grp.MiscFeeBasis |> Option.iter (WriteMiscFeeBasis strm)
+let WriteNoMiscFeesGrp (strm:System.IO.Stream) (xx:NoMiscFeesGrp) =
+    xx.MiscFeeAmt |> Option.iter (WriteMiscFeeAmt strm)
+    xx.MiscFeeCurr |> Option.iter (WriteMiscFeeCurr strm)
+    xx.MiscFeeType |> Option.iter (WriteMiscFeeType strm)
+    xx.MiscFeeBasis |> Option.iter (WriteMiscFeeBasis strm)
 
 
 // group
-let WriteTradeCaptureReport_NoSidesGrp (strm:System.IO.Stream) (grp:TradeCaptureReport_NoSidesGrp) =
-    WriteSide strm grp.Side
-    WriteOrderID strm grp.OrderID
-    grp.SecondaryOrderID |> Option.iter (WriteSecondaryOrderID strm)
-    grp.ClOrdID |> Option.iter (WriteClOrdID strm)
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.ListID |> Option.iter (WriteListID strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.ProcessCode |> Option.iter (WriteProcessCode strm)
-    grp.OddLot |> Option.iter (WriteOddLot strm)
-    grp.NoClearingInstructionsGrp |> Option.iter (fun gs ->     // group
+let WriteTradeCaptureReport_NoSidesGrp (strm:System.IO.Stream) (xx:TradeCaptureReport_NoSidesGrp) =
+    WriteSide strm xx.Side
+    WriteOrderID strm xx.OrderID
+    xx.SecondaryOrderID |> Option.iter (WriteSecondaryOrderID strm)
+    xx.ClOrdID |> Option.iter (WriteClOrdID strm)
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.ListID |> Option.iter (WriteListID strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.ProcessCode |> Option.iter (WriteProcessCode strm)
+    xx.OddLot |> Option.iter (WriteOddLot strm)
+    xx.NoClearingInstructionsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoClearingInstructions strm (Fix44.Fields.NoClearingInstructions numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoClearingInstructionsGrp strm gg)    ) // end Option.iter
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.TradeInputSource |> Option.iter (WriteTradeInputSource strm)
-    grp.TradeInputDevice |> Option.iter (WriteTradeInputDevice strm)
-    grp.OrderInputDevice |> Option.iter (WriteOrderInputDevice strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.ComplianceID |> Option.iter (WriteComplianceID strm)
-    grp.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
-    grp.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
-    grp.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
-    grp.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
-    grp.OrdType |> Option.iter (WriteOrdType strm)
-    grp.ExecInst |> Option.iter (WriteExecInst strm)
-    grp.TransBkdTime |> Option.iter (WriteTransBkdTime strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.TimeBracket |> Option.iter (WriteTimeBracket strm)
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.GrossTradeAmt |> Option.iter (WriteGrossTradeAmt strm)
-    grp.NumDaysInterest |> Option.iter (WriteNumDaysInterest strm)
-    grp.ExDate |> Option.iter (WriteExDate strm)
-    grp.AccruedInterestRate |> Option.iter (WriteAccruedInterestRate strm)
-    grp.AccruedInterestAmt |> Option.iter (WriteAccruedInterestAmt strm)
-    grp.InterestAtMaturity |> Option.iter (WriteInterestAtMaturity strm)
-    grp.EndAccruedInterestAmt |> Option.iter (WriteEndAccruedInterestAmt strm)
-    grp.StartCash |> Option.iter (WriteStartCash strm)
-    grp.EndCash |> Option.iter (WriteEndCash strm)
-    grp.Concession |> Option.iter (WriteConcession strm)
-    grp.TotalTakedown |> Option.iter (WriteTotalTakedown strm)
-    grp.NetMoney |> Option.iter (WriteNetMoney strm)
-    grp.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
-    grp.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
-    grp.PositionEffect |> Option.iter (WritePositionEffect strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
-    grp.SideMultiLegReportingType |> Option.iter (WriteSideMultiLegReportingType strm)
-    grp.NoContAmtsGrp |> Option.iter (fun gs ->     // group
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.TradeInputSource |> Option.iter (WriteTradeInputSource strm)
+    xx.TradeInputDevice |> Option.iter (WriteTradeInputDevice strm)
+    xx.OrderInputDevice |> Option.iter (WriteOrderInputDevice strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.ComplianceID |> Option.iter (WriteComplianceID strm)
+    xx.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
+    xx.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
+    xx.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
+    xx.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
+    xx.OrdType |> Option.iter (WriteOrdType strm)
+    xx.ExecInst |> Option.iter (WriteExecInst strm)
+    xx.TransBkdTime |> Option.iter (WriteTransBkdTime strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.TimeBracket |> Option.iter (WriteTimeBracket strm)
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.GrossTradeAmt |> Option.iter (WriteGrossTradeAmt strm)
+    xx.NumDaysInterest |> Option.iter (WriteNumDaysInterest strm)
+    xx.ExDate |> Option.iter (WriteExDate strm)
+    xx.AccruedInterestRate |> Option.iter (WriteAccruedInterestRate strm)
+    xx.AccruedInterestAmt |> Option.iter (WriteAccruedInterestAmt strm)
+    xx.InterestAtMaturity |> Option.iter (WriteInterestAtMaturity strm)
+    xx.EndAccruedInterestAmt |> Option.iter (WriteEndAccruedInterestAmt strm)
+    xx.StartCash |> Option.iter (WriteStartCash strm)
+    xx.EndCash |> Option.iter (WriteEndCash strm)
+    xx.Concession |> Option.iter (WriteConcession strm)
+    xx.TotalTakedown |> Option.iter (WriteTotalTakedown strm)
+    xx.NetMoney |> Option.iter (WriteNetMoney strm)
+    xx.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
+    xx.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
+    xx.PositionEffect |> Option.iter (WritePositionEffect strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.SideMultiLegReportingType |> Option.iter (WriteSideMultiLegReportingType strm)
+    xx.NoContAmtsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoContAmts strm (Fix44.Fields.NoContAmts numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoContAmtsGrp strm gg)    ) // end Option.iter
-    grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
+    xx.Stipulations |> Option.iter (WriteStipulations strm) // component
+    xx.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoMiscFees strm (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoMiscFeesGrp strm gg)    ) // end Option.iter
-    grp.ExchangeRule |> Option.iter (WriteExchangeRule strm)
-    grp.TradeAllocIndicator |> Option.iter (WriteTradeAllocIndicator strm)
-    grp.PreallocMethod |> Option.iter (WritePreallocMethod strm)
-    grp.AllocID |> Option.iter (WriteAllocID strm)
+    xx.ExchangeRule |> Option.iter (WriteExchangeRule strm)
+    xx.TradeAllocIndicator |> Option.iter (WriteTradeAllocIndicator strm)
+    xx.PreallocMethod |> Option.iter (WritePreallocMethod strm)
+    xx.AllocID |> Option.iter (WriteAllocID strm)
 
 
 // group
-let WriteTradeCaptureReport_NoLegsGrp (strm:System.IO.Stream) (grp:TradeCaptureReport_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
-    grp.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegRefID |> Option.iter (WriteLegRefID strm)
-    grp.LegPrice |> Option.iter (WriteLegPrice strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegLastPx |> Option.iter (WriteLegLastPx strm)
+let WriteTradeCaptureReport_NoLegsGrp (strm:System.IO.Stream) (xx:TradeCaptureReport_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
+    xx.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegRefID |> Option.iter (WriteLegRefID strm)
+    xx.LegPrice |> Option.iter (WriteLegPrice strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegLastPx |> Option.iter (WriteLegLastPx strm)
 
 
 // group
-let WriteNoPosAmtGrp (strm:System.IO.Stream) (grp:NoPosAmtGrp) =
-    WritePosAmtType strm grp.PosAmtType
-    WritePosAmt strm grp.PosAmt
+let WriteNoPosAmtGrp (strm:System.IO.Stream) (xx:NoPosAmtGrp) =
+    WritePosAmtType strm xx.PosAmtType
+    WritePosAmt strm xx.PosAmt
 
 
 // component
-let WritePositionAmountData (strm:System.IO.Stream) (grp:PositionAmountData) =
-    let numGrps = grp.NoPosAmtGrp.Length
+let WritePositionAmountData (strm:System.IO.Stream) (xx:PositionAmountData) =
+    let numGrps = xx.NoPosAmtGrp.Length
     WriteNoPosAmt strm (Fix44.Fields.NoPosAmt numGrps) // write the 'num group repeats' field
-    grp.NoPosAmtGrp |> List.iter (fun gg -> WriteNoPosAmtGrp strm gg)
+    xx.NoPosAmtGrp |> List.iter (fun gg -> WriteNoPosAmtGrp strm gg)
 
 
 // group
-let WriteNoSettlPartySubIDsGrp (strm:System.IO.Stream) (grp:NoSettlPartySubIDsGrp) =
-    grp.SettlPartySubID |> Option.iter (WriteSettlPartySubID strm)
-    grp.SettlPartySubIDType |> Option.iter (WriteSettlPartySubIDType strm)
+let WriteNoSettlPartySubIDsGrp (strm:System.IO.Stream) (xx:NoSettlPartySubIDsGrp) =
+    xx.SettlPartySubID |> Option.iter (WriteSettlPartySubID strm)
+    xx.SettlPartySubIDType |> Option.iter (WriteSettlPartySubIDType strm)
 
 
 // group
-let WriteNoSettlPartyIDsGrp (strm:System.IO.Stream) (grp:NoSettlPartyIDsGrp) =
-    grp.SettlPartyID |> Option.iter (WriteSettlPartyID strm)
-    grp.SettlPartyIDSource |> Option.iter (WriteSettlPartyIDSource strm)
-    grp.SettlPartyRole |> Option.iter (WriteSettlPartyRole strm)
-    grp.NoSettlPartySubIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNoSettlPartyIDsGrp (strm:System.IO.Stream) (xx:NoSettlPartyIDsGrp) =
+    xx.SettlPartyID |> Option.iter (WriteSettlPartyID strm)
+    xx.SettlPartyIDSource |> Option.iter (WriteSettlPartyIDSource strm)
+    xx.SettlPartyRole |> Option.iter (WriteSettlPartyRole strm)
+    xx.NoSettlPartySubIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoSettlPartySubIDs strm (Fix44.Fields.NoSettlPartySubIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoSettlPartySubIDsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteSettlParties (strm:System.IO.Stream) (grp:SettlParties) =
-    grp.NoSettlPartyIDsGrp |> Option.iter (fun gs ->     // group
+let WriteSettlParties (strm:System.IO.Stream) (xx:SettlParties) =
+    xx.NoSettlPartyIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoSettlPartyIDs strm (Fix44.Fields.NoSettlPartyIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoSettlPartyIDsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoDlvyInstGrp (strm:System.IO.Stream) (grp:NoDlvyInstGrp) =
-    grp.SettlInstSource |> Option.iter (WriteSettlInstSource strm)
-    grp.DlvyInstType |> Option.iter (WriteDlvyInstType strm)
-    grp.SettlParties |> Option.iter (WriteSettlParties strm) // component
+let WriteNoDlvyInstGrp (strm:System.IO.Stream) (xx:NoDlvyInstGrp) =
+    xx.SettlInstSource |> Option.iter (WriteSettlInstSource strm)
+    xx.DlvyInstType |> Option.iter (WriteDlvyInstType strm)
+    xx.SettlParties |> Option.iter (WriteSettlParties strm) // component
 
 
 // component
-let WriteSettlInstructionsData (strm:System.IO.Stream) (grp:SettlInstructionsData) =
-    grp.SettlDeliveryType |> Option.iter (WriteSettlDeliveryType strm)
-    grp.StandInstDbType |> Option.iter (WriteStandInstDbType strm)
-    grp.StandInstDbName |> Option.iter (WriteStandInstDbName strm)
-    grp.StandInstDbID |> Option.iter (WriteStandInstDbID strm)
-    grp.NoDlvyInstGrp |> Option.iter (fun gs ->     // group
+let WriteSettlInstructionsData (strm:System.IO.Stream) (xx:SettlInstructionsData) =
+    xx.SettlDeliveryType |> Option.iter (WriteSettlDeliveryType strm)
+    xx.StandInstDbType |> Option.iter (WriteStandInstDbType strm)
+    xx.StandInstDbName |> Option.iter (WriteStandInstDbName strm)
+    xx.StandInstDbID |> Option.iter (WriteStandInstDbID strm)
+    xx.NoDlvyInstGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoDlvyInst strm (Fix44.Fields.NoDlvyInst numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoDlvyInstGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoSettlInstGrp (strm:System.IO.Stream) (grp:NoSettlInstGrp) =
-    grp.SettlInstID |> Option.iter (WriteSettlInstID strm)
-    grp.SettlInstTransType |> Option.iter (WriteSettlInstTransType strm)
-    grp.SettlInstRefID |> Option.iter (WriteSettlInstRefID strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.Side |> Option.iter (WriteSide strm)
-    grp.Product |> Option.iter (WriteProduct strm)
-    grp.SecurityType |> Option.iter (WriteSecurityType strm)
-    grp.CFICode |> Option.iter (WriteCFICode strm)
-    grp.EffectiveTime |> Option.iter (WriteEffectiveTime strm)
-    grp.ExpireTime |> Option.iter (WriteExpireTime strm)
-    grp.LastUpdateTime |> Option.iter (WriteLastUpdateTime strm)
-    grp.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
-    grp.PaymentMethod |> Option.iter (WritePaymentMethod strm)
-    grp.PaymentRef |> Option.iter (WritePaymentRef strm)
-    grp.CardHolderName |> Option.iter (WriteCardHolderName strm)
-    grp.CardNumber |> Option.iter (WriteCardNumber strm)
-    grp.CardStartDate |> Option.iter (WriteCardStartDate strm)
-    grp.CardExpDate |> Option.iter (WriteCardExpDate strm)
-    grp.CardIssNum |> Option.iter (WriteCardIssNum strm)
-    grp.PaymentDate |> Option.iter (WritePaymentDate strm)
-    grp.PaymentRemitterID |> Option.iter (WritePaymentRemitterID strm)
+let WriteNoSettlInstGrp (strm:System.IO.Stream) (xx:NoSettlInstGrp) =
+    xx.SettlInstID |> Option.iter (WriteSettlInstID strm)
+    xx.SettlInstTransType |> Option.iter (WriteSettlInstTransType strm)
+    xx.SettlInstRefID |> Option.iter (WriteSettlInstRefID strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.Side |> Option.iter (WriteSide strm)
+    xx.Product |> Option.iter (WriteProduct strm)
+    xx.SecurityType |> Option.iter (WriteSecurityType strm)
+    xx.CFICode |> Option.iter (WriteCFICode strm)
+    xx.EffectiveTime |> Option.iter (WriteEffectiveTime strm)
+    xx.ExpireTime |> Option.iter (WriteExpireTime strm)
+    xx.LastUpdateTime |> Option.iter (WriteLastUpdateTime strm)
+    xx.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
+    xx.PaymentMethod |> Option.iter (WritePaymentMethod strm)
+    xx.PaymentRef |> Option.iter (WritePaymentRef strm)
+    xx.CardHolderName |> Option.iter (WriteCardHolderName strm)
+    xx.CardNumber |> Option.iter (WriteCardNumber strm)
+    xx.CardStartDate |> Option.iter (WriteCardStartDate strm)
+    xx.CardExpDate |> Option.iter (WriteCardExpDate strm)
+    xx.CardIssNum |> Option.iter (WriteCardIssNum strm)
+    xx.PaymentDate |> Option.iter (WritePaymentDate strm)
+    xx.PaymentRemitterID |> Option.iter (WritePaymentRemitterID strm)
 
 
 // group
-let WriteNoTrdRegTimestampsGrp (strm:System.IO.Stream) (grp:NoTrdRegTimestampsGrp) =
-    grp.TrdRegTimestamp |> Option.iter (WriteTrdRegTimestamp strm)
-    grp.TrdRegTimestampType |> Option.iter (WriteTrdRegTimestampType strm)
-    grp.TrdRegTimestampOrigin |> Option.iter (WriteTrdRegTimestampOrigin strm)
+let WriteNoTrdRegTimestampsGrp (strm:System.IO.Stream) (xx:NoTrdRegTimestampsGrp) =
+    xx.TrdRegTimestamp |> Option.iter (WriteTrdRegTimestamp strm)
+    xx.TrdRegTimestampType |> Option.iter (WriteTrdRegTimestampType strm)
+    xx.TrdRegTimestampOrigin |> Option.iter (WriteTrdRegTimestampOrigin strm)
 
 
 // component
-let WriteTrdRegTimestamps (strm:System.IO.Stream) (grp:TrdRegTimestamps) =
-    let numGrps = grp.NoTrdRegTimestampsGrp.Length
+let WriteTrdRegTimestamps (strm:System.IO.Stream) (xx:TrdRegTimestamps) =
+    let numGrps = xx.NoTrdRegTimestampsGrp.Length
     WriteNoTrdRegTimestamps strm (Fix44.Fields.NoTrdRegTimestamps numGrps) // write the 'num group repeats' field
-    grp.NoTrdRegTimestampsGrp |> List.iter (fun gg -> WriteNoTrdRegTimestampsGrp strm gg)
+    xx.NoTrdRegTimestampsGrp |> List.iter (fun gg -> WriteNoTrdRegTimestampsGrp strm gg)
 
 
 // group
-let WriteAllocationReport_NoAllocsGrp (strm:System.IO.Stream) (grp:AllocationReport_NoAllocsGrp) =
-    WriteAllocAccount strm grp.AllocAccount
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.MatchStatus |> Option.iter (WriteMatchStatus strm)
-    grp.AllocPrice |> Option.iter (WriteAllocPrice strm)
-    WriteAllocQty strm grp.AllocQty
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.ProcessCode |> Option.iter (WriteProcessCode strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.NotifyBrokerOfCredit |> Option.iter (WriteNotifyBrokerOfCredit strm)
-    grp.AllocHandlInst |> Option.iter (WriteAllocHandlInst strm)
-    grp.AllocText |> Option.iter (WriteAllocText strm)
-    grp.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.AllocAvgPx |> Option.iter (WriteAllocAvgPx strm)
-    grp.AllocNetMoney |> Option.iter (WriteAllocNetMoney strm)
-    grp.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
-    grp.AllocSettlCurrAmt |> Option.iter (WriteAllocSettlCurrAmt strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
-    grp.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
-    grp.AllocAccruedInterestAmt |> Option.iter (WriteAllocAccruedInterestAmt strm)
-    grp.AllocInterestAtMaturity |> Option.iter (WriteAllocInterestAtMaturity strm)
-    grp.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
+let WriteAllocationReport_NoAllocsGrp (strm:System.IO.Stream) (xx:AllocationReport_NoAllocsGrp) =
+    WriteAllocAccount strm xx.AllocAccount
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.MatchStatus |> Option.iter (WriteMatchStatus strm)
+    xx.AllocPrice |> Option.iter (WriteAllocPrice strm)
+    WriteAllocQty strm xx.AllocQty
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.ProcessCode |> Option.iter (WriteProcessCode strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.NotifyBrokerOfCredit |> Option.iter (WriteNotifyBrokerOfCredit strm)
+    xx.AllocHandlInst |> Option.iter (WriteAllocHandlInst strm)
+    xx.AllocText |> Option.iter (WriteAllocText strm)
+    xx.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.AllocAvgPx |> Option.iter (WriteAllocAvgPx strm)
+    xx.AllocNetMoney |> Option.iter (WriteAllocNetMoney strm)
+    xx.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
+    xx.AllocSettlCurrAmt |> Option.iter (WriteAllocSettlCurrAmt strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
+    xx.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
+    xx.AllocAccruedInterestAmt |> Option.iter (WriteAllocAccruedInterestAmt strm)
+    xx.AllocInterestAtMaturity |> Option.iter (WriteAllocInterestAtMaturity strm)
+    xx.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoMiscFees strm (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoMiscFeesGrp strm gg)    ) // end Option.iter
-    grp.NoClearingInstructionsGrp |> Option.iter (fun gs ->     // group
+    xx.NoClearingInstructionsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoClearingInstructions strm (Fix44.Fields.NoClearingInstructions numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoClearingInstructionsGrp strm gg)    ) // end Option.iter
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.AllocSettlInstType |> Option.iter (WriteAllocSettlInstType strm)
-    grp.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.AllocSettlInstType |> Option.iter (WriteAllocSettlInstType strm)
+    xx.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
 
 
 // group
-let WriteAllocationInstruction_NoAllocsGrp (strm:System.IO.Stream) (grp:AllocationInstruction_NoAllocsGrp) =
-    WriteAllocAccount strm grp.AllocAccount
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.MatchStatus |> Option.iter (WriteMatchStatus strm)
-    grp.AllocPrice |> Option.iter (WriteAllocPrice strm)
-    grp.AllocQty |> Option.iter (WriteAllocQty strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.ProcessCode |> Option.iter (WriteProcessCode strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.NotifyBrokerOfCredit |> Option.iter (WriteNotifyBrokerOfCredit strm)
-    grp.AllocHandlInst |> Option.iter (WriteAllocHandlInst strm)
-    grp.AllocText |> Option.iter (WriteAllocText strm)
-    grp.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.AllocAvgPx |> Option.iter (WriteAllocAvgPx strm)
-    grp.AllocNetMoney |> Option.iter (WriteAllocNetMoney strm)
-    grp.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
-    grp.AllocSettlCurrAmt |> Option.iter (WriteAllocSettlCurrAmt strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
-    grp.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
-    grp.AccruedInterestAmt |> Option.iter (WriteAccruedInterestAmt strm)
-    grp.AllocAccruedInterestAmt |> Option.iter (WriteAllocAccruedInterestAmt strm)
-    grp.AllocInterestAtMaturity |> Option.iter (WriteAllocInterestAtMaturity strm)
-    grp.SettlInstMode |> Option.iter (WriteSettlInstMode strm)
-    grp.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
+let WriteAllocationInstruction_NoAllocsGrp (strm:System.IO.Stream) (xx:AllocationInstruction_NoAllocsGrp) =
+    WriteAllocAccount strm xx.AllocAccount
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.MatchStatus |> Option.iter (WriteMatchStatus strm)
+    xx.AllocPrice |> Option.iter (WriteAllocPrice strm)
+    xx.AllocQty |> Option.iter (WriteAllocQty strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.ProcessCode |> Option.iter (WriteProcessCode strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.NotifyBrokerOfCredit |> Option.iter (WriteNotifyBrokerOfCredit strm)
+    xx.AllocHandlInst |> Option.iter (WriteAllocHandlInst strm)
+    xx.AllocText |> Option.iter (WriteAllocText strm)
+    xx.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.AllocAvgPx |> Option.iter (WriteAllocAvgPx strm)
+    xx.AllocNetMoney |> Option.iter (WriteAllocNetMoney strm)
+    xx.SettlCurrAmt |> Option.iter (WriteSettlCurrAmt strm)
+    xx.AllocSettlCurrAmt |> Option.iter (WriteAllocSettlCurrAmt strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.SettlCurrFxRate |> Option.iter (WriteSettlCurrFxRate strm)
+    xx.SettlCurrFxRateCalc |> Option.iter (WriteSettlCurrFxRateCalc strm)
+    xx.AccruedInterestAmt |> Option.iter (WriteAccruedInterestAmt strm)
+    xx.AllocAccruedInterestAmt |> Option.iter (WriteAllocAccruedInterestAmt strm)
+    xx.AllocInterestAtMaturity |> Option.iter (WriteAllocInterestAtMaturity strm)
+    xx.SettlInstMode |> Option.iter (WriteSettlInstMode strm)
+    xx.NoMiscFeesGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoMiscFees strm (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoMiscFeesGrp strm gg)    ) // end Option.iter
-    grp.NoClearingInstructions |> Option.iter (WriteNoClearingInstructions strm)
-    grp.ClearingInstruction |> Option.iter (WriteClearingInstruction strm)
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.AllocSettlInstType |> Option.iter (WriteAllocSettlInstType strm)
-    grp.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
+    xx.NoClearingInstructions |> Option.iter (WriteNoClearingInstructions strm)
+    xx.ClearingInstruction |> Option.iter (WriteClearingInstruction strm)
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.AllocSettlInstType |> Option.iter (WriteAllocSettlInstType strm)
+    xx.SettlInstructionsData |> Option.iter (WriteSettlInstructionsData strm) // component
 
 
 // group
-let WriteNoOrdersGrp (strm:System.IO.Stream) (grp:NoOrdersGrp) =
-    grp.ClOrdID |> Option.iter (WriteClOrdID strm)
-    grp.OrderID |> Option.iter (WriteOrderID strm)
-    grp.SecondaryOrderID |> Option.iter (WriteSecondaryOrderID strm)
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.ListID |> Option.iter (WriteListID strm)
-    grp.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
-    grp.OrderQty |> Option.iter (WriteOrderQty strm)
-    grp.OrderAvgPx |> Option.iter (WriteOrderAvgPx strm)
-    grp.OrderBookingQty |> Option.iter (WriteOrderBookingQty strm)
+let WriteNoOrdersGrp (strm:System.IO.Stream) (xx:NoOrdersGrp) =
+    xx.ClOrdID |> Option.iter (WriteClOrdID strm)
+    xx.OrderID |> Option.iter (WriteOrderID strm)
+    xx.SecondaryOrderID |> Option.iter (WriteSecondaryOrderID strm)
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.ListID |> Option.iter (WriteListID strm)
+    xx.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
+    xx.OrderQty |> Option.iter (WriteOrderQty strm)
+    xx.OrderAvgPx |> Option.iter (WriteOrderAvgPx strm)
+    xx.OrderBookingQty |> Option.iter (WriteOrderBookingQty strm)
 
 
 // group
-let WriteListStrikePrice_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:ListStrikePrice_NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
-    grp.ClOrdID |> Option.iter (WriteClOrdID strm)
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.Side |> Option.iter (WriteSide strm)
-    WritePrice strm grp.Price
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteListStrikePrice_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:ListStrikePrice_NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.PrevClosePx |> Option.iter (WritePrevClosePx strm)
+    xx.ClOrdID |> Option.iter (WriteClOrdID strm)
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.Side |> Option.iter (WriteSide strm)
+    WritePrice strm xx.Price
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteNoSecurityAltIDGrp (strm:System.IO.Stream) (grp:NoSecurityAltIDGrp) =
-    grp.SecurityAltID |> Option.iter (WriteSecurityAltID strm)
-    grp.SecurityAltIDSource |> Option.iter (WriteSecurityAltIDSource strm)
+let WriteNoSecurityAltIDGrp (strm:System.IO.Stream) (xx:NoSecurityAltIDGrp) =
+    xx.SecurityAltID |> Option.iter (WriteSecurityAltID strm)
+    xx.SecurityAltIDSource |> Option.iter (WriteSecurityAltIDSource strm)
 
 
 // group
-let WriteNoEventsGrp (strm:System.IO.Stream) (grp:NoEventsGrp) =
-    grp.EventType |> Option.iter (WriteEventType strm)
-    grp.EventDate |> Option.iter (WriteEventDate strm)
-    grp.EventPx |> Option.iter (WriteEventPx strm)
-    grp.EventText |> Option.iter (WriteEventText strm)
+let WriteNoEventsGrp (strm:System.IO.Stream) (xx:NoEventsGrp) =
+    xx.EventType |> Option.iter (WriteEventType strm)
+    xx.EventDate |> Option.iter (WriteEventDate strm)
+    xx.EventPx |> Option.iter (WriteEventPx strm)
+    xx.EventText |> Option.iter (WriteEventText strm)
 
 
 // component
-let WriteInstrument (strm:System.IO.Stream) (grp:Instrument) =
-    WriteSymbol strm grp.Symbol
-    grp.SymbolSfx |> Option.iter (WriteSymbolSfx strm)
-    grp.SecurityID |> Option.iter (WriteSecurityID strm)
-    grp.SecurityIDSource |> Option.iter (WriteSecurityIDSource strm)
-    grp.NoSecurityAltIDGrp |> Option.iter (fun gs ->     // group
+let WriteInstrument (strm:System.IO.Stream) (xx:Instrument) =
+    WriteSymbol strm xx.Symbol
+    xx.SymbolSfx |> Option.iter (WriteSymbolSfx strm)
+    xx.SecurityID |> Option.iter (WriteSecurityID strm)
+    xx.SecurityIDSource |> Option.iter (WriteSecurityIDSource strm)
+    xx.NoSecurityAltIDGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoSecurityAltID strm (Fix44.Fields.NoSecurityAltID numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoSecurityAltIDGrp strm gg)    ) // end Option.iter
-    grp.Product |> Option.iter (WriteProduct strm)
-    grp.CFICode |> Option.iter (WriteCFICode strm)
-    grp.SecurityType |> Option.iter (WriteSecurityType strm)
-    grp.SecuritySubType |> Option.iter (WriteSecuritySubType strm)
-    grp.MaturityMonthYear |> Option.iter (WriteMaturityMonthYear strm)
-    grp.MaturityDate |> Option.iter (WriteMaturityDate strm)
-    grp.PutOrCall |> Option.iter (WritePutOrCall strm)
-    grp.CouponPaymentDate |> Option.iter (WriteCouponPaymentDate strm)
-    grp.IssueDate |> Option.iter (WriteIssueDate strm)
-    grp.RepoCollateralSecurityType |> Option.iter (WriteRepoCollateralSecurityType strm)
-    grp.RepurchaseTerm |> Option.iter (WriteRepurchaseTerm strm)
-    grp.RepurchaseRate |> Option.iter (WriteRepurchaseRate strm)
-    grp.Factor |> Option.iter (WriteFactor strm)
-    grp.CreditRating |> Option.iter (WriteCreditRating strm)
-    grp.InstrRegistry |> Option.iter (WriteInstrRegistry strm)
-    grp.CountryOfIssue |> Option.iter (WriteCountryOfIssue strm)
-    grp.StateOrProvinceOfIssue |> Option.iter (WriteStateOrProvinceOfIssue strm)
-    grp.LocaleOfIssue |> Option.iter (WriteLocaleOfIssue strm)
-    grp.RedemptionDate |> Option.iter (WriteRedemptionDate strm)
-    grp.StrikePrice |> Option.iter (WriteStrikePrice strm)
-    grp.StrikeCurrency |> Option.iter (WriteStrikeCurrency strm)
-    grp.OptAttribute |> Option.iter (WriteOptAttribute strm)
-    grp.ContractMultiplier |> Option.iter (WriteContractMultiplier strm)
-    grp.CouponRate |> Option.iter (WriteCouponRate strm)
-    grp.SecurityExchange |> Option.iter (WriteSecurityExchange strm)
-    grp.Issuer |> Option.iter (WriteIssuer strm)
-    grp.EncodedIssuer |> Option.iter (WriteEncodedIssuer strm)
-    grp.SecurityDesc |> Option.iter (WriteSecurityDesc strm)
-    grp.EncodedSecurityDesc |> Option.iter (WriteEncodedSecurityDesc strm)
-    grp.Pool |> Option.iter (WritePool strm)
-    grp.ContractSettlMonth |> Option.iter (WriteContractSettlMonth strm)
-    grp.CPProgram |> Option.iter (WriteCPProgram strm)
-    grp.CPRegType |> Option.iter (WriteCPRegType strm)
-    grp.NoEventsGrp |> Option.iter (fun gs ->     // group
+    xx.Product |> Option.iter (WriteProduct strm)
+    xx.CFICode |> Option.iter (WriteCFICode strm)
+    xx.SecurityType |> Option.iter (WriteSecurityType strm)
+    xx.SecuritySubType |> Option.iter (WriteSecuritySubType strm)
+    xx.MaturityMonthYear |> Option.iter (WriteMaturityMonthYear strm)
+    xx.MaturityDate |> Option.iter (WriteMaturityDate strm)
+    xx.PutOrCall |> Option.iter (WritePutOrCall strm)
+    xx.CouponPaymentDate |> Option.iter (WriteCouponPaymentDate strm)
+    xx.IssueDate |> Option.iter (WriteIssueDate strm)
+    xx.RepoCollateralSecurityType |> Option.iter (WriteRepoCollateralSecurityType strm)
+    xx.RepurchaseTerm |> Option.iter (WriteRepurchaseTerm strm)
+    xx.RepurchaseRate |> Option.iter (WriteRepurchaseRate strm)
+    xx.Factor |> Option.iter (WriteFactor strm)
+    xx.CreditRating |> Option.iter (WriteCreditRating strm)
+    xx.InstrRegistry |> Option.iter (WriteInstrRegistry strm)
+    xx.CountryOfIssue |> Option.iter (WriteCountryOfIssue strm)
+    xx.StateOrProvinceOfIssue |> Option.iter (WriteStateOrProvinceOfIssue strm)
+    xx.LocaleOfIssue |> Option.iter (WriteLocaleOfIssue strm)
+    xx.RedemptionDate |> Option.iter (WriteRedemptionDate strm)
+    xx.StrikePrice |> Option.iter (WriteStrikePrice strm)
+    xx.StrikeCurrency |> Option.iter (WriteStrikeCurrency strm)
+    xx.OptAttribute |> Option.iter (WriteOptAttribute strm)
+    xx.ContractMultiplier |> Option.iter (WriteContractMultiplier strm)
+    xx.CouponRate |> Option.iter (WriteCouponRate strm)
+    xx.SecurityExchange |> Option.iter (WriteSecurityExchange strm)
+    xx.Issuer |> Option.iter (WriteIssuer strm)
+    xx.EncodedIssuer |> Option.iter (WriteEncodedIssuer strm)
+    xx.SecurityDesc |> Option.iter (WriteSecurityDesc strm)
+    xx.EncodedSecurityDesc |> Option.iter (WriteEncodedSecurityDesc strm)
+    xx.Pool |> Option.iter (WritePool strm)
+    xx.ContractSettlMonth |> Option.iter (WriteContractSettlMonth strm)
+    xx.CPProgram |> Option.iter (WriteCPProgram strm)
+    xx.CPRegType |> Option.iter (WriteCPRegType strm)
+    xx.NoEventsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoEvents strm (Fix44.Fields.NoEvents numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoEventsGrp strm gg)    ) // end Option.iter
-    grp.DatedDate |> Option.iter (WriteDatedDate strm)
-    grp.InterestAccrualDate |> Option.iter (WriteInterestAccrualDate strm)
+    xx.DatedDate |> Option.iter (WriteDatedDate strm)
+    xx.InterestAccrualDate |> Option.iter (WriteInterestAccrualDate strm)
 
 
 // group
-let WriteNoStrikesGrp (strm:System.IO.Stream) (grp:NoStrikesGrp) =
-    WriteInstrument strm grp.Instrument    // component
+let WriteNoStrikesGrp (strm:System.IO.Stream) (xx:NoStrikesGrp) =
+    WriteInstrument strm xx.Instrument    // component
 
 
 // group
-let WriteNoAllocsGrp (strm:System.IO.Stream) (grp:NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.AllocQty |> Option.iter (WriteAllocQty strm)
+let WriteNoAllocsGrp (strm:System.IO.Stream) (xx:NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.AllocQty |> Option.iter (WriteAllocQty strm)
 
 
 // group
-let WriteNoTradingSessionsGrp (strm:System.IO.Stream) (grp:NoTradingSessionsGrp) =
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+let WriteNoTradingSessionsGrp (strm:System.IO.Stream) (xx:NoTradingSessionsGrp) =
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
 
 
 // group
-let WriteNoUnderlyingsGrp (strm:System.IO.Stream) (grp:NoUnderlyingsGrp) =
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+let WriteNoUnderlyingsGrp (strm:System.IO.Stream) (xx:NoUnderlyingsGrp) =
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
 
 
 // component
-let WriteOrderQtyData (strm:System.IO.Stream) (grp:OrderQtyData) =
-    grp.OrderQty |> Option.iter (WriteOrderQty strm)
-    grp.CashOrderQty |> Option.iter (WriteCashOrderQty strm)
-    grp.OrderPercent |> Option.iter (WriteOrderPercent strm)
-    grp.RoundingDirection |> Option.iter (WriteRoundingDirection strm)
-    grp.RoundingModulus |> Option.iter (WriteRoundingModulus strm)
+let WriteOrderQtyData (strm:System.IO.Stream) (xx:OrderQtyData) =
+    xx.OrderQty |> Option.iter (WriteOrderQty strm)
+    xx.CashOrderQty |> Option.iter (WriteCashOrderQty strm)
+    xx.OrderPercent |> Option.iter (WriteOrderPercent strm)
+    xx.RoundingDirection |> Option.iter (WriteRoundingDirection strm)
+    xx.RoundingModulus |> Option.iter (WriteRoundingModulus strm)
 
 
 // component
-let WriteSpreadOrBenchmarkCurveData (strm:System.IO.Stream) (grp:SpreadOrBenchmarkCurveData) =
-    grp.Spread |> Option.iter (WriteSpread strm)
-    grp.BenchmarkCurveCurrency |> Option.iter (WriteBenchmarkCurveCurrency strm)
-    grp.BenchmarkCurveName |> Option.iter (WriteBenchmarkCurveName strm)
-    grp.BenchmarkCurvePoint |> Option.iter (WriteBenchmarkCurvePoint strm)
-    grp.BenchmarkPrice |> Option.iter (WriteBenchmarkPrice strm)
-    grp.BenchmarkPriceType |> Option.iter (WriteBenchmarkPriceType strm)
-    grp.BenchmarkSecurityID |> Option.iter (WriteBenchmarkSecurityID strm)
-    grp.BenchmarkSecurityIDSource |> Option.iter (WriteBenchmarkSecurityIDSource strm)
+let WriteSpreadOrBenchmarkCurveData (strm:System.IO.Stream) (xx:SpreadOrBenchmarkCurveData) =
+    xx.Spread |> Option.iter (WriteSpread strm)
+    xx.BenchmarkCurveCurrency |> Option.iter (WriteBenchmarkCurveCurrency strm)
+    xx.BenchmarkCurveName |> Option.iter (WriteBenchmarkCurveName strm)
+    xx.BenchmarkCurvePoint |> Option.iter (WriteBenchmarkCurvePoint strm)
+    xx.BenchmarkPrice |> Option.iter (WriteBenchmarkPrice strm)
+    xx.BenchmarkPriceType |> Option.iter (WriteBenchmarkPriceType strm)
+    xx.BenchmarkSecurityID |> Option.iter (WriteBenchmarkSecurityID strm)
+    xx.BenchmarkSecurityIDSource |> Option.iter (WriteBenchmarkSecurityIDSource strm)
 
 
 // component
-let WriteYieldData (strm:System.IO.Stream) (grp:YieldData) =
-    grp.YieldType |> Option.iter (WriteYieldType strm)
-    grp.Yield |> Option.iter (WriteYield strm)
-    grp.YieldCalcDate |> Option.iter (WriteYieldCalcDate strm)
-    grp.YieldRedemptionDate |> Option.iter (WriteYieldRedemptionDate strm)
-    grp.YieldRedemptionPrice |> Option.iter (WriteYieldRedemptionPrice strm)
-    grp.YieldRedemptionPriceType |> Option.iter (WriteYieldRedemptionPriceType strm)
+let WriteYieldData (strm:System.IO.Stream) (xx:YieldData) =
+    xx.YieldType |> Option.iter (WriteYieldType strm)
+    xx.Yield |> Option.iter (WriteYield strm)
+    xx.YieldCalcDate |> Option.iter (WriteYieldCalcDate strm)
+    xx.YieldRedemptionDate |> Option.iter (WriteYieldRedemptionDate strm)
+    xx.YieldRedemptionPrice |> Option.iter (WriteYieldRedemptionPrice strm)
+    xx.YieldRedemptionPriceType |> Option.iter (WriteYieldRedemptionPriceType strm)
 
 
 // component
-let WritePegInstructions (strm:System.IO.Stream) (grp:PegInstructions) =
-    grp.PegOffsetValue |> Option.iter (WritePegOffsetValue strm)
-    grp.PegMoveType |> Option.iter (WritePegMoveType strm)
-    grp.PegOffsetType |> Option.iter (WritePegOffsetType strm)
-    grp.PegLimitType |> Option.iter (WritePegLimitType strm)
-    grp.PegRoundDirection |> Option.iter (WritePegRoundDirection strm)
-    grp.PegScope |> Option.iter (WritePegScope strm)
+let WritePegInstructions (strm:System.IO.Stream) (xx:PegInstructions) =
+    xx.PegOffsetValue |> Option.iter (WritePegOffsetValue strm)
+    xx.PegMoveType |> Option.iter (WritePegMoveType strm)
+    xx.PegOffsetType |> Option.iter (WritePegOffsetType strm)
+    xx.PegLimitType |> Option.iter (WritePegLimitType strm)
+    xx.PegRoundDirection |> Option.iter (WritePegRoundDirection strm)
+    xx.PegScope |> Option.iter (WritePegScope strm)
 
 
 // component
-let WriteDiscretionInstructions (strm:System.IO.Stream) (grp:DiscretionInstructions) =
-    grp.DiscretionInst |> Option.iter (WriteDiscretionInst strm)
-    grp.DiscretionOffsetValue |> Option.iter (WriteDiscretionOffsetValue strm)
-    grp.DiscretionMoveType |> Option.iter (WriteDiscretionMoveType strm)
-    grp.DiscretionOffsetType |> Option.iter (WriteDiscretionOffsetType strm)
-    grp.DiscretionLimitType |> Option.iter (WriteDiscretionLimitType strm)
-    grp.DiscretionRoundDirection |> Option.iter (WriteDiscretionRoundDirection strm)
-    grp.DiscretionScope |> Option.iter (WriteDiscretionScope strm)
+let WriteDiscretionInstructions (strm:System.IO.Stream) (xx:DiscretionInstructions) =
+    xx.DiscretionInst |> Option.iter (WriteDiscretionInst strm)
+    xx.DiscretionOffsetValue |> Option.iter (WriteDiscretionOffsetValue strm)
+    xx.DiscretionMoveType |> Option.iter (WriteDiscretionMoveType strm)
+    xx.DiscretionOffsetType |> Option.iter (WriteDiscretionOffsetType strm)
+    xx.DiscretionLimitType |> Option.iter (WriteDiscretionLimitType strm)
+    xx.DiscretionRoundDirection |> Option.iter (WriteDiscretionRoundDirection strm)
+    xx.DiscretionScope |> Option.iter (WriteDiscretionScope strm)
 
 
 // group
-let WriteNewOrderList_NoOrdersGrp (strm:System.IO.Stream) (grp:NewOrderList_NoOrdersGrp) =
-    WriteClOrdID strm grp.ClOrdID
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    WriteListSeqNo strm grp.ListSeqNo
-    grp.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
-    grp.SettlInstMode |> Option.iter (WriteSettlInstMode strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.TradeDate |> Option.iter (WriteTradeDate strm)
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
-    grp.BookingUnit |> Option.iter (WriteBookingUnit strm)
-    grp.AllocID |> Option.iter (WriteAllocID strm)
-    grp.PreallocMethod |> Option.iter (WritePreallocMethod strm)
-    grp.NoAllocsGrp |> Option.iter (fun gs ->     // group
+let WriteNewOrderList_NoOrdersGrp (strm:System.IO.Stream) (xx:NewOrderList_NoOrdersGrp) =
+    WriteClOrdID strm xx.ClOrdID
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    WriteListSeqNo strm xx.ListSeqNo
+    xx.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
+    xx.SettlInstMode |> Option.iter (WriteSettlInstMode strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.TradeDate |> Option.iter (WriteTradeDate strm)
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
+    xx.BookingUnit |> Option.iter (WriteBookingUnit strm)
+    xx.AllocID |> Option.iter (WriteAllocID strm)
+    xx.PreallocMethod |> Option.iter (WritePreallocMethod strm)
+    xx.NoAllocsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoAllocs strm (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoAllocsGrp strm gg)    ) // end Option.iter
-    grp.SettlType |> Option.iter (WriteSettlType strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.CashMargin |> Option.iter (WriteCashMargin strm)
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.HandlInst |> Option.iter (WriteHandlInst strm)
-    grp.ExecInst |> Option.iter (WriteExecInst strm)
-    grp.MinQty |> Option.iter (WriteMinQty strm)
-    grp.MaxFloor |> Option.iter (WriteMaxFloor strm)
-    grp.ExDestination |> Option.iter (WriteExDestination strm)
-    grp.NoTradingSessionsGrp |> Option.iter (fun gs ->     // group
+    xx.SettlType |> Option.iter (WriteSettlType strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.CashMargin |> Option.iter (WriteCashMargin strm)
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.HandlInst |> Option.iter (WriteHandlInst strm)
+    xx.ExecInst |> Option.iter (WriteExecInst strm)
+    xx.MinQty |> Option.iter (WriteMinQty strm)
+    xx.MaxFloor |> Option.iter (WriteMaxFloor strm)
+    xx.ExDestination |> Option.iter (WriteExDestination strm)
+    xx.NoTradingSessionsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoTradingSessions strm (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoTradingSessionsGrp strm gg)    ) // end Option.iter
-    grp.ProcessCode |> Option.iter (WriteProcessCode strm)
-    WriteInstrument strm grp.Instrument    // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+    xx.ProcessCode |> Option.iter (WriteProcessCode strm)
+    WriteInstrument strm xx.Instrument    // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
-    WriteSide strm grp.Side
-    grp.SideValueInd |> Option.iter (WriteSideValueInd strm)
-    grp.LocateReqd |> Option.iter (WriteLocateReqd strm)
-    grp.TransactTime |> Option.iter (WriteTransactTime strm)
-    grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.QtyType |> Option.iter (WriteQtyType strm)
-    WriteOrderQtyData strm grp.OrderQtyData    // component
-    grp.OrdType |> Option.iter (WriteOrdType strm)
-    grp.PriceType |> Option.iter (WritePriceType strm)
-    grp.Price |> Option.iter (WritePrice strm)
-    grp.StopPx |> Option.iter (WriteStopPx strm)
-    grp.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
-    grp.YieldData |> Option.iter (WriteYieldData strm) // component
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.ComplianceID |> Option.iter (WriteComplianceID strm)
-    grp.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
-    grp.IOIid |> Option.iter (WriteIOIid strm)
-    grp.QuoteID |> Option.iter (WriteQuoteID strm)
-    grp.TimeInForce |> Option.iter (WriteTimeInForce strm)
-    grp.EffectiveTime |> Option.iter (WriteEffectiveTime strm)
-    grp.ExpireDate |> Option.iter (WriteExpireDate strm)
-    grp.ExpireTime |> Option.iter (WriteExpireTime strm)
-    grp.GTBookingInst |> Option.iter (WriteGTBookingInst strm)
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
-    grp.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
-    grp.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
-    grp.ForexReq |> Option.iter (WriteForexReq strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.BookingType |> Option.iter (WriteBookingType strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
-    grp.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
-    grp.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
-    grp.Price2 |> Option.iter (WritePrice2 strm)
-    grp.PositionEffect |> Option.iter (WritePositionEffect strm)
-    grp.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
-    grp.MaxShow |> Option.iter (WriteMaxShow strm)
-    grp.PegInstructions |> Option.iter (WritePegInstructions strm) // component
-    grp.DiscretionInstructions |> Option.iter (WriteDiscretionInstructions strm) // component
-    grp.TargetStrategy |> Option.iter (WriteTargetStrategy strm)
-    grp.TargetStrategyParameters |> Option.iter (WriteTargetStrategyParameters strm)
-    grp.ParticipationRate |> Option.iter (WriteParticipationRate strm)
-    grp.Designation |> Option.iter (WriteDesignation strm)
+    xx.PrevClosePx |> Option.iter (WritePrevClosePx strm)
+    WriteSide strm xx.Side
+    xx.SideValueInd |> Option.iter (WriteSideValueInd strm)
+    xx.LocateReqd |> Option.iter (WriteLocateReqd strm)
+    xx.TransactTime |> Option.iter (WriteTransactTime strm)
+    xx.Stipulations |> Option.iter (WriteStipulations strm) // component
+    xx.QtyType |> Option.iter (WriteQtyType strm)
+    WriteOrderQtyData strm xx.OrderQtyData    // component
+    xx.OrdType |> Option.iter (WriteOrdType strm)
+    xx.PriceType |> Option.iter (WritePriceType strm)
+    xx.Price |> Option.iter (WritePrice strm)
+    xx.StopPx |> Option.iter (WriteStopPx strm)
+    xx.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
+    xx.YieldData |> Option.iter (WriteYieldData strm) // component
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.ComplianceID |> Option.iter (WriteComplianceID strm)
+    xx.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
+    xx.IOIid |> Option.iter (WriteIOIid strm)
+    xx.QuoteID |> Option.iter (WriteQuoteID strm)
+    xx.TimeInForce |> Option.iter (WriteTimeInForce strm)
+    xx.EffectiveTime |> Option.iter (WriteEffectiveTime strm)
+    xx.ExpireDate |> Option.iter (WriteExpireDate strm)
+    xx.ExpireTime |> Option.iter (WriteExpireTime strm)
+    xx.GTBookingInst |> Option.iter (WriteGTBookingInst strm)
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
+    xx.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
+    xx.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
+    xx.ForexReq |> Option.iter (WriteForexReq strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.BookingType |> Option.iter (WriteBookingType strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
+    xx.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
+    xx.Price2 |> Option.iter (WritePrice2 strm)
+    xx.PositionEffect |> Option.iter (WritePositionEffect strm)
+    xx.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
+    xx.MaxShow |> Option.iter (WriteMaxShow strm)
+    xx.PegInstructions |> Option.iter (WritePegInstructions strm) // component
+    xx.DiscretionInstructions |> Option.iter (WriteDiscretionInstructions strm) // component
+    xx.TargetStrategy |> Option.iter (WriteTargetStrategy strm)
+    xx.TargetStrategyParameters |> Option.iter (WriteTargetStrategyParameters strm)
+    xx.ParticipationRate |> Option.iter (WriteParticipationRate strm)
+    xx.Designation |> Option.iter (WriteDesignation strm)
 
 
 // group
-let WriteBidResponse_NoBidComponentsGrp (strm:System.IO.Stream) (grp:BidResponse_NoBidComponentsGrp) =
-    WriteCommissionData strm grp.CommissionData    // component
-    grp.ListID |> Option.iter (WriteListID strm)
-    grp.Country |> Option.iter (WriteCountry strm)
-    grp.Side |> Option.iter (WriteSide strm)
-    grp.Price |> Option.iter (WritePrice strm)
-    grp.PriceType |> Option.iter (WritePriceType strm)
-    grp.FairValue |> Option.iter (WriteFairValue strm)
-    grp.NetGrossInd |> Option.iter (WriteNetGrossInd strm)
-    grp.SettlType |> Option.iter (WriteSettlType strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteBidResponse_NoBidComponentsGrp (strm:System.IO.Stream) (xx:BidResponse_NoBidComponentsGrp) =
+    WriteCommissionData strm xx.CommissionData    // component
+    xx.ListID |> Option.iter (WriteListID strm)
+    xx.Country |> Option.iter (WriteCountry strm)
+    xx.Side |> Option.iter (WriteSide strm)
+    xx.Price |> Option.iter (WritePrice strm)
+    xx.PriceType |> Option.iter (WritePriceType strm)
+    xx.FairValue |> Option.iter (WriteFairValue strm)
+    xx.NetGrossInd |> Option.iter (WriteNetGrossInd strm)
+    xx.SettlType |> Option.iter (WriteSettlType strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteNoLegAllocsGrp (strm:System.IO.Stream) (grp:NoLegAllocsGrp) =
-    grp.LegAllocAccount |> Option.iter (WriteLegAllocAccount strm)
-    grp.LegIndividualAllocID |> Option.iter (WriteLegIndividualAllocID strm)
-    grp.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
-    grp.LegAllocQty |> Option.iter (WriteLegAllocQty strm)
-    grp.LegAllocAcctIDSource |> Option.iter (WriteLegAllocAcctIDSource strm)
-    grp.LegSettlCurrency |> Option.iter (WriteLegSettlCurrency strm)
+let WriteNoLegAllocsGrp (strm:System.IO.Stream) (xx:NoLegAllocsGrp) =
+    xx.LegAllocAccount |> Option.iter (WriteLegAllocAccount strm)
+    xx.LegIndividualAllocID |> Option.iter (WriteLegIndividualAllocID strm)
+    xx.NestedParties2 |> Option.iter (WriteNestedParties2 strm) // component
+    xx.LegAllocQty |> Option.iter (WriteLegAllocQty strm)
+    xx.LegAllocAcctIDSource |> Option.iter (WriteLegAllocAcctIDSource strm)
+    xx.LegSettlCurrency |> Option.iter (WriteLegSettlCurrency strm)
 
 
 // group
-let WriteMultilegOrderCancelReplaceRequest_NoLegsGrp (strm:System.IO.Stream) (grp:MultilegOrderCancelReplaceRequest_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NoLegAllocsGrp |> Option.iter (fun gs ->     // group
+let WriteMultilegOrderCancelReplaceRequest_NoLegsGrp (strm:System.IO.Stream) (xx:MultilegOrderCancelReplaceRequest_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NoLegAllocsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegAllocs strm (Fix44.Fields.NoLegAllocs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegAllocsGrp strm gg)    ) // end Option.iter
-    grp.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
-    grp.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegRefID |> Option.iter (WriteLegRefID strm)
-    grp.LegPrice |> Option.iter (WriteLegPrice strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
+    xx.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegRefID |> Option.iter (WriteLegRefID strm)
+    xx.LegPrice |> Option.iter (WriteLegPrice strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
 
 
 // group
-let WriteNoNested3PartySubIDsGrp (strm:System.IO.Stream) (grp:NoNested3PartySubIDsGrp) =
-    grp.Nested3PartySubID |> Option.iter (WriteNested3PartySubID strm)
-    grp.Nested3PartySubIDType |> Option.iter (WriteNested3PartySubIDType strm)
+let WriteNoNested3PartySubIDsGrp (strm:System.IO.Stream) (xx:NoNested3PartySubIDsGrp) =
+    xx.Nested3PartySubID |> Option.iter (WriteNested3PartySubID strm)
+    xx.Nested3PartySubIDType |> Option.iter (WriteNested3PartySubIDType strm)
 
 
 // group
-let WriteNoNested3PartyIDsGrp (strm:System.IO.Stream) (grp:NoNested3PartyIDsGrp) =
-    grp.Nested3PartyID |> Option.iter (WriteNested3PartyID strm)
-    grp.Nested3PartyIDSource |> Option.iter (WriteNested3PartyIDSource strm)
-    grp.Nested3PartyRole |> Option.iter (WriteNested3PartyRole strm)
-    grp.NoNested3PartySubIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNoNested3PartyIDsGrp (strm:System.IO.Stream) (xx:NoNested3PartyIDsGrp) =
+    xx.Nested3PartyID |> Option.iter (WriteNested3PartyID strm)
+    xx.Nested3PartyIDSource |> Option.iter (WriteNested3PartyIDSource strm)
+    xx.Nested3PartyRole |> Option.iter (WriteNested3PartyRole strm)
+    xx.NoNested3PartySubIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNested3PartySubIDs strm (Fix44.Fields.NoNested3PartySubIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNested3PartySubIDsGrp strm gg)    ) // end Option.iter
 
 
 // component
-let WriteNestedParties3 (strm:System.IO.Stream) (grp:NestedParties3) =
-    grp.NoNested3PartyIDsGrp |> Option.iter (fun gs ->     // group
+let WriteNestedParties3 (strm:System.IO.Stream) (xx:NestedParties3) =
+    xx.NoNested3PartyIDsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoNested3PartyIDs strm (Fix44.Fields.NoNested3PartyIDs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoNested3PartyIDsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteMultilegOrderCancelReplaceRequest_NoAllocsGrp (strm:System.IO.Stream) (grp:MultilegOrderCancelReplaceRequest_NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.NestedParties3 |> Option.iter (WriteNestedParties3 strm) // component
-    grp.AllocQty |> Option.iter (WriteAllocQty strm)
+let WriteMultilegOrderCancelReplaceRequest_NoAllocsGrp (strm:System.IO.Stream) (xx:MultilegOrderCancelReplaceRequest_NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.NestedParties3 |> Option.iter (WriteNestedParties3 strm) // component
+    xx.AllocQty |> Option.iter (WriteAllocQty strm)
 
 
 // group
-let WriteNewOrderMultileg_NoLegsGrp (strm:System.IO.Stream) (grp:NewOrderMultileg_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NoLegAllocsGrp |> Option.iter (fun gs ->     // group
+let WriteNewOrderMultileg_NoLegsGrp (strm:System.IO.Stream) (xx:NewOrderMultileg_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NoLegAllocsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegAllocs strm (Fix44.Fields.NoLegAllocs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegAllocsGrp strm gg)    ) // end Option.iter
-    grp.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
-    grp.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegRefID |> Option.iter (WriteLegRefID strm)
-    grp.LegPrice |> Option.iter (WriteLegPrice strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
+    xx.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegRefID |> Option.iter (WriteLegRefID strm)
+    xx.LegPrice |> Option.iter (WriteLegPrice strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
 
 
 // group
-let WriteNewOrderMultileg_NoAllocsGrp (strm:System.IO.Stream) (grp:NewOrderMultileg_NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.NestedParties3 |> Option.iter (WriteNestedParties3 strm) // component
-    grp.AllocQty |> Option.iter (WriteAllocQty strm)
+let WriteNewOrderMultileg_NoAllocsGrp (strm:System.IO.Stream) (xx:NewOrderMultileg_NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocSettlCurrency |> Option.iter (WriteAllocSettlCurrency strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.NestedParties3 |> Option.iter (WriteNestedParties3 strm) // component
+    xx.AllocQty |> Option.iter (WriteAllocQty strm)
 
 
 // group
-let WriteCrossOrderCancelRequest_NoSidesGrp (strm:System.IO.Stream) (grp:CrossOrderCancelRequest_NoSidesGrp) =
-    WriteSide strm grp.Side
-    WriteOrigClOrdID strm grp.OrigClOrdID
-    WriteClOrdID strm grp.ClOrdID
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
-    grp.OrigOrdModTime |> Option.iter (WriteOrigOrdModTime strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.TradeDate |> Option.iter (WriteTradeDate strm)
-    WriteOrderQtyData strm grp.OrderQtyData    // component
-    grp.ComplianceID |> Option.iter (WriteComplianceID strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteCrossOrderCancelRequest_NoSidesGrp (strm:System.IO.Stream) (xx:CrossOrderCancelRequest_NoSidesGrp) =
+    WriteSide strm xx.Side
+    WriteOrigClOrdID strm xx.OrigClOrdID
+    WriteClOrdID strm xx.ClOrdID
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
+    xx.OrigOrdModTime |> Option.iter (WriteOrigOrdModTime strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.TradeDate |> Option.iter (WriteTradeDate strm)
+    WriteOrderQtyData strm xx.OrderQtyData    // component
+    xx.ComplianceID |> Option.iter (WriteComplianceID strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteCrossOrderCancelReplaceRequest_NoSidesGrp (strm:System.IO.Stream) (grp:CrossOrderCancelReplaceRequest_NoSidesGrp) =
-    WriteSide strm grp.Side
-    WriteOrigClOrdID strm grp.OrigClOrdID
-    WriteClOrdID strm grp.ClOrdID
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
-    grp.OrigOrdModTime |> Option.iter (WriteOrigOrdModTime strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.TradeDate |> Option.iter (WriteTradeDate strm)
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
-    grp.BookingUnit |> Option.iter (WriteBookingUnit strm)
-    grp.PreallocMethod |> Option.iter (WritePreallocMethod strm)
-    grp.AllocID |> Option.iter (WriteAllocID strm)
-    grp.NoAllocsGrp |> Option.iter (fun gs ->     // group
+let WriteCrossOrderCancelReplaceRequest_NoSidesGrp (strm:System.IO.Stream) (xx:CrossOrderCancelReplaceRequest_NoSidesGrp) =
+    WriteSide strm xx.Side
+    WriteOrigClOrdID strm xx.OrigClOrdID
+    WriteClOrdID strm xx.ClOrdID
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
+    xx.OrigOrdModTime |> Option.iter (WriteOrigOrdModTime strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.TradeDate |> Option.iter (WriteTradeDate strm)
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
+    xx.BookingUnit |> Option.iter (WriteBookingUnit strm)
+    xx.PreallocMethod |> Option.iter (WritePreallocMethod strm)
+    xx.AllocID |> Option.iter (WriteAllocID strm)
+    xx.NoAllocsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoAllocs strm (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoAllocsGrp strm gg)    ) // end Option.iter
-    grp.QtyType |> Option.iter (WriteQtyType strm)
-    WriteOrderQtyData strm grp.OrderQtyData    // component
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
-    grp.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
-    grp.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
-    grp.ForexReq |> Option.iter (WriteForexReq strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.BookingType |> Option.iter (WriteBookingType strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
-    grp.PositionEffect |> Option.iter (WritePositionEffect strm)
-    grp.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
-    grp.CashMargin |> Option.iter (WriteCashMargin strm)
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
-    grp.SideComplianceID |> Option.iter (WriteSideComplianceID strm)
+    xx.QtyType |> Option.iter (WriteQtyType strm)
+    WriteOrderQtyData strm xx.OrderQtyData    // component
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
+    xx.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
+    xx.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
+    xx.ForexReq |> Option.iter (WriteForexReq strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.BookingType |> Option.iter (WriteBookingType strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.PositionEffect |> Option.iter (WritePositionEffect strm)
+    xx.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
+    xx.CashMargin |> Option.iter (WriteCashMargin strm)
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
+    xx.SideComplianceID |> Option.iter (WriteSideComplianceID strm)
 
 
 // group
-let WriteNoSidesGrp (strm:System.IO.Stream) (grp:NoSidesGrp) =
-    WriteSide strm grp.Side
-    WriteClOrdID strm grp.ClOrdID
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    grp.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
-    grp.Parties |> Option.iter (WriteParties strm) // component
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.TradeDate |> Option.iter (WriteTradeDate strm)
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
-    grp.BookingUnit |> Option.iter (WriteBookingUnit strm)
-    grp.PreallocMethod |> Option.iter (WritePreallocMethod strm)
-    grp.AllocID |> Option.iter (WriteAllocID strm)
-    grp.NoAllocsGrp |> Option.iter (fun gs ->     // group
+let WriteNoSidesGrp (strm:System.IO.Stream) (xx:NoSidesGrp) =
+    WriteSide strm xx.Side
+    WriteClOrdID strm xx.ClOrdID
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    xx.ClOrdLinkID |> Option.iter (WriteClOrdLinkID strm)
+    xx.Parties |> Option.iter (WriteParties strm) // component
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.TradeDate |> Option.iter (WriteTradeDate strm)
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.DayBookingInst |> Option.iter (WriteDayBookingInst strm)
+    xx.BookingUnit |> Option.iter (WriteBookingUnit strm)
+    xx.PreallocMethod |> Option.iter (WritePreallocMethod strm)
+    xx.AllocID |> Option.iter (WriteAllocID strm)
+    xx.NoAllocsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoAllocs strm (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoAllocsGrp strm gg)    ) // end Option.iter
-    grp.QtyType |> Option.iter (WriteQtyType strm)
-    WriteOrderQtyData strm grp.OrderQtyData    // component
-    grp.CommissionData |> Option.iter (WriteCommissionData strm) // component
-    grp.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
-    grp.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
-    grp.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
-    grp.ForexReq |> Option.iter (WriteForexReq strm)
-    grp.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
-    grp.BookingType |> Option.iter (WriteBookingType strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
-    grp.PositionEffect |> Option.iter (WritePositionEffect strm)
-    grp.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
-    grp.CashMargin |> Option.iter (WriteCashMargin strm)
-    grp.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
-    grp.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
-    grp.SideComplianceID |> Option.iter (WriteSideComplianceID strm)
+    xx.QtyType |> Option.iter (WriteQtyType strm)
+    WriteOrderQtyData strm xx.OrderQtyData    // component
+    xx.CommissionData |> Option.iter (WriteCommissionData strm) // component
+    xx.OrderCapacity |> Option.iter (WriteOrderCapacity strm)
+    xx.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
+    xx.CustOrderCapacity |> Option.iter (WriteCustOrderCapacity strm)
+    xx.ForexReq |> Option.iter (WriteForexReq strm)
+    xx.SettlCurrency |> Option.iter (WriteSettlCurrency strm)
+    xx.BookingType |> Option.iter (WriteBookingType strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.PositionEffect |> Option.iter (WritePositionEffect strm)
+    xx.CoveredOrUncovered |> Option.iter (WriteCoveredOrUncovered strm)
+    xx.CashMargin |> Option.iter (WriteCashMargin strm)
+    xx.ClearingFeeIndicator |> Option.iter (WriteClearingFeeIndicator strm)
+    xx.SolicitedFlag |> Option.iter (WriteSolicitedFlag strm)
+    xx.SideComplianceID |> Option.iter (WriteSideComplianceID strm)
 
 
 // group
-let WriteExecutionReport_NoLegsGrp (strm:System.IO.Stream) (grp:ExecutionReport_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
-    grp.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegRefID |> Option.iter (WriteLegRefID strm)
-    grp.LegPrice |> Option.iter (WriteLegPrice strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegLastPx |> Option.iter (WriteLegLastPx strm)
+let WriteExecutionReport_NoLegsGrp (strm:System.IO.Stream) (xx:ExecutionReport_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.LegPositionEffect |> Option.iter (WriteLegPositionEffect strm)
+    xx.LegCoveredOrUncovered |> Option.iter (WriteLegCoveredOrUncovered strm)
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegRefID |> Option.iter (WriteLegRefID strm)
+    xx.LegPrice |> Option.iter (WriteLegPrice strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegLastPx |> Option.iter (WriteLegLastPx strm)
 
 
 // group
-let WriteNoInstrAttribGrp (strm:System.IO.Stream) (grp:NoInstrAttribGrp) =
-    grp.InstrAttribType |> Option.iter (WriteInstrAttribType strm)
-    grp.InstrAttribValue |> Option.iter (WriteInstrAttribValue strm)
+let WriteNoInstrAttribGrp (strm:System.IO.Stream) (xx:NoInstrAttribGrp) =
+    xx.InstrAttribType |> Option.iter (WriteInstrAttribType strm)
+    xx.InstrAttribValue |> Option.iter (WriteInstrAttribValue strm)
 
 
 // component
-let WriteInstrumentExtension (strm:System.IO.Stream) (grp:InstrumentExtension) =
-    grp.DeliveryForm |> Option.iter (WriteDeliveryForm strm)
-    grp.PctAtRisk |> Option.iter (WritePctAtRisk strm)
-    grp.NoInstrAttribGrp |> Option.iter (fun gs ->     // group
+let WriteInstrumentExtension (strm:System.IO.Stream) (xx:InstrumentExtension) =
+    xx.DeliveryForm |> Option.iter (WriteDeliveryForm strm)
+    xx.PctAtRisk |> Option.iter (WritePctAtRisk strm)
+    xx.NoInstrAttribGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoInstrAttrib strm (Fix44.Fields.NoInstrAttrib numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoInstrAttribGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteNoLegsGrp (strm:System.IO.Stream) (grp:NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+let WriteNoLegsGrp (strm:System.IO.Stream) (xx:NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
 
 
 // group
-let WriteDerivativeSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (grp:DerivativeSecurityList_NoRelatedSymGrp) =
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.ExpirationCycle |> Option.iter (WriteExpirationCycle strm)
-    grp.InstrumentExtension |> Option.iter (WriteInstrumentExtension strm) // component
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+let WriteDerivativeSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (xx:DerivativeSecurityList_NoRelatedSymGrp) =
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.ExpirationCycle |> Option.iter (WriteExpirationCycle strm)
+    xx.InstrumentExtension |> Option.iter (WriteInstrumentExtension strm) // component
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // component
-let WriteFinancingDetails (strm:System.IO.Stream) (grp:FinancingDetails) =
-    grp.AgreementDesc |> Option.iter (WriteAgreementDesc strm)
-    grp.AgreementID |> Option.iter (WriteAgreementID strm)
-    grp.AgreementDate |> Option.iter (WriteAgreementDate strm)
-    grp.AgreementCurrency |> Option.iter (WriteAgreementCurrency strm)
-    grp.TerminationType |> Option.iter (WriteTerminationType strm)
-    grp.StartDate |> Option.iter (WriteStartDate strm)
-    grp.EndDate |> Option.iter (WriteEndDate strm)
-    grp.DeliveryType |> Option.iter (WriteDeliveryType strm)
-    grp.MarginRatio |> Option.iter (WriteMarginRatio strm)
+let WriteFinancingDetails (strm:System.IO.Stream) (xx:FinancingDetails) =
+    xx.AgreementDesc |> Option.iter (WriteAgreementDesc strm)
+    xx.AgreementID |> Option.iter (WriteAgreementID strm)
+    xx.AgreementDate |> Option.iter (WriteAgreementDate strm)
+    xx.AgreementCurrency |> Option.iter (WriteAgreementCurrency strm)
+    xx.TerminationType |> Option.iter (WriteTerminationType strm)
+    xx.StartDate |> Option.iter (WriteStartDate strm)
+    xx.EndDate |> Option.iter (WriteEndDate strm)
+    xx.DeliveryType |> Option.iter (WriteDeliveryType strm)
+    xx.MarginRatio |> Option.iter (WriteMarginRatio strm)
 
 
 // component
-let WriteLegBenchmarkCurveData (strm:System.IO.Stream) (grp:LegBenchmarkCurveData) =
-    grp.LegBenchmarkCurveCurrency |> Option.iter (WriteLegBenchmarkCurveCurrency strm)
-    grp.LegBenchmarkCurveName |> Option.iter (WriteLegBenchmarkCurveName strm)
-    grp.LegBenchmarkCurvePoint |> Option.iter (WriteLegBenchmarkCurvePoint strm)
-    grp.LegBenchmarkPrice |> Option.iter (WriteLegBenchmarkPrice strm)
-    grp.LegBenchmarkPriceType |> Option.iter (WriteLegBenchmarkPriceType strm)
+let WriteLegBenchmarkCurveData (strm:System.IO.Stream) (xx:LegBenchmarkCurveData) =
+    xx.LegBenchmarkCurveCurrency |> Option.iter (WriteLegBenchmarkCurveCurrency strm)
+    xx.LegBenchmarkCurveName |> Option.iter (WriteLegBenchmarkCurveName strm)
+    xx.LegBenchmarkCurvePoint |> Option.iter (WriteLegBenchmarkCurvePoint strm)
+    xx.LegBenchmarkPrice |> Option.iter (WriteLegBenchmarkPrice strm)
+    xx.LegBenchmarkPriceType |> Option.iter (WriteLegBenchmarkPriceType strm)
 
 
 // group
-let WriteSecurityList_NoLegsGrp (strm:System.IO.Stream) (grp:SecurityList_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
+let WriteSecurityList_NoLegsGrp (strm:System.IO.Stream) (xx:SecurityList_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
 
 
 // group
-let WriteSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (grp:SecurityList_NoRelatedSymGrp) =
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.InstrumentExtension |> Option.iter (WriteInstrumentExtension strm) // component
-    grp.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteSecurityList_NoRelatedSymGrp (strm:System.IO.Stream) (xx:SecurityList_NoRelatedSymGrp) =
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.InstrumentExtension |> Option.iter (WriteInstrumentExtension strm) // component
+    xx.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.SecurityList_NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.Stipulations |> Option.iter (WriteStipulations strm) // component
+    xx.SecurityList_NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteSecurityList_NoLegsGrp strm gg)    ) // end Option.iter
-    grp.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
-    grp.YieldData |> Option.iter (WriteYieldData strm) // component
-    grp.RoundLot |> Option.iter (WriteRoundLot strm)
-    grp.MinTradeVol |> Option.iter (WriteMinTradeVol strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.ExpirationCycle |> Option.iter (WriteExpirationCycle strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
+    xx.YieldData |> Option.iter (WriteYieldData strm) // component
+    xx.RoundLot |> Option.iter (WriteRoundLot strm)
+    xx.MinTradeVol |> Option.iter (WriteMinTradeVol strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.ExpirationCycle |> Option.iter (WriteExpirationCycle strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (strm:System.IO.Stream) (grp:MarketDataIncrementalRefresh_NoMDEntriesGrp) =
-    WriteMDUpdateAction strm grp.MDUpdateAction
-    grp.DeleteReason |> Option.iter (WriteDeleteReason strm)
-    grp.MDEntryType |> Option.iter (WriteMDEntryType strm)
-    grp.MDEntryID |> Option.iter (WriteMDEntryID strm)
-    grp.MDEntryRefID |> Option.iter (WriteMDEntryRefID strm)
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (strm:System.IO.Stream) (xx:MarketDataIncrementalRefresh_NoMDEntriesGrp) =
+    WriteMDUpdateAction strm xx.MDUpdateAction
+    xx.DeleteReason |> Option.iter (WriteDeleteReason strm)
+    xx.MDEntryType |> Option.iter (WriteMDEntryType strm)
+    xx.MDEntryID |> Option.iter (WriteMDEntryID strm)
+    xx.MDEntryRefID |> Option.iter (WriteMDEntryRefID strm)
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
-    grp.FinancialStatus |> Option.iter (WriteFinancialStatus strm)
-    grp.CorporateAction |> Option.iter (WriteCorporateAction strm)
-    grp.MDEntryPx |> Option.iter (WriteMDEntryPx strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.MDEntrySize |> Option.iter (WriteMDEntrySize strm)
-    grp.MDEntryDate |> Option.iter (WriteMDEntryDate strm)
-    grp.MDEntryTime |> Option.iter (WriteMDEntryTime strm)
-    grp.TickDirection |> Option.iter (WriteTickDirection strm)
-    grp.MDMkt |> Option.iter (WriteMDMkt strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.QuoteCondition |> Option.iter (WriteQuoteCondition strm)
-    grp.TradeCondition |> Option.iter (WriteTradeCondition strm)
-    grp.MDEntryOriginator |> Option.iter (WriteMDEntryOriginator strm)
-    grp.LocationID |> Option.iter (WriteLocationID strm)
-    grp.DeskID |> Option.iter (WriteDeskID strm)
-    grp.OpenCloseSettlFlag |> Option.iter (WriteOpenCloseSettlFlag strm)
-    grp.TimeInForce |> Option.iter (WriteTimeInForce strm)
-    grp.ExpireDate |> Option.iter (WriteExpireDate strm)
-    grp.ExpireTime |> Option.iter (WriteExpireTime strm)
-    grp.MinQty |> Option.iter (WriteMinQty strm)
-    grp.ExecInst |> Option.iter (WriteExecInst strm)
-    grp.SellerDays |> Option.iter (WriteSellerDays strm)
-    grp.OrderID |> Option.iter (WriteOrderID strm)
-    grp.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
-    grp.MDEntryBuyer |> Option.iter (WriteMDEntryBuyer strm)
-    grp.MDEntrySeller |> Option.iter (WriteMDEntrySeller strm)
-    grp.NumberOfOrders |> Option.iter (WriteNumberOfOrders strm)
-    grp.MDEntryPositionNo |> Option.iter (WriteMDEntryPositionNo strm)
-    grp.Scope |> Option.iter (WriteScope strm)
-    grp.PriceDelta |> Option.iter (WritePriceDelta strm)
-    grp.NetChgPrevDay |> Option.iter (WriteNetChgPrevDay strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+    xx.FinancialStatus |> Option.iter (WriteFinancialStatus strm)
+    xx.CorporateAction |> Option.iter (WriteCorporateAction strm)
+    xx.MDEntryPx |> Option.iter (WriteMDEntryPx strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.MDEntrySize |> Option.iter (WriteMDEntrySize strm)
+    xx.MDEntryDate |> Option.iter (WriteMDEntryDate strm)
+    xx.MDEntryTime |> Option.iter (WriteMDEntryTime strm)
+    xx.TickDirection |> Option.iter (WriteTickDirection strm)
+    xx.MDMkt |> Option.iter (WriteMDMkt strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.QuoteCondition |> Option.iter (WriteQuoteCondition strm)
+    xx.TradeCondition |> Option.iter (WriteTradeCondition strm)
+    xx.MDEntryOriginator |> Option.iter (WriteMDEntryOriginator strm)
+    xx.LocationID |> Option.iter (WriteLocationID strm)
+    xx.DeskID |> Option.iter (WriteDeskID strm)
+    xx.OpenCloseSettlFlag |> Option.iter (WriteOpenCloseSettlFlag strm)
+    xx.TimeInForce |> Option.iter (WriteTimeInForce strm)
+    xx.ExpireDate |> Option.iter (WriteExpireDate strm)
+    xx.ExpireTime |> Option.iter (WriteExpireTime strm)
+    xx.MinQty |> Option.iter (WriteMinQty strm)
+    xx.ExecInst |> Option.iter (WriteExecInst strm)
+    xx.SellerDays |> Option.iter (WriteSellerDays strm)
+    xx.OrderID |> Option.iter (WriteOrderID strm)
+    xx.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
+    xx.MDEntryBuyer |> Option.iter (WriteMDEntryBuyer strm)
+    xx.MDEntrySeller |> Option.iter (WriteMDEntrySeller strm)
+    xx.NumberOfOrders |> Option.iter (WriteNumberOfOrders strm)
+    xx.MDEntryPositionNo |> Option.iter (WriteMDEntryPositionNo strm)
+    xx.Scope |> Option.iter (WriteScope strm)
+    xx.PriceDelta |> Option.iter (WritePriceDelta strm)
+    xx.NetChgPrevDay |> Option.iter (WriteNetChgPrevDay strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteMarketDataRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:MarketDataRequest_NoRelatedSymGrp) =
-    WriteInstrument strm grp.Instrument    // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteMarketDataRequest_NoRelatedSymGrp (strm:System.IO.Stream) (xx:MarketDataRequest_NoRelatedSymGrp) =
+    WriteInstrument strm xx.Instrument    // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp (strm:System.IO.Stream) (grp:MassQuoteAcknowledgement_NoQuoteEntriesGrp) =
-    grp.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+let WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp (strm:System.IO.Stream) (xx:MassQuoteAcknowledgement_NoQuoteEntriesGrp) =
+    xx.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
-    grp.BidPx |> Option.iter (WriteBidPx strm)
-    grp.OfferPx |> Option.iter (WriteOfferPx strm)
-    grp.BidSize |> Option.iter (WriteBidSize strm)
-    grp.OfferSize |> Option.iter (WriteOfferSize strm)
-    grp.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
-    grp.BidSpotRate |> Option.iter (WriteBidSpotRate strm)
-    grp.OfferSpotRate |> Option.iter (WriteOfferSpotRate strm)
-    grp.BidForwardPoints |> Option.iter (WriteBidForwardPoints strm)
-    grp.OfferForwardPoints |> Option.iter (WriteOfferForwardPoints strm)
-    grp.MidPx |> Option.iter (WriteMidPx strm)
-    grp.BidYield |> Option.iter (WriteBidYield strm)
-    grp.MidYield |> Option.iter (WriteMidYield strm)
-    grp.OfferYield |> Option.iter (WriteOfferYield strm)
-    grp.TransactTime |> Option.iter (WriteTransactTime strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.OrdType |> Option.iter (WriteOrdType strm)
-    grp.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
-    grp.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
-    grp.BidForwardPoints2 |> Option.iter (WriteBidForwardPoints2 strm)
-    grp.OfferForwardPoints2 |> Option.iter (WriteOfferForwardPoints2 strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.QuoteEntryRejectReason |> Option.iter (WriteQuoteEntryRejectReason strm)
+    xx.BidPx |> Option.iter (WriteBidPx strm)
+    xx.OfferPx |> Option.iter (WriteOfferPx strm)
+    xx.BidSize |> Option.iter (WriteBidSize strm)
+    xx.OfferSize |> Option.iter (WriteOfferSize strm)
+    xx.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
+    xx.BidSpotRate |> Option.iter (WriteBidSpotRate strm)
+    xx.OfferSpotRate |> Option.iter (WriteOfferSpotRate strm)
+    xx.BidForwardPoints |> Option.iter (WriteBidForwardPoints strm)
+    xx.OfferForwardPoints |> Option.iter (WriteOfferForwardPoints strm)
+    xx.MidPx |> Option.iter (WriteMidPx strm)
+    xx.BidYield |> Option.iter (WriteBidYield strm)
+    xx.MidYield |> Option.iter (WriteMidYield strm)
+    xx.OfferYield |> Option.iter (WriteOfferYield strm)
+    xx.TransactTime |> Option.iter (WriteTransactTime strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.OrdType |> Option.iter (WriteOrdType strm)
+    xx.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
+    xx.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
+    xx.BidForwardPoints2 |> Option.iter (WriteBidForwardPoints2 strm)
+    xx.OfferForwardPoints2 |> Option.iter (WriteOfferForwardPoints2 strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.QuoteEntryRejectReason |> Option.iter (WriteQuoteEntryRejectReason strm)
 
 
 // group
-let WriteMassQuoteAcknowledgement_NoQuoteSetsGrp (strm:System.IO.Stream) (grp:MassQuoteAcknowledgement_NoQuoteSetsGrp) =
-    grp.QuoteSetID |> Option.iter (WriteQuoteSetID strm)
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.TotNoQuoteEntries |> Option.iter (WriteTotNoQuoteEntries strm)
-    grp.LastFragment |> Option.iter (WriteLastFragment strm)
-    grp.MassQuoteAcknowledgement_NoQuoteEntriesGrp |> Option.iter (fun gs ->     // group
+let WriteMassQuoteAcknowledgement_NoQuoteSetsGrp (strm:System.IO.Stream) (xx:MassQuoteAcknowledgement_NoQuoteSetsGrp) =
+    xx.QuoteSetID |> Option.iter (WriteQuoteSetID strm)
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.TotNoQuoteEntries |> Option.iter (WriteTotNoQuoteEntries strm)
+    xx.LastFragment |> Option.iter (WriteLastFragment strm)
+    xx.MassQuoteAcknowledgement_NoQuoteEntriesGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoQuoteEntries strm (Fix44.Fields.NoQuoteEntries numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteMassQuote_NoQuoteEntriesGrp (strm:System.IO.Stream) (grp:MassQuote_NoQuoteEntriesGrp) =
-    WriteQuoteEntryID strm grp.QuoteEntryID
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+let WriteMassQuote_NoQuoteEntriesGrp (strm:System.IO.Stream) (xx:MassQuote_NoQuoteEntriesGrp) =
+    WriteQuoteEntryID strm xx.QuoteEntryID
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
-    grp.BidPx |> Option.iter (WriteBidPx strm)
-    grp.OfferPx |> Option.iter (WriteOfferPx strm)
-    grp.BidSize |> Option.iter (WriteBidSize strm)
-    grp.OfferSize |> Option.iter (WriteOfferSize strm)
-    grp.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
-    grp.BidSpotRate |> Option.iter (WriteBidSpotRate strm)
-    grp.OfferSpotRate |> Option.iter (WriteOfferSpotRate strm)
-    grp.BidForwardPoints |> Option.iter (WriteBidForwardPoints strm)
-    grp.OfferForwardPoints |> Option.iter (WriteOfferForwardPoints strm)
-    grp.MidPx |> Option.iter (WriteMidPx strm)
-    grp.BidYield |> Option.iter (WriteBidYield strm)
-    grp.MidYield |> Option.iter (WriteMidYield strm)
-    grp.OfferYield |> Option.iter (WriteOfferYield strm)
-    grp.TransactTime |> Option.iter (WriteTransactTime strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.OrdType |> Option.iter (WriteOrdType strm)
-    grp.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
-    grp.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
-    grp.BidForwardPoints2 |> Option.iter (WriteBidForwardPoints2 strm)
-    grp.OfferForwardPoints2 |> Option.iter (WriteOfferForwardPoints2 strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
+    xx.BidPx |> Option.iter (WriteBidPx strm)
+    xx.OfferPx |> Option.iter (WriteOfferPx strm)
+    xx.BidSize |> Option.iter (WriteBidSize strm)
+    xx.OfferSize |> Option.iter (WriteOfferSize strm)
+    xx.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
+    xx.BidSpotRate |> Option.iter (WriteBidSpotRate strm)
+    xx.OfferSpotRate |> Option.iter (WriteOfferSpotRate strm)
+    xx.BidForwardPoints |> Option.iter (WriteBidForwardPoints strm)
+    xx.OfferForwardPoints |> Option.iter (WriteOfferForwardPoints strm)
+    xx.MidPx |> Option.iter (WriteMidPx strm)
+    xx.BidYield |> Option.iter (WriteBidYield strm)
+    xx.MidYield |> Option.iter (WriteMidYield strm)
+    xx.OfferYield |> Option.iter (WriteOfferYield strm)
+    xx.TransactTime |> Option.iter (WriteTransactTime strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.OrdType |> Option.iter (WriteOrdType strm)
+    xx.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
+    xx.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
+    xx.BidForwardPoints2 |> Option.iter (WriteBidForwardPoints2 strm)
+    xx.OfferForwardPoints2 |> Option.iter (WriteOfferForwardPoints2 strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
 
 
 // group
-let WriteNoQuoteSetsGrp (strm:System.IO.Stream) (grp:NoQuoteSetsGrp) =
-    WriteQuoteSetID strm grp.QuoteSetID
-    grp.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
-    grp.QuoteSetValidUntilTime |> Option.iter (WriteQuoteSetValidUntilTime strm)
-    WriteTotNoQuoteEntries strm grp.TotNoQuoteEntries
-    grp.LastFragment |> Option.iter (WriteLastFragment strm)
-    let numGrps = grp.MassQuote_NoQuoteEntriesGrp.Length
+let WriteNoQuoteSetsGrp (strm:System.IO.Stream) (xx:NoQuoteSetsGrp) =
+    WriteQuoteSetID strm xx.QuoteSetID
+    xx.UnderlyingInstrument |> Option.iter (WriteUnderlyingInstrument strm) // component
+    xx.QuoteSetValidUntilTime |> Option.iter (WriteQuoteSetValidUntilTime strm)
+    WriteTotNoQuoteEntries strm xx.TotNoQuoteEntries
+    xx.LastFragment |> Option.iter (WriteLastFragment strm)
+    let numGrps = xx.MassQuote_NoQuoteEntriesGrp.Length
     WriteNoQuoteEntries strm (Fix44.Fields.NoQuoteEntries numGrps) // write the 'num group repeats' field
-    grp.MassQuote_NoQuoteEntriesGrp |> List.iter (fun gg -> WriteMassQuote_NoQuoteEntriesGrp strm gg)
+    xx.MassQuote_NoQuoteEntriesGrp |> List.iter (fun gg -> WriteMassQuote_NoQuoteEntriesGrp strm gg)
 
 
 // group
-let WriteQuoteStatusReport_NoLegsGrp (strm:System.IO.Stream) (grp:QuoteStatusReport_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
+let WriteQuoteStatusReport_NoLegsGrp (strm:System.IO.Stream) (xx:QuoteStatusReport_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
 
 
 // group
-let WriteNoQuoteEntriesGrp (strm:System.IO.Stream) (grp:NoQuoteEntriesGrp) =
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
-    grp.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteNoQuoteEntriesGrp (strm:System.IO.Stream) (xx:NoQuoteEntriesGrp) =
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
+    xx.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteQuote_NoLegsGrp (strm:System.IO.Stream) (grp:Quote_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegPriceType |> Option.iter (WriteLegPriceType strm)
-    grp.LegBidPx |> Option.iter (WriteLegBidPx strm)
-    grp.LegOfferPx |> Option.iter (WriteLegOfferPx strm)
-    grp.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
+let WriteQuote_NoLegsGrp (strm:System.IO.Stream) (xx:Quote_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegPriceType |> Option.iter (WriteLegPriceType strm)
+    xx.LegBidPx |> Option.iter (WriteLegBidPx strm)
+    xx.LegOfferPx |> Option.iter (WriteLegOfferPx strm)
+    xx.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
 
 
 // group
-let WriteRFQRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:RFQRequest_NoRelatedSymGrp) =
-    WriteInstrument strm grp.Instrument    // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteRFQRequest_NoRelatedSymGrp (strm:System.IO.Stream) (xx:RFQRequest_NoRelatedSymGrp) =
+    WriteInstrument strm xx.Instrument    // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoLegsGrp strm gg)    ) // end Option.iter
-    grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
-    grp.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
-    grp.QuoteType |> Option.iter (WriteQuoteType strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.PrevClosePx |> Option.iter (WritePrevClosePx strm)
+    xx.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
+    xx.QuoteType |> Option.iter (WriteQuoteType strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
 
 
 // group
-let WriteQuoteRequestReject_NoLegsGrp (strm:System.IO.Stream) (grp:QuoteRequestReject_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
+let WriteQuoteRequestReject_NoLegsGrp (strm:System.IO.Stream) (xx:QuoteRequestReject_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
 
 
 // group
-let WriteQuoteRequestReject_NoRelatedSymGrp (strm:System.IO.Stream) (grp:QuoteRequestReject_NoRelatedSymGrp) =
-    WriteInstrument strm grp.Instrument    // component
-    grp.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteQuoteRequestReject_NoRelatedSymGrp (strm:System.IO.Stream) (xx:QuoteRequestReject_NoRelatedSymGrp) =
+    WriteInstrument strm xx.Instrument    // component
+    xx.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
-    grp.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
-    grp.QuoteType |> Option.iter (WriteQuoteType strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.Side |> Option.iter (WriteSide strm)
-    grp.QtyType |> Option.iter (WriteQtyType strm)
-    grp.OrderQtyData |> Option.iter (WriteOrderQtyData strm) // component
-    grp.SettlType |> Option.iter (WriteSettlType strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
-    grp.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.QuoteRequestReject_NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.PrevClosePx |> Option.iter (WritePrevClosePx strm)
+    xx.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
+    xx.QuoteType |> Option.iter (WriteQuoteType strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.Side |> Option.iter (WriteSide strm)
+    xx.QtyType |> Option.iter (WriteQtyType strm)
+    xx.OrderQtyData |> Option.iter (WriteOrderQtyData strm) // component
+    xx.SettlType |> Option.iter (WriteSettlType strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
+    xx.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.Stipulations |> Option.iter (WriteStipulations strm) // component
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.QuoteRequestReject_NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteQuoteRequestReject_NoLegsGrp strm gg)    ) // end Option.iter
 
 
 // group
-let WriteQuoteResponse_NoLegsGrp (strm:System.IO.Stream) (grp:QuoteResponse_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegPriceType |> Option.iter (WriteLegPriceType strm)
-    grp.LegBidPx |> Option.iter (WriteLegBidPx strm)
-    grp.LegOfferPx |> Option.iter (WriteLegOfferPx strm)
-    grp.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
+let WriteQuoteResponse_NoLegsGrp (strm:System.IO.Stream) (xx:QuoteResponse_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegPriceType |> Option.iter (WriteLegPriceType strm)
+    xx.LegBidPx |> Option.iter (WriteLegBidPx strm)
+    xx.LegOfferPx |> Option.iter (WriteLegOfferPx strm)
+    xx.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
 
 
 // group
-let WriteQuoteRequest_NoLegsGrp (strm:System.IO.Stream) (grp:QuoteRequest_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegQty |> Option.iter (WriteLegQty strm)
-    grp.LegSwapType |> Option.iter (WriteLegSwapType strm)
-    grp.LegSettlType |> Option.iter (WriteLegSettlType strm)
-    grp.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
-    grp.NestedParties |> Option.iter (WriteNestedParties strm) // component
-    grp.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
+let WriteQuoteRequest_NoLegsGrp (strm:System.IO.Stream) (xx:QuoteRequest_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegQty |> Option.iter (WriteLegQty strm)
+    xx.LegSwapType |> Option.iter (WriteLegSwapType strm)
+    xx.LegSettlType |> Option.iter (WriteLegSettlType strm)
+    xx.LegSettlDate |> Option.iter (WriteLegSettlDate strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+    xx.NestedParties |> Option.iter (WriteNestedParties strm) // component
+    xx.LegBenchmarkCurveData |> Option.iter (WriteLegBenchmarkCurveData strm) // component
 
 
 // group
-let WriteNoQuoteQualifiersGrp (strm:System.IO.Stream) (grp:NoQuoteQualifiersGrp) =
-    grp.QuoteQualifier |> Option.iter (WriteQuoteQualifier strm)
+let WriteNoQuoteQualifiersGrp (strm:System.IO.Stream) (xx:NoQuoteQualifiersGrp) =
+    xx.QuoteQualifier |> Option.iter (WriteQuoteQualifier strm)
 
 
 // group
-let WriteQuoteRequest_NoRelatedSymGrp (strm:System.IO.Stream) (grp:QuoteRequest_NoRelatedSymGrp) =
-    WriteInstrument strm grp.Instrument    // component
-    grp.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
-    grp.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
+let WriteQuoteRequest_NoRelatedSymGrp (strm:System.IO.Stream) (xx:QuoteRequest_NoRelatedSymGrp) =
+    WriteInstrument strm xx.Instrument    // component
+    xx.FinancingDetails |> Option.iter (WriteFinancingDetails strm) // component
+    xx.NoUnderlyingsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoUnderlyings strm (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoUnderlyingsGrp strm gg)    ) // end Option.iter
-    grp.PrevClosePx |> Option.iter (WritePrevClosePx strm)
-    grp.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
-    grp.QuoteType |> Option.iter (WriteQuoteType strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
-    grp.Side |> Option.iter (WriteSide strm)
-    grp.QtyType |> Option.iter (WriteQtyType strm)
-    grp.OrderQtyData |> Option.iter (WriteOrderQtyData strm) // component
-    grp.SettlType |> Option.iter (WriteSettlType strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
-    grp.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.Stipulations |> Option.iter (WriteStipulations strm) // component
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
-    grp.AccountType |> Option.iter (WriteAccountType strm)
-    grp.QuoteRequest_NoLegsGrp |> Option.iter (fun gs ->     // group
+    xx.PrevClosePx |> Option.iter (WritePrevClosePx strm)
+    xx.QuoteRequestType |> Option.iter (WriteQuoteRequestType strm)
+    xx.QuoteType |> Option.iter (WriteQuoteType strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.TradeOriginationDate |> Option.iter (WriteTradeOriginationDate strm)
+    xx.Side |> Option.iter (WriteSide strm)
+    xx.QtyType |> Option.iter (WriteQtyType strm)
+    xx.OrderQtyData |> Option.iter (WriteOrderQtyData strm) // component
+    xx.SettlType |> Option.iter (WriteSettlType strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.SettlDate2 |> Option.iter (WriteSettlDate2 strm)
+    xx.OrderQty2 |> Option.iter (WriteOrderQty2 strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.Stipulations |> Option.iter (WriteStipulations strm) // component
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+    xx.AccountType |> Option.iter (WriteAccountType strm)
+    xx.QuoteRequest_NoLegsGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoLegs strm (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteQuoteRequest_NoLegsGrp strm gg)    ) // end Option.iter
-    grp.NoQuoteQualifiersGrp |> Option.iter (fun gs ->     // group
+    xx.NoQuoteQualifiersGrp |> Option.iter (fun gs ->     // group
         let numGrps = gs.Length
         WriteNoQuoteQualifiers strm (Fix44.Fields.NoQuoteQualifiers numGrps) // write the 'num group repeats' field
         gs |> List.iter (fun gg -> WriteNoQuoteQualifiersGrp strm gg)    ) // end Option.iter
-    grp.QuotePriceType |> Option.iter (WriteQuotePriceType strm)
-    grp.OrdType |> Option.iter (WriteOrdType strm)
-    grp.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
-    grp.ExpireTime |> Option.iter (WriteExpireTime strm)
-    grp.TransactTime |> Option.iter (WriteTransactTime strm)
-    grp.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
-    grp.PriceType |> Option.iter (WritePriceType strm)
-    grp.Price |> Option.iter (WritePrice strm)
-    grp.Price2 |> Option.iter (WritePrice2 strm)
-    grp.YieldData |> Option.iter (WriteYieldData strm) // component
-    grp.Parties |> Option.iter (WriteParties strm) // component
+    xx.QuotePriceType |> Option.iter (WriteQuotePriceType strm)
+    xx.OrdType |> Option.iter (WriteOrdType strm)
+    xx.ValidUntilTime |> Option.iter (WriteValidUntilTime strm)
+    xx.ExpireTime |> Option.iter (WriteExpireTime strm)
+    xx.TransactTime |> Option.iter (WriteTransactTime strm)
+    xx.SpreadOrBenchmarkCurveData |> Option.iter (WriteSpreadOrBenchmarkCurveData strm) // component
+    xx.PriceType |> Option.iter (WritePriceType strm)
+    xx.Price |> Option.iter (WritePrice strm)
+    xx.Price2 |> Option.iter (WritePrice2 strm)
+    xx.YieldData |> Option.iter (WriteYieldData strm) // component
+    xx.Parties |> Option.iter (WriteParties strm) // component
 
 
 // group
-let WriteNoRelatedSymGrp (strm:System.IO.Stream) (grp:NoRelatedSymGrp) =
-    grp.Instrument |> Option.iter (WriteInstrument strm) // component
+let WriteNoRelatedSymGrp (strm:System.IO.Stream) (xx:NoRelatedSymGrp) =
+    xx.Instrument |> Option.iter (WriteInstrument strm) // component
 
 
 // group
-let WriteIndicationOfInterest_NoLegsGrp (strm:System.IO.Stream) (grp:IndicationOfInterest_NoLegsGrp) =
-    grp.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
-    grp.LegIOIQty |> Option.iter (WriteLegIOIQty strm)
-    grp.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
+let WriteIndicationOfInterest_NoLegsGrp (strm:System.IO.Stream) (xx:IndicationOfInterest_NoLegsGrp) =
+    xx.InstrumentLeg |> Option.iter (WriteInstrumentLeg strm) // component
+    xx.LegIOIQty |> Option.iter (WriteLegIOIQty strm)
+    xx.LegStipulations |> Option.iter (WriteLegStipulations strm) // component
 
 
 // group
-let WriteAdvertisement_NoUnderlyingsGrp (strm:System.IO.Stream) (grp:Advertisement_NoUnderlyingsGrp) =
-    WriteUnderlyingInstrument strm grp.UnderlyingInstrument    // component
+let WriteAdvertisement_NoUnderlyingsGrp (strm:System.IO.Stream) (xx:Advertisement_NoUnderlyingsGrp) =
+    WriteUnderlyingInstrument strm xx.UnderlyingInstrument    // component
 
 
 // group
-let WriteNoMsgTypesGrp (strm:System.IO.Stream) (grp:NoMsgTypesGrp) =
-    grp.RefMsgType |> Option.iter (WriteRefMsgType strm)
-    grp.MsgDirection |> Option.iter (WriteMsgDirection strm)
+let WriteNoMsgTypesGrp (strm:System.IO.Stream) (xx:NoMsgTypesGrp) =
+    xx.RefMsgType |> Option.iter (WriteRefMsgType strm)
+    xx.MsgDirection |> Option.iter (WriteMsgDirection strm)
 
 
 // group
-let WriteNoIOIQualifiersGrp (strm:System.IO.Stream) (grp:NoIOIQualifiersGrp) =
-    grp.IOIQualifier |> Option.iter (WriteIOIQualifier strm)
+let WriteNoIOIQualifiersGrp (strm:System.IO.Stream) (xx:NoIOIQualifiersGrp) =
+    xx.IOIQualifier |> Option.iter (WriteIOIQualifier strm)
 
 
 // group
-let WriteNoRoutingIDsGrp (strm:System.IO.Stream) (grp:NoRoutingIDsGrp) =
-    grp.RoutingType |> Option.iter (WriteRoutingType strm)
-    grp.RoutingID |> Option.iter (WriteRoutingID strm)
+let WriteNoRoutingIDsGrp (strm:System.IO.Stream) (xx:NoRoutingIDsGrp) =
+    xx.RoutingType |> Option.iter (WriteRoutingType strm)
+    xx.RoutingID |> Option.iter (WriteRoutingID strm)
 
 
 // group
-let WriteLinesOfTextGrp (strm:System.IO.Stream) (grp:LinesOfTextGrp) =
-    WriteText strm grp.Text
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteLinesOfTextGrp (strm:System.IO.Stream) (xx:LinesOfTextGrp) =
+    WriteText strm xx.Text
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteNoMDEntryTypesGrp (strm:System.IO.Stream) (grp:NoMDEntryTypesGrp) =
-    WriteMDEntryType strm grp.MDEntryType
+let WriteNoMDEntryTypesGrp (strm:System.IO.Stream) (xx:NoMDEntryTypesGrp) =
+    WriteMDEntryType strm xx.MDEntryType
 
 
 // group
-let WriteNoMDEntriesGrp (strm:System.IO.Stream) (grp:NoMDEntriesGrp) =
-    WriteMDEntryType strm grp.MDEntryType
-    grp.MDEntryPx |> Option.iter (WriteMDEntryPx strm)
-    grp.Currency |> Option.iter (WriteCurrency strm)
-    grp.MDEntrySize |> Option.iter (WriteMDEntrySize strm)
-    grp.MDEntryDate |> Option.iter (WriteMDEntryDate strm)
-    grp.MDEntryTime |> Option.iter (WriteMDEntryTime strm)
-    grp.TickDirection |> Option.iter (WriteTickDirection strm)
-    grp.MDMkt |> Option.iter (WriteMDMkt strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.QuoteCondition |> Option.iter (WriteQuoteCondition strm)
-    grp.TradeCondition |> Option.iter (WriteTradeCondition strm)
-    grp.MDEntryOriginator |> Option.iter (WriteMDEntryOriginator strm)
-    grp.LocationID |> Option.iter (WriteLocationID strm)
-    grp.DeskID |> Option.iter (WriteDeskID strm)
-    grp.OpenCloseSettlFlag |> Option.iter (WriteOpenCloseSettlFlag strm)
-    grp.TimeInForce |> Option.iter (WriteTimeInForce strm)
-    grp.ExpireDate |> Option.iter (WriteExpireDate strm)
-    grp.ExpireTime |> Option.iter (WriteExpireTime strm)
-    grp.MinQty |> Option.iter (WriteMinQty strm)
-    grp.ExecInst |> Option.iter (WriteExecInst strm)
-    grp.SellerDays |> Option.iter (WriteSellerDays strm)
-    grp.OrderID |> Option.iter (WriteOrderID strm)
-    grp.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
-    grp.MDEntryBuyer |> Option.iter (WriteMDEntryBuyer strm)
-    grp.MDEntrySeller |> Option.iter (WriteMDEntrySeller strm)
-    grp.NumberOfOrders |> Option.iter (WriteNumberOfOrders strm)
-    grp.MDEntryPositionNo |> Option.iter (WriteMDEntryPositionNo strm)
-    grp.Scope |> Option.iter (WriteScope strm)
-    grp.PriceDelta |> Option.iter (WritePriceDelta strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteNoMDEntriesGrp (strm:System.IO.Stream) (xx:NoMDEntriesGrp) =
+    WriteMDEntryType strm xx.MDEntryType
+    xx.MDEntryPx |> Option.iter (WriteMDEntryPx strm)
+    xx.Currency |> Option.iter (WriteCurrency strm)
+    xx.MDEntrySize |> Option.iter (WriteMDEntrySize strm)
+    xx.MDEntryDate |> Option.iter (WriteMDEntryDate strm)
+    xx.MDEntryTime |> Option.iter (WriteMDEntryTime strm)
+    xx.TickDirection |> Option.iter (WriteTickDirection strm)
+    xx.MDMkt |> Option.iter (WriteMDMkt strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.QuoteCondition |> Option.iter (WriteQuoteCondition strm)
+    xx.TradeCondition |> Option.iter (WriteTradeCondition strm)
+    xx.MDEntryOriginator |> Option.iter (WriteMDEntryOriginator strm)
+    xx.LocationID |> Option.iter (WriteLocationID strm)
+    xx.DeskID |> Option.iter (WriteDeskID strm)
+    xx.OpenCloseSettlFlag |> Option.iter (WriteOpenCloseSettlFlag strm)
+    xx.TimeInForce |> Option.iter (WriteTimeInForce strm)
+    xx.ExpireDate |> Option.iter (WriteExpireDate strm)
+    xx.ExpireTime |> Option.iter (WriteExpireTime strm)
+    xx.MinQty |> Option.iter (WriteMinQty strm)
+    xx.ExecInst |> Option.iter (WriteExecInst strm)
+    xx.SellerDays |> Option.iter (WriteSellerDays strm)
+    xx.OrderID |> Option.iter (WriteOrderID strm)
+    xx.QuoteEntryID |> Option.iter (WriteQuoteEntryID strm)
+    xx.MDEntryBuyer |> Option.iter (WriteMDEntryBuyer strm)
+    xx.MDEntrySeller |> Option.iter (WriteMDEntrySeller strm)
+    xx.NumberOfOrders |> Option.iter (WriteNumberOfOrders strm)
+    xx.MDEntryPositionNo |> Option.iter (WriteMDEntryPositionNo strm)
+    xx.Scope |> Option.iter (WriteScope strm)
+    xx.PriceDelta |> Option.iter (WritePriceDelta strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteNoAltMDSourceGrp (strm:System.IO.Stream) (grp:NoAltMDSourceGrp) =
-    grp.AltMDSourceID |> Option.iter (WriteAltMDSourceID strm)
+let WriteNoAltMDSourceGrp (strm:System.IO.Stream) (xx:NoAltMDSourceGrp) =
+    xx.AltMDSourceID |> Option.iter (WriteAltMDSourceID strm)
 
 
 // group
-let WriteNoSecurityTypesGrp (strm:System.IO.Stream) (grp:NoSecurityTypesGrp) =
-    grp.SecurityType |> Option.iter (WriteSecurityType strm)
-    grp.SecuritySubType |> Option.iter (WriteSecuritySubType strm)
-    grp.Product |> Option.iter (WriteProduct strm)
-    grp.CFICode |> Option.iter (WriteCFICode strm)
+let WriteNoSecurityTypesGrp (strm:System.IO.Stream) (xx:NoSecurityTypesGrp) =
+    xx.SecurityType |> Option.iter (WriteSecurityType strm)
+    xx.SecuritySubType |> Option.iter (WriteSecuritySubType strm)
+    xx.Product |> Option.iter (WriteProduct strm)
+    xx.CFICode |> Option.iter (WriteCFICode strm)
 
 
 // group
-let WriteNoContraBrokersGrp (strm:System.IO.Stream) (grp:NoContraBrokersGrp) =
-    grp.ContraBroker |> Option.iter (WriteContraBroker strm)
-    grp.ContraTrader |> Option.iter (WriteContraTrader strm)
-    grp.ContraTradeQty |> Option.iter (WriteContraTradeQty strm)
-    grp.ContraTradeTime |> Option.iter (WriteContraTradeTime strm)
-    grp.ContraLegRefID |> Option.iter (WriteContraLegRefID strm)
+let WriteNoContraBrokersGrp (strm:System.IO.Stream) (xx:NoContraBrokersGrp) =
+    xx.ContraBroker |> Option.iter (WriteContraBroker strm)
+    xx.ContraTrader |> Option.iter (WriteContraTrader strm)
+    xx.ContraTradeQty |> Option.iter (WriteContraTradeQty strm)
+    xx.ContraTradeTime |> Option.iter (WriteContraTradeTime strm)
+    xx.ContraLegRefID |> Option.iter (WriteContraLegRefID strm)
 
 
 // group
-let WriteNoAffectedOrdersGrp (strm:System.IO.Stream) (grp:NoAffectedOrdersGrp) =
-    grp.OrigClOrdID |> Option.iter (WriteOrigClOrdID strm)
-    grp.AffectedOrderID |> Option.iter (WriteAffectedOrderID strm)
-    grp.AffectedSecondaryOrderID |> Option.iter (WriteAffectedSecondaryOrderID strm)
+let WriteNoAffectedOrdersGrp (strm:System.IO.Stream) (xx:NoAffectedOrdersGrp) =
+    xx.OrigClOrdID |> Option.iter (WriteOrigClOrdID strm)
+    xx.AffectedOrderID |> Option.iter (WriteAffectedOrderID strm)
+    xx.AffectedSecondaryOrderID |> Option.iter (WriteAffectedSecondaryOrderID strm)
 
 
 // group
-let WriteNoBidDescriptorsGrp (strm:System.IO.Stream) (grp:NoBidDescriptorsGrp) =
-    grp.BidDescriptorType |> Option.iter (WriteBidDescriptorType strm)
-    grp.BidDescriptor |> Option.iter (WriteBidDescriptor strm)
-    grp.SideValueInd |> Option.iter (WriteSideValueInd strm)
-    grp.LiquidityValue |> Option.iter (WriteLiquidityValue strm)
-    grp.LiquidityNumSecurities |> Option.iter (WriteLiquidityNumSecurities strm)
-    grp.LiquidityPctLow |> Option.iter (WriteLiquidityPctLow strm)
-    grp.LiquidityPctHigh |> Option.iter (WriteLiquidityPctHigh strm)
-    grp.EFPTrackingError |> Option.iter (WriteEFPTrackingError strm)
-    grp.FairValue |> Option.iter (WriteFairValue strm)
-    grp.OutsideIndexPct |> Option.iter (WriteOutsideIndexPct strm)
-    grp.ValueOfFutures |> Option.iter (WriteValueOfFutures strm)
+let WriteNoBidDescriptorsGrp (strm:System.IO.Stream) (xx:NoBidDescriptorsGrp) =
+    xx.BidDescriptorType |> Option.iter (WriteBidDescriptorType strm)
+    xx.BidDescriptor |> Option.iter (WriteBidDescriptor strm)
+    xx.SideValueInd |> Option.iter (WriteSideValueInd strm)
+    xx.LiquidityValue |> Option.iter (WriteLiquidityValue strm)
+    xx.LiquidityNumSecurities |> Option.iter (WriteLiquidityNumSecurities strm)
+    xx.LiquidityPctLow |> Option.iter (WriteLiquidityPctLow strm)
+    xx.LiquidityPctHigh |> Option.iter (WriteLiquidityPctHigh strm)
+    xx.EFPTrackingError |> Option.iter (WriteEFPTrackingError strm)
+    xx.FairValue |> Option.iter (WriteFairValue strm)
+    xx.OutsideIndexPct |> Option.iter (WriteOutsideIndexPct strm)
+    xx.ValueOfFutures |> Option.iter (WriteValueOfFutures strm)
 
 
 // group
-let WriteNoBidComponentsGrp (strm:System.IO.Stream) (grp:NoBidComponentsGrp) =
-    grp.ListID |> Option.iter (WriteListID strm)
-    grp.Side |> Option.iter (WriteSide strm)
-    grp.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
-    grp.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
-    grp.NetGrossInd |> Option.iter (WriteNetGrossInd strm)
-    grp.SettlType |> Option.iter (WriteSettlType strm)
-    grp.SettlDate |> Option.iter (WriteSettlDate strm)
-    grp.Account |> Option.iter (WriteAccount strm)
-    grp.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
+let WriteNoBidComponentsGrp (strm:System.IO.Stream) (xx:NoBidComponentsGrp) =
+    xx.ListID |> Option.iter (WriteListID strm)
+    xx.Side |> Option.iter (WriteSide strm)
+    xx.TradingSessionID |> Option.iter (WriteTradingSessionID strm)
+    xx.TradingSessionSubID |> Option.iter (WriteTradingSessionSubID strm)
+    xx.NetGrossInd |> Option.iter (WriteNetGrossInd strm)
+    xx.SettlType |> Option.iter (WriteSettlType strm)
+    xx.SettlDate |> Option.iter (WriteSettlDate strm)
+    xx.Account |> Option.iter (WriteAccount strm)
+    xx.AcctIDSource |> Option.iter (WriteAcctIDSource strm)
 
 
 // group
-let WriteListStatus_NoOrdersGrp (strm:System.IO.Stream) (grp:ListStatus_NoOrdersGrp) =
-    WriteClOrdID strm grp.ClOrdID
-    grp.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
-    WriteCumQty strm grp.CumQty
-    WriteOrdStatus strm grp.OrdStatus
-    grp.WorkingIndicator |> Option.iter (WriteWorkingIndicator strm)
-    WriteLeavesQty strm grp.LeavesQty
-    WriteCxlQty strm grp.CxlQty
-    WriteAvgPx strm grp.AvgPx
-    grp.OrdRejReason |> Option.iter (WriteOrdRejReason strm)
-    grp.Text |> Option.iter (WriteText strm)
-    grp.EncodedText |> Option.iter (WriteEncodedText strm)
+let WriteListStatus_NoOrdersGrp (strm:System.IO.Stream) (xx:ListStatus_NoOrdersGrp) =
+    WriteClOrdID strm xx.ClOrdID
+    xx.SecondaryClOrdID |> Option.iter (WriteSecondaryClOrdID strm)
+    WriteCumQty strm xx.CumQty
+    WriteOrdStatus strm xx.OrdStatus
+    xx.WorkingIndicator |> Option.iter (WriteWorkingIndicator strm)
+    WriteLeavesQty strm xx.LeavesQty
+    WriteCxlQty strm xx.CxlQty
+    WriteAvgPx strm xx.AvgPx
+    xx.OrdRejReason |> Option.iter (WriteOrdRejReason strm)
+    xx.Text |> Option.iter (WriteText strm)
+    xx.EncodedText |> Option.iter (WriteEncodedText strm)
 
 
 // group
-let WriteAllocationInstruction_NoExecsGrp (strm:System.IO.Stream) (grp:AllocationInstruction_NoExecsGrp) =
-    grp.LastQty |> Option.iter (WriteLastQty strm)
-    grp.ExecID |> Option.iter (WriteExecID strm)
-    grp.SecondaryExecID |> Option.iter (WriteSecondaryExecID strm)
-    grp.LastPx |> Option.iter (WriteLastPx strm)
-    grp.LastParPx |> Option.iter (WriteLastParPx strm)
-    grp.LastCapacity |> Option.iter (WriteLastCapacity strm)
+let WriteAllocationInstruction_NoExecsGrp (strm:System.IO.Stream) (xx:AllocationInstruction_NoExecsGrp) =
+    xx.LastQty |> Option.iter (WriteLastQty strm)
+    xx.ExecID |> Option.iter (WriteExecID strm)
+    xx.SecondaryExecID |> Option.iter (WriteSecondaryExecID strm)
+    xx.LastPx |> Option.iter (WriteLastPx strm)
+    xx.LastParPx |> Option.iter (WriteLastParPx strm)
+    xx.LastCapacity |> Option.iter (WriteLastCapacity strm)
 
 
 // group
-let WriteAllocationInstructionAck_NoAllocsGrp (strm:System.IO.Stream) (grp:AllocationInstructionAck_NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocPrice |> Option.iter (WriteAllocPrice strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.IndividualAllocRejCode |> Option.iter (WriteIndividualAllocRejCode strm)
-    grp.AllocText |> Option.iter (WriteAllocText strm)
-    grp.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
+let WriteAllocationInstructionAck_NoAllocsGrp (strm:System.IO.Stream) (xx:AllocationInstructionAck_NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocPrice |> Option.iter (WriteAllocPrice strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.IndividualAllocRejCode |> Option.iter (WriteIndividualAllocRejCode strm)
+    xx.AllocText |> Option.iter (WriteAllocText strm)
+    xx.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
 
 
 // group
-let WriteAllocationReport_NoExecsGrp (strm:System.IO.Stream) (grp:AllocationReport_NoExecsGrp) =
-    grp.LastQty |> Option.iter (WriteLastQty strm)
-    grp.ExecID |> Option.iter (WriteExecID strm)
-    grp.SecondaryExecID |> Option.iter (WriteSecondaryExecID strm)
-    grp.LastPx |> Option.iter (WriteLastPx strm)
-    grp.LastParPx |> Option.iter (WriteLastParPx strm)
-    grp.LastCapacity |> Option.iter (WriteLastCapacity strm)
+let WriteAllocationReport_NoExecsGrp (strm:System.IO.Stream) (xx:AllocationReport_NoExecsGrp) =
+    xx.LastQty |> Option.iter (WriteLastQty strm)
+    xx.ExecID |> Option.iter (WriteExecID strm)
+    xx.SecondaryExecID |> Option.iter (WriteSecondaryExecID strm)
+    xx.LastPx |> Option.iter (WriteLastPx strm)
+    xx.LastParPx |> Option.iter (WriteLastParPx strm)
+    xx.LastCapacity |> Option.iter (WriteLastCapacity strm)
 
 
 // group
-let WriteAllocationReportAck_NoAllocsGrp (strm:System.IO.Stream) (grp:AllocationReportAck_NoAllocsGrp) =
-    grp.AllocAccount |> Option.iter (WriteAllocAccount strm)
-    grp.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
-    grp.AllocPrice |> Option.iter (WriteAllocPrice strm)
-    grp.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
-    grp.IndividualAllocRejCode |> Option.iter (WriteIndividualAllocRejCode strm)
-    grp.AllocText |> Option.iter (WriteAllocText strm)
-    grp.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
+let WriteAllocationReportAck_NoAllocsGrp (strm:System.IO.Stream) (xx:AllocationReportAck_NoAllocsGrp) =
+    xx.AllocAccount |> Option.iter (WriteAllocAccount strm)
+    xx.AllocAcctIDSource |> Option.iter (WriteAllocAcctIDSource strm)
+    xx.AllocPrice |> Option.iter (WriteAllocPrice strm)
+    xx.IndividualAllocID |> Option.iter (WriteIndividualAllocID strm)
+    xx.IndividualAllocRejCode |> Option.iter (WriteIndividualAllocRejCode strm)
+    xx.AllocText |> Option.iter (WriteAllocText strm)
+    xx.EncodedAllocText |> Option.iter (WriteEncodedAllocText strm)
 
 
 // group
-let WriteNoCapacitiesGrp (strm:System.IO.Stream) (grp:NoCapacitiesGrp) =
-    WriteOrderCapacity strm grp.OrderCapacity
-    grp.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
-    WriteOrderCapacityQty strm grp.OrderCapacityQty
+let WriteNoCapacitiesGrp (strm:System.IO.Stream) (xx:NoCapacitiesGrp) =
+    WriteOrderCapacity strm xx.OrderCapacity
+    xx.OrderRestrictions |> Option.iter (WriteOrderRestrictions strm)
+    WriteOrderCapacityQty strm xx.OrderCapacityQty
 
 
 // group
-let WriteNoDatesGrp (strm:System.IO.Stream) (grp:NoDatesGrp) =
-    grp.TradeDate |> Option.iter (WriteTradeDate strm)
-    grp.TransactTime |> Option.iter (WriteTransactTime strm)
+let WriteNoDatesGrp (strm:System.IO.Stream) (xx:NoDatesGrp) =
+    xx.TradeDate |> Option.iter (WriteTradeDate strm)
+    xx.TransactTime |> Option.iter (WriteTransactTime strm)
 
 
 // group
-let WriteNoDistribInstsGrp (strm:System.IO.Stream) (grp:NoDistribInstsGrp) =
-    grp.DistribPaymentMethod |> Option.iter (WriteDistribPaymentMethod strm)
-    grp.DistribPercentage |> Option.iter (WriteDistribPercentage strm)
-    grp.CashDistribCurr |> Option.iter (WriteCashDistribCurr strm)
-    grp.CashDistribAgentName |> Option.iter (WriteCashDistribAgentName strm)
-    grp.CashDistribAgentCode |> Option.iter (WriteCashDistribAgentCode strm)
-    grp.CashDistribAgentAcctNumber |> Option.iter (WriteCashDistribAgentAcctNumber strm)
-    grp.CashDistribPayRef |> Option.iter (WriteCashDistribPayRef strm)
-    grp.CashDistribAgentAcctName |> Option.iter (WriteCashDistribAgentAcctName strm)
+let WriteNoDistribInstsGrp (strm:System.IO.Stream) (xx:NoDistribInstsGrp) =
+    xx.DistribPaymentMethod |> Option.iter (WriteDistribPaymentMethod strm)
+    xx.DistribPercentage |> Option.iter (WriteDistribPercentage strm)
+    xx.CashDistribCurr |> Option.iter (WriteCashDistribCurr strm)
+    xx.CashDistribAgentName |> Option.iter (WriteCashDistribAgentName strm)
+    xx.CashDistribAgentCode |> Option.iter (WriteCashDistribAgentCode strm)
+    xx.CashDistribAgentAcctNumber |> Option.iter (WriteCashDistribAgentAcctNumber strm)
+    xx.CashDistribPayRef |> Option.iter (WriteCashDistribPayRef strm)
+    xx.CashDistribAgentAcctName |> Option.iter (WriteCashDistribAgentAcctName strm)
 
 
 // group
-let WriteNoExecsGrp (strm:System.IO.Stream) (grp:NoExecsGrp) =
-    grp.ExecID |> Option.iter (WriteExecID strm)
+let WriteNoExecsGrp (strm:System.IO.Stream) (xx:NoExecsGrp) =
+    xx.ExecID |> Option.iter (WriteExecID strm)
 
 
 // group
-let WriteNoTradesGrp (strm:System.IO.Stream) (grp:NoTradesGrp) =
-    grp.TradeReportID |> Option.iter (WriteTradeReportID strm)
-    grp.SecondaryTradeReportID |> Option.iter (WriteSecondaryTradeReportID strm)
+let WriteNoTradesGrp (strm:System.IO.Stream) (xx:NoTradesGrp) =
+    xx.TradeReportID |> Option.iter (WriteTradeReportID strm)
+    xx.SecondaryTradeReportID |> Option.iter (WriteSecondaryTradeReportID strm)
 
 
 // group
-let WriteNoCollInquiryQualifierGrp (strm:System.IO.Stream) (grp:NoCollInquiryQualifierGrp) =
-    grp.CollInquiryQualifier |> Option.iter (WriteCollInquiryQualifier strm)
+let WriteNoCollInquiryQualifierGrp (strm:System.IO.Stream) (xx:NoCollInquiryQualifierGrp) =
+    xx.CollInquiryQualifier |> Option.iter (WriteCollInquiryQualifier strm)
 
 
 // group
-let WriteNoCompIDsGrp (strm:System.IO.Stream) (grp:NoCompIDsGrp) =
-    grp.RefCompID |> Option.iter (WriteRefCompID strm)
-    grp.RefSubID |> Option.iter (WriteRefSubID strm)
-    grp.LocationID |> Option.iter (WriteLocationID strm)
-    grp.DeskID |> Option.iter (WriteDeskID strm)
+let WriteNoCompIDsGrp (strm:System.IO.Stream) (xx:NoCompIDsGrp) =
+    xx.RefCompID |> Option.iter (WriteRefCompID strm)
+    xx.RefSubID |> Option.iter (WriteRefSubID strm)
+    xx.LocationID |> Option.iter (WriteLocationID strm)
+    xx.DeskID |> Option.iter (WriteDeskID strm)
 
 
 // group
-let WriteNetworkStatusResponse_NoCompIDsGrp (strm:System.IO.Stream) (grp:NetworkStatusResponse_NoCompIDsGrp) =
-    grp.RefCompID |> Option.iter (WriteRefCompID strm)
-    grp.RefSubID |> Option.iter (WriteRefSubID strm)
-    grp.LocationID |> Option.iter (WriteLocationID strm)
-    grp.DeskID |> Option.iter (WriteDeskID strm)
-    grp.StatusValue |> Option.iter (WriteStatusValue strm)
-    grp.StatusText |> Option.iter (WriteStatusText strm)
+let WriteNetworkStatusResponse_NoCompIDsGrp (strm:System.IO.Stream) (xx:NetworkStatusResponse_NoCompIDsGrp) =
+    xx.RefCompID |> Option.iter (WriteRefCompID strm)
+    xx.RefSubID |> Option.iter (WriteRefSubID strm)
+    xx.LocationID |> Option.iter (WriteLocationID strm)
+    xx.DeskID |> Option.iter (WriteDeskID strm)
+    xx.StatusValue |> Option.iter (WriteStatusValue strm)
+    xx.StatusText |> Option.iter (WriteStatusText strm)
 
 
 // group
-let WriteNoHopsGrp (strm:System.IO.Stream) (grp:NoHopsGrp) =
-    grp.HopCompID |> Option.iter (WriteHopCompID strm)
-    grp.HopSendingTime |> Option.iter (WriteHopSendingTime strm)
-    grp.HopRefID |> Option.iter (WriteHopRefID strm)
+let WriteNoHopsGrp (strm:System.IO.Stream) (xx:NoHopsGrp) =
+    xx.HopCompID |> Option.iter (WriteHopCompID strm)
+    xx.HopSendingTime |> Option.iter (WriteHopSendingTime strm)
+    xx.HopRefID |> Option.iter (WriteHopRefID strm)
 
 
