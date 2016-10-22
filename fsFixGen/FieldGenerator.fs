@@ -49,7 +49,7 @@ type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
 let private createFieldDUWriterFunc (fldName:string) (fixTag:int) (values:FieldDUCase list) = 
     let lines = [
-        yield (sprintf "let Write%s (nextFreeIdx:int) (dest:byte array) (xxIn:%s) : int =" fldName fldName)
+        yield (sprintf "let Write%s (dest:byte array) (nextFreeIdx:int) (xxIn:%s) : int =" fldName fldName)
         yield (sprintf "    match xxIn with")
         for vv in values do
         yield (sprintf "    | %s.%s ->"  fldName vv.Description)
@@ -124,8 +124,6 @@ let private getParseFuncString (typeName:string) =
     | _         -> failwith "unknown type name"
 
 
-
-
 //let WriteAccount (nextFreeIdx:int) (dest:byte []) (valIn:Account) : int =
 //   let tag = "1="B
 //   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -138,7 +136,7 @@ let private getParseFuncString (typeName:string) =
 let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
     let lines = 
             [
-                sprintf "let Write%s (nextFreeIdx:int) (dest:byte []) (valIn:%s) : int = " typeName typeName
+                sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (valIn:%s) : int = " typeName typeName
                 sprintf "   let tag = \"%d=\"B" fixTag
                 sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
                 sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
@@ -291,7 +289,7 @@ let private createLenStrFieldReadFunction (fld:CompoundField) =
 let private createLenStrFieldWriteFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound write, of a length field and the corresponding string field"
-            sprintf "let Write%s (nextFreeIdx:int) (dest:byte []) (fld:%s) : int =" fld.Name fld.Name
+            sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (fld:%s) : int =" fld.Name fld.Name
             sprintf "    // write the string length part of the compound msg"
             sprintf "    let lenTag = \"%d=\"B" fld.LenField.FixTag
             sprintf "    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)"

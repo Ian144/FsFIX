@@ -132,8 +132,7 @@ let main _ =
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
-    swGroupWriteFuncs.Write "module yy"
-//    do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
+    do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
     printfn "generating message F# types"
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")

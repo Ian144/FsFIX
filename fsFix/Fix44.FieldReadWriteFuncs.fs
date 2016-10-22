@@ -12,7 +12,7 @@ let ReadAccount valIn =
     Account.Account tmp
 
 
-let WriteAccount (nextFreeIdx:int) (dest:byte []) (valIn:Account) : int = 
+let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int = 
    let tag = "1="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -27,7 +27,7 @@ let ReadAdvId valIn =
     AdvId.AdvId tmp
 
 
-let WriteAdvId (nextFreeIdx:int) (dest:byte []) (valIn:AdvId) : int = 
+let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int = 
    let tag = "2="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -42,7 +42,7 @@ let ReadAdvRefID valIn =
     AdvRefID.AdvRefID tmp
 
 
-let WriteAdvRefID (nextFreeIdx:int) (dest:byte []) (valIn:AdvRefID) : int = 
+let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int = 
    let tag = "3="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -61,7 +61,7 @@ let ReadAdvSide (fldValIn:string) : AdvSide =
     | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
 
 
-let WriteAdvSide (nextFreeIdx:int) (dest:byte array) (xxIn:AdvSide) : int =
+let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
     match xxIn with
     | AdvSide.Buy ->
         let tag = "4=B"B
@@ -97,7 +97,7 @@ let ReadAdvTransType (fldValIn:string) : AdvTransType =
     | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
 
 
-let WriteAdvTransType (nextFreeIdx:int) (dest:byte array) (xxIn:AdvTransType) : int =
+let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : int =
     match xxIn with
     | AdvTransType.New ->
         let tag = "5=N"B
@@ -124,7 +124,7 @@ let ReadAvgPx valIn =
     AvgPx.AvgPx tmp
 
 
-let WriteAvgPx (nextFreeIdx:int) (dest:byte []) (valIn:AvgPx) : int = 
+let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int = 
    let tag = "6="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -139,7 +139,7 @@ let ReadBeginSeqNo valIn =
     BeginSeqNo.BeginSeqNo tmp
 
 
-let WriteBeginSeqNo (nextFreeIdx:int) (dest:byte []) (valIn:BeginSeqNo) : int = 
+let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int = 
    let tag = "7="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -154,7 +154,7 @@ let ReadBeginString valIn =
     BeginString.BeginString tmp
 
 
-let WriteBeginString (nextFreeIdx:int) (dest:byte []) (valIn:BeginString) : int = 
+let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int = 
    let tag = "8="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -169,7 +169,7 @@ let ReadBodyLength valIn =
     BodyLength.BodyLength tmp
 
 
-let WriteBodyLength (nextFreeIdx:int) (dest:byte []) (valIn:BodyLength) : int = 
+let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int = 
    let tag = "9="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -184,7 +184,7 @@ let ReadCheckSum valIn =
     CheckSum.CheckSum tmp
 
 
-let WriteCheckSum (nextFreeIdx:int) (dest:byte []) (valIn:CheckSum) : int = 
+let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int = 
    let tag = "10="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -199,7 +199,7 @@ let ReadClOrdID valIn =
     ClOrdID.ClOrdID tmp
 
 
-let WriteClOrdID (nextFreeIdx:int) (dest:byte []) (valIn:ClOrdID) : int = 
+let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int = 
    let tag = "11="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -214,7 +214,7 @@ let ReadCommission valIn =
     Commission.Commission tmp
 
 
-let WriteCommission (nextFreeIdx:int) (dest:byte []) (valIn:Commission) : int = 
+let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int = 
    let tag = "12="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -235,7 +235,7 @@ let ReadCommType (fldValIn:string) : CommType =
     | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
 
 
-let WriteCommType (nextFreeIdx:int) (dest:byte array) (xxIn:CommType) : int =
+let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
     match xxIn with
     | CommType.PerUnit ->
         let tag = "13=1"B
@@ -280,7 +280,7 @@ let ReadCumQty valIn =
     CumQty.CumQty tmp
 
 
-let WriteCumQty (nextFreeIdx:int) (dest:byte []) (valIn:CumQty) : int = 
+let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int = 
    let tag = "14="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -295,7 +295,7 @@ let ReadCurrency valIn =
     Currency.Currency tmp
 
 
-let WriteCurrency (nextFreeIdx:int) (dest:byte []) (valIn:Currency) : int = 
+let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int = 
    let tag = "15="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -310,7 +310,7 @@ let ReadEndSeqNo valIn =
     EndSeqNo.EndSeqNo tmp
 
 
-let WriteEndSeqNo (nextFreeIdx:int) (dest:byte []) (valIn:EndSeqNo) : int = 
+let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int = 
    let tag = "16="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -325,7 +325,7 @@ let ReadExecID valIn =
     ExecID.ExecID tmp
 
 
-let WriteExecID (nextFreeIdx:int) (dest:byte []) (valIn:ExecID) : int = 
+let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int = 
    let tag = "17="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -381,7 +381,7 @@ let ReadExecInst (fldValIn:string) : ExecInst =
     | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
 
 
-let WriteExecInst (nextFreeIdx:int) (dest:byte array) (xxIn:ExecInst) : int =
+let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
     match xxIn with
     | ExecInst.NotHeld ->
         let tag = "18=1"B
@@ -636,7 +636,7 @@ let ReadExecRefID valIn =
     ExecRefID.ExecRefID tmp
 
 
-let WriteExecRefID (nextFreeIdx:int) (dest:byte []) (valIn:ExecRefID) : int = 
+let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int = 
    let tag = "19="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -654,7 +654,7 @@ let ReadHandlInst (fldValIn:string) : HandlInst =
     | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
 
 
-let WriteHandlInst (nextFreeIdx:int) (dest:byte array) (xxIn:HandlInst) : int =
+let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
     match xxIn with
     | HandlInst.AutomatedExecutionOrderPrivate ->
         let tag = "21=1"B
@@ -700,7 +700,7 @@ let ReadSecurityIDSource (fldValIn:string) : SecurityIDSource =
     | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
 
 
-let WriteSecurityIDSource (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityIDSource) : int =
+let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSource) : int =
     match xxIn with
     | SecurityIDSource.Cusip ->
         let tag = "22=1"B
@@ -823,7 +823,7 @@ let ReadIOIid valIn =
     IOIid.IOIid tmp
 
 
-let WriteIOIid (nextFreeIdx:int) (dest:byte []) (valIn:IOIid) : int = 
+let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int = 
    let tag = "23="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -841,7 +841,7 @@ let ReadIOIQltyInd (fldValIn:string) : IOIQltyInd =
     | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
 
 
-let WriteIOIQltyInd (nextFreeIdx:int) (dest:byte array) (xxIn:IOIQltyInd) : int =
+let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int =
     match xxIn with
     | IOIQltyInd.Low ->
         let tag = "25=L"B
@@ -868,7 +868,7 @@ let ReadIOIRefID valIn =
     IOIRefID.IOIRefID tmp
 
 
-let WriteIOIRefID (nextFreeIdx:int) (dest:byte []) (valIn:IOIRefID) : int = 
+let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int = 
    let tag = "26="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -883,7 +883,7 @@ let ReadIOIQty valIn =
     IOIQty.IOIQty tmp
 
 
-let WriteIOIQty (nextFreeIdx:int) (dest:byte []) (valIn:IOIQty) : int = 
+let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int = 
    let tag = "27="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -901,7 +901,7 @@ let ReadIOITransType (fldValIn:string) : IOITransType =
     | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
 
 
-let WriteIOITransType (nextFreeIdx:int) (dest:byte array) (xxIn:IOITransType) : int =
+let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : int =
     match xxIn with
     | IOITransType.New ->
         let tag = "28=N"B
@@ -932,7 +932,7 @@ let ReadLastCapacity (fldValIn:string) : LastCapacity =
     | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
 
 
-let WriteLastCapacity (nextFreeIdx:int) (dest:byte array) (xxIn:LastCapacity) : int =
+let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : int =
     match xxIn with
     | LastCapacity.Agent ->
         let tag = "29=1"B
@@ -965,7 +965,7 @@ let ReadLastMkt valIn =
     LastMkt.LastMkt tmp
 
 
-let WriteLastMkt (nextFreeIdx:int) (dest:byte []) (valIn:LastMkt) : int = 
+let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int = 
    let tag = "30="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -980,7 +980,7 @@ let ReadLastPx valIn =
     LastPx.LastPx tmp
 
 
-let WriteLastPx (nextFreeIdx:int) (dest:byte []) (valIn:LastPx) : int = 
+let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int = 
    let tag = "31="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -995,7 +995,7 @@ let ReadLastQty valIn =
     LastQty.LastQty tmp
 
 
-let WriteLastQty (nextFreeIdx:int) (dest:byte []) (valIn:LastQty) : int = 
+let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int = 
    let tag = "32="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1010,7 +1010,7 @@ let ReadLinesOfText valIn =
     LinesOfText.LinesOfText tmp
 
 
-let WriteLinesOfText (nextFreeIdx:int) (dest:byte []) (valIn:LinesOfText) : int = 
+let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int = 
    let tag = "33="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1025,7 +1025,7 @@ let ReadMsgSeqNum valIn =
     MsgSeqNum.MsgSeqNum tmp
 
 
-let WriteMsgSeqNum (nextFreeIdx:int) (dest:byte []) (valIn:MsgSeqNum) : int = 
+let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int = 
    let tag = "34="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1133,7 +1133,7 @@ let ReadMsgType (fldValIn:string) : MsgType =
     | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
 
 
-let WriteMsgType (nextFreeIdx:int) (dest:byte array) (xxIn:MsgType) : int =
+let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
     match xxIn with
     | MsgType.Heartbeat ->
         let tag = "35=0"B
@@ -1700,7 +1700,7 @@ let ReadNewSeqNo valIn =
     NewSeqNo.NewSeqNo tmp
 
 
-let WriteNewSeqNo (nextFreeIdx:int) (dest:byte []) (valIn:NewSeqNo) : int = 
+let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int = 
    let tag = "36="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1715,7 +1715,7 @@ let ReadOrderID valIn =
     OrderID.OrderID tmp
 
 
-let WriteOrderID (nextFreeIdx:int) (dest:byte []) (valIn:OrderID) : int = 
+let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int = 
    let tag = "37="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1730,7 +1730,7 @@ let ReadOrderQty valIn =
     OrderQty.OrderQty tmp
 
 
-let WriteOrderQty (nextFreeIdx:int) (dest:byte []) (valIn:OrderQty) : int = 
+let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int = 
    let tag = "38="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1760,7 +1760,7 @@ let ReadOrdStatus (fldValIn:string) : OrdStatus =
     | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
 
 
-let WriteOrdStatus (nextFreeIdx:int) (dest:byte array) (xxIn:OrdStatus) : int =
+let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
     match xxIn with
     | OrdStatus.New ->
         let tag = "39=0"B
@@ -1882,7 +1882,7 @@ let ReadOrdType (fldValIn:string) : OrdType =
     | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
 
 
-let WriteOrdType (nextFreeIdx:int) (dest:byte array) (xxIn:OrdType) : int =
+let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
     match xxIn with
     | OrdType.Market ->
         let tag = "40=1"B
@@ -2029,7 +2029,7 @@ let ReadOrigClOrdID valIn =
     OrigClOrdID.OrigClOrdID tmp
 
 
-let WriteOrigClOrdID (nextFreeIdx:int) (dest:byte []) (valIn:OrigClOrdID) : int = 
+let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int = 
    let tag = "41="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2044,7 +2044,7 @@ let ReadOrigTime valIn =
     OrigTime.OrigTime tmp
 
 
-let WriteOrigTime (nextFreeIdx:int) (dest:byte []) (valIn:OrigTime) : int = 
+let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int = 
    let tag = "42="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2059,7 +2059,7 @@ let ReadPossDupFlag valIn =
     PossDupFlag.PossDupFlag tmp
 
 
-let WritePossDupFlag (nextFreeIdx:int) (dest:byte []) (valIn:PossDupFlag) : int = 
+let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int = 
    let tag = "43="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2074,7 +2074,7 @@ let ReadPrice valIn =
     Price.Price tmp
 
 
-let WritePrice (nextFreeIdx:int) (dest:byte []) (valIn:Price) : int = 
+let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int = 
    let tag = "44="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2089,7 +2089,7 @@ let ReadRefSeqNum valIn =
     RefSeqNum.RefSeqNum tmp
 
 
-let WriteRefSeqNum (nextFreeIdx:int) (dest:byte []) (valIn:RefSeqNum) : int = 
+let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int = 
    let tag = "45="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2104,7 +2104,7 @@ let ReadSecurityID valIn =
     SecurityID.SecurityID tmp
 
 
-let WriteSecurityID (nextFreeIdx:int) (dest:byte []) (valIn:SecurityID) : int = 
+let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int = 
    let tag = "48="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2119,7 +2119,7 @@ let ReadSenderCompID valIn =
     SenderCompID.SenderCompID tmp
 
 
-let WriteSenderCompID (nextFreeIdx:int) (dest:byte []) (valIn:SenderCompID) : int = 
+let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : int = 
    let tag = "49="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2134,7 +2134,7 @@ let ReadSenderSubID valIn =
     SenderSubID.SenderSubID tmp
 
 
-let WriteSenderSubID (nextFreeIdx:int) (dest:byte []) (valIn:SenderSubID) : int = 
+let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int = 
    let tag = "50="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2149,7 +2149,7 @@ let ReadSendingTime valIn =
     SendingTime.SendingTime tmp
 
 
-let WriteSendingTime (nextFreeIdx:int) (dest:byte []) (valIn:SendingTime) : int = 
+let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int = 
    let tag = "52="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2164,7 +2164,7 @@ let ReadQuantity valIn =
     Quantity.Quantity tmp
 
 
-let WriteQuantity (nextFreeIdx:int) (dest:byte []) (valIn:Quantity) : int = 
+let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int = 
    let tag = "53="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2195,7 +2195,7 @@ let ReadSide (fldValIn:string) : Side =
     | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
 
 
-let WriteSide (nextFreeIdx:int) (dest:byte array) (xxIn:Side) : int =
+let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
     match xxIn with
     | Side.Buy ->
         let tag = "54=1"B
@@ -2300,7 +2300,7 @@ let ReadSymbol valIn =
     Symbol.Symbol tmp
 
 
-let WriteSymbol (nextFreeIdx:int) (dest:byte []) (valIn:Symbol) : int = 
+let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int = 
    let tag = "55="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2315,7 +2315,7 @@ let ReadTargetCompID valIn =
     TargetCompID.TargetCompID tmp
 
 
-let WriteTargetCompID (nextFreeIdx:int) (dest:byte []) (valIn:TargetCompID) : int = 
+let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : int = 
    let tag = "56="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2330,7 +2330,7 @@ let ReadTargetSubID valIn =
     TargetSubID.TargetSubID tmp
 
 
-let WriteTargetSubID (nextFreeIdx:int) (dest:byte []) (valIn:TargetSubID) : int = 
+let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int = 
    let tag = "57="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2345,7 +2345,7 @@ let ReadText valIn =
     Text.Text tmp
 
 
-let WriteText (nextFreeIdx:int) (dest:byte []) (valIn:Text) : int = 
+let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int = 
    let tag = "58="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2368,7 +2368,7 @@ let ReadTimeInForce (fldValIn:string) : TimeInForce =
     | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
 
 
-let WriteTimeInForce (nextFreeIdx:int) (dest:byte array) (xxIn:TimeInForce) : int =
+let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : int =
     match xxIn with
     | TimeInForce.Day ->
         let tag = "59=0"B
@@ -2425,7 +2425,7 @@ let ReadTransactTime valIn =
     TransactTime.TransactTime tmp
 
 
-let WriteTransactTime (nextFreeIdx:int) (dest:byte []) (valIn:TransactTime) : int = 
+let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : int = 
    let tag = "60="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2443,7 +2443,7 @@ let ReadUrgency (fldValIn:string) : Urgency =
     | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
 
 
-let WriteUrgency (nextFreeIdx:int) (dest:byte array) (xxIn:Urgency) : int =
+let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
     match xxIn with
     | Urgency.Normal ->
         let tag = "61=0"B
@@ -2470,7 +2470,7 @@ let ReadValidUntilTime valIn =
     ValidUntilTime.ValidUntilTime tmp
 
 
-let WriteValidUntilTime (nextFreeIdx:int) (dest:byte []) (valIn:ValidUntilTime) : int = 
+let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) : int = 
    let tag = "62="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2495,7 +2495,7 @@ let ReadSettlType (fldValIn:string) : SettlType =
     | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
 
 
-let WriteSettlType (nextFreeIdx:int) (dest:byte array) (xxIn:SettlType) : int =
+let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
     match xxIn with
     | SettlType.Regular ->
         let tag = "63=0"B
@@ -2564,7 +2564,7 @@ let ReadSettlDate valIn =
     SettlDate.SettlDate tmp
 
 
-let WriteSettlDate (nextFreeIdx:int) (dest:byte []) (valIn:SettlDate) : int = 
+let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int = 
    let tag = "64="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2581,7 +2581,7 @@ let ReadSymbolSfx (fldValIn:string) : SymbolSfx =
     | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
 
 
-let WriteSymbolSfx (nextFreeIdx:int) (dest:byte array) (xxIn:SymbolSfx) : int =
+let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
     match xxIn with
     | SymbolSfx.WhenIssued ->
         let tag = "65=WI"B
@@ -2602,7 +2602,7 @@ let ReadListID valIn =
     ListID.ListID tmp
 
 
-let WriteListID (nextFreeIdx:int) (dest:byte []) (valIn:ListID) : int = 
+let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int = 
    let tag = "66="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2617,7 +2617,7 @@ let ReadListSeqNo valIn =
     ListSeqNo.ListSeqNo tmp
 
 
-let WriteListSeqNo (nextFreeIdx:int) (dest:byte []) (valIn:ListSeqNo) : int = 
+let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int = 
    let tag = "67="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2632,7 +2632,7 @@ let ReadTotNoOrders valIn =
     TotNoOrders.TotNoOrders tmp
 
 
-let WriteTotNoOrders (nextFreeIdx:int) (dest:byte []) (valIn:TotNoOrders) : int = 
+let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int = 
    let tag = "68="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2647,7 +2647,7 @@ let ReadListExecInst valIn =
     ListExecInst.ListExecInst tmp
 
 
-let WriteListExecInst (nextFreeIdx:int) (dest:byte []) (valIn:ListExecInst) : int = 
+let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : int = 
    let tag = "69="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2662,7 +2662,7 @@ let ReadAllocID valIn =
     AllocID.AllocID tmp
 
 
-let WriteAllocID (nextFreeIdx:int) (dest:byte []) (valIn:AllocID) : int = 
+let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int = 
    let tag = "70="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2680,7 +2680,7 @@ let ReadAllocTransType (fldValIn:string) : AllocTransType =
     | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
 
 
-let WriteAllocTransType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocTransType) : int =
+let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType) : int =
     match xxIn with
     | AllocTransType.New ->
         let tag = "71=0"B
@@ -2707,7 +2707,7 @@ let ReadRefAllocID valIn =
     RefAllocID.RefAllocID tmp
 
 
-let WriteRefAllocID (nextFreeIdx:int) (dest:byte []) (valIn:RefAllocID) : int = 
+let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int = 
    let tag = "72="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2722,7 +2722,7 @@ let ReadNoOrders valIn =
     NoOrders.NoOrders tmp
 
 
-let WriteNoOrders (nextFreeIdx:int) (dest:byte []) (valIn:NoOrders) : int = 
+let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int = 
    let tag = "73="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2737,7 +2737,7 @@ let ReadAvgPxPrecision valIn =
     AvgPxPrecision.AvgPxPrecision tmp
 
 
-let WriteAvgPxPrecision (nextFreeIdx:int) (dest:byte []) (valIn:AvgPxPrecision) : int = 
+let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) : int = 
    let tag = "74="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2752,7 +2752,7 @@ let ReadTradeDate valIn =
     TradeDate.TradeDate tmp
 
 
-let WriteTradeDate (nextFreeIdx:int) (dest:byte []) (valIn:TradeDate) : int = 
+let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int = 
    let tag = "75="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2771,7 +2771,7 @@ let ReadPositionEffect (fldValIn:string) : PositionEffect =
     | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
 
 
-let WritePositionEffect (nextFreeIdx:int) (dest:byte array) (xxIn:PositionEffect) : int =
+let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect) : int =
     match xxIn with
     | PositionEffect.Open ->
         let tag = "77=O"B
@@ -2804,7 +2804,7 @@ let ReadNoAllocs valIn =
     NoAllocs.NoAllocs tmp
 
 
-let WriteNoAllocs (nextFreeIdx:int) (dest:byte []) (valIn:NoAllocs) : int = 
+let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int = 
    let tag = "78="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2819,7 +2819,7 @@ let ReadAllocAccount valIn =
     AllocAccount.AllocAccount tmp
 
 
-let WriteAllocAccount (nextFreeIdx:int) (dest:byte []) (valIn:AllocAccount) : int = 
+let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : int = 
    let tag = "79="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2834,7 +2834,7 @@ let ReadAllocQty valIn =
     AllocQty.AllocQty tmp
 
 
-let WriteAllocQty (nextFreeIdx:int) (dest:byte []) (valIn:AllocQty) : int = 
+let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int = 
    let tag = "80="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2856,7 +2856,7 @@ let ReadProcessCode (fldValIn:string) : ProcessCode =
     | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
 
 
-let WriteProcessCode (nextFreeIdx:int) (dest:byte array) (xxIn:ProcessCode) : int =
+let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : int =
     match xxIn with
     | ProcessCode.Regular ->
         let tag = "81=0"B
@@ -2907,7 +2907,7 @@ let ReadNoRpts valIn =
     NoRpts.NoRpts tmp
 
 
-let WriteNoRpts (nextFreeIdx:int) (dest:byte []) (valIn:NoRpts) : int = 
+let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int = 
    let tag = "82="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2922,7 +2922,7 @@ let ReadRptSeq valIn =
     RptSeq.RptSeq tmp
 
 
-let WriteRptSeq (nextFreeIdx:int) (dest:byte []) (valIn:RptSeq) : int = 
+let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int = 
    let tag = "83="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2937,7 +2937,7 @@ let ReadCxlQty valIn =
     CxlQty.CxlQty tmp
 
 
-let WriteCxlQty (nextFreeIdx:int) (dest:byte []) (valIn:CxlQty) : int = 
+let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int = 
    let tag = "84="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2952,7 +2952,7 @@ let ReadNoDlvyInst valIn =
     NoDlvyInst.NoDlvyInst tmp
 
 
-let WriteNoDlvyInst (nextFreeIdx:int) (dest:byte []) (valIn:NoDlvyInst) : int = 
+let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int = 
    let tag = "85="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -2973,7 +2973,7 @@ let ReadAllocStatus (fldValIn:string) : AllocStatus =
     | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
 
 
-let WriteAllocStatus (nextFreeIdx:int) (dest:byte array) (xxIn:AllocStatus) : int =
+let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : int =
     match xxIn with
     | AllocStatus.Accepted ->
         let tag = "87=0"B
@@ -3032,7 +3032,7 @@ let ReadAllocRejCode (fldValIn:string) : AllocRejCode =
     | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
 
 
-let WriteAllocRejCode (nextFreeIdx:int) (dest:byte array) (xxIn:AllocRejCode) : int =
+let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : int =
     match xxIn with
     | AllocRejCode.UnknownAccount ->
         let tag = "88=0"B
@@ -3125,7 +3125,7 @@ let ReadSignature valIn =
     Signature.Signature tmp
 
 
-let WriteSignature (nextFreeIdx:int) (dest:byte []) (valIn:Signature) : int = 
+let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int = 
    let tag = "89="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3136,7 +3136,7 @@ let WriteSignature (nextFreeIdx:int) (dest:byte []) (valIn:Signature) : int =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteSecureData (nextFreeIdx:int) (dest:byte []) (fld:SecureData) : int =
+let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
     // write the string length part of the compound msg
     let lenTag = "90="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -3177,7 +3177,7 @@ let ReadSignatureLength valIn =
     SignatureLength.SignatureLength tmp
 
 
-let WriteSignatureLength (nextFreeIdx:int) (dest:byte []) (valIn:SignatureLength) : int = 
+let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength) : int = 
    let tag = "93="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3195,7 +3195,7 @@ let ReadEmailType (fldValIn:string) : EmailType =
     | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
 
 
-let WriteEmailType (nextFreeIdx:int) (dest:byte array) (xxIn:EmailType) : int =
+let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
     match xxIn with
     | EmailType.New ->
         let tag = "94=0"B
@@ -3222,7 +3222,7 @@ let ReadRawDataLength valIn =
     RawDataLength.RawDataLength tmp
 
 
-let WriteRawDataLength (nextFreeIdx:int) (dest:byte []) (valIn:RawDataLength) : int = 
+let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : int = 
    let tag = "95="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3237,7 +3237,7 @@ let ReadRawData valIn =
     RawData.RawData tmp
 
 
-let WriteRawData (nextFreeIdx:int) (dest:byte []) (valIn:RawData) : int = 
+let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int = 
    let tag = "96="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3252,7 +3252,7 @@ let ReadPossResend valIn =
     PossResend.PossResend tmp
 
 
-let WritePossResend (nextFreeIdx:int) (dest:byte []) (valIn:PossResend) : int = 
+let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int = 
    let tag = "97="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3274,7 +3274,7 @@ let ReadEncryptMethod (fldValIn:string) : EncryptMethod =
     | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
 
 
-let WriteEncryptMethod (nextFreeIdx:int) (dest:byte array) (xxIn:EncryptMethod) : int =
+let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) : int =
     match xxIn with
     | EncryptMethod.NoneOther ->
         let tag = "98=0"B
@@ -3325,7 +3325,7 @@ let ReadStopPx valIn =
     StopPx.StopPx tmp
 
 
-let WriteStopPx (nextFreeIdx:int) (dest:byte []) (valIn:StopPx) : int = 
+let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int = 
    let tag = "99="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3340,7 +3340,7 @@ let ReadExDestination valIn =
     ExDestination.ExDestination tmp
 
 
-let WriteExDestination (nextFreeIdx:int) (dest:byte []) (valIn:ExDestination) : int = 
+let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : int = 
    let tag = "100="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3363,7 +3363,7 @@ let ReadCxlRejReason (fldValIn:string) : CxlRejReason =
     | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
 
 
-let WriteCxlRejReason (nextFreeIdx:int) (dest:byte array) (xxIn:CxlRejReason) : int =
+let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : int =
     match xxIn with
     | CxlRejReason.TooLateToCancel ->
         let tag = "102=0"B
@@ -3437,7 +3437,7 @@ let ReadOrdRejReason (fldValIn:string) : OrdRejReason =
     | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
 
 
-let WriteOrdRejReason (nextFreeIdx:int) (dest:byte array) (xxIn:OrdRejReason) : int =
+let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : int =
     match xxIn with
     | OrdRejReason.BrokerExchangeOption ->
         let tag = "103=0"B
@@ -3566,7 +3566,7 @@ let ReadIOIQualifier (fldValIn:string) : IOIQualifier =
     | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
 
 
-let WriteIOIQualifier (nextFreeIdx:int) (dest:byte array) (xxIn:IOIQualifier) : int =
+let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : int =
     match xxIn with
     | IOIQualifier.AllOrNone ->
         let tag = "104=A"B
@@ -3683,7 +3683,7 @@ let ReadWaveNo valIn =
     WaveNo.WaveNo tmp
 
 
-let WriteWaveNo (nextFreeIdx:int) (dest:byte []) (valIn:WaveNo) : int = 
+let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int = 
    let tag = "105="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3698,7 +3698,7 @@ let ReadIssuer valIn =
     Issuer.Issuer tmp
 
 
-let WriteIssuer (nextFreeIdx:int) (dest:byte []) (valIn:Issuer) : int = 
+let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int = 
    let tag = "106="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3713,7 +3713,7 @@ let ReadSecurityDesc valIn =
     SecurityDesc.SecurityDesc tmp
 
 
-let WriteSecurityDesc (nextFreeIdx:int) (dest:byte []) (valIn:SecurityDesc) : int = 
+let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : int = 
    let tag = "107="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3728,7 +3728,7 @@ let ReadHeartBtInt valIn =
     HeartBtInt.HeartBtInt tmp
 
 
-let WriteHeartBtInt (nextFreeIdx:int) (dest:byte []) (valIn:HeartBtInt) : int = 
+let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int = 
    let tag = "108="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3743,7 +3743,7 @@ let ReadMinQty valIn =
     MinQty.MinQty tmp
 
 
-let WriteMinQty (nextFreeIdx:int) (dest:byte []) (valIn:MinQty) : int = 
+let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int = 
    let tag = "110="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3758,7 +3758,7 @@ let ReadMaxFloor valIn =
     MaxFloor.MaxFloor tmp
 
 
-let WriteMaxFloor (nextFreeIdx:int) (dest:byte []) (valIn:MaxFloor) : int = 
+let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int = 
    let tag = "111="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3773,7 +3773,7 @@ let ReadTestReqID valIn =
     TestReqID.TestReqID tmp
 
 
-let WriteTestReqID (nextFreeIdx:int) (dest:byte []) (valIn:TestReqID) : int = 
+let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int = 
    let tag = "112="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3788,7 +3788,7 @@ let ReadReportToExch valIn =
     ReportToExch.ReportToExch tmp
 
 
-let WriteReportToExch (nextFreeIdx:int) (dest:byte []) (valIn:ReportToExch) : int = 
+let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : int = 
    let tag = "113="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3803,7 +3803,7 @@ let ReadLocateReqd valIn =
     LocateReqd.LocateReqd tmp
 
 
-let WriteLocateReqd (nextFreeIdx:int) (dest:byte []) (valIn:LocateReqd) : int = 
+let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int = 
    let tag = "114="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3818,7 +3818,7 @@ let ReadOnBehalfOfCompID valIn =
     OnBehalfOfCompID.OnBehalfOfCompID tmp
 
 
-let WriteOnBehalfOfCompID (nextFreeIdx:int) (dest:byte []) (valIn:OnBehalfOfCompID) : int = 
+let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfCompID) : int = 
    let tag = "115="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3833,7 +3833,7 @@ let ReadOnBehalfOfSubID valIn =
     OnBehalfOfSubID.OnBehalfOfSubID tmp
 
 
-let WriteOnBehalfOfSubID (nextFreeIdx:int) (dest:byte []) (valIn:OnBehalfOfSubID) : int = 
+let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID) : int = 
    let tag = "116="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3848,7 +3848,7 @@ let ReadQuoteID valIn =
     QuoteID.QuoteID tmp
 
 
-let WriteQuoteID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteID) : int = 
+let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int = 
    let tag = "117="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3863,7 +3863,7 @@ let ReadNetMoney valIn =
     NetMoney.NetMoney tmp
 
 
-let WriteNetMoney (nextFreeIdx:int) (dest:byte []) (valIn:NetMoney) : int = 
+let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int = 
    let tag = "118="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3878,7 +3878,7 @@ let ReadSettlCurrAmt valIn =
     SettlCurrAmt.SettlCurrAmt tmp
 
 
-let WriteSettlCurrAmt (nextFreeIdx:int) (dest:byte []) (valIn:SettlCurrAmt) : int = 
+let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : int = 
    let tag = "119="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3893,7 +3893,7 @@ let ReadSettlCurrency valIn =
     SettlCurrency.SettlCurrency tmp
 
 
-let WriteSettlCurrency (nextFreeIdx:int) (dest:byte []) (valIn:SettlCurrency) : int = 
+let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : int = 
    let tag = "120="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3908,7 +3908,7 @@ let ReadForexReq valIn =
     ForexReq.ForexReq tmp
 
 
-let WriteForexReq (nextFreeIdx:int) (dest:byte []) (valIn:ForexReq) : int = 
+let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int = 
    let tag = "121="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3923,7 +3923,7 @@ let ReadOrigSendingTime valIn =
     OrigSendingTime.OrigSendingTime tmp
 
 
-let WriteOrigSendingTime (nextFreeIdx:int) (dest:byte []) (valIn:OrigSendingTime) : int = 
+let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime) : int = 
    let tag = "122="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3938,7 +3938,7 @@ let ReadGapFillFlag valIn =
     GapFillFlag.GapFillFlag tmp
 
 
-let WriteGapFillFlag (nextFreeIdx:int) (dest:byte []) (valIn:GapFillFlag) : int = 
+let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int = 
    let tag = "123="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3953,7 +3953,7 @@ let ReadNoExecs valIn =
     NoExecs.NoExecs tmp
 
 
-let WriteNoExecs (nextFreeIdx:int) (dest:byte []) (valIn:NoExecs) : int = 
+let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int = 
    let tag = "124="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3968,7 +3968,7 @@ let ReadExpireTime valIn =
     ExpireTime.ExpireTime tmp
 
 
-let WriteExpireTime (nextFreeIdx:int) (dest:byte []) (valIn:ExpireTime) : int = 
+let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int = 
    let tag = "126="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -3990,7 +3990,7 @@ let ReadDKReason (fldValIn:string) : DKReason =
     | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
 
 
-let WriteDKReason (nextFreeIdx:int) (dest:byte array) (xxIn:DKReason) : int =
+let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
     match xxIn with
     | DKReason.UnknownSymbol ->
         let tag = "127=A"B
@@ -4041,7 +4041,7 @@ let ReadDeliverToCompID valIn =
     DeliverToCompID.DeliverToCompID tmp
 
 
-let WriteDeliverToCompID (nextFreeIdx:int) (dest:byte []) (valIn:DeliverToCompID) : int = 
+let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID) : int = 
    let tag = "128="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4056,7 +4056,7 @@ let ReadDeliverToSubID valIn =
     DeliverToSubID.DeliverToSubID tmp
 
 
-let WriteDeliverToSubID (nextFreeIdx:int) (dest:byte []) (valIn:DeliverToSubID) : int = 
+let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) : int = 
    let tag = "129="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4071,7 +4071,7 @@ let ReadIOINaturalFlag valIn =
     IOINaturalFlag.IOINaturalFlag tmp
 
 
-let WriteIOINaturalFlag (nextFreeIdx:int) (dest:byte []) (valIn:IOINaturalFlag) : int = 
+let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) : int = 
    let tag = "130="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4086,7 +4086,7 @@ let ReadQuoteReqID valIn =
     QuoteReqID.QuoteReqID tmp
 
 
-let WriteQuoteReqID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteReqID) : int = 
+let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int = 
    let tag = "131="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4101,7 +4101,7 @@ let ReadBidPx valIn =
     BidPx.BidPx tmp
 
 
-let WriteBidPx (nextFreeIdx:int) (dest:byte []) (valIn:BidPx) : int = 
+let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int = 
    let tag = "132="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4116,7 +4116,7 @@ let ReadOfferPx valIn =
     OfferPx.OfferPx tmp
 
 
-let WriteOfferPx (nextFreeIdx:int) (dest:byte []) (valIn:OfferPx) : int = 
+let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int = 
    let tag = "133="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4131,7 +4131,7 @@ let ReadBidSize valIn =
     BidSize.BidSize tmp
 
 
-let WriteBidSize (nextFreeIdx:int) (dest:byte []) (valIn:BidSize) : int = 
+let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int = 
    let tag = "134="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4146,7 +4146,7 @@ let ReadOfferSize valIn =
     OfferSize.OfferSize tmp
 
 
-let WriteOfferSize (nextFreeIdx:int) (dest:byte []) (valIn:OfferSize) : int = 
+let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int = 
    let tag = "135="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4161,7 +4161,7 @@ let ReadNoMiscFees valIn =
     NoMiscFees.NoMiscFees tmp
 
 
-let WriteNoMiscFees (nextFreeIdx:int) (dest:byte []) (valIn:NoMiscFees) : int = 
+let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int = 
    let tag = "136="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4176,7 +4176,7 @@ let ReadMiscFeeAmt valIn =
     MiscFeeAmt.MiscFeeAmt tmp
 
 
-let WriteMiscFeeAmt (nextFreeIdx:int) (dest:byte []) (valIn:MiscFeeAmt) : int = 
+let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int = 
    let tag = "137="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4191,7 +4191,7 @@ let ReadMiscFeeCurr valIn =
     MiscFeeCurr.MiscFeeCurr tmp
 
 
-let WriteMiscFeeCurr (nextFreeIdx:int) (dest:byte []) (valIn:MiscFeeCurr) : int = 
+let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int = 
    let tag = "138="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4218,7 +4218,7 @@ let ReadMiscFeeType (fldValIn:string) : MiscFeeType =
     | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
 
 
-let WriteMiscFeeType (nextFreeIdx:int) (dest:byte array) (xxIn:MiscFeeType) : int =
+let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : int =
     match xxIn with
     | MiscFeeType.Regulatory ->
         let tag = "139=1"B
@@ -4299,7 +4299,7 @@ let ReadPrevClosePx valIn =
     PrevClosePx.PrevClosePx tmp
 
 
-let WritePrevClosePx (nextFreeIdx:int) (dest:byte []) (valIn:PrevClosePx) : int = 
+let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int = 
    let tag = "140="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4314,7 +4314,7 @@ let ReadResetSeqNumFlag valIn =
     ResetSeqNumFlag.ResetSeqNumFlag tmp
 
 
-let WriteResetSeqNumFlag (nextFreeIdx:int) (dest:byte []) (valIn:ResetSeqNumFlag) : int = 
+let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag) : int = 
    let tag = "141="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4329,7 +4329,7 @@ let ReadSenderLocationID valIn =
     SenderLocationID.SenderLocationID tmp
 
 
-let WriteSenderLocationID (nextFreeIdx:int) (dest:byte []) (valIn:SenderLocationID) : int = 
+let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocationID) : int = 
    let tag = "142="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4344,7 +4344,7 @@ let ReadTargetLocationID valIn =
     TargetLocationID.TargetLocationID tmp
 
 
-let WriteTargetLocationID (nextFreeIdx:int) (dest:byte []) (valIn:TargetLocationID) : int = 
+let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocationID) : int = 
    let tag = "143="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4359,7 +4359,7 @@ let ReadOnBehalfOfLocationID valIn =
     OnBehalfOfLocationID.OnBehalfOfLocationID tmp
 
 
-let WriteOnBehalfOfLocationID (nextFreeIdx:int) (dest:byte []) (valIn:OnBehalfOfLocationID) : int = 
+let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfLocationID) : int = 
    let tag = "144="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4374,7 +4374,7 @@ let ReadDeliverToLocationID valIn =
     DeliverToLocationID.DeliverToLocationID tmp
 
 
-let WriteDeliverToLocationID (nextFreeIdx:int) (dest:byte []) (valIn:DeliverToLocationID) : int = 
+let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLocationID) : int = 
    let tag = "145="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4389,7 +4389,7 @@ let ReadNoRelatedSym valIn =
     NoRelatedSym.NoRelatedSym tmp
 
 
-let WriteNoRelatedSym (nextFreeIdx:int) (dest:byte []) (valIn:NoRelatedSym) : int = 
+let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : int = 
    let tag = "146="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4404,7 +4404,7 @@ let ReadSubject valIn =
     Subject.Subject tmp
 
 
-let WriteSubject (nextFreeIdx:int) (dest:byte []) (valIn:Subject) : int = 
+let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int = 
    let tag = "147="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4419,7 +4419,7 @@ let ReadHeadline valIn =
     Headline.Headline tmp
 
 
-let WriteHeadline (nextFreeIdx:int) (dest:byte []) (valIn:Headline) : int = 
+let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int = 
    let tag = "148="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4434,7 +4434,7 @@ let ReadURLLink valIn =
     URLLink.URLLink tmp
 
 
-let WriteURLLink (nextFreeIdx:int) (dest:byte []) (valIn:URLLink) : int = 
+let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int = 
    let tag = "149="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4468,7 +4468,7 @@ let ReadExecType (fldValIn:string) : ExecType =
     | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
 
 
-let WriteExecType (nextFreeIdx:int) (dest:byte array) (xxIn:ExecType) : int =
+let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
     match xxIn with
     | ExecType.New ->
         let tag = "150=0"B
@@ -4591,7 +4591,7 @@ let ReadLeavesQty valIn =
     LeavesQty.LeavesQty tmp
 
 
-let WriteLeavesQty (nextFreeIdx:int) (dest:byte []) (valIn:LeavesQty) : int = 
+let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int = 
    let tag = "151="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4606,7 +4606,7 @@ let ReadCashOrderQty valIn =
     CashOrderQty.CashOrderQty tmp
 
 
-let WriteCashOrderQty (nextFreeIdx:int) (dest:byte []) (valIn:CashOrderQty) : int = 
+let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : int = 
    let tag = "152="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4621,7 +4621,7 @@ let ReadAllocAvgPx valIn =
     AllocAvgPx.AllocAvgPx tmp
 
 
-let WriteAllocAvgPx (nextFreeIdx:int) (dest:byte []) (valIn:AllocAvgPx) : int = 
+let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int = 
    let tag = "153="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4636,7 +4636,7 @@ let ReadAllocNetMoney valIn =
     AllocNetMoney.AllocNetMoney tmp
 
 
-let WriteAllocNetMoney (nextFreeIdx:int) (dest:byte []) (valIn:AllocNetMoney) : int = 
+let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : int = 
    let tag = "154="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4651,7 +4651,7 @@ let ReadSettlCurrFxRate valIn =
     SettlCurrFxRate.SettlCurrFxRate tmp
 
 
-let WriteSettlCurrFxRate (nextFreeIdx:int) (dest:byte []) (valIn:SettlCurrFxRate) : int = 
+let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate) : int = 
    let tag = "155="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4668,7 +4668,7 @@ let ReadSettlCurrFxRateCalc (fldValIn:string) : SettlCurrFxRateCalc =
     | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
 
 
-let WriteSettlCurrFxRateCalc (nextFreeIdx:int) (dest:byte array) (xxIn:SettlCurrFxRateCalc) : int =
+let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurrFxRateCalc) : int =
     match xxIn with
     | SettlCurrFxRateCalc.Multiply ->
         let tag = "156=M"B
@@ -4689,7 +4689,7 @@ let ReadNumDaysInterest valIn =
     NumDaysInterest.NumDaysInterest tmp
 
 
-let WriteNumDaysInterest (nextFreeIdx:int) (dest:byte []) (valIn:NumDaysInterest) : int = 
+let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest) : int = 
    let tag = "157="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4704,7 +4704,7 @@ let ReadAccruedInterestRate valIn =
     AccruedInterestRate.AccruedInterestRate tmp
 
 
-let WriteAccruedInterestRate (nextFreeIdx:int) (dest:byte []) (valIn:AccruedInterestRate) : int = 
+let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestRate) : int = 
    let tag = "158="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4719,7 +4719,7 @@ let ReadAccruedInterestAmt valIn =
     AccruedInterestAmt.AccruedInterestAmt tmp
 
 
-let WriteAccruedInterestAmt (nextFreeIdx:int) (dest:byte []) (valIn:AccruedInterestAmt) : int = 
+let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestAmt) : int = 
    let tag = "159="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4738,7 +4738,7 @@ let ReadSettlInstMode (fldValIn:string) : SettlInstMode =
     | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
 
 
-let WriteSettlInstMode (nextFreeIdx:int) (dest:byte array) (xxIn:SettlInstMode) : int =
+let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) : int =
     match xxIn with
     | SettlInstMode.Default ->
         let tag = "160=0"B
@@ -4771,7 +4771,7 @@ let ReadAllocText valIn =
     AllocText.AllocText tmp
 
 
-let WriteAllocText (nextFreeIdx:int) (dest:byte []) (valIn:AllocText) : int = 
+let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int = 
    let tag = "161="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4786,7 +4786,7 @@ let ReadSettlInstID valIn =
     SettlInstID.SettlInstID tmp
 
 
-let WriteSettlInstID (nextFreeIdx:int) (dest:byte []) (valIn:SettlInstID) : int = 
+let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int = 
    let tag = "162="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4805,7 +4805,7 @@ let ReadSettlInstTransType (fldValIn:string) : SettlInstTransType =
     | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
 
 
-let WriteSettlInstTransType (nextFreeIdx:int) (dest:byte array) (xxIn:SettlInstTransType) : int =
+let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstTransType) : int =
     match xxIn with
     | SettlInstTransType.New ->
         let tag = "163=N"B
@@ -4838,7 +4838,7 @@ let ReadEmailThreadID valIn =
     EmailThreadID.EmailThreadID tmp
 
 
-let WriteEmailThreadID (nextFreeIdx:int) (dest:byte []) (valIn:EmailThreadID) : int = 
+let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : int = 
    let tag = "164="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -4856,7 +4856,7 @@ let ReadSettlInstSource (fldValIn:string) : SettlInstSource =
     | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
 
 
-let WriteSettlInstSource (nextFreeIdx:int) (dest:byte array) (xxIn:SettlInstSource) : int =
+let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSource) : int =
     match xxIn with
     | SettlInstSource.BrokersInstructions ->
         let tag = "165=1"B
@@ -4977,7 +4977,7 @@ let ReadSecurityType (fldValIn:string) : SecurityType =
     | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
 
 
-let WriteSecurityType (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityType) : int =
+let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : int =
     match xxIn with
     | SecurityType.EuroSupranationalCoupons ->
         let tag = "167=EUSUPRA"B
@@ -5550,7 +5550,7 @@ let ReadEffectiveTime valIn =
     EffectiveTime.EffectiveTime tmp
 
 
-let WriteEffectiveTime (nextFreeIdx:int) (dest:byte []) (valIn:EffectiveTime) : int = 
+let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : int = 
    let tag = "168="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5570,7 +5570,7 @@ let ReadStandInstDbType (fldValIn:string) : StandInstDbType =
     | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
 
 
-let WriteStandInstDbType (nextFreeIdx:int) (dest:byte array) (xxIn:StandInstDbType) : int =
+let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbType) : int =
     match xxIn with
     | StandInstDbType.Other ->
         let tag = "169=0"B
@@ -5609,7 +5609,7 @@ let ReadStandInstDbName valIn =
     StandInstDbName.StandInstDbName tmp
 
 
-let WriteStandInstDbName (nextFreeIdx:int) (dest:byte []) (valIn:StandInstDbName) : int = 
+let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName) : int = 
    let tag = "170="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5624,7 +5624,7 @@ let ReadStandInstDbID valIn =
     StandInstDbID.StandInstDbID tmp
 
 
-let WriteStandInstDbID (nextFreeIdx:int) (dest:byte []) (valIn:StandInstDbID) : int = 
+let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : int = 
    let tag = "171="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5643,7 +5643,7 @@ let ReadSettlDeliveryType (fldValIn:string) : SettlDeliveryType =
     | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
 
 
-let WriteSettlDeliveryType (nextFreeIdx:int) (dest:byte array) (xxIn:SettlDeliveryType) : int =
+let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDeliveryType) : int =
     match xxIn with
     | SettlDeliveryType.VersusPayment ->
         let tag = "172=0"B
@@ -5676,7 +5676,7 @@ let ReadBidSpotRate valIn =
     BidSpotRate.BidSpotRate tmp
 
 
-let WriteBidSpotRate (nextFreeIdx:int) (dest:byte []) (valIn:BidSpotRate) : int = 
+let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int = 
    let tag = "188="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5691,7 +5691,7 @@ let ReadBidForwardPoints valIn =
     BidForwardPoints.BidForwardPoints tmp
 
 
-let WriteBidForwardPoints (nextFreeIdx:int) (dest:byte []) (valIn:BidForwardPoints) : int = 
+let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints) : int = 
    let tag = "189="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5706,7 +5706,7 @@ let ReadOfferSpotRate valIn =
     OfferSpotRate.OfferSpotRate tmp
 
 
-let WriteOfferSpotRate (nextFreeIdx:int) (dest:byte []) (valIn:OfferSpotRate) : int = 
+let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : int = 
    let tag = "190="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5721,7 +5721,7 @@ let ReadOfferForwardPoints valIn =
     OfferForwardPoints.OfferForwardPoints tmp
 
 
-let WriteOfferForwardPoints (nextFreeIdx:int) (dest:byte []) (valIn:OfferForwardPoints) : int = 
+let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints) : int = 
    let tag = "191="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5736,7 +5736,7 @@ let ReadOrderQty2 valIn =
     OrderQty2.OrderQty2 tmp
 
 
-let WriteOrderQty2 (nextFreeIdx:int) (dest:byte []) (valIn:OrderQty2) : int = 
+let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int = 
    let tag = "192="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5751,7 +5751,7 @@ let ReadSettlDate2 valIn =
     SettlDate2.SettlDate2 tmp
 
 
-let WriteSettlDate2 (nextFreeIdx:int) (dest:byte []) (valIn:SettlDate2) : int = 
+let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int = 
    let tag = "193="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5766,7 +5766,7 @@ let ReadLastSpotRate valIn =
     LastSpotRate.LastSpotRate tmp
 
 
-let WriteLastSpotRate (nextFreeIdx:int) (dest:byte []) (valIn:LastSpotRate) : int = 
+let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : int = 
    let tag = "194="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5781,7 +5781,7 @@ let ReadLastForwardPoints valIn =
     LastForwardPoints.LastForwardPoints tmp
 
 
-let WriteLastForwardPoints (nextFreeIdx:int) (dest:byte []) (valIn:LastForwardPoints) : int = 
+let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints) : int = 
    let tag = "195="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5796,7 +5796,7 @@ let ReadAllocLinkID valIn =
     AllocLinkID.AllocLinkID tmp
 
 
-let WriteAllocLinkID (nextFreeIdx:int) (dest:byte []) (valIn:AllocLinkID) : int = 
+let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int = 
    let tag = "196="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5813,7 +5813,7 @@ let ReadAllocLinkType (fldValIn:string) : AllocLinkType =
     | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
 
 
-let WriteAllocLinkType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocLinkType) : int =
+let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) : int =
     match xxIn with
     | AllocLinkType.FXNetting ->
         let tag = "197=0"B
@@ -5834,7 +5834,7 @@ let ReadSecondaryOrderID valIn =
     SecondaryOrderID.SecondaryOrderID tmp
 
 
-let WriteSecondaryOrderID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryOrderID) : int = 
+let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrderID) : int = 
    let tag = "198="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5849,7 +5849,7 @@ let ReadNoIOIQualifiers valIn =
     NoIOIQualifiers.NoIOIQualifiers tmp
 
 
-let WriteNoIOIQualifiers (nextFreeIdx:int) (dest:byte []) (valIn:NoIOIQualifiers) : int = 
+let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers) : int = 
    let tag = "199="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5864,7 +5864,7 @@ let ReadMaturityMonthYear valIn =
     MaturityMonthYear.MaturityMonthYear tmp
 
 
-let WriteMaturityMonthYear (nextFreeIdx:int) (dest:byte []) (valIn:MaturityMonthYear) : int = 
+let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonthYear) : int = 
    let tag = "200="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5881,7 +5881,7 @@ let ReadPutOrCall (fldValIn:string) : PutOrCall =
     | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
 
 
-let WritePutOrCall (nextFreeIdx:int) (dest:byte array) (xxIn:PutOrCall) : int =
+let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
     match xxIn with
     | PutOrCall.Put ->
         let tag = "201=0"B
@@ -5902,7 +5902,7 @@ let ReadStrikePrice valIn =
     StrikePrice.StrikePrice tmp
 
 
-let WriteStrikePrice (nextFreeIdx:int) (dest:byte []) (valIn:StrikePrice) : int = 
+let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int = 
    let tag = "202="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5919,7 +5919,7 @@ let ReadCoveredOrUncovered (fldValIn:string) : CoveredOrUncovered =
     | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
 
 
-let WriteCoveredOrUncovered (nextFreeIdx:int) (dest:byte array) (xxIn:CoveredOrUncovered) : int =
+let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrUncovered) : int =
     match xxIn with
     | CoveredOrUncovered.Covered ->
         let tag = "203=0"B
@@ -5940,7 +5940,7 @@ let ReadOptAttribute valIn =
     OptAttribute.OptAttribute tmp
 
 
-let WriteOptAttribute (nextFreeIdx:int) (dest:byte []) (valIn:OptAttribute) : int = 
+let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : int = 
    let tag = "206="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5955,7 +5955,7 @@ let ReadSecurityExchange valIn =
     SecurityExchange.SecurityExchange tmp
 
 
-let WriteSecurityExchange (nextFreeIdx:int) (dest:byte []) (valIn:SecurityExchange) : int = 
+let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchange) : int = 
    let tag = "207="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5970,7 +5970,7 @@ let ReadNotifyBrokerOfCredit valIn =
     NotifyBrokerOfCredit.NotifyBrokerOfCredit tmp
 
 
-let WriteNotifyBrokerOfCredit (nextFreeIdx:int) (dest:byte []) (valIn:NotifyBrokerOfCredit) : int = 
+let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrokerOfCredit) : int = 
    let tag = "208="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -5988,7 +5988,7 @@ let ReadAllocHandlInst (fldValIn:string) : AllocHandlInst =
     | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
 
 
-let WriteAllocHandlInst (nextFreeIdx:int) (dest:byte array) (xxIn:AllocHandlInst) : int =
+let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst) : int =
     match xxIn with
     | AllocHandlInst.Match ->
         let tag = "209=1"B
@@ -6015,7 +6015,7 @@ let ReadMaxShow valIn =
     MaxShow.MaxShow tmp
 
 
-let WriteMaxShow (nextFreeIdx:int) (dest:byte []) (valIn:MaxShow) : int = 
+let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int = 
    let tag = "210="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6030,7 +6030,7 @@ let ReadPegOffsetValue valIn =
     PegOffsetValue.PegOffsetValue tmp
 
 
-let WritePegOffsetValue (nextFreeIdx:int) (dest:byte []) (valIn:PegOffsetValue) : int = 
+let WritePegOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:PegOffsetValue) : int = 
    let tag = "211="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6041,7 +6041,7 @@ let WritePegOffsetValue (nextFreeIdx:int) (dest:byte []) (valIn:PegOffsetValue) 
 
 
 // compound write, of a length field and the corresponding string field
-let WriteXmlData (nextFreeIdx:int) (dest:byte []) (fld:XmlData) : int =
+let WriteXmlData (dest:byte []) (nextFreeIdx:int) (fld:XmlData) : int =
     // write the string length part of the compound msg
     let lenTag = "212="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -6082,7 +6082,7 @@ let ReadSettlInstRefID valIn =
     SettlInstRefID.SettlInstRefID tmp
 
 
-let WriteSettlInstRefID (nextFreeIdx:int) (dest:byte []) (valIn:SettlInstRefID) : int = 
+let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) : int = 
    let tag = "214="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6097,7 +6097,7 @@ let ReadNoRoutingIDs valIn =
     NoRoutingIDs.NoRoutingIDs tmp
 
 
-let WriteNoRoutingIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoRoutingIDs) : int = 
+let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : int = 
    let tag = "215="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6116,7 +6116,7 @@ let ReadRoutingType (fldValIn:string) : RoutingType =
     | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
 
 
-let WriteRoutingType (nextFreeIdx:int) (dest:byte array) (xxIn:RoutingType) : int =
+let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : int =
     match xxIn with
     | RoutingType.TargetFirm ->
         let tag = "216=1"B
@@ -6149,7 +6149,7 @@ let ReadRoutingID valIn =
     RoutingID.RoutingID tmp
 
 
-let WriteRoutingID (nextFreeIdx:int) (dest:byte []) (valIn:RoutingID) : int = 
+let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int = 
    let tag = "217="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6164,7 +6164,7 @@ let ReadSpread valIn =
     Spread.Spread tmp
 
 
-let WriteSpread (nextFreeIdx:int) (dest:byte []) (valIn:Spread) : int = 
+let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int = 
    let tag = "218="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6179,7 +6179,7 @@ let ReadBenchmarkCurveCurrency valIn =
     BenchmarkCurveCurrency.BenchmarkCurveCurrency tmp
 
 
-let WriteBenchmarkCurveCurrency (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkCurveCurrency) : int = 
+let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurveCurrency) : int = 
    let tag = "220="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6206,7 +6206,7 @@ let ReadBenchmarkCurveName (fldValIn:string) : BenchmarkCurveName =
     | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
 
 
-let WriteBenchmarkCurveName (nextFreeIdx:int) (dest:byte array) (xxIn:BenchmarkCurveName) : int =
+let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkCurveName) : int =
     match xxIn with
     | BenchmarkCurveName.Muniaaa ->
         let tag = "221=MuniAAA"B
@@ -6287,7 +6287,7 @@ let ReadBenchmarkCurvePoint valIn =
     BenchmarkCurvePoint.BenchmarkCurvePoint tmp
 
 
-let WriteBenchmarkCurvePoint (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkCurvePoint) : int = 
+let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurvePoint) : int = 
    let tag = "222="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6302,7 +6302,7 @@ let ReadCouponRate valIn =
     CouponRate.CouponRate tmp
 
 
-let WriteCouponRate (nextFreeIdx:int) (dest:byte []) (valIn:CouponRate) : int = 
+let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int = 
    let tag = "223="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6317,7 +6317,7 @@ let ReadCouponPaymentDate valIn =
     CouponPaymentDate.CouponPaymentDate tmp
 
 
-let WriteCouponPaymentDate (nextFreeIdx:int) (dest:byte []) (valIn:CouponPaymentDate) : int = 
+let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPaymentDate) : int = 
    let tag = "224="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6332,7 +6332,7 @@ let ReadIssueDate valIn =
     IssueDate.IssueDate tmp
 
 
-let WriteIssueDate (nextFreeIdx:int) (dest:byte []) (valIn:IssueDate) : int = 
+let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int = 
    let tag = "225="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6347,7 +6347,7 @@ let ReadRepurchaseTerm valIn =
     RepurchaseTerm.RepurchaseTerm tmp
 
 
-let WriteRepurchaseTerm (nextFreeIdx:int) (dest:byte []) (valIn:RepurchaseTerm) : int = 
+let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) : int = 
    let tag = "226="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6362,7 +6362,7 @@ let ReadRepurchaseRate valIn =
     RepurchaseRate.RepurchaseRate tmp
 
 
-let WriteRepurchaseRate (nextFreeIdx:int) (dest:byte []) (valIn:RepurchaseRate) : int = 
+let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) : int = 
    let tag = "227="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6377,7 +6377,7 @@ let ReadFactor valIn =
     Factor.Factor tmp
 
 
-let WriteFactor (nextFreeIdx:int) (dest:byte []) (valIn:Factor) : int = 
+let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int = 
    let tag = "228="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6392,7 +6392,7 @@ let ReadTradeOriginationDate valIn =
     TradeOriginationDate.TradeOriginationDate tmp
 
 
-let WriteTradeOriginationDate (nextFreeIdx:int) (dest:byte []) (valIn:TradeOriginationDate) : int = 
+let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOriginationDate) : int = 
    let tag = "229="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6407,7 +6407,7 @@ let ReadExDate valIn =
     ExDate.ExDate tmp
 
 
-let WriteExDate (nextFreeIdx:int) (dest:byte []) (valIn:ExDate) : int = 
+let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int = 
    let tag = "230="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6422,7 +6422,7 @@ let ReadContractMultiplier valIn =
     ContractMultiplier.ContractMultiplier tmp
 
 
-let WriteContractMultiplier (nextFreeIdx:int) (dest:byte []) (valIn:ContractMultiplier) : int = 
+let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMultiplier) : int = 
    let tag = "231="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6437,7 +6437,7 @@ let ReadNoStipulations valIn =
     NoStipulations.NoStipulations tmp
 
 
-let WriteNoStipulations (nextFreeIdx:int) (dest:byte []) (valIn:NoStipulations) : int = 
+let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) : int = 
    let tag = "232="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -6511,7 +6511,7 @@ let ReadStipulationType (fldValIn:string) : StipulationType =
     | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
 
 
-let WriteStipulationType (nextFreeIdx:int) (dest:byte array) (xxIn:StipulationType) : int =
+let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationType) : int =
     match xxIn with
     | StipulationType.Amt ->
         let tag = "233=AMT"B
@@ -6888,7 +6888,7 @@ let ReadStipulationValue (fldValIn:string) : StipulationValue =
     | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
 
 
-let WriteStipulationValue (nextFreeIdx:int) (dest:byte array) (xxIn:StipulationValue) : int =
+let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationValue) : int =
     match xxIn with
     | StipulationValue.SpecialCumDividend ->
         let tag = "234=CD"B
@@ -7015,7 +7015,7 @@ let ReadYieldType (fldValIn:string) : YieldType =
     | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
 
 
-let WriteYieldType (nextFreeIdx:int) (dest:byte array) (xxIn:YieldType) : int =
+let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
     match xxIn with
     | YieldType.AfterTaxYield ->
         let tag = "235=AFTERTAX"B
@@ -7228,7 +7228,7 @@ let ReadYield valIn =
     Yield.Yield tmp
 
 
-let WriteYield (nextFreeIdx:int) (dest:byte []) (valIn:Yield) : int = 
+let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int = 
    let tag = "236="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7243,7 +7243,7 @@ let ReadTotalTakedown valIn =
     TotalTakedown.TotalTakedown tmp
 
 
-let WriteTotalTakedown (nextFreeIdx:int) (dest:byte []) (valIn:TotalTakedown) : int = 
+let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : int = 
    let tag = "237="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7258,7 +7258,7 @@ let ReadConcession valIn =
     Concession.Concession tmp
 
 
-let WriteConcession (nextFreeIdx:int) (dest:byte []) (valIn:Concession) : int = 
+let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int = 
    let tag = "238="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7273,7 +7273,7 @@ let ReadRepoCollateralSecurityType valIn =
     RepoCollateralSecurityType.RepoCollateralSecurityType tmp
 
 
-let WriteRepoCollateralSecurityType (nextFreeIdx:int) (dest:byte []) (valIn:RepoCollateralSecurityType) : int = 
+let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:RepoCollateralSecurityType) : int = 
    let tag = "239="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7288,7 +7288,7 @@ let ReadRedemptionDate valIn =
     RedemptionDate.RedemptionDate tmp
 
 
-let WriteRedemptionDate (nextFreeIdx:int) (dest:byte []) (valIn:RedemptionDate) : int = 
+let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) : int = 
    let tag = "240="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7303,7 +7303,7 @@ let ReadUnderlyingCouponPaymentDate valIn =
     UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate tmp
 
 
-let WriteUnderlyingCouponPaymentDate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCouponPaymentDate) : int = 
+let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponPaymentDate) : int = 
    let tag = "241="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7318,7 +7318,7 @@ let ReadUnderlyingIssueDate valIn =
     UnderlyingIssueDate.UnderlyingIssueDate tmp
 
 
-let WriteUnderlyingIssueDate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingIssueDate) : int = 
+let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssueDate) : int = 
    let tag = "242="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7333,7 +7333,7 @@ let ReadUnderlyingRepoCollateralSecurityType valIn =
     UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType tmp
 
 
-let WriteUnderlyingRepoCollateralSecurityType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
+let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
    let tag = "243="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7348,7 +7348,7 @@ let ReadUnderlyingRepurchaseTerm valIn =
     UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm tmp
 
 
-let WriteUnderlyingRepurchaseTerm (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingRepurchaseTerm) : int = 
+let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseTerm) : int = 
    let tag = "244="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7363,7 +7363,7 @@ let ReadUnderlyingRepurchaseRate valIn =
     UnderlyingRepurchaseRate.UnderlyingRepurchaseRate tmp
 
 
-let WriteUnderlyingRepurchaseRate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingRepurchaseRate) : int = 
+let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseRate) : int = 
    let tag = "245="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7378,7 +7378,7 @@ let ReadUnderlyingFactor valIn =
     UnderlyingFactor.UnderlyingFactor tmp
 
 
-let WriteUnderlyingFactor (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingFactor) : int = 
+let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFactor) : int = 
    let tag = "246="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7393,7 +7393,7 @@ let ReadUnderlyingRedemptionDate valIn =
     UnderlyingRedemptionDate.UnderlyingRedemptionDate tmp
 
 
-let WriteUnderlyingRedemptionDate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingRedemptionDate) : int = 
+let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRedemptionDate) : int = 
    let tag = "247="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7408,7 +7408,7 @@ let ReadLegCouponPaymentDate valIn =
     LegCouponPaymentDate.LegCouponPaymentDate tmp
 
 
-let WriteLegCouponPaymentDate (nextFreeIdx:int) (dest:byte []) (valIn:LegCouponPaymentDate) : int = 
+let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponPaymentDate) : int = 
    let tag = "248="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7423,7 +7423,7 @@ let ReadLegIssueDate valIn =
     LegIssueDate.LegIssueDate tmp
 
 
-let WriteLegIssueDate (nextFreeIdx:int) (dest:byte []) (valIn:LegIssueDate) : int = 
+let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : int = 
    let tag = "249="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7438,7 +7438,7 @@ let ReadLegRepoCollateralSecurityType valIn =
     LegRepoCollateralSecurityType.LegRepoCollateralSecurityType tmp
 
 
-let WriteLegRepoCollateralSecurityType (nextFreeIdx:int) (dest:byte []) (valIn:LegRepoCollateralSecurityType) : int = 
+let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegRepoCollateralSecurityType) : int = 
    let tag = "250="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7453,7 +7453,7 @@ let ReadLegRepurchaseTerm valIn =
     LegRepurchaseTerm.LegRepurchaseTerm tmp
 
 
-let WriteLegRepurchaseTerm (nextFreeIdx:int) (dest:byte []) (valIn:LegRepurchaseTerm) : int = 
+let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseTerm) : int = 
    let tag = "251="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7468,7 +7468,7 @@ let ReadLegRepurchaseRate valIn =
     LegRepurchaseRate.LegRepurchaseRate tmp
 
 
-let WriteLegRepurchaseRate (nextFreeIdx:int) (dest:byte []) (valIn:LegRepurchaseRate) : int = 
+let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseRate) : int = 
    let tag = "252="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7483,7 +7483,7 @@ let ReadLegFactor valIn =
     LegFactor.LegFactor tmp
 
 
-let WriteLegFactor (nextFreeIdx:int) (dest:byte []) (valIn:LegFactor) : int = 
+let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int = 
    let tag = "253="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7498,7 +7498,7 @@ let ReadLegRedemptionDate valIn =
     LegRedemptionDate.LegRedemptionDate tmp
 
 
-let WriteLegRedemptionDate (nextFreeIdx:int) (dest:byte []) (valIn:LegRedemptionDate) : int = 
+let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemptionDate) : int = 
    let tag = "254="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7513,7 +7513,7 @@ let ReadCreditRating valIn =
     CreditRating.CreditRating tmp
 
 
-let WriteCreditRating (nextFreeIdx:int) (dest:byte []) (valIn:CreditRating) : int = 
+let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : int = 
    let tag = "255="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7528,7 +7528,7 @@ let ReadUnderlyingCreditRating valIn =
     UnderlyingCreditRating.UnderlyingCreditRating tmp
 
 
-let WriteUnderlyingCreditRating (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCreditRating) : int = 
+let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCreditRating) : int = 
    let tag = "256="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7543,7 +7543,7 @@ let ReadLegCreditRating valIn =
     LegCreditRating.LegCreditRating tmp
 
 
-let WriteLegCreditRating (nextFreeIdx:int) (dest:byte []) (valIn:LegCreditRating) : int = 
+let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating) : int = 
    let tag = "257="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7558,7 +7558,7 @@ let ReadTradedFlatSwitch valIn =
     TradedFlatSwitch.TradedFlatSwitch tmp
 
 
-let WriteTradedFlatSwitch (nextFreeIdx:int) (dest:byte []) (valIn:TradedFlatSwitch) : int = 
+let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwitch) : int = 
    let tag = "258="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7573,7 +7573,7 @@ let ReadBasisFeatureDate valIn =
     BasisFeatureDate.BasisFeatureDate tmp
 
 
-let WriteBasisFeatureDate (nextFreeIdx:int) (dest:byte []) (valIn:BasisFeatureDate) : int = 
+let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDate) : int = 
    let tag = "259="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7588,7 +7588,7 @@ let ReadBasisFeaturePrice valIn =
     BasisFeaturePrice.BasisFeaturePrice tmp
 
 
-let WriteBasisFeaturePrice (nextFreeIdx:int) (dest:byte []) (valIn:BasisFeaturePrice) : int = 
+let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeaturePrice) : int = 
    let tag = "260="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7603,7 +7603,7 @@ let ReadMDReqID valIn =
     MDReqID.MDReqID tmp
 
 
-let WriteMDReqID (nextFreeIdx:int) (dest:byte []) (valIn:MDReqID) : int = 
+let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int = 
    let tag = "262="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7621,7 +7621,7 @@ let ReadSubscriptionRequestType (fldValIn:string) : SubscriptionRequestType =
     | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
 
 
-let WriteSubscriptionRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:SubscriptionRequestType) : int =
+let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SubscriptionRequestType) : int =
     match xxIn with
     | SubscriptionRequestType.Snapshot ->
         let tag = "263=0"B
@@ -7648,7 +7648,7 @@ let ReadMarketDepth valIn =
     MarketDepth.MarketDepth tmp
 
 
-let WriteMarketDepth (nextFreeIdx:int) (dest:byte []) (valIn:MarketDepth) : int = 
+let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int = 
    let tag = "264="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7665,7 +7665,7 @@ let ReadMDUpdateType (fldValIn:string) : MDUpdateType =
     | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
 
 
-let WriteMDUpdateType (nextFreeIdx:int) (dest:byte array) (xxIn:MDUpdateType) : int =
+let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : int =
     match xxIn with
     | MDUpdateType.FullRefresh ->
         let tag = "265=0"B
@@ -7686,7 +7686,7 @@ let ReadAggregatedBook valIn =
     AggregatedBook.AggregatedBook tmp
 
 
-let WriteAggregatedBook (nextFreeIdx:int) (dest:byte []) (valIn:AggregatedBook) : int = 
+let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) : int = 
    let tag = "266="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7701,7 +7701,7 @@ let ReadNoMDEntryTypes valIn =
     NoMDEntryTypes.NoMDEntryTypes tmp
 
 
-let WriteNoMDEntryTypes (nextFreeIdx:int) (dest:byte []) (valIn:NoMDEntryTypes) : int = 
+let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) : int = 
    let tag = "267="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7716,7 +7716,7 @@ let ReadNoMDEntries valIn =
     NoMDEntries.NoMDEntries tmp
 
 
-let WriteNoMDEntries (nextFreeIdx:int) (dest:byte []) (valIn:NoMDEntries) : int = 
+let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int = 
    let tag = "268="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7744,7 +7744,7 @@ let ReadMDEntryType (fldValIn:string) : MDEntryType =
     | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
 
 
-let WriteMDEntryType (nextFreeIdx:int) (dest:byte array) (xxIn:MDEntryType) : int =
+let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : int =
     match xxIn with
     | MDEntryType.Bid ->
         let tag = "269=0"B
@@ -7831,7 +7831,7 @@ let ReadMDEntryPx valIn =
     MDEntryPx.MDEntryPx tmp
 
 
-let WriteMDEntryPx (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryPx) : int = 
+let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int = 
    let tag = "270="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7846,7 +7846,7 @@ let ReadMDEntrySize valIn =
     MDEntrySize.MDEntrySize tmp
 
 
-let WriteMDEntrySize (nextFreeIdx:int) (dest:byte []) (valIn:MDEntrySize) : int = 
+let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int = 
    let tag = "271="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7861,7 +7861,7 @@ let ReadMDEntryDate valIn =
     MDEntryDate.MDEntryDate tmp
 
 
-let WriteMDEntryDate (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryDate) : int = 
+let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int = 
    let tag = "272="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7876,7 +7876,7 @@ let ReadMDEntryTime valIn =
     MDEntryTime.MDEntryTime tmp
 
 
-let WriteMDEntryTime (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryTime) : int = 
+let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int = 
    let tag = "273="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7895,7 +7895,7 @@ let ReadTickDirection (fldValIn:string) : TickDirection =
     | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
 
 
-let WriteTickDirection (nextFreeIdx:int) (dest:byte array) (xxIn:TickDirection) : int =
+let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) : int =
     match xxIn with
     | TickDirection.PlusTick ->
         let tag = "274=0"B
@@ -7928,7 +7928,7 @@ let ReadMDMkt valIn =
     MDMkt.MDMkt tmp
 
 
-let WriteMDMkt (nextFreeIdx:int) (dest:byte []) (valIn:MDMkt) : int = 
+let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int = 
    let tag = "275="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -7952,7 +7952,7 @@ let ReadQuoteCondition (fldValIn:string) : QuoteCondition =
     | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
 
 
-let WriteQuoteCondition (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteCondition) : int =
+let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition) : int =
     match xxIn with
     | QuoteCondition.OpenActive ->
         let tag = "276=A"B
@@ -8032,7 +8032,7 @@ let ReadTradeCondition (fldValIn:string) : TradeCondition =
     | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
 
 
-let WriteTradeCondition (nextFreeIdx:int) (dest:byte array) (xxIn:TradeCondition) : int =
+let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition) : int =
     match xxIn with
     | TradeCondition.CashMarket ->
         let tag = "277=A"B
@@ -8143,7 +8143,7 @@ let ReadMDEntryID valIn =
     MDEntryID.MDEntryID tmp
 
 
-let WriteMDEntryID (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryID) : int = 
+let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int = 
    let tag = "278="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8161,7 +8161,7 @@ let ReadMDUpdateAction (fldValIn:string) : MDUpdateAction =
     | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
 
 
-let WriteMDUpdateAction (nextFreeIdx:int) (dest:byte array) (xxIn:MDUpdateAction) : int =
+let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction) : int =
     match xxIn with
     | MDUpdateAction.New ->
         let tag = "279=0"B
@@ -8188,7 +8188,7 @@ let ReadMDEntryRefID valIn =
     MDEntryRefID.MDEntryRefID tmp
 
 
-let WriteMDEntryRefID (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryRefID) : int = 
+let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : int = 
    let tag = "280="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8216,7 +8216,7 @@ let ReadMDReqRejReason (fldValIn:string) : MDReqRejReason =
     | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
 
 
-let WriteMDReqRejReason (nextFreeIdx:int) (dest:byte array) (xxIn:MDReqRejReason) : int =
+let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason) : int =
     match xxIn with
     | MDReqRejReason.UnknownSymbol ->
         let tag = "281=0"B
@@ -8303,7 +8303,7 @@ let ReadMDEntryOriginator valIn =
     MDEntryOriginator.MDEntryOriginator tmp
 
 
-let WriteMDEntryOriginator (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryOriginator) : int = 
+let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOriginator) : int = 
    let tag = "282="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8318,7 +8318,7 @@ let ReadLocationID valIn =
     LocationID.LocationID tmp
 
 
-let WriteLocationID (nextFreeIdx:int) (dest:byte []) (valIn:LocationID) : int = 
+let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int = 
    let tag = "283="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8333,7 +8333,7 @@ let ReadDeskID valIn =
     DeskID.DeskID tmp
 
 
-let WriteDeskID (nextFreeIdx:int) (dest:byte []) (valIn:DeskID) : int = 
+let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int = 
    let tag = "284="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8350,7 +8350,7 @@ let ReadDeleteReason (fldValIn:string) : DeleteReason =
     | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
 
 
-let WriteDeleteReason (nextFreeIdx:int) (dest:byte array) (xxIn:DeleteReason) : int =
+let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : int =
     match xxIn with
     | DeleteReason.CancelationTradeBust ->
         let tag = "285=0"B
@@ -8377,7 +8377,7 @@ let ReadOpenCloseSettlFlag (fldValIn:string) : OpenCloseSettlFlag =
     | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
 
 
-let WriteOpenCloseSettlFlag (nextFreeIdx:int) (dest:byte array) (xxIn:OpenCloseSettlFlag) : int =
+let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseSettlFlag) : int =
     match xxIn with
     | OpenCloseSettlFlag.DailyOpenCloseSettlementEntry ->
         let tag = "286=0"B
@@ -8422,7 +8422,7 @@ let ReadSellerDays valIn =
     SellerDays.SellerDays tmp
 
 
-let WriteSellerDays (nextFreeIdx:int) (dest:byte []) (valIn:SellerDays) : int = 
+let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int = 
    let tag = "287="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8437,7 +8437,7 @@ let ReadMDEntryBuyer valIn =
     MDEntryBuyer.MDEntryBuyer tmp
 
 
-let WriteMDEntryBuyer (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryBuyer) : int = 
+let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : int = 
    let tag = "288="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8452,7 +8452,7 @@ let ReadMDEntrySeller valIn =
     MDEntrySeller.MDEntrySeller tmp
 
 
-let WriteMDEntrySeller (nextFreeIdx:int) (dest:byte []) (valIn:MDEntrySeller) : int = 
+let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : int = 
    let tag = "289="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8467,7 +8467,7 @@ let ReadMDEntryPositionNo valIn =
     MDEntryPositionNo.MDEntryPositionNo tmp
 
 
-let WriteMDEntryPositionNo (nextFreeIdx:int) (dest:byte []) (valIn:MDEntryPositionNo) : int = 
+let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositionNo) : int = 
    let tag = "290="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8484,7 +8484,7 @@ let ReadFinancialStatus (fldValIn:string) : FinancialStatus =
     | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
 
 
-let WriteFinancialStatus (nextFreeIdx:int) (dest:byte array) (xxIn:FinancialStatus) : int =
+let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStatus) : int =
     match xxIn with
     | FinancialStatus.Bankrupt ->
         let tag = "291=1"B
@@ -8510,7 +8510,7 @@ let ReadCorporateAction (fldValIn:string) : CorporateAction =
     | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
 
 
-let WriteCorporateAction (nextFreeIdx:int) (dest:byte array) (xxIn:CorporateAction) : int =
+let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateAction) : int =
     match xxIn with
     | CorporateAction.ExDividend ->
         let tag = "292=A"B
@@ -8549,7 +8549,7 @@ let ReadDefBidSize valIn =
     DefBidSize.DefBidSize tmp
 
 
-let WriteDefBidSize (nextFreeIdx:int) (dest:byte []) (valIn:DefBidSize) : int = 
+let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int = 
    let tag = "293="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8564,7 +8564,7 @@ let ReadDefOfferSize valIn =
     DefOfferSize.DefOfferSize tmp
 
 
-let WriteDefOfferSize (nextFreeIdx:int) (dest:byte []) (valIn:DefOfferSize) : int = 
+let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : int = 
    let tag = "294="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8579,7 +8579,7 @@ let ReadNoQuoteEntries valIn =
     NoQuoteEntries.NoQuoteEntries tmp
 
 
-let WriteNoQuoteEntries (nextFreeIdx:int) (dest:byte []) (valIn:NoQuoteEntries) : int = 
+let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) : int = 
    let tag = "295="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8594,7 +8594,7 @@ let ReadNoQuoteSets valIn =
     NoQuoteSets.NoQuoteSets tmp
 
 
-let WriteNoQuoteSets (nextFreeIdx:int) (dest:byte []) (valIn:NoQuoteSets) : int = 
+let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int = 
    let tag = "296="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8625,7 +8625,7 @@ let ReadQuoteStatus (fldValIn:string) : QuoteStatus =
     | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
 
 
-let WriteQuoteStatus (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteStatus) : int =
+let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : int =
     match xxIn with
     | QuoteStatus.Accepted ->
         let tag = "297=0"B
@@ -8734,7 +8734,7 @@ let ReadQuoteCancelType (fldValIn:string) : QuoteCancelType =
     | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
 
 
-let WriteQuoteCancelType (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteCancelType) : int =
+let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelType) : int =
     match xxIn with
     | QuoteCancelType.CancelForSymbol ->
         let tag = "298=1"B
@@ -8767,7 +8767,7 @@ let ReadQuoteEntryID valIn =
     QuoteEntryID.QuoteEntryID tmp
 
 
-let WriteQuoteEntryID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteEntryID) : int = 
+let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : int = 
    let tag = "299="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8792,7 +8792,7 @@ let ReadQuoteRejectReason (fldValIn:string) : QuoteRejectReason =
     | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteQuoteRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteRejectReason) : int =
+let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRejectReason) : int =
     match xxIn with
     | QuoteRejectReason.UnknownSymbol ->
         let tag = "300=1"B
@@ -8864,7 +8864,7 @@ let ReadQuoteResponseLevel (fldValIn:string) : QuoteResponseLevel =
     | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
 
 
-let WriteQuoteResponseLevel (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteResponseLevel) : int =
+let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteResponseLevel) : int =
     match xxIn with
     | QuoteResponseLevel.NoAcknowledgement ->
         let tag = "301=0"B
@@ -8891,7 +8891,7 @@ let ReadQuoteSetID valIn =
     QuoteSetID.QuoteSetID tmp
 
 
-let WriteQuoteSetID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteSetID) : int = 
+let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int = 
    let tag = "302="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8908,7 +8908,7 @@ let ReadQuoteRequestType (fldValIn:string) : QuoteRequestType =
     | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
 
 
-let WriteQuoteRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteRequestType) : int =
+let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestType) : int =
     match xxIn with
     | QuoteRequestType.Manual ->
         let tag = "303=1"B
@@ -8929,7 +8929,7 @@ let ReadTotNoQuoteEntries valIn =
     TotNoQuoteEntries.TotNoQuoteEntries tmp
 
 
-let WriteTotNoQuoteEntries (nextFreeIdx:int) (dest:byte []) (valIn:TotNoQuoteEntries) : int = 
+let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEntries) : int = 
    let tag = "304="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8944,7 +8944,7 @@ let ReadUnderlyingSecurityIDSource valIn =
     UnderlyingSecurityIDSource.UnderlyingSecurityIDSource tmp
 
 
-let WriteUnderlyingSecurityIDSource (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityIDSource) : int = 
+let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityIDSource) : int = 
    let tag = "305="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8959,7 +8959,7 @@ let ReadUnderlyingIssuer valIn =
     UnderlyingIssuer.UnderlyingIssuer tmp
 
 
-let WriteUnderlyingIssuer (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingIssuer) : int = 
+let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssuer) : int = 
    let tag = "306="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8974,7 +8974,7 @@ let ReadUnderlyingSecurityDesc valIn =
     UnderlyingSecurityDesc.UnderlyingSecurityDesc tmp
 
 
-let WriteUnderlyingSecurityDesc (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityDesc) : int = 
+let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityDesc) : int = 
    let tag = "307="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -8989,7 +8989,7 @@ let ReadUnderlyingSecurityExchange valIn =
     UnderlyingSecurityExchange.UnderlyingSecurityExchange tmp
 
 
-let WriteUnderlyingSecurityExchange (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityExchange) : int = 
+let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityExchange) : int = 
    let tag = "308="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9004,7 +9004,7 @@ let ReadUnderlyingSecurityID valIn =
     UnderlyingSecurityID.UnderlyingSecurityID tmp
 
 
-let WriteUnderlyingSecurityID (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityID) : int = 
+let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityID) : int = 
    let tag = "309="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9019,7 +9019,7 @@ let ReadUnderlyingSecurityType valIn =
     UnderlyingSecurityType.UnderlyingSecurityType tmp
 
 
-let WriteUnderlyingSecurityType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityType) : int = 
+let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityType) : int = 
    let tag = "310="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9034,7 +9034,7 @@ let ReadUnderlyingSymbol valIn =
     UnderlyingSymbol.UnderlyingSymbol tmp
 
 
-let WriteUnderlyingSymbol (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSymbol) : int = 
+let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbol) : int = 
    let tag = "311="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9049,7 +9049,7 @@ let ReadUnderlyingSymbolSfx valIn =
     UnderlyingSymbolSfx.UnderlyingSymbolSfx tmp
 
 
-let WriteUnderlyingSymbolSfx (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSymbolSfx) : int = 
+let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbolSfx) : int = 
    let tag = "312="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9064,7 +9064,7 @@ let ReadUnderlyingMaturityMonthYear valIn =
     UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear tmp
 
 
-let WriteUnderlyingMaturityMonthYear (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingMaturityMonthYear) : int = 
+let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityMonthYear) : int = 
    let tag = "313="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9081,7 +9081,7 @@ let ReadUnderlyingPutOrCall (fldValIn:string) : UnderlyingPutOrCall =
     | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
 
 
-let WriteUnderlyingPutOrCall (nextFreeIdx:int) (dest:byte array) (xxIn:UnderlyingPutOrCall) : int =
+let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:UnderlyingPutOrCall) : int =
     match xxIn with
     | UnderlyingPutOrCall.Put ->
         let tag = "315=0"B
@@ -9102,7 +9102,7 @@ let ReadUnderlyingStrikePrice valIn =
     UnderlyingStrikePrice.UnderlyingStrikePrice tmp
 
 
-let WriteUnderlyingStrikePrice (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStrikePrice) : int = 
+let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikePrice) : int = 
    let tag = "316="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9117,7 +9117,7 @@ let ReadUnderlyingOptAttribute valIn =
     UnderlyingOptAttribute.UnderlyingOptAttribute tmp
 
 
-let WriteUnderlyingOptAttribute (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingOptAttribute) : int = 
+let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingOptAttribute) : int = 
    let tag = "317="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9132,7 +9132,7 @@ let ReadUnderlyingCurrency valIn =
     UnderlyingCurrency.UnderlyingCurrency tmp
 
 
-let WriteUnderlyingCurrency (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCurrency) : int = 
+let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrency) : int = 
    let tag = "318="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9147,7 +9147,7 @@ let ReadSecurityReqID valIn =
     SecurityReqID.SecurityReqID tmp
 
 
-let WriteSecurityReqID (nextFreeIdx:int) (dest:byte []) (valIn:SecurityReqID) : int = 
+let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : int = 
    let tag = "320="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9166,7 +9166,7 @@ let ReadSecurityRequestType (fldValIn:string) : SecurityRequestType =
     | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
 
 
-let WriteSecurityRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityRequestType) : int =
+let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestType) : int =
     match xxIn with
     | SecurityRequestType.RequestSecurityIdentityAndSpecifications ->
         let tag = "321=0"B
@@ -9199,7 +9199,7 @@ let ReadSecurityResponseID valIn =
     SecurityResponseID.SecurityResponseID tmp
 
 
-let WriteSecurityResponseID (nextFreeIdx:int) (dest:byte []) (valIn:SecurityResponseID) : int = 
+let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResponseID) : int = 
    let tag = "322="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9220,7 +9220,7 @@ let ReadSecurityResponseType (fldValIn:string) : SecurityResponseType =
     | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
 
 
-let WriteSecurityResponseType (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityResponseType) : int =
+let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityResponseType) : int =
     match xxIn with
     | SecurityResponseType.AcceptSecurityProposalAsIs ->
         let tag = "323=1"B
@@ -9265,7 +9265,7 @@ let ReadSecurityStatusReqID valIn =
     SecurityStatusReqID.SecurityStatusReqID tmp
 
 
-let WriteSecurityStatusReqID (nextFreeIdx:int) (dest:byte []) (valIn:SecurityStatusReqID) : int = 
+let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityStatusReqID) : int = 
    let tag = "324="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9280,7 +9280,7 @@ let ReadUnsolicitedIndicator valIn =
     UnsolicitedIndicator.UnsolicitedIndicator tmp
 
 
-let WriteUnsolicitedIndicator (nextFreeIdx:int) (dest:byte []) (valIn:UnsolicitedIndicator) : int = 
+let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:UnsolicitedIndicator) : int = 
    let tag = "325="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9318,7 +9318,7 @@ let ReadSecurityTradingStatus (fldValIn:string) : SecurityTradingStatus =
     | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
 
 
-let WriteSecurityTradingStatus (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityTradingStatus) : int =
+let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityTradingStatus) : int =
     match xxIn with
     | SecurityTradingStatus.OpeningDelay ->
         let tag = "326=1"B
@@ -9471,7 +9471,7 @@ let ReadHaltReason (fldValIn:string) : HaltReason =
     | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
 
 
-let WriteHaltReason (nextFreeIdx:int) (dest:byte array) (xxIn:HaltReason) : int =
+let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int =
     match xxIn with
     | HaltReason.OrderImbalance ->
         let tag = "327=I"B
@@ -9516,7 +9516,7 @@ let ReadInViewOfCommon valIn =
     InViewOfCommon.InViewOfCommon tmp
 
 
-let WriteInViewOfCommon (nextFreeIdx:int) (dest:byte []) (valIn:InViewOfCommon) : int = 
+let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) : int = 
    let tag = "328="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9531,7 +9531,7 @@ let ReadDueToRelated valIn =
     DueToRelated.DueToRelated tmp
 
 
-let WriteDueToRelated (nextFreeIdx:int) (dest:byte []) (valIn:DueToRelated) : int = 
+let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : int = 
    let tag = "329="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9546,7 +9546,7 @@ let ReadBuyVolume valIn =
     BuyVolume.BuyVolume tmp
 
 
-let WriteBuyVolume (nextFreeIdx:int) (dest:byte []) (valIn:BuyVolume) : int = 
+let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int = 
    let tag = "330="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9561,7 +9561,7 @@ let ReadSellVolume valIn =
     SellVolume.SellVolume tmp
 
 
-let WriteSellVolume (nextFreeIdx:int) (dest:byte []) (valIn:SellVolume) : int = 
+let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int = 
    let tag = "331="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9576,7 +9576,7 @@ let ReadHighPx valIn =
     HighPx.HighPx tmp
 
 
-let WriteHighPx (nextFreeIdx:int) (dest:byte []) (valIn:HighPx) : int = 
+let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int = 
    let tag = "332="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9591,7 +9591,7 @@ let ReadLowPx valIn =
     LowPx.LowPx tmp
 
 
-let WriteLowPx (nextFreeIdx:int) (dest:byte []) (valIn:LowPx) : int = 
+let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int = 
    let tag = "333="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9609,7 +9609,7 @@ let ReadAdjustment (fldValIn:string) : Adjustment =
     | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
 
 
-let WriteAdjustment (nextFreeIdx:int) (dest:byte array) (xxIn:Adjustment) : int =
+let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int =
     match xxIn with
     | Adjustment.Cancel ->
         let tag = "334=1"B
@@ -9636,7 +9636,7 @@ let ReadTradSesReqID valIn =
     TradSesReqID.TradSesReqID tmp
 
 
-let WriteTradSesReqID (nextFreeIdx:int) (dest:byte []) (valIn:TradSesReqID) : int = 
+let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : int = 
    let tag = "335="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9651,7 +9651,7 @@ let ReadTradingSessionID valIn =
     TradingSessionID.TradingSessionID tmp
 
 
-let WriteTradingSessionID (nextFreeIdx:int) (dest:byte []) (valIn:TradingSessionID) : int = 
+let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionID) : int = 
    let tag = "336="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9666,7 +9666,7 @@ let ReadContraTrader valIn =
     ContraTrader.ContraTrader tmp
 
 
-let WriteContraTrader (nextFreeIdx:int) (dest:byte []) (valIn:ContraTrader) : int = 
+let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : int = 
    let tag = "337="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9684,7 +9684,7 @@ let ReadTradSesMethod (fldValIn:string) : TradSesMethod =
     | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
 
 
-let WriteTradSesMethod (nextFreeIdx:int) (dest:byte array) (xxIn:TradSesMethod) : int =
+let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) : int =
     match xxIn with
     | TradSesMethod.Electronic ->
         let tag = "338=1"B
@@ -9714,7 +9714,7 @@ let ReadTradSesMode (fldValIn:string) : TradSesMode =
     | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
 
 
-let WriteTradSesMode (nextFreeIdx:int) (dest:byte array) (xxIn:TradSesMode) : int =
+let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : int =
     match xxIn with
     | TradSesMode.Testing ->
         let tag = "339=1"B
@@ -9748,7 +9748,7 @@ let ReadTradSesStatus (fldValIn:string) : TradSesStatus =
     | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
 
 
-let WriteTradSesStatus (nextFreeIdx:int) (dest:byte array) (xxIn:TradSesStatus) : int =
+let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) : int =
     match xxIn with
     | TradSesStatus.Unknown ->
         let tag = "340=0"B
@@ -9799,7 +9799,7 @@ let ReadTradSesStartTime valIn =
     TradSesStartTime.TradSesStartTime tmp
 
 
-let WriteTradSesStartTime (nextFreeIdx:int) (dest:byte []) (valIn:TradSesStartTime) : int = 
+let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTime) : int = 
    let tag = "341="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9814,7 +9814,7 @@ let ReadTradSesOpenTime valIn =
     TradSesOpenTime.TradSesOpenTime tmp
 
 
-let WriteTradSesOpenTime (nextFreeIdx:int) (dest:byte []) (valIn:TradSesOpenTime) : int = 
+let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime) : int = 
    let tag = "342="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9829,7 +9829,7 @@ let ReadTradSesPreCloseTime valIn =
     TradSesPreCloseTime.TradSesPreCloseTime tmp
 
 
-let WriteTradSesPreCloseTime (nextFreeIdx:int) (dest:byte []) (valIn:TradSesPreCloseTime) : int = 
+let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreCloseTime) : int = 
    let tag = "343="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9844,7 +9844,7 @@ let ReadTradSesCloseTime valIn =
     TradSesCloseTime.TradSesCloseTime tmp
 
 
-let WriteTradSesCloseTime (nextFreeIdx:int) (dest:byte []) (valIn:TradSesCloseTime) : int = 
+let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTime) : int = 
    let tag = "344="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9859,7 +9859,7 @@ let ReadTradSesEndTime valIn =
     TradSesEndTime.TradSesEndTime tmp
 
 
-let WriteTradSesEndTime (nextFreeIdx:int) (dest:byte []) (valIn:TradSesEndTime) : int = 
+let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) : int = 
    let tag = "345="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9874,7 +9874,7 @@ let ReadNumberOfOrders valIn =
     NumberOfOrders.NumberOfOrders tmp
 
 
-let WriteNumberOfOrders (nextFreeIdx:int) (dest:byte []) (valIn:NumberOfOrders) : int = 
+let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) : int = 
    let tag = "346="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -9893,7 +9893,7 @@ let ReadMessageEncoding (fldValIn:string) : MessageEncoding =
     | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
 
 
-let WriteMessageEncoding (nextFreeIdx:int) (dest:byte array) (xxIn:MessageEncoding) : int =
+let WriteMessageEncoding (dest:byte array) (nextFreeIdx:int) (xxIn:MessageEncoding) : int =
     match xxIn with
     | MessageEncoding.Iso2022Jp ->
         let tag = "347=ISO-2022-JP"B
@@ -9922,7 +9922,7 @@ let WriteMessageEncoding (nextFreeIdx:int) (dest:byte array) (xxIn:MessageEncodi
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedIssuer (nextFreeIdx:int) (dest:byte []) (fld:EncodedIssuer) : int =
+let WriteEncodedIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedIssuer) : int =
     // write the string length part of the compound msg
     let lenTag = "348="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -9959,7 +9959,7 @@ let ReadEncodedIssuer valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedSecurityDesc (nextFreeIdx:int) (dest:byte []) (fld:EncodedSecurityDesc) : int =
+let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecurityDesc) : int =
     // write the string length part of the compound msg
     let lenTag = "350="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -9996,7 +9996,7 @@ let ReadEncodedSecurityDesc valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedListExecInst (nextFreeIdx:int) (dest:byte []) (fld:EncodedListExecInst) : int =
+let WriteEncodedListExecInst (dest:byte []) (nextFreeIdx:int) (fld:EncodedListExecInst) : int =
     // write the string length part of the compound msg
     let lenTag = "352="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10033,7 +10033,7 @@ let ReadEncodedListExecInst valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedText (nextFreeIdx:int) (dest:byte []) (fld:EncodedText) : int =
+let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
     // write the string length part of the compound msg
     let lenTag = "354="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10070,7 +10070,7 @@ let ReadEncodedText valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedSubject (nextFreeIdx:int) (dest:byte []) (fld:EncodedSubject) : int =
+let WriteEncodedSubject (dest:byte []) (nextFreeIdx:int) (fld:EncodedSubject) : int =
     // write the string length part of the compound msg
     let lenTag = "356="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10107,7 +10107,7 @@ let ReadEncodedSubject valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedHeadline (nextFreeIdx:int) (dest:byte []) (fld:EncodedHeadline) : int =
+let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) : int =
     // write the string length part of the compound msg
     let lenTag = "358="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10144,7 +10144,7 @@ let ReadEncodedHeadline valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedAllocText (nextFreeIdx:int) (dest:byte []) (fld:EncodedAllocText) : int =
+let WriteEncodedAllocText (dest:byte []) (nextFreeIdx:int) (fld:EncodedAllocText) : int =
     // write the string length part of the compound msg
     let lenTag = "360="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10181,7 +10181,7 @@ let ReadEncodedAllocText valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedUnderlyingIssuer (nextFreeIdx:int) (dest:byte []) (fld:EncodedUnderlyingIssuer) : int =
+let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUnderlyingIssuer) : int =
     // write the string length part of the compound msg
     let lenTag = "362="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10218,7 +10218,7 @@ let ReadEncodedUnderlyingIssuer valIn (strm:System.IO.Stream) =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedUnderlyingSecurityDesc (nextFreeIdx:int) (dest:byte []) (fld:EncodedUnderlyingSecurityDesc) : int =
+let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedUnderlyingSecurityDesc) : int =
     // write the string length part of the compound msg
     let lenTag = "364="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -10259,7 +10259,7 @@ let ReadAllocPrice valIn =
     AllocPrice.AllocPrice tmp
 
 
-let WriteAllocPrice (nextFreeIdx:int) (dest:byte []) (valIn:AllocPrice) : int = 
+let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int = 
    let tag = "366="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10274,7 +10274,7 @@ let ReadQuoteSetValidUntilTime valIn =
     QuoteSetValidUntilTime.QuoteSetValidUntilTime tmp
 
 
-let WriteQuoteSetValidUntilTime (nextFreeIdx:int) (dest:byte []) (valIn:QuoteSetValidUntilTime) : int = 
+let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetValidUntilTime) : int = 
    let tag = "367="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10298,7 +10298,7 @@ let ReadQuoteEntryRejectReason (fldValIn:string) : QuoteEntryRejectReason =
     | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteQuoteEntryRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteEntryRejectReason) : int =
+let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteEntryRejectReason) : int =
     match xxIn with
     | QuoteEntryRejectReason.UnknownSymbol ->
         let tag = "368=1"B
@@ -10361,7 +10361,7 @@ let ReadLastMsgSeqNumProcessed valIn =
     LastMsgSeqNumProcessed.LastMsgSeqNumProcessed tmp
 
 
-let WriteLastMsgSeqNumProcessed (nextFreeIdx:int) (dest:byte []) (valIn:LastMsgSeqNumProcessed) : int = 
+let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgSeqNumProcessed) : int = 
    let tag = "369="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10376,7 +10376,7 @@ let ReadRefTagID valIn =
     RefTagID.RefTagID tmp
 
 
-let WriteRefTagID (nextFreeIdx:int) (dest:byte []) (valIn:RefTagID) : int = 
+let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int = 
    let tag = "371="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10391,7 +10391,7 @@ let ReadRefMsgType valIn =
     RefMsgType.RefMsgType tmp
 
 
-let WriteRefMsgType (nextFreeIdx:int) (dest:byte []) (valIn:RefMsgType) : int = 
+let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int = 
    let tag = "372="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10425,7 +10425,7 @@ let ReadSessionRejectReason (fldValIn:string) : SessionRejectReason =
     | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteSessionRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:SessionRejectReason) : int =
+let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRejectReason) : int =
     match xxIn with
     | SessionRejectReason.InvalidTagNumber ->
         let tag = "373=0"B
@@ -10550,7 +10550,7 @@ let ReadBidRequestTransType (fldValIn:string) : BidRequestTransType =
     | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
 
 
-let WriteBidRequestTransType (nextFreeIdx:int) (dest:byte array) (xxIn:BidRequestTransType) : int =
+let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidRequestTransType) : int =
     match xxIn with
     | BidRequestTransType.New ->
         let tag = "374=N"B
@@ -10571,7 +10571,7 @@ let ReadContraBroker valIn =
     ContraBroker.ContraBroker tmp
 
 
-let WriteContraBroker (nextFreeIdx:int) (dest:byte []) (valIn:ContraBroker) : int = 
+let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : int = 
    let tag = "375="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10586,7 +10586,7 @@ let ReadComplianceID valIn =
     ComplianceID.ComplianceID tmp
 
 
-let WriteComplianceID (nextFreeIdx:int) (dest:byte []) (valIn:ComplianceID) : int = 
+let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : int = 
    let tag = "376="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10601,7 +10601,7 @@ let ReadSolicitedFlag valIn =
     SolicitedFlag.SolicitedFlag tmp
 
 
-let WriteSolicitedFlag (nextFreeIdx:int) (dest:byte []) (valIn:SolicitedFlag) : int = 
+let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : int = 
    let tag = "377="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10626,7 +10626,7 @@ let ReadExecRestatementReason (fldValIn:string) : ExecRestatementReason =
     | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
 
 
-let WriteExecRestatementReason (nextFreeIdx:int) (dest:byte array) (xxIn:ExecRestatementReason) : int =
+let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRestatementReason) : int =
     match xxIn with
     | ExecRestatementReason.GtCorporateAction ->
         let tag = "378=0"B
@@ -10695,7 +10695,7 @@ let ReadBusinessRejectRefID valIn =
     BusinessRejectRefID.BusinessRejectRefID tmp
 
 
-let WriteBusinessRejectRefID (nextFreeIdx:int) (dest:byte []) (valIn:BusinessRejectRefID) : int = 
+let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRejectRefID) : int = 
    let tag = "379="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10718,7 +10718,7 @@ let ReadBusinessRejectReason (fldValIn:string) : BusinessRejectReason =
     | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteBusinessRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:BusinessRejectReason) : int =
+let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:BusinessRejectReason) : int =
     match xxIn with
     | BusinessRejectReason.Other ->
         let tag = "380=0"B
@@ -10775,7 +10775,7 @@ let ReadGrossTradeAmt valIn =
     GrossTradeAmt.GrossTradeAmt tmp
 
 
-let WriteGrossTradeAmt (nextFreeIdx:int) (dest:byte []) (valIn:GrossTradeAmt) : int = 
+let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : int = 
    let tag = "381="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10790,7 +10790,7 @@ let ReadNoContraBrokers valIn =
     NoContraBrokers.NoContraBrokers tmp
 
 
-let WriteNoContraBrokers (nextFreeIdx:int) (dest:byte []) (valIn:NoContraBrokers) : int = 
+let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers) : int = 
    let tag = "382="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10805,7 +10805,7 @@ let ReadMaxMessageSize valIn =
     MaxMessageSize.MaxMessageSize tmp
 
 
-let WriteMaxMessageSize (nextFreeIdx:int) (dest:byte []) (valIn:MaxMessageSize) : int = 
+let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) : int = 
    let tag = "383="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10820,7 +10820,7 @@ let ReadNoMsgTypes valIn =
     NoMsgTypes.NoMsgTypes tmp
 
 
-let WriteNoMsgTypes (nextFreeIdx:int) (dest:byte []) (valIn:NoMsgTypes) : int = 
+let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int = 
    let tag = "384="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10837,7 +10837,7 @@ let ReadMsgDirection (fldValIn:string) : MsgDirection =
     | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
 
 
-let WriteMsgDirection (nextFreeIdx:int) (dest:byte array) (xxIn:MsgDirection) : int =
+let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : int =
     match xxIn with
     | MsgDirection.Send ->
         let tag = "385=S"B
@@ -10858,7 +10858,7 @@ let ReadNoTradingSessions valIn =
     NoTradingSessions.NoTradingSessions tmp
 
 
-let WriteNoTradingSessions (nextFreeIdx:int) (dest:byte []) (valIn:NoTradingSessions) : int = 
+let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSessions) : int = 
    let tag = "386="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10873,7 +10873,7 @@ let ReadTotalVolumeTraded valIn =
     TotalVolumeTraded.TotalVolumeTraded tmp
 
 
-let WriteTotalVolumeTraded (nextFreeIdx:int) (dest:byte []) (valIn:TotalVolumeTraded) : int = 
+let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTraded) : int = 
    let tag = "387="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10895,7 +10895,7 @@ let ReadDiscretionInst (fldValIn:string) : DiscretionInst =
     | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionInst (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionInst) : int =
+let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst) : int =
     match xxIn with
     | DiscretionInst.RelatedToDisplayedPrice ->
         let tag = "388=0"B
@@ -10946,7 +10946,7 @@ let ReadDiscretionOffsetValue valIn =
     DiscretionOffsetValue.DiscretionOffsetValue tmp
 
 
-let WriteDiscretionOffsetValue (nextFreeIdx:int) (dest:byte []) (valIn:DiscretionOffsetValue) : int = 
+let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionOffsetValue) : int = 
    let tag = "389="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10961,7 +10961,7 @@ let ReadBidID valIn =
     BidID.BidID tmp
 
 
-let WriteBidID (nextFreeIdx:int) (dest:byte []) (valIn:BidID) : int = 
+let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int = 
    let tag = "390="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10976,7 +10976,7 @@ let ReadClientBidID valIn =
     ClientBidID.ClientBidID tmp
 
 
-let WriteClientBidID (nextFreeIdx:int) (dest:byte []) (valIn:ClientBidID) : int = 
+let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int = 
    let tag = "391="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -10991,7 +10991,7 @@ let ReadListName valIn =
     ListName.ListName tmp
 
 
-let WriteListName (nextFreeIdx:int) (dest:byte []) (valIn:ListName) : int = 
+let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int = 
    let tag = "392="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11006,7 +11006,7 @@ let ReadTotNoRelatedSym valIn =
     TotNoRelatedSym.TotNoRelatedSym tmp
 
 
-let WriteTotNoRelatedSym (nextFreeIdx:int) (dest:byte []) (valIn:TotNoRelatedSym) : int = 
+let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym) : int = 
    let tag = "393="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11024,7 +11024,7 @@ let ReadBidType (fldValIn:string) : BidType =
     | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
 
 
-let WriteBidType (nextFreeIdx:int) (dest:byte array) (xxIn:BidType) : int =
+let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
     match xxIn with
     | BidType.NonDisclosed ->
         let tag = "394=1"B
@@ -11051,7 +11051,7 @@ let ReadNumTickets valIn =
     NumTickets.NumTickets tmp
 
 
-let WriteNumTickets (nextFreeIdx:int) (dest:byte []) (valIn:NumTickets) : int = 
+let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int = 
    let tag = "395="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11066,7 +11066,7 @@ let ReadSideValue1 valIn =
     SideValue1.SideValue1 tmp
 
 
-let WriteSideValue1 (nextFreeIdx:int) (dest:byte []) (valIn:SideValue1) : int = 
+let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int = 
    let tag = "396="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11081,7 +11081,7 @@ let ReadSideValue2 valIn =
     SideValue2.SideValue2 tmp
 
 
-let WriteSideValue2 (nextFreeIdx:int) (dest:byte []) (valIn:SideValue2) : int = 
+let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int = 
    let tag = "397="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11096,7 +11096,7 @@ let ReadNoBidDescriptors valIn =
     NoBidDescriptors.NoBidDescriptors tmp
 
 
-let WriteNoBidDescriptors (nextFreeIdx:int) (dest:byte []) (valIn:NoBidDescriptors) : int = 
+let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescriptors) : int = 
    let tag = "398="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11114,7 +11114,7 @@ let ReadBidDescriptorType (fldValIn:string) : BidDescriptorType =
     | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
 
 
-let WriteBidDescriptorType (nextFreeIdx:int) (dest:byte array) (xxIn:BidDescriptorType) : int =
+let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescriptorType) : int =
     match xxIn with
     | BidDescriptorType.Sector ->
         let tag = "399=1"B
@@ -11141,7 +11141,7 @@ let ReadBidDescriptor valIn =
     BidDescriptor.BidDescriptor tmp
 
 
-let WriteBidDescriptor (nextFreeIdx:int) (dest:byte []) (valIn:BidDescriptor) : int = 
+let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : int = 
    let tag = "400="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11158,7 +11158,7 @@ let ReadSideValueInd (fldValIn:string) : SideValueInd =
     | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
 
 
-let WriteSideValueInd (nextFreeIdx:int) (dest:byte array) (xxIn:SideValueInd) : int =
+let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : int =
     match xxIn with
     | SideValueInd.Sidevalue1 ->
         let tag = "401=1"B
@@ -11179,7 +11179,7 @@ let ReadLiquidityPctLow valIn =
     LiquidityPctLow.LiquidityPctLow tmp
 
 
-let WriteLiquidityPctLow (nextFreeIdx:int) (dest:byte []) (valIn:LiquidityPctLow) : int = 
+let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow) : int = 
    let tag = "402="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11194,7 +11194,7 @@ let ReadLiquidityPctHigh valIn =
     LiquidityPctHigh.LiquidityPctHigh tmp
 
 
-let WriteLiquidityPctHigh (nextFreeIdx:int) (dest:byte []) (valIn:LiquidityPctHigh) : int = 
+let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHigh) : int = 
    let tag = "403="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11209,7 +11209,7 @@ let ReadLiquidityValue valIn =
     LiquidityValue.LiquidityValue tmp
 
 
-let WriteLiquidityValue (nextFreeIdx:int) (dest:byte []) (valIn:LiquidityValue) : int = 
+let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) : int = 
    let tag = "404="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11224,7 +11224,7 @@ let ReadEFPTrackingError valIn =
     EFPTrackingError.EFPTrackingError tmp
 
 
-let WriteEFPTrackingError (nextFreeIdx:int) (dest:byte []) (valIn:EFPTrackingError) : int = 
+let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingError) : int = 
    let tag = "405="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11239,7 +11239,7 @@ let ReadFairValue valIn =
     FairValue.FairValue tmp
 
 
-let WriteFairValue (nextFreeIdx:int) (dest:byte []) (valIn:FairValue) : int = 
+let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int = 
    let tag = "406="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11254,7 +11254,7 @@ let ReadOutsideIndexPct valIn =
     OutsideIndexPct.OutsideIndexPct tmp
 
 
-let WriteOutsideIndexPct (nextFreeIdx:int) (dest:byte []) (valIn:OutsideIndexPct) : int = 
+let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct) : int = 
    let tag = "407="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11269,7 +11269,7 @@ let ReadValueOfFutures valIn =
     ValueOfFutures.ValueOfFutures tmp
 
 
-let WriteValueOfFutures (nextFreeIdx:int) (dest:byte []) (valIn:ValueOfFutures) : int = 
+let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) : int = 
    let tag = "408="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11288,7 +11288,7 @@ let ReadLiquidityIndType (fldValIn:string) : LiquidityIndType =
     | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
 
 
-let WriteLiquidityIndType (nextFreeIdx:int) (dest:byte array) (xxIn:LiquidityIndType) : int =
+let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityIndType) : int =
     match xxIn with
     | LiquidityIndType.FivedayMovingAverage ->
         let tag = "409=1"B
@@ -11321,7 +11321,7 @@ let ReadWtAverageLiquidity valIn =
     WtAverageLiquidity.WtAverageLiquidity tmp
 
 
-let WriteWtAverageLiquidity (nextFreeIdx:int) (dest:byte []) (valIn:WtAverageLiquidity) : int = 
+let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiquidity) : int = 
    let tag = "410="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11336,7 +11336,7 @@ let ReadExchangeForPhysical valIn =
     ExchangeForPhysical.ExchangeForPhysical tmp
 
 
-let WriteExchangeForPhysical (nextFreeIdx:int) (dest:byte []) (valIn:ExchangeForPhysical) : int = 
+let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeForPhysical) : int = 
    let tag = "411="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11351,7 +11351,7 @@ let ReadOutMainCntryUIndex valIn =
     OutMainCntryUIndex.OutMainCntryUIndex tmp
 
 
-let WriteOutMainCntryUIndex (nextFreeIdx:int) (dest:byte []) (valIn:OutMainCntryUIndex) : int = 
+let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntryUIndex) : int = 
    let tag = "412="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11366,7 +11366,7 @@ let ReadCrossPercent valIn =
     CrossPercent.CrossPercent tmp
 
 
-let WriteCrossPercent (nextFreeIdx:int) (dest:byte []) (valIn:CrossPercent) : int = 
+let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : int = 
    let tag = "413="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11384,7 +11384,7 @@ let ReadProgRptReqs (fldValIn:string) : ProgRptReqs =
     | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
 
 
-let WriteProgRptReqs (nextFreeIdx:int) (dest:byte array) (xxIn:ProgRptReqs) : int =
+let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : int =
     match xxIn with
     | ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest ->
         let tag = "414=1"B
@@ -11411,7 +11411,7 @@ let ReadProgPeriodInterval valIn =
     ProgPeriodInterval.ProgPeriodInterval tmp
 
 
-let WriteProgPeriodInterval (nextFreeIdx:int) (dest:byte []) (valIn:ProgPeriodInterval) : int = 
+let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodInterval) : int = 
    let tag = "415="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11428,7 +11428,7 @@ let ReadIncTaxInd (fldValIn:string) : IncTaxInd =
     | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
 
 
-let WriteIncTaxInd (nextFreeIdx:int) (dest:byte array) (xxIn:IncTaxInd) : int =
+let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
     match xxIn with
     | IncTaxInd.Net ->
         let tag = "416=1"B
@@ -11449,7 +11449,7 @@ let ReadNumBidders valIn =
     NumBidders.NumBidders tmp
 
 
-let WriteNumBidders (nextFreeIdx:int) (dest:byte []) (valIn:NumBidders) : int = 
+let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int = 
    let tag = "417="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11468,7 +11468,7 @@ let ReadBidTradeType (fldValIn:string) : BidTradeType =
     | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
 
 
-let WriteBidTradeType (nextFreeIdx:int) (dest:byte array) (xxIn:BidTradeType) : int =
+let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : int =
     match xxIn with
     | BidTradeType.RiskTrade ->
         let tag = "418=R"B
@@ -11514,7 +11514,7 @@ let ReadBasisPxType (fldValIn:string) : BasisPxType =
     | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
 
 
-let WriteBasisPxType (nextFreeIdx:int) (dest:byte array) (xxIn:BasisPxType) : int =
+let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : int =
     match xxIn with
     | BasisPxType.ClosingPriceAtMorningSession ->
         let tag = "419=2"B
@@ -11601,7 +11601,7 @@ let ReadNoBidComponents valIn =
     NoBidComponents.NoBidComponents tmp
 
 
-let WriteNoBidComponents (nextFreeIdx:int) (dest:byte []) (valIn:NoBidComponents) : int = 
+let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents) : int = 
    let tag = "420="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11616,7 +11616,7 @@ let ReadCountry valIn =
     Country.Country tmp
 
 
-let WriteCountry (nextFreeIdx:int) (dest:byte []) (valIn:Country) : int = 
+let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int = 
    let tag = "421="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11631,7 +11631,7 @@ let ReadTotNoStrikes valIn =
     TotNoStrikes.TotNoStrikes tmp
 
 
-let WriteTotNoStrikes (nextFreeIdx:int) (dest:byte []) (valIn:TotNoStrikes) : int = 
+let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : int = 
    let tag = "422="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11657,7 +11657,7 @@ let ReadPriceType (fldValIn:string) : PriceType =
     | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
 
 
-let WritePriceType (nextFreeIdx:int) (dest:byte array) (xxIn:PriceType) : int =
+let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
     match xxIn with
     | PriceType.Percentage ->
         let tag = "423=1"B
@@ -11732,7 +11732,7 @@ let ReadDayOrderQty valIn =
     DayOrderQty.DayOrderQty tmp
 
 
-let WriteDayOrderQty (nextFreeIdx:int) (dest:byte []) (valIn:DayOrderQty) : int = 
+let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int = 
    let tag = "424="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11747,7 +11747,7 @@ let ReadDayCumQty valIn =
     DayCumQty.DayCumQty tmp
 
 
-let WriteDayCumQty (nextFreeIdx:int) (dest:byte []) (valIn:DayCumQty) : int = 
+let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int = 
    let tag = "425="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11762,7 +11762,7 @@ let ReadDayAvgPx valIn =
     DayAvgPx.DayAvgPx tmp
 
 
-let WriteDayAvgPx (nextFreeIdx:int) (dest:byte []) (valIn:DayAvgPx) : int = 
+let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int = 
    let tag = "426="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11780,7 +11780,7 @@ let ReadGTBookingInst (fldValIn:string) : GTBookingInst =
     | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
 
 
-let WriteGTBookingInst (nextFreeIdx:int) (dest:byte array) (xxIn:GTBookingInst) : int =
+let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) : int =
     match xxIn with
     | GTBookingInst.BookOutAllTradesOnDayOfExecution ->
         let tag = "427=0"B
@@ -11807,7 +11807,7 @@ let ReadNoStrikes valIn =
     NoStrikes.NoStrikes tmp
 
 
-let WriteNoStrikes (nextFreeIdx:int) (dest:byte []) (valIn:NoStrikes) : int = 
+let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int = 
    let tag = "428="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11828,7 +11828,7 @@ let ReadListStatusType (fldValIn:string) : ListStatusType =
     | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
 
 
-let WriteListStatusType (nextFreeIdx:int) (dest:byte array) (xxIn:ListStatusType) : int =
+let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType) : int =
     match xxIn with
     | ListStatusType.Ack ->
         let tag = "429=1"B
@@ -11875,7 +11875,7 @@ let ReadNetGrossInd (fldValIn:string) : NetGrossInd =
     | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
 
 
-let WriteNetGrossInd (nextFreeIdx:int) (dest:byte array) (xxIn:NetGrossInd) : int =
+let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : int =
     match xxIn with
     | NetGrossInd.Net ->
         let tag = "430=1"B
@@ -11903,7 +11903,7 @@ let ReadListOrderStatus (fldValIn:string) : ListOrderStatus =
     | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
 
 
-let WriteListOrderStatus (nextFreeIdx:int) (dest:byte array) (xxIn:ListOrderStatus) : int =
+let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStatus) : int =
     match xxIn with
     | ListOrderStatus.Inbiddingprocess ->
         let tag = "431=1"B
@@ -11954,7 +11954,7 @@ let ReadExpireDate valIn =
     ExpireDate.ExpireDate tmp
 
 
-let WriteExpireDate (nextFreeIdx:int) (dest:byte []) (valIn:ExpireDate) : int = 
+let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int = 
    let tag = "432="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -11974,7 +11974,7 @@ let ReadListExecInstType (fldValIn:string) : ListExecInstType =
     | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
 
 
-let WriteListExecInstType (nextFreeIdx:int) (dest:byte array) (xxIn:ListExecInstType) : int =
+let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInstType) : int =
     match xxIn with
     | ListExecInstType.Immediate ->
         let tag = "433=1"B
@@ -12015,7 +12015,7 @@ let ReadCxlRejResponseTo (fldValIn:string) : CxlRejResponseTo =
     | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
 
 
-let WriteCxlRejResponseTo (nextFreeIdx:int) (dest:byte array) (xxIn:CxlRejResponseTo) : int =
+let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejResponseTo) : int =
     match xxIn with
     | CxlRejResponseTo.OrderCancelRequest ->
         let tag = "434=1"B
@@ -12036,7 +12036,7 @@ let ReadUnderlyingCouponRate valIn =
     UnderlyingCouponRate.UnderlyingCouponRate tmp
 
 
-let WriteUnderlyingCouponRate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCouponRate) : int = 
+let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponRate) : int = 
    let tag = "435="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12051,7 +12051,7 @@ let ReadUnderlyingContractMultiplier valIn =
     UnderlyingContractMultiplier.UnderlyingContractMultiplier tmp
 
 
-let WriteUnderlyingContractMultiplier (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingContractMultiplier) : int = 
+let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingContractMultiplier) : int = 
    let tag = "436="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12066,7 +12066,7 @@ let ReadContraTradeQty valIn =
     ContraTradeQty.ContraTradeQty tmp
 
 
-let WriteContraTradeQty (nextFreeIdx:int) (dest:byte []) (valIn:ContraTradeQty) : int = 
+let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) : int = 
    let tag = "437="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12081,7 +12081,7 @@ let ReadContraTradeTime valIn =
     ContraTradeTime.ContraTradeTime tmp
 
 
-let WriteContraTradeTime (nextFreeIdx:int) (dest:byte []) (valIn:ContraTradeTime) : int = 
+let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime) : int = 
    let tag = "438="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12096,7 +12096,7 @@ let ReadLiquidityNumSecurities valIn =
     LiquidityNumSecurities.LiquidityNumSecurities tmp
 
 
-let WriteLiquidityNumSecurities (nextFreeIdx:int) (dest:byte []) (valIn:LiquidityNumSecurities) : int = 
+let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityNumSecurities) : int = 
    let tag = "441="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12114,7 +12114,7 @@ let ReadMultiLegReportingType (fldValIn:string) : MultiLegReportingType =
     | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
 
 
-let WriteMultiLegReportingType (nextFreeIdx:int) (dest:byte array) (xxIn:MultiLegReportingType) : int =
+let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegReportingType) : int =
     match xxIn with
     | MultiLegReportingType.SingleSecurity ->
         let tag = "442=1"B
@@ -12141,7 +12141,7 @@ let ReadStrikeTime valIn =
     StrikeTime.StrikeTime tmp
 
 
-let WriteStrikeTime (nextFreeIdx:int) (dest:byte []) (valIn:StrikeTime) : int = 
+let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int = 
    let tag = "443="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12156,7 +12156,7 @@ let ReadListStatusText valIn =
     ListStatusText.ListStatusText tmp
 
 
-let WriteListStatusText (nextFreeIdx:int) (dest:byte []) (valIn:ListStatusText) : int = 
+let WriteListStatusText (dest:byte []) (nextFreeIdx:int) (valIn:ListStatusText) : int = 
    let tag = "444="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12167,7 +12167,7 @@ let WriteListStatusText (nextFreeIdx:int) (dest:byte []) (valIn:ListStatusText) 
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedListStatusText (nextFreeIdx:int) (dest:byte []) (fld:EncodedListStatusText) : int =
+let WriteEncodedListStatusText (dest:byte []) (nextFreeIdx:int) (fld:EncodedListStatusText) : int =
     // write the string length part of the compound msg
     let lenTag = "445="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -12226,7 +12226,7 @@ let ReadPartyIDSource (fldValIn:string) : PartyIDSource =
     | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
 
 
-let WritePartyIDSource (nextFreeIdx:int) (dest:byte array) (xxIn:PartyIDSource) : int =
+let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) : int =
     match xxIn with
     | PartyIDSource.Bic ->
         let tag = "447=B"B
@@ -12343,7 +12343,7 @@ let ReadPartyID valIn =
     PartyID.PartyID tmp
 
 
-let WritePartyID (nextFreeIdx:int) (dest:byte []) (valIn:PartyID) : int = 
+let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int = 
    let tag = "448="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12358,7 +12358,7 @@ let ReadNetChgPrevDay valIn =
     NetChgPrevDay.NetChgPrevDay tmp
 
 
-let WriteNetChgPrevDay (nextFreeIdx:int) (dest:byte []) (valIn:NetChgPrevDay) : int = 
+let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : int = 
    let tag = "451="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12410,7 +12410,7 @@ let ReadPartyRole (fldValIn:string) : PartyRole =
     | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
 
 
-let WritePartyRole (nextFreeIdx:int) (dest:byte array) (xxIn:PartyRole) : int =
+let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
     match xxIn with
     | PartyRole.ExecutingFirm ->
         let tag = "452=1"B
@@ -12641,7 +12641,7 @@ let ReadNoPartyIDs valIn =
     NoPartyIDs.NoPartyIDs tmp
 
 
-let WriteNoPartyIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoPartyIDs) : int = 
+let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int = 
    let tag = "453="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12656,7 +12656,7 @@ let ReadNoSecurityAltID valIn =
     NoSecurityAltID.NoSecurityAltID tmp
 
 
-let WriteNoSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:NoSecurityAltID) : int = 
+let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID) : int = 
    let tag = "454="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12671,7 +12671,7 @@ let ReadSecurityAltID valIn =
     SecurityAltID.SecurityAltID tmp
 
 
-let WriteSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:SecurityAltID) : int = 
+let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : int = 
    let tag = "455="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12686,7 +12686,7 @@ let ReadSecurityAltIDSource valIn =
     SecurityAltIDSource.SecurityAltIDSource tmp
 
 
-let WriteSecurityAltIDSource (nextFreeIdx:int) (dest:byte []) (valIn:SecurityAltIDSource) : int = 
+let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltIDSource) : int = 
    let tag = "456="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12701,7 +12701,7 @@ let ReadNoUnderlyingSecurityAltID valIn =
     NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID tmp
 
 
-let WriteNoUnderlyingSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:NoUnderlyingSecurityAltID) : int = 
+let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingSecurityAltID) : int = 
    let tag = "457="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12716,7 +12716,7 @@ let ReadUnderlyingSecurityAltID valIn =
     UnderlyingSecurityAltID.UnderlyingSecurityAltID tmp
 
 
-let WriteUnderlyingSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityAltID) : int = 
+let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltID) : int = 
    let tag = "458="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12731,7 +12731,7 @@ let ReadUnderlyingSecurityAltIDSource valIn =
     UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource tmp
 
 
-let WriteUnderlyingSecurityAltIDSource (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecurityAltIDSource) : int = 
+let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltIDSource) : int = 
    let tag = "459="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12759,7 +12759,7 @@ let ReadProduct (fldValIn:string) : Product =
     | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
 
 
-let WriteProduct (nextFreeIdx:int) (dest:byte array) (xxIn:Product) : int =
+let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
     match xxIn with
     | Product.Agency ->
         let tag = "460=1"B
@@ -12846,7 +12846,7 @@ let ReadCFICode valIn =
     CFICode.CFICode tmp
 
 
-let WriteCFICode (nextFreeIdx:int) (dest:byte []) (valIn:CFICode) : int = 
+let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int = 
    let tag = "461="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12861,7 +12861,7 @@ let ReadUnderlyingProduct valIn =
     UnderlyingProduct.UnderlyingProduct tmp
 
 
-let WriteUnderlyingProduct (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingProduct) : int = 
+let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingProduct) : int = 
    let tag = "462="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12876,7 +12876,7 @@ let ReadUnderlyingCFICode valIn =
     UnderlyingCFICode.UnderlyingCFICode tmp
 
 
-let WriteUnderlyingCFICode (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCFICode) : int = 
+let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFICode) : int = 
    let tag = "463="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12891,7 +12891,7 @@ let ReadTestMessageIndicator valIn =
     TestMessageIndicator.TestMessageIndicator tmp
 
 
-let WriteTestMessageIndicator (nextFreeIdx:int) (dest:byte []) (valIn:TestMessageIndicator) : int = 
+let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessageIndicator) : int = 
    let tag = "464="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12914,7 +12914,7 @@ let ReadQuantityType (fldValIn:string) : QuantityType =
     | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
 
 
-let WriteQuantityType (nextFreeIdx:int) (dest:byte array) (xxIn:QuantityType) : int =
+let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : int =
     match xxIn with
     | QuantityType.Shares ->
         let tag = "465=1"B
@@ -12971,7 +12971,7 @@ let ReadBookingRefID valIn =
     BookingRefID.BookingRefID tmp
 
 
-let WriteBookingRefID (nextFreeIdx:int) (dest:byte []) (valIn:BookingRefID) : int = 
+let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : int = 
    let tag = "466="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -12986,7 +12986,7 @@ let ReadIndividualAllocID valIn =
     IndividualAllocID.IndividualAllocID tmp
 
 
-let WriteIndividualAllocID (nextFreeIdx:int) (dest:byte []) (valIn:IndividualAllocID) : int = 
+let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocID) : int = 
    let tag = "467="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13004,7 +13004,7 @@ let ReadRoundingDirection (fldValIn:string) : RoundingDirection =
     | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
 
 
-let WriteRoundingDirection (nextFreeIdx:int) (dest:byte array) (xxIn:RoundingDirection) : int =
+let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDirection) : int =
     match xxIn with
     | RoundingDirection.RoundToNearest ->
         let tag = "468=0"B
@@ -13031,7 +13031,7 @@ let ReadRoundingModulus valIn =
     RoundingModulus.RoundingModulus tmp
 
 
-let WriteRoundingModulus (nextFreeIdx:int) (dest:byte []) (valIn:RoundingModulus) : int = 
+let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus) : int = 
    let tag = "469="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13046,7 +13046,7 @@ let ReadCountryOfIssue valIn =
     CountryOfIssue.CountryOfIssue tmp
 
 
-let WriteCountryOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:CountryOfIssue) : int = 
+let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) : int = 
    let tag = "470="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13061,7 +13061,7 @@ let ReadStateOrProvinceOfIssue valIn =
     StateOrProvinceOfIssue.StateOrProvinceOfIssue tmp
 
 
-let WriteStateOrProvinceOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:StateOrProvinceOfIssue) : int = 
+let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrProvinceOfIssue) : int = 
    let tag = "471="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13076,7 +13076,7 @@ let ReadLocaleOfIssue valIn =
     LocaleOfIssue.LocaleOfIssue tmp
 
 
-let WriteLocaleOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:LocaleOfIssue) : int = 
+let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : int = 
    let tag = "472="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13091,7 +13091,7 @@ let ReadNoRegistDtls valIn =
     NoRegistDtls.NoRegistDtls tmp
 
 
-let WriteNoRegistDtls (nextFreeIdx:int) (dest:byte []) (valIn:NoRegistDtls) : int = 
+let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : int = 
    let tag = "473="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13106,7 +13106,7 @@ let ReadMailingDtls valIn =
     MailingDtls.MailingDtls tmp
 
 
-let WriteMailingDtls (nextFreeIdx:int) (dest:byte []) (valIn:MailingDtls) : int = 
+let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int = 
    let tag = "474="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13121,7 +13121,7 @@ let ReadInvestorCountryOfResidence valIn =
     InvestorCountryOfResidence.InvestorCountryOfResidence tmp
 
 
-let WriteInvestorCountryOfResidence (nextFreeIdx:int) (dest:byte []) (valIn:InvestorCountryOfResidence) : int = 
+let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:InvestorCountryOfResidence) : int = 
    let tag = "475="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13136,7 +13136,7 @@ let ReadPaymentRef valIn =
     PaymentRef.PaymentRef tmp
 
 
-let WritePaymentRef (nextFreeIdx:int) (dest:byte []) (valIn:PaymentRef) : int = 
+let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int = 
    let tag = "476="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13163,7 +13163,7 @@ let ReadDistribPaymentMethod (fldValIn:string) : DistribPaymentMethod =
     | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
 
 
-let WriteDistribPaymentMethod (nextFreeIdx:int) (dest:byte array) (xxIn:DistribPaymentMethod) : int =
+let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribPaymentMethod) : int =
     match xxIn with
     | DistribPaymentMethod.Crest ->
         let tag = "477=1"B
@@ -13244,7 +13244,7 @@ let ReadCashDistribCurr valIn =
     CashDistribCurr.CashDistribCurr tmp
 
 
-let WriteCashDistribCurr (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribCurr) : int = 
+let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr) : int = 
    let tag = "478="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13259,7 +13259,7 @@ let ReadCommCurrency valIn =
     CommCurrency.CommCurrency tmp
 
 
-let WriteCommCurrency (nextFreeIdx:int) (dest:byte []) (valIn:CommCurrency) : int = 
+let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : int = 
    let tag = "479="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13278,7 +13278,7 @@ let ReadCancellationRights (fldValIn:string) : CancellationRights =
     | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
 
 
-let WriteCancellationRights (nextFreeIdx:int) (dest:byte array) (xxIn:CancellationRights) : int =
+let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:CancellationRights) : int =
     match xxIn with
     | CancellationRights.Yes ->
         let tag = "480=Y"B
@@ -13316,7 +13316,7 @@ let ReadMoneyLaunderingStatus (fldValIn:string) : MoneyLaunderingStatus =
     | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
 
 
-let WriteMoneyLaunderingStatus (nextFreeIdx:int) (dest:byte array) (xxIn:MoneyLaunderingStatus) : int =
+let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLaunderingStatus) : int =
     match xxIn with
     | MoneyLaunderingStatus.Passed ->
         let tag = "481=Y"B
@@ -13355,7 +13355,7 @@ let ReadMailingInst valIn =
     MailingInst.MailingInst tmp
 
 
-let WriteMailingInst (nextFreeIdx:int) (dest:byte []) (valIn:MailingInst) : int = 
+let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int = 
    let tag = "482="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13370,7 +13370,7 @@ let ReadTransBkdTime valIn =
     TransBkdTime.TransBkdTime tmp
 
 
-let WriteTransBkdTime (nextFreeIdx:int) (dest:byte []) (valIn:TransBkdTime) : int = 
+let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : int = 
    let tag = "483="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13393,7 +13393,7 @@ let ReadExecPriceType (fldValIn:string) : ExecPriceType =
     | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
 
 
-let WriteExecPriceType (nextFreeIdx:int) (dest:byte array) (xxIn:ExecPriceType) : int =
+let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) : int =
     match xxIn with
     | ExecPriceType.BidPrice ->
         let tag = "484=B"B
@@ -13450,7 +13450,7 @@ let ReadExecPriceAdjustment valIn =
     ExecPriceAdjustment.ExecPriceAdjustment tmp
 
 
-let WriteExecPriceAdjustment (nextFreeIdx:int) (dest:byte []) (valIn:ExecPriceAdjustment) : int = 
+let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAdjustment) : int = 
    let tag = "485="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13465,7 +13465,7 @@ let ReadDateOfBirth valIn =
     DateOfBirth.DateOfBirth tmp
 
 
-let WriteDateOfBirth (nextFreeIdx:int) (dest:byte []) (valIn:DateOfBirth) : int = 
+let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int = 
    let tag = "486="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13485,7 +13485,7 @@ let ReadTradeReportTransType (fldValIn:string) : TradeReportTransType =
     | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
 
 
-let WriteTradeReportTransType (nextFreeIdx:int) (dest:byte array) (xxIn:TradeReportTransType) : int =
+let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTransType) : int =
     match xxIn with
     | TradeReportTransType.New ->
         let tag = "487=0"B
@@ -13524,7 +13524,7 @@ let ReadCardHolderName valIn =
     CardHolderName.CardHolderName tmp
 
 
-let WriteCardHolderName (nextFreeIdx:int) (dest:byte []) (valIn:CardHolderName) : int = 
+let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) : int = 
    let tag = "488="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13539,7 +13539,7 @@ let ReadCardNumber valIn =
     CardNumber.CardNumber tmp
 
 
-let WriteCardNumber (nextFreeIdx:int) (dest:byte []) (valIn:CardNumber) : int = 
+let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int = 
    let tag = "489="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13554,7 +13554,7 @@ let ReadCardExpDate valIn =
     CardExpDate.CardExpDate tmp
 
 
-let WriteCardExpDate (nextFreeIdx:int) (dest:byte []) (valIn:CardExpDate) : int = 
+let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int = 
    let tag = "490="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13569,7 +13569,7 @@ let ReadCardIssNum valIn =
     CardIssNum.CardIssNum tmp
 
 
-let WriteCardIssNum (nextFreeIdx:int) (dest:byte []) (valIn:CardIssNum) : int = 
+let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int = 
    let tag = "491="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13599,7 +13599,7 @@ let ReadPaymentMethod (fldValIn:string) : PaymentMethod =
     | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
 
 
-let WritePaymentMethod (nextFreeIdx:int) (dest:byte array) (xxIn:PaymentMethod) : int =
+let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) : int =
     match xxIn with
     | PaymentMethod.Crest ->
         let tag = "492=1"B
@@ -13698,7 +13698,7 @@ let ReadRegistAcctType valIn =
     RegistAcctType.RegistAcctType tmp
 
 
-let WriteRegistAcctType (nextFreeIdx:int) (dest:byte []) (valIn:RegistAcctType) : int = 
+let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) : int = 
    let tag = "493="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13713,7 +13713,7 @@ let ReadDesignation valIn =
     Designation.Designation tmp
 
 
-let WriteDesignation (nextFreeIdx:int) (dest:byte []) (valIn:Designation) : int = 
+let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int = 
    let tag = "494="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13739,7 +13739,7 @@ let ReadTaxAdvantageType (fldValIn:string) : TaxAdvantageType =
     | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
 
 
-let WriteTaxAdvantageType (nextFreeIdx:int) (dest:byte array) (xxIn:TaxAdvantageType) : int =
+let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantageType) : int =
     match xxIn with
     | TaxAdvantageType.NNone ->
         let tag = "495=0"B
@@ -13814,7 +13814,7 @@ let ReadRegistRejReasonText valIn =
     RegistRejReasonText.RegistRejReasonText tmp
 
 
-let WriteRegistRejReasonText (nextFreeIdx:int) (dest:byte []) (valIn:RegistRejReasonText) : int = 
+let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejReasonText) : int = 
    let tag = "496="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13831,7 +13831,7 @@ let ReadFundRenewWaiv (fldValIn:string) : FundRenewWaiv =
     | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
 
 
-let WriteFundRenewWaiv (nextFreeIdx:int) (dest:byte array) (xxIn:FundRenewWaiv) : int =
+let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) : int =
     match xxIn with
     | FundRenewWaiv.Yes ->
         let tag = "497=Y"B
@@ -13852,7 +13852,7 @@ let ReadCashDistribAgentName valIn =
     CashDistribAgentName.CashDistribAgentName tmp
 
 
-let WriteCashDistribAgentName (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribAgentName) : int = 
+let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentName) : int = 
    let tag = "498="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13867,7 +13867,7 @@ let ReadCashDistribAgentCode valIn =
     CashDistribAgentCode.CashDistribAgentCode tmp
 
 
-let WriteCashDistribAgentCode (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribAgentCode) : int = 
+let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentCode) : int = 
    let tag = "499="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13882,7 +13882,7 @@ let ReadCashDistribAgentAcctNumber valIn =
     CashDistribAgentAcctNumber.CashDistribAgentAcctNumber tmp
 
 
-let WriteCashDistribAgentAcctNumber (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribAgentAcctNumber) : int = 
+let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctNumber) : int = 
    let tag = "500="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13897,7 +13897,7 @@ let ReadCashDistribPayRef valIn =
     CashDistribPayRef.CashDistribPayRef tmp
 
 
-let WriteCashDistribPayRef (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribPayRef) : int = 
+let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPayRef) : int = 
    let tag = "501="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13912,7 +13912,7 @@ let ReadCashDistribAgentAcctName valIn =
     CashDistribAgentAcctName.CashDistribAgentAcctName tmp
 
 
-let WriteCashDistribAgentAcctName (nextFreeIdx:int) (dest:byte []) (valIn:CashDistribAgentAcctName) : int = 
+let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctName) : int = 
    let tag = "502="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13927,7 +13927,7 @@ let ReadCardStartDate valIn =
     CardStartDate.CardStartDate tmp
 
 
-let WriteCardStartDate (nextFreeIdx:int) (dest:byte []) (valIn:CardStartDate) : int = 
+let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : int = 
    let tag = "503="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13942,7 +13942,7 @@ let ReadPaymentDate valIn =
     PaymentDate.PaymentDate tmp
 
 
-let WritePaymentDate (nextFreeIdx:int) (dest:byte []) (valIn:PaymentDate) : int = 
+let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int = 
    let tag = "504="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13957,7 +13957,7 @@ let ReadPaymentRemitterID valIn =
     PaymentRemitterID.PaymentRemitterID tmp
 
 
-let WritePaymentRemitterID (nextFreeIdx:int) (dest:byte []) (valIn:PaymentRemitterID) : int = 
+let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitterID) : int = 
    let tag = "505="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -13976,7 +13976,7 @@ let ReadRegistStatus (fldValIn:string) : RegistStatus =
     | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
 
 
-let WriteRegistStatus (nextFreeIdx:int) (dest:byte array) (xxIn:RegistStatus) : int =
+let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : int =
     match xxIn with
     | RegistStatus.Accepted ->
         let tag = "506=A"B
@@ -14028,7 +14028,7 @@ let ReadRegistRejReasonCode (fldValIn:string) : RegistRejReasonCode =
     | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
 
 
-let WriteRegistRejReasonCode (nextFreeIdx:int) (dest:byte array) (xxIn:RegistRejReasonCode) : int =
+let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRejReasonCode) : int =
     match xxIn with
     | RegistRejReasonCode.InvalidUnacceptableAccountType ->
         let tag = "507=1"B
@@ -14151,7 +14151,7 @@ let ReadRegistRefID valIn =
     RegistRefID.RegistRefID tmp
 
 
-let WriteRegistRefID (nextFreeIdx:int) (dest:byte []) (valIn:RegistRefID) : int = 
+let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int = 
    let tag = "508="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14166,7 +14166,7 @@ let ReadRegistDtls valIn =
     RegistDtls.RegistDtls tmp
 
 
-let WriteRegistDtls (nextFreeIdx:int) (dest:byte []) (valIn:RegistDtls) : int = 
+let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int = 
    let tag = "509="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14181,7 +14181,7 @@ let ReadNoDistribInsts valIn =
     NoDistribInsts.NoDistribInsts tmp
 
 
-let WriteNoDistribInsts (nextFreeIdx:int) (dest:byte []) (valIn:NoDistribInsts) : int = 
+let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) : int = 
    let tag = "510="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14196,7 +14196,7 @@ let ReadRegistEmail valIn =
     RegistEmail.RegistEmail tmp
 
 
-let WriteRegistEmail (nextFreeIdx:int) (dest:byte []) (valIn:RegistEmail) : int = 
+let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int = 
    let tag = "511="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14211,7 +14211,7 @@ let ReadDistribPercentage valIn =
     DistribPercentage.DistribPercentage tmp
 
 
-let WriteDistribPercentage (nextFreeIdx:int) (dest:byte []) (valIn:DistribPercentage) : int = 
+let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercentage) : int = 
    let tag = "512="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14226,7 +14226,7 @@ let ReadRegistID valIn =
     RegistID.RegistID tmp
 
 
-let WriteRegistID (nextFreeIdx:int) (dest:byte []) (valIn:RegistID) : int = 
+let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int = 
    let tag = "513="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14244,7 +14244,7 @@ let ReadRegistTransType (fldValIn:string) : RegistTransType =
     | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
 
 
-let WriteRegistTransType (nextFreeIdx:int) (dest:byte array) (xxIn:RegistTransType) : int =
+let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransType) : int =
     match xxIn with
     | RegistTransType.New ->
         let tag = "514=0"B
@@ -14271,7 +14271,7 @@ let ReadExecValuationPoint valIn =
     ExecValuationPoint.ExecValuationPoint tmp
 
 
-let WriteExecValuationPoint (nextFreeIdx:int) (dest:byte []) (valIn:ExecValuationPoint) : int = 
+let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuationPoint) : int = 
    let tag = "515="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14286,7 +14286,7 @@ let ReadOrderPercent valIn =
     OrderPercent.OrderPercent tmp
 
 
-let WriteOrderPercent (nextFreeIdx:int) (dest:byte []) (valIn:OrderPercent) : int = 
+let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : int = 
    let tag = "516="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14304,7 +14304,7 @@ let ReadOwnershipType (fldValIn:string) : OwnershipType =
     | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
 
 
-let WriteOwnershipType (nextFreeIdx:int) (dest:byte array) (xxIn:OwnershipType) : int =
+let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) : int =
     match xxIn with
     | OwnershipType.JointInvestors ->
         let tag = "517=J"B
@@ -14331,7 +14331,7 @@ let ReadNoContAmts valIn =
     NoContAmts.NoContAmts tmp
 
 
-let WriteNoContAmts (nextFreeIdx:int) (dest:byte []) (valIn:NoContAmts) : int = 
+let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int = 
    let tag = "518="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14355,7 +14355,7 @@ let ReadContAmtType (fldValIn:string) : ContAmtType =
     | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
 
 
-let WriteContAmtType (nextFreeIdx:int) (dest:byte array) (xxIn:ContAmtType) : int =
+let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : int =
     match xxIn with
     | ContAmtType.CommissionAmount ->
         let tag = "519=1"B
@@ -14418,7 +14418,7 @@ let ReadContAmtValue valIn =
     ContAmtValue.ContAmtValue tmp
 
 
-let WriteContAmtValue (nextFreeIdx:int) (dest:byte []) (valIn:ContAmtValue) : int = 
+let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : int = 
    let tag = "520="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14433,7 +14433,7 @@ let ReadContAmtCurr valIn =
     ContAmtCurr.ContAmtCurr tmp
 
 
-let WriteContAmtCurr (nextFreeIdx:int) (dest:byte []) (valIn:ContAmtCurr) : int = 
+let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int = 
    let tag = "521="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14461,7 +14461,7 @@ let ReadOwnerType (fldValIn:string) : OwnerType =
     | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
 
 
-let WriteOwnerType (nextFreeIdx:int) (dest:byte array) (xxIn:OwnerType) : int =
+let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
     match xxIn with
     | OwnerType.IndividualInvestor ->
         let tag = "522=1"B
@@ -14548,7 +14548,7 @@ let ReadPartySubID valIn =
     PartySubID.PartySubID tmp
 
 
-let WritePartySubID (nextFreeIdx:int) (dest:byte []) (valIn:PartySubID) : int = 
+let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int = 
    let tag = "523="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14563,7 +14563,7 @@ let ReadNestedPartyID valIn =
     NestedPartyID.NestedPartyID tmp
 
 
-let WriteNestedPartyID (nextFreeIdx:int) (dest:byte []) (valIn:NestedPartyID) : int = 
+let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : int = 
    let tag = "524="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14578,7 +14578,7 @@ let ReadNestedPartyIDSource valIn =
     NestedPartyIDSource.NestedPartyIDSource tmp
 
 
-let WriteNestedPartyIDSource (nextFreeIdx:int) (dest:byte []) (valIn:NestedPartyIDSource) : int = 
+let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyIDSource) : int = 
    let tag = "525="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14593,7 +14593,7 @@ let ReadSecondaryClOrdID valIn =
     SecondaryClOrdID.SecondaryClOrdID tmp
 
 
-let WriteSecondaryClOrdID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryClOrdID) : int = 
+let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrdID) : int = 
    let tag = "526="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14608,7 +14608,7 @@ let ReadSecondaryExecID valIn =
     SecondaryExecID.SecondaryExecID tmp
 
 
-let WriteSecondaryExecID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryExecID) : int = 
+let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID) : int = 
    let tag = "527="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14629,7 +14629,7 @@ let ReadOrderCapacity (fldValIn:string) : OrderCapacity =
     | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
 
 
-let WriteOrderCapacity (nextFreeIdx:int) (dest:byte array) (xxIn:OrderCapacity) : int =
+let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) : int =
     match xxIn with
     | OrderCapacity.Agency ->
         let tag = "528=A"B
@@ -14684,7 +14684,7 @@ let ReadOrderRestrictions (fldValIn:string) : OrderRestrictions =
     | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
 
 
-let WriteOrderRestrictions (nextFreeIdx:int) (dest:byte array) (xxIn:OrderRestrictions) : int =
+let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestrictions) : int =
     match xxIn with
     | OrderRestrictions.ProgramTrade ->
         let tag = "529=1"B
@@ -14760,7 +14760,7 @@ let ReadMassCancelRequestType (fldValIn:string) : MassCancelRequestType =
     | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
 
 
-let WriteMassCancelRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:MassCancelRequestType) : int =
+let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRequestType) : int =
     match xxIn with
     | MassCancelRequestType.CancelOrdersForASecurity ->
         let tag = "530=1"B
@@ -14819,7 +14819,7 @@ let ReadMassCancelResponse (fldValIn:string) : MassCancelResponse =
     | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
 
 
-let WriteMassCancelResponse (nextFreeIdx:int) (dest:byte array) (xxIn:MassCancelResponse) : int =
+let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelResponse) : int =
     match xxIn with
     | MassCancelResponse.CancelRequestRejected ->
         let tag = "531=0"B
@@ -14884,7 +14884,7 @@ let ReadMassCancelRejectReason (fldValIn:string) : MassCancelRejectReason =
     | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteMassCancelRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:MassCancelRejectReason) : int =
+let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRejectReason) : int =
     match xxIn with
     | MassCancelRejectReason.MassCancelNotSupported ->
         let tag = "532=0"B
@@ -14941,7 +14941,7 @@ let ReadTotalAffectedOrders valIn =
     TotalAffectedOrders.TotalAffectedOrders tmp
 
 
-let WriteTotalAffectedOrders (nextFreeIdx:int) (dest:byte []) (valIn:TotalAffectedOrders) : int = 
+let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffectedOrders) : int = 
    let tag = "533="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14956,7 +14956,7 @@ let ReadNoAffectedOrders valIn =
     NoAffectedOrders.NoAffectedOrders tmp
 
 
-let WriteNoAffectedOrders (nextFreeIdx:int) (dest:byte []) (valIn:NoAffectedOrders) : int = 
+let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrders) : int = 
    let tag = "534="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14971,7 +14971,7 @@ let ReadAffectedOrderID valIn =
     AffectedOrderID.AffectedOrderID tmp
 
 
-let WriteAffectedOrderID (nextFreeIdx:int) (dest:byte []) (valIn:AffectedOrderID) : int = 
+let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID) : int = 
    let tag = "535="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -14986,7 +14986,7 @@ let ReadAffectedSecondaryOrderID valIn =
     AffectedSecondaryOrderID.AffectedSecondaryOrderID tmp
 
 
-let WriteAffectedSecondaryOrderID (nextFreeIdx:int) (dest:byte []) (valIn:AffectedSecondaryOrderID) : int = 
+let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedSecondaryOrderID) : int = 
    let tag = "536="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15005,7 +15005,7 @@ let ReadQuoteType (fldValIn:string) : QuoteType =
     | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
 
 
-let WriteQuoteType (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteType) : int =
+let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
     match xxIn with
     | QuoteType.Indicative ->
         let tag = "537=0"B
@@ -15038,7 +15038,7 @@ let ReadNestedPartyRole valIn =
     NestedPartyRole.NestedPartyRole tmp
 
 
-let WriteNestedPartyRole (nextFreeIdx:int) (dest:byte []) (valIn:NestedPartyRole) : int = 
+let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole) : int = 
    let tag = "538="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15053,7 +15053,7 @@ let ReadNoNestedPartyIDs valIn =
     NoNestedPartyIDs.NoNestedPartyIDs tmp
 
 
-let WriteNoNestedPartyIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNestedPartyIDs) : int = 
+let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyIDs) : int = 
    let tag = "539="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15068,7 +15068,7 @@ let ReadTotalAccruedInterestAmt valIn =
     TotalAccruedInterestAmt.TotalAccruedInterestAmt tmp
 
 
-let WriteTotalAccruedInterestAmt (nextFreeIdx:int) (dest:byte []) (valIn:TotalAccruedInterestAmt) : int = 
+let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAccruedInterestAmt) : int = 
    let tag = "540="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15083,7 +15083,7 @@ let ReadMaturityDate valIn =
     MaturityDate.MaturityDate tmp
 
 
-let WriteMaturityDate (nextFreeIdx:int) (dest:byte []) (valIn:MaturityDate) : int = 
+let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : int = 
    let tag = "541="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15098,7 +15098,7 @@ let ReadUnderlyingMaturityDate valIn =
     UnderlyingMaturityDate.UnderlyingMaturityDate tmp
 
 
-let WriteUnderlyingMaturityDate (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingMaturityDate) : int = 
+let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityDate) : int = 
    let tag = "542="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15113,7 +15113,7 @@ let ReadInstrRegistry valIn =
     InstrRegistry.InstrRegistry tmp
 
 
-let WriteInstrRegistry (nextFreeIdx:int) (dest:byte []) (valIn:InstrRegistry) : int = 
+let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : int = 
    let tag = "543="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15131,7 +15131,7 @@ let ReadCashMargin (fldValIn:string) : CashMargin =
     | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
 
 
-let WriteCashMargin (nextFreeIdx:int) (dest:byte array) (xxIn:CashMargin) : int =
+let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int =
     match xxIn with
     | CashMargin.Cash ->
         let tag = "544=1"B
@@ -15158,7 +15158,7 @@ let ReadNestedPartySubID valIn =
     NestedPartySubID.NestedPartySubID tmp
 
 
-let WriteNestedPartySubID (nextFreeIdx:int) (dest:byte []) (valIn:NestedPartySubID) : int = 
+let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubID) : int = 
    let tag = "545="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15176,7 +15176,7 @@ let ReadScope (fldValIn:string) : Scope =
     | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
 
 
-let WriteScope (nextFreeIdx:int) (dest:byte array) (xxIn:Scope) : int =
+let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
     match xxIn with
     | Scope.Local ->
         let tag = "546=1"B
@@ -15203,7 +15203,7 @@ let ReadMDImplicitDelete valIn =
     MDImplicitDelete.MDImplicitDelete tmp
 
 
-let WriteMDImplicitDelete (nextFreeIdx:int) (dest:byte []) (valIn:MDImplicitDelete) : int = 
+let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDelete) : int = 
    let tag = "547="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15218,7 +15218,7 @@ let ReadCrossID valIn =
     CrossID.CrossID tmp
 
 
-let WriteCrossID (nextFreeIdx:int) (dest:byte []) (valIn:CrossID) : int = 
+let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int = 
    let tag = "548="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15237,7 +15237,7 @@ let ReadCrossType (fldValIn:string) : CrossType =
     | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
 
 
-let WriteCrossType (nextFreeIdx:int) (dest:byte array) (xxIn:CrossType) : int =
+let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
     match xxIn with
     | CrossType.CrossTradeWhichIsExecutedCompletelyOrNot ->
         let tag = "549=1"B
@@ -15273,7 +15273,7 @@ let ReadCrossPrioritization (fldValIn:string) : CrossPrioritization =
     | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
 
 
-let WriteCrossPrioritization (nextFreeIdx:int) (dest:byte array) (xxIn:CrossPrioritization) : int =
+let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrioritization) : int =
     match xxIn with
     | CrossPrioritization.NNone ->
         let tag = "550=0"B
@@ -15300,7 +15300,7 @@ let ReadOrigCrossID valIn =
     OrigCrossID.OrigCrossID tmp
 
 
-let WriteOrigCrossID (nextFreeIdx:int) (dest:byte []) (valIn:OrigCrossID) : int = 
+let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int = 
    let tag = "551="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15317,7 +15317,7 @@ let ReadNoSides (fldValIn:string) : NoSides =
     | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
 
 
-let WriteNoSides (nextFreeIdx:int) (dest:byte array) (xxIn:NoSides) : int =
+let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
     match xxIn with
     | NoSides.OneSide ->
         let tag = "552=1"B
@@ -15338,7 +15338,7 @@ let ReadUsername valIn =
     Username.Username tmp
 
 
-let WriteUsername (nextFreeIdx:int) (dest:byte []) (valIn:Username) : int = 
+let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int = 
    let tag = "553="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15353,7 +15353,7 @@ let ReadPassword valIn =
     Password.Password tmp
 
 
-let WritePassword (nextFreeIdx:int) (dest:byte []) (valIn:Password) : int = 
+let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int = 
    let tag = "554="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15368,7 +15368,7 @@ let ReadNoLegs valIn =
     NoLegs.NoLegs tmp
 
 
-let WriteNoLegs (nextFreeIdx:int) (dest:byte []) (valIn:NoLegs) : int = 
+let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int = 
    let tag = "555="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15383,7 +15383,7 @@ let ReadLegCurrency valIn =
     LegCurrency.LegCurrency tmp
 
 
-let WriteLegCurrency (nextFreeIdx:int) (dest:byte []) (valIn:LegCurrency) : int = 
+let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int = 
    let tag = "556="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15398,7 +15398,7 @@ let ReadTotNoSecurityTypes valIn =
     TotNoSecurityTypes.TotNoSecurityTypes tmp
 
 
-let WriteTotNoSecurityTypes (nextFreeIdx:int) (dest:byte []) (valIn:TotNoSecurityTypes) : int = 
+let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurityTypes) : int = 
    let tag = "557="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15413,7 +15413,7 @@ let ReadNoSecurityTypes valIn =
     NoSecurityTypes.NoSecurityTypes tmp
 
 
-let WriteNoSecurityTypes (nextFreeIdx:int) (dest:byte []) (valIn:NoSecurityTypes) : int = 
+let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes) : int = 
    let tag = "558="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15433,7 +15433,7 @@ let ReadSecurityListRequestType (fldValIn:string) : SecurityListRequestType =
     | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
 
 
-let WriteSecurityListRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityListRequestType) : int =
+let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityListRequestType) : int =
     match xxIn with
     | SecurityListRequestType.Symbol ->
         let tag = "559=0"B
@@ -15478,7 +15478,7 @@ let ReadSecurityRequestResult (fldValIn:string) : SecurityRequestResult =
     | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
 
 
-let WriteSecurityRequestResult (nextFreeIdx:int) (dest:byte array) (xxIn:SecurityRequestResult) : int =
+let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestResult) : int =
     match xxIn with
     | SecurityRequestResult.ValidRequest ->
         let tag = "560=0"B
@@ -15523,7 +15523,7 @@ let ReadRoundLot valIn =
     RoundLot.RoundLot tmp
 
 
-let WriteRoundLot (nextFreeIdx:int) (dest:byte []) (valIn:RoundLot) : int = 
+let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int = 
    let tag = "561="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15538,7 +15538,7 @@ let ReadMinTradeVol valIn =
     MinTradeVol.MinTradeVol tmp
 
 
-let WriteMinTradeVol (nextFreeIdx:int) (dest:byte []) (valIn:MinTradeVol) : int = 
+let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int = 
    let tag = "562="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15556,7 +15556,7 @@ let ReadMultiLegRptTypeReq (fldValIn:string) : MultiLegRptTypeReq =
     | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
 
 
-let WriteMultiLegRptTypeReq (nextFreeIdx:int) (dest:byte array) (xxIn:MultiLegRptTypeReq) : int =
+let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRptTypeReq) : int =
     match xxIn with
     | MultiLegRptTypeReq.ReportByMulitlegSecurityOnly ->
         let tag = "563=0"B
@@ -15583,7 +15583,7 @@ let ReadLegPositionEffect valIn =
     LegPositionEffect.LegPositionEffect tmp
 
 
-let WriteLegPositionEffect (nextFreeIdx:int) (dest:byte []) (valIn:LegPositionEffect) : int = 
+let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEffect) : int = 
    let tag = "564="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15598,7 +15598,7 @@ let ReadLegCoveredOrUncovered valIn =
     LegCoveredOrUncovered.LegCoveredOrUncovered tmp
 
 
-let WriteLegCoveredOrUncovered (nextFreeIdx:int) (dest:byte []) (valIn:LegCoveredOrUncovered) : int = 
+let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCoveredOrUncovered) : int = 
    let tag = "565="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15613,7 +15613,7 @@ let ReadLegPrice valIn =
     LegPrice.LegPrice tmp
 
 
-let WriteLegPrice (nextFreeIdx:int) (dest:byte []) (valIn:LegPrice) : int = 
+let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int = 
    let tag = "566="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15629,7 +15629,7 @@ let ReadTradSesStatusRejReason (fldValIn:string) : TradSesStatusRejReason =
     | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
 
 
-let WriteTradSesStatusRejReason (nextFreeIdx:int) (dest:byte array) (xxIn:TradSesStatusRejReason) : int =
+let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatusRejReason) : int =
     match xxIn with
     | TradSesStatusRejReason.UnknownOrInvalidTradingsessionid ->
         let tag = "567=1"B
@@ -15644,7 +15644,7 @@ let ReadTradeRequestID valIn =
     TradeRequestID.TradeRequestID tmp
 
 
-let WriteTradeRequestID (nextFreeIdx:int) (dest:byte []) (valIn:TradeRequestID) : int = 
+let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) : int = 
    let tag = "568="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15664,7 +15664,7 @@ let ReadTradeRequestType (fldValIn:string) : TradeRequestType =
     | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
 
 
-let WriteTradeRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:TradeRequestType) : int =
+let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestType) : int =
     match xxIn with
     | TradeRequestType.AllTrades ->
         let tag = "569=0"B
@@ -15703,7 +15703,7 @@ let ReadPreviouslyReported valIn =
     PreviouslyReported.PreviouslyReported tmp
 
 
-let WritePreviouslyReported (nextFreeIdx:int) (dest:byte []) (valIn:PreviouslyReported) : int = 
+let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyReported) : int = 
    let tag = "570="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15718,7 +15718,7 @@ let ReadTradeReportID valIn =
     TradeReportID.TradeReportID tmp
 
 
-let WriteTradeReportID (nextFreeIdx:int) (dest:byte []) (valIn:TradeReportID) : int = 
+let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : int = 
    let tag = "571="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15733,7 +15733,7 @@ let ReadTradeReportRefID valIn =
     TradeReportRefID.TradeReportRefID tmp
 
 
-let WriteTradeReportRefID (nextFreeIdx:int) (dest:byte []) (valIn:TradeReportRefID) : int = 
+let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRefID) : int = 
    let tag = "572="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15751,7 +15751,7 @@ let ReadMatchStatus (fldValIn:string) : MatchStatus =
     | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
 
 
-let WriteMatchStatus (nextFreeIdx:int) (dest:byte array) (xxIn:MatchStatus) : int =
+let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : int =
     match xxIn with
     | MatchStatus.ComparedMatchedOrAffirmed ->
         let tag = "573=0"B
@@ -15778,7 +15778,7 @@ let ReadMatchType valIn =
     MatchType.MatchType tmp
 
 
-let WriteMatchType (nextFreeIdx:int) (dest:byte []) (valIn:MatchType) : int = 
+let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int = 
    let tag = "574="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15793,7 +15793,7 @@ let ReadOddLot valIn =
     OddLot.OddLot tmp
 
 
-let WriteOddLot (nextFreeIdx:int) (dest:byte []) (valIn:OddLot) : int = 
+let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int = 
    let tag = "575="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15808,7 +15808,7 @@ let ReadNoClearingInstructions valIn =
     NoClearingInstructions.NoClearingInstructions tmp
 
 
-let WriteNoClearingInstructions (nextFreeIdx:int) (dest:byte []) (valIn:NoClearingInstructions) : int = 
+let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoClearingInstructions) : int = 
    let tag = "576="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15837,7 +15837,7 @@ let ReadClearingInstruction (fldValIn:string) : ClearingInstruction =
     | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
 
 
-let WriteClearingInstruction (nextFreeIdx:int) (dest:byte array) (xxIn:ClearingInstruction) : int =
+let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingInstruction) : int =
     match xxIn with
     | ClearingInstruction.ProcessNormally ->
         let tag = "577=0"B
@@ -15930,7 +15930,7 @@ let ReadTradeInputSource valIn =
     TradeInputSource.TradeInputSource tmp
 
 
-let WriteTradeInputSource (nextFreeIdx:int) (dest:byte []) (valIn:TradeInputSource) : int = 
+let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSource) : int = 
    let tag = "578="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15945,7 +15945,7 @@ let ReadTradeInputDevice valIn =
     TradeInputDevice.TradeInputDevice tmp
 
 
-let WriteTradeInputDevice (nextFreeIdx:int) (dest:byte []) (valIn:TradeInputDevice) : int = 
+let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevice) : int = 
    let tag = "579="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15960,7 +15960,7 @@ let ReadNoDates valIn =
     NoDates.NoDates tmp
 
 
-let WriteNoDates (nextFreeIdx:int) (dest:byte []) (valIn:NoDates) : int = 
+let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int = 
    let tag = "580="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -15982,7 +15982,7 @@ let ReadAccountType (fldValIn:string) : AccountType =
     | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
 
 
-let WriteAccountType (nextFreeIdx:int) (dest:byte array) (xxIn:AccountType) : int =
+let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : int =
     match xxIn with
     | AccountType.AccountIsCarriedOnCustomerSideOfBooks ->
         let tag = "581=1"B
@@ -16037,7 +16037,7 @@ let ReadCustOrderCapacity (fldValIn:string) : CustOrderCapacity =
     | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
 
 
-let WriteCustOrderCapacity (nextFreeIdx:int) (dest:byte array) (xxIn:CustOrderCapacity) : int =
+let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCapacity) : int =
     match xxIn with
     | CustOrderCapacity.MemberTradingForTheirOwnAccount ->
         let tag = "582=1"B
@@ -16070,7 +16070,7 @@ let ReadClOrdLinkID valIn =
     ClOrdLinkID.ClOrdLinkID tmp
 
 
-let WriteClOrdLinkID (nextFreeIdx:int) (dest:byte []) (valIn:ClOrdLinkID) : int = 
+let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int = 
    let tag = "583="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16085,7 +16085,7 @@ let ReadMassStatusReqID valIn =
     MassStatusReqID.MassStatusReqID tmp
 
 
-let WriteMassStatusReqID (nextFreeIdx:int) (dest:byte []) (valIn:MassStatusReqID) : int = 
+let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID) : int = 
    let tag = "584="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16108,7 +16108,7 @@ let ReadMassStatusReqType (fldValIn:string) : MassStatusReqType =
     | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
 
 
-let WriteMassStatusReqType (nextFreeIdx:int) (dest:byte array) (xxIn:MassStatusReqType) : int =
+let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusReqType) : int =
     match xxIn with
     | MassStatusReqType.StatusForOrdersForASecurity ->
         let tag = "585=1"B
@@ -16165,7 +16165,7 @@ let ReadOrigOrdModTime valIn =
     OrigOrdModTime.OrigOrdModTime tmp
 
 
-let WriteOrigOrdModTime (nextFreeIdx:int) (dest:byte []) (valIn:OrigOrdModTime) : int = 
+let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) : int = 
    let tag = "586="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16180,7 +16180,7 @@ let ReadLegSettlType valIn =
     LegSettlType.LegSettlType tmp
 
 
-let WriteLegSettlType (nextFreeIdx:int) (dest:byte []) (valIn:LegSettlType) : int = 
+let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : int = 
    let tag = "587="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16195,7 +16195,7 @@ let ReadLegSettlDate valIn =
     LegSettlDate.LegSettlDate tmp
 
 
-let WriteLegSettlDate (nextFreeIdx:int) (dest:byte []) (valIn:LegSettlDate) : int = 
+let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : int = 
    let tag = "588="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16213,7 +16213,7 @@ let ReadDayBookingInst (fldValIn:string) : DayBookingInst =
     | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
 
 
-let WriteDayBookingInst (nextFreeIdx:int) (dest:byte array) (xxIn:DayBookingInst) : int =
+let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst) : int =
     match xxIn with
     | DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator ->
         let tag = "589=0"B
@@ -16243,7 +16243,7 @@ let ReadBookingUnit (fldValIn:string) : BookingUnit =
     | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
 
 
-let WriteBookingUnit (nextFreeIdx:int) (dest:byte array) (xxIn:BookingUnit) : int =
+let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : int =
     match xxIn with
     | BookingUnit.EachPartialExecutionIsABookableUnit ->
         let tag = "590=0"B
@@ -16272,7 +16272,7 @@ let ReadPreallocMethod (fldValIn:string) : PreallocMethod =
     | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
 
 
-let WritePreallocMethod (nextFreeIdx:int) (dest:byte array) (xxIn:PreallocMethod) : int =
+let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod) : int =
     match xxIn with
     | PreallocMethod.ProRata ->
         let tag = "591=0"B
@@ -16293,7 +16293,7 @@ let ReadUnderlyingCountryOfIssue valIn =
     UnderlyingCountryOfIssue.UnderlyingCountryOfIssue tmp
 
 
-let WriteUnderlyingCountryOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCountryOfIssue) : int = 
+let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCountryOfIssue) : int = 
    let tag = "592="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16308,7 +16308,7 @@ let ReadUnderlyingStateOrProvinceOfIssue valIn =
     UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue tmp
 
 
-let WriteUnderlyingStateOrProvinceOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStateOrProvinceOfIssue) : int = 
+let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStateOrProvinceOfIssue) : int = 
    let tag = "593="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16323,7 +16323,7 @@ let ReadUnderlyingLocaleOfIssue valIn =
     UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue tmp
 
 
-let WriteUnderlyingLocaleOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingLocaleOfIssue) : int = 
+let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLocaleOfIssue) : int = 
    let tag = "594="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16338,7 +16338,7 @@ let ReadUnderlyingInstrRegistry valIn =
     UnderlyingInstrRegistry.UnderlyingInstrRegistry tmp
 
 
-let WriteUnderlyingInstrRegistry (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingInstrRegistry) : int = 
+let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingInstrRegistry) : int = 
    let tag = "595="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16353,7 +16353,7 @@ let ReadLegCountryOfIssue valIn =
     LegCountryOfIssue.LegCountryOfIssue tmp
 
 
-let WriteLegCountryOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:LegCountryOfIssue) : int = 
+let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfIssue) : int = 
    let tag = "596="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16368,7 +16368,7 @@ let ReadLegStateOrProvinceOfIssue valIn =
     LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue tmp
 
 
-let WriteLegStateOrProvinceOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:LegStateOrProvinceOfIssue) : int = 
+let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegStateOrProvinceOfIssue) : int = 
    let tag = "597="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16383,7 +16383,7 @@ let ReadLegLocaleOfIssue valIn =
     LegLocaleOfIssue.LegLocaleOfIssue tmp
 
 
-let WriteLegLocaleOfIssue (nextFreeIdx:int) (dest:byte []) (valIn:LegLocaleOfIssue) : int = 
+let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIssue) : int = 
    let tag = "598="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16398,7 +16398,7 @@ let ReadLegInstrRegistry valIn =
     LegInstrRegistry.LegInstrRegistry tmp
 
 
-let WriteLegInstrRegistry (nextFreeIdx:int) (dest:byte []) (valIn:LegInstrRegistry) : int = 
+let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegistry) : int = 
    let tag = "599="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16413,7 +16413,7 @@ let ReadLegSymbol valIn =
     LegSymbol.LegSymbol tmp
 
 
-let WriteLegSymbol (nextFreeIdx:int) (dest:byte []) (valIn:LegSymbol) : int = 
+let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int = 
    let tag = "600="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16428,7 +16428,7 @@ let ReadLegSymbolSfx valIn =
     LegSymbolSfx.LegSymbolSfx tmp
 
 
-let WriteLegSymbolSfx (nextFreeIdx:int) (dest:byte []) (valIn:LegSymbolSfx) : int = 
+let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : int = 
    let tag = "601="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16443,7 +16443,7 @@ let ReadLegSecurityID valIn =
     LegSecurityID.LegSecurityID tmp
 
 
-let WriteLegSecurityID (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityID) : int = 
+let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : int = 
    let tag = "602="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16458,7 +16458,7 @@ let ReadLegSecurityIDSource valIn =
     LegSecurityIDSource.LegSecurityIDSource tmp
 
 
-let WriteLegSecurityIDSource (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityIDSource) : int = 
+let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityIDSource) : int = 
    let tag = "603="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16473,7 +16473,7 @@ let ReadNoLegSecurityAltID valIn =
     NoLegSecurityAltID.NoLegSecurityAltID tmp
 
 
-let WriteNoLegSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:NoLegSecurityAltID) : int = 
+let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurityAltID) : int = 
    let tag = "604="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16488,7 +16488,7 @@ let ReadLegSecurityAltID valIn =
     LegSecurityAltID.LegSecurityAltID tmp
 
 
-let WriteLegSecurityAltID (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityAltID) : int = 
+let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltID) : int = 
    let tag = "605="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16503,7 +16503,7 @@ let ReadLegSecurityAltIDSource valIn =
     LegSecurityAltIDSource.LegSecurityAltIDSource tmp
 
 
-let WriteLegSecurityAltIDSource (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityAltIDSource) : int = 
+let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltIDSource) : int = 
    let tag = "606="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16518,7 +16518,7 @@ let ReadLegProduct valIn =
     LegProduct.LegProduct tmp
 
 
-let WriteLegProduct (nextFreeIdx:int) (dest:byte []) (valIn:LegProduct) : int = 
+let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int = 
    let tag = "607="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16533,7 +16533,7 @@ let ReadLegCFICode valIn =
     LegCFICode.LegCFICode tmp
 
 
-let WriteLegCFICode (nextFreeIdx:int) (dest:byte []) (valIn:LegCFICode) : int = 
+let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int = 
    let tag = "608="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16548,7 +16548,7 @@ let ReadLegSecurityType valIn =
     LegSecurityType.LegSecurityType tmp
 
 
-let WriteLegSecurityType (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityType) : int = 
+let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType) : int = 
    let tag = "609="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16563,7 +16563,7 @@ let ReadLegMaturityMonthYear valIn =
     LegMaturityMonthYear.LegMaturityMonthYear tmp
 
 
-let WriteLegMaturityMonthYear (nextFreeIdx:int) (dest:byte []) (valIn:LegMaturityMonthYear) : int = 
+let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityMonthYear) : int = 
    let tag = "610="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16578,7 +16578,7 @@ let ReadLegMaturityDate valIn =
     LegMaturityDate.LegMaturityDate tmp
 
 
-let WriteLegMaturityDate (nextFreeIdx:int) (dest:byte []) (valIn:LegMaturityDate) : int = 
+let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate) : int = 
    let tag = "611="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16593,7 +16593,7 @@ let ReadLegStrikePrice valIn =
     LegStrikePrice.LegStrikePrice tmp
 
 
-let WriteLegStrikePrice (nextFreeIdx:int) (dest:byte []) (valIn:LegStrikePrice) : int = 
+let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) : int = 
    let tag = "612="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16608,7 +16608,7 @@ let ReadLegOptAttribute valIn =
     LegOptAttribute.LegOptAttribute tmp
 
 
-let WriteLegOptAttribute (nextFreeIdx:int) (dest:byte []) (valIn:LegOptAttribute) : int = 
+let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute) : int = 
    let tag = "613="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16623,7 +16623,7 @@ let ReadLegContractMultiplier valIn =
     LegContractMultiplier.LegContractMultiplier tmp
 
 
-let WriteLegContractMultiplier (nextFreeIdx:int) (dest:byte []) (valIn:LegContractMultiplier) : int = 
+let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContractMultiplier) : int = 
    let tag = "614="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16638,7 +16638,7 @@ let ReadLegCouponRate valIn =
     LegCouponRate.LegCouponRate tmp
 
 
-let WriteLegCouponRate (nextFreeIdx:int) (dest:byte []) (valIn:LegCouponRate) : int = 
+let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : int = 
    let tag = "615="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16653,7 +16653,7 @@ let ReadLegSecurityExchange valIn =
     LegSecurityExchange.LegSecurityExchange tmp
 
 
-let WriteLegSecurityExchange (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityExchange) : int = 
+let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityExchange) : int = 
    let tag = "616="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16668,7 +16668,7 @@ let ReadLegIssuer valIn =
     LegIssuer.LegIssuer tmp
 
 
-let WriteLegIssuer (nextFreeIdx:int) (dest:byte []) (valIn:LegIssuer) : int = 
+let WriteLegIssuer (dest:byte []) (nextFreeIdx:int) (valIn:LegIssuer) : int = 
    let tag = "617="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16679,7 +16679,7 @@ let WriteLegIssuer (nextFreeIdx:int) (dest:byte []) (valIn:LegIssuer) : int =
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedLegIssuer (nextFreeIdx:int) (dest:byte []) (fld:EncodedLegIssuer) : int =
+let WriteEncodedLegIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegIssuer) : int =
     // write the string length part of the compound msg
     let lenTag = "618="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -16720,7 +16720,7 @@ let ReadLegSecurityDesc valIn =
     LegSecurityDesc.LegSecurityDesc tmp
 
 
-let WriteLegSecurityDesc (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityDesc) : int = 
+let WriteLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityDesc) : int = 
    let tag = "620="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16731,7 +16731,7 @@ let WriteLegSecurityDesc (nextFreeIdx:int) (dest:byte []) (valIn:LegSecurityDesc
 
 
 // compound write, of a length field and the corresponding string field
-let WriteEncodedLegSecurityDesc (nextFreeIdx:int) (dest:byte []) (fld:EncodedLegSecurityDesc) : int =
+let WriteEncodedLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegSecurityDesc) : int =
     // write the string length part of the compound msg
     let lenTag = "621="B
     Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
@@ -16772,7 +16772,7 @@ let ReadLegRatioQty valIn =
     LegRatioQty.LegRatioQty tmp
 
 
-let WriteLegRatioQty (nextFreeIdx:int) (dest:byte []) (valIn:LegRatioQty) : int = 
+let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int = 
    let tag = "623="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16787,7 +16787,7 @@ let ReadLegSide valIn =
     LegSide.LegSide tmp
 
 
-let WriteLegSide (nextFreeIdx:int) (dest:byte []) (valIn:LegSide) : int = 
+let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int = 
    let tag = "624="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16802,7 +16802,7 @@ let ReadTradingSessionSubID valIn =
     TradingSessionSubID.TradingSessionSubID tmp
 
 
-let WriteTradingSessionSubID (nextFreeIdx:int) (dest:byte []) (valIn:TradingSessionSubID) : int = 
+let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionSubID) : int = 
    let tag = "625="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16822,7 +16822,7 @@ let ReadAllocType (fldValIn:string) : AllocType =
     | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
 
 
-let WriteAllocType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocType) : int =
+let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
     match xxIn with
     | AllocType.Calculated ->
         let tag = "626=1"B
@@ -16861,7 +16861,7 @@ let ReadNoHops valIn =
     NoHops.NoHops tmp
 
 
-let WriteNoHops (nextFreeIdx:int) (dest:byte []) (valIn:NoHops) : int = 
+let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int = 
    let tag = "627="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16876,7 +16876,7 @@ let ReadHopCompID valIn =
     HopCompID.HopCompID tmp
 
 
-let WriteHopCompID (nextFreeIdx:int) (dest:byte []) (valIn:HopCompID) : int = 
+let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int = 
    let tag = "628="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16891,7 +16891,7 @@ let ReadHopSendingTime valIn =
     HopSendingTime.HopSendingTime tmp
 
 
-let WriteHopSendingTime (nextFreeIdx:int) (dest:byte []) (valIn:HopSendingTime) : int = 
+let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) : int = 
    let tag = "629="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16906,7 +16906,7 @@ let ReadHopRefID valIn =
     HopRefID.HopRefID tmp
 
 
-let WriteHopRefID (nextFreeIdx:int) (dest:byte []) (valIn:HopRefID) : int = 
+let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int = 
    let tag = "630="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16921,7 +16921,7 @@ let ReadMidPx valIn =
     MidPx.MidPx tmp
 
 
-let WriteMidPx (nextFreeIdx:int) (dest:byte []) (valIn:MidPx) : int = 
+let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int = 
    let tag = "631="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16936,7 +16936,7 @@ let ReadBidYield valIn =
     BidYield.BidYield tmp
 
 
-let WriteBidYield (nextFreeIdx:int) (dest:byte []) (valIn:BidYield) : int = 
+let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int = 
    let tag = "632="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16951,7 +16951,7 @@ let ReadMidYield valIn =
     MidYield.MidYield tmp
 
 
-let WriteMidYield (nextFreeIdx:int) (dest:byte []) (valIn:MidYield) : int = 
+let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int = 
    let tag = "633="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16966,7 +16966,7 @@ let ReadOfferYield valIn =
     OfferYield.OfferYield tmp
 
 
-let WriteOfferYield (nextFreeIdx:int) (dest:byte []) (valIn:OfferYield) : int = 
+let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int = 
    let tag = "634="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -16989,7 +16989,7 @@ let ReadClearingFeeIndicator (fldValIn:string) : ClearingFeeIndicator =
     | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
 
 
-let WriteClearingFeeIndicator (nextFreeIdx:int) (dest:byte array) (xxIn:ClearingFeeIndicator) : int =
+let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingFeeIndicator) : int =
     match xxIn with
     | ClearingFeeIndicator.CboeMember ->
         let tag = "635=B"B
@@ -17046,7 +17046,7 @@ let ReadWorkingIndicator valIn =
     WorkingIndicator.WorkingIndicator tmp
 
 
-let WriteWorkingIndicator (nextFreeIdx:int) (dest:byte []) (valIn:WorkingIndicator) : int = 
+let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicator) : int = 
    let tag = "636="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17061,7 +17061,7 @@ let ReadLegLastPx valIn =
     LegLastPx.LegLastPx tmp
 
 
-let WriteLegLastPx (nextFreeIdx:int) (dest:byte []) (valIn:LegLastPx) : int = 
+let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int = 
    let tag = "637="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17078,7 +17078,7 @@ let ReadPriorityIndicator (fldValIn:string) : PriorityIndicator =
     | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
 
 
-let WritePriorityIndicator (nextFreeIdx:int) (dest:byte array) (xxIn:PriorityIndicator) : int =
+let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityIndicator) : int =
     match xxIn with
     | PriorityIndicator.PriorityUnchanged ->
         let tag = "638=0"B
@@ -17099,7 +17099,7 @@ let ReadPriceImprovement valIn =
     PriceImprovement.PriceImprovement tmp
 
 
-let WritePriceImprovement (nextFreeIdx:int) (dest:byte []) (valIn:PriceImprovement) : int = 
+let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImprovement) : int = 
    let tag = "639="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17114,7 +17114,7 @@ let ReadPrice2 valIn =
     Price2.Price2 tmp
 
 
-let WritePrice2 (nextFreeIdx:int) (dest:byte []) (valIn:Price2) : int = 
+let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int = 
    let tag = "640="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17129,7 +17129,7 @@ let ReadLastForwardPoints2 valIn =
     LastForwardPoints2.LastForwardPoints2 tmp
 
 
-let WriteLastForwardPoints2 (nextFreeIdx:int) (dest:byte []) (valIn:LastForwardPoints2) : int = 
+let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints2) : int = 
    let tag = "641="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17144,7 +17144,7 @@ let ReadBidForwardPoints2 valIn =
     BidForwardPoints2.BidForwardPoints2 tmp
 
 
-let WriteBidForwardPoints2 (nextFreeIdx:int) (dest:byte []) (valIn:BidForwardPoints2) : int = 
+let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints2) : int = 
    let tag = "642="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17159,7 +17159,7 @@ let ReadOfferForwardPoints2 valIn =
     OfferForwardPoints2.OfferForwardPoints2 tmp
 
 
-let WriteOfferForwardPoints2 (nextFreeIdx:int) (dest:byte []) (valIn:OfferForwardPoints2) : int = 
+let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints2) : int = 
    let tag = "643="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17174,7 +17174,7 @@ let ReadRFQReqID valIn =
     RFQReqID.RFQReqID tmp
 
 
-let WriteRFQReqID (nextFreeIdx:int) (dest:byte []) (valIn:RFQReqID) : int = 
+let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int = 
    let tag = "644="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17189,7 +17189,7 @@ let ReadMktBidPx valIn =
     MktBidPx.MktBidPx tmp
 
 
-let WriteMktBidPx (nextFreeIdx:int) (dest:byte []) (valIn:MktBidPx) : int = 
+let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int = 
    let tag = "645="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17204,7 +17204,7 @@ let ReadMktOfferPx valIn =
     MktOfferPx.MktOfferPx tmp
 
 
-let WriteMktOfferPx (nextFreeIdx:int) (dest:byte []) (valIn:MktOfferPx) : int = 
+let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int = 
    let tag = "646="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17219,7 +17219,7 @@ let ReadMinBidSize valIn =
     MinBidSize.MinBidSize tmp
 
 
-let WriteMinBidSize (nextFreeIdx:int) (dest:byte []) (valIn:MinBidSize) : int = 
+let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int = 
    let tag = "647="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17234,7 +17234,7 @@ let ReadMinOfferSize valIn =
     MinOfferSize.MinOfferSize tmp
 
 
-let WriteMinOfferSize (nextFreeIdx:int) (dest:byte []) (valIn:MinOfferSize) : int = 
+let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : int = 
    let tag = "648="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17249,7 +17249,7 @@ let ReadQuoteStatusReqID valIn =
     QuoteStatusReqID.QuoteStatusReqID tmp
 
 
-let WriteQuoteStatusReqID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteStatusReqID) : int = 
+let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReqID) : int = 
    let tag = "649="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17264,7 +17264,7 @@ let ReadLegalConfirm valIn =
     LegalConfirm.LegalConfirm tmp
 
 
-let WriteLegalConfirm (nextFreeIdx:int) (dest:byte []) (valIn:LegalConfirm) : int = 
+let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : int = 
    let tag = "650="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17279,7 +17279,7 @@ let ReadUnderlyingLastPx valIn =
     UnderlyingLastPx.UnderlyingLastPx tmp
 
 
-let WriteUnderlyingLastPx (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingLastPx) : int = 
+let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastPx) : int = 
    let tag = "651="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17294,7 +17294,7 @@ let ReadUnderlyingLastQty valIn =
     UnderlyingLastQty.UnderlyingLastQty tmp
 
 
-let WriteUnderlyingLastQty (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingLastQty) : int = 
+let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastQty) : int = 
    let tag = "652="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17309,7 +17309,7 @@ let ReadLegRefID valIn =
     LegRefID.LegRefID tmp
 
 
-let WriteLegRefID (nextFreeIdx:int) (dest:byte []) (valIn:LegRefID) : int = 
+let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int = 
    let tag = "654="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17324,7 +17324,7 @@ let ReadContraLegRefID valIn =
     ContraLegRefID.ContraLegRefID tmp
 
 
-let WriteContraLegRefID (nextFreeIdx:int) (dest:byte []) (valIn:ContraLegRefID) : int = 
+let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) : int = 
    let tag = "655="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17339,7 +17339,7 @@ let ReadSettlCurrBidFxRate valIn =
     SettlCurrBidFxRate.SettlCurrBidFxRate tmp
 
 
-let WriteSettlCurrBidFxRate (nextFreeIdx:int) (dest:byte []) (valIn:SettlCurrBidFxRate) : int = 
+let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBidFxRate) : int = 
    let tag = "656="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17354,7 +17354,7 @@ let ReadSettlCurrOfferFxRate valIn =
     SettlCurrOfferFxRate.SettlCurrOfferFxRate tmp
 
 
-let WriteSettlCurrOfferFxRate (nextFreeIdx:int) (dest:byte []) (valIn:SettlCurrOfferFxRate) : int = 
+let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrOfferFxRate) : int = 
    let tag = "657="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17380,7 +17380,7 @@ let ReadQuoteRequestRejectReason (fldValIn:string) : QuoteRequestRejectReason =
     | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteQuoteRequestRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteRequestRejectReason) : int =
+let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestRejectReason) : int =
     match xxIn with
     | QuoteRequestRejectReason.UnknownSymbol ->
         let tag = "658=1"B
@@ -17455,7 +17455,7 @@ let ReadSideComplianceID valIn =
     SideComplianceID.SideComplianceID tmp
 
 
-let WriteSideComplianceID (nextFreeIdx:int) (dest:byte []) (valIn:SideComplianceID) : int = 
+let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideComplianceID) : int = 
    let tag = "659="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17476,7 +17476,7 @@ let ReadAcctIDSource (fldValIn:string) : AcctIDSource =
     | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
 
 
-let WriteAcctIDSource (nextFreeIdx:int) (dest:byte array) (xxIn:AcctIDSource) : int =
+let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : int =
     match xxIn with
     | AcctIDSource.Bic ->
         let tag = "660=1"B
@@ -17521,7 +17521,7 @@ let ReadAllocAcctIDSource valIn =
     AllocAcctIDSource.AllocAcctIDSource tmp
 
 
-let WriteAllocAcctIDSource (nextFreeIdx:int) (dest:byte []) (valIn:AllocAcctIDSource) : int = 
+let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSource) : int = 
    let tag = "661="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17536,7 +17536,7 @@ let ReadBenchmarkPrice valIn =
     BenchmarkPrice.BenchmarkPrice tmp
 
 
-let WriteBenchmarkPrice (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkPrice) : int = 
+let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) : int = 
    let tag = "662="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17551,7 +17551,7 @@ let ReadBenchmarkPriceType valIn =
     BenchmarkPriceType.BenchmarkPriceType tmp
 
 
-let WriteBenchmarkPriceType (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkPriceType) : int = 
+let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPriceType) : int = 
    let tag = "663="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17566,7 +17566,7 @@ let ReadConfirmID valIn =
     ConfirmID.ConfirmID tmp
 
 
-let WriteConfirmID (nextFreeIdx:int) (dest:byte []) (valIn:ConfirmID) : int = 
+let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int = 
    let tag = "664="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17586,7 +17586,7 @@ let ReadConfirmStatus (fldValIn:string) : ConfirmStatus =
     | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
 
 
-let WriteConfirmStatus (nextFreeIdx:int) (dest:byte array) (xxIn:ConfirmStatus) : int =
+let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) : int =
     match xxIn with
     | ConfirmStatus.Received ->
         let tag = "665=1"B
@@ -17628,7 +17628,7 @@ let ReadConfirmTransType (fldValIn:string) : ConfirmTransType =
     | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
 
 
-let WriteConfirmTransType (nextFreeIdx:int) (dest:byte array) (xxIn:ConfirmTransType) : int =
+let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTransType) : int =
     match xxIn with
     | ConfirmTransType.New ->
         let tag = "666=0"B
@@ -17655,7 +17655,7 @@ let ReadContractSettlMonth valIn =
     ContractSettlMonth.ContractSettlMonth tmp
 
 
-let WriteContractSettlMonth (nextFreeIdx:int) (dest:byte []) (valIn:ContractSettlMonth) : int = 
+let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSettlMonth) : int = 
    let tag = "667="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17672,7 +17672,7 @@ let ReadDeliveryForm (fldValIn:string) : DeliveryForm =
     | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
 
 
-let WriteDeliveryForm (nextFreeIdx:int) (dest:byte array) (xxIn:DeliveryForm) : int =
+let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : int =
     match xxIn with
     | DeliveryForm.Bookentry ->
         let tag = "668=1"B
@@ -17693,7 +17693,7 @@ let ReadLastParPx valIn =
     LastParPx.LastParPx tmp
 
 
-let WriteLastParPx (nextFreeIdx:int) (dest:byte []) (valIn:LastParPx) : int = 
+let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int = 
    let tag = "669="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17708,7 +17708,7 @@ let ReadNoLegAllocs valIn =
     NoLegAllocs.NoLegAllocs tmp
 
 
-let WriteNoLegAllocs (nextFreeIdx:int) (dest:byte []) (valIn:NoLegAllocs) : int = 
+let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int = 
    let tag = "670="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17723,7 +17723,7 @@ let ReadLegAllocAccount valIn =
     LegAllocAccount.LegAllocAccount tmp
 
 
-let WriteLegAllocAccount (nextFreeIdx:int) (dest:byte []) (valIn:LegAllocAccount) : int = 
+let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount) : int = 
    let tag = "671="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17738,7 +17738,7 @@ let ReadLegIndividualAllocID valIn =
     LegIndividualAllocID.LegIndividualAllocID tmp
 
 
-let WriteLegIndividualAllocID (nextFreeIdx:int) (dest:byte []) (valIn:LegIndividualAllocID) : int = 
+let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndividualAllocID) : int = 
    let tag = "672="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17753,7 +17753,7 @@ let ReadLegAllocQty valIn =
     LegAllocQty.LegAllocQty tmp
 
 
-let WriteLegAllocQty (nextFreeIdx:int) (dest:byte []) (valIn:LegAllocQty) : int = 
+let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int = 
    let tag = "673="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17768,7 +17768,7 @@ let ReadLegAllocAcctIDSource valIn =
     LegAllocAcctIDSource.LegAllocAcctIDSource tmp
 
 
-let WriteLegAllocAcctIDSource (nextFreeIdx:int) (dest:byte []) (valIn:LegAllocAcctIDSource) : int = 
+let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAcctIDSource) : int = 
    let tag = "674="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17783,7 +17783,7 @@ let ReadLegSettlCurrency valIn =
     LegSettlCurrency.LegSettlCurrency tmp
 
 
-let WriteLegSettlCurrency (nextFreeIdx:int) (dest:byte []) (valIn:LegSettlCurrency) : int = 
+let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurrency) : int = 
    let tag = "675="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17798,7 +17798,7 @@ let ReadLegBenchmarkCurveCurrency valIn =
     LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency tmp
 
 
-let WriteLegBenchmarkCurveCurrency (nextFreeIdx:int) (dest:byte []) (valIn:LegBenchmarkCurveCurrency) : int = 
+let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveCurrency) : int = 
    let tag = "676="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17813,7 +17813,7 @@ let ReadLegBenchmarkCurveName valIn =
     LegBenchmarkCurveName.LegBenchmarkCurveName tmp
 
 
-let WriteLegBenchmarkCurveName (nextFreeIdx:int) (dest:byte []) (valIn:LegBenchmarkCurveName) : int = 
+let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveName) : int = 
    let tag = "677="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17828,7 +17828,7 @@ let ReadLegBenchmarkCurvePoint valIn =
     LegBenchmarkCurvePoint.LegBenchmarkCurvePoint tmp
 
 
-let WriteLegBenchmarkCurvePoint (nextFreeIdx:int) (dest:byte []) (valIn:LegBenchmarkCurvePoint) : int = 
+let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurvePoint) : int = 
    let tag = "678="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17843,7 +17843,7 @@ let ReadLegBenchmarkPrice valIn =
     LegBenchmarkPrice.LegBenchmarkPrice tmp
 
 
-let WriteLegBenchmarkPrice (nextFreeIdx:int) (dest:byte []) (valIn:LegBenchmarkPrice) : int = 
+let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPrice) : int = 
    let tag = "679="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17858,7 +17858,7 @@ let ReadLegBenchmarkPriceType valIn =
     LegBenchmarkPriceType.LegBenchmarkPriceType tmp
 
 
-let WriteLegBenchmarkPriceType (nextFreeIdx:int) (dest:byte []) (valIn:LegBenchmarkPriceType) : int = 
+let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPriceType) : int = 
    let tag = "680="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17873,7 +17873,7 @@ let ReadLegBidPx valIn =
     LegBidPx.LegBidPx tmp
 
 
-let WriteLegBidPx (nextFreeIdx:int) (dest:byte []) (valIn:LegBidPx) : int = 
+let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int = 
    let tag = "681="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17888,7 +17888,7 @@ let ReadLegIOIQty valIn =
     LegIOIQty.LegIOIQty tmp
 
 
-let WriteLegIOIQty (nextFreeIdx:int) (dest:byte []) (valIn:LegIOIQty) : int = 
+let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int = 
    let tag = "682="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17903,7 +17903,7 @@ let ReadNoLegStipulations valIn =
     NoLegStipulations.NoLegStipulations tmp
 
 
-let WriteNoLegStipulations (nextFreeIdx:int) (dest:byte []) (valIn:NoLegStipulations) : int = 
+let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulations) : int = 
    let tag = "683="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17918,7 +17918,7 @@ let ReadLegOfferPx valIn =
     LegOfferPx.LegOfferPx tmp
 
 
-let WriteLegOfferPx (nextFreeIdx:int) (dest:byte []) (valIn:LegOfferPx) : int = 
+let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int = 
    let tag = "684="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17933,7 +17933,7 @@ let ReadLegOrderQty valIn =
     LegOrderQty.LegOrderQty tmp
 
 
-let WriteLegOrderQty (nextFreeIdx:int) (dest:byte []) (valIn:LegOrderQty) : int = 
+let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int = 
    let tag = "685="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17948,7 +17948,7 @@ let ReadLegPriceType valIn =
     LegPriceType.LegPriceType tmp
 
 
-let WriteLegPriceType (nextFreeIdx:int) (dest:byte []) (valIn:LegPriceType) : int = 
+let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : int = 
    let tag = "686="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17963,7 +17963,7 @@ let ReadLegQty valIn =
     LegQty.LegQty tmp
 
 
-let WriteLegQty (nextFreeIdx:int) (dest:byte []) (valIn:LegQty) : int = 
+let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int = 
    let tag = "687="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17978,7 +17978,7 @@ let ReadLegStipulationType valIn =
     LegStipulationType.LegStipulationType tmp
 
 
-let WriteLegStipulationType (nextFreeIdx:int) (dest:byte []) (valIn:LegStipulationType) : int = 
+let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationType) : int = 
    let tag = "688="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -17993,7 +17993,7 @@ let ReadLegStipulationValue valIn =
     LegStipulationValue.LegStipulationValue tmp
 
 
-let WriteLegStipulationValue (nextFreeIdx:int) (dest:byte []) (valIn:LegStipulationValue) : int = 
+let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationValue) : int = 
    let tag = "689="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18012,7 +18012,7 @@ let ReadLegSwapType (fldValIn:string) : LegSwapType =
     | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
 
 
-let WriteLegSwapType (nextFreeIdx:int) (dest:byte array) (xxIn:LegSwapType) : int =
+let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : int =
     match xxIn with
     | LegSwapType.ParForPar ->
         let tag = "690=1"B
@@ -18045,7 +18045,7 @@ let ReadPool valIn =
     Pool.Pool tmp
 
 
-let WritePool (nextFreeIdx:int) (dest:byte []) (valIn:Pool) : int = 
+let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int = 
    let tag = "691="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18070,7 +18070,7 @@ let ReadQuotePriceType (fldValIn:string) : QuotePriceType =
     | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
 
 
-let WriteQuotePriceType (nextFreeIdx:int) (dest:byte array) (xxIn:QuotePriceType) : int =
+let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType) : int =
     match xxIn with
     | QuotePriceType.Percent ->
         let tag = "692=1"B
@@ -18139,7 +18139,7 @@ let ReadQuoteRespID valIn =
     QuoteRespID.QuoteRespID tmp
 
 
-let WriteQuoteRespID (nextFreeIdx:int) (dest:byte []) (valIn:QuoteRespID) : int = 
+let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int = 
    let tag = "693="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18160,7 +18160,7 @@ let ReadQuoteRespType (fldValIn:string) : QuoteRespType =
     | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
 
 
-let WriteQuoteRespType (nextFreeIdx:int) (dest:byte array) (xxIn:QuoteRespType) : int =
+let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) : int =
     match xxIn with
     | QuoteRespType.HitLift ->
         let tag = "694=1"B
@@ -18205,7 +18205,7 @@ let ReadQuoteQualifier valIn =
     QuoteQualifier.QuoteQualifier tmp
 
 
-let WriteQuoteQualifier (nextFreeIdx:int) (dest:byte []) (valIn:QuoteQualifier) : int = 
+let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) : int = 
    let tag = "695="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18220,7 +18220,7 @@ let ReadYieldRedemptionDate valIn =
     YieldRedemptionDate.YieldRedemptionDate tmp
 
 
-let WriteYieldRedemptionDate (nextFreeIdx:int) (dest:byte []) (valIn:YieldRedemptionDate) : int = 
+let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionDate) : int = 
    let tag = "696="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18235,7 +18235,7 @@ let ReadYieldRedemptionPrice valIn =
     YieldRedemptionPrice.YieldRedemptionPrice tmp
 
 
-let WriteYieldRedemptionPrice (nextFreeIdx:int) (dest:byte []) (valIn:YieldRedemptionPrice) : int = 
+let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPrice) : int = 
    let tag = "697="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18250,7 +18250,7 @@ let ReadYieldRedemptionPriceType valIn =
     YieldRedemptionPriceType.YieldRedemptionPriceType tmp
 
 
-let WriteYieldRedemptionPriceType (nextFreeIdx:int) (dest:byte []) (valIn:YieldRedemptionPriceType) : int = 
+let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPriceType) : int = 
    let tag = "698="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18265,7 +18265,7 @@ let ReadBenchmarkSecurityID valIn =
     BenchmarkSecurityID.BenchmarkSecurityID tmp
 
 
-let WriteBenchmarkSecurityID (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkSecurityID) : int = 
+let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityID) : int = 
    let tag = "699="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18280,7 +18280,7 @@ let ReadReversalIndicator valIn =
     ReversalIndicator.ReversalIndicator tmp
 
 
-let WriteReversalIndicator (nextFreeIdx:int) (dest:byte []) (valIn:ReversalIndicator) : int = 
+let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndicator) : int = 
    let tag = "700="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18295,7 +18295,7 @@ let ReadYieldCalcDate valIn =
     YieldCalcDate.YieldCalcDate tmp
 
 
-let WriteYieldCalcDate (nextFreeIdx:int) (dest:byte []) (valIn:YieldCalcDate) : int = 
+let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : int = 
    let tag = "701="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18310,7 +18310,7 @@ let ReadNoPositions valIn =
     NoPositions.NoPositions tmp
 
 
-let WriteNoPositions (nextFreeIdx:int) (dest:byte []) (valIn:NoPositions) : int = 
+let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int = 
    let tag = "702="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18344,7 +18344,7 @@ let ReadPosType (fldValIn:string) : PosType =
     | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
 
 
-let WritePosType (nextFreeIdx:int) (dest:byte array) (xxIn:PosType) : int =
+let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
     match xxIn with
     | PosType.TransactionQuantity ->
         let tag = "703=TQ"B
@@ -18467,7 +18467,7 @@ let ReadLongQty valIn =
     LongQty.LongQty tmp
 
 
-let WriteLongQty (nextFreeIdx:int) (dest:byte []) (valIn:LongQty) : int = 
+let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int = 
    let tag = "704="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18482,7 +18482,7 @@ let ReadShortQty valIn =
     ShortQty.ShortQty tmp
 
 
-let WriteShortQty (nextFreeIdx:int) (dest:byte []) (valIn:ShortQty) : int = 
+let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int = 
    let tag = "705="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18500,7 +18500,7 @@ let ReadPosQtyStatus (fldValIn:string) : PosQtyStatus =
     | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
 
 
-let WritePosQtyStatus (nextFreeIdx:int) (dest:byte array) (xxIn:PosQtyStatus) : int =
+let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : int =
     match xxIn with
     | PosQtyStatus.Submitted ->
         let tag = "706=0"B
@@ -18535,7 +18535,7 @@ let ReadPosAmtType (fldValIn:string) : PosAmtType =
     | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
 
 
-let WritePosAmtType (nextFreeIdx:int) (dest:byte array) (xxIn:PosAmtType) : int =
+let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int =
     match xxIn with
     | PosAmtType.FinalMarkToMarketAmount ->
         let tag = "707=FMTM"B
@@ -18592,7 +18592,7 @@ let ReadPosAmt valIn =
     PosAmt.PosAmt tmp
 
 
-let WritePosAmt (nextFreeIdx:int) (dest:byte []) (valIn:PosAmt) : int = 
+let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int = 
    let tag = "708="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18612,7 +18612,7 @@ let ReadPosTransType (fldValIn:string) : PosTransType =
     | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
 
 
-let WritePosTransType (nextFreeIdx:int) (dest:byte array) (xxIn:PosTransType) : int =
+let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : int =
     match xxIn with
     | PosTransType.Exercise ->
         let tag = "709=1"B
@@ -18651,7 +18651,7 @@ let ReadPosReqID valIn =
     PosReqID.PosReqID tmp
 
 
-let WritePosReqID (nextFreeIdx:int) (dest:byte []) (valIn:PosReqID) : int = 
+let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int = 
    let tag = "710="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18666,7 +18666,7 @@ let ReadNoUnderlyings valIn =
     NoUnderlyings.NoUnderlyings tmp
 
 
-let WriteNoUnderlyings (nextFreeIdx:int) (dest:byte []) (valIn:NoUnderlyings) : int = 
+let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : int = 
    let tag = "711="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18684,7 +18684,7 @@ let ReadPosMaintAction (fldValIn:string) : PosMaintAction =
     | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
 
 
-let WritePosMaintAction (nextFreeIdx:int) (dest:byte array) (xxIn:PosMaintAction) : int =
+let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction) : int =
     match xxIn with
     | PosMaintAction.New ->
         let tag = "712=1"B
@@ -18711,7 +18711,7 @@ let ReadOrigPosReqRefID valIn =
     OrigPosReqRefID.OrigPosReqRefID tmp
 
 
-let WriteOrigPosReqRefID (nextFreeIdx:int) (dest:byte []) (valIn:OrigPosReqRefID) : int = 
+let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID) : int = 
    let tag = "713="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18726,7 +18726,7 @@ let ReadPosMaintRptRefID valIn =
     PosMaintRptRefID.PosMaintRptRefID tmp
 
 
-let WritePosMaintRptRefID (nextFreeIdx:int) (dest:byte []) (valIn:PosMaintRptRefID) : int = 
+let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRefID) : int = 
    let tag = "714="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18741,7 +18741,7 @@ let ReadClearingBusinessDate valIn =
     ClearingBusinessDate.ClearingBusinessDate tmp
 
 
-let WriteClearingBusinessDate (nextFreeIdx:int) (dest:byte []) (valIn:ClearingBusinessDate) : int = 
+let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBusinessDate) : int = 
    let tag = "715="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18756,7 +18756,7 @@ let ReadSettlSessID valIn =
     SettlSessID.SettlSessID tmp
 
 
-let WriteSettlSessID (nextFreeIdx:int) (dest:byte []) (valIn:SettlSessID) : int = 
+let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int = 
    let tag = "716="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18771,7 +18771,7 @@ let ReadSettlSessSubID valIn =
     SettlSessSubID.SettlSessSubID tmp
 
 
-let WriteSettlSessSubID (nextFreeIdx:int) (dest:byte []) (valIn:SettlSessSubID) : int = 
+let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) : int = 
    let tag = "717="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18790,7 +18790,7 @@ let ReadAdjustmentType (fldValIn:string) : AdjustmentType =
     | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
 
 
-let WriteAdjustmentType (nextFreeIdx:int) (dest:byte array) (xxIn:AdjustmentType) : int =
+let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType) : int =
     match xxIn with
     | AdjustmentType.ProcessRequestAsMarginDisposition ->
         let tag = "718=0"B
@@ -18823,7 +18823,7 @@ let ReadContraryInstructionIndicator valIn =
     ContraryInstructionIndicator.ContraryInstructionIndicator tmp
 
 
-let WriteContraryInstructionIndicator (nextFreeIdx:int) (dest:byte []) (valIn:ContraryInstructionIndicator) : int = 
+let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ContraryInstructionIndicator) : int = 
    let tag = "719="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18838,7 +18838,7 @@ let ReadPriorSpreadIndicator valIn =
     PriorSpreadIndicator.PriorSpreadIndicator tmp
 
 
-let WritePriorSpreadIndicator (nextFreeIdx:int) (dest:byte []) (valIn:PriorSpreadIndicator) : int = 
+let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSpreadIndicator) : int = 
    let tag = "720="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18853,7 +18853,7 @@ let ReadPosMaintRptID valIn =
     PosMaintRptID.PosMaintRptID tmp
 
 
-let WritePosMaintRptID (nextFreeIdx:int) (dest:byte []) (valIn:PosMaintRptID) : int = 
+let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : int = 
    let tag = "721="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -18873,7 +18873,7 @@ let ReadPosMaintStatus (fldValIn:string) : PosMaintStatus =
     | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
 
 
-let WritePosMaintStatus (nextFreeIdx:int) (dest:byte array) (xxIn:PosMaintStatus) : int =
+let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus) : int =
     match xxIn with
     | PosMaintStatus.Accepted ->
         let tag = "722=0"B
@@ -18915,7 +18915,7 @@ let ReadPosMaintResult (fldValIn:string) : PosMaintResult =
     | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
 
 
-let WritePosMaintResult (nextFreeIdx:int) (dest:byte array) (xxIn:PosMaintResult) : int =
+let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult) : int =
     match xxIn with
     | PosMaintResult.SuccessfulCompletionNoWarningsOrErrors ->
         let tag = "723=0"B
@@ -18946,7 +18946,7 @@ let ReadPosReqType (fldValIn:string) : PosReqType =
     | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
 
 
-let WritePosReqType (nextFreeIdx:int) (dest:byte array) (xxIn:PosReqType) : int =
+let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int =
     match xxIn with
     | PosReqType.Positions ->
         let tag = "724=0"B
@@ -18981,7 +18981,7 @@ let ReadResponseTransportType (fldValIn:string) : ResponseTransportType =
     | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
 
 
-let WriteResponseTransportType (nextFreeIdx:int) (dest:byte array) (xxIn:ResponseTransportType) : int =
+let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:ResponseTransportType) : int =
     match xxIn with
     | ResponseTransportType.Inband ->
         let tag = "725=0"B
@@ -19002,7 +19002,7 @@ let ReadResponseDestination valIn =
     ResponseDestination.ResponseDestination tmp
 
 
-let WriteResponseDestination (nextFreeIdx:int) (dest:byte []) (valIn:ResponseDestination) : int = 
+let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDestination) : int = 
    let tag = "726="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19017,7 +19017,7 @@ let ReadTotalNumPosReports valIn =
     TotalNumPosReports.TotalNumPosReports tmp
 
 
-let WriteTotalNumPosReports (nextFreeIdx:int) (dest:byte []) (valIn:TotalNumPosReports) : int = 
+let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosReports) : int = 
    let tag = "727="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19038,7 +19038,7 @@ let ReadPosReqResult (fldValIn:string) : PosReqResult =
     | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
 
 
-let WritePosReqResult (nextFreeIdx:int) (dest:byte array) (xxIn:PosReqResult) : int =
+let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : int =
     match xxIn with
     | PosReqResult.ValidRequest ->
         let tag = "728=0"B
@@ -19086,7 +19086,7 @@ let ReadPosReqStatus (fldValIn:string) : PosReqStatus =
     | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
 
 
-let WritePosReqStatus (nextFreeIdx:int) (dest:byte array) (xxIn:PosReqStatus) : int =
+let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : int =
     match xxIn with
     | PosReqStatus.Completed ->
         let tag = "729=0"B
@@ -19113,7 +19113,7 @@ let ReadSettlPrice valIn =
     SettlPrice.SettlPrice tmp
 
 
-let WriteSettlPrice (nextFreeIdx:int) (dest:byte []) (valIn:SettlPrice) : int = 
+let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int = 
    let tag = "730="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19130,7 +19130,7 @@ let ReadSettlPriceType (fldValIn:string) : SettlPriceType =
     | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
 
 
-let WriteSettlPriceType (nextFreeIdx:int) (dest:byte array) (xxIn:SettlPriceType) : int =
+let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType) : int =
     match xxIn with
     | SettlPriceType.Final ->
         let tag = "731=1"B
@@ -19151,7 +19151,7 @@ let ReadUnderlyingSettlPrice valIn =
     UnderlyingSettlPrice.UnderlyingSettlPrice tmp
 
 
-let WriteUnderlyingSettlPrice (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSettlPrice) : int = 
+let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPrice) : int = 
    let tag = "732="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19166,7 +19166,7 @@ let ReadUnderlyingSettlPriceType valIn =
     UnderlyingSettlPriceType.UnderlyingSettlPriceType tmp
 
 
-let WriteUnderlyingSettlPriceType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSettlPriceType) : int = 
+let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPriceType) : int = 
    let tag = "733="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19181,7 +19181,7 @@ let ReadPriorSettlPrice valIn =
     PriorSettlPrice.PriorSettlPrice tmp
 
 
-let WritePriorSettlPrice (nextFreeIdx:int) (dest:byte []) (valIn:PriorSettlPrice) : int = 
+let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice) : int = 
    let tag = "734="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19196,7 +19196,7 @@ let ReadNoQuoteQualifiers valIn =
     NoQuoteQualifiers.NoQuoteQualifiers tmp
 
 
-let WriteNoQuoteQualifiers (nextFreeIdx:int) (dest:byte []) (valIn:NoQuoteQualifiers) : int = 
+let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualifiers) : int = 
    let tag = "735="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19211,7 +19211,7 @@ let ReadAllocSettlCurrency valIn =
     AllocSettlCurrency.AllocSettlCurrency tmp
 
 
-let WriteAllocSettlCurrency (nextFreeIdx:int) (dest:byte []) (valIn:AllocSettlCurrency) : int = 
+let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrency) : int = 
    let tag = "736="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19226,7 +19226,7 @@ let ReadAllocSettlCurrAmt valIn =
     AllocSettlCurrAmt.AllocSettlCurrAmt tmp
 
 
-let WriteAllocSettlCurrAmt (nextFreeIdx:int) (dest:byte []) (valIn:AllocSettlCurrAmt) : int = 
+let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrAmt) : int = 
    let tag = "737="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19241,7 +19241,7 @@ let ReadInterestAtMaturity valIn =
     InterestAtMaturity.InterestAtMaturity tmp
 
 
-let WriteInterestAtMaturity (nextFreeIdx:int) (dest:byte []) (valIn:InterestAtMaturity) : int = 
+let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMaturity) : int = 
    let tag = "738="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19256,7 +19256,7 @@ let ReadLegDatedDate valIn =
     LegDatedDate.LegDatedDate tmp
 
 
-let WriteLegDatedDate (nextFreeIdx:int) (dest:byte []) (valIn:LegDatedDate) : int = 
+let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : int = 
    let tag = "739="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19271,7 +19271,7 @@ let ReadLegPool valIn =
     LegPool.LegPool tmp
 
 
-let WriteLegPool (nextFreeIdx:int) (dest:byte []) (valIn:LegPool) : int = 
+let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int = 
    let tag = "740="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19286,7 +19286,7 @@ let ReadAllocInterestAtMaturity valIn =
     AllocInterestAtMaturity.AllocInterestAtMaturity tmp
 
 
-let WriteAllocInterestAtMaturity (nextFreeIdx:int) (dest:byte []) (valIn:AllocInterestAtMaturity) : int = 
+let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocInterestAtMaturity) : int = 
    let tag = "741="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19301,7 +19301,7 @@ let ReadAllocAccruedInterestAmt valIn =
     AllocAccruedInterestAmt.AllocAccruedInterestAmt tmp
 
 
-let WriteAllocAccruedInterestAmt (nextFreeIdx:int) (dest:byte []) (valIn:AllocAccruedInterestAmt) : int = 
+let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccruedInterestAmt) : int = 
    let tag = "742="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19316,7 +19316,7 @@ let ReadDeliveryDate valIn =
     DeliveryDate.DeliveryDate tmp
 
 
-let WriteDeliveryDate (nextFreeIdx:int) (dest:byte []) (valIn:DeliveryDate) : int = 
+let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : int = 
    let tag = "743="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19333,7 +19333,7 @@ let ReadAssignmentMethod (fldValIn:string) : AssignmentMethod =
     | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
 
 
-let WriteAssignmentMethod (nextFreeIdx:int) (dest:byte array) (xxIn:AssignmentMethod) : int =
+let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMethod) : int =
     match xxIn with
     | AssignmentMethod.Random ->
         let tag = "744=R"B
@@ -19354,7 +19354,7 @@ let ReadAssignmentUnit valIn =
     AssignmentUnit.AssignmentUnit tmp
 
 
-let WriteAssignmentUnit (nextFreeIdx:int) (dest:byte []) (valIn:AssignmentUnit) : int = 
+let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) : int = 
    let tag = "745="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19369,7 +19369,7 @@ let ReadOpenInterest valIn =
     OpenInterest.OpenInterest tmp
 
 
-let WriteOpenInterest (nextFreeIdx:int) (dest:byte []) (valIn:OpenInterest) : int = 
+let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : int = 
    let tag = "746="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19386,7 +19386,7 @@ let ReadExerciseMethod (fldValIn:string) : ExerciseMethod =
     | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
 
 
-let WriteExerciseMethod (nextFreeIdx:int) (dest:byte array) (xxIn:ExerciseMethod) : int =
+let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod) : int =
     match xxIn with
     | ExerciseMethod.Automatic ->
         let tag = "747=A"B
@@ -19407,7 +19407,7 @@ let ReadTotNumTradeReports valIn =
     TotNumTradeReports.TotNumTradeReports tmp
 
 
-let WriteTotNumTradeReports (nextFreeIdx:int) (dest:byte []) (valIn:TotNumTradeReports) : int = 
+let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeReports) : int = 
    let tag = "748="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19431,7 +19431,7 @@ let ReadTradeRequestResult (fldValIn:string) : TradeRequestResult =
     | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
 
 
-let WriteTradeRequestResult (nextFreeIdx:int) (dest:byte array) (xxIn:TradeRequestResult) : int =
+let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestResult) : int =
     match xxIn with
     | TradeRequestResult.Successful ->
         let tag = "749=0"B
@@ -19497,7 +19497,7 @@ let ReadTradeRequestStatus (fldValIn:string) : TradeRequestStatus =
     | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
 
 
-let WriteTradeRequestStatus (nextFreeIdx:int) (dest:byte array) (xxIn:TradeRequestStatus) : int =
+let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestStatus) : int =
     match xxIn with
     | TradeRequestStatus.Accepted ->
         let tag = "750=0"B
@@ -19530,7 +19530,7 @@ let ReadTradeReportRejectReason (fldValIn:string) : TradeReportRejectReason =
     | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteTradeReportRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:TradeReportRejectReason) : int =
+let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportRejectReason) : int =
     match xxIn with
     | TradeReportRejectReason.Successful ->
         let tag = "751=0"B
@@ -19578,7 +19578,7 @@ let ReadSideMultiLegReportingType (fldValIn:string) : SideMultiLegReportingType 
     | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
 
 
-let WriteSideMultiLegReportingType (nextFreeIdx:int) (dest:byte array) (xxIn:SideMultiLegReportingType) : int =
+let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:SideMultiLegReportingType) : int =
     match xxIn with
     | SideMultiLegReportingType.SingleSecurity ->
         let tag = "752=1"B
@@ -19605,7 +19605,7 @@ let ReadNoPosAmt valIn =
     NoPosAmt.NoPosAmt tmp
 
 
-let WriteNoPosAmt (nextFreeIdx:int) (dest:byte []) (valIn:NoPosAmt) : int = 
+let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int = 
    let tag = "753="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19620,7 +19620,7 @@ let ReadAutoAcceptIndicator valIn =
     AutoAcceptIndicator.AutoAcceptIndicator tmp
 
 
-let WriteAutoAcceptIndicator (nextFreeIdx:int) (dest:byte []) (valIn:AutoAcceptIndicator) : int = 
+let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptIndicator) : int = 
    let tag = "754="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19635,7 +19635,7 @@ let ReadAllocReportID valIn =
     AllocReportID.AllocReportID tmp
 
 
-let WriteAllocReportID (nextFreeIdx:int) (dest:byte []) (valIn:AllocReportID) : int = 
+let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : int = 
    let tag = "755="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19650,7 +19650,7 @@ let ReadNoNested2PartyIDs valIn =
     NoNested2PartyIDs.NoNested2PartyIDs tmp
 
 
-let WriteNoNested2PartyIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNested2PartyIDs) : int = 
+let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartyIDs) : int = 
    let tag = "756="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19665,7 +19665,7 @@ let ReadNested2PartyID valIn =
     Nested2PartyID.Nested2PartyID tmp
 
 
-let WriteNested2PartyID (nextFreeIdx:int) (dest:byte []) (valIn:Nested2PartyID) : int = 
+let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) : int = 
    let tag = "757="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19680,7 +19680,7 @@ let ReadNested2PartyIDSource valIn =
     Nested2PartyIDSource.Nested2PartyIDSource tmp
 
 
-let WriteNested2PartyIDSource (nextFreeIdx:int) (dest:byte []) (valIn:Nested2PartyIDSource) : int = 
+let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyIDSource) : int = 
    let tag = "758="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19695,7 +19695,7 @@ let ReadNested2PartyRole valIn =
     Nested2PartyRole.Nested2PartyRole tmp
 
 
-let WriteNested2PartyRole (nextFreeIdx:int) (dest:byte []) (valIn:Nested2PartyRole) : int = 
+let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRole) : int = 
    let tag = "759="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19710,7 +19710,7 @@ let ReadNested2PartySubID valIn =
     Nested2PartySubID.Nested2PartySubID tmp
 
 
-let WriteNested2PartySubID (nextFreeIdx:int) (dest:byte []) (valIn:Nested2PartySubID) : int = 
+let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubID) : int = 
    let tag = "760="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19725,7 +19725,7 @@ let ReadBenchmarkSecurityIDSource valIn =
     BenchmarkSecurityIDSource.BenchmarkSecurityIDSource tmp
 
 
-let WriteBenchmarkSecurityIDSource (nextFreeIdx:int) (dest:byte []) (valIn:BenchmarkSecurityIDSource) : int = 
+let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityIDSource) : int = 
    let tag = "761="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19740,7 +19740,7 @@ let ReadSecuritySubType valIn =
     SecuritySubType.SecuritySubType tmp
 
 
-let WriteSecuritySubType (nextFreeIdx:int) (dest:byte []) (valIn:SecuritySubType) : int = 
+let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType) : int = 
    let tag = "762="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19755,7 +19755,7 @@ let ReadUnderlyingSecuritySubType valIn =
     UnderlyingSecuritySubType.UnderlyingSecuritySubType tmp
 
 
-let WriteUnderlyingSecuritySubType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingSecuritySubType) : int = 
+let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecuritySubType) : int = 
    let tag = "763="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19770,7 +19770,7 @@ let ReadLegSecuritySubType valIn =
     LegSecuritySubType.LegSecuritySubType tmp
 
 
-let WriteLegSecuritySubType (nextFreeIdx:int) (dest:byte []) (valIn:LegSecuritySubType) : int = 
+let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecuritySubType) : int = 
    let tag = "764="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19785,7 +19785,7 @@ let ReadAllowableOneSidednessPct valIn =
     AllowableOneSidednessPct.AllowableOneSidednessPct tmp
 
 
-let WriteAllowableOneSidednessPct (nextFreeIdx:int) (dest:byte []) (valIn:AllowableOneSidednessPct) : int = 
+let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessPct) : int = 
    let tag = "765="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19800,7 +19800,7 @@ let ReadAllowableOneSidednessValue valIn =
     AllowableOneSidednessValue.AllowableOneSidednessValue tmp
 
 
-let WriteAllowableOneSidednessValue (nextFreeIdx:int) (dest:byte []) (valIn:AllowableOneSidednessValue) : int = 
+let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessValue) : int = 
    let tag = "766="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19815,7 +19815,7 @@ let ReadAllowableOneSidednessCurr valIn =
     AllowableOneSidednessCurr.AllowableOneSidednessCurr tmp
 
 
-let WriteAllowableOneSidednessCurr (nextFreeIdx:int) (dest:byte []) (valIn:AllowableOneSidednessCurr) : int = 
+let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessCurr) : int = 
    let tag = "767="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19830,7 +19830,7 @@ let ReadNoTrdRegTimestamps valIn =
     NoTrdRegTimestamps.NoTrdRegTimestamps tmp
 
 
-let WriteNoTrdRegTimestamps (nextFreeIdx:int) (dest:byte []) (valIn:NoTrdRegTimestamps) : int = 
+let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTimestamps) : int = 
    let tag = "768="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19845,7 +19845,7 @@ let ReadTrdRegTimestamp valIn =
     TrdRegTimestamp.TrdRegTimestamp tmp
 
 
-let WriteTrdRegTimestamp (nextFreeIdx:int) (dest:byte []) (valIn:TrdRegTimestamp) : int = 
+let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp) : int = 
    let tag = "769="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19865,7 +19865,7 @@ let ReadTrdRegTimestampType (fldValIn:string) : TrdRegTimestampType =
     | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
 
 
-let WriteTrdRegTimestampType (nextFreeIdx:int) (dest:byte array) (xxIn:TrdRegTimestampType) : int =
+let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTimestampType) : int =
     match xxIn with
     | TrdRegTimestampType.ExecutionTime ->
         let tag = "770=1"B
@@ -19904,7 +19904,7 @@ let ReadTrdRegTimestampOrigin valIn =
     TrdRegTimestampOrigin.TrdRegTimestampOrigin tmp
 
 
-let WriteTrdRegTimestampOrigin (nextFreeIdx:int) (dest:byte []) (valIn:TrdRegTimestampOrigin) : int = 
+let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestampOrigin) : int = 
    let tag = "771="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19919,7 +19919,7 @@ let ReadConfirmRefID valIn =
     ConfirmRefID.ConfirmRefID tmp
 
 
-let WriteConfirmRefID (nextFreeIdx:int) (dest:byte []) (valIn:ConfirmRefID) : int = 
+let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : int = 
    let tag = "772="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -19937,7 +19937,7 @@ let ReadConfirmType (fldValIn:string) : ConfirmType =
     | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
 
 
-let WriteConfirmType (nextFreeIdx:int) (dest:byte array) (xxIn:ConfirmType) : int =
+let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : int =
     match xxIn with
     | ConfirmType.Status ->
         let tag = "773=1"B
@@ -19967,7 +19967,7 @@ let ReadConfirmRejReason (fldValIn:string) : ConfirmRejReason =
     | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
 
 
-let WriteConfirmRejReason (nextFreeIdx:int) (dest:byte array) (xxIn:ConfirmRejReason) : int =
+let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejReason) : int =
     match xxIn with
     | ConfirmRejReason.MismatchedAccount ->
         let tag = "774=1"B
@@ -19997,7 +19997,7 @@ let ReadBookingType (fldValIn:string) : BookingType =
     | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
 
 
-let WriteBookingType (nextFreeIdx:int) (dest:byte array) (xxIn:BookingType) : int =
+let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : int =
     match xxIn with
     | BookingType.RegularBooking ->
         let tag = "775=0"B
@@ -20024,7 +20024,7 @@ let ReadIndividualAllocRejCode valIn =
     IndividualAllocRejCode.IndividualAllocRejCode tmp
 
 
-let WriteIndividualAllocRejCode (nextFreeIdx:int) (dest:byte []) (valIn:IndividualAllocRejCode) : int = 
+let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocRejCode) : int = 
    let tag = "776="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20039,7 +20039,7 @@ let ReadSettlInstMsgID valIn =
     SettlInstMsgID.SettlInstMsgID tmp
 
 
-let WriteSettlInstMsgID (nextFreeIdx:int) (dest:byte []) (valIn:SettlInstMsgID) : int = 
+let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) : int = 
    let tag = "777="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20054,7 +20054,7 @@ let ReadNoSettlInst valIn =
     NoSettlInst.NoSettlInst tmp
 
 
-let WriteNoSettlInst (nextFreeIdx:int) (dest:byte []) (valIn:NoSettlInst) : int = 
+let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int = 
    let tag = "778="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20069,7 +20069,7 @@ let ReadLastUpdateTime valIn =
     LastUpdateTime.LastUpdateTime tmp
 
 
-let WriteLastUpdateTime (nextFreeIdx:int) (dest:byte []) (valIn:LastUpdateTime) : int = 
+let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) : int = 
    let tag = "779="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20089,7 +20089,7 @@ let ReadAllocSettlInstType (fldValIn:string) : AllocSettlInstType =
     | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
 
 
-let WriteAllocSettlInstType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocSettlInstType) : int =
+let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettlInstType) : int =
     match xxIn with
     | AllocSettlInstType.UseDefaultInstructions ->
         let tag = "780=0"B
@@ -20128,7 +20128,7 @@ let ReadNoSettlPartyIDs valIn =
     NoSettlPartyIDs.NoSettlPartyIDs tmp
 
 
-let WriteNoSettlPartyIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoSettlPartyIDs) : int = 
+let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs) : int = 
    let tag = "781="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20143,7 +20143,7 @@ let ReadSettlPartyID valIn =
     SettlPartyID.SettlPartyID tmp
 
 
-let WriteSettlPartyID (nextFreeIdx:int) (dest:byte []) (valIn:SettlPartyID) : int = 
+let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : int = 
    let tag = "782="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20158,7 +20158,7 @@ let ReadSettlPartyIDSource valIn =
     SettlPartyIDSource.SettlPartyIDSource tmp
 
 
-let WriteSettlPartyIDSource (nextFreeIdx:int) (dest:byte []) (valIn:SettlPartyIDSource) : int = 
+let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyIDSource) : int = 
    let tag = "783="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20173,7 +20173,7 @@ let ReadSettlPartyRole valIn =
     SettlPartyRole.SettlPartyRole tmp
 
 
-let WriteSettlPartyRole (nextFreeIdx:int) (dest:byte []) (valIn:SettlPartyRole) : int = 
+let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) : int = 
    let tag = "784="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20188,7 +20188,7 @@ let ReadSettlPartySubID valIn =
     SettlPartySubID.SettlPartySubID tmp
 
 
-let WriteSettlPartySubID (nextFreeIdx:int) (dest:byte []) (valIn:SettlPartySubID) : int = 
+let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID) : int = 
    let tag = "785="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20203,7 +20203,7 @@ let ReadSettlPartySubIDType valIn =
     SettlPartySubIDType.SettlPartySubIDType tmp
 
 
-let WriteSettlPartySubIDType (nextFreeIdx:int) (dest:byte []) (valIn:SettlPartySubIDType) : int = 
+let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubIDType) : int = 
    let tag = "786="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20220,7 +20220,7 @@ let ReadDlvyInstType (fldValIn:string) : DlvyInstType =
     | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
 
 
-let WriteDlvyInstType (nextFreeIdx:int) (dest:byte array) (xxIn:DlvyInstType) : int =
+let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : int =
     match xxIn with
     | DlvyInstType.Securities ->
         let tag = "787=S"B
@@ -20245,7 +20245,7 @@ let ReadTerminationType (fldValIn:string) : TerminationType =
     | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
 
 
-let WriteTerminationType (nextFreeIdx:int) (dest:byte array) (xxIn:TerminationType) : int =
+let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationType) : int =
     match xxIn with
     | TerminationType.Overnight ->
         let tag = "788=1"B
@@ -20278,7 +20278,7 @@ let ReadNextExpectedMsgSeqNum valIn =
     NextExpectedMsgSeqNum.NextExpectedMsgSeqNum tmp
 
 
-let WriteNextExpectedMsgSeqNum (nextFreeIdx:int) (dest:byte []) (valIn:NextExpectedMsgSeqNum) : int = 
+let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpectedMsgSeqNum) : int = 
    let tag = "789="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20293,7 +20293,7 @@ let ReadOrdStatusReqID valIn =
     OrdStatusReqID.OrdStatusReqID tmp
 
 
-let WriteOrdStatusReqID (nextFreeIdx:int) (dest:byte []) (valIn:OrdStatusReqID) : int = 
+let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) : int = 
    let tag = "790="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20308,7 +20308,7 @@ let ReadSettlInstReqID valIn =
     SettlInstReqID.SettlInstReqID tmp
 
 
-let WriteSettlInstReqID (nextFreeIdx:int) (dest:byte []) (valIn:SettlInstReqID) : int = 
+let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) : int = 
    let tag = "791="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20327,7 +20327,7 @@ let ReadSettlInstReqRejCode (fldValIn:string) : SettlInstReqRejCode =
     | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
 
 
-let WriteSettlInstReqRejCode (nextFreeIdx:int) (dest:byte array) (xxIn:SettlInstReqRejCode) : int =
+let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstReqRejCode) : int =
     match xxIn with
     | SettlInstReqRejCode.UnableToProcessRequest ->
         let tag = "792=0"B
@@ -20360,7 +20360,7 @@ let ReadSecondaryAllocID valIn =
     SecondaryAllocID.SecondaryAllocID tmp
 
 
-let WriteSecondaryAllocID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryAllocID) : int = 
+let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAllocID) : int = 
    let tag = "793="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20379,7 +20379,7 @@ let ReadAllocReportType (fldValIn:string) : AllocReportType =
     | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
 
 
-let WriteAllocReportType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocReportType) : int =
+let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportType) : int =
     match xxIn with
     | AllocReportType.SellsideCalculatedUsingPreliminary ->
         let tag = "794=3"B
@@ -20412,7 +20412,7 @@ let ReadAllocReportRefID valIn =
     AllocReportRefID.AllocReportRefID tmp
 
 
-let WriteAllocReportRefID (nextFreeIdx:int) (dest:byte []) (valIn:AllocReportRefID) : int = 
+let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRefID) : int = 
    let tag = "795="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20429,7 +20429,7 @@ let ReadAllocCancReplaceReason (fldValIn:string) : AllocCancReplaceReason =
     | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
 
 
-let WriteAllocCancReplaceReason (nextFreeIdx:int) (dest:byte array) (xxIn:AllocCancReplaceReason) : int =
+let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocCancReplaceReason) : int =
     match xxIn with
     | AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect ->
         let tag = "796=1"B
@@ -20450,7 +20450,7 @@ let ReadCopyMsgIndicator valIn =
     CopyMsgIndicator.CopyMsgIndicator tmp
 
 
-let WriteCopyMsgIndicator (nextFreeIdx:int) (dest:byte []) (valIn:CopyMsgIndicator) : int = 
+let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicator) : int = 
    let tag = "797="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20472,7 +20472,7 @@ let ReadAllocAccountType (fldValIn:string) : AllocAccountType =
     | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
 
 
-let WriteAllocAccountType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocAccountType) : int =
+let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccountType) : int =
     match xxIn with
     | AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks ->
         let tag = "798=1"B
@@ -20523,7 +20523,7 @@ let ReadOrderAvgPx valIn =
     OrderAvgPx.OrderAvgPx tmp
 
 
-let WriteOrderAvgPx (nextFreeIdx:int) (dest:byte []) (valIn:OrderAvgPx) : int = 
+let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int = 
    let tag = "799="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20538,7 +20538,7 @@ let ReadOrderBookingQty valIn =
     OrderBookingQty.OrderBookingQty tmp
 
 
-let WriteOrderBookingQty (nextFreeIdx:int) (dest:byte []) (valIn:OrderBookingQty) : int = 
+let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty) : int = 
    let tag = "800="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20553,7 +20553,7 @@ let ReadNoSettlPartySubIDs valIn =
     NoSettlPartySubIDs.NoSettlPartySubIDs tmp
 
 
-let WriteNoSettlPartySubIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoSettlPartySubIDs) : int = 
+let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartySubIDs) : int = 
    let tag = "801="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20568,7 +20568,7 @@ let ReadNoPartySubIDs valIn =
     NoPartySubIDs.NoPartySubIDs tmp
 
 
-let WriteNoPartySubIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoPartySubIDs) : int = 
+let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : int = 
    let tag = "802="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20583,7 +20583,7 @@ let ReadPartySubIDType valIn =
     PartySubIDType.PartySubIDType tmp
 
 
-let WritePartySubIDType (nextFreeIdx:int) (dest:byte []) (valIn:PartySubIDType) : int = 
+let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) : int = 
    let tag = "803="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20598,7 +20598,7 @@ let ReadNoNestedPartySubIDs valIn =
     NoNestedPartySubIDs.NoNestedPartySubIDs tmp
 
 
-let WriteNoNestedPartySubIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNestedPartySubIDs) : int = 
+let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartySubIDs) : int = 
    let tag = "804="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20613,7 +20613,7 @@ let ReadNestedPartySubIDType valIn =
     NestedPartySubIDType.NestedPartySubIDType tmp
 
 
-let WriteNestedPartySubIDType (nextFreeIdx:int) (dest:byte []) (valIn:NestedPartySubIDType) : int = 
+let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubIDType) : int = 
    let tag = "805="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20628,7 +20628,7 @@ let ReadNoNested2PartySubIDs valIn =
     NoNested2PartySubIDs.NoNested2PartySubIDs tmp
 
 
-let WriteNoNested2PartySubIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNested2PartySubIDs) : int = 
+let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartySubIDs) : int = 
    let tag = "806="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20643,7 +20643,7 @@ let ReadNested2PartySubIDType valIn =
     Nested2PartySubIDType.Nested2PartySubIDType tmp
 
 
-let WriteNested2PartySubIDType (nextFreeIdx:int) (dest:byte []) (valIn:Nested2PartySubIDType) : int = 
+let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubIDType) : int = 
    let tag = "807="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20664,7 +20664,7 @@ let ReadAllocIntermedReqType (fldValIn:string) : AllocIntermedReqType =
     | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
 
 
-let WriteAllocIntermedReqType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocIntermedReqType) : int =
+let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocIntermedReqType) : int =
     match xxIn with
     | AllocIntermedReqType.PendingAccept ->
         let tag = "808=1"B
@@ -20709,7 +20709,7 @@ let ReadUnderlyingPx valIn =
     UnderlyingPx.UnderlyingPx tmp
 
 
-let WriteUnderlyingPx (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingPx) : int = 
+let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : int = 
    let tag = "810="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20724,7 +20724,7 @@ let ReadPriceDelta valIn =
     PriceDelta.PriceDelta tmp
 
 
-let WritePriceDelta (nextFreeIdx:int) (dest:byte []) (valIn:PriceDelta) : int = 
+let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int = 
    let tag = "811="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20739,7 +20739,7 @@ let ReadApplQueueMax valIn =
     ApplQueueMax.ApplQueueMax tmp
 
 
-let WriteApplQueueMax (nextFreeIdx:int) (dest:byte []) (valIn:ApplQueueMax) : int = 
+let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : int = 
    let tag = "812="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20754,7 +20754,7 @@ let ReadApplQueueDepth valIn =
     ApplQueueDepth.ApplQueueDepth tmp
 
 
-let WriteApplQueueDepth (nextFreeIdx:int) (dest:byte []) (valIn:ApplQueueDepth) : int = 
+let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) : int = 
    let tag = "813="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20773,7 +20773,7 @@ let ReadApplQueueResolution (fldValIn:string) : ApplQueueResolution =
     | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
 
 
-let WriteApplQueueResolution (nextFreeIdx:int) (dest:byte array) (xxIn:ApplQueueResolution) : int =
+let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueResolution) : int =
     match xxIn with
     | ApplQueueResolution.NoActionTaken ->
         let tag = "814=0"B
@@ -20810,7 +20810,7 @@ let ReadApplQueueAction (fldValIn:string) : ApplQueueAction =
     | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
 
 
-let WriteApplQueueAction (nextFreeIdx:int) (dest:byte array) (xxIn:ApplQueueAction) : int =
+let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueAction) : int =
     match xxIn with
     | ApplQueueAction.NoActionTaken ->
         let tag = "815=0"B
@@ -20843,7 +20843,7 @@ let ReadNoAltMDSource valIn =
     NoAltMDSource.NoAltMDSource tmp
 
 
-let WriteNoAltMDSource (nextFreeIdx:int) (dest:byte []) (valIn:NoAltMDSource) : int = 
+let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : int = 
    let tag = "816="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20858,7 +20858,7 @@ let ReadAltMDSourceID valIn =
     AltMDSourceID.AltMDSourceID tmp
 
 
-let WriteAltMDSourceID (nextFreeIdx:int) (dest:byte []) (valIn:AltMDSourceID) : int = 
+let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : int = 
    let tag = "817="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20873,7 +20873,7 @@ let ReadSecondaryTradeReportID valIn =
     SecondaryTradeReportID.SecondaryTradeReportID tmp
 
 
-let WriteSecondaryTradeReportID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryTradeReportID) : int = 
+let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportID) : int = 
    let tag = "818="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20891,7 +20891,7 @@ let ReadAvgPxIndicator (fldValIn:string) : AvgPxIndicator =
     | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
 
 
-let WriteAvgPxIndicator (nextFreeIdx:int) (dest:byte array) (xxIn:AvgPxIndicator) : int =
+let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator) : int =
     match xxIn with
     | AvgPxIndicator.NoAveragePricing ->
         let tag = "819=0"B
@@ -20918,7 +20918,7 @@ let ReadTradeLinkID valIn =
     TradeLinkID.TradeLinkID tmp
 
 
-let WriteTradeLinkID (nextFreeIdx:int) (dest:byte []) (valIn:TradeLinkID) : int = 
+let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int = 
    let tag = "820="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20933,7 +20933,7 @@ let ReadOrderInputDevice valIn =
     OrderInputDevice.OrderInputDevice tmp
 
 
-let WriteOrderInputDevice (nextFreeIdx:int) (dest:byte []) (valIn:OrderInputDevice) : int = 
+let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevice) : int = 
    let tag = "821="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20948,7 +20948,7 @@ let ReadUnderlyingTradingSessionID valIn =
     UnderlyingTradingSessionID.UnderlyingTradingSessionID tmp
 
 
-let WriteUnderlyingTradingSessionID (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingTradingSessionID) : int = 
+let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionID) : int = 
    let tag = "822="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20963,7 +20963,7 @@ let ReadUnderlyingTradingSessionSubID valIn =
     UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID tmp
 
 
-let WriteUnderlyingTradingSessionSubID (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingTradingSessionSubID) : int = 
+let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionSubID) : int = 
    let tag = "823="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20978,7 +20978,7 @@ let ReadTradeLegRefID valIn =
     TradeLegRefID.TradeLegRefID tmp
 
 
-let WriteTradeLegRefID (nextFreeIdx:int) (dest:byte []) (valIn:TradeLegRefID) : int = 
+let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : int = 
    let tag = "824="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -20993,7 +20993,7 @@ let ReadExchangeRule valIn =
     ExchangeRule.ExchangeRule tmp
 
 
-let WriteExchangeRule (nextFreeIdx:int) (dest:byte []) (valIn:ExchangeRule) : int = 
+let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : int = 
    let tag = "825="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21011,7 +21011,7 @@ let ReadTradeAllocIndicator (fldValIn:string) : TradeAllocIndicator =
     | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
 
 
-let WriteTradeAllocIndicator (nextFreeIdx:int) (dest:byte array) (xxIn:TradeAllocIndicator) : int =
+let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllocIndicator) : int =
     match xxIn with
     | TradeAllocIndicator.AllocationNotRequired ->
         let tag = "826=0"B
@@ -21040,7 +21040,7 @@ let ReadExpirationCycle (fldValIn:string) : ExpirationCycle =
     | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
 
 
-let WriteExpirationCycle (nextFreeIdx:int) (dest:byte array) (xxIn:ExpirationCycle) : int =
+let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCycle) : int =
     match xxIn with
     | ExpirationCycle.ExpireOnTradingSessionClose ->
         let tag = "827=0"B
@@ -21072,7 +21072,7 @@ let ReadTrdType (fldValIn:string) : TrdType =
     | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
 
 
-let WriteTrdType (nextFreeIdx:int) (dest:byte array) (xxIn:TrdType) : int =
+let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
     match xxIn with
     | TrdType.RegularTrade ->
         let tag = "828=0"B
@@ -21147,7 +21147,7 @@ let ReadTrdSubType valIn =
     TrdSubType.TrdSubType tmp
 
 
-let WriteTrdSubType (nextFreeIdx:int) (dest:byte []) (valIn:TrdSubType) : int = 
+let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int = 
    let tag = "829="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21162,7 +21162,7 @@ let ReadTransferReason valIn =
     TransferReason.TransferReason tmp
 
 
-let WriteTransferReason (nextFreeIdx:int) (dest:byte []) (valIn:TransferReason) : int = 
+let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) : int = 
    let tag = "830="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21177,7 +21177,7 @@ let ReadAsgnReqID valIn =
     AsgnReqID.AsgnReqID tmp
 
 
-let WriteAsgnReqID (nextFreeIdx:int) (dest:byte []) (valIn:AsgnReqID) : int = 
+let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int = 
    let tag = "831="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21192,7 +21192,7 @@ let ReadTotNumAssignmentReports valIn =
     TotNumAssignmentReports.TotNumAssignmentReports tmp
 
 
-let WriteTotNumAssignmentReports (nextFreeIdx:int) (dest:byte []) (valIn:TotNumAssignmentReports) : int = 
+let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumAssignmentReports) : int = 
    let tag = "832="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21207,7 +21207,7 @@ let ReadAsgnRptID valIn =
     AsgnRptID.AsgnRptID tmp
 
 
-let WriteAsgnRptID (nextFreeIdx:int) (dest:byte []) (valIn:AsgnRptID) : int = 
+let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int = 
    let tag = "833="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21222,7 +21222,7 @@ let ReadThresholdAmount valIn =
     ThresholdAmount.ThresholdAmount tmp
 
 
-let WriteThresholdAmount (nextFreeIdx:int) (dest:byte []) (valIn:ThresholdAmount) : int = 
+let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount) : int = 
    let tag = "834="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21239,7 +21239,7 @@ let ReadPegMoveType (fldValIn:string) : PegMoveType =
     | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
 
 
-let WritePegMoveType (nextFreeIdx:int) (dest:byte array) (xxIn:PegMoveType) : int =
+let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : int =
     match xxIn with
     | PegMoveType.Floating ->
         let tag = "835=0"B
@@ -21264,7 +21264,7 @@ let ReadPegOffsetType (fldValIn:string) : PegOffsetType =
     | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
 
 
-let WritePegOffsetType (nextFreeIdx:int) (dest:byte array) (xxIn:PegOffsetType) : int =
+let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) : int =
     match xxIn with
     | PegOffsetType.Price ->
         let tag = "836=0"B
@@ -21300,7 +21300,7 @@ let ReadPegLimitType (fldValIn:string) : PegLimitType =
     | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
 
 
-let WritePegLimitType (nextFreeIdx:int) (dest:byte array) (xxIn:PegLimitType) : int =
+let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : int =
     match xxIn with
     | PegLimitType.OrBetter ->
         let tag = "837=0"B
@@ -21329,7 +21329,7 @@ let ReadPegRoundDirection (fldValIn:string) : PegRoundDirection =
     | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
 
 
-let WritePegRoundDirection (nextFreeIdx:int) (dest:byte array) (xxIn:PegRoundDirection) : int =
+let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDirection) : int =
     match xxIn with
     | PegRoundDirection.MoreAggressive ->
         let tag = "838=1"B
@@ -21350,7 +21350,7 @@ let ReadPeggedPrice valIn =
     PeggedPrice.PeggedPrice tmp
 
 
-let WritePeggedPrice (nextFreeIdx:int) (dest:byte []) (valIn:PeggedPrice) : int = 
+let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int = 
    let tag = "839="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21369,7 +21369,7 @@ let ReadPegScope (fldValIn:string) : PegScope =
     | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
 
 
-let WritePegScope (nextFreeIdx:int) (dest:byte array) (xxIn:PegScope) : int =
+let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
     match xxIn with
     | PegScope.Local ->
         let tag = "840=1"B
@@ -21404,7 +21404,7 @@ let ReadDiscretionMoveType (fldValIn:string) : DiscretionMoveType =
     | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionMoveType (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionMoveType) : int =
+let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionMoveType) : int =
     match xxIn with
     | DiscretionMoveType.Floating ->
         let tag = "841=0"B
@@ -21429,7 +21429,7 @@ let ReadDiscretionOffsetType (fldValIn:string) : DiscretionOffsetType =
     | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionOffsetType (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionOffsetType) : int =
+let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionOffsetType) : int =
     match xxIn with
     | DiscretionOffsetType.Price ->
         let tag = "842=0"B
@@ -21465,7 +21465,7 @@ let ReadDiscretionLimitType (fldValIn:string) : DiscretionLimitType =
     | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionLimitType (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionLimitType) : int =
+let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionLimitType) : int =
     match xxIn with
     | DiscretionLimitType.OrBetter ->
         let tag = "843=0"B
@@ -21494,7 +21494,7 @@ let ReadDiscretionRoundDirection (fldValIn:string) : DiscretionRoundDirection =
     | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionRoundDirection (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionRoundDirection) : int =
+let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionRoundDirection) : int =
     match xxIn with
     | DiscretionRoundDirection.MoreAggressive ->
         let tag = "844=1"B
@@ -21515,7 +21515,7 @@ let ReadDiscretionPrice valIn =
     DiscretionPrice.DiscretionPrice tmp
 
 
-let WriteDiscretionPrice (nextFreeIdx:int) (dest:byte []) (valIn:DiscretionPrice) : int = 
+let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice) : int = 
    let tag = "845="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21534,7 +21534,7 @@ let ReadDiscretionScope (fldValIn:string) : DiscretionScope =
     | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
 
 
-let WriteDiscretionScope (nextFreeIdx:int) (dest:byte array) (xxIn:DiscretionScope) : int =
+let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionScope) : int =
     match xxIn with
     | DiscretionScope.Local ->
         let tag = "846=1"B
@@ -21567,7 +21567,7 @@ let ReadTargetStrategy valIn =
     TargetStrategy.TargetStrategy tmp
 
 
-let WriteTargetStrategy (nextFreeIdx:int) (dest:byte []) (valIn:TargetStrategy) : int = 
+let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) : int = 
    let tag = "847="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21582,7 +21582,7 @@ let ReadTargetStrategyParameters valIn =
     TargetStrategyParameters.TargetStrategyParameters tmp
 
 
-let WriteTargetStrategyParameters (nextFreeIdx:int) (dest:byte []) (valIn:TargetStrategyParameters) : int = 
+let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyParameters) : int = 
    let tag = "848="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21597,7 +21597,7 @@ let ReadParticipationRate valIn =
     ParticipationRate.ParticipationRate tmp
 
 
-let WriteParticipationRate (nextFreeIdx:int) (dest:byte []) (valIn:ParticipationRate) : int = 
+let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:ParticipationRate) : int = 
    let tag = "849="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21612,7 +21612,7 @@ let ReadTargetStrategyPerformance valIn =
     TargetStrategyPerformance.TargetStrategyPerformance tmp
 
 
-let WriteTargetStrategyPerformance (nextFreeIdx:int) (dest:byte []) (valIn:TargetStrategyPerformance) : int = 
+let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyPerformance) : int = 
    let tag = "850="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21630,7 +21630,7 @@ let ReadLastLiquidityInd (fldValIn:string) : LastLiquidityInd =
     | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
 
 
-let WriteLastLiquidityInd (nextFreeIdx:int) (dest:byte array) (xxIn:LastLiquidityInd) : int =
+let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidityInd) : int =
     match xxIn with
     | LastLiquidityInd.AddedLiquidity ->
         let tag = "851=1"B
@@ -21657,7 +21657,7 @@ let ReadPublishTrdIndicator valIn =
     PublishTrdIndicator.PublishTrdIndicator tmp
 
 
-let WritePublishTrdIndicator (nextFreeIdx:int) (dest:byte []) (valIn:PublishTrdIndicator) : int = 
+let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdIndicator) : int = 
    let tag = "852="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21678,7 +21678,7 @@ let ReadShortSaleReason (fldValIn:string) : ShortSaleReason =
     | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
 
 
-let WriteShortSaleReason (nextFreeIdx:int) (dest:byte array) (xxIn:ShortSaleReason) : int =
+let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReason) : int =
     match xxIn with
     | ShortSaleReason.DealerSoldShort ->
         let tag = "853=0"B
@@ -21725,7 +21725,7 @@ let ReadQtyType (fldValIn:string) : QtyType =
     | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
 
 
-let WriteQtyType (nextFreeIdx:int) (dest:byte array) (xxIn:QtyType) : int =
+let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
     match xxIn with
     | QtyType.Units ->
         let tag = "854=0"B
@@ -21746,7 +21746,7 @@ let ReadSecondaryTrdType valIn =
     SecondaryTrdType.SecondaryTrdType tmp
 
 
-let WriteSecondaryTrdType (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryTrdType) : int = 
+let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdType) : int = 
    let tag = "855="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21769,7 +21769,7 @@ let ReadTradeReportType (fldValIn:string) : TradeReportType =
     | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
 
 
-let WriteTradeReportType (nextFreeIdx:int) (dest:byte array) (xxIn:TradeReportType) : int =
+let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportType) : int =
     match xxIn with
     | TradeReportType.Submit ->
         let tag = "856=0"B
@@ -21828,7 +21828,7 @@ let ReadAllocNoOrdersType (fldValIn:string) : AllocNoOrdersType =
     | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
 
 
-let WriteAllocNoOrdersType (nextFreeIdx:int) (dest:byte array) (xxIn:AllocNoOrdersType) : int =
+let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrdersType) : int =
     match xxIn with
     | AllocNoOrdersType.NotSpecified ->
         let tag = "857=0"B
@@ -21849,7 +21849,7 @@ let ReadSharedCommission valIn =
     SharedCommission.SharedCommission tmp
 
 
-let WriteSharedCommission (nextFreeIdx:int) (dest:byte []) (valIn:SharedCommission) : int = 
+let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommission) : int = 
    let tag = "858="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21864,7 +21864,7 @@ let ReadConfirmReqID valIn =
     ConfirmReqID.ConfirmReqID tmp
 
 
-let WriteConfirmReqID (nextFreeIdx:int) (dest:byte []) (valIn:ConfirmReqID) : int = 
+let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : int = 
    let tag = "859="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21879,7 +21879,7 @@ let ReadAvgParPx valIn =
     AvgParPx.AvgParPx tmp
 
 
-let WriteAvgParPx (nextFreeIdx:int) (dest:byte []) (valIn:AvgParPx) : int = 
+let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int = 
    let tag = "860="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21894,7 +21894,7 @@ let ReadReportedPx valIn =
     ReportedPx.ReportedPx tmp
 
 
-let WriteReportedPx (nextFreeIdx:int) (dest:byte []) (valIn:ReportedPx) : int = 
+let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int = 
    let tag = "861="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21909,7 +21909,7 @@ let ReadNoCapacities valIn =
     NoCapacities.NoCapacities tmp
 
 
-let WriteNoCapacities (nextFreeIdx:int) (dest:byte []) (valIn:NoCapacities) : int = 
+let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : int = 
    let tag = "862="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21924,7 +21924,7 @@ let ReadOrderCapacityQty valIn =
     OrderCapacityQty.OrderCapacityQty tmp
 
 
-let WriteOrderCapacityQty (nextFreeIdx:int) (dest:byte []) (valIn:OrderCapacityQty) : int = 
+let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQty) : int = 
    let tag = "863="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21939,7 +21939,7 @@ let ReadNoEvents valIn =
     NoEvents.NoEvents tmp
 
 
-let WriteNoEvents (nextFreeIdx:int) (dest:byte []) (valIn:NoEvents) : int = 
+let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int = 
    let tag = "864="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -21959,7 +21959,7 @@ let ReadEventType (fldValIn:string) : EventType =
     | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
 
 
-let WriteEventType (nextFreeIdx:int) (dest:byte array) (xxIn:EventType) : int =
+let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
     match xxIn with
     | EventType.Put ->
         let tag = "865=1"B
@@ -21998,7 +21998,7 @@ let ReadEventDate valIn =
     EventDate.EventDate tmp
 
 
-let WriteEventDate (nextFreeIdx:int) (dest:byte []) (valIn:EventDate) : int = 
+let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int = 
    let tag = "866="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22013,7 +22013,7 @@ let ReadEventPx valIn =
     EventPx.EventPx tmp
 
 
-let WriteEventPx (nextFreeIdx:int) (dest:byte []) (valIn:EventPx) : int = 
+let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int = 
    let tag = "867="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22028,7 +22028,7 @@ let ReadEventText valIn =
     EventText.EventText tmp
 
 
-let WriteEventText (nextFreeIdx:int) (dest:byte []) (valIn:EventText) : int = 
+let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int = 
    let tag = "868="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22043,7 +22043,7 @@ let ReadPctAtRisk valIn =
     PctAtRisk.PctAtRisk tmp
 
 
-let WritePctAtRisk (nextFreeIdx:int) (dest:byte []) (valIn:PctAtRisk) : int = 
+let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int = 
    let tag = "869="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22058,7 +22058,7 @@ let ReadNoInstrAttrib valIn =
     NoInstrAttrib.NoInstrAttrib tmp
 
 
-let WriteNoInstrAttrib (nextFreeIdx:int) (dest:byte []) (valIn:NoInstrAttrib) : int = 
+let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : int = 
    let tag = "870="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22096,7 +22096,7 @@ let ReadInstrAttribType (fldValIn:string) : InstrAttribType =
     | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
 
 
-let WriteInstrAttribType (nextFreeIdx:int) (dest:byte array) (xxIn:InstrAttribType) : int =
+let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribType) : int =
     match xxIn with
     | InstrAttribType.Flat ->
         let tag = "871=1"B
@@ -22243,7 +22243,7 @@ let ReadInstrAttribValue valIn =
     InstrAttribValue.InstrAttribValue tmp
 
 
-let WriteInstrAttribValue (nextFreeIdx:int) (dest:byte []) (valIn:InstrAttribValue) : int = 
+let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribValue) : int = 
    let tag = "872="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22258,7 +22258,7 @@ let ReadDatedDate valIn =
     DatedDate.DatedDate tmp
 
 
-let WriteDatedDate (nextFreeIdx:int) (dest:byte []) (valIn:DatedDate) : int = 
+let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int = 
    let tag = "873="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22273,7 +22273,7 @@ let ReadInterestAccrualDate valIn =
     InterestAccrualDate.InterestAccrualDate tmp
 
 
-let WriteInterestAccrualDate (nextFreeIdx:int) (dest:byte []) (valIn:InterestAccrualDate) : int = 
+let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAccrualDate) : int = 
    let tag = "874="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22288,7 +22288,7 @@ let ReadCPProgram valIn =
     CPProgram.CPProgram tmp
 
 
-let WriteCPProgram (nextFreeIdx:int) (dest:byte []) (valIn:CPProgram) : int = 
+let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int = 
    let tag = "875="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22303,7 +22303,7 @@ let ReadCPRegType valIn =
     CPRegType.CPRegType tmp
 
 
-let WriteCPRegType (nextFreeIdx:int) (dest:byte []) (valIn:CPRegType) : int = 
+let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int = 
    let tag = "876="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22318,7 +22318,7 @@ let ReadUnderlyingCPProgram valIn =
     UnderlyingCPProgram.UnderlyingCPProgram tmp
 
 
-let WriteUnderlyingCPProgram (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCPProgram) : int = 
+let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPProgram) : int = 
    let tag = "877="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22333,7 +22333,7 @@ let ReadUnderlyingCPRegType valIn =
     UnderlyingCPRegType.UnderlyingCPRegType tmp
 
 
-let WriteUnderlyingCPRegType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCPRegType) : int = 
+let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPRegType) : int = 
    let tag = "878="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22348,7 +22348,7 @@ let ReadUnderlyingQty valIn =
     UnderlyingQty.UnderlyingQty tmp
 
 
-let WriteUnderlyingQty (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingQty) : int = 
+let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : int = 
    let tag = "879="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22363,7 +22363,7 @@ let ReadTrdMatchID valIn =
     TrdMatchID.TrdMatchID tmp
 
 
-let WriteTrdMatchID (nextFreeIdx:int) (dest:byte []) (valIn:TrdMatchID) : int = 
+let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int = 
    let tag = "880="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22378,7 +22378,7 @@ let ReadSecondaryTradeReportRefID valIn =
     SecondaryTradeReportRefID.SecondaryTradeReportRefID tmp
 
 
-let WriteSecondaryTradeReportRefID (nextFreeIdx:int) (dest:byte []) (valIn:SecondaryTradeReportRefID) : int = 
+let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportRefID) : int = 
    let tag = "881="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22393,7 +22393,7 @@ let ReadUnderlyingDirtyPrice valIn =
     UnderlyingDirtyPrice.UnderlyingDirtyPrice tmp
 
 
-let WriteUnderlyingDirtyPrice (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingDirtyPrice) : int = 
+let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingDirtyPrice) : int = 
    let tag = "882="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22408,7 +22408,7 @@ let ReadUnderlyingEndPrice valIn =
     UnderlyingEndPrice.UnderlyingEndPrice tmp
 
 
-let WriteUnderlyingEndPrice (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingEndPrice) : int = 
+let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndPrice) : int = 
    let tag = "883="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22423,7 +22423,7 @@ let ReadUnderlyingStartValue valIn =
     UnderlyingStartValue.UnderlyingStartValue tmp
 
 
-let WriteUnderlyingStartValue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStartValue) : int = 
+let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStartValue) : int = 
    let tag = "884="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22438,7 +22438,7 @@ let ReadUnderlyingCurrentValue valIn =
     UnderlyingCurrentValue.UnderlyingCurrentValue tmp
 
 
-let WriteUnderlyingCurrentValue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingCurrentValue) : int = 
+let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrentValue) : int = 
    let tag = "885="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22453,7 +22453,7 @@ let ReadUnderlyingEndValue valIn =
     UnderlyingEndValue.UnderlyingEndValue tmp
 
 
-let WriteUnderlyingEndValue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingEndValue) : int = 
+let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndValue) : int = 
    let tag = "886="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22468,7 +22468,7 @@ let ReadNoUnderlyingStips valIn =
     NoUnderlyingStips.NoUnderlyingStips tmp
 
 
-let WriteNoUnderlyingStips (nextFreeIdx:int) (dest:byte []) (valIn:NoUnderlyingStips) : int = 
+let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingStips) : int = 
    let tag = "887="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22483,7 +22483,7 @@ let ReadUnderlyingStipType valIn =
     UnderlyingStipType.UnderlyingStipType tmp
 
 
-let WriteUnderlyingStipType (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStipType) : int = 
+let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipType) : int = 
    let tag = "888="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22498,7 +22498,7 @@ let ReadUnderlyingStipValue valIn =
     UnderlyingStipValue.UnderlyingStipValue tmp
 
 
-let WriteUnderlyingStipValue (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStipValue) : int = 
+let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipValue) : int = 
    let tag = "889="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22513,7 +22513,7 @@ let ReadMaturityNetMoney valIn =
     MaturityNetMoney.MaturityNetMoney tmp
 
 
-let WriteMaturityNetMoney (nextFreeIdx:int) (dest:byte []) (valIn:MaturityNetMoney) : int = 
+let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMoney) : int = 
    let tag = "890="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22531,7 +22531,7 @@ let ReadMiscFeeBasis (fldValIn:string) : MiscFeeBasis =
     | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
 
 
-let WriteMiscFeeBasis (nextFreeIdx:int) (dest:byte array) (xxIn:MiscFeeBasis) : int =
+let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : int =
     match xxIn with
     | MiscFeeBasis.Absolute ->
         let tag = "891=0"B
@@ -22558,7 +22558,7 @@ let ReadTotNoAllocs valIn =
     TotNoAllocs.TotNoAllocs tmp
 
 
-let WriteTotNoAllocs (nextFreeIdx:int) (dest:byte []) (valIn:TotNoAllocs) : int = 
+let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int = 
    let tag = "892="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22573,7 +22573,7 @@ let ReadLastFragment valIn =
     LastFragment.LastFragment tmp
 
 
-let WriteLastFragment (nextFreeIdx:int) (dest:byte []) (valIn:LastFragment) : int = 
+let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : int = 
    let tag = "893="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22588,7 +22588,7 @@ let ReadCollReqID valIn =
     CollReqID.CollReqID tmp
 
 
-let WriteCollReqID (nextFreeIdx:int) (dest:byte []) (valIn:CollReqID) : int = 
+let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int = 
    let tag = "894="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22611,7 +22611,7 @@ let ReadCollAsgnReason (fldValIn:string) : CollAsgnReason =
     | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
 
 
-let WriteCollAsgnReason (nextFreeIdx:int) (dest:byte array) (xxIn:CollAsgnReason) : int =
+let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason) : int =
     match xxIn with
     | CollAsgnReason.Initial ->
         let tag = "895=0"B
@@ -22676,7 +22676,7 @@ let ReadCollInquiryQualifier (fldValIn:string) : CollInquiryQualifier =
     | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
 
 
-let WriteCollInquiryQualifier (nextFreeIdx:int) (dest:byte array) (xxIn:CollInquiryQualifier) : int =
+let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryQualifier) : int =
     match xxIn with
     | CollInquiryQualifier.Tradedate ->
         let tag = "896=0"B
@@ -22733,7 +22733,7 @@ let ReadNoTrades valIn =
     NoTrades.NoTrades tmp
 
 
-let WriteNoTrades (nextFreeIdx:int) (dest:byte []) (valIn:NoTrades) : int = 
+let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int = 
    let tag = "897="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22748,7 +22748,7 @@ let ReadMarginRatio valIn =
     MarginRatio.MarginRatio tmp
 
 
-let WriteMarginRatio (nextFreeIdx:int) (dest:byte []) (valIn:MarginRatio) : int = 
+let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int = 
    let tag = "898="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22763,7 +22763,7 @@ let ReadMarginExcess valIn =
     MarginExcess.MarginExcess tmp
 
 
-let WriteMarginExcess (nextFreeIdx:int) (dest:byte []) (valIn:MarginExcess) : int = 
+let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : int = 
    let tag = "899="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22778,7 +22778,7 @@ let ReadTotalNetValue valIn =
     TotalNetValue.TotalNetValue tmp
 
 
-let WriteTotalNetValue (nextFreeIdx:int) (dest:byte []) (valIn:TotalNetValue) : int = 
+let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : int = 
    let tag = "900="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22793,7 +22793,7 @@ let ReadCashOutstanding valIn =
     CashOutstanding.CashOutstanding tmp
 
 
-let WriteCashOutstanding (nextFreeIdx:int) (dest:byte []) (valIn:CashOutstanding) : int = 
+let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding) : int = 
    let tag = "901="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22808,7 +22808,7 @@ let ReadCollAsgnID valIn =
     CollAsgnID.CollAsgnID tmp
 
 
-let WriteCollAsgnID (nextFreeIdx:int) (dest:byte []) (valIn:CollAsgnID) : int = 
+let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int = 
    let tag = "902="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22828,7 +22828,7 @@ let ReadCollAsgnTransType (fldValIn:string) : CollAsgnTransType =
     | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
 
 
-let WriteCollAsgnTransType (nextFreeIdx:int) (dest:byte array) (xxIn:CollAsgnTransType) : int =
+let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTransType) : int =
     match xxIn with
     | CollAsgnTransType.New ->
         let tag = "903=0"B
@@ -22867,7 +22867,7 @@ let ReadCollRespID valIn =
     CollRespID.CollRespID tmp
 
 
-let WriteCollRespID (nextFreeIdx:int) (dest:byte []) (valIn:CollRespID) : int = 
+let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int = 
    let tag = "904="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22886,7 +22886,7 @@ let ReadCollAsgnRespType (fldValIn:string) : CollAsgnRespType =
     | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
 
 
-let WriteCollAsgnRespType (nextFreeIdx:int) (dest:byte array) (xxIn:CollAsgnRespType) : int =
+let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRespType) : int =
     match xxIn with
     | CollAsgnRespType.Received ->
         let tag = "905=0"B
@@ -22926,7 +22926,7 @@ let ReadCollAsgnRejectReason (fldValIn:string) : CollAsgnRejectReason =
     | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
 
 
-let WriteCollAsgnRejectReason (nextFreeIdx:int) (dest:byte array) (xxIn:CollAsgnRejectReason) : int =
+let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRejectReason) : int =
     match xxIn with
     | CollAsgnRejectReason.UnknownDeal ->
         let tag = "906=0"B
@@ -22977,7 +22977,7 @@ let ReadCollAsgnRefID valIn =
     CollAsgnRefID.CollAsgnRefID tmp
 
 
-let WriteCollAsgnRefID (nextFreeIdx:int) (dest:byte []) (valIn:CollAsgnRefID) : int = 
+let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : int = 
    let tag = "907="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -22992,7 +22992,7 @@ let ReadCollRptID valIn =
     CollRptID.CollRptID tmp
 
 
-let WriteCollRptID (nextFreeIdx:int) (dest:byte []) (valIn:CollRptID) : int = 
+let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int = 
    let tag = "908="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23007,7 +23007,7 @@ let ReadCollInquiryID valIn =
     CollInquiryID.CollInquiryID tmp
 
 
-let WriteCollInquiryID (nextFreeIdx:int) (dest:byte []) (valIn:CollInquiryID) : int = 
+let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : int = 
    let tag = "909="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23027,7 +23027,7 @@ let ReadCollStatus (fldValIn:string) : CollStatus =
     | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
 
 
-let WriteCollStatus (nextFreeIdx:int) (dest:byte array) (xxIn:CollStatus) : int =
+let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int =
     match xxIn with
     | CollStatus.Unassigned ->
         let tag = "910=0"B
@@ -23066,7 +23066,7 @@ let ReadTotNumReports valIn =
     TotNumReports.TotNumReports tmp
 
 
-let WriteTotNumReports (nextFreeIdx:int) (dest:byte []) (valIn:TotNumReports) : int = 
+let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : int = 
    let tag = "911="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23081,7 +23081,7 @@ let ReadLastRptRequested valIn =
     LastRptRequested.LastRptRequested tmp
 
 
-let WriteLastRptRequested (nextFreeIdx:int) (dest:byte []) (valIn:LastRptRequested) : int = 
+let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequested) : int = 
    let tag = "912="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23096,7 +23096,7 @@ let ReadAgreementDesc valIn =
     AgreementDesc.AgreementDesc tmp
 
 
-let WriteAgreementDesc (nextFreeIdx:int) (dest:byte []) (valIn:AgreementDesc) : int = 
+let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : int = 
    let tag = "913="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23111,7 +23111,7 @@ let ReadAgreementID valIn =
     AgreementID.AgreementID tmp
 
 
-let WriteAgreementID (nextFreeIdx:int) (dest:byte []) (valIn:AgreementID) : int = 
+let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int = 
    let tag = "914="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23126,7 +23126,7 @@ let ReadAgreementDate valIn =
     AgreementDate.AgreementDate tmp
 
 
-let WriteAgreementDate (nextFreeIdx:int) (dest:byte []) (valIn:AgreementDate) : int = 
+let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : int = 
    let tag = "915="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23141,7 +23141,7 @@ let ReadStartDate valIn =
     StartDate.StartDate tmp
 
 
-let WriteStartDate (nextFreeIdx:int) (dest:byte []) (valIn:StartDate) : int = 
+let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int = 
    let tag = "916="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23156,7 +23156,7 @@ let ReadEndDate valIn =
     EndDate.EndDate tmp
 
 
-let WriteEndDate (nextFreeIdx:int) (dest:byte []) (valIn:EndDate) : int = 
+let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int = 
    let tag = "917="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23171,7 +23171,7 @@ let ReadAgreementCurrency valIn =
     AgreementCurrency.AgreementCurrency tmp
 
 
-let WriteAgreementCurrency (nextFreeIdx:int) (dest:byte []) (valIn:AgreementCurrency) : int = 
+let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurrency) : int = 
    let tag = "918="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23190,7 +23190,7 @@ let ReadDeliveryType (fldValIn:string) : DeliveryType =
     | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
 
 
-let WriteDeliveryType (nextFreeIdx:int) (dest:byte array) (xxIn:DeliveryType) : int =
+let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : int =
     match xxIn with
     | DeliveryType.VersusPayment ->
         let tag = "919=0"B
@@ -23223,7 +23223,7 @@ let ReadEndAccruedInterestAmt valIn =
     EndAccruedInterestAmt.EndAccruedInterestAmt tmp
 
 
-let WriteEndAccruedInterestAmt (nextFreeIdx:int) (dest:byte []) (valIn:EndAccruedInterestAmt) : int = 
+let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccruedInterestAmt) : int = 
    let tag = "920="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23238,7 +23238,7 @@ let ReadStartCash valIn =
     StartCash.StartCash tmp
 
 
-let WriteStartCash (nextFreeIdx:int) (dest:byte []) (valIn:StartCash) : int = 
+let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int = 
    let tag = "921="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23253,7 +23253,7 @@ let ReadEndCash valIn =
     EndCash.EndCash tmp
 
 
-let WriteEndCash (nextFreeIdx:int) (dest:byte []) (valIn:EndCash) : int = 
+let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int = 
    let tag = "922="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23268,7 +23268,7 @@ let ReadUserRequestID valIn =
     UserRequestID.UserRequestID tmp
 
 
-let WriteUserRequestID (nextFreeIdx:int) (dest:byte []) (valIn:UserRequestID) : int = 
+let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : int = 
    let tag = "923="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23287,7 +23287,7 @@ let ReadUserRequestType (fldValIn:string) : UserRequestType =
     | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
 
 
-let WriteUserRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:UserRequestType) : int =
+let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestType) : int =
     match xxIn with
     | UserRequestType.Logonuser ->
         let tag = "924=1"B
@@ -23320,7 +23320,7 @@ let ReadNewPassword valIn =
     NewPassword.NewPassword tmp
 
 
-let WriteNewPassword (nextFreeIdx:int) (dest:byte []) (valIn:NewPassword) : int = 
+let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int = 
    let tag = "925="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23341,7 +23341,7 @@ let ReadUserStatus (fldValIn:string) : UserStatus =
     | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
 
 
-let WriteUserStatus (nextFreeIdx:int) (dest:byte array) (xxIn:UserStatus) : int =
+let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int =
     match xxIn with
     | UserStatus.LoggedIn ->
         let tag = "926=1"B
@@ -23386,7 +23386,7 @@ let ReadUserStatusText valIn =
     UserStatusText.UserStatusText tmp
 
 
-let WriteUserStatusText (nextFreeIdx:int) (dest:byte []) (valIn:UserStatusText) : int = 
+let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) : int = 
    let tag = "927="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23405,7 +23405,7 @@ let ReadStatusValue (fldValIn:string) : StatusValue =
     | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
 
 
-let WriteStatusValue (nextFreeIdx:int) (dest:byte array) (xxIn:StatusValue) : int =
+let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : int =
     match xxIn with
     | StatusValue.Connected ->
         let tag = "928=1"B
@@ -23438,7 +23438,7 @@ let ReadStatusText valIn =
     StatusText.StatusText tmp
 
 
-let WriteStatusText (nextFreeIdx:int) (dest:byte []) (valIn:StatusText) : int = 
+let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int = 
    let tag = "929="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23453,7 +23453,7 @@ let ReadRefCompID valIn =
     RefCompID.RefCompID tmp
 
 
-let WriteRefCompID (nextFreeIdx:int) (dest:byte []) (valIn:RefCompID) : int = 
+let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int = 
    let tag = "930="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23468,7 +23468,7 @@ let ReadRefSubID valIn =
     RefSubID.RefSubID tmp
 
 
-let WriteRefSubID (nextFreeIdx:int) (dest:byte []) (valIn:RefSubID) : int = 
+let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int = 
    let tag = "931="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23483,7 +23483,7 @@ let ReadNetworkResponseID valIn =
     NetworkResponseID.NetworkResponseID tmp
 
 
-let WriteNetworkResponseID (nextFreeIdx:int) (dest:byte []) (valIn:NetworkResponseID) : int = 
+let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkResponseID) : int = 
    let tag = "932="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23498,7 +23498,7 @@ let ReadNetworkRequestID valIn =
     NetworkRequestID.NetworkRequestID tmp
 
 
-let WriteNetworkRequestID (nextFreeIdx:int) (dest:byte []) (valIn:NetworkRequestID) : int = 
+let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequestID) : int = 
    let tag = "933="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23513,7 +23513,7 @@ let ReadLastNetworkResponseID valIn =
     LastNetworkResponseID.LastNetworkResponseID tmp
 
 
-let WriteLastNetworkResponseID (nextFreeIdx:int) (dest:byte []) (valIn:LastNetworkResponseID) : int = 
+let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetworkResponseID) : int = 
    let tag = "934="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23532,7 +23532,7 @@ let ReadNetworkRequestType (fldValIn:string) : NetworkRequestType =
     | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
 
 
-let WriteNetworkRequestType (nextFreeIdx:int) (dest:byte array) (xxIn:NetworkRequestType) : int =
+let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkRequestType) : int =
     match xxIn with
     | NetworkRequestType.Snapshot ->
         let tag = "935=1"B
@@ -23565,7 +23565,7 @@ let ReadNoCompIDs valIn =
     NoCompIDs.NoCompIDs tmp
 
 
-let WriteNoCompIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoCompIDs) : int = 
+let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int = 
    let tag = "936="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23582,7 +23582,7 @@ let ReadNetworkStatusResponseType (fldValIn:string) : NetworkStatusResponseType 
     | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
 
 
-let WriteNetworkStatusResponseType (nextFreeIdx:int) (dest:byte array) (xxIn:NetworkStatusResponseType) : int =
+let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkStatusResponseType) : int =
     match xxIn with
     | NetworkStatusResponseType.Full ->
         let tag = "937=1"B
@@ -23603,7 +23603,7 @@ let ReadNoCollInquiryQualifier valIn =
     NoCollInquiryQualifier.NoCollInquiryQualifier tmp
 
 
-let WriteNoCollInquiryQualifier (nextFreeIdx:int) (dest:byte []) (valIn:NoCollInquiryQualifier) : int = 
+let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollInquiryQualifier) : int = 
    let tag = "938="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23620,7 +23620,7 @@ let ReadTrdRptStatus (fldValIn:string) : TrdRptStatus =
     | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
 
 
-let WriteTrdRptStatus (nextFreeIdx:int) (dest:byte array) (xxIn:TrdRptStatus) : int =
+let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : int =
     match xxIn with
     | TrdRptStatus.Accepted ->
         let tag = "939=0"B
@@ -23644,7 +23644,7 @@ let ReadAffirmStatus (fldValIn:string) : AffirmStatus =
     | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
 
 
-let WriteAffirmStatus (nextFreeIdx:int) (dest:byte array) (xxIn:AffirmStatus) : int =
+let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : int =
     match xxIn with
     | AffirmStatus.Received ->
         let tag = "940=1"B
@@ -23671,7 +23671,7 @@ let ReadUnderlyingStrikeCurrency valIn =
     UnderlyingStrikeCurrency.UnderlyingStrikeCurrency tmp
 
 
-let WriteUnderlyingStrikeCurrency (nextFreeIdx:int) (dest:byte []) (valIn:UnderlyingStrikeCurrency) : int = 
+let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikeCurrency) : int = 
    let tag = "941="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23686,7 +23686,7 @@ let ReadLegStrikeCurrency valIn =
     LegStrikeCurrency.LegStrikeCurrency tmp
 
 
-let WriteLegStrikeCurrency (nextFreeIdx:int) (dest:byte []) (valIn:LegStrikeCurrency) : int = 
+let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurrency) : int = 
    let tag = "942="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23701,7 +23701,7 @@ let ReadTimeBracket valIn =
     TimeBracket.TimeBracket tmp
 
 
-let WriteTimeBracket (nextFreeIdx:int) (dest:byte []) (valIn:TimeBracket) : int = 
+let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int = 
    let tag = "943="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23719,7 +23719,7 @@ let ReadCollAction (fldValIn:string) : CollAction =
     | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
 
 
-let WriteCollAction (nextFreeIdx:int) (dest:byte array) (xxIn:CollAction) : int =
+let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int =
     match xxIn with
     | CollAction.Retain ->
         let tag = "944=0"B
@@ -23751,7 +23751,7 @@ let ReadCollInquiryStatus (fldValIn:string) : CollInquiryStatus =
     | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
 
 
-let WriteCollInquiryStatus (nextFreeIdx:int) (dest:byte array) (xxIn:CollInquiryStatus) : int =
+let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryStatus) : int =
     match xxIn with
     | CollInquiryStatus.Accepted ->
         let tag = "945=0"B
@@ -23801,7 +23801,7 @@ let ReadCollInquiryResult (fldValIn:string) : CollInquiryResult =
     | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
 
 
-let WriteCollInquiryResult (nextFreeIdx:int) (dest:byte array) (xxIn:CollInquiryResult) : int =
+let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryResult) : int =
     match xxIn with
     | CollInquiryResult.Successful ->
         let tag = "946=0"B
@@ -23876,7 +23876,7 @@ let ReadStrikeCurrency valIn =
     StrikeCurrency.StrikeCurrency tmp
 
 
-let WriteStrikeCurrency (nextFreeIdx:int) (dest:byte []) (valIn:StrikeCurrency) : int = 
+let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) : int = 
    let tag = "947="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23891,7 +23891,7 @@ let ReadNoNested3PartyIDs valIn =
     NoNested3PartyIDs.NoNested3PartyIDs tmp
 
 
-let WriteNoNested3PartyIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNested3PartyIDs) : int = 
+let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartyIDs) : int = 
    let tag = "948="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23906,7 +23906,7 @@ let ReadNested3PartyID valIn =
     Nested3PartyID.Nested3PartyID tmp
 
 
-let WriteNested3PartyID (nextFreeIdx:int) (dest:byte []) (valIn:Nested3PartyID) : int = 
+let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) : int = 
    let tag = "949="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23921,7 +23921,7 @@ let ReadNested3PartyIDSource valIn =
     Nested3PartyIDSource.Nested3PartyIDSource tmp
 
 
-let WriteNested3PartyIDSource (nextFreeIdx:int) (dest:byte []) (valIn:Nested3PartyIDSource) : int = 
+let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyIDSource) : int = 
    let tag = "950="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23936,7 +23936,7 @@ let ReadNested3PartyRole valIn =
     Nested3PartyRole.Nested3PartyRole tmp
 
 
-let WriteNested3PartyRole (nextFreeIdx:int) (dest:byte []) (valIn:Nested3PartyRole) : int = 
+let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRole) : int = 
    let tag = "951="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23951,7 +23951,7 @@ let ReadNoNested3PartySubIDs valIn =
     NoNested3PartySubIDs.NoNested3PartySubIDs tmp
 
 
-let WriteNoNested3PartySubIDs (nextFreeIdx:int) (dest:byte []) (valIn:NoNested3PartySubIDs) : int = 
+let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartySubIDs) : int = 
    let tag = "952="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23966,7 +23966,7 @@ let ReadNested3PartySubID valIn =
     Nested3PartySubID.Nested3PartySubID tmp
 
 
-let WriteNested3PartySubID (nextFreeIdx:int) (dest:byte []) (valIn:Nested3PartySubID) : int = 
+let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubID) : int = 
    let tag = "953="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23981,7 +23981,7 @@ let ReadNested3PartySubIDType valIn =
     Nested3PartySubIDType.Nested3PartySubIDType tmp
 
 
-let WriteNested3PartySubIDType (nextFreeIdx:int) (dest:byte []) (valIn:Nested3PartySubIDType) : int = 
+let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubIDType) : int = 
    let tag = "954="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -23996,7 +23996,7 @@ let ReadLegContractSettlMonth valIn =
     LegContractSettlMonth.LegContractSettlMonth tmp
 
 
-let WriteLegContractSettlMonth (nextFreeIdx:int) (dest:byte []) (valIn:LegContractSettlMonth) : int = 
+let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContractSettlMonth) : int = 
    let tag = "955="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -24011,7 +24011,7 @@ let ReadLegInterestAccrualDate valIn =
     LegInterestAccrualDate.LegInterestAccrualDate tmp
 
 
-let WriteLegInterestAccrualDate (nextFreeIdx:int) (dest:byte []) (valIn:LegInterestAccrualDate) : int = 
+let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInterestAccrualDate) : int = 
    let tag = "956="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
    let nextFreeIdx2 = nextFreeIdx + tag.Length

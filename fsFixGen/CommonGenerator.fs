@@ -82,10 +82,17 @@ let private genWriteOptionalGroup (parent:string) (grp:Group) =
         ]
     else
         [
-            (sprintf   "    xx.%sGrp |> Option.iter (fun gs ->     // group" longName );
-            (sprintf   "        let numGrps = gs.Length");
-            (sprintf   "        Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName);
-            (sprintf   "        gs |> List.iter (fun gg -> Write%sGrp strm gg)    ) // end Option.iter" longName);
+            (sprintf "    // group (apologies for this nested fold code, will refactor when I think of something better)")
+            (sprintf "    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:%sGrp list) ->" longName)
+            (sprintf "                                        let numGrps = gs.Length")
+            (sprintf "                                        let innerNextFreeIdx2 = Write%s dest innerNextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") longName longName
+            (sprintf "                                        List.fold (fun accFreeIdx gg -> Write%sGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx") longName
+            (sprintf "                                  nextFreeIdx") 
+            (sprintf "                                  xx.%sGrp  // end Option.fold" longName)
+//            (sprintf   "    xx.%sGrp |> Option.iter (fun gs ->     // group" longName );
+//            (sprintf   "        let numGrps = gs.Length");
+//            (sprintf   "        Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName);
+//            (sprintf   "        gs |> List.iter (fun gg -> Write%sGrp strm gg)    ) // end Option.iter" longName);
         ]
 
 
@@ -95,8 +102,8 @@ let genItemListWriterStrs (items:FIXItem list) =
         |> List.map (fun item ->
                 match item with
                 | FIXItem.Field fld         ->  match fld.Required with
-                                                | Required.Required     ->  [sprintf "    Write%s strm xx.%s" fld.FName fld.FName]
-                                                | Required.NotRequired  ->  [sprintf "    xx.%s |> Option.iter (Write%s strm)" fld.FName fld.FName]
+                                                | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" fld.FName fld.FName ]
+                                                | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" fld.FName fld.FName ]
                 | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                                 match cmp.Required with
                                                 | Required.Required     ->  [sprintf "    Write%s strm xx.%s    // component" name name]
