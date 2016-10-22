@@ -12,15 +12,11 @@ open FieldGenerator
 
 
 
-
-let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.ian.xml"""
+let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.xml"""
 
 
 let MkOutpath flName = 
     sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
-
-
-
 
 
 
@@ -30,7 +26,6 @@ let main _ =
 
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)
     let doc = XDocument.Parse fixXml
-
 
     let xpthFields = doc.XPathSelectElement "fix/fields"
     use swFixFields = new StreamWriter (MkOutpath "Fix44.Fields.fs")
@@ -137,7 +132,8 @@ let main _ =
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
-    do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
+    swGroupWriteFuncs.Write "module yy"
+//    do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
     printfn "generating message F# types"
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
@@ -146,7 +142,8 @@ let main _ =
 
     printfn "generating message writer funcs"
     use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
-    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
+    swMsgFuncs.Write "module xx"
+//    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
 
 
 
