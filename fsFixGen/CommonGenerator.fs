@@ -40,7 +40,7 @@ let private genWriteGroup (parent:string) (grp:Group) =
     let isNoSides = countFieldName.Contains "NoSides"
     if isNoSides then   // return a literal list of strings
         [
-                       "    let noSidesField =  // ####";
+                       "    let noSidesField =";
             (sprintf   "        match %s.%sGrp with" parent longName);
                        "        | OneOrTwo.One _ -> NoSides.OneSide";
                        "        | OneOrTwo.Two _ -> NoSides.BothSides";
