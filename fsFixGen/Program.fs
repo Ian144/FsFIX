@@ -141,12 +141,11 @@ let main _ =
 
     printfn "generating message writer funcs"
     use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
-    swMsgFuncs.Write "module xx"
-//    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
+    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
 
 
 
-    printfn "press any key to exit"
-    stdin.Read() |> ignore
+//    printfn "press any key to exit"
+//    stdin.Read() |> ignore
 
     0 // integer exit code

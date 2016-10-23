@@ -53,7 +53,7 @@ let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
     let name = msg.MName
     let paramStr = requiredHdrItems |> List.map makeParamStr
     let allParamStr = paramStr |> Utils.joinStrs " "
-    let funcSig = sprintf "let Write%s (xx:%s) %s (strm:System.IO.Stream) = " name name allParamStr
+    let funcSig = sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) %s (xx:%s) = " name allParamStr name
     funcSig
 
 
@@ -65,6 +65,7 @@ let private genMsgWriterFunc (requiredHdrItems:FIXItem list) (sw:StreamWriter) (
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs msg.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine
+    sw.WriteLine "    nextFreeIdx"
     sw.WriteLine ""
     sw.WriteLine ""
 

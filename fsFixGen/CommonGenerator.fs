@@ -45,7 +45,7 @@ let private genWriteGroup (parent:string) (grp:Group) =
                        "        | OneOrTwo.One _ -> NoSides.OneSide";
                        "        | OneOrTwo.Two _ -> NoSides.BothSides";
                        "    let nextFreeIdx = WriteNoSides dest nextFreeIdx noSidesField";
-            (sprintf   "    let nextFreeIdx = xx.%sGrp |> OneOrTwo.fold (Write%sGrp strm)   // group" longName longName);
+            (sprintf   "    let nextFreeIdx = xx.%sGrp |> OneOrTwo.fold (Write%sGrp dest) nextFreeIdx  // group" longName longName);
         ]
     else
         [
