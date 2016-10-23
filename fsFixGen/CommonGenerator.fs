@@ -33,18 +33,10 @@ let writeFIXItemList (sw : StreamWriter) (items : FIXItem list) =
 
 
 
-let private getGroupContainerType (grp:Group) = 
-    if grp.GName.Contains "NoSides" then
-        "OneOrTwo.iter"
-    else
-        "List.iter" // todo, consider changing the default group container type to array for better cache locality
-
-
 // writes both sub-groups embedded in groups and groups embedded in msgs
 let private genWriteGroup (parent:string) (grp:Group) = 
     let (GroupLongName longName) = GroupUtils.makeLongName grp
     let countFieldName = grp.GName  // a groups shortName is that of the field containing the count
-    let grpIterFunc = getGroupContainerType grp
     let isNoSides = countFieldName.Contains "NoSides"
     if isNoSides then   // return a literal list of strings
         [
@@ -52,22 +44,26 @@ let private genWriteGroup (parent:string) (grp:Group) =
             (sprintf   "        match %s.%sGrp with" parent longName);
                        "        | OneOrTwo.One _ -> NoSides.OneSide";
                        "        | OneOrTwo.Two _ -> NoSides.BothSides";
-                       "    WriteNoSides strm noSidesField";
-            (sprintf   "    xx.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
+                       "    let nextFreeIdx = WriteNoSides dest nextFreeIdx noSidesField";
+            (sprintf   "    let nextFreeIdx = xx.%sGrp |> OneOrTwo.fold (Write%sGrp strm)   // group" longName longName);
         ]
     else
         [
             (sprintf   "    let numGrps = %s.%sGrp.Length" parent longName)
-            (sprintf   "    Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName)
-            (sprintf   "    %s.%sGrp |> List.iter (fun gg -> Write%sGrp strm gg)" parent longName longName)
+            (sprintf   "    let nextFreeIdx = Write%s dest nextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") countFieldName countFieldName
+            (sprintf   "    let nextFreeIdx =  %s.%sGrp |> List.fold (fun accFreeIdx gg -> Write%sGrp dest accFreeIdx gg) nextFreeIdx") parent longName longName
+
+//            (sprintf   "    let numGrps = %s.%sGrp.Length" parent longName)
+//            (sprintf   "    Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName)
+//            (sprintf   "    %s.%sGrp |> List.iter (fun gg -> Write%sGrp strm gg)" parent longName longName)
         ]
 
 
 
 let private genWriteOptionalGroup (parent:string) (grp:Group) = 
     let (GroupLongName longName) = GroupUtils.makeLongName grp
+
     let countFieldName = grp.GName  // a groups shortName is that of the field containing the count
-    let grpIterFunc = getGroupContainerType grp
     let isNoSides = countFieldName.Contains "NoSides" 
     if isNoSides then
         [
@@ -78,14 +74,14 @@ let private genWriteOptionalGroup (parent:string) (grp:Group) =
                        "            | Two _ -> NoSides.BothSides";
                        "        WriteNoSides strm noSidesField";
             (sprintf   "        %s.NoSidesGrp |> FixTypes.OneOrTwoIter (WriteNoSidesGrp strm)" parent);
-            (sprintf   "        xx.%sGrp |> %s (Write%sGrp strm)   // group" longName grpIterFunc longName);
+            (sprintf   "        xx.%sGrp |> OneOrTwo.fold (Write%sGrp strm)   // group" longName longName);
         ]
     else
         [
             (sprintf "    // group (apologies for this nested fold code, will refactor when I think of something better)")
             (sprintf "    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:%sGrp list) ->" longName)
             (sprintf "                                        let numGrps = gs.Length")
-            (sprintf "                                        let innerNextFreeIdx2 = Write%s dest innerNextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") longName longName
+            (sprintf "                                        let innerNextFreeIdx2 = Write%s dest innerNextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") countFieldName countFieldName
             (sprintf "                                        List.fold (fun accFreeIdx gg -> Write%sGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx") longName
             (sprintf "                                  nextFreeIdx") 
             (sprintf "                                  xx.%sGrp  // end Option.fold" longName)
@@ -101,13 +97,14 @@ let genItemListWriterStrs (items:FIXItem list) =
     items 
         |> List.map (fun item ->
                 match item with
-                | FIXItem.Field fld         ->  match fld.Required with
-                                                | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" fld.FName fld.FName ]
-                                                | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" fld.FName fld.FName ]
+                | FIXItem.Field fld         ->  let name = fld.FName
+                                                match fld.Required with
+                                                | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" name name ]
+                                                | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" name name ]
                 | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                                 match cmp.Required with
-                                                | Required.Required     ->  [sprintf "    Write%s strm xx.%s    // component" name name]
-                                                | Required.NotRequired  ->  [sprintf "    xx.%s |> Option.iter (Write%s strm) // component" name name]
+                                                | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s   // component" name name ]
+                                                | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s    // component option" name name ]
                 | FIXItem.Group grp         ->  match grp.Required with
                                                 | Required.Required     ->  genWriteGroup "xx" grp
                                                 | Required.NotRequired  ->  genWriteOptionalGroup "xx" grp
