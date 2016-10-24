@@ -37,3 +37,11 @@ let CrapReadUntilDelim (strm:Stream) : string =
     let chars = innerRead() |> List.map System.Convert.ToChar |> Array.ofList
     System.String chars
 
+
+
+
+type TagValue = {Tag:byte[]; Value:byte[]}
+
+
+let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array = 
+    [||]

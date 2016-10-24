@@ -35,3 +35,5 @@ let ``write single-case DU test twice`` () =
     Assert.True (arraysEq, "unexpected bytes written by WriteBeginString")
     Assert.Equal (20, endPos2)
 
+
+// todo: unit test checksum

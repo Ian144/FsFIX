@@ -1,5 +1,9 @@
 
-
+let calcCheckSum (arr:byte[]) (endPos:int) =
+    let mutable (sum:byte) = 0uy
+    for ctr = 0 to (endPos-1) do
+        sum <- sum + arr.[ctr]
+    int (sum)
 
 
 // tag: A
