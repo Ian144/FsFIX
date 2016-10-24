@@ -18,8 +18,9 @@ let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAdvId valIn =
@@ -33,8 +34,9 @@ let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAdvRefID valIn =
@@ -48,8 +50,9 @@ let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAdvSide (fldValIn:string) : AdvSide = 
@@ -130,8 +133,9 @@ let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBeginSeqNo valIn =
@@ -145,8 +149,9 @@ let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBeginString valIn =
@@ -160,8 +165,9 @@ let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBodyLength valIn =
@@ -175,8 +181,9 @@ let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCheckSum valIn =
@@ -190,8 +197,9 @@ let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadClOrdID valIn =
@@ -205,8 +213,9 @@ let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCommission valIn =
@@ -220,8 +229,9 @@ let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCommType (fldValIn:string) : CommType = 
@@ -286,8 +296,9 @@ let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCurrency valIn =
@@ -301,8 +312,9 @@ let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEndSeqNo valIn =
@@ -316,8 +328,9 @@ let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExecID valIn =
@@ -331,8 +344,9 @@ let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExecInst (fldValIn:string) : ExecInst = 
@@ -642,8 +656,9 @@ let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHandlInst (fldValIn:string) : HandlInst = 
@@ -829,8 +844,9 @@ let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIOIQltyInd (fldValIn:string) : IOIQltyInd = 
@@ -874,8 +890,9 @@ let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIOIQty valIn =
@@ -889,8 +906,9 @@ let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIOITransType (fldValIn:string) : IOITransType = 
@@ -971,8 +989,9 @@ let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastPx valIn =
@@ -986,8 +1005,9 @@ let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastQty valIn =
@@ -1001,8 +1021,9 @@ let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLinesOfText valIn =
@@ -1016,8 +1037,9 @@ let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMsgSeqNum valIn =
@@ -1031,8 +1053,9 @@ let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMsgType (fldValIn:string) : MsgType = 
@@ -1706,8 +1729,9 @@ let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderID valIn =
@@ -1721,8 +1745,9 @@ let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderQty valIn =
@@ -1736,8 +1761,9 @@ let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrdStatus (fldValIn:string) : OrdStatus = 
@@ -2035,8 +2061,9 @@ let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrigTime valIn =
@@ -2050,8 +2077,9 @@ let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPossDupFlag valIn =
@@ -2065,8 +2093,9 @@ let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPrice valIn =
@@ -2080,8 +2109,9 @@ let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRefSeqNum valIn =
@@ -2095,8 +2125,9 @@ let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityID valIn =
@@ -2110,8 +2141,9 @@ let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSenderCompID valIn =
@@ -2125,8 +2157,9 @@ let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSenderSubID valIn =
@@ -2140,8 +2173,9 @@ let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSendingTime valIn =
@@ -2155,8 +2189,9 @@ let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuantity valIn =
@@ -2170,8 +2205,9 @@ let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSide (fldValIn:string) : Side = 
@@ -2306,8 +2342,9 @@ let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTargetCompID valIn =
@@ -2321,8 +2358,9 @@ let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTargetSubID valIn =
@@ -2336,8 +2374,9 @@ let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadText valIn =
@@ -2351,8 +2390,9 @@ let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTimeInForce (fldValIn:string) : TimeInForce = 
@@ -2431,8 +2471,9 @@ let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUrgency (fldValIn:string) : Urgency = 
@@ -2476,8 +2517,9 @@ let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlType (fldValIn:string) : SettlType = 
@@ -2570,8 +2612,9 @@ let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSymbolSfx (fldValIn:string) : SymbolSfx = 
@@ -2608,8 +2651,9 @@ let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListSeqNo valIn =
@@ -2623,8 +2667,9 @@ let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotNoOrders valIn =
@@ -2638,8 +2683,9 @@ let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListExecInst valIn =
@@ -2653,8 +2699,9 @@ let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocID valIn =
@@ -2668,8 +2715,9 @@ let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocTransType (fldValIn:string) : AllocTransType = 
@@ -2713,8 +2761,9 @@ let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoOrders valIn =
@@ -2728,8 +2777,9 @@ let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAvgPxPrecision valIn =
@@ -2743,8 +2793,9 @@ let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeDate valIn =
@@ -2758,8 +2809,9 @@ let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPositionEffect (fldValIn:string) : PositionEffect = 
@@ -2810,8 +2862,9 @@ let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocAccount valIn =
@@ -2825,8 +2878,9 @@ let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocQty valIn =
@@ -2840,8 +2894,9 @@ let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadProcessCode (fldValIn:string) : ProcessCode = 
@@ -2913,8 +2968,9 @@ let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRptSeq valIn =
@@ -2928,8 +2984,9 @@ let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCxlQty valIn =
@@ -2943,8 +3000,9 @@ let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoDlvyInst valIn =
@@ -2958,8 +3016,9 @@ let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocStatus (fldValIn:string) : AllocStatus = 
@@ -3131,8 +3190,9 @@ let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 // compound write, of a length field and the corresponding string field
@@ -3183,8 +3243,9 @@ let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEmailType (fldValIn:string) : EmailType = 
@@ -3228,8 +3289,9 @@ let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRawData valIn =
@@ -3243,8 +3305,9 @@ let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPossResend valIn =
@@ -3258,8 +3321,9 @@ let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEncryptMethod (fldValIn:string) : EncryptMethod = 
@@ -3331,8 +3395,9 @@ let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExDestination valIn =
@@ -3346,8 +3411,9 @@ let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCxlRejReason (fldValIn:string) : CxlRejReason = 
@@ -3689,8 +3755,9 @@ let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIssuer valIn =
@@ -3704,8 +3771,9 @@ let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityDesc valIn =
@@ -3719,8 +3787,9 @@ let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHeartBtInt valIn =
@@ -3734,8 +3803,9 @@ let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMinQty valIn =
@@ -3749,8 +3819,9 @@ let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMaxFloor valIn =
@@ -3764,8 +3835,9 @@ let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTestReqID valIn =
@@ -3779,8 +3851,9 @@ let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadReportToExch valIn =
@@ -3794,8 +3867,9 @@ let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLocateReqd valIn =
@@ -3809,8 +3883,9 @@ let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOnBehalfOfCompID valIn =
@@ -3824,8 +3899,9 @@ let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfComp
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOnBehalfOfSubID valIn =
@@ -3839,8 +3915,9 @@ let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteID valIn =
@@ -3854,8 +3931,9 @@ let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetMoney valIn =
@@ -3869,8 +3947,9 @@ let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrAmt valIn =
@@ -3884,8 +3963,9 @@ let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrency valIn =
@@ -3899,8 +3979,9 @@ let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadForexReq valIn =
@@ -3914,8 +3995,9 @@ let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrigSendingTime valIn =
@@ -3929,8 +4011,9 @@ let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadGapFillFlag valIn =
@@ -3944,8 +4027,9 @@ let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoExecs valIn =
@@ -3959,8 +4043,9 @@ let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExpireTime valIn =
@@ -3974,8 +4059,9 @@ let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDKReason (fldValIn:string) : DKReason = 
@@ -4047,8 +4133,9 @@ let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeliverToSubID valIn =
@@ -4062,8 +4149,9 @@ let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIOINaturalFlag valIn =
@@ -4077,8 +4165,9 @@ let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteReqID valIn =
@@ -4092,8 +4181,9 @@ let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidPx valIn =
@@ -4107,8 +4197,9 @@ let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferPx valIn =
@@ -4122,8 +4213,9 @@ let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidSize valIn =
@@ -4137,8 +4229,9 @@ let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferSize valIn =
@@ -4152,8 +4245,9 @@ let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoMiscFees valIn =
@@ -4167,8 +4261,9 @@ let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMiscFeeAmt valIn =
@@ -4182,8 +4277,9 @@ let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMiscFeeCurr valIn =
@@ -4197,8 +4293,9 @@ let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMiscFeeType (fldValIn:string) : MiscFeeType = 
@@ -4305,8 +4402,9 @@ let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadResetSeqNumFlag valIn =
@@ -4320,8 +4418,9 @@ let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSenderLocationID valIn =
@@ -4335,8 +4434,9 @@ let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocation
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTargetLocationID valIn =
@@ -4350,8 +4450,9 @@ let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocation
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOnBehalfOfLocationID valIn =
@@ -4365,8 +4466,9 @@ let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOf
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeliverToLocationID valIn =
@@ -4380,8 +4482,9 @@ let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoRelatedSym valIn =
@@ -4395,8 +4498,9 @@ let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSubject valIn =
@@ -4410,8 +4514,9 @@ let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHeadline valIn =
@@ -4425,8 +4530,9 @@ let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadURLLink valIn =
@@ -4440,8 +4546,9 @@ let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExecType (fldValIn:string) : ExecType = 
@@ -4597,8 +4704,9 @@ let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashOrderQty valIn =
@@ -4612,8 +4720,9 @@ let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocAvgPx valIn =
@@ -4627,8 +4736,9 @@ let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocNetMoney valIn =
@@ -4642,8 +4752,9 @@ let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrFxRate valIn =
@@ -4657,8 +4768,9 @@ let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrFxRateCalc (fldValIn:string) : SettlCurrFxRateCalc = 
@@ -4695,8 +4807,9 @@ let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAccruedInterestRate valIn =
@@ -4710,8 +4823,9 @@ let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInte
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAccruedInterestAmt valIn =
@@ -4725,8 +4839,9 @@ let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInter
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstMode (fldValIn:string) : SettlInstMode = 
@@ -4777,8 +4892,9 @@ let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstID valIn =
@@ -4792,8 +4908,9 @@ let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstTransType (fldValIn:string) : SettlInstTransType = 
@@ -4844,8 +4961,9 @@ let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstSource (fldValIn:string) : SettlInstSource = 
@@ -5556,8 +5674,9 @@ let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStandInstDbType (fldValIn:string) : StandInstDbType = 
@@ -5615,8 +5734,9 @@ let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStandInstDbID valIn =
@@ -5630,8 +5750,9 @@ let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlDeliveryType (fldValIn:string) : SettlDeliveryType = 
@@ -5682,8 +5803,9 @@ let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidForwardPoints valIn =
@@ -5697,8 +5819,9 @@ let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoin
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferSpotRate valIn =
@@ -5712,8 +5835,9 @@ let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferForwardPoints valIn =
@@ -5727,8 +5851,9 @@ let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForward
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderQty2 valIn =
@@ -5742,8 +5867,9 @@ let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlDate2 valIn =
@@ -5757,8 +5883,9 @@ let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastSpotRate valIn =
@@ -5772,8 +5899,9 @@ let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastForwardPoints valIn =
@@ -5787,8 +5915,9 @@ let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocLinkID valIn =
@@ -5802,8 +5931,9 @@ let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocLinkType (fldValIn:string) : AllocLinkType = 
@@ -5840,8 +5970,9 @@ let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrder
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoIOIQualifiers valIn =
@@ -5855,8 +5986,9 @@ let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMaturityMonthYear valIn =
@@ -5870,8 +6002,9 @@ let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonth
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPutOrCall (fldValIn:string) : PutOrCall = 
@@ -5908,8 +6041,9 @@ let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCoveredOrUncovered (fldValIn:string) : CoveredOrUncovered = 
@@ -5946,8 +6080,9 @@ let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityExchange valIn =
@@ -5961,8 +6096,9 @@ let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchan
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNotifyBrokerOfCredit valIn =
@@ -5976,8 +6112,9 @@ let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrok
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocHandlInst (fldValIn:string) : AllocHandlInst = 
@@ -6021,8 +6158,9 @@ let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPegOffsetValue valIn =
@@ -6036,8 +6174,9 @@ let WritePegOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:PegOffsetValue) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 // compound write, of a length field and the corresponding string field
@@ -6088,8 +6227,9 @@ let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoRoutingIDs valIn =
@@ -6103,8 +6243,9 @@ let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRoutingType (fldValIn:string) : RoutingType = 
@@ -6155,8 +6296,9 @@ let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSpread valIn =
@@ -6170,8 +6312,9 @@ let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkCurveCurrency valIn =
@@ -6185,8 +6328,9 @@ let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Benchmar
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkCurveName (fldValIn:string) : BenchmarkCurveName = 
@@ -6293,8 +6437,9 @@ let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCouponRate valIn =
@@ -6308,8 +6453,9 @@ let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCouponPaymentDate valIn =
@@ -6323,8 +6469,9 @@ let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPayment
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIssueDate valIn =
@@ -6338,8 +6485,9 @@ let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRepurchaseTerm valIn =
@@ -6353,8 +6501,9 @@ let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRepurchaseRate valIn =
@@ -6368,8 +6517,9 @@ let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadFactor valIn =
@@ -6383,8 +6533,9 @@ let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeOriginationDate valIn =
@@ -6398,8 +6549,9 @@ let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOrigi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExDate valIn =
@@ -6413,8 +6565,9 @@ let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContractMultiplier valIn =
@@ -6428,8 +6581,9 @@ let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMult
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoStipulations valIn =
@@ -6443,8 +6597,9 @@ let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStipulationType (fldValIn:string) : StipulationType = 
@@ -7234,8 +7389,9 @@ let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotalTakedown valIn =
@@ -7249,8 +7405,9 @@ let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConcession valIn =
@@ -7264,8 +7421,9 @@ let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRepoCollateralSecurityType valIn =
@@ -7279,8 +7437,9 @@ let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Repo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRedemptionDate valIn =
@@ -7294,8 +7453,9 @@ let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCouponPaymentDate valIn =
@@ -7309,8 +7469,9 @@ let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:Und
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingIssueDate valIn =
@@ -7324,8 +7485,9 @@ let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingRepoCollateralSecurityType valIn =
@@ -7339,8 +7501,9 @@ let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingRepurchaseTerm valIn =
@@ -7354,8 +7517,9 @@ let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingRepurchaseRate valIn =
@@ -7369,8 +7533,9 @@ let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingFactor valIn =
@@ -7384,8 +7549,9 @@ let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFact
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingRedemptionDate valIn =
@@ -7399,8 +7565,9 @@ let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCouponPaymentDate valIn =
@@ -7414,8 +7581,9 @@ let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponP
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegIssueDate valIn =
@@ -7429,8 +7597,9 @@ let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegRepoCollateralSecurityType valIn =
@@ -7444,8 +7613,9 @@ let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:L
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegRepurchaseTerm valIn =
@@ -7459,8 +7629,9 @@ let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegRepurchaseRate valIn =
@@ -7474,8 +7645,9 @@ let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegFactor valIn =
@@ -7489,8 +7661,9 @@ let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegRedemptionDate valIn =
@@ -7504,8 +7677,9 @@ let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemption
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCreditRating valIn =
@@ -7519,8 +7693,9 @@ let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCreditRating valIn =
@@ -7534,8 +7709,9 @@ let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCreditRating valIn =
@@ -7549,8 +7725,9 @@ let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradedFlatSwitch valIn =
@@ -7564,8 +7741,9 @@ let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwit
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBasisFeatureDate valIn =
@@ -7579,8 +7757,9 @@ let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBasisFeaturePrice valIn =
@@ -7594,8 +7773,9 @@ let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureP
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDReqID valIn =
@@ -7609,8 +7789,9 @@ let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSubscriptionRequestType (fldValIn:string) : SubscriptionRequestType = 
@@ -7654,8 +7835,9 @@ let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDUpdateType (fldValIn:string) : MDUpdateType = 
@@ -7692,8 +7874,9 @@ let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoMDEntryTypes valIn =
@@ -7707,8 +7890,9 @@ let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoMDEntries valIn =
@@ -7722,8 +7906,9 @@ let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntryType (fldValIn:string) : MDEntryType = 
@@ -7837,8 +8022,9 @@ let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntrySize valIn =
@@ -7852,8 +8038,9 @@ let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntryDate valIn =
@@ -7867,8 +8054,9 @@ let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntryTime valIn =
@@ -7882,8 +8070,9 @@ let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTickDirection (fldValIn:string) : TickDirection = 
@@ -7934,8 +8123,9 @@ let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteCondition (fldValIn:string) : QuoteCondition = 
@@ -8149,8 +8339,9 @@ let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDUpdateAction (fldValIn:string) : MDUpdateAction = 
@@ -8194,8 +8385,9 @@ let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDReqRejReason (fldValIn:string) : MDReqRejReason = 
@@ -8309,8 +8501,9 @@ let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOrigin
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLocationID valIn =
@@ -8324,8 +8517,9 @@ let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeskID valIn =
@@ -8339,8 +8533,9 @@ let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeleteReason (fldValIn:string) : DeleteReason = 
@@ -8428,8 +8623,9 @@ let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntryBuyer valIn =
@@ -8443,8 +8639,9 @@ let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntrySeller valIn =
@@ -8458,8 +8655,9 @@ let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMDEntryPositionNo valIn =
@@ -8473,8 +8671,9 @@ let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadFinancialStatus (fldValIn:string) : FinancialStatus = 
@@ -8555,8 +8754,9 @@ let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDefOfferSize valIn =
@@ -8570,8 +8770,9 @@ let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoQuoteEntries valIn =
@@ -8585,8 +8786,9 @@ let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoQuoteSets valIn =
@@ -8600,8 +8802,9 @@ let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteStatus (fldValIn:string) : QuoteStatus = 
@@ -8773,8 +8976,9 @@ let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteRejectReason (fldValIn:string) : QuoteRejectReason = 
@@ -8897,8 +9101,9 @@ let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteRequestType (fldValIn:string) : QuoteRequestType = 
@@ -8935,8 +9140,9 @@ let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEnt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityIDSource valIn =
@@ -8950,8 +9156,9 @@ let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingIssuer valIn =
@@ -8965,8 +9172,9 @@ let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityDesc valIn =
@@ -8980,8 +9188,9 @@ let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityExchange valIn =
@@ -8995,8 +9204,9 @@ let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityID valIn =
@@ -9010,8 +9220,9 @@ let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityType valIn =
@@ -9025,8 +9236,9 @@ let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSymbol valIn =
@@ -9040,8 +9252,9 @@ let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymb
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSymbolSfx valIn =
@@ -9055,8 +9268,9 @@ let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingMaturityMonthYear valIn =
@@ -9070,8 +9284,9 @@ let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:Und
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingPutOrCall (fldValIn:string) : UnderlyingPutOrCall = 
@@ -9108,8 +9323,9 @@ let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlyin
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingOptAttribute valIn =
@@ -9123,8 +9339,9 @@ let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCurrency valIn =
@@ -9138,8 +9355,9 @@ let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityReqID valIn =
@@ -9153,8 +9371,9 @@ let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityRequestType (fldValIn:string) : SecurityRequestType = 
@@ -9205,8 +9424,9 @@ let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResp
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityResponseType (fldValIn:string) : SecurityResponseType = 
@@ -9271,8 +9491,9 @@ let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySta
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnsolicitedIndicator valIn =
@@ -9286,8 +9507,9 @@ let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Unsolicite
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityTradingStatus (fldValIn:string) : SecurityTradingStatus = 
@@ -9522,8 +9744,9 @@ let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDueToRelated valIn =
@@ -9537,8 +9760,9 @@ let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBuyVolume valIn =
@@ -9552,8 +9776,9 @@ let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSellVolume valIn =
@@ -9567,8 +9792,9 @@ let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHighPx valIn =
@@ -9582,8 +9808,9 @@ let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLowPx valIn =
@@ -9597,8 +9824,9 @@ let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAdjustment (fldValIn:string) : Adjustment = 
@@ -9642,8 +9870,9 @@ let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradingSessionID valIn =
@@ -9657,8 +9886,9 @@ let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSession
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContraTrader valIn =
@@ -9672,8 +9902,9 @@ let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesMethod (fldValIn:string) : TradSesMethod = 
@@ -9805,8 +10036,9 @@ let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesOpenTime valIn =
@@ -9820,8 +10052,9 @@ let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesPreCloseTime valIn =
@@ -9835,8 +10068,9 @@ let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreC
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesCloseTime valIn =
@@ -9850,8 +10084,9 @@ let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesEndTime valIn =
@@ -9865,8 +10100,9 @@ let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNumberOfOrders valIn =
@@ -9880,8 +10116,9 @@ let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMessageEncoding (fldValIn:string) : MessageEncoding = 
@@ -10265,8 +10502,9 @@ let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteSetValidUntilTime valIn =
@@ -10280,8 +10518,9 @@ let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSet
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteEntryRejectReason (fldValIn:string) : QuoteEntryRejectReason = 
@@ -10367,8 +10606,9 @@ let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRefTagID valIn =
@@ -10382,8 +10622,9 @@ let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRefMsgType valIn =
@@ -10397,8 +10638,9 @@ let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSessionRejectReason (fldValIn:string) : SessionRejectReason = 
@@ -10577,8 +10819,9 @@ let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadComplianceID valIn =
@@ -10592,8 +10835,9 @@ let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSolicitedFlag valIn =
@@ -10607,8 +10851,9 @@ let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExecRestatementReason (fldValIn:string) : ExecRestatementReason = 
@@ -10701,8 +10946,9 @@ let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRej
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBusinessRejectReason (fldValIn:string) : BusinessRejectReason = 
@@ -10781,8 +11027,9 @@ let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoContraBrokers valIn =
@@ -10796,8 +11043,9 @@ let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMaxMessageSize valIn =
@@ -10811,8 +11059,9 @@ let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoMsgTypes valIn =
@@ -10826,8 +11075,9 @@ let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMsgDirection (fldValIn:string) : MsgDirection = 
@@ -10864,8 +11114,9 @@ let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSess
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotalVolumeTraded valIn =
@@ -10879,8 +11130,9 @@ let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTr
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDiscretionInst (fldValIn:string) : DiscretionInst = 
@@ -10952,8 +11204,9 @@ let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:Discretio
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidID valIn =
@@ -10967,8 +11220,9 @@ let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadClientBidID valIn =
@@ -10982,8 +11236,9 @@ let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListName valIn =
@@ -10997,8 +11252,9 @@ let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotNoRelatedSym valIn =
@@ -11012,8 +11268,9 @@ let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidType (fldValIn:string) : BidType = 
@@ -11057,8 +11314,9 @@ let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSideValue1 valIn =
@@ -11072,8 +11330,9 @@ let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSideValue2 valIn =
@@ -11087,8 +11346,9 @@ let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoBidDescriptors valIn =
@@ -11102,8 +11362,9 @@ let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescripto
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidDescriptorType (fldValIn:string) : BidDescriptorType = 
@@ -11147,8 +11408,9 @@ let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSideValueInd (fldValIn:string) : SideValueInd = 
@@ -11185,8 +11447,9 @@ let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLiquidityPctHigh valIn =
@@ -11200,8 +11463,9 @@ let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLiquidityValue valIn =
@@ -11215,8 +11479,9 @@ let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEFPTrackingError valIn =
@@ -11230,8 +11495,9 @@ let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingErr
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadFairValue valIn =
@@ -11245,8 +11511,9 @@ let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOutsideIndexPct valIn =
@@ -11260,8 +11527,9 @@ let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadValueOfFutures valIn =
@@ -11275,8 +11543,9 @@ let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLiquidityIndType (fldValIn:string) : LiquidityIndType = 
@@ -11327,8 +11596,9 @@ let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiq
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExchangeForPhysical valIn =
@@ -11342,8 +11612,9 @@ let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeFor
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOutMainCntryUIndex valIn =
@@ -11357,8 +11628,9 @@ let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntry
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCrossPercent valIn =
@@ -11372,8 +11644,9 @@ let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadProgRptReqs (fldValIn:string) : ProgRptReqs = 
@@ -11417,8 +11690,9 @@ let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodIn
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIncTaxInd (fldValIn:string) : IncTaxInd = 
@@ -11455,8 +11729,9 @@ let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidTradeType (fldValIn:string) : BidTradeType = 
@@ -11607,8 +11882,9 @@ let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCountry valIn =
@@ -11622,8 +11898,9 @@ let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotNoStrikes valIn =
@@ -11637,8 +11914,9 @@ let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPriceType (fldValIn:string) : PriceType = 
@@ -11738,8 +12016,9 @@ let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDayCumQty valIn =
@@ -11753,8 +12032,9 @@ let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDayAvgPx valIn =
@@ -11768,8 +12048,9 @@ let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadGTBookingInst (fldValIn:string) : GTBookingInst = 
@@ -11813,8 +12094,9 @@ let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListStatusType (fldValIn:string) : ListStatusType = 
@@ -11960,8 +12242,9 @@ let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListExecInstType (fldValIn:string) : ListExecInstType = 
@@ -12042,8 +12325,9 @@ let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingContractMultiplier valIn =
@@ -12057,8 +12341,9 @@ let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:Un
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContraTradeQty valIn =
@@ -12072,8 +12357,9 @@ let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContraTradeTime valIn =
@@ -12087,8 +12373,9 @@ let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLiquidityNumSecurities valIn =
@@ -12102,8 +12389,9 @@ let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:Liquidit
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMultiLegReportingType (fldValIn:string) : MultiLegReportingType = 
@@ -12147,8 +12435,9 @@ let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadListStatusText valIn =
@@ -12162,8 +12451,9 @@ let WriteListStatusText (dest:byte []) (nextFreeIdx:int) (valIn:ListStatusText) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 // compound write, of a length field and the corresponding string field
@@ -12349,8 +12639,9 @@ let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetChgPrevDay valIn =
@@ -12364,8 +12655,9 @@ let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPartyRole (fldValIn:string) : PartyRole = 
@@ -12647,8 +12939,9 @@ let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoSecurityAltID valIn =
@@ -12662,8 +12955,9 @@ let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityAltID valIn =
@@ -12677,8 +12971,9 @@ let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityAltIDSource valIn =
@@ -12692,8 +12987,9 @@ let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAlt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoUnderlyingSecurityAltID valIn =
@@ -12707,8 +13003,9 @@ let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnd
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityAltID valIn =
@@ -12722,8 +13019,9 @@ let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecurityAltIDSource valIn =
@@ -12737,8 +13035,9 @@ let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:U
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadProduct (fldValIn:string) : Product = 
@@ -12852,8 +13151,9 @@ let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingProduct valIn =
@@ -12867,8 +13167,9 @@ let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPro
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCFICode valIn =
@@ -12882,8 +13183,9 @@ let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTestMessageIndicator valIn =
@@ -12897,8 +13199,9 @@ let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessag
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuantityType (fldValIn:string) : QuantityType = 
@@ -12977,8 +13280,9 @@ let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadIndividualAllocID valIn =
@@ -12992,8 +13296,9 @@ let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAll
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRoundingDirection (fldValIn:string) : RoundingDirection = 
@@ -13037,8 +13342,9 @@ let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCountryOfIssue valIn =
@@ -13052,8 +13358,9 @@ let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStateOrProvinceOfIssue valIn =
@@ -13067,8 +13374,9 @@ let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrP
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLocaleOfIssue valIn =
@@ -13082,8 +13390,9 @@ let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoRegistDtls valIn =
@@ -13097,8 +13406,9 @@ let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMailingDtls valIn =
@@ -13112,8 +13422,9 @@ let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadInvestorCountryOfResidence valIn =
@@ -13127,8 +13438,9 @@ let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:Inve
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPaymentRef valIn =
@@ -13142,8 +13454,9 @@ let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDistribPaymentMethod (fldValIn:string) : DistribPaymentMethod = 
@@ -13250,8 +13563,9 @@ let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCommCurrency valIn =
@@ -13265,8 +13579,9 @@ let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCancellationRights (fldValIn:string) : CancellationRights = 
@@ -13361,8 +13676,9 @@ let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTransBkdTime valIn =
@@ -13376,8 +13692,9 @@ let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExecPriceType (fldValIn:string) : ExecPriceType = 
@@ -13456,8 +13773,9 @@ let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAd
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDateOfBirth valIn =
@@ -13471,8 +13789,9 @@ let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeReportTransType (fldValIn:string) : TradeReportTransType = 
@@ -13530,8 +13849,9 @@ let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCardNumber valIn =
@@ -13545,8 +13865,9 @@ let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCardExpDate valIn =
@@ -13560,8 +13881,9 @@ let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCardIssNum valIn =
@@ -13575,8 +13897,9 @@ let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPaymentMethod (fldValIn:string) : PaymentMethod = 
@@ -13704,8 +14027,9 @@ let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDesignation valIn =
@@ -13719,8 +14043,9 @@ let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTaxAdvantageType (fldValIn:string) : TaxAdvantageType = 
@@ -13820,8 +14145,9 @@ let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejRe
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadFundRenewWaiv (fldValIn:string) : FundRenewWaiv = 
@@ -13858,8 +14184,9 @@ let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashDistribAgentCode valIn =
@@ -13873,8 +14200,9 @@ let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashDistribAgentAcctNumber valIn =
@@ -13888,8 +14216,9 @@ let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:Cash
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashDistribPayRef valIn =
@@ -13903,8 +14232,9 @@ let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashDistribAgentAcctName valIn =
@@ -13918,8 +14248,9 @@ let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCardStartDate valIn =
@@ -13933,8 +14264,9 @@ let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPaymentDate valIn =
@@ -13948,8 +14280,9 @@ let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPaymentRemitterID valIn =
@@ -13963,8 +14296,9 @@ let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRegistStatus (fldValIn:string) : RegistStatus = 
@@ -14157,8 +14491,9 @@ let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRegistDtls valIn =
@@ -14172,8 +14507,9 @@ let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoDistribInsts valIn =
@@ -14187,8 +14523,9 @@ let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRegistEmail valIn =
@@ -14202,8 +14539,9 @@ let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDistribPercentage valIn =
@@ -14217,8 +14555,9 @@ let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercen
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRegistID valIn =
@@ -14232,8 +14571,9 @@ let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRegistTransType (fldValIn:string) : RegistTransType = 
@@ -14277,8 +14617,9 @@ let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuatio
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderPercent valIn =
@@ -14292,8 +14633,9 @@ let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOwnershipType (fldValIn:string) : OwnershipType = 
@@ -14337,8 +14679,9 @@ let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContAmtType (fldValIn:string) : ContAmtType = 
@@ -14424,8 +14767,9 @@ let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContAmtCurr valIn =
@@ -14439,8 +14783,9 @@ let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOwnerType (fldValIn:string) : OwnerType = 
@@ -14554,8 +14899,9 @@ let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNestedPartyID valIn =
@@ -14569,8 +14915,9 @@ let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNestedPartyIDSource valIn =
@@ -14584,8 +14931,9 @@ let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedParty
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecondaryClOrdID valIn =
@@ -14599,8 +14947,9 @@ let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrd
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecondaryExecID valIn =
@@ -14614,8 +14963,9 @@ let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderCapacity (fldValIn:string) : OrderCapacity = 
@@ -14947,8 +15297,9 @@ let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffect
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoAffectedOrders valIn =
@@ -14962,8 +15313,9 @@ let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrde
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAffectedOrderID valIn =
@@ -14977,8 +15329,9 @@ let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAffectedSecondaryOrderID valIn =
@@ -14992,8 +15345,9 @@ let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:Affect
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteType (fldValIn:string) : QuoteType = 
@@ -15044,8 +15398,9 @@ let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNestedPartyIDs valIn =
@@ -15059,8 +15414,9 @@ let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotalAccruedInterestAmt valIn =
@@ -15074,8 +15430,9 @@ let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMaturityDate valIn =
@@ -15089,8 +15446,9 @@ let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingMaturityDate valIn =
@@ -15104,8 +15462,9 @@ let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadInstrRegistry valIn =
@@ -15119,8 +15478,9 @@ let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashMargin (fldValIn:string) : CashMargin = 
@@ -15164,8 +15524,9 @@ let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySub
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadScope (fldValIn:string) : Scope = 
@@ -15209,8 +15570,9 @@ let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDele
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCrossID valIn =
@@ -15224,8 +15586,9 @@ let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCrossType (fldValIn:string) : CrossType = 
@@ -15306,8 +15669,9 @@ let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoSides (fldValIn:string) : NoSides = 
@@ -15344,8 +15708,9 @@ let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPassword valIn =
@@ -15359,8 +15724,9 @@ let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoLegs valIn =
@@ -15374,8 +15740,9 @@ let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCurrency valIn =
@@ -15389,8 +15756,9 @@ let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotNoSecurityTypes valIn =
@@ -15404,8 +15772,9 @@ let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurit
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoSecurityTypes valIn =
@@ -15419,8 +15788,9 @@ let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecurityListRequestType (fldValIn:string) : SecurityListRequestType = 
@@ -15529,8 +15899,9 @@ let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMinTradeVol valIn =
@@ -15544,8 +15915,9 @@ let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMultiLegRptTypeReq (fldValIn:string) : MultiLegRptTypeReq = 
@@ -15589,8 +15961,9 @@ let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEf
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCoveredOrUncovered valIn =
@@ -15604,8 +15977,9 @@ let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCovere
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegPrice valIn =
@@ -15619,8 +15993,9 @@ let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradSesStatusRejReason (fldValIn:string) : TradSesStatusRejReason = 
@@ -15650,8 +16025,9 @@ let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeRequestType (fldValIn:string) : TradeRequestType = 
@@ -15709,8 +16085,9 @@ let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyRe
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeReportID valIn =
@@ -15724,8 +16101,9 @@ let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeReportRefID valIn =
@@ -15739,8 +16117,9 @@ let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRef
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMatchStatus (fldValIn:string) : MatchStatus = 
@@ -15784,8 +16163,9 @@ let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOddLot valIn =
@@ -15799,8 +16179,9 @@ let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoClearingInstructions valIn =
@@ -15814,8 +16195,9 @@ let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoCleari
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadClearingInstruction (fldValIn:string) : ClearingInstruction = 
@@ -15936,8 +16318,9 @@ let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSour
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeInputDevice valIn =
@@ -15951,8 +16334,9 @@ let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoDates valIn =
@@ -15966,8 +16350,9 @@ let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAccountType (fldValIn:string) : AccountType = 
@@ -16076,8 +16461,9 @@ let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMassStatusReqID valIn =
@@ -16091,8 +16477,9 @@ let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMassStatusReqType (fldValIn:string) : MassStatusReqType = 
@@ -16171,8 +16558,9 @@ let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSettlType valIn =
@@ -16186,8 +16574,9 @@ let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSettlDate valIn =
@@ -16201,8 +16590,9 @@ let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDayBookingInst (fldValIn:string) : DayBookingInst = 
@@ -16299,8 +16689,9 @@ let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingStateOrProvinceOfIssue valIn =
@@ -16314,8 +16705,9 @@ let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingLocaleOfIssue valIn =
@@ -16329,8 +16721,9 @@ let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingInstrRegistry valIn =
@@ -16344,8 +16737,9 @@ let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCountryOfIssue valIn =
@@ -16359,8 +16753,9 @@ let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegStateOrProvinceOfIssue valIn =
@@ -16374,8 +16769,9 @@ let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegSt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegLocaleOfIssue valIn =
@@ -16389,8 +16785,9 @@ let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIss
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegInstrRegistry valIn =
@@ -16404,8 +16801,9 @@ let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegist
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSymbol valIn =
@@ -16419,8 +16817,9 @@ let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSymbolSfx valIn =
@@ -16434,8 +16833,9 @@ let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityID valIn =
@@ -16449,8 +16849,9 @@ let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityIDSource valIn =
@@ -16464,8 +16865,9 @@ let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoLegSecurityAltID valIn =
@@ -16479,8 +16881,9 @@ let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurit
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityAltID valIn =
@@ -16494,8 +16897,9 @@ let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAlt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityAltIDSource valIn =
@@ -16509,8 +16913,9 @@ let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecur
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegProduct valIn =
@@ -16524,8 +16929,9 @@ let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCFICode valIn =
@@ -16539,8 +16945,9 @@ let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityType valIn =
@@ -16554,8 +16961,9 @@ let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegMaturityMonthYear valIn =
@@ -16569,8 +16977,9 @@ let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturit
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegMaturityDate valIn =
@@ -16584,8 +16993,9 @@ let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegStrikePrice valIn =
@@ -16599,8 +17009,9 @@ let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegOptAttribute valIn =
@@ -16614,8 +17025,9 @@ let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegContractMultiplier valIn =
@@ -16629,8 +17041,9 @@ let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegCouponRate valIn =
@@ -16644,8 +17057,9 @@ let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecurityExchange valIn =
@@ -16659,8 +17073,9 @@ let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegIssuer valIn =
@@ -16674,8 +17089,9 @@ let WriteLegIssuer (dest:byte []) (nextFreeIdx:int) (valIn:LegIssuer) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 // compound write, of a length field and the corresponding string field
@@ -16726,8 +17142,9 @@ let WriteLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityDesc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 // compound write, of a length field and the corresponding string field
@@ -16778,8 +17195,9 @@ let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSide valIn =
@@ -16793,8 +17211,9 @@ let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradingSessionSubID valIn =
@@ -16808,8 +17227,9 @@ let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSess
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocType (fldValIn:string) : AllocType = 
@@ -16867,8 +17287,9 @@ let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHopCompID valIn =
@@ -16882,8 +17303,9 @@ let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHopSendingTime valIn =
@@ -16897,8 +17319,9 @@ let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadHopRefID valIn =
@@ -16912,8 +17335,9 @@ let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMidPx valIn =
@@ -16927,8 +17351,9 @@ let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidYield valIn =
@@ -16942,8 +17367,9 @@ let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMidYield valIn =
@@ -16957,8 +17383,9 @@ let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferYield valIn =
@@ -16972,8 +17399,9 @@ let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadClearingFeeIndicator (fldValIn:string) : ClearingFeeIndicator = 
@@ -17052,8 +17480,9 @@ let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicat
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegLastPx valIn =
@@ -17067,8 +17496,9 @@ let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPriorityIndicator (fldValIn:string) : PriorityIndicator = 
@@ -17105,8 +17535,9 @@ let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImproveme
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPrice2 valIn =
@@ -17120,8 +17551,9 @@ let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastForwardPoints2 valIn =
@@ -17135,8 +17567,9 @@ let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardP
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBidForwardPoints2 valIn =
@@ -17150,8 +17583,9 @@ let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOfferForwardPoints2 valIn =
@@ -17165,8 +17599,9 @@ let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwar
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRFQReqID valIn =
@@ -17180,8 +17615,9 @@ let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMktBidPx valIn =
@@ -17195,8 +17631,9 @@ let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMktOfferPx valIn =
@@ -17210,8 +17647,9 @@ let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMinBidSize valIn =
@@ -17225,8 +17663,9 @@ let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMinOfferSize valIn =
@@ -17240,8 +17679,9 @@ let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteStatusReqID valIn =
@@ -17255,8 +17695,9 @@ let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReq
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegalConfirm valIn =
@@ -17270,8 +17711,9 @@ let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingLastPx valIn =
@@ -17285,8 +17727,9 @@ let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLast
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingLastQty valIn =
@@ -17300,8 +17743,9 @@ let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLas
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegRefID valIn =
@@ -17315,8 +17759,9 @@ let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadContraLegRefID valIn =
@@ -17330,8 +17775,9 @@ let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrBidFxRate valIn =
@@ -17345,8 +17791,9 @@ let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBid
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlCurrOfferFxRate valIn =
@@ -17360,8 +17807,9 @@ let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrO
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteRequestRejectReason (fldValIn:string) : QuoteRequestRejectReason = 
@@ -17461,8 +17909,9 @@ let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideCompliance
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAcctIDSource (fldValIn:string) : AcctIDSource = 
@@ -17527,8 +17976,9 @@ let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkPrice valIn =
@@ -17542,8 +17992,9 @@ let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkPriceType valIn =
@@ -17557,8 +18008,9 @@ let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPri
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConfirmID valIn =
@@ -17572,8 +18024,9 @@ let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConfirmStatus (fldValIn:string) : ConfirmStatus = 
@@ -17661,8 +18114,9 @@ let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSett
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeliveryForm (fldValIn:string) : DeliveryForm = 
@@ -17699,8 +18153,9 @@ let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoLegAllocs valIn =
@@ -17714,8 +18169,9 @@ let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegAllocAccount valIn =
@@ -17729,8 +18185,9 @@ let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegIndividualAllocID valIn =
@@ -17744,8 +18201,9 @@ let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndivid
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegAllocQty valIn =
@@ -17759,8 +18217,9 @@ let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegAllocAcctIDSource valIn =
@@ -17774,8 +18233,9 @@ let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSettlCurrency valIn =
@@ -17789,8 +18249,9 @@ let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurren
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBenchmarkCurveCurrency valIn =
@@ -17804,8 +18265,9 @@ let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBe
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBenchmarkCurveName valIn =
@@ -17819,8 +18281,9 @@ let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBenchmarkCurvePoint valIn =
@@ -17834,8 +18297,9 @@ let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBench
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBenchmarkPrice valIn =
@@ -17849,8 +18313,9 @@ let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkP
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBenchmarkPriceType valIn =
@@ -17864,8 +18329,9 @@ let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegBidPx valIn =
@@ -17879,8 +18345,9 @@ let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegIOIQty valIn =
@@ -17894,8 +18361,9 @@ let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoLegStipulations valIn =
@@ -17909,8 +18377,9 @@ let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulat
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegOfferPx valIn =
@@ -17924,8 +18393,9 @@ let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegOrderQty valIn =
@@ -17939,8 +18409,9 @@ let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegPriceType valIn =
@@ -17954,8 +18425,9 @@ let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegQty valIn =
@@ -17969,8 +18441,9 @@ let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegStipulationType valIn =
@@ -17984,8 +18457,9 @@ let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulati
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegStipulationValue valIn =
@@ -17999,8 +18473,9 @@ let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulat
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSwapType (fldValIn:string) : LegSwapType = 
@@ -18051,8 +18526,9 @@ let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuotePriceType (fldValIn:string) : QuotePriceType = 
@@ -18145,8 +18621,9 @@ let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadQuoteRespType (fldValIn:string) : QuoteRespType = 
@@ -18211,8 +18688,9 @@ let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadYieldRedemptionDate valIn =
@@ -18226,8 +18704,9 @@ let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemp
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadYieldRedemptionPrice valIn =
@@ -18241,8 +18720,9 @@ let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedem
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadYieldRedemptionPriceType valIn =
@@ -18256,8 +18736,9 @@ let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldR
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkSecurityID valIn =
@@ -18271,8 +18752,9 @@ let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSe
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadReversalIndicator valIn =
@@ -18286,8 +18768,9 @@ let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndic
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadYieldCalcDate valIn =
@@ -18301,8 +18784,9 @@ let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoPositions valIn =
@@ -18316,8 +18800,9 @@ let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosType (fldValIn:string) : PosType = 
@@ -18473,8 +18958,9 @@ let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadShortQty valIn =
@@ -18488,8 +18974,9 @@ let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosQtyStatus (fldValIn:string) : PosQtyStatus = 
@@ -18598,8 +19085,9 @@ let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosTransType (fldValIn:string) : PosTransType = 
@@ -18657,8 +19145,9 @@ let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoUnderlyings valIn =
@@ -18672,8 +19161,9 @@ let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosMaintAction (fldValIn:string) : PosMaintAction = 
@@ -18717,8 +19207,9 @@ let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosMaintRptRefID valIn =
@@ -18732,8 +19223,9 @@ let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRef
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadClearingBusinessDate valIn =
@@ -18747,8 +19239,9 @@ let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlSessID valIn =
@@ -18762,8 +19255,9 @@ let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlSessSubID valIn =
@@ -18777,8 +19271,9 @@ let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAdjustmentType (fldValIn:string) : AdjustmentType = 
@@ -18829,8 +19324,9 @@ let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Co
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPriorSpreadIndicator valIn =
@@ -18844,8 +19340,9 @@ let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSprea
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosMaintRptID valIn =
@@ -18859,8 +19356,9 @@ let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosMaintStatus (fldValIn:string) : PosMaintStatus = 
@@ -19008,8 +19506,9 @@ let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDes
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotalNumPosReports valIn =
@@ -19023,8 +19522,9 @@ let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosR
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPosReqResult (fldValIn:string) : PosReqResult = 
@@ -19119,8 +19619,9 @@ let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPriceType (fldValIn:string) : SettlPriceType = 
@@ -19157,8 +19658,9 @@ let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSettlPriceType valIn =
@@ -19172,8 +19674,9 @@ let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPriorSettlPrice valIn =
@@ -19187,8 +19690,9 @@ let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoQuoteQualifiers valIn =
@@ -19202,8 +19706,9 @@ let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualif
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocSettlCurrency valIn =
@@ -19217,8 +19722,9 @@ let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocSettlCurrAmt valIn =
@@ -19232,8 +19738,9 @@ let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCur
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadInterestAtMaturity valIn =
@@ -19247,8 +19754,9 @@ let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegDatedDate valIn =
@@ -19262,8 +19770,9 @@ let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegPool valIn =
@@ -19277,8 +19786,9 @@ let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocInterestAtMaturity valIn =
@@ -19292,8 +19802,9 @@ let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocIn
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocAccruedInterestAmt valIn =
@@ -19307,8 +19818,9 @@ let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeliveryDate valIn =
@@ -19322,8 +19834,9 @@ let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAssignmentMethod (fldValIn:string) : AssignmentMethod = 
@@ -19360,8 +19873,9 @@ let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOpenInterest valIn =
@@ -19375,8 +19889,9 @@ let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExerciseMethod (fldValIn:string) : ExerciseMethod = 
@@ -19413,8 +19928,9 @@ let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeR
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeRequestResult (fldValIn:string) : TradeRequestResult = 
@@ -19611,8 +20127,9 @@ let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAutoAcceptIndicator valIn =
@@ -19626,8 +20143,9 @@ let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocReportID valIn =
@@ -19641,8 +20159,9 @@ let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNested2PartyIDs valIn =
@@ -19656,8 +20175,9 @@ let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2Part
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested2PartyID valIn =
@@ -19671,8 +20191,9 @@ let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested2PartyIDSource valIn =
@@ -19686,8 +20207,9 @@ let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Par
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested2PartyRole valIn =
@@ -19701,8 +20223,9 @@ let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested2PartySubID valIn =
@@ -19716,8 +20239,9 @@ let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadBenchmarkSecurityIDSource valIn =
@@ -19731,8 +20255,9 @@ let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Bench
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecuritySubType valIn =
@@ -19746,8 +20271,9 @@ let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingSecuritySubType valIn =
@@ -19761,8 +20287,9 @@ let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:Under
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegSecuritySubType valIn =
@@ -19776,8 +20303,9 @@ let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllowableOneSidednessPct valIn =
@@ -19791,8 +20319,9 @@ let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:Allowa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllowableOneSidednessValue valIn =
@@ -19806,8 +20335,9 @@ let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:Allo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllowableOneSidednessCurr valIn =
@@ -19821,8 +20351,9 @@ let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:Allow
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoTrdRegTimestamps valIn =
@@ -19836,8 +20367,9 @@ let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTime
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTrdRegTimestamp valIn =
@@ -19851,8 +20383,9 @@ let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTrdRegTimestampType (fldValIn:string) : TrdRegTimestampType = 
@@ -19910,8 +20443,9 @@ let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTim
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConfirmRefID valIn =
@@ -19925,8 +20459,9 @@ let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConfirmType (fldValIn:string) : ConfirmType = 
@@ -20030,8 +20565,9 @@ let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:Individu
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstMsgID valIn =
@@ -20045,8 +20581,9 @@ let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoSettlInst valIn =
@@ -20060,8 +20597,9 @@ let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastUpdateTime valIn =
@@ -20075,8 +20613,9 @@ let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocSettlInstType (fldValIn:string) : AllocSettlInstType = 
@@ -20134,8 +20673,9 @@ let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPartyID valIn =
@@ -20149,8 +20689,9 @@ let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPartyIDSource valIn =
@@ -20164,8 +20705,9 @@ let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPartyRole valIn =
@@ -20179,8 +20721,9 @@ let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPartySubID valIn =
@@ -20194,8 +20737,9 @@ let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlPartySubIDType valIn =
@@ -20209,8 +20753,9 @@ let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDlvyInstType (fldValIn:string) : DlvyInstType = 
@@ -20284,8 +20829,9 @@ let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpec
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrdStatusReqID valIn =
@@ -20299,8 +20845,9 @@ let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstReqID valIn =
@@ -20314,8 +20861,9 @@ let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSettlInstReqRejCode (fldValIn:string) : SettlInstReqRejCode = 
@@ -20366,8 +20914,9 @@ let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAlloc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocReportType (fldValIn:string) : AllocReportType = 
@@ -20418,8 +20967,9 @@ let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRef
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocCancReplaceReason (fldValIn:string) : AllocCancReplaceReason = 
@@ -20456,8 +21006,9 @@ let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicat
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocAccountType (fldValIn:string) : AllocAccountType = 
@@ -20529,8 +21080,9 @@ let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderBookingQty valIn =
@@ -20544,8 +21096,9 @@ let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoSettlPartySubIDs valIn =
@@ -20559,8 +21112,9 @@ let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlParty
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoPartySubIDs valIn =
@@ -20574,8 +21128,9 @@ let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPartySubIDType valIn =
@@ -20589,8 +21144,9 @@ let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNestedPartySubIDs valIn =
@@ -20604,8 +21160,9 @@ let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPar
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNestedPartySubIDType valIn =
@@ -20619,8 +21176,9 @@ let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPart
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNested2PartySubIDs valIn =
@@ -20634,8 +21192,9 @@ let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2P
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested2PartySubIDType valIn =
@@ -20649,8 +21208,9 @@ let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Pa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAllocIntermedReqType (fldValIn:string) : AllocIntermedReqType = 
@@ -20715,8 +21275,9 @@ let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPriceDelta valIn =
@@ -20730,8 +21291,9 @@ let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadApplQueueMax valIn =
@@ -20745,8 +21307,9 @@ let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadApplQueueDepth valIn =
@@ -20760,8 +21323,9 @@ let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadApplQueueResolution (fldValIn:string) : ApplQueueResolution = 
@@ -20849,8 +21413,9 @@ let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAltMDSourceID valIn =
@@ -20864,8 +21429,9 @@ let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecondaryTradeReportID valIn =
@@ -20879,8 +21445,9 @@ let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:Secondar
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAvgPxIndicator (fldValIn:string) : AvgPxIndicator = 
@@ -20924,8 +21491,9 @@ let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderInputDevice valIn =
@@ -20939,8 +21507,9 @@ let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingTradingSessionID valIn =
@@ -20954,8 +21523,9 @@ let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingTradingSessionSubID valIn =
@@ -20969,8 +21539,9 @@ let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:U
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeLegRefID valIn =
@@ -20984,8 +21555,9 @@ let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadExchangeRule valIn =
@@ -20999,8 +21571,9 @@ let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeAllocIndicator (fldValIn:string) : TradeAllocIndicator = 
@@ -21153,8 +21726,9 @@ let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTransferReason valIn =
@@ -21168,8 +21742,9 @@ let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAsgnReqID valIn =
@@ -21183,8 +21758,9 @@ let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotNumAssignmentReports valIn =
@@ -21198,8 +21774,9 @@ let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumA
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAsgnRptID valIn =
@@ -21213,8 +21790,9 @@ let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadThresholdAmount valIn =
@@ -21228,8 +21806,9 @@ let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPegMoveType (fldValIn:string) : PegMoveType = 
@@ -21356,8 +21935,9 @@ let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPegScope (fldValIn:string) : PegScope = 
@@ -21521,8 +22101,9 @@ let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDiscretionScope (fldValIn:string) : DiscretionScope = 
@@ -21573,8 +22154,9 @@ let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTargetStrategyParameters valIn =
@@ -21588,8 +22170,9 @@ let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:Target
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadParticipationRate valIn =
@@ -21603,8 +22186,9 @@ let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:Participation
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTargetStrategyPerformance valIn =
@@ -21618,8 +22202,9 @@ let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:Targe
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastLiquidityInd (fldValIn:string) : LastLiquidityInd = 
@@ -21663,8 +22248,9 @@ let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdI
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadShortSaleReason (fldValIn:string) : ShortSaleReason = 
@@ -21752,8 +22338,9 @@ let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdTy
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTradeReportType (fldValIn:string) : TradeReportType = 
@@ -21855,8 +22442,9 @@ let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommissi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadConfirmReqID valIn =
@@ -21870,8 +22458,9 @@ let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAvgParPx valIn =
@@ -21885,8 +22474,9 @@ let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadReportedPx valIn =
@@ -21900,8 +22490,9 @@ let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoCapacities valIn =
@@ -21915,8 +22506,9 @@ let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadOrderCapacityQty valIn =
@@ -21930,8 +22522,9 @@ let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQ
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoEvents valIn =
@@ -21945,8 +22538,9 @@ let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEventType (fldValIn:string) : EventType = 
@@ -22004,8 +22598,9 @@ let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEventPx valIn =
@@ -22019,8 +22614,9 @@ let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEventText valIn =
@@ -22034,8 +22630,9 @@ let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadPctAtRisk valIn =
@@ -22049,8 +22646,9 @@ let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoInstrAttrib valIn =
@@ -22064,8 +22662,9 @@ let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadInstrAttribType (fldValIn:string) : InstrAttribType = 
@@ -22249,8 +22848,9 @@ let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribVal
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDatedDate valIn =
@@ -22264,8 +22864,9 @@ let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadInterestAccrualDate valIn =
@@ -22279,8 +22880,9 @@ let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAcc
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCPProgram valIn =
@@ -22294,8 +22896,9 @@ let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCPRegType valIn =
@@ -22309,8 +22912,9 @@ let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCPProgram valIn =
@@ -22324,8 +22928,9 @@ let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCPRegType valIn =
@@ -22339,8 +22944,9 @@ let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingQty valIn =
@@ -22354,8 +22960,9 @@ let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTrdMatchID valIn =
@@ -22369,8 +22976,9 @@ let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadSecondaryTradeReportRefID valIn =
@@ -22384,8 +22992,9 @@ let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:Secon
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingDirtyPrice valIn =
@@ -22399,8 +23008,9 @@ let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingEndPrice valIn =
@@ -22414,8 +23024,9 @@ let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingStartValue valIn =
@@ -22429,8 +23040,9 @@ let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingCurrentValue valIn =
@@ -22444,8 +23056,9 @@ let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingEndValue valIn =
@@ -22459,8 +23072,9 @@ let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoUnderlyingStips valIn =
@@ -22474,8 +23088,9 @@ let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingStipType valIn =
@@ -22489,8 +23104,9 @@ let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSt
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUnderlyingStipValue valIn =
@@ -22504,8 +23120,9 @@ let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMaturityNetMoney valIn =
@@ -22519,8 +23136,9 @@ let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMon
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMiscFeeBasis (fldValIn:string) : MiscFeeBasis = 
@@ -22564,8 +23182,9 @@ let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastFragment valIn =
@@ -22579,8 +23198,9 @@ let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollReqID valIn =
@@ -22594,8 +23214,9 @@ let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollAsgnReason (fldValIn:string) : CollAsgnReason = 
@@ -22739,8 +23360,9 @@ let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMarginRatio valIn =
@@ -22754,8 +23376,9 @@ let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadMarginExcess valIn =
@@ -22769,8 +23392,9 @@ let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : in
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTotalNetValue valIn =
@@ -22784,8 +23408,9 @@ let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCashOutstanding valIn =
@@ -22799,8 +23424,9 @@ let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollAsgnID valIn =
@@ -22814,8 +23440,9 @@ let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollAsgnTransType (fldValIn:string) : CollAsgnTransType = 
@@ -22873,8 +23500,9 @@ let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollAsgnRespType (fldValIn:string) : CollAsgnRespType = 
@@ -22983,8 +23611,9 @@ let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollRptID valIn =
@@ -22998,8 +23627,9 @@ let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollInquiryID valIn =
@@ -23013,8 +23643,9 @@ let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollStatus (fldValIn:string) : CollStatus = 
@@ -23072,8 +23703,9 @@ let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastRptRequested valIn =
@@ -23087,8 +23719,9 @@ let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequest
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAgreementDesc valIn =
@@ -23102,8 +23735,9 @@ let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAgreementID valIn =
@@ -23117,8 +23751,9 @@ let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAgreementDate valIn =
@@ -23132,8 +23767,9 @@ let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStartDate valIn =
@@ -23147,8 +23783,9 @@ let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEndDate valIn =
@@ -23162,8 +23799,9 @@ let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadAgreementCurrency valIn =
@@ -23177,8 +23815,9 @@ let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurr
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadDeliveryType (fldValIn:string) : DeliveryType = 
@@ -23229,8 +23868,9 @@ let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccrue
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStartCash valIn =
@@ -23244,8 +23884,9 @@ let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadEndCash valIn =
@@ -23259,8 +23900,9 @@ let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUserRequestID valIn =
@@ -23274,8 +23916,9 @@ let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUserRequestType (fldValIn:string) : UserRequestType = 
@@ -23326,8 +23969,9 @@ let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadUserStatus (fldValIn:string) : UserStatus = 
@@ -23392,8 +24036,9 @@ let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadStatusValue (fldValIn:string) : StatusValue = 
@@ -23444,8 +24089,9 @@ let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRefCompID valIn =
@@ -23459,8 +24105,9 @@ let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadRefSubID valIn =
@@ -23474,8 +24121,9 @@ let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetworkResponseID valIn =
@@ -23489,8 +24137,9 @@ let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRespon
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetworkRequestID valIn =
@@ -23504,8 +24153,9 @@ let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequest
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLastNetworkResponseID valIn =
@@ -23519,8 +24169,9 @@ let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetwo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetworkRequestType (fldValIn:string) : NetworkRequestType = 
@@ -23571,8 +24222,9 @@ let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int =
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNetworkStatusResponseType (fldValIn:string) : NetworkStatusResponseType = 
@@ -23609,8 +24261,9 @@ let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollIn
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTrdRptStatus (fldValIn:string) : TrdRptStatus = 
@@ -23677,8 +24330,9 @@ let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegStrikeCurrency valIn =
@@ -23692,8 +24346,9 @@ let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurr
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadTimeBracket valIn =
@@ -23707,8 +24362,9 @@ let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadCollAction (fldValIn:string) : CollAction = 
@@ -23882,8 +24538,9 @@ let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNested3PartyIDs valIn =
@@ -23897,8 +24554,9 @@ let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3Part
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested3PartyID valIn =
@@ -23912,8 +24570,9 @@ let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) 
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested3PartyIDSource valIn =
@@ -23927,8 +24586,9 @@ let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Par
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested3PartyRole valIn =
@@ -23942,8 +24602,9 @@ let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRo
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNoNested3PartySubIDs valIn =
@@ -23957,8 +24618,9 @@ let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3P
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested3PartySubID valIn =
@@ -23972,8 +24634,9 @@ let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyS
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadNested3PartySubIDType valIn =
@@ -23987,8 +24650,9 @@ let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Pa
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegContractSettlMonth valIn =
@@ -24002,8 +24666,9 @@ let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 let ReadLegInterestAccrualDate valIn =
@@ -24017,8 +24682,9 @@ let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInter
    let nextFreeIdx2 = nextFreeIdx + tag.Length
    let bs = ToBytes.Convert(valIn.Value)
    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
+   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
+   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+   nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
 

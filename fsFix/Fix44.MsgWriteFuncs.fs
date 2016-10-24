@@ -14,8 +14,15 @@ let WriteHeartbeat (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (b
     nextFreeIdx
 
 
+let calcCheckSum (arr:byte[]) (endPos:int) =
+    let mutable (sum:byte) = 0uy
+    for ctr = 0 to (endPos-1) do
+        sum <- sum + arr.[ctr]
+    int (sum)
+
+
 // tag: A
-let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) = 
+let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) =
     let nextFreeIdx = WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
     let nextFreeIdx = WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
     let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
@@ -33,8 +40,23 @@ let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
     let nextFreeIdx = Option.fold (WriteTestMessageIndicator dest) nextFreeIdx xx.TestMessageIndicator
     let nextFreeIdx = Option.fold (WriteUsername dest) nextFreeIdx xx.Username
     let nextFreeIdx = Option.fold (WritePassword dest) nextFreeIdx xx.Password
-    nextFreeIdx
+    let bodyLength = nextFreeIdx - 1
 
+    let startHeader = nextFreeIdx
+    let checksum = calcCheckSum dest nextFreeIdx
+    let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
+    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (BodyLength.BodyLength bodyLength)
+    let nextFreeIdx = WriteMsgType dest nextFreeIdx MsgType.Logon
+    let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
+    let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
+    let nextFreeIdx = WriteMsgSeqNum dest nextFreeIdx msgSeqNum
+    let nextFreeIdx = WriteSendingTime dest nextFreeIdx sendingTime
+
+    let startTrailer = nextFreeIdx
+    let strCheckSum = CheckSum.CheckSum (checksum.ToString("0:000")) // checksum is always a three digit number
+    let nextFreeIdx = WriteCheckSum dest nextFreeIdx strCheckSum
+    let endTrailer = nextFreeIdx
+    startHeader, startTrailer, endTrailer
 
 // tag: 1
 let WriteTestRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TestRequest) = 
@@ -1580,7 +1602,7 @@ let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
     let nextFreeIdx = WriteCrossID dest nextFreeIdx xx.CrossID
     let nextFreeIdx = WriteCrossType dest nextFreeIdx xx.CrossType
     let nextFreeIdx = WriteCrossPrioritization dest nextFreeIdx xx.CrossPrioritization
-    let noSidesField =  // ####
+    let noSidesField =
         match xx.NoSidesGrp with
         | OneOrTwo.One _ -> NoSides.OneSide
         | OneOrTwo.Two _ -> NoSides.BothSides
@@ -1655,7 +1677,7 @@ let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginS
     let nextFreeIdx = WriteOrigCrossID dest nextFreeIdx xx.OrigCrossID
     let nextFreeIdx = WriteCrossType dest nextFreeIdx xx.CrossType
     let nextFreeIdx = WriteCrossPrioritization dest nextFreeIdx xx.CrossPrioritization
-    let noSidesField =  // ####
+    let noSidesField =
         match xx.CrossOrderCancelReplaceRequest_NoSidesGrp with
         | OneOrTwo.One _ -> NoSides.OneSide
         | OneOrTwo.Two _ -> NoSides.BothSides
@@ -1730,7 +1752,7 @@ let WriteCrossOrderCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:B
     let nextFreeIdx = WriteOrigCrossID dest nextFreeIdx xx.OrigCrossID
     let nextFreeIdx = WriteCrossType dest nextFreeIdx xx.CrossType
     let nextFreeIdx = WriteCrossPrioritization dest nextFreeIdx xx.CrossPrioritization
-    let noSidesField =  // ####
+    let noSidesField =
         match xx.CrossOrderCancelRequest_NoSidesGrp with
         | OneOrTwo.One _ -> NoSides.OneSide
         | OneOrTwo.Two _ -> NoSides.BothSides
@@ -2661,7 +2683,7 @@ let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
     let nextFreeIdx = Option.fold (WriteSettlDate dest) nextFreeIdx xx.SettlDate
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
     let nextFreeIdx = Option.fold (WriteMatchType dest) nextFreeIdx xx.MatchType
-    let noSidesField =  // ####
+    let noSidesField =
         match xx.TradeCaptureReport_NoSidesGrp with
         | OneOrTwo.One _ -> NoSides.OneSide
         | OneOrTwo.Two _ -> NoSides.BothSides

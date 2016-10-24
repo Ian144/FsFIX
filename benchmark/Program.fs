@@ -49,15 +49,15 @@ type BenchmarkWriteLogon () =
     member val Dst:byte array =  Array.zeroCreate<byte> 2048
 
 
-    member val BeginString:BeginString = BeginString.BeginString ""
+    member val BeginString:BeginString = BeginString.BeginString "FIX.4.4"
     member val BodyLength:BodyLength = BodyLength.BodyLength 99
     member val MsgType:MsgType = MsgType.Logon
-    member val SenderCompID:SenderCompID = SenderCompID.SenderCompID ""
-    member val TargetCompID:TargetCompID = TargetCompID.TargetCompID ""
+    member val SenderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
+    member val TargetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
     member val MsgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99
-    member val SendingTime:SendingTime = SendingTime.SendingTime ""
+    member val SendingTime:SendingTime = SendingTime.SendingTime "20071123-05:30:00.000"
 
-    
+
     member val logonMsg:Fix44.Messages.Logon = {
         EncryptMethod = EncryptMethod.NoneOther
         HeartBtInt = HeartBtInt.HeartBtInt 30

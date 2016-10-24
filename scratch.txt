@@ -1,0 +1,63 @@
+
+
+
+
+// tag: A
+let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) =
+	// write the body - body length and checksum are required for the header, so these must be calculated first
+	// simpler just to write the body first, then rearrange when copying to the socket buffer
+
+    let nextFreeIdx = WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
+    let nextFreeIdx = WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
+    let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
+    let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
+    let nextFreeIdx = Option.fold (WriteResetSeqNumFlag dest) nextFreeIdx xx.ResetSeqNumFlag
+    let nextFreeIdx = Option.fold (WriteNextExpectedMsgSeqNum dest) nextFreeIdx xx.NextExpectedMsgSeqNum
+    let nextFreeIdx = Option.fold (WriteMaxMessageSize dest) nextFreeIdx xx.MaxMessageSize
+    // group (apologies for this nested fold code, will refactor when I think of something better)
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMsgTypesGrp list) ->
+                                        let numGrps = gs.Length
+                                        let innerNextFreeIdx2 = WriteNoMsgTypes dest innerNextFreeIdx (Fix44.Fields.NoMsgTypes numGrps) // write the 'num group repeats' field
+                                        List.fold (fun accFreeIdx gg -> WriteNoMsgTypesGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                  nextFreeIdx
+                                  xx.NoMsgTypesGrp  // end Option.fold
+    let nextFreeIdx = Option.fold (WriteTestMessageIndicator dest) nextFreeIdx xx.TestMessageIndicator
+    let nextFreeIdx = Option.fold (WriteUsername dest) nextFreeIdx xx.Username
+    let nextFreeIdx = Option.fold (WritePassword dest) nextFreeIdx xx.Password
+
+	// write the header
+    let bodyLength = nextFreeIdx - 1
+    let startHeader = nextFreeIdx
+    let checksum = calcCheckSum dest nextFreeIdx
+    let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
+    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (BodyLength.BodyLength bodyLength)
+    let nextFreeIdx = WriteMsgType dest nextFreeIdx MsgType.Logon
+    let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
+    let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
+    let nextFreeIdx = WriteMsgSeqNum dest nextFreeIdx msgSeqNum
+    let nextFreeIdx = WriteSendingTime dest nextFreeIdx sendingTime
+
+	// write the trailer
+    let startTrailer = nextFreeIdx
+    let strCheckSum = CheckSum.CheckSum (checksum.ToString("0:000")) // checksum is always a three digit number
+    let nextFreeIdx = WriteCheckSum dest nextFreeIdx strCheckSum
+    let endTrailer = nextFreeIdx
+    startHeader, startTrailer, endTrailer
+
+
+
+let ReadLogon (src:System.IO.Stream) (xx:Logon) =
+    let logonMsg:Fix44.Messages.Logon = {
+        EncryptMethod = EncryptMethod.NoneOther
+        HeartBtInt = HeartBtInt.HeartBtInt 30
+        RawDataLength = RawDataLength.RawDataLength 128 |> Option.Some
+        RawData = RawData.RawData "some data, some more data" |> Option.Some
+        ResetSeqNumFlag = ResetSeqNumFlag.ResetSeqNumFlag false |> Option.Some
+        NextExpectedMsgSeqNum = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum 99 |> Option.Some
+        MaxMessageSize = MaxMessageSize.MaxMessageSize 256 |> Option.Some
+        NoMsgTypesGrp = Option.None
+        TestMessageIndicator = TestMessageIndicator.TestMessageIndicator true |> Option.Some
+        Username = Option.None
+        Password = Option.None
+        }
+    Logon

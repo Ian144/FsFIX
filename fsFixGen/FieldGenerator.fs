@@ -142,8 +142,9 @@ let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
                 sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
                 sprintf "   let bs = ToBytes.Convert(valIn.Value)"
                 sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
-                sprintf "   dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter"
-                sprintf "   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter"
+                sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
+                sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
+                sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
             ]
     Utils.joinStrs "\n" lines
 
