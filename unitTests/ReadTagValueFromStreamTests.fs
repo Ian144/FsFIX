@@ -9,7 +9,6 @@ open Fix44.FieldReadWriteFuncs
 [<Fact>]
 let ``single field then checksum`` () =
 
-    // 
     let inBuf = [| 
             yield! "8=XXXX"B; yield 1uy 
             yield! "10=128"B; yield 1uy // the byte representation of the checksum field
@@ -18,6 +17,7 @@ let ``single field then checksum`` () =
 
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
+    let xx = ms.Seek(0L, SeekOrigin.Begin) 
 
     let tagVals = ReadWriteFuncs.ReadTagValuesUntilChecksum ms
 

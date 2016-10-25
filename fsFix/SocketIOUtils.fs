@@ -28,9 +28,7 @@ type Stream with
 let CrapReadUntilDelim (strm:Stream) : string =
     let rec innerRead () : int list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
-        | -1    ->  let buf = Array.zeroCreate<byte> 999
-                    let n = strm.Read(buf, 0, buf.Length)
-                    failwith "unexpected end of stream"
+        | -1    ->  failwith "unexpected end of stream"
         |  1    ->  []
         | b     ->  b :: innerRead () 
 
@@ -38,10 +36,22 @@ let CrapReadUntilDelim (strm:Stream) : string =
     System.String chars
 
 
+let CrapReadUntilDelim2 (strm:Stream) : byte[] =
+    let rec innerRead () : byte list =
+        match strm.ReadByte() with    // annoyingly ReadByte returns an int32
+        | -1    ->  failwith "unexpected end of stream"
+        |  1    ->  []
+        | ii     ->  byte(ii) :: innerRead () 
+    innerRead() |> Array.ofList
 
 
 type TagValue = {Tag:byte[]; Value:byte[]}
 
 
 let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array = 
+    let bs1 = CrapReadUntilDelim2 src
+    let bs2 = CrapReadUntilDelim2 src
     [||]
+
+
+
