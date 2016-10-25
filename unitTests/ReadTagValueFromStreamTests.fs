@@ -4,6 +4,9 @@ open System.IO
 open Xunit
 open Fix44.Fields
 open Fix44.FieldReadWriteFuncs
+open TestUtils
+
+
 
 
 [<Fact>]
@@ -24,12 +27,11 @@ let ``single field then checksum`` () =
     Assert.Equal (2, tagVals.Length) // the 3rd field should be ignored, the first two must be read
     
     let tv1 = tagVals |> Array.head
-    Assert.True ("8"B = tv1.Tag)
-    Assert.True ("XXXX"B = tv1.Value)
-
     let tv2 = tagVals |> Array.skip 1 |> Array.head
-    Assert.True ("10"B = tv1.Tag)
-    Assert.True ("123"B = tv1.Value)
+    Assert.True ( "8"B      = tv1.Tag,      "m1" )
+    Assert.True ( "XXXX"B   = tv1.Value,    "m2")
+    Assert.True ( "10"B     = tv2.Tag,      "m3")
+    Assert.True ( "128"B    = tv2.Value,    "m4")
 
     
 

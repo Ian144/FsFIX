@@ -33,27 +33,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\unitTests.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="ReadTagValueFromStreamTests.fs" />
-    <Compile Include="FieldWriteTests.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\fsFix\fsFix.fsproj">
-      <Name>fsFix</Name>
-      <Project>{c90a912f-aa9d-4d66-8c64-b29ec34e3f9a}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -554,4 +533,25 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="TestUtils.fs" />
+    <Compile Include="ReadTagValueFromStreamTests.fs" />
+    <Compile Include="FieldWriteTests.fs" />
+    <Content Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\fsFix\fsFix.fsproj">
+      <Name>fsFix</Name>
+      <Project>{c90a912f-aa9d-4d66-8c64-b29ec34e3f9a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

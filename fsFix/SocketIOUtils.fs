@@ -48,10 +48,27 @@ let CrapReadUntilDelim2 (strm:Stream) : byte[] =
 type TagValue = {Tag:byte[]; Value:byte[]}
 
 
+let findIdx (bs:byte []) =
+    let mutable ctr = 0
+    while (bs.[ctr] <> 61uy) && ctr < bs.Length do
+        ctr <- ctr + 1
+    if ctr = bs.Length then failwith "could not find '=' in tag val pair"
+    ctr        
+
+
+
+let parseTagValue (bs:byte[]) =
+    let eqPos = findIdx bs
+    let tag = bs |> Array.take (eqPos)
+    let value = bs |> Array.skip (eqPos + 1)
+    {Tag=tag; Value=value}
+    
+
+
 let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array = 
-    let bs1 = CrapReadUntilDelim2 src
-    let bs2 = CrapReadUntilDelim2 src
-    [||]
+    let tv1 = CrapReadUntilDelim2 src |> parseTagValue
+    let tv2 = CrapReadUntilDelim2 src |> parseTagValue
+    [|tv1; tv2|]
 
 
 
