@@ -4,9 +4,11 @@ open System.IO
 
 
 
+let private bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
+
+let private bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
 
 
-let delim = [|1uy|]
 
 
 let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
@@ -29,9 +31,8 @@ let CrapReadUntilDelim (strm:Stream) : string =
     let rec innerRead () : int list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
         | -1    ->  failwith "unexpected end of stream"
-        |  1    ->  []
+        | 1     ->  []
         | b     ->  b :: innerRead () 
-
     let chars = innerRead() |> List.map System.Convert.ToChar |> Array.ofList
     System.String chars
 
@@ -40,8 +41,16 @@ let CrapReadUntilDelim2 (strm:Stream) : byte[] =
     let rec innerRead () : byte list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
         | -1    ->  failwith "unexpected end of stream"
-        |  1    ->  []
-        | ii     ->  byte(ii) :: innerRead () 
+        | 1     ->  []  // 1 is the field deliminator
+        | ii    ->  byte(ii) :: innerRead () 
+    innerRead() |> Array.ofList
+
+let CrapReadUntilEq (strm:Stream) : byte[] =
+    let rec innerRead () : byte list =
+        match strm.ReadByte() with    // annoyingly ReadByte returns an int32
+        | -1    ->  failwith "unexpected end of stream"
+        | 61    ->  [] 
+        | ii    ->  byte(ii) :: innerRead () 
     innerRead() |> Array.ofList
 
 
@@ -53,8 +62,7 @@ let findIdx (bs:byte []) =
     while (bs.[ctr] <> 61uy) && ctr < bs.Length do
         ctr <- ctr + 1
     if ctr = bs.Length then failwith "could not find '=' in tag val pair"
-    ctr        
-
+    ctr
 
 
 let parseTagValue (bs:byte[]) =
@@ -64,11 +72,22 @@ let parseTagValue (bs:byte[]) =
     {Tag=tag; Value=value}
     
 
+let rec ReadTagValuesUntilChecksumInner (src:Stream) : TagValue list = 
+    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    match tagVal.Tag with 
+    | "10"B ->  [tagVal]
+    | "95"B ->  let lenVal = bytesToInt32 tagVal.Value
+                let rawDataTag  = CrapReadUntilEq src // read what should be the tag of the raw data field, also reads the tag-val seperator '=' and throw it away
+                if rawDataTag <> "96"B then failwith "unexpected field tag following RawDataLength"
+                let arr = Array.zeroCreate<byte> lenVal
+                let lenRead = src.Read (arr, 0, lenVal) // todo: network streams may require more than one read to pull in all of the data
+                if (lenRead <> lenVal) then failwith "failed to read all of raw data"
+                let rawData = {Tag="96"B; Value=arr}
+                let bb = src.ReadByte() // read the field delimator of the next field
+                if bb <> 1 then failwith "invalid tag-value seperator" // 61 is equals, ReadByte returns an Int32
+                tagVal ::rawData :: ReadTagValuesUntilChecksumInner src
+    | _     ->  tagVal :: ReadTagValuesUntilChecksumInner src
 
 let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array = 
-    let tv1 = CrapReadUntilDelim2 src |> parseTagValue
-    let tv2 = CrapReadUntilDelim2 src |> parseTagValue
-    [|tv1; tv2|]
-
-
-
+    let tvs = ReadTagValuesUntilChecksumInner  src
+    tvs |> Array.ofList
