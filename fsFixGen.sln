@@ -14,8 +14,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFix", "fsFix\fsFix.fsproj
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "benchmark", "benchmark\benchmark.fsproj", "{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scratch", "scratch\scratch.fsproj", "{F30E45D0-05F4-4CAE-BCD4-9C9BB4B959DD}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "unitTests", "unitTests\unitTests.fsproj", "{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dummyUnitTestProj", "UnitTestProject1\dummyUnitTestProj.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
@@ -38,10 +36,6 @@ Global
 		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F30E45D0-05F4-4CAE-BCD4-9C9BB4B959DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F30E45D0-05F4-4CAE-BCD4-9C9BB4B959DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F30E45D0-05F4-4CAE-BCD4-9C9BB4B959DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F30E45D0-05F4-4CAE-BCD4-9C9BB4B959DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Release|Any CPU.ActiveCfg = Release|Any CPU
