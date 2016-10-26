@@ -103,4 +103,122 @@ let ``RawDataLength then RawData containing tag-value separator`` () =
 
 
 
+[<Fact>]
+let ``read msg`` () =
+
+    let input = [| 
+        yield! "8=FIX.4.2"B
+        yield 1uy
+        yield! "9=178"B
+        yield 1uy
+        yield! "35=8"B
+        yield 1uy
+        yield! "49=PHLX"B
+        yield 1uy
+        yield! "56=PERS"B
+        yield 1uy
+        yield! "52=20071123-05:30:00.000"B
+        yield 1uy
+        yield! "11=ATOMNOCCC9990900"B
+        yield 1uy
+        yield! "20=3"B
+        yield 1uy
+        yield! "150=E"B
+        yield 1uy
+        yield! "39=E"B
+        yield 1uy
+        yield! "55=MSFT"B
+        yield 1uy
+        yield! "167=CS"B
+        yield 1uy
+        yield! "54=1"B
+        yield 1uy
+        yield! "38=15"B
+        yield 1uy
+        yield! "40=2"B
+        yield 1uy
+        yield! "44=15"B
+        yield 1uy
+        yield! "58=PHLX EQUITY TESTING"B
+        yield 1uy
+        yield! "59=0"B
+        yield 1uy
+        yield! "47=C"B
+        yield 1uy
+        yield! "32=0"B
+        yield 1uy
+        yield! "31=0"B
+        yield 1uy
+        yield! "151=15"B
+        yield 1uy
+        yield! "14=0"B
+        yield 1uy
+        yield! "6=0"B
+        yield 1uy
+        yield! "10=074"B
+        yield 1uy
+     |]
+
+
+    let expectedOutput = [| 
+        yield! "35=8"B
+        yield 1uy
+        yield! "49=PHLX"B
+        yield 1uy
+        yield! "56=PERS"B
+        yield 1uy
+        yield! "52=20071123-05:30:00.000"B
+        yield 1uy
+        yield! "11=ATOMNOCCC9990900"B
+        yield 1uy
+        yield! "20=3"B
+        yield 1uy
+        yield! "150=E"B
+        yield 1uy
+        yield! "39=E"B
+        yield 1uy
+        yield! "55=MSFT"B
+        yield 1uy
+        yield! "167=CS"B
+        yield 1uy
+        yield! "54=1"B
+        yield 1uy
+        yield! "38=15"B
+        yield 1uy
+        yield! "40=2"B
+        yield 1uy
+        yield! "44=15"B
+        yield 1uy
+        yield! "58=PHLX EQUITY TESTING"B
+        yield 1uy
+        yield! "59=0"B
+        yield 1uy
+        yield! "47=C"B
+        yield 1uy
+        yield! "32=0"B
+        yield 1uy
+        yield! "31=0"B
+        yield 1uy
+        yield! "151=15"B
+        yield 1uy
+        yield! "14=0"B
+        yield 1uy
+        yield! "6=0"B
+        yield 1uy
+     |]
+
+    use ms = new MemoryStream ()
+    ms.Write (input, 0, input.Length)
+    ms.Seek(0L, SeekOrigin.Begin) |> ignore
+
+    //let fld = Fix44.FieldReadWriteFuncs.ReadField ms
+
+
+    let output = ReadWriteFuncs.ReadMsgBytes ms
+    test<@ expectedOutput = output @>
+
+
+// todo: test read msg with a fake checksum field inside a rawdata field, and no actual checksum page, because the bytes have not been received yes
+// todo: test read msg, whereby more than one socket read is required to succeed
+// todo: as above but with timeout
 // todo: unit test checksum

@@ -1,5 +1,6 @@
 ﻿module ReadWriteFuncs
 
+open System
 open System.IO
 
 
@@ -8,6 +9,13 @@ let private bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
 let private bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
 
+let private bytesToInt32ArSeg (bs:ArraySegment<byte>) = 
+    let mutable (ii:int) = 0
+    // todo: consider endianess
+    for ctr = bs.Offset + bs.Count to bs.Offset do
+        ii <- ii + int(bs.Array.[ctr])
+    ii
+    
 
 
 
@@ -49,12 +57,12 @@ let CrapReadUntilEq (strm:Stream) : byte[] =
     let rec innerRead () : byte list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
         | -1    ->  failwith "unexpected end of stream"
-        | 61    ->  [] 
+        | 61    ->  []  // 61 is '=', the tag value seperator
         | ii    ->  byte(ii) :: innerRead () 
     innerRead() |> Array.ofList
 
 
-type TagValue = {Tag:byte[]; Value:byte[]}
+type TagValue = { Tag:byte[]; Value:byte[]}
 
 
 let findIdx (bs:byte []) =
@@ -88,6 +96,90 @@ let rec ReadTagValuesUntilChecksumInner (src:Stream) : TagValue list =
                 tagVal ::rawData :: ReadTagValuesUntilChecksumInner src
     | _     ->  tagVal :: ReadTagValuesUntilChecksumInner src
 
+
+let rec ReadTagValuesUntilBodyLength (src:Stream) : TagValue list = 
+    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    match tagVal.Tag with 
+    | "9"B ->  [tagVal]
+    | _     ->  tagVal :: ReadTagValuesUntilBodyLength src
+
+let rec ReadTagValuesUntilCheckSum (src:Stream) : TagValue list = 
+    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    match tagVal.Tag with 
+    | "10"B ->  [tagVal]
+    | _     ->  tagVal :: ReadTagValuesUntilCheckSum src
+
+
+
 let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array = 
     let tvs = ReadTagValuesUntilChecksumInner  src
     tvs |> Array.ofList
+
+
+
+
+let checkSumLen = 6
+
+// todo: careful not to confuse rawData with a checksum
+let findCheckSumPos (pos:int) (bs:byte[]) =
+    let mutable found = false
+    let mutable ctr = pos - checkSumLen
+    while ctr >= 0 && (not found)  do
+        if bs.[ctr] = 49uy && bs.[ctr+1] = 48uy && bs.[ctr+2] = 61uy then
+            found <- true
+        else
+            ctr <- ctr - 1
+    ctr // will be -1 if 
+
+
+// todo: deal with partial bytes from previous reads
+//          use two arrays, read all from the first - the socket array
+// todo: deal with partial bytes remaining 
+
+let ReadNBytes (rcvBufSz:int) (strm:Stream) = 
+    let rec readInner (strm:Stream) (totalBytesToRead:int) (byteArray:byte array) =
+        let mutable maxNumBytesToRead = if totalBytesToRead > rcvBufSz then rcvBufSz else totalBytesToRead
+        let mutable totalSoFar = 0
+        while totalSoFar < totalBytesToRead do
+            let numBytesRead = strm.Read (byteArray, totalSoFar, maxNumBytesToRead)            
+            totalSoFar <- totalSoFar + numBytesRead
+            let numBytesRemaining = totalBytesToRead - totalSoFar
+            maxNumBytesToRead <- if numBytesRemaining > rcvBufSz then rcvBufSz else numBytesRemaining
+    let lenToRead = rcvBufSz
+    let byteArr = Array.zeroCreate<byte> lenToRead
+    do readInner strm lenToRead byteArr
+    byteArr
+
+
+
+let calcCheckSum (arr:byte[])  =
+    let mutable (sum:byte) = 0uy
+    for ctr = 0 to (arr.Length - 1) do
+        sum <- sum + arr.[ctr]
+    int (sum)
+
+
+//read
+//    fields upto MsgLen
+//    msgLen bytes
+//    fields until checksum
+let ReadMsgBytes (src:Stream) = 
+    let hdr = ReadTagValuesUntilBodyLength src
+    let bodyLengthField = hdr |> List.rev |> List.head // bad taste warning
+    let bodyLen = bodyLengthField.Value |> bytesToInt32 
+    let bsBody = ReadNBytes bodyLen src
+    let trailer = ReadTagValuesUntilCheckSum src
+    let checkSumField = trailer |> List.rev |> List.head // bad taste warning
+    let expectedCheckSum = checkSumField.Value |> bytesToInt32 
+    let calculatedCheckSum = calcCheckSum bsBody
+    if expectedCheckSum <> calculatedCheckSum then failwith "checksum validation failure"
+    bsBody
+
+
+
+//separate reading N bytes from parsing a correct msg body
+//does my 'one byte at a time' thing 
+//    enable simpler logic by not having any issue with partial reads needing to be followed by more reads?
+//      might be OK for 
+// break up bsBody in to an array of Segements (use ResizeArray<byte>?) 
+//modify Fix44.FieldReadWriteFuncs.ReadField to take two byte arrays, or an ArraySegment
