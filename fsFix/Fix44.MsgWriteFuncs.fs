@@ -14,15 +14,8 @@ let WriteHeartbeat (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (b
     nextFreeIdx
 
 
-let calcCheckSum (arr:byte[]) (endPos:int) =
-    let mutable (sum:byte) = 0uy
-    for ctr = 0 to (endPos-1) do
-        sum <- sum + arr.[ctr]
-    int (sum)
-
-
 // tag: A
-let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) =
+let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) = 
     let nextFreeIdx = WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
     let nextFreeIdx = WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
     let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
@@ -40,23 +33,8 @@ let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
     let nextFreeIdx = Option.fold (WriteTestMessageIndicator dest) nextFreeIdx xx.TestMessageIndicator
     let nextFreeIdx = Option.fold (WriteUsername dest) nextFreeIdx xx.Username
     let nextFreeIdx = Option.fold (WritePassword dest) nextFreeIdx xx.Password
-    let bodyLength = nextFreeIdx - 1
+    nextFreeIdx
 
-    let startHeader = nextFreeIdx
-    let checksum = calcCheckSum dest nextFreeIdx
-    let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
-    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (BodyLength.BodyLength bodyLength)
-    let nextFreeIdx = WriteMsgType dest nextFreeIdx MsgType.Logon
-    let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
-    let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
-    let nextFreeIdx = WriteMsgSeqNum dest nextFreeIdx msgSeqNum
-    let nextFreeIdx = WriteSendingTime dest nextFreeIdx sendingTime
-
-    let startTrailer = nextFreeIdx
-    let strCheckSum = CheckSum.CheckSum (checksum.ToString("0:000")) // checksum is always a three digit number
-    let nextFreeIdx = WriteCheckSum dest nextFreeIdx strCheckSum
-    let endTrailer = nextFreeIdx
-    startHeader, startTrailer, endTrailer
 
 // tag: 1
 let WriteTestRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TestRequest) = 

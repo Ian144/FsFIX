@@ -63,19 +63,26 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:int) (values:FieldD
 
 
 
+let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list) =
+    let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
+    let lines = [
+            yield  sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" typeName typeName 
+            yield  sprintf "    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs"
+            yield  sprintf "    let fld = "
+            yield  sprintf "        match valIn with"
+            yield! values |> List.map (fun vv -> 
+                   sprintf "        |\"%s\"B -> %s.%s" vv.Enum typeName vv.Description )
+            yield          "        | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
+            yield  sprintf "    pos2 + 1, fld  // +1 to advance the position to after the field separator" 
+    ]    
+    Utils.joinStrs "\n" lines
+
+
 let private createFieldDUWithValues (typeName:string) (fixTag:int) (values:FieldDUCase list) =
     let typeStr = sprintf "type %s =" typeName
     let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> Utils.joinStrs "\n"
     let typeStr = sprintf "%s\n%s" typeStr caseStr
-
-    let readerFuncBeg = sprintf "let Read%s (fldValIn:string) : %s = \n    match fldValIn with" typeName typeName
-    let readerFuncMatchLines = values |> List.map (fun vv -> sprintf "    |\"%s\" -> %s.%s" vv.Enum typeName vv.Description )
-    let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
-    let readerFuncFailureCase =
-            "    | x -> failwith (sprintf \"" +
-            readerFuncErrMsg +
-            """ %A"  x) """
-    let readerFunc = seq{ yield readerFuncBeg; yield! readerFuncMatchLines; yield readerFuncFailureCase } |> Utils.joinStrs "\n"
+    let readerFunc = makeMultiCaseDUReaderFunc typeName values
     let writerFunc = createFieldDUWriterFunc typeName fixTag values
     typeStr, readerFunc, writerFunc
 
@@ -114,6 +121,14 @@ let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> cor
 
 
 
+let private getFromBytesFuncString (typeName:string) =
+    match typeName with
+    | "int"     -> "ReadWriteFuncs.bytesToInt32"
+    | "decimal" -> "ReadWriteFuncs.bytesToDecimal"
+    | "bool"    -> "ReadWriteFuncs.bytesToBool"
+    | "string"  -> "ReadWriteFuncs.bytesToStr"
+    | _         -> failwith "unknown type name"
+
 
 let private getParseFuncString (typeName:string) =
     match typeName with
@@ -149,13 +164,23 @@ let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
     Utils.joinStrs "\n" lines
 
 
+let private makeSingleCaseDUReaderFunc (fsharpInnerType:string) (typeName:string) =
+    let lines = [
+            sprintf "let Read%s (pos:int) (bs:byte[]) : (int*%s) =" typeName typeName 
+            sprintf "    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs"
+            sprintf "    let tmp = %s valIn" (getFromBytesFuncString fsharpInnerType)
+            sprintf "    let fld = %s.%s tmp" typeName typeName
+            sprintf "    pos2 + 1, fld  // +1 to advance the position to after the field separator" 
+    ]    
+    Utils.joinStrs "\n" lines
+
+
 let private makeSingleCaseDU (typeName:string) (fixTag:int) (fsharpInnerType:string) =
     let typeStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" typeName typeName fsharpInnerType typeName
-    let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
+    //let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
+    let readerFunc = makeSingleCaseDUReaderFunc fsharpInnerType typeName
     let writerFunc = makeSingleCaseDUWriterFunc typeName fixTag
     typeStr, readerFunc, writerFunc
-
-
 
 
 let private createFieldTypes (fd2:SimpleField) =
@@ -379,33 +404,29 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
     
     swRWFuncs.WriteLine ""
     swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine  "let WriteField nextFreeIdx dest fixField ="
+    swRWFuncs.WriteLine  "let WriteField dest nextFreeIdx fixField ="
     swRWFuncs.WriteLine  "    match fixField with"
     fieldData |> Seq.iter (fun fd ->
             let str =
                 match fd with
-                | SimpleField fd      ->   sprintf "    | %s fixField -> Write%s nextFreeIdx dest fixField" fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "    | %s fixField -> Write%s nextFreeIdx dest fixField // compound field" fd.Name fd.Name
+                | SimpleField fd      ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField" fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField // compound field" fd.Name fd.Name
             swRWFuncs.WriteLine str
         )
 
 
 
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-    swRWFuncs.WriteLine  "let ReadField (strm:Stream) ="
-    swRWFuncs.WriteLine  "    let ss = CrapReadUntilDelim strm // todo: replace with something efficient"
-    swRWFuncs.WriteLine  "    let subStrs = ss.Split([|'='|])"
-    swRWFuncs.WriteLine  "    let tag = subStrs.[0]"
-    swRWFuncs.WriteLine  "    let raw = subStrs.[1]"
-    swRWFuncs.WriteLine  "    let fld =    "
-    swRWFuncs.WriteLine  "        match tag with"
-    fieldData |> Seq.iter (fun fd ->
-            let ss =
-                match fd with
-                | SimpleField fd      ->   sprintf "        | \"%d\" -> Read%s raw |> FIXField.%s" fd.FixTag  fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "        | \"%d\" -> Read%s raw strm|> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
-            swRWFuncs.WriteLine ss )
-    swRWFuncs.WriteLine "        |  _  -> failwith \"FIXField invalid tag\" "
-    swRWFuncs.WriteLine "    fld"
+//    swRWFuncs.WriteLine ""
+//    swRWFuncs.WriteLine ""
+//    swRWFuncs.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
+//    swRWFuncs.WriteLine  "let ReadField (curPos:int) (bs:byte[]) : int ="
+//    swRWFuncs.WriteLine  "    let fld =    "
+//    swRWFuncs.WriteLine  "        match tag with"
+//    fieldData |> Seq.iter (fun fd ->
+//            let ss =
+//                match fd with
+//                | SimpleField fd      ->   sprintf "        | \"%d\"B -> Read%s raw |> FIXField.%s" fd.FixTag  fd.Name fd.Name
+//                | CompoundField fd    ->   sprintf "        | \"%d\"B -> Read%s raw strm|> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
+//            swRWFuncs.WriteLine ss )
+//    swRWFuncs.WriteLine "        |  _  -> failwith \"FIXField invalid tag\" "
+//    swRWFuncs.WriteLine "    fld"

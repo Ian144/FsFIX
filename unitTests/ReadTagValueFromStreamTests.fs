@@ -7,6 +7,30 @@ open Swensen.Unquote
 
 
 [<Fact>]
+let ``read first field value from buf`` () =
+    let input = [|
+            yield! "8=XXXX"B; yield 1uy 
+        |]
+    let tagValSepPos = 1 // the index of the = in the input array
+    let newPos, fldVal = ReadWriteFuncs.readValAfterTagValSep tagValSepPos input
+    test<@ 6 = newPos @> 
+    test<@ "XXXX"B = fldVal @>
+
+[<Fact>]
+let ``read second field value from buf`` () =
+    let input = [|
+            yield! "8=XXXX"B; yield 1uy 
+            yield! "8=YYYY"B; yield 1uy 
+        |]
+    let tagValSepPos = 8 // the index of the 2ND '=' in the input array
+    let newPos, fldVal = ReadWriteFuncs.readValAfterTagValSep tagValSepPos input
+    test<@ 13 = newPos @>
+    test<@ "YYYY"B = fldVal @>
+
+
+
+
+[<Fact>]
 let ``single field then checksum then another field, should not read last field`` () =
     let inBuf = [| 
             yield! "8=XXXX"B; yield 1uy 

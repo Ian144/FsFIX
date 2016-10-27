@@ -7,9 +7,11 @@ open Fix44.Fields
 open ReadWriteFuncs
 
 
-let ReadAccount valIn =
-    let tmp =  valIn
-    Account.Account tmp
+let ReadAccount (pos:int) (bs:byte[]) : (int*Account) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Account.Account tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int = 
@@ -23,9 +25,11 @@ let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdvId valIn =
-    let tmp =  valIn
-    AdvId.AdvId tmp
+let ReadAdvId (pos:int) (bs:byte[]) : (int*AdvId) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AdvId.AdvId tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int = 
@@ -39,9 +43,11 @@ let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdvRefID valIn =
-    let tmp =  valIn
-    AdvRefID.AdvRefID tmp
+let ReadAdvRefID (pos:int) (bs:byte[]) : (int*AdvRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AdvRefID.AdvRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int = 
@@ -55,13 +61,16 @@ let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdvSide (fldValIn:string) : AdvSide = 
-    match fldValIn with
-    |"B" -> AdvSide.Buy
-    |"S" -> AdvSide.Sell
-    |"X" -> AdvSide.Cross
-    |"T" -> AdvSide.Trade
-    | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
+let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"B"B -> AdvSide.Buy
+        |"S"B -> AdvSide.Sell
+        |"X"B -> AdvSide.Cross
+        |"T"B -> AdvSide.Trade
+        | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
@@ -92,12 +101,15 @@ let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAdvTransType (fldValIn:string) : AdvTransType = 
-    match fldValIn with
-    |"N" -> AdvTransType.New
-    |"C" -> AdvTransType.Cancel
-    |"R" -> AdvTransType.Replace
-    | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
+let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"N"B -> AdvTransType.New
+        |"C"B -> AdvTransType.Cancel
+        |"R"B -> AdvTransType.Replace
+        | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : int =
@@ -122,9 +134,11 @@ let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAvgPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    AvgPx.AvgPx tmp
+let ReadAvgPx (pos:int) (bs:byte[]) : (int*AvgPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AvgPx.AvgPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int = 
@@ -138,9 +152,11 @@ let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBeginSeqNo valIn =
-    let tmp = System.Int32.Parse valIn
-    BeginSeqNo.BeginSeqNo tmp
+let ReadBeginSeqNo (pos:int) (bs:byte[]) : (int*BeginSeqNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = BeginSeqNo.BeginSeqNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int = 
@@ -154,9 +170,11 @@ let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBeginString valIn =
-    let tmp =  valIn
-    BeginString.BeginString tmp
+let ReadBeginString (pos:int) (bs:byte[]) : (int*BeginString) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BeginString.BeginString tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int = 
@@ -170,9 +188,11 @@ let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBodyLength valIn =
-    let tmp = System.Int32.Parse valIn
-    BodyLength.BodyLength tmp
+let ReadBodyLength (pos:int) (bs:byte[]) : (int*BodyLength) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = BodyLength.BodyLength tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int = 
@@ -186,9 +206,11 @@ let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCheckSum valIn =
-    let tmp =  valIn
-    CheckSum.CheckSum tmp
+let ReadCheckSum (pos:int) (bs:byte[]) : (int*CheckSum) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CheckSum.CheckSum tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int = 
@@ -202,9 +224,11 @@ let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClOrdID valIn =
-    let tmp =  valIn
-    ClOrdID.ClOrdID tmp
+let ReadClOrdID (pos:int) (bs:byte[]) : (int*ClOrdID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ClOrdID.ClOrdID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int = 
@@ -218,9 +242,11 @@ let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCommission valIn =
-    let tmp = System.Int32.Parse valIn
-    Commission.Commission tmp
+let ReadCommission (pos:int) (bs:byte[]) : (int*Commission) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Commission.Commission tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int = 
@@ -234,15 +260,18 @@ let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCommType (fldValIn:string) : CommType = 
-    match fldValIn with
-    |"1" -> CommType.PerUnit
-    |"2" -> CommType.Percentage
-    |"3" -> CommType.Absolute
-    |"4" -> CommType.PercentageWaivedCashDiscount
-    |"5" -> CommType.PercentageWaivedEnhancedUnits
-    |"6" -> CommType.PointsPerBondOrOrContract
-    | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
+let ReadCommType (pos:int) (bs:byte[]) : (int * CommType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> CommType.PerUnit
+        |"2"B -> CommType.Percentage
+        |"3"B -> CommType.Absolute
+        |"4"B -> CommType.PercentageWaivedCashDiscount
+        |"5"B -> CommType.PercentageWaivedEnhancedUnits
+        |"6"B -> CommType.PointsPerBondOrOrContract
+        | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
@@ -285,9 +314,11 @@ let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCumQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    CumQty.CumQty tmp
+let ReadCumQty (pos:int) (bs:byte[]) : (int*CumQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = CumQty.CumQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int = 
@@ -301,9 +332,11 @@ let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCurrency valIn =
-    let tmp =  valIn
-    Currency.Currency tmp
+let ReadCurrency (pos:int) (bs:byte[]) : (int*Currency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Currency.Currency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int = 
@@ -317,9 +350,11 @@ let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndSeqNo valIn =
-    let tmp = System.Int32.Parse valIn
-    EndSeqNo.EndSeqNo tmp
+let ReadEndSeqNo (pos:int) (bs:byte[]) : (int*EndSeqNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = EndSeqNo.EndSeqNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int = 
@@ -333,9 +368,11 @@ let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecID valIn =
-    let tmp =  valIn
-    ExecID.ExecID tmp
+let ReadExecID (pos:int) (bs:byte[]) : (int*ExecID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExecID.ExecID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int = 
@@ -349,50 +386,53 @@ let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecInst (fldValIn:string) : ExecInst = 
-    match fldValIn with
-    |"1" -> ExecInst.NotHeld
-    |"2" -> ExecInst.Work
-    |"3" -> ExecInst.GoAlong
-    |"4" -> ExecInst.OverTheDay
-    |"5" -> ExecInst.Held
-    |"6" -> ExecInst.ParticipateDontInitiate
-    |"7" -> ExecInst.StrictScale
-    |"8" -> ExecInst.TryToScale
-    |"9" -> ExecInst.StayOnBidside
-    |"0" -> ExecInst.StayOnOfferside
-    |"A" -> ExecInst.NoCross
-    |"B" -> ExecInst.OkToCross
-    |"C" -> ExecInst.CallFirst
-    |"D" -> ExecInst.PercentOfVolume
-    |"E" -> ExecInst.DoNotIncrease
-    |"F" -> ExecInst.DoNotReduce
-    |"G" -> ExecInst.AllOrNone
-    |"H" -> ExecInst.ReinstateOnSystemFailure
-    |"I" -> ExecInst.InstitutionsOnly
-    |"J" -> ExecInst.ReinstateOnTradingHalt
-    |"K" -> ExecInst.CancelOnTradingHalt
-    |"L" -> ExecInst.LastPeg
-    |"M" -> ExecInst.MidPrice
-    |"N" -> ExecInst.NonNegotiable
-    |"O" -> ExecInst.OpeningPeg
-    |"P" -> ExecInst.MarketPeg
-    |"Q" -> ExecInst.CancelOnSystemFailure
-    |"R" -> ExecInst.PrimaryPeg
-    |"S" -> ExecInst.Suspend
-    |"T" -> ExecInst.FixedPegToLocalBestBidOrOfferAtTimeOfOrder
-    |"U" -> ExecInst.CustomerDisplayInstruction
-    |"V" -> ExecInst.Netting
-    |"W" -> ExecInst.PegToVwap
-    |"X" -> ExecInst.TradeAlong
-    |"Y" -> ExecInst.TryToStop
-    |"Z" -> ExecInst.CancelIfNotBest
-    |"a" -> ExecInst.TrailingStopPeg
-    |"b" -> ExecInst.StrictLimit
-    |"c" -> ExecInst.IgnorePriceValidityChecks
-    |"d" -> ExecInst.PegToLimitPrice
-    |"e" -> ExecInst.WorkToTargetStrategy
-    | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
+let ReadExecInst (pos:int) (bs:byte[]) : (int * ExecInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ExecInst.NotHeld
+        |"2"B -> ExecInst.Work
+        |"3"B -> ExecInst.GoAlong
+        |"4"B -> ExecInst.OverTheDay
+        |"5"B -> ExecInst.Held
+        |"6"B -> ExecInst.ParticipateDontInitiate
+        |"7"B -> ExecInst.StrictScale
+        |"8"B -> ExecInst.TryToScale
+        |"9"B -> ExecInst.StayOnBidside
+        |"0"B -> ExecInst.StayOnOfferside
+        |"A"B -> ExecInst.NoCross
+        |"B"B -> ExecInst.OkToCross
+        |"C"B -> ExecInst.CallFirst
+        |"D"B -> ExecInst.PercentOfVolume
+        |"E"B -> ExecInst.DoNotIncrease
+        |"F"B -> ExecInst.DoNotReduce
+        |"G"B -> ExecInst.AllOrNone
+        |"H"B -> ExecInst.ReinstateOnSystemFailure
+        |"I"B -> ExecInst.InstitutionsOnly
+        |"J"B -> ExecInst.ReinstateOnTradingHalt
+        |"K"B -> ExecInst.CancelOnTradingHalt
+        |"L"B -> ExecInst.LastPeg
+        |"M"B -> ExecInst.MidPrice
+        |"N"B -> ExecInst.NonNegotiable
+        |"O"B -> ExecInst.OpeningPeg
+        |"P"B -> ExecInst.MarketPeg
+        |"Q"B -> ExecInst.CancelOnSystemFailure
+        |"R"B -> ExecInst.PrimaryPeg
+        |"S"B -> ExecInst.Suspend
+        |"T"B -> ExecInst.FixedPegToLocalBestBidOrOfferAtTimeOfOrder
+        |"U"B -> ExecInst.CustomerDisplayInstruction
+        |"V"B -> ExecInst.Netting
+        |"W"B -> ExecInst.PegToVwap
+        |"X"B -> ExecInst.TradeAlong
+        |"Y"B -> ExecInst.TryToStop
+        |"Z"B -> ExecInst.CancelIfNotBest
+        |"a"B -> ExecInst.TrailingStopPeg
+        |"b"B -> ExecInst.StrictLimit
+        |"c"B -> ExecInst.IgnorePriceValidityChecks
+        |"d"B -> ExecInst.PegToLimitPrice
+        |"e"B -> ExecInst.WorkToTargetStrategy
+        | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
@@ -645,9 +685,11 @@ let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecRefID valIn =
-    let tmp =  valIn
-    ExecRefID.ExecRefID tmp
+let ReadExecRefID (pos:int) (bs:byte[]) : (int*ExecRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExecRefID.ExecRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int = 
@@ -661,12 +703,15 @@ let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHandlInst (fldValIn:string) : HandlInst = 
-    match fldValIn with
-    |"1" -> HandlInst.AutomatedExecutionOrderPrivate
-    |"2" -> HandlInst.AutomatedExecutionOrderPublic
-    |"3" -> HandlInst.ManualOrder
-    | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
+let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
+        |"2"B -> HandlInst.AutomatedExecutionOrderPublic
+        |"3"B -> HandlInst.ManualOrder
+        | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
@@ -691,28 +736,31 @@ let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityIDSource (fldValIn:string) : SecurityIDSource = 
-    match fldValIn with
-    |"1" -> SecurityIDSource.Cusip
-    |"2" -> SecurityIDSource.Sedol
-    |"3" -> SecurityIDSource.Quik
-    |"4" -> SecurityIDSource.IsinNumber
-    |"5" -> SecurityIDSource.RicCode
-    |"6" -> SecurityIDSource.IsoCurrencyCode
-    |"7" -> SecurityIDSource.IsoCountryCode
-    |"8" -> SecurityIDSource.ExchangeSymbol
-    |"9" -> SecurityIDSource.ConsolidatedTapeAssociation
-    |"A" -> SecurityIDSource.BloombergSymbol
-    |"B" -> SecurityIDSource.Wertpapier
-    |"C" -> SecurityIDSource.Dutch
-    |"D" -> SecurityIDSource.Valoren
-    |"E" -> SecurityIDSource.Sicovam
-    |"F" -> SecurityIDSource.Belgian
-    |"G" -> SecurityIDSource.Common
-    |"H" -> SecurityIDSource.ClearingHouseClearingOrganization
-    |"I" -> SecurityIDSource.IsdaFpmlProductSpecification
-    |"J" -> SecurityIDSource.OptionsPriceReportingAuthority
-    | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
+let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SecurityIDSource.Cusip
+        |"2"B -> SecurityIDSource.Sedol
+        |"3"B -> SecurityIDSource.Quik
+        |"4"B -> SecurityIDSource.IsinNumber
+        |"5"B -> SecurityIDSource.RicCode
+        |"6"B -> SecurityIDSource.IsoCurrencyCode
+        |"7"B -> SecurityIDSource.IsoCountryCode
+        |"8"B -> SecurityIDSource.ExchangeSymbol
+        |"9"B -> SecurityIDSource.ConsolidatedTapeAssociation
+        |"A"B -> SecurityIDSource.BloombergSymbol
+        |"B"B -> SecurityIDSource.Wertpapier
+        |"C"B -> SecurityIDSource.Dutch
+        |"D"B -> SecurityIDSource.Valoren
+        |"E"B -> SecurityIDSource.Sicovam
+        |"F"B -> SecurityIDSource.Belgian
+        |"G"B -> SecurityIDSource.Common
+        |"H"B -> SecurityIDSource.ClearingHouseClearingOrganization
+        |"I"B -> SecurityIDSource.IsdaFpmlProductSpecification
+        |"J"B -> SecurityIDSource.OptionsPriceReportingAuthority
+        | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSource) : int =
@@ -833,9 +881,11 @@ let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIOIid valIn =
-    let tmp =  valIn
-    IOIid.IOIid tmp
+let ReadIOIid (pos:int) (bs:byte[]) : (int*IOIid) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = IOIid.IOIid tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int = 
@@ -849,12 +899,15 @@ let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOIQltyInd (fldValIn:string) : IOIQltyInd = 
-    match fldValIn with
-    |"L" -> IOIQltyInd.Low
-    |"M" -> IOIQltyInd.Medium
-    |"H" -> IOIQltyInd.High
-    | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
+let ReadIOIQltyInd (pos:int) (bs:byte[]) : (int * IOIQltyInd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"L"B -> IOIQltyInd.Low
+        |"M"B -> IOIQltyInd.Medium
+        |"H"B -> IOIQltyInd.High
+        | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int =
@@ -879,9 +932,11 @@ let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIOIRefID valIn =
-    let tmp =  valIn
-    IOIRefID.IOIRefID tmp
+let ReadIOIRefID (pos:int) (bs:byte[]) : (int*IOIRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = IOIRefID.IOIRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int = 
@@ -895,9 +950,11 @@ let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOIQty valIn =
-    let tmp =  valIn
-    IOIQty.IOIQty tmp
+let ReadIOIQty (pos:int) (bs:byte[]) : (int*IOIQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = IOIQty.IOIQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int = 
@@ -911,12 +968,15 @@ let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOITransType (fldValIn:string) : IOITransType = 
-    match fldValIn with
-    |"N" -> IOITransType.New
-    |"C" -> IOITransType.Cancel
-    |"R" -> IOITransType.Replace
-    | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
+let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"N"B -> IOITransType.New
+        |"C"B -> IOITransType.Cancel
+        |"R"B -> IOITransType.Replace
+        | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : int =
@@ -941,13 +1001,16 @@ let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastCapacity (fldValIn:string) : LastCapacity = 
-    match fldValIn with
-    |"1" -> LastCapacity.Agent
-    |"2" -> LastCapacity.CrossAsAgent
-    |"3" -> LastCapacity.CrossAsPrincipal
-    |"4" -> LastCapacity.Principal
-    | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
+let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> LastCapacity.Agent
+        |"2"B -> LastCapacity.CrossAsAgent
+        |"3"B -> LastCapacity.CrossAsPrincipal
+        |"4"B -> LastCapacity.Principal
+        | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : int =
@@ -978,9 +1041,11 @@ let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastMkt valIn =
-    let tmp =  valIn
-    LastMkt.LastMkt tmp
+let ReadLastMkt (pos:int) (bs:byte[]) : (int*LastMkt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LastMkt.LastMkt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int = 
@@ -994,9 +1059,11 @@ let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastPx.LastPx tmp
+let ReadLastPx (pos:int) (bs:byte[]) : (int*LastPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastPx.LastPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int = 
@@ -1010,9 +1077,11 @@ let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastQty.LastQty tmp
+let ReadLastQty (pos:int) (bs:byte[]) : (int*LastQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastQty.LastQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int = 
@@ -1026,9 +1095,11 @@ let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLinesOfText valIn =
-    let tmp = System.Int32.Parse valIn
-    LinesOfText.LinesOfText tmp
+let ReadLinesOfText (pos:int) (bs:byte[]) : (int*LinesOfText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LinesOfText.LinesOfText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int = 
@@ -1042,9 +1113,11 @@ let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMsgSeqNum valIn =
-    let tmp = System.Int32.Parse valIn
-    MsgSeqNum.MsgSeqNum tmp
+let ReadMsgSeqNum (pos:int) (bs:byte[]) : (int*MsgSeqNum) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MsgSeqNum.MsgSeqNum tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int = 
@@ -1058,102 +1131,105 @@ let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMsgType (fldValIn:string) : MsgType = 
-    match fldValIn with
-    |"0" -> MsgType.Heartbeat
-    |"1" -> MsgType.TestRequest
-    |"2" -> MsgType.ResendRequest
-    |"3" -> MsgType.Reject
-    |"4" -> MsgType.SequenceReset
-    |"5" -> MsgType.Logout
-    |"6" -> MsgType.IndicationOfInterest
-    |"7" -> MsgType.Advertisement
-    |"8" -> MsgType.ExecutionReport
-    |"9" -> MsgType.OrderCancelReject
-    |"A" -> MsgType.Logon
-    |"B" -> MsgType.News
-    |"C" -> MsgType.Email
-    |"D" -> MsgType.OrderSingle
-    |"E" -> MsgType.OrderList
-    |"F" -> MsgType.OrderCancelRequest
-    |"G" -> MsgType.OrderCancelReplaceRequest
-    |"H" -> MsgType.OrderStatusRequest
-    |"J" -> MsgType.AllocationInstruction
-    |"K" -> MsgType.ListCancelRequest
-    |"L" -> MsgType.ListExecute
-    |"M" -> MsgType.ListStatusRequest
-    |"N" -> MsgType.ListStatus
-    |"P" -> MsgType.AllocationInstructionAck
-    |"Q" -> MsgType.DontKnowTrade
-    |"R" -> MsgType.QuoteRequest
-    |"S" -> MsgType.Quote
-    |"T" -> MsgType.SettlementInstructions
-    |"V" -> MsgType.MarketDataRequest
-    |"W" -> MsgType.MarketDataSnapshotFullRefresh
-    |"X" -> MsgType.MarketDataIncrementalRefresh
-    |"Y" -> MsgType.MarketDataRequestReject
-    |"Z" -> MsgType.QuoteCancel
-    |"a" -> MsgType.QuoteStatusRequest
-    |"b" -> MsgType.MassQuoteAcknowledgement
-    |"c" -> MsgType.SecurityDefinitionRequest
-    |"d" -> MsgType.SecurityDefinition
-    |"e" -> MsgType.SecurityStatusRequest
-    |"f" -> MsgType.SecurityStatus
-    |"g" -> MsgType.TradingSessionStatusRequest
-    |"h" -> MsgType.TradingSessionStatus
-    |"i" -> MsgType.MassQuote
-    |"j" -> MsgType.BusinessMessageReject
-    |"k" -> MsgType.BidRequest
-    |"l" -> MsgType.BidResponse
-    |"m" -> MsgType.ListStrikePrice
-    |"n" -> MsgType.XmlMessage
-    |"o" -> MsgType.RegistrationInstructions
-    |"p" -> MsgType.RegistrationInstructionsResponse
-    |"q" -> MsgType.OrderMassCancelRequest
-    |"r" -> MsgType.OrderMassCancelReport
-    |"s" -> MsgType.NewOrderCross
-    |"t" -> MsgType.CrossOrderCancelReplaceRequest
-    |"u" -> MsgType.CrossOrderCancelRequest
-    |"v" -> MsgType.SecurityTypeRequest
-    |"w" -> MsgType.SecurityTypes
-    |"x" -> MsgType.SecurityListRequest
-    |"y" -> MsgType.SecurityList
-    |"z" -> MsgType.DerivativeSecurityListRequest
-    |"AA" -> MsgType.DerivativeSecurityList
-    |"AB" -> MsgType.NewOrderMultileg
-    |"AC" -> MsgType.MultilegOrderCancelReplace
-    |"AD" -> MsgType.TradeCaptureReportRequest
-    |"AE" -> MsgType.TradeCaptureReport
-    |"AF" -> MsgType.OrderMassStatusRequest
-    |"AG" -> MsgType.QuoteRequestReject
-    |"AH" -> MsgType.RfqRequest
-    |"AI" -> MsgType.QuoteStatusReport
-    |"AJ" -> MsgType.QuoteResponse
-    |"AK" -> MsgType.Confirmation
-    |"AL" -> MsgType.PositionMaintenanceRequest
-    |"AM" -> MsgType.PositionMaintenanceReport
-    |"AN" -> MsgType.RequestForPositions
-    |"AO" -> MsgType.RequestForPositionsAck
-    |"AP" -> MsgType.PositionReport
-    |"AQ" -> MsgType.TradeCaptureReportRequestAck
-    |"AR" -> MsgType.TradeCaptureReportAck
-    |"AS" -> MsgType.AllocationReport
-    |"AT" -> MsgType.AllocationReportAck
-    |"AU" -> MsgType.ConfirmationAck
-    |"AV" -> MsgType.SettlementInstructionRequest
-    |"AW" -> MsgType.AssignmentReport
-    |"AX" -> MsgType.CollateralRequest
-    |"AY" -> MsgType.CollateralAssignment
-    |"AZ" -> MsgType.CollateralResponse
-    |"BA" -> MsgType.CollateralReport
-    |"BB" -> MsgType.CollateralInquiry
-    |"BC" -> MsgType.NetworkStatusRequest
-    |"BD" -> MsgType.NetworkStatusResponse
-    |"BE" -> MsgType.UserRequest
-    |"BF" -> MsgType.UserResponse
-    |"BG" -> MsgType.CollateralInquiryAck
-    |"BH" -> MsgType.ConfirmationRequest
-    | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
+let ReadMsgType (pos:int) (bs:byte[]) : (int * MsgType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MsgType.Heartbeat
+        |"1"B -> MsgType.TestRequest
+        |"2"B -> MsgType.ResendRequest
+        |"3"B -> MsgType.Reject
+        |"4"B -> MsgType.SequenceReset
+        |"5"B -> MsgType.Logout
+        |"6"B -> MsgType.IndicationOfInterest
+        |"7"B -> MsgType.Advertisement
+        |"8"B -> MsgType.ExecutionReport
+        |"9"B -> MsgType.OrderCancelReject
+        |"A"B -> MsgType.Logon
+        |"B"B -> MsgType.News
+        |"C"B -> MsgType.Email
+        |"D"B -> MsgType.OrderSingle
+        |"E"B -> MsgType.OrderList
+        |"F"B -> MsgType.OrderCancelRequest
+        |"G"B -> MsgType.OrderCancelReplaceRequest
+        |"H"B -> MsgType.OrderStatusRequest
+        |"J"B -> MsgType.AllocationInstruction
+        |"K"B -> MsgType.ListCancelRequest
+        |"L"B -> MsgType.ListExecute
+        |"M"B -> MsgType.ListStatusRequest
+        |"N"B -> MsgType.ListStatus
+        |"P"B -> MsgType.AllocationInstructionAck
+        |"Q"B -> MsgType.DontKnowTrade
+        |"R"B -> MsgType.QuoteRequest
+        |"S"B -> MsgType.Quote
+        |"T"B -> MsgType.SettlementInstructions
+        |"V"B -> MsgType.MarketDataRequest
+        |"W"B -> MsgType.MarketDataSnapshotFullRefresh
+        |"X"B -> MsgType.MarketDataIncrementalRefresh
+        |"Y"B -> MsgType.MarketDataRequestReject
+        |"Z"B -> MsgType.QuoteCancel
+        |"a"B -> MsgType.QuoteStatusRequest
+        |"b"B -> MsgType.MassQuoteAcknowledgement
+        |"c"B -> MsgType.SecurityDefinitionRequest
+        |"d"B -> MsgType.SecurityDefinition
+        |"e"B -> MsgType.SecurityStatusRequest
+        |"f"B -> MsgType.SecurityStatus
+        |"g"B -> MsgType.TradingSessionStatusRequest
+        |"h"B -> MsgType.TradingSessionStatus
+        |"i"B -> MsgType.MassQuote
+        |"j"B -> MsgType.BusinessMessageReject
+        |"k"B -> MsgType.BidRequest
+        |"l"B -> MsgType.BidResponse
+        |"m"B -> MsgType.ListStrikePrice
+        |"n"B -> MsgType.XmlMessage
+        |"o"B -> MsgType.RegistrationInstructions
+        |"p"B -> MsgType.RegistrationInstructionsResponse
+        |"q"B -> MsgType.OrderMassCancelRequest
+        |"r"B -> MsgType.OrderMassCancelReport
+        |"s"B -> MsgType.NewOrderCross
+        |"t"B -> MsgType.CrossOrderCancelReplaceRequest
+        |"u"B -> MsgType.CrossOrderCancelRequest
+        |"v"B -> MsgType.SecurityTypeRequest
+        |"w"B -> MsgType.SecurityTypes
+        |"x"B -> MsgType.SecurityListRequest
+        |"y"B -> MsgType.SecurityList
+        |"z"B -> MsgType.DerivativeSecurityListRequest
+        |"AA"B -> MsgType.DerivativeSecurityList
+        |"AB"B -> MsgType.NewOrderMultileg
+        |"AC"B -> MsgType.MultilegOrderCancelReplace
+        |"AD"B -> MsgType.TradeCaptureReportRequest
+        |"AE"B -> MsgType.TradeCaptureReport
+        |"AF"B -> MsgType.OrderMassStatusRequest
+        |"AG"B -> MsgType.QuoteRequestReject
+        |"AH"B -> MsgType.RfqRequest
+        |"AI"B -> MsgType.QuoteStatusReport
+        |"AJ"B -> MsgType.QuoteResponse
+        |"AK"B -> MsgType.Confirmation
+        |"AL"B -> MsgType.PositionMaintenanceRequest
+        |"AM"B -> MsgType.PositionMaintenanceReport
+        |"AN"B -> MsgType.RequestForPositions
+        |"AO"B -> MsgType.RequestForPositionsAck
+        |"AP"B -> MsgType.PositionReport
+        |"AQ"B -> MsgType.TradeCaptureReportRequestAck
+        |"AR"B -> MsgType.TradeCaptureReportAck
+        |"AS"B -> MsgType.AllocationReport
+        |"AT"B -> MsgType.AllocationReportAck
+        |"AU"B -> MsgType.ConfirmationAck
+        |"AV"B -> MsgType.SettlementInstructionRequest
+        |"AW"B -> MsgType.AssignmentReport
+        |"AX"B -> MsgType.CollateralRequest
+        |"AY"B -> MsgType.CollateralAssignment
+        |"AZ"B -> MsgType.CollateralResponse
+        |"BA"B -> MsgType.CollateralReport
+        |"BB"B -> MsgType.CollateralInquiry
+        |"BC"B -> MsgType.NetworkStatusRequest
+        |"BD"B -> MsgType.NetworkStatusResponse
+        |"BE"B -> MsgType.UserRequest
+        |"BF"B -> MsgType.UserResponse
+        |"BG"B -> MsgType.CollateralInquiryAck
+        |"BH"B -> MsgType.ConfirmationRequest
+        | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
@@ -1718,9 +1794,11 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNewSeqNo valIn =
-    let tmp = System.Int32.Parse valIn
-    NewSeqNo.NewSeqNo tmp
+let ReadNewSeqNo (pos:int) (bs:byte[]) : (int*NewSeqNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NewSeqNo.NewSeqNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int = 
@@ -1734,9 +1812,11 @@ let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderID valIn =
-    let tmp =  valIn
-    OrderID.OrderID tmp
+let ReadOrderID (pos:int) (bs:byte[]) : (int*OrderID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrderID.OrderID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int = 
@@ -1750,9 +1830,11 @@ let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderQty.OrderQty tmp
+let ReadOrderQty (pos:int) (bs:byte[]) : (int*OrderQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderQty.OrderQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int = 
@@ -1766,24 +1848,27 @@ let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrdStatus (fldValIn:string) : OrdStatus = 
-    match fldValIn with
-    |"0" -> OrdStatus.New
-    |"1" -> OrdStatus.PartiallyFilled
-    |"2" -> OrdStatus.Filled
-    |"3" -> OrdStatus.DoneForDay
-    |"4" -> OrdStatus.Canceled
-    |"5" -> OrdStatus.Replaced
-    |"6" -> OrdStatus.PendingCancel
-    |"7" -> OrdStatus.Stopped
-    |"8" -> OrdStatus.Rejected
-    |"9" -> OrdStatus.Suspended
-    |"A" -> OrdStatus.PendingNew
-    |"B" -> OrdStatus.Calculated
-    |"C" -> OrdStatus.Expired
-    |"D" -> OrdStatus.AcceptedForBidding
-    |"E" -> OrdStatus.PendingReplace
-    | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
+let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> OrdStatus.New
+        |"1"B -> OrdStatus.PartiallyFilled
+        |"2"B -> OrdStatus.Filled
+        |"3"B -> OrdStatus.DoneForDay
+        |"4"B -> OrdStatus.Canceled
+        |"5"B -> OrdStatus.Replaced
+        |"6"B -> OrdStatus.PendingCancel
+        |"7"B -> OrdStatus.Stopped
+        |"8"B -> OrdStatus.Rejected
+        |"9"B -> OrdStatus.Suspended
+        |"A"B -> OrdStatus.PendingNew
+        |"B"B -> OrdStatus.Calculated
+        |"C"B -> OrdStatus.Expired
+        |"D"B -> OrdStatus.AcceptedForBidding
+        |"E"B -> OrdStatus.PendingReplace
+        | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
@@ -1880,32 +1965,35 @@ let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrdType (fldValIn:string) : OrdType = 
-    match fldValIn with
-    |"1" -> OrdType.Market
-    |"2" -> OrdType.Limit
-    |"3" -> OrdType.Stop
-    |"4" -> OrdType.StopLimit
-    |"5" -> OrdType.MarketOnClose
-    |"6" -> OrdType.WithOrWithout
-    |"7" -> OrdType.LimitOrBetter
-    |"8" -> OrdType.LimitWithOrWithout
-    |"9" -> OrdType.OnBasis
-    |"A" -> OrdType.OnClose
-    |"B" -> OrdType.LimitOnClose
-    |"C" -> OrdType.ForexMarket
-    |"D" -> OrdType.PreviouslyQuoted
-    |"E" -> OrdType.PreviouslyIndicated
-    |"F" -> OrdType.ForexLimit
-    |"G" -> OrdType.ForexSwap
-    |"H" -> OrdType.ForexPreviouslyQuoted
-    |"I" -> OrdType.Funari
-    |"J" -> OrdType.MarketIfTouched
-    |"K" -> OrdType.MarketWithLeftoverAsLimit
-    |"L" -> OrdType.PreviousFundValuationPoint
-    |"M" -> OrdType.NextFundValuationPoint
-    |"P" -> OrdType.Pegged
-    | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
+let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> OrdType.Market
+        |"2"B -> OrdType.Limit
+        |"3"B -> OrdType.Stop
+        |"4"B -> OrdType.StopLimit
+        |"5"B -> OrdType.MarketOnClose
+        |"6"B -> OrdType.WithOrWithout
+        |"7"B -> OrdType.LimitOrBetter
+        |"8"B -> OrdType.LimitWithOrWithout
+        |"9"B -> OrdType.OnBasis
+        |"A"B -> OrdType.OnClose
+        |"B"B -> OrdType.LimitOnClose
+        |"C"B -> OrdType.ForexMarket
+        |"D"B -> OrdType.PreviouslyQuoted
+        |"E"B -> OrdType.PreviouslyIndicated
+        |"F"B -> OrdType.ForexLimit
+        |"G"B -> OrdType.ForexSwap
+        |"H"B -> OrdType.ForexPreviouslyQuoted
+        |"I"B -> OrdType.Funari
+        |"J"B -> OrdType.MarketIfTouched
+        |"K"B -> OrdType.MarketWithLeftoverAsLimit
+        |"L"B -> OrdType.PreviousFundValuationPoint
+        |"M"B -> OrdType.NextFundValuationPoint
+        |"P"B -> OrdType.Pegged
+        | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
@@ -2050,9 +2138,11 @@ let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigClOrdID valIn =
-    let tmp =  valIn
-    OrigClOrdID.OrigClOrdID tmp
+let ReadOrigClOrdID (pos:int) (bs:byte[]) : (int*OrigClOrdID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigClOrdID.OrigClOrdID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int = 
@@ -2066,9 +2156,11 @@ let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrigTime valIn =
-    let tmp =  valIn
-    OrigTime.OrigTime tmp
+let ReadOrigTime (pos:int) (bs:byte[]) : (int*OrigTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigTime.OrigTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int = 
@@ -2082,9 +2174,11 @@ let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPossDupFlag valIn =
-    let tmp = System.Boolean.Parse valIn
-    PossDupFlag.PossDupFlag tmp
+let ReadPossDupFlag (pos:int) (bs:byte[]) : (int*PossDupFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = PossDupFlag.PossDupFlag tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int = 
@@ -2098,9 +2192,11 @@ let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    Price.Price tmp
+let ReadPrice (pos:int) (bs:byte[]) : (int*Price) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Price.Price tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int = 
@@ -2114,9 +2210,11 @@ let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefSeqNum valIn =
-    let tmp = System.Int32.Parse valIn
-    RefSeqNum.RefSeqNum tmp
+let ReadRefSeqNum (pos:int) (bs:byte[]) : (int*RefSeqNum) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RefSeqNum.RefSeqNum tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int = 
@@ -2130,9 +2228,11 @@ let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityID valIn =
-    let tmp =  valIn
-    SecurityID.SecurityID tmp
+let ReadSecurityID (pos:int) (bs:byte[]) : (int*SecurityID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityID.SecurityID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int = 
@@ -2146,9 +2246,11 @@ let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSenderCompID valIn =
-    let tmp =  valIn
-    SenderCompID.SenderCompID tmp
+let ReadSenderCompID (pos:int) (bs:byte[]) : (int*SenderCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SenderCompID.SenderCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : int = 
@@ -2162,9 +2264,11 @@ let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSenderSubID valIn =
-    let tmp =  valIn
-    SenderSubID.SenderSubID tmp
+let ReadSenderSubID (pos:int) (bs:byte[]) : (int*SenderSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SenderSubID.SenderSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int = 
@@ -2178,9 +2282,11 @@ let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSendingTime valIn =
-    let tmp =  valIn
-    SendingTime.SendingTime tmp
+let ReadSendingTime (pos:int) (bs:byte[]) : (int*SendingTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SendingTime.SendingTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int = 
@@ -2194,9 +2300,11 @@ let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuantity valIn =
-    let tmp = System.Decimal.Parse valIn
-    Quantity.Quantity tmp
+let ReadQuantity (pos:int) (bs:byte[]) : (int*Quantity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Quantity.Quantity tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int = 
@@ -2210,25 +2318,28 @@ let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSide (fldValIn:string) : Side = 
-    match fldValIn with
-    |"1" -> Side.Buy
-    |"2" -> Side.Sell
-    |"3" -> Side.BuyMinus
-    |"4" -> Side.SellPlus
-    |"5" -> Side.SellShort
-    |"6" -> Side.SellShortExempt
-    |"7" -> Side.Undisclosed
-    |"8" -> Side.Cross
-    |"9" -> Side.CrossShort
-    |"A" -> Side.CrossShortExempt
-    |"B" -> Side.AsDefined
-    |"C" -> Side.Opposite
-    |"D" -> Side.Subscribe
-    |"E" -> Side.Redeem
-    |"F" -> Side.Lend
-    |"G" -> Side.Borrow
-    | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
+let ReadSide (pos:int) (bs:byte[]) : (int * Side) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> Side.Buy
+        |"2"B -> Side.Sell
+        |"3"B -> Side.BuyMinus
+        |"4"B -> Side.SellPlus
+        |"5"B -> Side.SellShort
+        |"6"B -> Side.SellShortExempt
+        |"7"B -> Side.Undisclosed
+        |"8"B -> Side.Cross
+        |"9"B -> Side.CrossShort
+        |"A"B -> Side.CrossShortExempt
+        |"B"B -> Side.AsDefined
+        |"C"B -> Side.Opposite
+        |"D"B -> Side.Subscribe
+        |"E"B -> Side.Redeem
+        |"F"B -> Side.Lend
+        |"G"B -> Side.Borrow
+        | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
@@ -2331,9 +2442,11 @@ let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSymbol valIn =
-    let tmp =  valIn
-    Symbol.Symbol tmp
+let ReadSymbol (pos:int) (bs:byte[]) : (int*Symbol) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Symbol.Symbol tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int = 
@@ -2347,9 +2460,11 @@ let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetCompID valIn =
-    let tmp =  valIn
-    TargetCompID.TargetCompID tmp
+let ReadTargetCompID (pos:int) (bs:byte[]) : (int*TargetCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TargetCompID.TargetCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : int = 
@@ -2363,9 +2478,11 @@ let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetSubID valIn =
-    let tmp =  valIn
-    TargetSubID.TargetSubID tmp
+let ReadTargetSubID (pos:int) (bs:byte[]) : (int*TargetSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TargetSubID.TargetSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int = 
@@ -2379,9 +2496,11 @@ let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadText valIn =
-    let tmp =  valIn
-    Text.Text tmp
+let ReadText (pos:int) (bs:byte[]) : (int*Text) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Text.Text tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int = 
@@ -2395,17 +2514,20 @@ let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTimeInForce (fldValIn:string) : TimeInForce = 
-    match fldValIn with
-    |"0" -> TimeInForce.Day
-    |"1" -> TimeInForce.GoodTillCancel
-    |"2" -> TimeInForce.AtTheOpening
-    |"3" -> TimeInForce.ImmediateOrCancel
-    |"4" -> TimeInForce.FillOrKill
-    |"5" -> TimeInForce.GoodTillCrossing
-    |"6" -> TimeInForce.GoodTillDate
-    |"7" -> TimeInForce.AtTheClose
-    | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
+let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TimeInForce.Day
+        |"1"B -> TimeInForce.GoodTillCancel
+        |"2"B -> TimeInForce.AtTheOpening
+        |"3"B -> TimeInForce.ImmediateOrCancel
+        |"4"B -> TimeInForce.FillOrKill
+        |"5"B -> TimeInForce.GoodTillCrossing
+        |"6"B -> TimeInForce.GoodTillDate
+        |"7"B -> TimeInForce.AtTheClose
+        | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : int =
@@ -2460,9 +2582,11 @@ let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTransactTime valIn =
-    let tmp =  valIn
-    TransactTime.TransactTime tmp
+let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TransactTime.TransactTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : int = 
@@ -2476,12 +2600,15 @@ let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUrgency (fldValIn:string) : Urgency = 
-    match fldValIn with
-    |"0" -> Urgency.Normal
-    |"1" -> Urgency.Flash
-    |"2" -> Urgency.Background
-    | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
+let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> Urgency.Normal
+        |"1"B -> Urgency.Flash
+        |"2"B -> Urgency.Background
+        | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
@@ -2506,9 +2633,11 @@ let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadValidUntilTime valIn =
-    let tmp =  valIn
-    ValidUntilTime.ValidUntilTime tmp
+let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ValidUntilTime.ValidUntilTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) : int = 
@@ -2522,19 +2651,22 @@ let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlType (fldValIn:string) : SettlType = 
-    match fldValIn with
-    |"0" -> SettlType.Regular
-    |"1" -> SettlType.Cash
-    |"2" -> SettlType.NextDay
-    |"3" -> SettlType.TPlus2
-    |"4" -> SettlType.TPlus3
-    |"5" -> SettlType.TPlus4
-    |"6" -> SettlType.Future
-    |"7" -> SettlType.WhenAndIfIssued
-    |"8" -> SettlType.SellersOption
-    |"9" -> SettlType.TPlus5
-    | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
+let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SettlType.Regular
+        |"1"B -> SettlType.Cash
+        |"2"B -> SettlType.NextDay
+        |"3"B -> SettlType.TPlus2
+        |"4"B -> SettlType.TPlus3
+        |"5"B -> SettlType.TPlus4
+        |"6"B -> SettlType.Future
+        |"7"B -> SettlType.WhenAndIfIssued
+        |"8"B -> SettlType.SellersOption
+        |"9"B -> SettlType.TPlus5
+        | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
@@ -2601,9 +2733,11 @@ let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSettlDate valIn =
-    let tmp =  valIn
-    SettlDate.SettlDate tmp
+let ReadSettlDate (pos:int) (bs:byte[]) : (int*SettlDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlDate.SettlDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int = 
@@ -2617,11 +2751,14 @@ let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSymbolSfx (fldValIn:string) : SymbolSfx = 
-    match fldValIn with
-    |"WI" -> SymbolSfx.WhenIssued
-    |"CD" -> SymbolSfx.AEucpWithLumpSumInterest
-    | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
+let ReadSymbolSfx (pos:int) (bs:byte[]) : (int * SymbolSfx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"WI"B -> SymbolSfx.WhenIssued
+        |"CD"B -> SymbolSfx.AEucpWithLumpSumInterest
+        | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
@@ -2640,9 +2777,11 @@ let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadListID valIn =
-    let tmp =  valIn
-    ListID.ListID tmp
+let ReadListID (pos:int) (bs:byte[]) : (int*ListID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ListID.ListID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int = 
@@ -2656,9 +2795,11 @@ let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListSeqNo valIn =
-    let tmp = System.Int32.Parse valIn
-    ListSeqNo.ListSeqNo tmp
+let ReadListSeqNo (pos:int) (bs:byte[]) : (int*ListSeqNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = ListSeqNo.ListSeqNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int = 
@@ -2672,9 +2813,11 @@ let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoOrders valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoOrders.TotNoOrders tmp
+let ReadTotNoOrders (pos:int) (bs:byte[]) : (int*TotNoOrders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoOrders.TotNoOrders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int = 
@@ -2688,9 +2831,11 @@ let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListExecInst valIn =
-    let tmp =  valIn
-    ListExecInst.ListExecInst tmp
+let ReadListExecInst (pos:int) (bs:byte[]) : (int*ListExecInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ListExecInst.ListExecInst tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : int = 
@@ -2704,9 +2849,11 @@ let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocID valIn =
-    let tmp =  valIn
-    AllocID.AllocID tmp
+let ReadAllocID (pos:int) (bs:byte[]) : (int*AllocID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocID.AllocID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int = 
@@ -2720,12 +2867,15 @@ let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocTransType (fldValIn:string) : AllocTransType = 
-    match fldValIn with
-    |"0" -> AllocTransType.New
-    |"1" -> AllocTransType.Replace
-    |"2" -> AllocTransType.Cancel
-    | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
+let ReadAllocTransType (pos:int) (bs:byte[]) : (int * AllocTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocTransType.New
+        |"1"B -> AllocTransType.Replace
+        |"2"B -> AllocTransType.Cancel
+        | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType) : int =
@@ -2750,9 +2900,11 @@ let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRefAllocID valIn =
-    let tmp =  valIn
-    RefAllocID.RefAllocID tmp
+let ReadRefAllocID (pos:int) (bs:byte[]) : (int*RefAllocID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RefAllocID.RefAllocID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int = 
@@ -2766,9 +2918,11 @@ let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoOrders valIn =
-    let tmp = System.Int32.Parse valIn
-    NoOrders.NoOrders tmp
+let ReadNoOrders (pos:int) (bs:byte[]) : (int*NoOrders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoOrders.NoOrders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int = 
@@ -2782,9 +2936,11 @@ let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAvgPxPrecision valIn =
-    let tmp = System.Int32.Parse valIn
-    AvgPxPrecision.AvgPxPrecision tmp
+let ReadAvgPxPrecision (pos:int) (bs:byte[]) : (int*AvgPxPrecision) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AvgPxPrecision.AvgPxPrecision tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) : int = 
@@ -2798,9 +2954,11 @@ let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeDate valIn =
-    let tmp =  valIn
-    TradeDate.TradeDate tmp
+let ReadTradeDate (pos:int) (bs:byte[]) : (int*TradeDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeDate.TradeDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int = 
@@ -2814,13 +2972,16 @@ let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPositionEffect (fldValIn:string) : PositionEffect = 
-    match fldValIn with
-    |"O" -> PositionEffect.Open
-    |"C" -> PositionEffect.Close
-    |"R" -> PositionEffect.Rolled
-    |"F" -> PositionEffect.Fifo
-    | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
+let ReadPositionEffect (pos:int) (bs:byte[]) : (int * PositionEffect) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"O"B -> PositionEffect.Open
+        |"C"B -> PositionEffect.Close
+        |"R"B -> PositionEffect.Rolled
+        |"F"B -> PositionEffect.Fifo
+        | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect) : int =
@@ -2851,9 +3012,11 @@ let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoAllocs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoAllocs.NoAllocs tmp
+let ReadNoAllocs (pos:int) (bs:byte[]) : (int*NoAllocs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoAllocs.NoAllocs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int = 
@@ -2867,9 +3030,11 @@ let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAccount valIn =
-    let tmp =  valIn
-    AllocAccount.AllocAccount tmp
+let ReadAllocAccount (pos:int) (bs:byte[]) : (int*AllocAccount) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocAccount.AllocAccount tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : int = 
@@ -2883,9 +3048,11 @@ let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    AllocQty.AllocQty tmp
+let ReadAllocQty (pos:int) (bs:byte[]) : (int*AllocQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AllocQty.AllocQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int = 
@@ -2899,16 +3066,19 @@ let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadProcessCode (fldValIn:string) : ProcessCode = 
-    match fldValIn with
-    |"0" -> ProcessCode.Regular
-    |"1" -> ProcessCode.SoftDollar
-    |"2" -> ProcessCode.StepIn
-    |"3" -> ProcessCode.StepOut
-    |"4" -> ProcessCode.SoftDollarStepIn
-    |"5" -> ProcessCode.SoftDollarStepOut
-    |"6" -> ProcessCode.PlanSponsor
-    | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
+let ReadProcessCode (pos:int) (bs:byte[]) : (int * ProcessCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ProcessCode.Regular
+        |"1"B -> ProcessCode.SoftDollar
+        |"2"B -> ProcessCode.StepIn
+        |"3"B -> ProcessCode.StepOut
+        |"4"B -> ProcessCode.SoftDollarStepIn
+        |"5"B -> ProcessCode.SoftDollarStepOut
+        |"6"B -> ProcessCode.PlanSponsor
+        | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : int =
@@ -2957,9 +3127,11 @@ let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoRpts valIn =
-    let tmp = System.Int32.Parse valIn
-    NoRpts.NoRpts tmp
+let ReadNoRpts (pos:int) (bs:byte[]) : (int*NoRpts) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoRpts.NoRpts tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int = 
@@ -2973,9 +3145,11 @@ let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRptSeq valIn =
-    let tmp = System.Int32.Parse valIn
-    RptSeq.RptSeq tmp
+let ReadRptSeq (pos:int) (bs:byte[]) : (int*RptSeq) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RptSeq.RptSeq tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int = 
@@ -2989,9 +3163,11 @@ let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCxlQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    CxlQty.CxlQty tmp
+let ReadCxlQty (pos:int) (bs:byte[]) : (int*CxlQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = CxlQty.CxlQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int = 
@@ -3005,9 +3181,11 @@ let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDlvyInst valIn =
-    let tmp = System.Int32.Parse valIn
-    NoDlvyInst.NoDlvyInst tmp
+let ReadNoDlvyInst (pos:int) (bs:byte[]) : (int*NoDlvyInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoDlvyInst.NoDlvyInst tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int = 
@@ -3021,15 +3199,18 @@ let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocStatus (fldValIn:string) : AllocStatus = 
-    match fldValIn with
-    |"0" -> AllocStatus.Accepted
-    |"1" -> AllocStatus.BlockLevelReject
-    |"2" -> AllocStatus.AccountLevelReject
-    |"3" -> AllocStatus.Received
-    |"4" -> AllocStatus.Incomplete
-    |"5" -> AllocStatus.RejectedByIntermediary
-    | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
+let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocStatus.Accepted
+        |"1"B -> AllocStatus.BlockLevelReject
+        |"2"B -> AllocStatus.AccountLevelReject
+        |"3"B -> AllocStatus.Received
+        |"4"B -> AllocStatus.Incomplete
+        |"5"B -> AllocStatus.RejectedByIntermediary
+        | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : int =
@@ -3072,23 +3253,26 @@ let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocRejCode (fldValIn:string) : AllocRejCode = 
-    match fldValIn with
-    |"0" -> AllocRejCode.UnknownAccount
-    |"1" -> AllocRejCode.IncorrectQuantity
-    |"2" -> AllocRejCode.IncorrectAveragePrice
-    |"3" -> AllocRejCode.UnknownExecutingBrokerMnemonic
-    |"4" -> AllocRejCode.CommissionDifference
-    |"5" -> AllocRejCode.UnknownOrderid
-    |"6" -> AllocRejCode.UnknownListid
-    |"7" -> AllocRejCode.Other
-    |"8" -> AllocRejCode.IncorrectAllocatedQuantity
-    |"9" -> AllocRejCode.CalculationDifference
-    |"10" -> AllocRejCode.UnknownOrStaleExecId
-    |"11" -> AllocRejCode.MismatchedDataValue
-    |"12" -> AllocRejCode.UnknownClordid
-    |"13" -> AllocRejCode.WarehouseRequestRejected
-    | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
+let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocRejCode.UnknownAccount
+        |"1"B -> AllocRejCode.IncorrectQuantity
+        |"2"B -> AllocRejCode.IncorrectAveragePrice
+        |"3"B -> AllocRejCode.UnknownExecutingBrokerMnemonic
+        |"4"B -> AllocRejCode.CommissionDifference
+        |"5"B -> AllocRejCode.UnknownOrderid
+        |"6"B -> AllocRejCode.UnknownListid
+        |"7"B -> AllocRejCode.Other
+        |"8"B -> AllocRejCode.IncorrectAllocatedQuantity
+        |"9"B -> AllocRejCode.CalculationDifference
+        |"10"B -> AllocRejCode.UnknownOrStaleExecId
+        |"11"B -> AllocRejCode.MismatchedDataValue
+        |"12"B -> AllocRejCode.UnknownClordid
+        |"13"B -> AllocRejCode.WarehouseRequestRejected
+        | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : int =
@@ -3179,9 +3363,11 @@ let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSignature valIn =
-    let tmp =  valIn
-    Signature.Signature tmp
+let ReadSignature (pos:int) (bs:byte[]) : (int*Signature) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Signature.Signature tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int = 
@@ -3232,9 +3418,11 @@ let ReadSecureData valIn (strm:System.IO.Stream) =
     SecureData.SecureData raw
 
 
-let ReadSignatureLength valIn =
-    let tmp = System.Int32.Parse valIn
-    SignatureLength.SignatureLength tmp
+let ReadSignatureLength (pos:int) (bs:byte[]) : (int*SignatureLength) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SignatureLength.SignatureLength tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength) : int = 
@@ -3248,12 +3436,15 @@ let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEmailType (fldValIn:string) : EmailType = 
-    match fldValIn with
-    |"0" -> EmailType.New
-    |"1" -> EmailType.Reply
-    |"2" -> EmailType.AdminReply
-    | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
+let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> EmailType.New
+        |"1"B -> EmailType.Reply
+        |"2"B -> EmailType.AdminReply
+        | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
@@ -3278,9 +3469,11 @@ let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRawDataLength valIn =
-    let tmp = System.Int32.Parse valIn
-    RawDataLength.RawDataLength tmp
+let ReadRawDataLength (pos:int) (bs:byte[]) : (int*RawDataLength) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RawDataLength.RawDataLength tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : int = 
@@ -3294,9 +3487,11 @@ let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRawData valIn =
-    let tmp =  valIn
-    RawData.RawData tmp
+let ReadRawData (pos:int) (bs:byte[]) : (int*RawData) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RawData.RawData tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int = 
@@ -3310,9 +3505,11 @@ let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPossResend valIn =
-    let tmp = System.Boolean.Parse valIn
-    PossResend.PossResend tmp
+let ReadPossResend (pos:int) (bs:byte[]) : (int*PossResend) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = PossResend.PossResend tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int = 
@@ -3326,16 +3523,19 @@ let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEncryptMethod (fldValIn:string) : EncryptMethod = 
-    match fldValIn with
-    |"0" -> EncryptMethod.NoneOther
-    |"1" -> EncryptMethod.Pkcs
-    |"2" -> EncryptMethod.Des
-    |"3" -> EncryptMethod.PkcsDes
-    |"4" -> EncryptMethod.PgpDes
-    |"5" -> EncryptMethod.PgpDesMd5
-    |"6" -> EncryptMethod.PemDesMd5
-    | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
+let ReadEncryptMethod (pos:int) (bs:byte[]) : (int * EncryptMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> EncryptMethod.NoneOther
+        |"1"B -> EncryptMethod.Pkcs
+        |"2"B -> EncryptMethod.Des
+        |"3"B -> EncryptMethod.PkcsDes
+        |"4"B -> EncryptMethod.PgpDes
+        |"5"B -> EncryptMethod.PgpDesMd5
+        |"6"B -> EncryptMethod.PemDesMd5
+        | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) : int =
@@ -3384,9 +3584,11 @@ let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStopPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    StopPx.StopPx tmp
+let ReadStopPx (pos:int) (bs:byte[]) : (int*StopPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = StopPx.StopPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int = 
@@ -3400,9 +3602,11 @@ let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExDestination valIn =
-    let tmp =  valIn
-    ExDestination.ExDestination tmp
+let ReadExDestination (pos:int) (bs:byte[]) : (int*ExDestination) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExDestination.ExDestination tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : int = 
@@ -3416,17 +3620,20 @@ let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCxlRejReason (fldValIn:string) : CxlRejReason = 
-    match fldValIn with
-    |"0" -> CxlRejReason.TooLateToCancel
-    |"1" -> CxlRejReason.UnknownOrder
-    |"2" -> CxlRejReason.BrokerExchangeOption
-    |"3" -> CxlRejReason.OrderAlreadyInPendingCancelOrPendingReplaceStatus
-    |"4" -> CxlRejReason.UnableToProcessOrderMassCancelRequest
-    |"5" -> CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder
-    |"6" -> CxlRejReason.DuplicateClordidReceived
-    |"99" -> CxlRejReason.Other
-    | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
+let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CxlRejReason.TooLateToCancel
+        |"1"B -> CxlRejReason.UnknownOrder
+        |"2"B -> CxlRejReason.BrokerExchangeOption
+        |"3"B -> CxlRejReason.OrderAlreadyInPendingCancelOrPendingReplaceStatus
+        |"4"B -> CxlRejReason.UnableToProcessOrderMassCancelRequest
+        |"5"B -> CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder
+        |"6"B -> CxlRejReason.DuplicateClordidReceived
+        |"99"B -> CxlRejReason.Other
+        | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : int =
@@ -3481,26 +3688,29 @@ let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrdRejReason (fldValIn:string) : OrdRejReason = 
-    match fldValIn with
-    |"0" -> OrdRejReason.BrokerExchangeOption
-    |"1" -> OrdRejReason.UnknownSymbol
-    |"2" -> OrdRejReason.ExchangeClosed
-    |"3" -> OrdRejReason.OrderExceedsLimit
-    |"4" -> OrdRejReason.TooLateToEnter
-    |"5" -> OrdRejReason.UnknownOrder
-    |"6" -> OrdRejReason.DuplicateOrder
-    |"7" -> OrdRejReason.DuplicateOfAVerballyCommunicatedOrder
-    |"8" -> OrdRejReason.StaleOrder
-    |"9" -> OrdRejReason.TradeAlongRequired
-    |"10" -> OrdRejReason.InvalidInvestorId
-    |"11" -> OrdRejReason.UnsupportedOrderCharacteristic
-    |"12" -> OrdRejReason.SurveillenceOption
-    |"13" -> OrdRejReason.IncorrectQuantity
-    |"14" -> OrdRejReason.IncorrectAllocatedQuantity
-    |"15" -> OrdRejReason.UnknownAccount
-    |"99" -> OrdRejReason.Other
-    | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
+let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> OrdRejReason.BrokerExchangeOption
+        |"1"B -> OrdRejReason.UnknownSymbol
+        |"2"B -> OrdRejReason.ExchangeClosed
+        |"3"B -> OrdRejReason.OrderExceedsLimit
+        |"4"B -> OrdRejReason.TooLateToEnter
+        |"5"B -> OrdRejReason.UnknownOrder
+        |"6"B -> OrdRejReason.DuplicateOrder
+        |"7"B -> OrdRejReason.DuplicateOfAVerballyCommunicatedOrder
+        |"8"B -> OrdRejReason.StaleOrder
+        |"9"B -> OrdRejReason.TradeAlongRequired
+        |"10"B -> OrdRejReason.InvalidInvestorId
+        |"11"B -> OrdRejReason.UnsupportedOrderCharacteristic
+        |"12"B -> OrdRejReason.SurveillenceOption
+        |"13"B -> OrdRejReason.IncorrectQuantity
+        |"14"B -> OrdRejReason.IncorrectAllocatedQuantity
+        |"15"B -> OrdRejReason.UnknownAccount
+        |"99"B -> OrdRejReason.Other
+        | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : int =
@@ -3609,27 +3819,30 @@ let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIOIQualifier (fldValIn:string) : IOIQualifier = 
-    match fldValIn with
-    |"A" -> IOIQualifier.AllOrNone
-    |"B" -> IOIQualifier.MarketOnClose
-    |"C" -> IOIQualifier.AtTheClose
-    |"D" -> IOIQualifier.Vwap
-    |"I" -> IOIQualifier.InTouchWith
-    |"L" -> IOIQualifier.Limit
-    |"M" -> IOIQualifier.MoreBehind
-    |"O" -> IOIQualifier.AtTheOpen
-    |"P" -> IOIQualifier.TakingAPosition
-    |"Q" -> IOIQualifier.AtTheMarket
-    |"R" -> IOIQualifier.ReadyToTrade
-    |"S" -> IOIQualifier.PortfolioShown
-    |"T" -> IOIQualifier.ThroughTheDay
-    |"V" -> IOIQualifier.Versus
-    |"W" -> IOIQualifier.IndicationWorkingAway
-    |"X" -> IOIQualifier.CrossingOpportunity
-    |"Y" -> IOIQualifier.AtTheMidpoint
-    |"Z" -> IOIQualifier.PreOpen
-    | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
+let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> IOIQualifier.AllOrNone
+        |"B"B -> IOIQualifier.MarketOnClose
+        |"C"B -> IOIQualifier.AtTheClose
+        |"D"B -> IOIQualifier.Vwap
+        |"I"B -> IOIQualifier.InTouchWith
+        |"L"B -> IOIQualifier.Limit
+        |"M"B -> IOIQualifier.MoreBehind
+        |"O"B -> IOIQualifier.AtTheOpen
+        |"P"B -> IOIQualifier.TakingAPosition
+        |"Q"B -> IOIQualifier.AtTheMarket
+        |"R"B -> IOIQualifier.ReadyToTrade
+        |"S"B -> IOIQualifier.PortfolioShown
+        |"T"B -> IOIQualifier.ThroughTheDay
+        |"V"B -> IOIQualifier.Versus
+        |"W"B -> IOIQualifier.IndicationWorkingAway
+        |"X"B -> IOIQualifier.CrossingOpportunity
+        |"Y"B -> IOIQualifier.AtTheMidpoint
+        |"Z"B -> IOIQualifier.PreOpen
+        | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : int =
@@ -3744,9 +3957,11 @@ let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWaveNo valIn =
-    let tmp =  valIn
-    WaveNo.WaveNo tmp
+let ReadWaveNo (pos:int) (bs:byte[]) : (int*WaveNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = WaveNo.WaveNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int = 
@@ -3760,9 +3975,11 @@ let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIssuer valIn =
-    let tmp =  valIn
-    Issuer.Issuer tmp
+let ReadIssuer (pos:int) (bs:byte[]) : (int*Issuer) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Issuer.Issuer tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int = 
@@ -3776,9 +3993,11 @@ let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityDesc valIn =
-    let tmp =  valIn
-    SecurityDesc.SecurityDesc tmp
+let ReadSecurityDesc (pos:int) (bs:byte[]) : (int*SecurityDesc) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityDesc.SecurityDesc tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : int = 
@@ -3792,9 +4011,11 @@ let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHeartBtInt valIn =
-    let tmp = System.Int32.Parse valIn
-    HeartBtInt.HeartBtInt tmp
+let ReadHeartBtInt (pos:int) (bs:byte[]) : (int*HeartBtInt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = HeartBtInt.HeartBtInt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int = 
@@ -3808,9 +4029,11 @@ let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    MinQty.MinQty tmp
+let ReadMinQty (pos:int) (bs:byte[]) : (int*MinQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MinQty.MinQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int = 
@@ -3824,9 +4047,11 @@ let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaxFloor valIn =
-    let tmp = System.Decimal.Parse valIn
-    MaxFloor.MaxFloor tmp
+let ReadMaxFloor (pos:int) (bs:byte[]) : (int*MaxFloor) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MaxFloor.MaxFloor tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int = 
@@ -3840,9 +4065,11 @@ let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTestReqID valIn =
-    let tmp =  valIn
-    TestReqID.TestReqID tmp
+let ReadTestReqID (pos:int) (bs:byte[]) : (int*TestReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TestReqID.TestReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int = 
@@ -3856,9 +4083,11 @@ let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadReportToExch valIn =
-    let tmp = System.Boolean.Parse valIn
-    ReportToExch.ReportToExch tmp
+let ReadReportToExch (pos:int) (bs:byte[]) : (int*ReportToExch) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ReportToExch.ReportToExch tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : int = 
@@ -3872,9 +4101,11 @@ let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLocateReqd valIn =
-    let tmp = System.Boolean.Parse valIn
-    LocateReqd.LocateReqd tmp
+let ReadLocateReqd (pos:int) (bs:byte[]) : (int*LocateReqd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = LocateReqd.LocateReqd tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int = 
@@ -3888,9 +4119,11 @@ let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOnBehalfOfCompID valIn =
-    let tmp =  valIn
-    OnBehalfOfCompID.OnBehalfOfCompID tmp
+let ReadOnBehalfOfCompID (pos:int) (bs:byte[]) : (int*OnBehalfOfCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OnBehalfOfCompID.OnBehalfOfCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfCompID) : int = 
@@ -3904,9 +4137,11 @@ let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfComp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOnBehalfOfSubID valIn =
-    let tmp =  valIn
-    OnBehalfOfSubID.OnBehalfOfSubID tmp
+let ReadOnBehalfOfSubID (pos:int) (bs:byte[]) : (int*OnBehalfOfSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OnBehalfOfSubID.OnBehalfOfSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID) : int = 
@@ -3920,9 +4155,11 @@ let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteID valIn =
-    let tmp =  valIn
-    QuoteID.QuoteID tmp
+let ReadQuoteID (pos:int) (bs:byte[]) : (int*QuoteID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteID.QuoteID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int = 
@@ -3936,9 +4173,11 @@ let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetMoney valIn =
-    let tmp = System.Int32.Parse valIn
-    NetMoney.NetMoney tmp
+let ReadNetMoney (pos:int) (bs:byte[]) : (int*NetMoney) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NetMoney.NetMoney tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int = 
@@ -3952,9 +4191,11 @@ let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    SettlCurrAmt.SettlCurrAmt tmp
+let ReadSettlCurrAmt (pos:int) (bs:byte[]) : (int*SettlCurrAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SettlCurrAmt.SettlCurrAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : int = 
@@ -3968,9 +4209,11 @@ let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrency valIn =
-    let tmp =  valIn
-    SettlCurrency.SettlCurrency tmp
+let ReadSettlCurrency (pos:int) (bs:byte[]) : (int*SettlCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlCurrency.SettlCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : int = 
@@ -3984,9 +4227,11 @@ let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadForexReq valIn =
-    let tmp = System.Boolean.Parse valIn
-    ForexReq.ForexReq tmp
+let ReadForexReq (pos:int) (bs:byte[]) : (int*ForexReq) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ForexReq.ForexReq tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int = 
@@ -4000,9 +4245,11 @@ let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrigSendingTime valIn =
-    let tmp =  valIn
-    OrigSendingTime.OrigSendingTime tmp
+let ReadOrigSendingTime (pos:int) (bs:byte[]) : (int*OrigSendingTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigSendingTime.OrigSendingTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime) : int = 
@@ -4016,9 +4263,11 @@ let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadGapFillFlag valIn =
-    let tmp = System.Boolean.Parse valIn
-    GapFillFlag.GapFillFlag tmp
+let ReadGapFillFlag (pos:int) (bs:byte[]) : (int*GapFillFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = GapFillFlag.GapFillFlag tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int = 
@@ -4032,9 +4281,11 @@ let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoExecs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoExecs.NoExecs tmp
+let ReadNoExecs (pos:int) (bs:byte[]) : (int*NoExecs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoExecs.NoExecs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int = 
@@ -4048,9 +4299,11 @@ let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExpireTime valIn =
-    let tmp =  valIn
-    ExpireTime.ExpireTime tmp
+let ReadExpireTime (pos:int) (bs:byte[]) : (int*ExpireTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExpireTime.ExpireTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int = 
@@ -4064,16 +4317,19 @@ let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDKReason (fldValIn:string) : DKReason = 
-    match fldValIn with
-    |"A" -> DKReason.UnknownSymbol
-    |"B" -> DKReason.WrongSide
-    |"C" -> DKReason.QuantityExceedsOrder
-    |"D" -> DKReason.NoMatchingOrder
-    |"E" -> DKReason.PriceExceedsLimit
-    |"F" -> DKReason.CalculationDifference
-    |"Z" -> DKReason.Other
-    | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
+let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> DKReason.UnknownSymbol
+        |"B"B -> DKReason.WrongSide
+        |"C"B -> DKReason.QuantityExceedsOrder
+        |"D"B -> DKReason.NoMatchingOrder
+        |"E"B -> DKReason.PriceExceedsLimit
+        |"F"B -> DKReason.CalculationDifference
+        |"Z"B -> DKReason.Other
+        | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
@@ -4122,9 +4378,11 @@ let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDeliverToCompID valIn =
-    let tmp =  valIn
-    DeliverToCompID.DeliverToCompID tmp
+let ReadDeliverToCompID (pos:int) (bs:byte[]) : (int*DeliverToCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DeliverToCompID.DeliverToCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID) : int = 
@@ -4138,9 +4396,11 @@ let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliverToSubID valIn =
-    let tmp =  valIn
-    DeliverToSubID.DeliverToSubID tmp
+let ReadDeliverToSubID (pos:int) (bs:byte[]) : (int*DeliverToSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DeliverToSubID.DeliverToSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) : int = 
@@ -4154,9 +4414,11 @@ let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOINaturalFlag valIn =
-    let tmp = System.Boolean.Parse valIn
-    IOINaturalFlag.IOINaturalFlag tmp
+let ReadIOINaturalFlag (pos:int) (bs:byte[]) : (int*IOINaturalFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = IOINaturalFlag.IOINaturalFlag tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) : int = 
@@ -4170,9 +4432,11 @@ let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteReqID valIn =
-    let tmp =  valIn
-    QuoteReqID.QuoteReqID tmp
+let ReadQuoteReqID (pos:int) (bs:byte[]) : (int*QuoteReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteReqID.QuoteReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int = 
@@ -4186,9 +4450,11 @@ let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidPx.BidPx tmp
+let ReadBidPx (pos:int) (bs:byte[]) : (int*BidPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidPx.BidPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int = 
@@ -4202,9 +4468,11 @@ let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferPx.OfferPx tmp
+let ReadOfferPx (pos:int) (bs:byte[]) : (int*OfferPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferPx.OfferPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int = 
@@ -4218,9 +4486,11 @@ let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidSize.BidSize tmp
+let ReadBidSize (pos:int) (bs:byte[]) : (int*BidSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidSize.BidSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int = 
@@ -4234,9 +4504,11 @@ let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferSize.OfferSize tmp
+let ReadOfferSize (pos:int) (bs:byte[]) : (int*OfferSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferSize.OfferSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int = 
@@ -4250,9 +4522,11 @@ let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMiscFees valIn =
-    let tmp = System.Int32.Parse valIn
-    NoMiscFees.NoMiscFees tmp
+let ReadNoMiscFees (pos:int) (bs:byte[]) : (int*NoMiscFees) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoMiscFees.NoMiscFees tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int = 
@@ -4266,9 +4540,11 @@ let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMiscFeeAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    MiscFeeAmt.MiscFeeAmt tmp
+let ReadMiscFeeAmt (pos:int) (bs:byte[]) : (int*MiscFeeAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MiscFeeAmt.MiscFeeAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int = 
@@ -4282,9 +4558,11 @@ let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMiscFeeCurr valIn =
-    let tmp =  valIn
-    MiscFeeCurr.MiscFeeCurr tmp
+let ReadMiscFeeCurr (pos:int) (bs:byte[]) : (int*MiscFeeCurr) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MiscFeeCurr.MiscFeeCurr tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int = 
@@ -4298,21 +4576,24 @@ let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMiscFeeType (fldValIn:string) : MiscFeeType = 
-    match fldValIn with
-    |"1" -> MiscFeeType.Regulatory
-    |"2" -> MiscFeeType.Tax
-    |"3" -> MiscFeeType.LocalCommission
-    |"4" -> MiscFeeType.ExchangeFees
-    |"5" -> MiscFeeType.Stamp
-    |"6" -> MiscFeeType.Levy
-    |"7" -> MiscFeeType.Other
-    |"8" -> MiscFeeType.Markup
-    |"9" -> MiscFeeType.ConsumptionTax
-    |"10" -> MiscFeeType.PerTransaction
-    |"11" -> MiscFeeType.Conversion
-    |"12" -> MiscFeeType.Agent
-    | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
+let ReadMiscFeeType (pos:int) (bs:byte[]) : (int * MiscFeeType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> MiscFeeType.Regulatory
+        |"2"B -> MiscFeeType.Tax
+        |"3"B -> MiscFeeType.LocalCommission
+        |"4"B -> MiscFeeType.ExchangeFees
+        |"5"B -> MiscFeeType.Stamp
+        |"6"B -> MiscFeeType.Levy
+        |"7"B -> MiscFeeType.Other
+        |"8"B -> MiscFeeType.Markup
+        |"9"B -> MiscFeeType.ConsumptionTax
+        |"10"B -> MiscFeeType.PerTransaction
+        |"11"B -> MiscFeeType.Conversion
+        |"12"B -> MiscFeeType.Agent
+        | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : int =
@@ -4391,9 +4672,11 @@ let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPrevClosePx valIn =
-    let tmp = System.Decimal.Parse valIn
-    PrevClosePx.PrevClosePx tmp
+let ReadPrevClosePx (pos:int) (bs:byte[]) : (int*PrevClosePx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PrevClosePx.PrevClosePx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int = 
@@ -4407,9 +4690,11 @@ let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadResetSeqNumFlag valIn =
-    let tmp = System.Boolean.Parse valIn
-    ResetSeqNumFlag.ResetSeqNumFlag tmp
+let ReadResetSeqNumFlag (pos:int) (bs:byte[]) : (int*ResetSeqNumFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ResetSeqNumFlag.ResetSeqNumFlag tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag) : int = 
@@ -4423,9 +4708,11 @@ let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSenderLocationID valIn =
-    let tmp =  valIn
-    SenderLocationID.SenderLocationID tmp
+let ReadSenderLocationID (pos:int) (bs:byte[]) : (int*SenderLocationID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SenderLocationID.SenderLocationID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocationID) : int = 
@@ -4439,9 +4726,11 @@ let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocation
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetLocationID valIn =
-    let tmp =  valIn
-    TargetLocationID.TargetLocationID tmp
+let ReadTargetLocationID (pos:int) (bs:byte[]) : (int*TargetLocationID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TargetLocationID.TargetLocationID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocationID) : int = 
@@ -4455,9 +4744,11 @@ let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocation
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOnBehalfOfLocationID valIn =
-    let tmp =  valIn
-    OnBehalfOfLocationID.OnBehalfOfLocationID tmp
+let ReadOnBehalfOfLocationID (pos:int) (bs:byte[]) : (int*OnBehalfOfLocationID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OnBehalfOfLocationID.OnBehalfOfLocationID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfLocationID) : int = 
@@ -4471,9 +4762,11 @@ let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOf
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliverToLocationID valIn =
-    let tmp =  valIn
-    DeliverToLocationID.DeliverToLocationID tmp
+let ReadDeliverToLocationID (pos:int) (bs:byte[]) : (int*DeliverToLocationID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DeliverToLocationID.DeliverToLocationID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLocationID) : int = 
@@ -4487,9 +4780,11 @@ let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRelatedSym valIn =
-    let tmp = System.Int32.Parse valIn
-    NoRelatedSym.NoRelatedSym tmp
+let ReadNoRelatedSym (pos:int) (bs:byte[]) : (int*NoRelatedSym) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoRelatedSym.NoRelatedSym tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : int = 
@@ -4503,9 +4798,11 @@ let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSubject valIn =
-    let tmp =  valIn
-    Subject.Subject tmp
+let ReadSubject (pos:int) (bs:byte[]) : (int*Subject) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Subject.Subject tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int = 
@@ -4519,9 +4816,11 @@ let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHeadline valIn =
-    let tmp =  valIn
-    Headline.Headline tmp
+let ReadHeadline (pos:int) (bs:byte[]) : (int*Headline) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Headline.Headline tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int = 
@@ -4535,9 +4834,11 @@ let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadURLLink valIn =
-    let tmp =  valIn
-    URLLink.URLLink tmp
+let ReadURLLink (pos:int) (bs:byte[]) : (int*URLLink) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = URLLink.URLLink tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int = 
@@ -4551,28 +4852,31 @@ let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecType (fldValIn:string) : ExecType = 
-    match fldValIn with
-    |"0" -> ExecType.New
-    |"1" -> ExecType.PartialFill
-    |"2" -> ExecType.Fill
-    |"3" -> ExecType.DoneForDay
-    |"4" -> ExecType.Canceled
-    |"5" -> ExecType.Replace
-    |"6" -> ExecType.PendingCancel
-    |"7" -> ExecType.Stopped
-    |"8" -> ExecType.Rejected
-    |"9" -> ExecType.Suspended
-    |"A" -> ExecType.PendingNew
-    |"B" -> ExecType.Calculated
-    |"C" -> ExecType.Expired
-    |"D" -> ExecType.Restated
-    |"E" -> ExecType.PendingReplace
-    |"F" -> ExecType.Trade
-    |"G" -> ExecType.TradeCorrect
-    |"H" -> ExecType.TradeCancel
-    |"I" -> ExecType.OrderStatus
-    | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
+let ReadExecType (pos:int) (bs:byte[]) : (int * ExecType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ExecType.New
+        |"1"B -> ExecType.PartialFill
+        |"2"B -> ExecType.Fill
+        |"3"B -> ExecType.DoneForDay
+        |"4"B -> ExecType.Canceled
+        |"5"B -> ExecType.Replace
+        |"6"B -> ExecType.PendingCancel
+        |"7"B -> ExecType.Stopped
+        |"8"B -> ExecType.Rejected
+        |"9"B -> ExecType.Suspended
+        |"A"B -> ExecType.PendingNew
+        |"B"B -> ExecType.Calculated
+        |"C"B -> ExecType.Expired
+        |"D"B -> ExecType.Restated
+        |"E"B -> ExecType.PendingReplace
+        |"F"B -> ExecType.Trade
+        |"G"B -> ExecType.TradeCorrect
+        |"H"B -> ExecType.TradeCancel
+        |"I"B -> ExecType.OrderStatus
+        | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
@@ -4693,9 +4997,11 @@ let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLeavesQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LeavesQty.LeavesQty tmp
+let ReadLeavesQty (pos:int) (bs:byte[]) : (int*LeavesQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LeavesQty.LeavesQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int = 
@@ -4709,9 +5015,11 @@ let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashOrderQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    CashOrderQty.CashOrderQty tmp
+let ReadCashOrderQty (pos:int) (bs:byte[]) : (int*CashOrderQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = CashOrderQty.CashOrderQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : int = 
@@ -4725,9 +5033,11 @@ let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAvgPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    AllocAvgPx.AllocAvgPx tmp
+let ReadAllocAvgPx (pos:int) (bs:byte[]) : (int*AllocAvgPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AllocAvgPx.AllocAvgPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int = 
@@ -4741,9 +5051,11 @@ let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocNetMoney valIn =
-    let tmp = System.Int32.Parse valIn
-    AllocNetMoney.AllocNetMoney tmp
+let ReadAllocNetMoney (pos:int) (bs:byte[]) : (int*AllocNetMoney) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllocNetMoney.AllocNetMoney tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : int = 
@@ -4757,9 +5069,11 @@ let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrFxRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    SettlCurrFxRate.SettlCurrFxRate tmp
+let ReadSettlCurrFxRate (pos:int) (bs:byte[]) : (int*SettlCurrFxRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = SettlCurrFxRate.SettlCurrFxRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate) : int = 
@@ -4773,11 +5087,14 @@ let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrFxRateCalc (fldValIn:string) : SettlCurrFxRateCalc = 
-    match fldValIn with
-    |"M" -> SettlCurrFxRateCalc.Multiply
-    |"D" -> SettlCurrFxRateCalc.Divide
-    | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
+let ReadSettlCurrFxRateCalc (pos:int) (bs:byte[]) : (int * SettlCurrFxRateCalc) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"M"B -> SettlCurrFxRateCalc.Multiply
+        |"D"B -> SettlCurrFxRateCalc.Divide
+        | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurrFxRateCalc) : int =
@@ -4796,9 +5113,11 @@ let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurr
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumDaysInterest valIn =
-    let tmp = System.Int32.Parse valIn
-    NumDaysInterest.NumDaysInterest tmp
+let ReadNumDaysInterest (pos:int) (bs:byte[]) : (int*NumDaysInterest) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NumDaysInterest.NumDaysInterest tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest) : int = 
@@ -4812,9 +5131,11 @@ let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAccruedInterestRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    AccruedInterestRate.AccruedInterestRate tmp
+let ReadAccruedInterestRate (pos:int) (bs:byte[]) : (int*AccruedInterestRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AccruedInterestRate.AccruedInterestRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestRate) : int = 
@@ -4828,9 +5149,11 @@ let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInte
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAccruedInterestAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    AccruedInterestAmt.AccruedInterestAmt tmp
+let ReadAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AccruedInterestAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AccruedInterestAmt.AccruedInterestAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestAmt) : int = 
@@ -4844,13 +5167,16 @@ let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInter
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstMode (fldValIn:string) : SettlInstMode = 
-    match fldValIn with
-    |"0" -> SettlInstMode.Default
-    |"1" -> SettlInstMode.StandingInstructionsProvided
-    |"4" -> SettlInstMode.SpecificOrderForASingleAccount
-    |"5" -> SettlInstMode.RequestReject
-    | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
+let ReadSettlInstMode (pos:int) (bs:byte[]) : (int * SettlInstMode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SettlInstMode.Default
+        |"1"B -> SettlInstMode.StandingInstructionsProvided
+        |"4"B -> SettlInstMode.SpecificOrderForASingleAccount
+        |"5"B -> SettlInstMode.RequestReject
+        | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) : int =
@@ -4881,9 +5207,11 @@ let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocText valIn =
-    let tmp =  valIn
-    AllocText.AllocText tmp
+let ReadAllocText (pos:int) (bs:byte[]) : (int*AllocText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocText.AllocText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int = 
@@ -4897,9 +5225,11 @@ let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstID valIn =
-    let tmp =  valIn
-    SettlInstID.SettlInstID tmp
+let ReadSettlInstID (pos:int) (bs:byte[]) : (int*SettlInstID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlInstID.SettlInstID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int = 
@@ -4913,13 +5243,16 @@ let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstTransType (fldValIn:string) : SettlInstTransType = 
-    match fldValIn with
-    |"N" -> SettlInstTransType.New
-    |"C" -> SettlInstTransType.Cancel
-    |"R" -> SettlInstTransType.Replace
-    |"T" -> SettlInstTransType.Restate
-    | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
+let ReadSettlInstTransType (pos:int) (bs:byte[]) : (int * SettlInstTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"N"B -> SettlInstTransType.New
+        |"C"B -> SettlInstTransType.Cancel
+        |"R"B -> SettlInstTransType.Replace
+        |"T"B -> SettlInstTransType.Restate
+        | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstTransType) : int =
@@ -4950,9 +5283,11 @@ let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstT
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEmailThreadID valIn =
-    let tmp =  valIn
-    EmailThreadID.EmailThreadID tmp
+let ReadEmailThreadID (pos:int) (bs:byte[]) : (int*EmailThreadID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = EmailThreadID.EmailThreadID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : int = 
@@ -4966,12 +5301,15 @@ let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstSource (fldValIn:string) : SettlInstSource = 
-    match fldValIn with
-    |"1" -> SettlInstSource.BrokersInstructions
-    |"2" -> SettlInstSource.InstitutionsInstructions
-    |"3" -> SettlInstSource.Investor
-    | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
+let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SettlInstSource.BrokersInstructions
+        |"2"B -> SettlInstSource.InstitutionsInstructions
+        |"3"B -> SettlInstSource.Investor
+        | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSource) : int =
@@ -4996,103 +5334,106 @@ let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSour
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityType (fldValIn:string) : SecurityType = 
-    match fldValIn with
-    |"EUSUPRA" -> SecurityType.EuroSupranationalCoupons
-    |"FAC" -> SecurityType.FederalAgencyCoupon
-    |"FADN" -> SecurityType.FederalAgencyDiscountNote
-    |"PEF" -> SecurityType.PrivateExportFunding
-    |"SUPRA" -> SecurityType.UsdSupranationalCoupons
-    |"FUT" -> SecurityType.Future
-    |"OPT" -> SecurityType.Option
-    |"CORP" -> SecurityType.CorporateBond
-    |"CPP" -> SecurityType.CorporatePrivatePlacement
-    |"CB" -> SecurityType.ConvertibleBond
-    |"DUAL" -> SecurityType.DualCurrency
-    |"EUCORP" -> SecurityType.EuroCorporateBond
-    |"XLINKD" -> SecurityType.IndexedLinked
-    |"STRUCT" -> SecurityType.StructuredNotes
-    |"YANK" -> SecurityType.YankeeCorporateBond
-    |"FOR" -> SecurityType.ForeignExchangeContract
-    |"CS" -> SecurityType.CommonStock
-    |"PS" -> SecurityType.PreferredStock
-    |"BRADY" -> SecurityType.BradyBond
-    |"EUSOV" -> SecurityType.EuroSovereigns
-    |"TBOND" -> SecurityType.UsTreasuryBond
-    |"TINT" -> SecurityType.InterestStripFromAnyBondOrNote
-    |"TIPS" -> SecurityType.TreasuryInflationProtectedSecurities
-    |"TCAL" -> SecurityType.PrincipalStripOfACallableBondOrNote
-    |"TPRN" -> SecurityType.PrincipalStripFromANonCallableBondOrNote
-    |"TNOTE" -> SecurityType.UsTreasuryNote
-    |"TBILL" -> SecurityType.UsTreasuryBill
-    |"REPO" -> SecurityType.Repurchase
-    |"FORWARD" -> SecurityType.Forward
-    |"BUYSELL" -> SecurityType.BuySellback
-    |"SECLOAN" -> SecurityType.SecuritiesLoan
-    |"SECPLEDGE" -> SecurityType.SecuritiesPledge
-    |"TERM" -> SecurityType.TermLoan
-    |"RVLV" -> SecurityType.RevolverLoan
-    |"RVLVTRM" -> SecurityType.RevolverTermLoan
-    |"BRIDGE" -> SecurityType.BridgeLoan
-    |"LOFC" -> SecurityType.LetterOfCredit
-    |"SWING" -> SecurityType.SwingLineFacility
-    |"DINP" -> SecurityType.DebtorInPossession
-    |"DEFLTED" -> SecurityType.Defaulted
-    |"WITHDRN" -> SecurityType.Withdrawn
-    |"REPLACD" -> SecurityType.Replaced
-    |"MATURED" -> SecurityType.Matured
-    |"AMENDED" -> SecurityType.AmendedAndRestated
-    |"RETIRED" -> SecurityType.Retired
-    |"BA" -> SecurityType.BankersAcceptance
-    |"BN" -> SecurityType.BankNotes
-    |"BOX" -> SecurityType.BillOfExchanges
-    |"CD" -> SecurityType.CertificateOfDeposit
-    |"CL" -> SecurityType.CallLoans
-    |"CP" -> SecurityType.CommercialPaper
-    |"DN" -> SecurityType.DepositNotes
-    |"EUCD" -> SecurityType.EuroCertificateOfDeposit
-    |"EUCP" -> SecurityType.EuroCommercialPaper
-    |"LQN" -> SecurityType.LiquidityNote
-    |"MTN" -> SecurityType.MediumTermNotes
-    |"ONITE" -> SecurityType.Overnight
-    |"PN" -> SecurityType.PromissoryNote
-    |"PZFJ" -> SecurityType.PlazosFijos
-    |"STN" -> SecurityType.ShortTermLoanNote
-    |"TD" -> SecurityType.TimeDeposit
-    |"XCN" -> SecurityType.ExtendedCommNote
-    |"YCD" -> SecurityType.YankeeCertificateOfDeposit
-    |"ABS" -> SecurityType.AssetBackedSecurities
-    |"CMBS" -> SecurityType.CorpMortgageBackedSecurities
-    |"CMO" -> SecurityType.CollateralizedMortgageObligation
-    |"IET" -> SecurityType.IoetteMortgage
-    |"MBS" -> SecurityType.MortgageBackedSecurities
-    |"MIO" -> SecurityType.MortgageInterestOnly
-    |"MPO" -> SecurityType.MortgagePrincipalOnly
-    |"MPP" -> SecurityType.MortgagePrivatePlacement
-    |"MPT" -> SecurityType.MiscellaneousPassThrough
-    |"PFAND" -> SecurityType.Pfandbriefe
-    |"TBA" -> SecurityType.ToBeAnnounced
-    |"AN" -> SecurityType.OtherAnticipationNotes
-    |"COFO" -> SecurityType.CertificateOfObligation
-    |"COFP" -> SecurityType.CertificateOfParticipation
-    |"GO" -> SecurityType.GeneralObligationBonds
-    |"MT" -> SecurityType.MandatoryTender
-    |"RAN" -> SecurityType.RevenueAnticipationNote
-    |"REV" -> SecurityType.RevenueBonds
-    |"SPCLA" -> SecurityType.SpecialAssessment
-    |"SPCLO" -> SecurityType.SpecialObligation
-    |"SPCLT" -> SecurityType.SpecialTax
-    |"TAN" -> SecurityType.TaxAnticipationNote
-    |"TAXA" -> SecurityType.TaxAllocation
-    |"TECP" -> SecurityType.TaxExemptCommercialPaper
-    |"TRAN" -> SecurityType.TaxAndRevenueAnticipationNote
-    |"VRDN" -> SecurityType.VariableRateDemandNote
-    |"WAR" -> SecurityType.Warrant
-    |"MF" -> SecurityType.MutualFund
-    |"MLEG" -> SecurityType.MultiLegInstrument
-    |"NONE" -> SecurityType.NoSecurityType
-    |"?" -> SecurityType.Wildcard
-    | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
+let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
+        |"FAC"B -> SecurityType.FederalAgencyCoupon
+        |"FADN"B -> SecurityType.FederalAgencyDiscountNote
+        |"PEF"B -> SecurityType.PrivateExportFunding
+        |"SUPRA"B -> SecurityType.UsdSupranationalCoupons
+        |"FUT"B -> SecurityType.Future
+        |"OPT"B -> SecurityType.Option
+        |"CORP"B -> SecurityType.CorporateBond
+        |"CPP"B -> SecurityType.CorporatePrivatePlacement
+        |"CB"B -> SecurityType.ConvertibleBond
+        |"DUAL"B -> SecurityType.DualCurrency
+        |"EUCORP"B -> SecurityType.EuroCorporateBond
+        |"XLINKD"B -> SecurityType.IndexedLinked
+        |"STRUCT"B -> SecurityType.StructuredNotes
+        |"YANK"B -> SecurityType.YankeeCorporateBond
+        |"FOR"B -> SecurityType.ForeignExchangeContract
+        |"CS"B -> SecurityType.CommonStock
+        |"PS"B -> SecurityType.PreferredStock
+        |"BRADY"B -> SecurityType.BradyBond
+        |"EUSOV"B -> SecurityType.EuroSovereigns
+        |"TBOND"B -> SecurityType.UsTreasuryBond
+        |"TINT"B -> SecurityType.InterestStripFromAnyBondOrNote
+        |"TIPS"B -> SecurityType.TreasuryInflationProtectedSecurities
+        |"TCAL"B -> SecurityType.PrincipalStripOfACallableBondOrNote
+        |"TPRN"B -> SecurityType.PrincipalStripFromANonCallableBondOrNote
+        |"TNOTE"B -> SecurityType.UsTreasuryNote
+        |"TBILL"B -> SecurityType.UsTreasuryBill
+        |"REPO"B -> SecurityType.Repurchase
+        |"FORWARD"B -> SecurityType.Forward
+        |"BUYSELL"B -> SecurityType.BuySellback
+        |"SECLOAN"B -> SecurityType.SecuritiesLoan
+        |"SECPLEDGE"B -> SecurityType.SecuritiesPledge
+        |"TERM"B -> SecurityType.TermLoan
+        |"RVLV"B -> SecurityType.RevolverLoan
+        |"RVLVTRM"B -> SecurityType.RevolverTermLoan
+        |"BRIDGE"B -> SecurityType.BridgeLoan
+        |"LOFC"B -> SecurityType.LetterOfCredit
+        |"SWING"B -> SecurityType.SwingLineFacility
+        |"DINP"B -> SecurityType.DebtorInPossession
+        |"DEFLTED"B -> SecurityType.Defaulted
+        |"WITHDRN"B -> SecurityType.Withdrawn
+        |"REPLACD"B -> SecurityType.Replaced
+        |"MATURED"B -> SecurityType.Matured
+        |"AMENDED"B -> SecurityType.AmendedAndRestated
+        |"RETIRED"B -> SecurityType.Retired
+        |"BA"B -> SecurityType.BankersAcceptance
+        |"BN"B -> SecurityType.BankNotes
+        |"BOX"B -> SecurityType.BillOfExchanges
+        |"CD"B -> SecurityType.CertificateOfDeposit
+        |"CL"B -> SecurityType.CallLoans
+        |"CP"B -> SecurityType.CommercialPaper
+        |"DN"B -> SecurityType.DepositNotes
+        |"EUCD"B -> SecurityType.EuroCertificateOfDeposit
+        |"EUCP"B -> SecurityType.EuroCommercialPaper
+        |"LQN"B -> SecurityType.LiquidityNote
+        |"MTN"B -> SecurityType.MediumTermNotes
+        |"ONITE"B -> SecurityType.Overnight
+        |"PN"B -> SecurityType.PromissoryNote
+        |"PZFJ"B -> SecurityType.PlazosFijos
+        |"STN"B -> SecurityType.ShortTermLoanNote
+        |"TD"B -> SecurityType.TimeDeposit
+        |"XCN"B -> SecurityType.ExtendedCommNote
+        |"YCD"B -> SecurityType.YankeeCertificateOfDeposit
+        |"ABS"B -> SecurityType.AssetBackedSecurities
+        |"CMBS"B -> SecurityType.CorpMortgageBackedSecurities
+        |"CMO"B -> SecurityType.CollateralizedMortgageObligation
+        |"IET"B -> SecurityType.IoetteMortgage
+        |"MBS"B -> SecurityType.MortgageBackedSecurities
+        |"MIO"B -> SecurityType.MortgageInterestOnly
+        |"MPO"B -> SecurityType.MortgagePrincipalOnly
+        |"MPP"B -> SecurityType.MortgagePrivatePlacement
+        |"MPT"B -> SecurityType.MiscellaneousPassThrough
+        |"PFAND"B -> SecurityType.Pfandbriefe
+        |"TBA"B -> SecurityType.ToBeAnnounced
+        |"AN"B -> SecurityType.OtherAnticipationNotes
+        |"COFO"B -> SecurityType.CertificateOfObligation
+        |"COFP"B -> SecurityType.CertificateOfParticipation
+        |"GO"B -> SecurityType.GeneralObligationBonds
+        |"MT"B -> SecurityType.MandatoryTender
+        |"RAN"B -> SecurityType.RevenueAnticipationNote
+        |"REV"B -> SecurityType.RevenueBonds
+        |"SPCLA"B -> SecurityType.SpecialAssessment
+        |"SPCLO"B -> SecurityType.SpecialObligation
+        |"SPCLT"B -> SecurityType.SpecialTax
+        |"TAN"B -> SecurityType.TaxAnticipationNote
+        |"TAXA"B -> SecurityType.TaxAllocation
+        |"TECP"B -> SecurityType.TaxExemptCommercialPaper
+        |"TRAN"B -> SecurityType.TaxAndRevenueAnticipationNote
+        |"VRDN"B -> SecurityType.VariableRateDemandNote
+        |"WAR"B -> SecurityType.Warrant
+        |"MF"B -> SecurityType.MutualFund
+        |"MLEG"B -> SecurityType.MultiLegInstrument
+        |"NONE"B -> SecurityType.NoSecurityType
+        |"?"B -> SecurityType.Wildcard
+        | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : int =
@@ -5663,9 +6004,11 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEffectiveTime valIn =
-    let tmp =  valIn
-    EffectiveTime.EffectiveTime tmp
+let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = EffectiveTime.EffectiveTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : int = 
@@ -5679,14 +6022,17 @@ let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStandInstDbType (fldValIn:string) : StandInstDbType = 
-    match fldValIn with
-    |"0" -> StandInstDbType.Other
-    |"1" -> StandInstDbType.DtcSid
-    |"2" -> StandInstDbType.ThomsonAlert
-    |"3" -> StandInstDbType.AGlobalCustodian
-    |"4" -> StandInstDbType.Accountnet
-    | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
+let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> StandInstDbType.Other
+        |"1"B -> StandInstDbType.DtcSid
+        |"2"B -> StandInstDbType.ThomsonAlert
+        |"3"B -> StandInstDbType.AGlobalCustodian
+        |"4"B -> StandInstDbType.Accountnet
+        | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbType) : int =
@@ -5723,9 +6069,11 @@ let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStandInstDbName valIn =
-    let tmp =  valIn
-    StandInstDbName.StandInstDbName tmp
+let ReadStandInstDbName (pos:int) (bs:byte[]) : (int*StandInstDbName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StandInstDbName.StandInstDbName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName) : int = 
@@ -5739,9 +6087,11 @@ let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStandInstDbID valIn =
-    let tmp =  valIn
-    StandInstDbID.StandInstDbID tmp
+let ReadStandInstDbID (pos:int) (bs:byte[]) : (int*StandInstDbID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StandInstDbID.StandInstDbID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : int = 
@@ -5755,13 +6105,16 @@ let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlDeliveryType (fldValIn:string) : SettlDeliveryType = 
-    match fldValIn with
-    |"0" -> SettlDeliveryType.VersusPayment
-    |"1" -> SettlDeliveryType.Free
-    |"2" -> SettlDeliveryType.TriParty
-    |"3" -> SettlDeliveryType.HoldInCustody
-    | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
+let ReadSettlDeliveryType (pos:int) (bs:byte[]) : (int * SettlDeliveryType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SettlDeliveryType.VersusPayment
+        |"1"B -> SettlDeliveryType.Free
+        |"2"B -> SettlDeliveryType.TriParty
+        |"3"B -> SettlDeliveryType.HoldInCustody
+        | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDeliveryType) : int =
@@ -5792,9 +6145,11 @@ let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDelive
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidSpotRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidSpotRate.BidSpotRate tmp
+let ReadBidSpotRate (pos:int) (bs:byte[]) : (int*BidSpotRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidSpotRate.BidSpotRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int = 
@@ -5808,9 +6163,11 @@ let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidForwardPoints valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidForwardPoints.BidForwardPoints tmp
+let ReadBidForwardPoints (pos:int) (bs:byte[]) : (int*BidForwardPoints) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidForwardPoints.BidForwardPoints tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints) : int = 
@@ -5824,9 +6181,11 @@ let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoin
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferSpotRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferSpotRate.OfferSpotRate tmp
+let ReadOfferSpotRate (pos:int) (bs:byte[]) : (int*OfferSpotRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferSpotRate.OfferSpotRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : int = 
@@ -5840,9 +6199,11 @@ let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferForwardPoints valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferForwardPoints.OfferForwardPoints tmp
+let ReadOfferForwardPoints (pos:int) (bs:byte[]) : (int*OfferForwardPoints) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferForwardPoints.OfferForwardPoints tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints) : int = 
@@ -5856,9 +6217,11 @@ let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForward
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderQty2 valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderQty2.OrderQty2 tmp
+let ReadOrderQty2 (pos:int) (bs:byte[]) : (int*OrderQty2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderQty2.OrderQty2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int = 
@@ -5872,9 +6235,11 @@ let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlDate2 valIn =
-    let tmp =  valIn
-    SettlDate2.SettlDate2 tmp
+let ReadSettlDate2 (pos:int) (bs:byte[]) : (int*SettlDate2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlDate2.SettlDate2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int = 
@@ -5888,9 +6253,11 @@ let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastSpotRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastSpotRate.LastSpotRate tmp
+let ReadLastSpotRate (pos:int) (bs:byte[]) : (int*LastSpotRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastSpotRate.LastSpotRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : int = 
@@ -5904,9 +6271,11 @@ let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastForwardPoints valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastForwardPoints.LastForwardPoints tmp
+let ReadLastForwardPoints (pos:int) (bs:byte[]) : (int*LastForwardPoints) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastForwardPoints.LastForwardPoints tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints) : int = 
@@ -5920,9 +6289,11 @@ let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocLinkID valIn =
-    let tmp =  valIn
-    AllocLinkID.AllocLinkID tmp
+let ReadAllocLinkID (pos:int) (bs:byte[]) : (int*AllocLinkID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocLinkID.AllocLinkID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int = 
@@ -5936,11 +6307,14 @@ let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocLinkType (fldValIn:string) : AllocLinkType = 
-    match fldValIn with
-    |"0" -> AllocLinkType.FXNetting
-    |"1" -> AllocLinkType.FXSwap
-    | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
+let ReadAllocLinkType (pos:int) (bs:byte[]) : (int * AllocLinkType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocLinkType.FXNetting
+        |"1"B -> AllocLinkType.FXSwap
+        | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) : int =
@@ -5959,9 +6333,11 @@ let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryOrderID valIn =
-    let tmp =  valIn
-    SecondaryOrderID.SecondaryOrderID tmp
+let ReadSecondaryOrderID (pos:int) (bs:byte[]) : (int*SecondaryOrderID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryOrderID.SecondaryOrderID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrderID) : int = 
@@ -5975,9 +6351,11 @@ let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrder
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoIOIQualifiers valIn =
-    let tmp = System.Int32.Parse valIn
-    NoIOIQualifiers.NoIOIQualifiers tmp
+let ReadNoIOIQualifiers (pos:int) (bs:byte[]) : (int*NoIOIQualifiers) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoIOIQualifiers.NoIOIQualifiers tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers) : int = 
@@ -5991,9 +6369,11 @@ let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaturityMonthYear valIn =
-    let tmp =  valIn
-    MaturityMonthYear.MaturityMonthYear tmp
+let ReadMaturityMonthYear (pos:int) (bs:byte[]) : (int*MaturityMonthYear) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MaturityMonthYear.MaturityMonthYear tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonthYear) : int = 
@@ -6007,11 +6387,14 @@ let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonth
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPutOrCall (fldValIn:string) : PutOrCall = 
-    match fldValIn with
-    |"0" -> PutOrCall.Put
-    |"1" -> PutOrCall.Call
-    | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
+let ReadPutOrCall (pos:int) (bs:byte[]) : (int * PutOrCall) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PutOrCall.Put
+        |"1"B -> PutOrCall.Call
+        | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
@@ -6030,9 +6413,11 @@ let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikePrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    StrikePrice.StrikePrice tmp
+let ReadStrikePrice (pos:int) (bs:byte[]) : (int*StrikePrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = StrikePrice.StrikePrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int = 
@@ -6046,11 +6431,14 @@ let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCoveredOrUncovered (fldValIn:string) : CoveredOrUncovered = 
-    match fldValIn with
-    |"0" -> CoveredOrUncovered.Covered
-    |"1" -> CoveredOrUncovered.Uncovered
-    | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
+let ReadCoveredOrUncovered (pos:int) (bs:byte[]) : (int * CoveredOrUncovered) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CoveredOrUncovered.Covered
+        |"1"B -> CoveredOrUncovered.Uncovered
+        | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrUncovered) : int =
@@ -6069,9 +6457,11 @@ let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrU
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOptAttribute valIn =
-    let tmp = System.Int32.Parse valIn
-    OptAttribute.OptAttribute tmp
+let ReadOptAttribute (pos:int) (bs:byte[]) : (int*OptAttribute) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = OptAttribute.OptAttribute tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : int = 
@@ -6085,9 +6475,11 @@ let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityExchange valIn =
-    let tmp =  valIn
-    SecurityExchange.SecurityExchange tmp
+let ReadSecurityExchange (pos:int) (bs:byte[]) : (int*SecurityExchange) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityExchange.SecurityExchange tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchange) : int = 
@@ -6101,9 +6493,11 @@ let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchan
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNotifyBrokerOfCredit valIn =
-    let tmp = System.Boolean.Parse valIn
-    NotifyBrokerOfCredit.NotifyBrokerOfCredit tmp
+let ReadNotifyBrokerOfCredit (pos:int) (bs:byte[]) : (int*NotifyBrokerOfCredit) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = NotifyBrokerOfCredit.NotifyBrokerOfCredit tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrokerOfCredit) : int = 
@@ -6117,12 +6511,15 @@ let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrok
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocHandlInst (fldValIn:string) : AllocHandlInst = 
-    match fldValIn with
-    |"1" -> AllocHandlInst.Match
-    |"2" -> AllocHandlInst.Forward
-    |"3" -> AllocHandlInst.ForwardAndMatch
-    | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
+let ReadAllocHandlInst (pos:int) (bs:byte[]) : (int * AllocHandlInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AllocHandlInst.Match
+        |"2"B -> AllocHandlInst.Forward
+        |"3"B -> AllocHandlInst.ForwardAndMatch
+        | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst) : int =
@@ -6147,9 +6544,11 @@ let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMaxShow valIn =
-    let tmp = System.Decimal.Parse valIn
-    MaxShow.MaxShow tmp
+let ReadMaxShow (pos:int) (bs:byte[]) : (int*MaxShow) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MaxShow.MaxShow tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int = 
@@ -6163,9 +6562,11 @@ let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPegOffsetValue valIn =
-    let tmp = System.Decimal.Parse valIn
-    PegOffsetValue.PegOffsetValue tmp
+let ReadPegOffsetValue (pos:int) (bs:byte[]) : (int*PegOffsetValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PegOffsetValue.PegOffsetValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:PegOffsetValue) : int = 
@@ -6216,9 +6617,11 @@ let ReadXmlData valIn (strm:System.IO.Stream) =
     XmlData.XmlData raw
 
 
-let ReadSettlInstRefID valIn =
-    let tmp =  valIn
-    SettlInstRefID.SettlInstRefID tmp
+let ReadSettlInstRefID (pos:int) (bs:byte[]) : (int*SettlInstRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlInstRefID.SettlInstRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) : int = 
@@ -6232,9 +6635,11 @@ let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRoutingIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoRoutingIDs.NoRoutingIDs tmp
+let ReadNoRoutingIDs (pos:int) (bs:byte[]) : (int*NoRoutingIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoRoutingIDs.NoRoutingIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : int = 
@@ -6248,13 +6653,16 @@ let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRoutingType (fldValIn:string) : RoutingType = 
-    match fldValIn with
-    |"1" -> RoutingType.TargetFirm
-    |"2" -> RoutingType.TargetList
-    |"3" -> RoutingType.BlockFirm
-    |"4" -> RoutingType.BlockList
-    | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
+let ReadRoutingType (pos:int) (bs:byte[]) : (int * RoutingType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> RoutingType.TargetFirm
+        |"2"B -> RoutingType.TargetList
+        |"3"B -> RoutingType.BlockFirm
+        |"4"B -> RoutingType.BlockList
+        | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : int =
@@ -6285,9 +6693,11 @@ let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoutingID valIn =
-    let tmp =  valIn
-    RoutingID.RoutingID tmp
+let ReadRoutingID (pos:int) (bs:byte[]) : (int*RoutingID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RoutingID.RoutingID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int = 
@@ -6301,9 +6711,11 @@ let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSpread valIn =
-    let tmp = System.Decimal.Parse valIn
-    Spread.Spread tmp
+let ReadSpread (pos:int) (bs:byte[]) : (int*Spread) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Spread.Spread tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int = 
@@ -6317,9 +6729,11 @@ let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkCurveCurrency valIn =
-    let tmp =  valIn
-    BenchmarkCurveCurrency.BenchmarkCurveCurrency tmp
+let ReadBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*BenchmarkCurveCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BenchmarkCurveCurrency.BenchmarkCurveCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurveCurrency) : int = 
@@ -6333,21 +6747,24 @@ let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Benchmar
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkCurveName (fldValIn:string) : BenchmarkCurveName = 
-    match fldValIn with
-    |"MuniAAA" -> BenchmarkCurveName.Muniaaa
-    |"FutureSWAP" -> BenchmarkCurveName.Futureswap
-    |"LIBID" -> BenchmarkCurveName.Libid
-    |"LIBOR" -> BenchmarkCurveName.Libor
-    |"OTHER" -> BenchmarkCurveName.Other
-    |"SWAP" -> BenchmarkCurveName.Swap
-    |"Treasury" -> BenchmarkCurveName.Treasury
-    |"Euribor" -> BenchmarkCurveName.Euribor
-    |"Pfandbriefe" -> BenchmarkCurveName.Pfandbriefe
-    |"EONIA" -> BenchmarkCurveName.Eonia
-    |"SONIA" -> BenchmarkCurveName.Sonia
-    |"EUREPO" -> BenchmarkCurveName.Eurepo
-    | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
+let ReadBenchmarkCurveName (pos:int) (bs:byte[]) : (int * BenchmarkCurveName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"MuniAAA"B -> BenchmarkCurveName.Muniaaa
+        |"FutureSWAP"B -> BenchmarkCurveName.Futureswap
+        |"LIBID"B -> BenchmarkCurveName.Libid
+        |"LIBOR"B -> BenchmarkCurveName.Libor
+        |"OTHER"B -> BenchmarkCurveName.Other
+        |"SWAP"B -> BenchmarkCurveName.Swap
+        |"Treasury"B -> BenchmarkCurveName.Treasury
+        |"Euribor"B -> BenchmarkCurveName.Euribor
+        |"Pfandbriefe"B -> BenchmarkCurveName.Pfandbriefe
+        |"EONIA"B -> BenchmarkCurveName.Eonia
+        |"SONIA"B -> BenchmarkCurveName.Sonia
+        |"EUREPO"B -> BenchmarkCurveName.Eurepo
+        | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkCurveName) : int =
@@ -6426,9 +6843,11 @@ let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkC
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkCurvePoint valIn =
-    let tmp =  valIn
-    BenchmarkCurvePoint.BenchmarkCurvePoint tmp
+let ReadBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*BenchmarkCurvePoint) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BenchmarkCurvePoint.BenchmarkCurvePoint tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurvePoint) : int = 
@@ -6442,9 +6861,11 @@ let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCouponRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    CouponRate.CouponRate tmp
+let ReadCouponRate (pos:int) (bs:byte[]) : (int*CouponRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = CouponRate.CouponRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int = 
@@ -6458,9 +6879,11 @@ let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCouponPaymentDate valIn =
-    let tmp =  valIn
-    CouponPaymentDate.CouponPaymentDate tmp
+let ReadCouponPaymentDate (pos:int) (bs:byte[]) : (int*CouponPaymentDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CouponPaymentDate.CouponPaymentDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPaymentDate) : int = 
@@ -6474,9 +6897,11 @@ let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPayment
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIssueDate valIn =
-    let tmp =  valIn
-    IssueDate.IssueDate tmp
+let ReadIssueDate (pos:int) (bs:byte[]) : (int*IssueDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = IssueDate.IssueDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int = 
@@ -6490,9 +6915,11 @@ let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRepurchaseTerm valIn =
-    let tmp = System.Int32.Parse valIn
-    RepurchaseTerm.RepurchaseTerm tmp
+let ReadRepurchaseTerm (pos:int) (bs:byte[]) : (int*RepurchaseTerm) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RepurchaseTerm.RepurchaseTerm tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) : int = 
@@ -6506,9 +6933,11 @@ let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRepurchaseRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    RepurchaseRate.RepurchaseRate tmp
+let ReadRepurchaseRate (pos:int) (bs:byte[]) : (int*RepurchaseRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = RepurchaseRate.RepurchaseRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) : int = 
@@ -6522,9 +6951,11 @@ let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFactor valIn =
-    let tmp = System.Decimal.Parse valIn
-    Factor.Factor tmp
+let ReadFactor (pos:int) (bs:byte[]) : (int*Factor) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Factor.Factor tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int = 
@@ -6538,9 +6969,11 @@ let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeOriginationDate valIn =
-    let tmp =  valIn
-    TradeOriginationDate.TradeOriginationDate tmp
+let ReadTradeOriginationDate (pos:int) (bs:byte[]) : (int*TradeOriginationDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeOriginationDate.TradeOriginationDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOriginationDate) : int = 
@@ -6554,9 +6987,11 @@ let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOrigi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExDate valIn =
-    let tmp =  valIn
-    ExDate.ExDate tmp
+let ReadExDate (pos:int) (bs:byte[]) : (int*ExDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExDate.ExDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int = 
@@ -6570,9 +7005,11 @@ let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContractMultiplier valIn =
-    let tmp = System.Decimal.Parse valIn
-    ContractMultiplier.ContractMultiplier tmp
+let ReadContractMultiplier (pos:int) (bs:byte[]) : (int*ContractMultiplier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ContractMultiplier.ContractMultiplier tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMultiplier) : int = 
@@ -6586,9 +7023,11 @@ let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMult
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoStipulations valIn =
-    let tmp = System.Int32.Parse valIn
-    NoStipulations.NoStipulations tmp
+let ReadNoStipulations (pos:int) (bs:byte[]) : (int*NoStipulations) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoStipulations.NoStipulations tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) : int = 
@@ -6602,68 +7041,71 @@ let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStipulationType (fldValIn:string) : StipulationType = 
-    match fldValIn with
-    |"AMT" -> StipulationType.Amt
-    |"AUTOREINV" -> StipulationType.AutoReinvestmentAtOrBetter
-    |"BANKQUAL" -> StipulationType.BankQualified
-    |"BGNCON" -> StipulationType.BargainConditions
-    |"COUPON" -> StipulationType.CouponRange
-    |"CURRENCY" -> StipulationType.IsoCurrencyCode
-    |"CUSTOMDATE" -> StipulationType.CustomStartEndDate
-    |"GEOG" -> StipulationType.GeographicsAndPercentRange
-    |"HAIRCUT" -> StipulationType.ValuationDiscount
-    |"INSURED" -> StipulationType.Insured
-    |"ISSUE" -> StipulationType.YearOrYearMonthOfIssue
-    |"ISSUER" -> StipulationType.IssuersTicker
-    |"ISSUESIZE" -> StipulationType.IssueSizeRange
-    |"LOOKBACK" -> StipulationType.LookbackDays
-    |"LOT" -> StipulationType.ExplicitLotIdentifier
-    |"LOTVAR" -> StipulationType.LotVariance
-    |"MAT" -> StipulationType.MaturityYearAndMonth
-    |"MATURITY" -> StipulationType.MaturityRange
-    |"MAXSUBS" -> StipulationType.MaximumSubstitutions
-    |"MINQTY" -> StipulationType.MinimumQuantity
-    |"MININCR" -> StipulationType.MinimumIncrement
-    |"MINDNOM" -> StipulationType.MinimumDenomination
-    |"PAYFREQ" -> StipulationType.PaymentFrequencyCalendar
-    |"PIECES" -> StipulationType.NumberOfPieces
-    |"PMAX" -> StipulationType.PoolsMaximum
-    |"PPM" -> StipulationType.PoolsPerMillion
-    |"PPL" -> StipulationType.PoolsPerLot
-    |"PPT" -> StipulationType.PoolsPerTrade
-    |"PRICE" -> StipulationType.PriceRange
-    |"PRICEFREQ" -> StipulationType.PricingFrequency
-    |"PROD" -> StipulationType.ProductionYear
-    |"PROTECT" -> StipulationType.CallProtection
-    |"PURPOSE" -> StipulationType.Purpose
-    |"PXSOURCE" -> StipulationType.BenchmarkPriceSource
-    |"RATING" -> StipulationType.RatingSourceAndRange
-    |"RESTRICTED" -> StipulationType.Restricted
-    |"SECTOR" -> StipulationType.MarketSector
-    |"SECTYPE" -> StipulationType.SecuritytypeIncludedOrExcluded
-    |"STRUCT" -> StipulationType.Structure
-    |"SUBSFREQ" -> StipulationType.SubstitutionsFrequency
-    |"SUBSLEFT" -> StipulationType.SubstitutionsLeft
-    |"TEXT" -> StipulationType.FreeformText
-    |"TRDVAR" -> StipulationType.TradeVariance
-    |"WAC" -> StipulationType.WeightedAverageCoupon
-    |"WAL" -> StipulationType.WeightedAverageLifeCoupon
-    |"WALA" -> StipulationType.WeightedAverageLoanAge
-    |"WAM" -> StipulationType.WeightedAverageMaturity
-    |"WHOLE" -> StipulationType.WholePool
-    |"YIELD" -> StipulationType.YieldRange
-    |"SMM" -> StipulationType.SingleMonthlyMortality
-    |"CPR" -> StipulationType.ConstantPrepaymentRate
-    |"CPY" -> StipulationType.ConstantPrepaymentYield
-    |"CPP" -> StipulationType.ConstantPrepaymentPenalty
-    |"ABS" -> StipulationType.AbsolutePrepaymentSpeed
-    |"MPR" -> StipulationType.MonthlyPrepaymentRate
-    |"PSA" -> StipulationType.PercentOfBmaPrepaymentCurve
-    |"PPC" -> StipulationType.PercentOfProspectusPrepaymentCurve
-    |"MHP" -> StipulationType.PercentOfManufacturedHousingPrepaymentCurve
-    |"HEP" -> StipulationType.FinalCprOfHomeEquityPrepaymentCurve
-    | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
+let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"AMT"B -> StipulationType.Amt
+        |"AUTOREINV"B -> StipulationType.AutoReinvestmentAtOrBetter
+        |"BANKQUAL"B -> StipulationType.BankQualified
+        |"BGNCON"B -> StipulationType.BargainConditions
+        |"COUPON"B -> StipulationType.CouponRange
+        |"CURRENCY"B -> StipulationType.IsoCurrencyCode
+        |"CUSTOMDATE"B -> StipulationType.CustomStartEndDate
+        |"GEOG"B -> StipulationType.GeographicsAndPercentRange
+        |"HAIRCUT"B -> StipulationType.ValuationDiscount
+        |"INSURED"B -> StipulationType.Insured
+        |"ISSUE"B -> StipulationType.YearOrYearMonthOfIssue
+        |"ISSUER"B -> StipulationType.IssuersTicker
+        |"ISSUESIZE"B -> StipulationType.IssueSizeRange
+        |"LOOKBACK"B -> StipulationType.LookbackDays
+        |"LOT"B -> StipulationType.ExplicitLotIdentifier
+        |"LOTVAR"B -> StipulationType.LotVariance
+        |"MAT"B -> StipulationType.MaturityYearAndMonth
+        |"MATURITY"B -> StipulationType.MaturityRange
+        |"MAXSUBS"B -> StipulationType.MaximumSubstitutions
+        |"MINQTY"B -> StipulationType.MinimumQuantity
+        |"MININCR"B -> StipulationType.MinimumIncrement
+        |"MINDNOM"B -> StipulationType.MinimumDenomination
+        |"PAYFREQ"B -> StipulationType.PaymentFrequencyCalendar
+        |"PIECES"B -> StipulationType.NumberOfPieces
+        |"PMAX"B -> StipulationType.PoolsMaximum
+        |"PPM"B -> StipulationType.PoolsPerMillion
+        |"PPL"B -> StipulationType.PoolsPerLot
+        |"PPT"B -> StipulationType.PoolsPerTrade
+        |"PRICE"B -> StipulationType.PriceRange
+        |"PRICEFREQ"B -> StipulationType.PricingFrequency
+        |"PROD"B -> StipulationType.ProductionYear
+        |"PROTECT"B -> StipulationType.CallProtection
+        |"PURPOSE"B -> StipulationType.Purpose
+        |"PXSOURCE"B -> StipulationType.BenchmarkPriceSource
+        |"RATING"B -> StipulationType.RatingSourceAndRange
+        |"RESTRICTED"B -> StipulationType.Restricted
+        |"SECTOR"B -> StipulationType.MarketSector
+        |"SECTYPE"B -> StipulationType.SecuritytypeIncludedOrExcluded
+        |"STRUCT"B -> StipulationType.Structure
+        |"SUBSFREQ"B -> StipulationType.SubstitutionsFrequency
+        |"SUBSLEFT"B -> StipulationType.SubstitutionsLeft
+        |"TEXT"B -> StipulationType.FreeformText
+        |"TRDVAR"B -> StipulationType.TradeVariance
+        |"WAC"B -> StipulationType.WeightedAverageCoupon
+        |"WAL"B -> StipulationType.WeightedAverageLifeCoupon
+        |"WALA"B -> StipulationType.WeightedAverageLoanAge
+        |"WAM"B -> StipulationType.WeightedAverageMaturity
+        |"WHOLE"B -> StipulationType.WholePool
+        |"YIELD"B -> StipulationType.YieldRange
+        |"SMM"B -> StipulationType.SingleMonthlyMortality
+        |"CPR"B -> StipulationType.ConstantPrepaymentRate
+        |"CPY"B -> StipulationType.ConstantPrepaymentYield
+        |"CPP"B -> StipulationType.ConstantPrepaymentPenalty
+        |"ABS"B -> StipulationType.AbsolutePrepaymentSpeed
+        |"MPR"B -> StipulationType.MonthlyPrepaymentRate
+        |"PSA"B -> StipulationType.PercentOfBmaPrepaymentCurve
+        |"PPC"B -> StipulationType.PercentOfProspectusPrepaymentCurve
+        |"MHP"B -> StipulationType.PercentOfManufacturedHousingPrepaymentCurve
+        |"HEP"B -> StipulationType.FinalCprOfHomeEquityPrepaymentCurve
+        | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationType) : int =
@@ -7024,23 +7466,26 @@ let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStipulationValue (fldValIn:string) : StipulationValue = 
-    match fldValIn with
-    |"CD" -> StipulationValue.SpecialCumDividend
-    |"XD" -> StipulationValue.SpecialExDividend
-    |"CC" -> StipulationValue.SpecialCumCoupon
-    |"XC" -> StipulationValue.SpecialExCoupon
-    |"CB" -> StipulationValue.SpecialCumBonus
-    |"XB" -> StipulationValue.SpecialExBonus
-    |"CR" -> StipulationValue.SpecialCumRights
-    |"XR" -> StipulationValue.SpecialExRights
-    |"CP" -> StipulationValue.SpecialCumCapitalRepayments
-    |"XP" -> StipulationValue.SpecialExCapitalRepayments
-    |"CS" -> StipulationValue.CashSettlement
-    |"SP" -> StipulationValue.SpecialPrice
-    |"TR" -> StipulationValue.ReportForEuropeanEquityMarketSecurities
-    |"GD" -> StipulationValue.GuaranteedDelivery
-    | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
+let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"CD"B -> StipulationValue.SpecialCumDividend
+        |"XD"B -> StipulationValue.SpecialExDividend
+        |"CC"B -> StipulationValue.SpecialCumCoupon
+        |"XC"B -> StipulationValue.SpecialExCoupon
+        |"CB"B -> StipulationValue.SpecialCumBonus
+        |"XB"B -> StipulationValue.SpecialExBonus
+        |"CR"B -> StipulationValue.SpecialCumRights
+        |"XR"B -> StipulationValue.SpecialExRights
+        |"CP"B -> StipulationValue.SpecialCumCapitalRepayments
+        |"XP"B -> StipulationValue.SpecialExCapitalRepayments
+        |"CS"B -> StipulationValue.CashSettlement
+        |"SP"B -> StipulationValue.SpecialPrice
+        |"TR"B -> StipulationValue.ReportForEuropeanEquityMarketSecurities
+        |"GD"B -> StipulationValue.GuaranteedDelivery
+        | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationValue) : int =
@@ -7131,43 +7576,46 @@ let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationV
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadYieldType (fldValIn:string) : YieldType = 
-    match fldValIn with
-    |"AFTERTAX" -> YieldType.AfterTaxYield
-    |"ANNUAL" -> YieldType.AnnualYield
-    |"ATISSUE" -> YieldType.YieldAtIssue
-    |"AVGMATURITY" -> YieldType.YieldToAverageMaturity
-    |"BOOK" -> YieldType.BookYield
-    |"CALL" -> YieldType.YieldToNextCall
-    |"CHANGE" -> YieldType.YieldChangeSinceClose
-    |"CLOSE" -> YieldType.ClosingYield
-    |"COMPOUND" -> YieldType.CompoundYield
-    |"CURRENT" -> YieldType.CurrentYield
-    |"GROSS" -> YieldType.TrueGrossYield
-    |"GOVTEQUIV" -> YieldType.GovernmentEquivalentYield
-    |"INFLATION" -> YieldType.YieldWithInflationAssumption
-    |"INVERSEFLOATER" -> YieldType.InverseFloaterBondYield
-    |"LASTCLOSE" -> YieldType.MostRecentClosingYield
-    |"LASTMONTH" -> YieldType.ClosingYieldMostRecentMonth
-    |"LASTQUARTER" -> YieldType.ClosingYieldMostRecentQuarter
-    |"LASTYEAR" -> YieldType.ClosingYieldMostRecentYear
-    |"LONGAVGLIFE" -> YieldType.YieldToLongestAverageLife
-    |"MARK" -> YieldType.MarkToMarketYield
-    |"MATURITY" -> YieldType.YieldToMaturity
-    |"NEXTREFUND" -> YieldType.YieldToNextRefund
-    |"OPENAVG" -> YieldType.OpenAverageYield
-    |"PUT" -> YieldType.YieldToNextPut
-    |"PREVCLOSE" -> YieldType.PreviousCloseYield
-    |"PROCEEDS" -> YieldType.ProceedsYield
-    |"SEMIANNUAL" -> YieldType.SemiAnnualYield
-    |"SHORTAVGLIFE" -> YieldType.YieldToShortestAverageLife
-    |"SIMPLE" -> YieldType.SimpleYield
-    |"TAXEQUIV" -> YieldType.TaxEquivalentYield
-    |"TENDER" -> YieldType.YieldToTenderDate
-    |"TRUE" -> YieldType.TrueYield
-    |"VALUE1_32" -> YieldType.YieldValueOf132
-    |"WORST" -> YieldType.YieldToWorst
-    | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
+let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"AFTERTAX"B -> YieldType.AfterTaxYield
+        |"ANNUAL"B -> YieldType.AnnualYield
+        |"ATISSUE"B -> YieldType.YieldAtIssue
+        |"AVGMATURITY"B -> YieldType.YieldToAverageMaturity
+        |"BOOK"B -> YieldType.BookYield
+        |"CALL"B -> YieldType.YieldToNextCall
+        |"CHANGE"B -> YieldType.YieldChangeSinceClose
+        |"CLOSE"B -> YieldType.ClosingYield
+        |"COMPOUND"B -> YieldType.CompoundYield
+        |"CURRENT"B -> YieldType.CurrentYield
+        |"GROSS"B -> YieldType.TrueGrossYield
+        |"GOVTEQUIV"B -> YieldType.GovernmentEquivalentYield
+        |"INFLATION"B -> YieldType.YieldWithInflationAssumption
+        |"INVERSEFLOATER"B -> YieldType.InverseFloaterBondYield
+        |"LASTCLOSE"B -> YieldType.MostRecentClosingYield
+        |"LASTMONTH"B -> YieldType.ClosingYieldMostRecentMonth
+        |"LASTQUARTER"B -> YieldType.ClosingYieldMostRecentQuarter
+        |"LASTYEAR"B -> YieldType.ClosingYieldMostRecentYear
+        |"LONGAVGLIFE"B -> YieldType.YieldToLongestAverageLife
+        |"MARK"B -> YieldType.MarkToMarketYield
+        |"MATURITY"B -> YieldType.YieldToMaturity
+        |"NEXTREFUND"B -> YieldType.YieldToNextRefund
+        |"OPENAVG"B -> YieldType.OpenAverageYield
+        |"PUT"B -> YieldType.YieldToNextPut
+        |"PREVCLOSE"B -> YieldType.PreviousCloseYield
+        |"PROCEEDS"B -> YieldType.ProceedsYield
+        |"SEMIANNUAL"B -> YieldType.SemiAnnualYield
+        |"SHORTAVGLIFE"B -> YieldType.YieldToShortestAverageLife
+        |"SIMPLE"B -> YieldType.SimpleYield
+        |"TAXEQUIV"B -> YieldType.TaxEquivalentYield
+        |"TENDER"B -> YieldType.YieldToTenderDate
+        |"TRUE"B -> YieldType.TrueYield
+        |"VALUE1_32"B -> YieldType.YieldValueOf132
+        |"WORST"B -> YieldType.YieldToWorst
+        | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
@@ -7378,9 +7826,11 @@ let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadYield valIn =
-    let tmp = System.Decimal.Parse valIn
-    Yield.Yield tmp
+let ReadYield (pos:int) (bs:byte[]) : (int*Yield) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Yield.Yield tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int = 
@@ -7394,9 +7844,11 @@ let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalTakedown valIn =
-    let tmp = System.Int32.Parse valIn
-    TotalTakedown.TotalTakedown tmp
+let ReadTotalTakedown (pos:int) (bs:byte[]) : (int*TotalTakedown) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotalTakedown.TotalTakedown tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : int = 
@@ -7410,9 +7862,11 @@ let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConcession valIn =
-    let tmp = System.Int32.Parse valIn
-    Concession.Concession tmp
+let ReadConcession (pos:int) (bs:byte[]) : (int*Concession) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Concession.Concession tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int = 
@@ -7426,9 +7880,11 @@ let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRepoCollateralSecurityType valIn =
-    let tmp = System.Int32.Parse valIn
-    RepoCollateralSecurityType.RepoCollateralSecurityType tmp
+let ReadRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*RepoCollateralSecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RepoCollateralSecurityType.RepoCollateralSecurityType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:RepoCollateralSecurityType) : int = 
@@ -7442,9 +7898,11 @@ let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Repo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRedemptionDate valIn =
-    let tmp =  valIn
-    RedemptionDate.RedemptionDate tmp
+let ReadRedemptionDate (pos:int) (bs:byte[]) : (int*RedemptionDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RedemptionDate.RedemptionDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) : int = 
@@ -7458,9 +7916,11 @@ let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCouponPaymentDate valIn =
-    let tmp =  valIn
-    UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate tmp
+let ReadUnderlyingCouponPaymentDate (pos:int) (bs:byte[]) : (int*UnderlyingCouponPaymentDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponPaymentDate) : int = 
@@ -7474,9 +7934,11 @@ let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:Und
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingIssueDate valIn =
-    let tmp =  valIn
-    UnderlyingIssueDate.UnderlyingIssueDate tmp
+let ReadUnderlyingIssueDate (pos:int) (bs:byte[]) : (int*UnderlyingIssueDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingIssueDate.UnderlyingIssueDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssueDate) : int = 
@@ -7490,9 +7952,11 @@ let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingRepoCollateralSecurityType valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType tmp
+let ReadUnderlyingRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingRepoCollateralSecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
@@ -7506,9 +7970,11 @@ let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingRepurchaseTerm valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm tmp
+let ReadUnderlyingRepurchaseTerm (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseTerm) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseTerm) : int = 
@@ -7522,9 +7988,11 @@ let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingRepurchaseRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingRepurchaseRate.UnderlyingRepurchaseRate tmp
+let ReadUnderlyingRepurchaseRate (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingRepurchaseRate.UnderlyingRepurchaseRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseRate) : int = 
@@ -7538,9 +8006,11 @@ let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingFactor valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingFactor.UnderlyingFactor tmp
+let ReadUnderlyingFactor (pos:int) (bs:byte[]) : (int*UnderlyingFactor) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingFactor.UnderlyingFactor tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFactor) : int = 
@@ -7554,9 +8024,11 @@ let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFact
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingRedemptionDate valIn =
-    let tmp =  valIn
-    UnderlyingRedemptionDate.UnderlyingRedemptionDate tmp
+let ReadUnderlyingRedemptionDate (pos:int) (bs:byte[]) : (int*UnderlyingRedemptionDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingRedemptionDate.UnderlyingRedemptionDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRedemptionDate) : int = 
@@ -7570,9 +8042,11 @@ let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCouponPaymentDate valIn =
-    let tmp =  valIn
-    LegCouponPaymentDate.LegCouponPaymentDate tmp
+let ReadLegCouponPaymentDate (pos:int) (bs:byte[]) : (int*LegCouponPaymentDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegCouponPaymentDate.LegCouponPaymentDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponPaymentDate) : int = 
@@ -7586,9 +8060,11 @@ let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegIssueDate valIn =
-    let tmp =  valIn
-    LegIssueDate.LegIssueDate tmp
+let ReadLegIssueDate (pos:int) (bs:byte[]) : (int*LegIssueDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegIssueDate.LegIssueDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : int = 
@@ -7602,9 +8078,11 @@ let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRepoCollateralSecurityType valIn =
-    let tmp = System.Int32.Parse valIn
-    LegRepoCollateralSecurityType.LegRepoCollateralSecurityType tmp
+let ReadLegRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*LegRepoCollateralSecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegRepoCollateralSecurityType.LegRepoCollateralSecurityType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegRepoCollateralSecurityType) : int = 
@@ -7618,9 +8096,11 @@ let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:L
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRepurchaseTerm valIn =
-    let tmp = System.Int32.Parse valIn
-    LegRepurchaseTerm.LegRepurchaseTerm tmp
+let ReadLegRepurchaseTerm (pos:int) (bs:byte[]) : (int*LegRepurchaseTerm) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegRepurchaseTerm.LegRepurchaseTerm tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseTerm) : int = 
@@ -7634,9 +8114,11 @@ let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRepurchaseRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegRepurchaseRate.LegRepurchaseRate tmp
+let ReadLegRepurchaseRate (pos:int) (bs:byte[]) : (int*LegRepurchaseRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegRepurchaseRate.LegRepurchaseRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseRate) : int = 
@@ -7650,9 +8132,11 @@ let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegFactor valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegFactor.LegFactor tmp
+let ReadLegFactor (pos:int) (bs:byte[]) : (int*LegFactor) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegFactor.LegFactor tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int = 
@@ -7666,9 +8150,11 @@ let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRedemptionDate valIn =
-    let tmp =  valIn
-    LegRedemptionDate.LegRedemptionDate tmp
+let ReadLegRedemptionDate (pos:int) (bs:byte[]) : (int*LegRedemptionDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegRedemptionDate.LegRedemptionDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemptionDate) : int = 
@@ -7682,9 +8168,11 @@ let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemption
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCreditRating valIn =
-    let tmp =  valIn
-    CreditRating.CreditRating tmp
+let ReadCreditRating (pos:int) (bs:byte[]) : (int*CreditRating) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CreditRating.CreditRating tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : int = 
@@ -7698,9 +8186,11 @@ let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCreditRating valIn =
-    let tmp =  valIn
-    UnderlyingCreditRating.UnderlyingCreditRating tmp
+let ReadUnderlyingCreditRating (pos:int) (bs:byte[]) : (int*UnderlyingCreditRating) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCreditRating.UnderlyingCreditRating tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCreditRating) : int = 
@@ -7714,9 +8204,11 @@ let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCreditRating valIn =
-    let tmp =  valIn
-    LegCreditRating.LegCreditRating tmp
+let ReadLegCreditRating (pos:int) (bs:byte[]) : (int*LegCreditRating) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegCreditRating.LegCreditRating tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating) : int = 
@@ -7730,9 +8222,11 @@ let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradedFlatSwitch valIn =
-    let tmp = System.Boolean.Parse valIn
-    TradedFlatSwitch.TradedFlatSwitch tmp
+let ReadTradedFlatSwitch (pos:int) (bs:byte[]) : (int*TradedFlatSwitch) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = TradedFlatSwitch.TradedFlatSwitch tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwitch) : int = 
@@ -7746,9 +8240,11 @@ let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBasisFeatureDate valIn =
-    let tmp =  valIn
-    BasisFeatureDate.BasisFeatureDate tmp
+let ReadBasisFeatureDate (pos:int) (bs:byte[]) : (int*BasisFeatureDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BasisFeatureDate.BasisFeatureDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDate) : int = 
@@ -7762,9 +8258,11 @@ let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBasisFeaturePrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    BasisFeaturePrice.BasisFeaturePrice tmp
+let ReadBasisFeaturePrice (pos:int) (bs:byte[]) : (int*BasisFeaturePrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BasisFeaturePrice.BasisFeaturePrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeaturePrice) : int = 
@@ -7778,9 +8276,11 @@ let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDReqID valIn =
-    let tmp =  valIn
-    MDReqID.MDReqID tmp
+let ReadMDReqID (pos:int) (bs:byte[]) : (int*MDReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDReqID.MDReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int = 
@@ -7794,12 +8294,15 @@ let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSubscriptionRequestType (fldValIn:string) : SubscriptionRequestType = 
-    match fldValIn with
-    |"0" -> SubscriptionRequestType.Snapshot
-    |"1" -> SubscriptionRequestType.SnapshotPlusUpdates
-    |"2" -> SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest
-    | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
+let ReadSubscriptionRequestType (pos:int) (bs:byte[]) : (int * SubscriptionRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SubscriptionRequestType.Snapshot
+        |"1"B -> SubscriptionRequestType.SnapshotPlusUpdates
+        |"2"B -> SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest
+        | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SubscriptionRequestType) : int =
@@ -7824,9 +8327,11 @@ let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Subsc
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMarketDepth valIn =
-    let tmp = System.Int32.Parse valIn
-    MarketDepth.MarketDepth tmp
+let ReadMarketDepth (pos:int) (bs:byte[]) : (int*MarketDepth) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MarketDepth.MarketDepth tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int = 
@@ -7840,11 +8345,14 @@ let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDUpdateType (fldValIn:string) : MDUpdateType = 
-    match fldValIn with
-    |"0" -> MDUpdateType.FullRefresh
-    |"1" -> MDUpdateType.IncrementalRefresh
-    | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
+let ReadMDUpdateType (pos:int) (bs:byte[]) : (int * MDUpdateType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MDUpdateType.FullRefresh
+        |"1"B -> MDUpdateType.IncrementalRefresh
+        | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : int =
@@ -7863,9 +8371,11 @@ let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAggregatedBook valIn =
-    let tmp = System.Boolean.Parse valIn
-    AggregatedBook.AggregatedBook tmp
+let ReadAggregatedBook (pos:int) (bs:byte[]) : (int*AggregatedBook) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = AggregatedBook.AggregatedBook tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) : int = 
@@ -7879,9 +8389,11 @@ let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMDEntryTypes valIn =
-    let tmp = System.Int32.Parse valIn
-    NoMDEntryTypes.NoMDEntryTypes tmp
+let ReadNoMDEntryTypes (pos:int) (bs:byte[]) : (int*NoMDEntryTypes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoMDEntryTypes.NoMDEntryTypes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) : int = 
@@ -7895,9 +8407,11 @@ let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMDEntries valIn =
-    let tmp = System.Int32.Parse valIn
-    NoMDEntries.NoMDEntries tmp
+let ReadNoMDEntries (pos:int) (bs:byte[]) : (int*NoMDEntries) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoMDEntries.NoMDEntries tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int = 
@@ -7911,22 +8425,25 @@ let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryType (fldValIn:string) : MDEntryType = 
-    match fldValIn with
-    |"0" -> MDEntryType.Bid
-    |"1" -> MDEntryType.Offer
-    |"2" -> MDEntryType.Trade
-    |"3" -> MDEntryType.IndexValue
-    |"4" -> MDEntryType.OpeningPrice
-    |"5" -> MDEntryType.ClosingPrice
-    |"6" -> MDEntryType.SettlementPrice
-    |"7" -> MDEntryType.TradingSessionHighPrice
-    |"8" -> MDEntryType.TradingSessionLowPrice
-    |"9" -> MDEntryType.TradingSessionVwapPrice
-    |"A" -> MDEntryType.Imbalance
-    |"B" -> MDEntryType.TradeVolume
-    |"C" -> MDEntryType.OpenInterest
-    | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
+let ReadMDEntryType (pos:int) (bs:byte[]) : (int * MDEntryType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MDEntryType.Bid
+        |"1"B -> MDEntryType.Offer
+        |"2"B -> MDEntryType.Trade
+        |"3"B -> MDEntryType.IndexValue
+        |"4"B -> MDEntryType.OpeningPrice
+        |"5"B -> MDEntryType.ClosingPrice
+        |"6"B -> MDEntryType.SettlementPrice
+        |"7"B -> MDEntryType.TradingSessionHighPrice
+        |"8"B -> MDEntryType.TradingSessionLowPrice
+        |"9"B -> MDEntryType.TradingSessionVwapPrice
+        |"A"B -> MDEntryType.Imbalance
+        |"B"B -> MDEntryType.TradeVolume
+        |"C"B -> MDEntryType.OpenInterest
+        | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : int =
@@ -8011,9 +8528,11 @@ let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    MDEntryPx.MDEntryPx tmp
+let ReadMDEntryPx (pos:int) (bs:byte[]) : (int*MDEntryPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MDEntryPx.MDEntryPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int = 
@@ -8027,9 +8546,11 @@ let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntrySize valIn =
-    let tmp = System.Decimal.Parse valIn
-    MDEntrySize.MDEntrySize tmp
+let ReadMDEntrySize (pos:int) (bs:byte[]) : (int*MDEntrySize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MDEntrySize.MDEntrySize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int = 
@@ -8043,9 +8564,11 @@ let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryDate valIn =
-    let tmp =  valIn
-    MDEntryDate.MDEntryDate tmp
+let ReadMDEntryDate (pos:int) (bs:byte[]) : (int*MDEntryDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryDate.MDEntryDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int = 
@@ -8059,9 +8582,11 @@ let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryTime valIn =
-    let tmp =  valIn
-    MDEntryTime.MDEntryTime tmp
+let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryTime.MDEntryTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int = 
@@ -8075,13 +8600,16 @@ let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTickDirection (fldValIn:string) : TickDirection = 
-    match fldValIn with
-    |"0" -> TickDirection.PlusTick
-    |"1" -> TickDirection.ZeroPlusTick
-    |"2" -> TickDirection.MinusTick
-    |"3" -> TickDirection.ZeroMinusTick
-    | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
+let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TickDirection.PlusTick
+        |"1"B -> TickDirection.ZeroPlusTick
+        |"2"B -> TickDirection.MinusTick
+        |"3"B -> TickDirection.ZeroMinusTick
+        | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) : int =
@@ -8112,9 +8640,11 @@ let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDMkt valIn =
-    let tmp =  valIn
-    MDMkt.MDMkt tmp
+let ReadMDMkt (pos:int) (bs:byte[]) : (int*MDMkt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDMkt.MDMkt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int = 
@@ -8128,18 +8658,21 @@ let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteCondition (fldValIn:string) : QuoteCondition = 
-    match fldValIn with
-    |"A" -> QuoteCondition.OpenActive
-    |"B" -> QuoteCondition.ClosedInactive
-    |"C" -> QuoteCondition.ExchangeBest
-    |"D" -> QuoteCondition.ConsolidatedBest
-    |"E" -> QuoteCondition.Locked
-    |"F" -> QuoteCondition.Crossed
-    |"G" -> QuoteCondition.Depth
-    |"H" -> QuoteCondition.FastTrading
-    |"I" -> QuoteCondition.NonFirm
-    | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
+let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> QuoteCondition.OpenActive
+        |"B"B -> QuoteCondition.ClosedInactive
+        |"C"B -> QuoteCondition.ExchangeBest
+        |"D"B -> QuoteCondition.ConsolidatedBest
+        |"E"B -> QuoteCondition.Locked
+        |"F"B -> QuoteCondition.Crossed
+        |"G"B -> QuoteCondition.Depth
+        |"H"B -> QuoteCondition.FastTrading
+        |"I"B -> QuoteCondition.NonFirm
+        | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition) : int =
@@ -8200,26 +8733,29 @@ let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeCondition (fldValIn:string) : TradeCondition = 
-    match fldValIn with
-    |"A" -> TradeCondition.CashMarket
-    |"B" -> TradeCondition.AveragePriceTrade
-    |"C" -> TradeCondition.CashTrade
-    |"D" -> TradeCondition.NextDayMarket
-    |"E" -> TradeCondition.OpeningReopeningTradeDetail
-    |"F" -> TradeCondition.IntradayTradeDetail
-    |"G" -> TradeCondition.Rule127
-    |"H" -> TradeCondition.Rule155
-    |"I" -> TradeCondition.SoldLast
-    |"J" -> TradeCondition.NextDayTrade
-    |"K" -> TradeCondition.Opened
-    |"L" -> TradeCondition.Seller
-    |"M" -> TradeCondition.Sold
-    |"N" -> TradeCondition.StoppedStock
-    |"P" -> TradeCondition.ImbalanceMoreBuyers
-    |"Q" -> TradeCondition.ImbalanceMoreSellers
-    |"R" -> TradeCondition.OpeningPrice
-    | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
+let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> TradeCondition.CashMarket
+        |"B"B -> TradeCondition.AveragePriceTrade
+        |"C"B -> TradeCondition.CashTrade
+        |"D"B -> TradeCondition.NextDayMarket
+        |"E"B -> TradeCondition.OpeningReopeningTradeDetail
+        |"F"B -> TradeCondition.IntradayTradeDetail
+        |"G"B -> TradeCondition.Rule127
+        |"H"B -> TradeCondition.Rule155
+        |"I"B -> TradeCondition.SoldLast
+        |"J"B -> TradeCondition.NextDayTrade
+        |"K"B -> TradeCondition.Opened
+        |"L"B -> TradeCondition.Seller
+        |"M"B -> TradeCondition.Sold
+        |"N"B -> TradeCondition.StoppedStock
+        |"P"B -> TradeCondition.ImbalanceMoreBuyers
+        |"Q"B -> TradeCondition.ImbalanceMoreSellers
+        |"R"B -> TradeCondition.OpeningPrice
+        | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition) : int =
@@ -8328,9 +8864,11 @@ let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryID valIn =
-    let tmp =  valIn
-    MDEntryID.MDEntryID tmp
+let ReadMDEntryID (pos:int) (bs:byte[]) : (int*MDEntryID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryID.MDEntryID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int = 
@@ -8344,12 +8882,15 @@ let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDUpdateAction (fldValIn:string) : MDUpdateAction = 
-    match fldValIn with
-    |"0" -> MDUpdateAction.New
-    |"1" -> MDUpdateAction.Change
-    |"2" -> MDUpdateAction.Delete
-    | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
+let ReadMDUpdateAction (pos:int) (bs:byte[]) : (int * MDUpdateAction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MDUpdateAction.New
+        |"1"B -> MDUpdateAction.Change
+        |"2"B -> MDUpdateAction.Delete
+        | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction) : int =
@@ -8374,9 +8915,11 @@ let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryRefID valIn =
-    let tmp =  valIn
-    MDEntryRefID.MDEntryRefID tmp
+let ReadMDEntryRefID (pos:int) (bs:byte[]) : (int*MDEntryRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryRefID.MDEntryRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : int = 
@@ -8390,22 +8933,25 @@ let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDReqRejReason (fldValIn:string) : MDReqRejReason = 
-    match fldValIn with
-    |"0" -> MDReqRejReason.UnknownSymbol
-    |"1" -> MDReqRejReason.DuplicateMdreqid
-    |"2" -> MDReqRejReason.InsufficientBandwidth
-    |"3" -> MDReqRejReason.InsufficientPermissions
-    |"4" -> MDReqRejReason.UnsupportedSubscriptionrequesttype
-    |"5" -> MDReqRejReason.UnsupportedMarketdepth
-    |"6" -> MDReqRejReason.UnsupportedMdupdatetype
-    |"7" -> MDReqRejReason.UnsupportedAggregatedbook
-    |"8" -> MDReqRejReason.UnsupportedMdentrytype
-    |"9" -> MDReqRejReason.UnsupportedTradingsessionid
-    |"A" -> MDReqRejReason.UnsupportedScope
-    |"B" -> MDReqRejReason.UnsupportedOpenclosesettleflag
-    |"C" -> MDReqRejReason.UnsupportedMdimplicitdelete
-    | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
+let ReadMDReqRejReason (pos:int) (bs:byte[]) : (int * MDReqRejReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MDReqRejReason.UnknownSymbol
+        |"1"B -> MDReqRejReason.DuplicateMdreqid
+        |"2"B -> MDReqRejReason.InsufficientBandwidth
+        |"3"B -> MDReqRejReason.InsufficientPermissions
+        |"4"B -> MDReqRejReason.UnsupportedSubscriptionrequesttype
+        |"5"B -> MDReqRejReason.UnsupportedMarketdepth
+        |"6"B -> MDReqRejReason.UnsupportedMdupdatetype
+        |"7"B -> MDReqRejReason.UnsupportedAggregatedbook
+        |"8"B -> MDReqRejReason.UnsupportedMdentrytype
+        |"9"B -> MDReqRejReason.UnsupportedTradingsessionid
+        |"A"B -> MDReqRejReason.UnsupportedScope
+        |"B"B -> MDReqRejReason.UnsupportedOpenclosesettleflag
+        |"C"B -> MDReqRejReason.UnsupportedMdimplicitdelete
+        | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason) : int =
@@ -8490,9 +9036,11 @@ let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryOriginator valIn =
-    let tmp =  valIn
-    MDEntryOriginator.MDEntryOriginator tmp
+let ReadMDEntryOriginator (pos:int) (bs:byte[]) : (int*MDEntryOriginator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryOriginator.MDEntryOriginator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOriginator) : int = 
@@ -8506,9 +9054,11 @@ let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOrigin
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLocationID valIn =
-    let tmp =  valIn
-    LocationID.LocationID tmp
+let ReadLocationID (pos:int) (bs:byte[]) : (int*LocationID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LocationID.LocationID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int = 
@@ -8522,9 +9072,11 @@ let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeskID valIn =
-    let tmp =  valIn
-    DeskID.DeskID tmp
+let ReadDeskID (pos:int) (bs:byte[]) : (int*DeskID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DeskID.DeskID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int = 
@@ -8538,11 +9090,14 @@ let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeleteReason (fldValIn:string) : DeleteReason = 
-    match fldValIn with
-    |"0" -> DeleteReason.CancelationTradeBust
-    |"1" -> DeleteReason.Error
-    | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
+let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DeleteReason.CancelationTradeBust
+        |"1"B -> DeleteReason.Error
+        | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : int =
@@ -8561,15 +9116,18 @@ let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOpenCloseSettlFlag (fldValIn:string) : OpenCloseSettlFlag = 
-    match fldValIn with
-    |"0" -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
-    |"1" -> OpenCloseSettlFlag.SessionOpenCloseSettlementEntry
-    |"2" -> OpenCloseSettlFlag.DeliverySettlementEntry
-    |"3" -> OpenCloseSettlFlag.ExpectedEntry
-    |"4" -> OpenCloseSettlFlag.EntryFromPreviousBusinessDay
-    |"5" -> OpenCloseSettlFlag.TheoreticalPriceValue
-    | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
+let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
+        |"1"B -> OpenCloseSettlFlag.SessionOpenCloseSettlementEntry
+        |"2"B -> OpenCloseSettlFlag.DeliverySettlementEntry
+        |"3"B -> OpenCloseSettlFlag.ExpectedEntry
+        |"4"B -> OpenCloseSettlFlag.EntryFromPreviousBusinessDay
+        |"5"B -> OpenCloseSettlFlag.TheoreticalPriceValue
+        | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseSettlFlag) : int =
@@ -8612,9 +9170,11 @@ let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseS
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSellerDays valIn =
-    let tmp = System.Int32.Parse valIn
-    SellerDays.SellerDays tmp
+let ReadSellerDays (pos:int) (bs:byte[]) : (int*SellerDays) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SellerDays.SellerDays tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int = 
@@ -8628,9 +9188,11 @@ let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryBuyer valIn =
-    let tmp =  valIn
-    MDEntryBuyer.MDEntryBuyer tmp
+let ReadMDEntryBuyer (pos:int) (bs:byte[]) : (int*MDEntryBuyer) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntryBuyer.MDEntryBuyer tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : int = 
@@ -8644,9 +9206,11 @@ let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntrySeller valIn =
-    let tmp =  valIn
-    MDEntrySeller.MDEntrySeller tmp
+let ReadMDEntrySeller (pos:int) (bs:byte[]) : (int*MDEntrySeller) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MDEntrySeller.MDEntrySeller tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : int = 
@@ -8660,9 +9224,11 @@ let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryPositionNo valIn =
-    let tmp = System.Int32.Parse valIn
-    MDEntryPositionNo.MDEntryPositionNo tmp
+let ReadMDEntryPositionNo (pos:int) (bs:byte[]) : (int*MDEntryPositionNo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MDEntryPositionNo.MDEntryPositionNo tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositionNo) : int = 
@@ -8676,11 +9242,14 @@ let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFinancialStatus (fldValIn:string) : FinancialStatus = 
-    match fldValIn with
-    |"1" -> FinancialStatus.Bankrupt
-    |"2" -> FinancialStatus.PendingDelisting
-    | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
+let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> FinancialStatus.Bankrupt
+        |"2"B -> FinancialStatus.PendingDelisting
+        | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStatus) : int =
@@ -8699,14 +9268,17 @@ let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStat
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCorporateAction (fldValIn:string) : CorporateAction = 
-    match fldValIn with
-    |"A" -> CorporateAction.ExDividend
-    |"B" -> CorporateAction.ExDistribution
-    |"C" -> CorporateAction.ExRights
-    |"D" -> CorporateAction.New
-    |"E" -> CorporateAction.ExInterest
-    | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
+let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> CorporateAction.ExDividend
+        |"B"B -> CorporateAction.ExDistribution
+        |"C"B -> CorporateAction.ExRights
+        |"D"B -> CorporateAction.New
+        |"E"B -> CorporateAction.ExInterest
+        | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateAction) : int =
@@ -8743,9 +9315,11 @@ let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateActi
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDefBidSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    DefBidSize.DefBidSize tmp
+let ReadDefBidSize (pos:int) (bs:byte[]) : (int*DefBidSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DefBidSize.DefBidSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int = 
@@ -8759,9 +9333,11 @@ let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDefOfferSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    DefOfferSize.DefOfferSize tmp
+let ReadDefOfferSize (pos:int) (bs:byte[]) : (int*DefOfferSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DefOfferSize.DefOfferSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : int = 
@@ -8775,9 +9351,11 @@ let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoQuoteEntries valIn =
-    let tmp = System.Int32.Parse valIn
-    NoQuoteEntries.NoQuoteEntries tmp
+let ReadNoQuoteEntries (pos:int) (bs:byte[]) : (int*NoQuoteEntries) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoQuoteEntries.NoQuoteEntries tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) : int = 
@@ -8791,9 +9369,11 @@ let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoQuoteSets valIn =
-    let tmp = System.Int32.Parse valIn
-    NoQuoteSets.NoQuoteSets tmp
+let ReadNoQuoteSets (pos:int) (bs:byte[]) : (int*NoQuoteSets) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoQuoteSets.NoQuoteSets tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int = 
@@ -8807,25 +9387,28 @@ let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteStatus (fldValIn:string) : QuoteStatus = 
-    match fldValIn with
-    |"0" -> QuoteStatus.Accepted
-    |"1" -> QuoteStatus.CanceledForSymbol
-    |"2" -> QuoteStatus.CanceledForSecurityType
-    |"3" -> QuoteStatus.CanceledForUnderlying
-    |"4" -> QuoteStatus.CanceledAll
-    |"5" -> QuoteStatus.Rejected
-    |"6" -> QuoteStatus.RemovedFromMarket
-    |"7" -> QuoteStatus.Expired
-    |"8" -> QuoteStatus.Query
-    |"9" -> QuoteStatus.QuoteNotFound
-    |"10" -> QuoteStatus.Pending
-    |"11" -> QuoteStatus.Pass
-    |"12" -> QuoteStatus.LockedMarketWarning
-    |"13" -> QuoteStatus.CrossMarketWarning
-    |"14" -> QuoteStatus.CanceledDueToLockMarket
-    |"15" -> QuoteStatus.CanceledDueToCrossMarket
-    | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
+let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> QuoteStatus.Accepted
+        |"1"B -> QuoteStatus.CanceledForSymbol
+        |"2"B -> QuoteStatus.CanceledForSecurityType
+        |"3"B -> QuoteStatus.CanceledForUnderlying
+        |"4"B -> QuoteStatus.CanceledAll
+        |"5"B -> QuoteStatus.Rejected
+        |"6"B -> QuoteStatus.RemovedFromMarket
+        |"7"B -> QuoteStatus.Expired
+        |"8"B -> QuoteStatus.Query
+        |"9"B -> QuoteStatus.QuoteNotFound
+        |"10"B -> QuoteStatus.Pending
+        |"11"B -> QuoteStatus.Pass
+        |"12"B -> QuoteStatus.LockedMarketWarning
+        |"13"B -> QuoteStatus.CrossMarketWarning
+        |"14"B -> QuoteStatus.CanceledDueToLockMarket
+        |"15"B -> QuoteStatus.CanceledDueToCrossMarket
+        | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : int =
@@ -8928,13 +9511,16 @@ let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteCancelType (fldValIn:string) : QuoteCancelType = 
-    match fldValIn with
-    |"1" -> QuoteCancelType.CancelForSymbol
-    |"2" -> QuoteCancelType.CancelForSecurityType
-    |"3" -> QuoteCancelType.CancelForUnderlyingSymbol
-    |"4" -> QuoteCancelType.CancelAllQuotes
-    | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
+let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteCancelType.CancelForSymbol
+        |"2"B -> QuoteCancelType.CancelForSecurityType
+        |"3"B -> QuoteCancelType.CancelForUnderlyingSymbol
+        |"4"B -> QuoteCancelType.CancelAllQuotes
+        | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelType) : int =
@@ -8965,9 +9551,11 @@ let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteEntryID valIn =
-    let tmp =  valIn
-    QuoteEntryID.QuoteEntryID tmp
+let ReadQuoteEntryID (pos:int) (bs:byte[]) : (int*QuoteEntryID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteEntryID.QuoteEntryID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : int = 
@@ -8981,19 +9569,22 @@ let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRejectReason (fldValIn:string) : QuoteRejectReason = 
-    match fldValIn with
-    |"1" -> QuoteRejectReason.UnknownSymbol
-    |"2" -> QuoteRejectReason.ExchangeClosed
-    |"3" -> QuoteRejectReason.QuoteRequestExceedsLimit
-    |"4" -> QuoteRejectReason.TooLateToEnter
-    |"5" -> QuoteRejectReason.UnknownQuote
-    |"6" -> QuoteRejectReason.DuplicateQuote
-    |"7" -> QuoteRejectReason.InvalidBidAskSpread
-    |"8" -> QuoteRejectReason.InvalidPrice
-    |"9" -> QuoteRejectReason.NotAuthorizedToQuoteSecurity
-    |"99" -> QuoteRejectReason.Other
-    | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
+let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteRejectReason.UnknownSymbol
+        |"2"B -> QuoteRejectReason.ExchangeClosed
+        |"3"B -> QuoteRejectReason.QuoteRequestExceedsLimit
+        |"4"B -> QuoteRejectReason.TooLateToEnter
+        |"5"B -> QuoteRejectReason.UnknownQuote
+        |"6"B -> QuoteRejectReason.DuplicateQuote
+        |"7"B -> QuoteRejectReason.InvalidBidAskSpread
+        |"8"B -> QuoteRejectReason.InvalidPrice
+        |"9"B -> QuoteRejectReason.NotAuthorizedToQuoteSecurity
+        |"99"B -> QuoteRejectReason.Other
+        | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRejectReason) : int =
@@ -9060,12 +9651,15 @@ let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteReject
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteResponseLevel (fldValIn:string) : QuoteResponseLevel = 
-    match fldValIn with
-    |"0" -> QuoteResponseLevel.NoAcknowledgement
-    |"1" -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
-    |"2" -> QuoteResponseLevel.AcknowledgeEachQuoteMessages
-    | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
+let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> QuoteResponseLevel.NoAcknowledgement
+        |"1"B -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
+        |"2"B -> QuoteResponseLevel.AcknowledgeEachQuoteMessages
+        | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteResponseLevel) : int =
@@ -9090,9 +9684,11 @@ let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteSetID valIn =
-    let tmp =  valIn
-    QuoteSetID.QuoteSetID tmp
+let ReadQuoteSetID (pos:int) (bs:byte[]) : (int*QuoteSetID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteSetID.QuoteSetID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int = 
@@ -9106,11 +9702,14 @@ let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRequestType (fldValIn:string) : QuoteRequestType = 
-    match fldValIn with
-    |"1" -> QuoteRequestType.Manual
-    |"2" -> QuoteRequestType.Automatic
-    | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
+let ReadQuoteRequestType (pos:int) (bs:byte[]) : (int * QuoteRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteRequestType.Manual
+        |"2"B -> QuoteRequestType.Automatic
+        | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestType) : int =
@@ -9129,9 +9728,11 @@ let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequest
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoQuoteEntries valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoQuoteEntries.TotNoQuoteEntries tmp
+let ReadTotNoQuoteEntries (pos:int) (bs:byte[]) : (int*TotNoQuoteEntries) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoQuoteEntries.TotNoQuoteEntries tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEntries) : int = 
@@ -9145,9 +9746,11 @@ let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEnt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityIDSource valIn =
-    let tmp =  valIn
-    UnderlyingSecurityIDSource.UnderlyingSecurityIDSource tmp
+let ReadUnderlyingSecurityIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityIDSource.UnderlyingSecurityIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityIDSource) : int = 
@@ -9161,9 +9764,11 @@ let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingIssuer valIn =
-    let tmp =  valIn
-    UnderlyingIssuer.UnderlyingIssuer tmp
+let ReadUnderlyingIssuer (pos:int) (bs:byte[]) : (int*UnderlyingIssuer) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingIssuer.UnderlyingIssuer tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssuer) : int = 
@@ -9177,9 +9782,11 @@ let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityDesc valIn =
-    let tmp =  valIn
-    UnderlyingSecurityDesc.UnderlyingSecurityDesc tmp
+let ReadUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int*UnderlyingSecurityDesc) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityDesc.UnderlyingSecurityDesc tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityDesc) : int = 
@@ -9193,9 +9800,11 @@ let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityExchange valIn =
-    let tmp =  valIn
-    UnderlyingSecurityExchange.UnderlyingSecurityExchange tmp
+let ReadUnderlyingSecurityExchange (pos:int) (bs:byte[]) : (int*UnderlyingSecurityExchange) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityExchange.UnderlyingSecurityExchange tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityExchange) : int = 
@@ -9209,9 +9818,11 @@ let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityID valIn =
-    let tmp =  valIn
-    UnderlyingSecurityID.UnderlyingSecurityID tmp
+let ReadUnderlyingSecurityID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityID.UnderlyingSecurityID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityID) : int = 
@@ -9225,9 +9836,11 @@ let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityType valIn =
-    let tmp =  valIn
-    UnderlyingSecurityType.UnderlyingSecurityType tmp
+let ReadUnderlyingSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingSecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityType.UnderlyingSecurityType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityType) : int = 
@@ -9241,9 +9854,11 @@ let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSymbol valIn =
-    let tmp =  valIn
-    UnderlyingSymbol.UnderlyingSymbol tmp
+let ReadUnderlyingSymbol (pos:int) (bs:byte[]) : (int*UnderlyingSymbol) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSymbol.UnderlyingSymbol tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbol) : int = 
@@ -9257,9 +9872,11 @@ let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymb
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSymbolSfx valIn =
-    let tmp =  valIn
-    UnderlyingSymbolSfx.UnderlyingSymbolSfx tmp
+let ReadUnderlyingSymbolSfx (pos:int) (bs:byte[]) : (int*UnderlyingSymbolSfx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSymbolSfx.UnderlyingSymbolSfx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbolSfx) : int = 
@@ -9273,9 +9890,11 @@ let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingMaturityMonthYear valIn =
-    let tmp =  valIn
-    UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear tmp
+let ReadUnderlyingMaturityMonthYear (pos:int) (bs:byte[]) : (int*UnderlyingMaturityMonthYear) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityMonthYear) : int = 
@@ -9289,11 +9908,14 @@ let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:Und
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingPutOrCall (fldValIn:string) : UnderlyingPutOrCall = 
-    match fldValIn with
-    |"0" -> UnderlyingPutOrCall.Put
-    |"1" -> UnderlyingPutOrCall.Call
-    | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
+let ReadUnderlyingPutOrCall (pos:int) (bs:byte[]) : (int * UnderlyingPutOrCall) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> UnderlyingPutOrCall.Put
+        |"1"B -> UnderlyingPutOrCall.Call
+        | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:UnderlyingPutOrCall) : int =
@@ -9312,9 +9934,11 @@ let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:Underlyin
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStrikePrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingStrikePrice.UnderlyingStrikePrice tmp
+let ReadUnderlyingStrikePrice (pos:int) (bs:byte[]) : (int*UnderlyingStrikePrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingStrikePrice.UnderlyingStrikePrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikePrice) : int = 
@@ -9328,9 +9952,11 @@ let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlyin
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingOptAttribute valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingOptAttribute.UnderlyingOptAttribute tmp
+let ReadUnderlyingOptAttribute (pos:int) (bs:byte[]) : (int*UnderlyingOptAttribute) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingOptAttribute.UnderlyingOptAttribute tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingOptAttribute) : int = 
@@ -9344,9 +9970,11 @@ let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCurrency valIn =
-    let tmp =  valIn
-    UnderlyingCurrency.UnderlyingCurrency tmp
+let ReadUnderlyingCurrency (pos:int) (bs:byte[]) : (int*UnderlyingCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCurrency.UnderlyingCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrency) : int = 
@@ -9360,9 +9988,11 @@ let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityReqID valIn =
-    let tmp =  valIn
-    SecurityReqID.SecurityReqID tmp
+let ReadSecurityReqID (pos:int) (bs:byte[]) : (int*SecurityReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityReqID.SecurityReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : int = 
@@ -9376,13 +10006,16 @@ let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityRequestType (fldValIn:string) : SecurityRequestType = 
-    match fldValIn with
-    |"0" -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
-    |"1" -> SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided
-    |"2" -> SecurityRequestType.RequestListSecurityTypes
-    |"3" -> SecurityRequestType.RequestListSecurities
-    | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
+let ReadSecurityRequestType (pos:int) (bs:byte[]) : (int * SecurityRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
+        |"1"B -> SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided
+        |"2"B -> SecurityRequestType.RequestListSecurityTypes
+        |"3"B -> SecurityRequestType.RequestListSecurities
+        | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestType) : int =
@@ -9413,9 +10046,11 @@ let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityR
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityResponseID valIn =
-    let tmp =  valIn
-    SecurityResponseID.SecurityResponseID tmp
+let ReadSecurityResponseID (pos:int) (bs:byte[]) : (int*SecurityResponseID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityResponseID.SecurityResponseID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResponseID) : int = 
@@ -9429,15 +10064,18 @@ let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityResponseType (fldValIn:string) : SecurityResponseType = 
-    match fldValIn with
-    |"1" -> SecurityResponseType.AcceptSecurityProposalAsIs
-    |"2" -> SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage
-    |"3" -> SecurityResponseType.ListOfSecurityTypesReturnedPerRequest
-    |"4" -> SecurityResponseType.ListOfSecuritiesReturnedPerRequest
-    |"5" -> SecurityResponseType.RejectSecurityProposal
-    |"6" -> SecurityResponseType.CanNotMatchSelectionCriteria
-    | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
+let ReadSecurityResponseType (pos:int) (bs:byte[]) : (int * SecurityResponseType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SecurityResponseType.AcceptSecurityProposalAsIs
+        |"2"B -> SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage
+        |"3"B -> SecurityResponseType.ListOfSecurityTypesReturnedPerRequest
+        |"4"B -> SecurityResponseType.ListOfSecuritiesReturnedPerRequest
+        |"5"B -> SecurityResponseType.RejectSecurityProposal
+        |"6"B -> SecurityResponseType.CanNotMatchSelectionCriteria
+        | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityResponseType) : int =
@@ -9480,9 +10118,11 @@ let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Security
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityStatusReqID valIn =
-    let tmp =  valIn
-    SecurityStatusReqID.SecurityStatusReqID tmp
+let ReadSecurityStatusReqID (pos:int) (bs:byte[]) : (int*SecurityStatusReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityStatusReqID.SecurityStatusReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityStatusReqID) : int = 
@@ -9496,9 +10136,11 @@ let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySta
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnsolicitedIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    UnsolicitedIndicator.UnsolicitedIndicator tmp
+let ReadUnsolicitedIndicator (pos:int) (bs:byte[]) : (int*UnsolicitedIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = UnsolicitedIndicator.UnsolicitedIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:UnsolicitedIndicator) : int = 
@@ -9512,32 +10154,35 @@ let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Unsolicite
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityTradingStatus (fldValIn:string) : SecurityTradingStatus = 
-    match fldValIn with
-    |"1" -> SecurityTradingStatus.OpeningDelay
-    |"2" -> SecurityTradingStatus.TradingHalt
-    |"3" -> SecurityTradingStatus.Resume
-    |"4" -> SecurityTradingStatus.NoOpenNoResume
-    |"5" -> SecurityTradingStatus.PriceIndication
-    |"6" -> SecurityTradingStatus.TradingRangeIndication
-    |"7" -> SecurityTradingStatus.MarketImbalanceBuy
-    |"8" -> SecurityTradingStatus.MarketImbalanceSell
-    |"9" -> SecurityTradingStatus.MarketOnCloseImbalanceBuy
-    |"10" -> SecurityTradingStatus.MarketOnCloseImbalanceSell
-    |"11" -> SecurityTradingStatus.NotAssigned
-    |"12" -> SecurityTradingStatus.NoMarketImbalance
-    |"13" -> SecurityTradingStatus.NoMarketOnCloseImbalance
-    |"14" -> SecurityTradingStatus.ItsPreOpening
-    |"15" -> SecurityTradingStatus.NewPriceIndication
-    |"16" -> SecurityTradingStatus.TradeDisseminationTime
-    |"17" -> SecurityTradingStatus.ReadyToTradeStartOfSession
-    |"18" -> SecurityTradingStatus.NotAvailableForTradingEndOfSession
-    |"19" -> SecurityTradingStatus.NotTradedOnThisMarket
-    |"20" -> SecurityTradingStatus.UnknownOrInvalid
-    |"21" -> SecurityTradingStatus.PreOpen
-    |"22" -> SecurityTradingStatus.OpeningRotation
-    |"23" -> SecurityTradingStatus.FastMarket
-    | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
+let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SecurityTradingStatus.OpeningDelay
+        |"2"B -> SecurityTradingStatus.TradingHalt
+        |"3"B -> SecurityTradingStatus.Resume
+        |"4"B -> SecurityTradingStatus.NoOpenNoResume
+        |"5"B -> SecurityTradingStatus.PriceIndication
+        |"6"B -> SecurityTradingStatus.TradingRangeIndication
+        |"7"B -> SecurityTradingStatus.MarketImbalanceBuy
+        |"8"B -> SecurityTradingStatus.MarketImbalanceSell
+        |"9"B -> SecurityTradingStatus.MarketOnCloseImbalanceBuy
+        |"10"B -> SecurityTradingStatus.MarketOnCloseImbalanceSell
+        |"11"B -> SecurityTradingStatus.NotAssigned
+        |"12"B -> SecurityTradingStatus.NoMarketImbalance
+        |"13"B -> SecurityTradingStatus.NoMarketOnCloseImbalance
+        |"14"B -> SecurityTradingStatus.ItsPreOpening
+        |"15"B -> SecurityTradingStatus.NewPriceIndication
+        |"16"B -> SecurityTradingStatus.TradeDisseminationTime
+        |"17"B -> SecurityTradingStatus.ReadyToTradeStartOfSession
+        |"18"B -> SecurityTradingStatus.NotAvailableForTradingEndOfSession
+        |"19"B -> SecurityTradingStatus.NotTradedOnThisMarket
+        |"20"B -> SecurityTradingStatus.UnknownOrInvalid
+        |"21"B -> SecurityTradingStatus.PreOpen
+        |"22"B -> SecurityTradingStatus.OpeningRotation
+        |"23"B -> SecurityTradingStatus.FastMarket
+        | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityTradingStatus) : int =
@@ -9682,15 +10327,18 @@ let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadHaltReason (fldValIn:string) : HaltReason = 
-    match fldValIn with
-    |"I" -> HaltReason.OrderImbalance
-    |"X" -> HaltReason.EquipmentChangeover
-    |"P" -> HaltReason.NewsPending
-    |"D" -> HaltReason.NewsDissemination
-    |"E" -> HaltReason.OrderInflux
-    |"M" -> HaltReason.AdditionalInformation
-    | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
+let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"I"B -> HaltReason.OrderImbalance
+        |"X"B -> HaltReason.EquipmentChangeover
+        |"P"B -> HaltReason.NewsPending
+        |"D"B -> HaltReason.NewsDissemination
+        |"E"B -> HaltReason.OrderInflux
+        |"M"B -> HaltReason.AdditionalInformation
+        | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int =
@@ -9733,9 +10381,11 @@ let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadInViewOfCommon valIn =
-    let tmp = System.Boolean.Parse valIn
-    InViewOfCommon.InViewOfCommon tmp
+let ReadInViewOfCommon (pos:int) (bs:byte[]) : (int*InViewOfCommon) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = InViewOfCommon.InViewOfCommon tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) : int = 
@@ -9749,9 +10399,11 @@ let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDueToRelated valIn =
-    let tmp = System.Boolean.Parse valIn
-    DueToRelated.DueToRelated tmp
+let ReadDueToRelated (pos:int) (bs:byte[]) : (int*DueToRelated) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = DueToRelated.DueToRelated tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : int = 
@@ -9765,9 +10417,11 @@ let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBuyVolume valIn =
-    let tmp = System.Decimal.Parse valIn
-    BuyVolume.BuyVolume tmp
+let ReadBuyVolume (pos:int) (bs:byte[]) : (int*BuyVolume) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BuyVolume.BuyVolume tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int = 
@@ -9781,9 +10435,11 @@ let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSellVolume valIn =
-    let tmp = System.Decimal.Parse valIn
-    SellVolume.SellVolume tmp
+let ReadSellVolume (pos:int) (bs:byte[]) : (int*SellVolume) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = SellVolume.SellVolume tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int = 
@@ -9797,9 +10453,11 @@ let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHighPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    HighPx.HighPx tmp
+let ReadHighPx (pos:int) (bs:byte[]) : (int*HighPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = HighPx.HighPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int = 
@@ -9813,9 +10471,11 @@ let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLowPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LowPx.LowPx tmp
+let ReadLowPx (pos:int) (bs:byte[]) : (int*LowPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LowPx.LowPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int = 
@@ -9829,12 +10489,15 @@ let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdjustment (fldValIn:string) : Adjustment = 
-    match fldValIn with
-    |"1" -> Adjustment.Cancel
-    |"2" -> Adjustment.Error
-    |"3" -> Adjustment.Correction
-    | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
+let ReadAdjustment (pos:int) (bs:byte[]) : (int * Adjustment) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> Adjustment.Cancel
+        |"2"B -> Adjustment.Error
+        |"3"B -> Adjustment.Correction
+        | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int =
@@ -9859,9 +10522,11 @@ let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesReqID valIn =
-    let tmp =  valIn
-    TradSesReqID.TradSesReqID tmp
+let ReadTradSesReqID (pos:int) (bs:byte[]) : (int*TradSesReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesReqID.TradSesReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : int = 
@@ -9875,9 +10540,11 @@ let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradingSessionID valIn =
-    let tmp =  valIn
-    TradingSessionID.TradingSessionID tmp
+let ReadTradingSessionID (pos:int) (bs:byte[]) : (int*TradingSessionID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradingSessionID.TradingSessionID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionID) : int = 
@@ -9891,9 +10558,11 @@ let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSession
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraTrader valIn =
-    let tmp =  valIn
-    ContraTrader.ContraTrader tmp
+let ReadContraTrader (pos:int) (bs:byte[]) : (int*ContraTrader) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContraTrader.ContraTrader tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : int = 
@@ -9907,12 +10576,15 @@ let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesMethod (fldValIn:string) : TradSesMethod = 
-    match fldValIn with
-    |"1" -> TradSesMethod.Electronic
-    |"2" -> TradSesMethod.OpenOutcry
-    |"3" -> TradSesMethod.TwoParty
-    | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
+let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> TradSesMethod.Electronic
+        |"2"B -> TradSesMethod.OpenOutcry
+        |"3"B -> TradSesMethod.TwoParty
+        | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) : int =
@@ -9937,12 +10609,15 @@ let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesMode (fldValIn:string) : TradSesMode = 
-    match fldValIn with
-    |"1" -> TradSesMode.Testing
-    |"2" -> TradSesMode.Simulated
-    |"3" -> TradSesMode.Production
-    | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
+let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> TradSesMode.Testing
+        |"2"B -> TradSesMode.Simulated
+        |"3"B -> TradSesMode.Production
+        | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : int =
@@ -9967,16 +10642,19 @@ let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesStatus (fldValIn:string) : TradSesStatus = 
-    match fldValIn with
-    |"0" -> TradSesStatus.Unknown
-    |"1" -> TradSesStatus.Halted
-    |"2" -> TradSesStatus.Open
-    |"3" -> TradSesStatus.Closed
-    |"4" -> TradSesStatus.PreOpen
-    |"5" -> TradSesStatus.PreClose
-    |"6" -> TradSesStatus.RequestRejected
-    | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
+let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradSesStatus.Unknown
+        |"1"B -> TradSesStatus.Halted
+        |"2"B -> TradSesStatus.Open
+        |"3"B -> TradSesStatus.Closed
+        |"4"B -> TradSesStatus.PreOpen
+        |"5"B -> TradSesStatus.PreClose
+        |"6"B -> TradSesStatus.RequestRejected
+        | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) : int =
@@ -10025,9 +10703,11 @@ let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesStartTime valIn =
-    let tmp =  valIn
-    TradSesStartTime.TradSesStartTime tmp
+let ReadTradSesStartTime (pos:int) (bs:byte[]) : (int*TradSesStartTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesStartTime.TradSesStartTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTime) : int = 
@@ -10041,9 +10721,11 @@ let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesOpenTime valIn =
-    let tmp =  valIn
-    TradSesOpenTime.TradSesOpenTime tmp
+let ReadTradSesOpenTime (pos:int) (bs:byte[]) : (int*TradSesOpenTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesOpenTime.TradSesOpenTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime) : int = 
@@ -10057,9 +10739,11 @@ let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesPreCloseTime valIn =
-    let tmp =  valIn
-    TradSesPreCloseTime.TradSesPreCloseTime tmp
+let ReadTradSesPreCloseTime (pos:int) (bs:byte[]) : (int*TradSesPreCloseTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesPreCloseTime.TradSesPreCloseTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreCloseTime) : int = 
@@ -10073,9 +10757,11 @@ let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreC
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesCloseTime valIn =
-    let tmp =  valIn
-    TradSesCloseTime.TradSesCloseTime tmp
+let ReadTradSesCloseTime (pos:int) (bs:byte[]) : (int*TradSesCloseTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesCloseTime.TradSesCloseTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTime) : int = 
@@ -10089,9 +10775,11 @@ let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesEndTime valIn =
-    let tmp =  valIn
-    TradSesEndTime.TradSesEndTime tmp
+let ReadTradSesEndTime (pos:int) (bs:byte[]) : (int*TradSesEndTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradSesEndTime.TradSesEndTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) : int = 
@@ -10105,9 +10793,11 @@ let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNumberOfOrders valIn =
-    let tmp = System.Int32.Parse valIn
-    NumberOfOrders.NumberOfOrders tmp
+let ReadNumberOfOrders (pos:int) (bs:byte[]) : (int*NumberOfOrders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NumberOfOrders.NumberOfOrders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) : int = 
@@ -10121,13 +10811,16 @@ let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMessageEncoding (fldValIn:string) : MessageEncoding = 
-    match fldValIn with
-    |"ISO-2022-JP" -> MessageEncoding.Iso2022Jp
-    |"EUC-JP" -> MessageEncoding.EucJp
-    |"SHIFT_JIS" -> MessageEncoding.ShiftJis
-    |"UTF-8" -> MessageEncoding.Utf8
-    | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
+let ReadMessageEncoding (pos:int) (bs:byte[]) : (int * MessageEncoding) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"ISO-2022-JP"B -> MessageEncoding.Iso2022Jp
+        |"EUC-JP"B -> MessageEncoding.EucJp
+        |"SHIFT_JIS"B -> MessageEncoding.ShiftJis
+        |"UTF-8"B -> MessageEncoding.Utf8
+        | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMessageEncoding (dest:byte array) (nextFreeIdx:int) (xxIn:MessageEncoding) : int =
@@ -10491,9 +11184,11 @@ let ReadEncodedUnderlyingSecurityDesc valIn (strm:System.IO.Stream) =
     EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc raw
 
 
-let ReadAllocPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    AllocPrice.AllocPrice tmp
+let ReadAllocPrice (pos:int) (bs:byte[]) : (int*AllocPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AllocPrice.AllocPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int = 
@@ -10507,9 +11202,11 @@ let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteSetValidUntilTime valIn =
-    let tmp =  valIn
-    QuoteSetValidUntilTime.QuoteSetValidUntilTime tmp
+let ReadQuoteSetValidUntilTime (pos:int) (bs:byte[]) : (int*QuoteSetValidUntilTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteSetValidUntilTime.QuoteSetValidUntilTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetValidUntilTime) : int = 
@@ -10523,18 +11220,21 @@ let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSet
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteEntryRejectReason (fldValIn:string) : QuoteEntryRejectReason = 
-    match fldValIn with
-    |"1" -> QuoteEntryRejectReason.UnknownSymbol
-    |"2" -> QuoteEntryRejectReason.ExchangeClosed
-    |"3" -> QuoteEntryRejectReason.QuoteExceedsLimit
-    |"4" -> QuoteEntryRejectReason.TooLateToEnter
-    |"5" -> QuoteEntryRejectReason.UnknownQuote
-    |"6" -> QuoteEntryRejectReason.DuplicateQuote
-    |"7" -> QuoteEntryRejectReason.InvalidBidAskSpread
-    |"8" -> QuoteEntryRejectReason.InvalidPrice
-    |"9" -> QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity
-    | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
+let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteEntryRejectReason.UnknownSymbol
+        |"2"B -> QuoteEntryRejectReason.ExchangeClosed
+        |"3"B -> QuoteEntryRejectReason.QuoteExceedsLimit
+        |"4"B -> QuoteEntryRejectReason.TooLateToEnter
+        |"5"B -> QuoteEntryRejectReason.UnknownQuote
+        |"6"B -> QuoteEntryRejectReason.DuplicateQuote
+        |"7"B -> QuoteEntryRejectReason.InvalidBidAskSpread
+        |"8"B -> QuoteEntryRejectReason.InvalidPrice
+        |"9"B -> QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity
+        | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteEntryRejectReason) : int =
@@ -10595,9 +11295,11 @@ let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteE
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastMsgSeqNumProcessed valIn =
-    let tmp = System.Int32.Parse valIn
-    LastMsgSeqNumProcessed.LastMsgSeqNumProcessed tmp
+let ReadLastMsgSeqNumProcessed (pos:int) (bs:byte[]) : (int*LastMsgSeqNumProcessed) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LastMsgSeqNumProcessed.LastMsgSeqNumProcessed tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgSeqNumProcessed) : int = 
@@ -10611,9 +11313,11 @@ let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefTagID valIn =
-    let tmp = System.Int32.Parse valIn
-    RefTagID.RefTagID tmp
+let ReadRefTagID (pos:int) (bs:byte[]) : (int*RefTagID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = RefTagID.RefTagID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int = 
@@ -10627,9 +11331,11 @@ let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefMsgType valIn =
-    let tmp =  valIn
-    RefMsgType.RefMsgType tmp
+let ReadRefMsgType (pos:int) (bs:byte[]) : (int*RefMsgType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RefMsgType.RefMsgType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int = 
@@ -10643,28 +11349,31 @@ let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSessionRejectReason (fldValIn:string) : SessionRejectReason = 
-    match fldValIn with
-    |"0" -> SessionRejectReason.InvalidTagNumber
-    |"1" -> SessionRejectReason.RequiredTagMissing
-    |"2" -> SessionRejectReason.TagNotDefinedForThisMessageType
-    |"3" -> SessionRejectReason.UndefinedTag
-    |"4" -> SessionRejectReason.TagSpecifiedWithoutAValue
-    |"5" -> SessionRejectReason.ValueIsIncorrect
-    |"6" -> SessionRejectReason.IncorrectDataFormatForValue
-    |"7" -> SessionRejectReason.DecryptionProblem
-    |"8" -> SessionRejectReason.SignatureProblem
-    |"9" -> SessionRejectReason.CompidProblem
-    |"10" -> SessionRejectReason.SendingtimeAccuracyProblem
-    |"11" -> SessionRejectReason.InvalidMsgtype
-    |"12" -> SessionRejectReason.XmlValidationError
-    |"13" -> SessionRejectReason.TagAppearsMoreThanOnce
-    |"14" -> SessionRejectReason.TagSpecifiedOutOfRequiredOrder
-    |"15" -> SessionRejectReason.RepeatingGroupFieldsOutOfOrder
-    |"16" -> SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup
-    |"17" -> SessionRejectReason.NonDataValueIncludesFieldDelimiter
-    |"99" -> SessionRejectReason.Other
-    | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
+let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SessionRejectReason.InvalidTagNumber
+        |"1"B -> SessionRejectReason.RequiredTagMissing
+        |"2"B -> SessionRejectReason.TagNotDefinedForThisMessageType
+        |"3"B -> SessionRejectReason.UndefinedTag
+        |"4"B -> SessionRejectReason.TagSpecifiedWithoutAValue
+        |"5"B -> SessionRejectReason.ValueIsIncorrect
+        |"6"B -> SessionRejectReason.IncorrectDataFormatForValue
+        |"7"B -> SessionRejectReason.DecryptionProblem
+        |"8"B -> SessionRejectReason.SignatureProblem
+        |"9"B -> SessionRejectReason.CompidProblem
+        |"10"B -> SessionRejectReason.SendingtimeAccuracyProblem
+        |"11"B -> SessionRejectReason.InvalidMsgtype
+        |"12"B -> SessionRejectReason.XmlValidationError
+        |"13"B -> SessionRejectReason.TagAppearsMoreThanOnce
+        |"14"B -> SessionRejectReason.TagSpecifiedOutOfRequiredOrder
+        |"15"B -> SessionRejectReason.RepeatingGroupFieldsOutOfOrder
+        |"16"B -> SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup
+        |"17"B -> SessionRejectReason.NonDataValueIncludesFieldDelimiter
+        |"99"B -> SessionRejectReason.Other
+        | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRejectReason) : int =
@@ -10785,11 +11494,14 @@ let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidRequestTransType (fldValIn:string) : BidRequestTransType = 
-    match fldValIn with
-    |"N" -> BidRequestTransType.New
-    |"C" -> BidRequestTransType.Cancel
-    | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
+let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"N"B -> BidRequestTransType.New
+        |"C"B -> BidRequestTransType.Cancel
+        | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidRequestTransType) : int =
@@ -10808,9 +11520,11 @@ let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidReques
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContraBroker valIn =
-    let tmp =  valIn
-    ContraBroker.ContraBroker tmp
+let ReadContraBroker (pos:int) (bs:byte[]) : (int*ContraBroker) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContraBroker.ContraBroker tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : int = 
@@ -10824,9 +11538,11 @@ let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadComplianceID valIn =
-    let tmp =  valIn
-    ComplianceID.ComplianceID tmp
+let ReadComplianceID (pos:int) (bs:byte[]) : (int*ComplianceID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ComplianceID.ComplianceID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : int = 
@@ -10840,9 +11556,11 @@ let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSolicitedFlag valIn =
-    let tmp = System.Boolean.Parse valIn
-    SolicitedFlag.SolicitedFlag tmp
+let ReadSolicitedFlag (pos:int) (bs:byte[]) : (int*SolicitedFlag) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = SolicitedFlag.SolicitedFlag tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : int = 
@@ -10856,19 +11574,22 @@ let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecRestatementReason (fldValIn:string) : ExecRestatementReason = 
-    match fldValIn with
-    |"0" -> ExecRestatementReason.GtCorporateAction
-    |"1" -> ExecRestatementReason.GtRenewalRestatement
-    |"2" -> ExecRestatementReason.VerbalChange
-    |"3" -> ExecRestatementReason.RepricingOfOrder
-    |"4" -> ExecRestatementReason.BrokerOption
-    |"5" -> ExecRestatementReason.PartialDeclineOfOrderqty
-    |"6" -> ExecRestatementReason.CancelOnTradingHalt
-    |"7" -> ExecRestatementReason.CancelOnSystemFailure
-    |"8" -> ExecRestatementReason.MarketOption
-    |"9" -> ExecRestatementReason.CanceledNotBest
-    | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
+let ReadExecRestatementReason (pos:int) (bs:byte[]) : (int * ExecRestatementReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ExecRestatementReason.GtCorporateAction
+        |"1"B -> ExecRestatementReason.GtRenewalRestatement
+        |"2"B -> ExecRestatementReason.VerbalChange
+        |"3"B -> ExecRestatementReason.RepricingOfOrder
+        |"4"B -> ExecRestatementReason.BrokerOption
+        |"5"B -> ExecRestatementReason.PartialDeclineOfOrderqty
+        |"6"B -> ExecRestatementReason.CancelOnTradingHalt
+        |"7"B -> ExecRestatementReason.CancelOnSystemFailure
+        |"8"B -> ExecRestatementReason.MarketOption
+        |"9"B -> ExecRestatementReason.CanceledNotBest
+        | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRestatementReason) : int =
@@ -10935,9 +11656,11 @@ let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRes
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBusinessRejectRefID valIn =
-    let tmp =  valIn
-    BusinessRejectRefID.BusinessRejectRefID tmp
+let ReadBusinessRejectRefID (pos:int) (bs:byte[]) : (int*BusinessRejectRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BusinessRejectRefID.BusinessRejectRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRejectRefID) : int = 
@@ -10951,17 +11674,20 @@ let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRej
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBusinessRejectReason (fldValIn:string) : BusinessRejectReason = 
-    match fldValIn with
-    |"0" -> BusinessRejectReason.Other
-    |"1" -> BusinessRejectReason.UnkownId
-    |"2" -> BusinessRejectReason.UnknownSecurity
-    |"3" -> BusinessRejectReason.UnsupportedMessageType
-    |"4" -> BusinessRejectReason.ApplicationNotAvailable
-    |"5" -> BusinessRejectReason.ConditionallyRequiredFieldMissing
-    |"6" -> BusinessRejectReason.NotAuthorized
-    |"7" -> BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime
-    | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
+let ReadBusinessRejectReason (pos:int) (bs:byte[]) : (int * BusinessRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> BusinessRejectReason.Other
+        |"1"B -> BusinessRejectReason.UnkownId
+        |"2"B -> BusinessRejectReason.UnknownSecurity
+        |"3"B -> BusinessRejectReason.UnsupportedMessageType
+        |"4"B -> BusinessRejectReason.ApplicationNotAvailable
+        |"5"B -> BusinessRejectReason.ConditionallyRequiredFieldMissing
+        |"6"B -> BusinessRejectReason.NotAuthorized
+        |"7"B -> BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime
+        | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:BusinessRejectReason) : int =
@@ -11016,9 +11742,11 @@ let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Business
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadGrossTradeAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    GrossTradeAmt.GrossTradeAmt tmp
+let ReadGrossTradeAmt (pos:int) (bs:byte[]) : (int*GrossTradeAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = GrossTradeAmt.GrossTradeAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : int = 
@@ -11032,9 +11760,11 @@ let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoContraBrokers valIn =
-    let tmp = System.Int32.Parse valIn
-    NoContraBrokers.NoContraBrokers tmp
+let ReadNoContraBrokers (pos:int) (bs:byte[]) : (int*NoContraBrokers) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoContraBrokers.NoContraBrokers tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers) : int = 
@@ -11048,9 +11778,11 @@ let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaxMessageSize valIn =
-    let tmp = System.Int32.Parse valIn
-    MaxMessageSize.MaxMessageSize tmp
+let ReadMaxMessageSize (pos:int) (bs:byte[]) : (int*MaxMessageSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MaxMessageSize.MaxMessageSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) : int = 
@@ -11064,9 +11796,11 @@ let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMsgTypes valIn =
-    let tmp = System.Int32.Parse valIn
-    NoMsgTypes.NoMsgTypes tmp
+let ReadNoMsgTypes (pos:int) (bs:byte[]) : (int*NoMsgTypes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoMsgTypes.NoMsgTypes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int = 
@@ -11080,11 +11814,14 @@ let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMsgDirection (fldValIn:string) : MsgDirection = 
-    match fldValIn with
-    |"S" -> MsgDirection.Send
-    |"R" -> MsgDirection.Receive
-    | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
+let ReadMsgDirection (pos:int) (bs:byte[]) : (int * MsgDirection) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"S"B -> MsgDirection.Send
+        |"R"B -> MsgDirection.Receive
+        | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : int =
@@ -11103,9 +11840,11 @@ let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoTradingSessions valIn =
-    let tmp = System.Int32.Parse valIn
-    NoTradingSessions.NoTradingSessions tmp
+let ReadNoTradingSessions (pos:int) (bs:byte[]) : (int*NoTradingSessions) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoTradingSessions.NoTradingSessions tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSessions) : int = 
@@ -11119,9 +11858,11 @@ let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSess
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalVolumeTraded valIn =
-    let tmp = System.Decimal.Parse valIn
-    TotalVolumeTraded.TotalVolumeTraded tmp
+let ReadTotalVolumeTraded (pos:int) (bs:byte[]) : (int*TotalVolumeTraded) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = TotalVolumeTraded.TotalVolumeTraded tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTraded) : int = 
@@ -11135,16 +11876,19 @@ let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionInst (fldValIn:string) : DiscretionInst = 
-    match fldValIn with
-    |"0" -> DiscretionInst.RelatedToDisplayedPrice
-    |"1" -> DiscretionInst.RelatedToMarketPrice
-    |"2" -> DiscretionInst.RelatedToPrimaryPrice
-    |"3" -> DiscretionInst.RelatedToLocalPrimaryPrice
-    |"4" -> DiscretionInst.RelatedToMidpointPrice
-    |"5" -> DiscretionInst.RelatedToLastTradePrice
-    |"6" -> DiscretionInst.RelatedToVwap
-    | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
+let ReadDiscretionInst (pos:int) (bs:byte[]) : (int * DiscretionInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DiscretionInst.RelatedToDisplayedPrice
+        |"1"B -> DiscretionInst.RelatedToMarketPrice
+        |"2"B -> DiscretionInst.RelatedToPrimaryPrice
+        |"3"B -> DiscretionInst.RelatedToLocalPrimaryPrice
+        |"4"B -> DiscretionInst.RelatedToMidpointPrice
+        |"5"B -> DiscretionInst.RelatedToLastTradePrice
+        |"6"B -> DiscretionInst.RelatedToVwap
+        | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst) : int =
@@ -11193,9 +11937,11 @@ let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionOffsetValue valIn =
-    let tmp = System.Decimal.Parse valIn
-    DiscretionOffsetValue.DiscretionOffsetValue tmp
+let ReadDiscretionOffsetValue (pos:int) (bs:byte[]) : (int*DiscretionOffsetValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DiscretionOffsetValue.DiscretionOffsetValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionOffsetValue) : int = 
@@ -11209,9 +11955,11 @@ let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:Discretio
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidID valIn =
-    let tmp =  valIn
-    BidID.BidID tmp
+let ReadBidID (pos:int) (bs:byte[]) : (int*BidID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BidID.BidID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int = 
@@ -11225,9 +11973,11 @@ let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClientBidID valIn =
-    let tmp =  valIn
-    ClientBidID.ClientBidID tmp
+let ReadClientBidID (pos:int) (bs:byte[]) : (int*ClientBidID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ClientBidID.ClientBidID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int = 
@@ -11241,9 +11991,11 @@ let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListName valIn =
-    let tmp =  valIn
-    ListName.ListName tmp
+let ReadListName (pos:int) (bs:byte[]) : (int*ListName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ListName.ListName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int = 
@@ -11257,9 +12009,11 @@ let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoRelatedSym valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoRelatedSym.TotNoRelatedSym tmp
+let ReadTotNoRelatedSym (pos:int) (bs:byte[]) : (int*TotNoRelatedSym) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoRelatedSym.TotNoRelatedSym tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym) : int = 
@@ -11273,12 +12027,15 @@ let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidType (fldValIn:string) : BidType = 
-    match fldValIn with
-    |"1" -> BidType.NonDisclosed
-    |"2" -> BidType.DisclosedStyle
-    |"3" -> BidType.NoBiddingProcess
-    | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
+let ReadBidType (pos:int) (bs:byte[]) : (int * BidType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> BidType.NonDisclosed
+        |"2"B -> BidType.DisclosedStyle
+        |"3"B -> BidType.NoBiddingProcess
+        | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
@@ -11303,9 +12060,11 @@ let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumTickets valIn =
-    let tmp = System.Int32.Parse valIn
-    NumTickets.NumTickets tmp
+let ReadNumTickets (pos:int) (bs:byte[]) : (int*NumTickets) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NumTickets.NumTickets tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int = 
@@ -11319,9 +12078,11 @@ let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSideValue1 valIn =
-    let tmp = System.Int32.Parse valIn
-    SideValue1.SideValue1 tmp
+let ReadSideValue1 (pos:int) (bs:byte[]) : (int*SideValue1) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SideValue1.SideValue1 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int = 
@@ -11335,9 +12096,11 @@ let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSideValue2 valIn =
-    let tmp = System.Int32.Parse valIn
-    SideValue2.SideValue2 tmp
+let ReadSideValue2 (pos:int) (bs:byte[]) : (int*SideValue2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SideValue2.SideValue2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int = 
@@ -11351,9 +12114,11 @@ let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoBidDescriptors valIn =
-    let tmp = System.Int32.Parse valIn
-    NoBidDescriptors.NoBidDescriptors tmp
+let ReadNoBidDescriptors (pos:int) (bs:byte[]) : (int*NoBidDescriptors) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoBidDescriptors.NoBidDescriptors tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescriptors) : int = 
@@ -11367,12 +12132,15 @@ let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescripto
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidDescriptorType (fldValIn:string) : BidDescriptorType = 
-    match fldValIn with
-    |"1" -> BidDescriptorType.Sector
-    |"2" -> BidDescriptorType.Country
-    |"3" -> BidDescriptorType.Index
-    | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
+let ReadBidDescriptorType (pos:int) (bs:byte[]) : (int * BidDescriptorType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> BidDescriptorType.Sector
+        |"2"B -> BidDescriptorType.Country
+        |"3"B -> BidDescriptorType.Index
+        | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescriptorType) : int =
@@ -11397,9 +12165,11 @@ let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescript
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidDescriptor valIn =
-    let tmp =  valIn
-    BidDescriptor.BidDescriptor tmp
+let ReadBidDescriptor (pos:int) (bs:byte[]) : (int*BidDescriptor) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BidDescriptor.BidDescriptor tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : int = 
@@ -11413,11 +12183,14 @@ let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSideValueInd (fldValIn:string) : SideValueInd = 
-    match fldValIn with
-    |"1" -> SideValueInd.Sidevalue1
-    |"2" -> SideValueInd.Sidevalue2
-    | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
+let ReadSideValueInd (pos:int) (bs:byte[]) : (int * SideValueInd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SideValueInd.Sidevalue1
+        |"2"B -> SideValueInd.Sidevalue2
+        | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : int =
@@ -11436,9 +12209,11 @@ let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityPctLow valIn =
-    let tmp = System.Decimal.Parse valIn
-    LiquidityPctLow.LiquidityPctLow tmp
+let ReadLiquidityPctLow (pos:int) (bs:byte[]) : (int*LiquidityPctLow) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LiquidityPctLow.LiquidityPctLow tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow) : int = 
@@ -11452,9 +12227,11 @@ let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityPctHigh valIn =
-    let tmp = System.Decimal.Parse valIn
-    LiquidityPctHigh.LiquidityPctHigh tmp
+let ReadLiquidityPctHigh (pos:int) (bs:byte[]) : (int*LiquidityPctHigh) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LiquidityPctHigh.LiquidityPctHigh tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHigh) : int = 
@@ -11468,9 +12245,11 @@ let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityValue valIn =
-    let tmp = System.Int32.Parse valIn
-    LiquidityValue.LiquidityValue tmp
+let ReadLiquidityValue (pos:int) (bs:byte[]) : (int*LiquidityValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LiquidityValue.LiquidityValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) : int = 
@@ -11484,9 +12263,11 @@ let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEFPTrackingError valIn =
-    let tmp = System.Decimal.Parse valIn
-    EFPTrackingError.EFPTrackingError tmp
+let ReadEFPTrackingError (pos:int) (bs:byte[]) : (int*EFPTrackingError) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = EFPTrackingError.EFPTrackingError tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingError) : int = 
@@ -11500,9 +12281,11 @@ let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingErr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFairValue valIn =
-    let tmp = System.Int32.Parse valIn
-    FairValue.FairValue tmp
+let ReadFairValue (pos:int) (bs:byte[]) : (int*FairValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = FairValue.FairValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int = 
@@ -11516,9 +12299,11 @@ let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOutsideIndexPct valIn =
-    let tmp = System.Decimal.Parse valIn
-    OutsideIndexPct.OutsideIndexPct tmp
+let ReadOutsideIndexPct (pos:int) (bs:byte[]) : (int*OutsideIndexPct) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OutsideIndexPct.OutsideIndexPct tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct) : int = 
@@ -11532,9 +12317,11 @@ let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadValueOfFutures valIn =
-    let tmp = System.Int32.Parse valIn
-    ValueOfFutures.ValueOfFutures tmp
+let ReadValueOfFutures (pos:int) (bs:byte[]) : (int*ValueOfFutures) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = ValueOfFutures.ValueOfFutures tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) : int = 
@@ -11548,13 +12335,16 @@ let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityIndType (fldValIn:string) : LiquidityIndType = 
-    match fldValIn with
-    |"1" -> LiquidityIndType.FivedayMovingAverage
-    |"2" -> LiquidityIndType.TwentydayMovingAverage
-    |"3" -> LiquidityIndType.NormalMarketSize
-    |"4" -> LiquidityIndType.Other
-    | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
+let ReadLiquidityIndType (pos:int) (bs:byte[]) : (int * LiquidityIndType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> LiquidityIndType.FivedayMovingAverage
+        |"2"B -> LiquidityIndType.TwentydayMovingAverage
+        |"3"B -> LiquidityIndType.NormalMarketSize
+        |"4"B -> LiquidityIndType.Other
+        | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityIndType) : int =
@@ -11585,9 +12375,11 @@ let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityInd
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWtAverageLiquidity valIn =
-    let tmp = System.Decimal.Parse valIn
-    WtAverageLiquidity.WtAverageLiquidity tmp
+let ReadWtAverageLiquidity (pos:int) (bs:byte[]) : (int*WtAverageLiquidity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = WtAverageLiquidity.WtAverageLiquidity tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiquidity) : int = 
@@ -11601,9 +12393,11 @@ let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiq
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExchangeForPhysical valIn =
-    let tmp = System.Boolean.Parse valIn
-    ExchangeForPhysical.ExchangeForPhysical tmp
+let ReadExchangeForPhysical (pos:int) (bs:byte[]) : (int*ExchangeForPhysical) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ExchangeForPhysical.ExchangeForPhysical tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeForPhysical) : int = 
@@ -11617,9 +12411,11 @@ let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeFor
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOutMainCntryUIndex valIn =
-    let tmp = System.Int32.Parse valIn
-    OutMainCntryUIndex.OutMainCntryUIndex tmp
+let ReadOutMainCntryUIndex (pos:int) (bs:byte[]) : (int*OutMainCntryUIndex) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = OutMainCntryUIndex.OutMainCntryUIndex tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntryUIndex) : int = 
@@ -11633,9 +12429,11 @@ let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntry
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCrossPercent valIn =
-    let tmp = System.Decimal.Parse valIn
-    CrossPercent.CrossPercent tmp
+let ReadCrossPercent (pos:int) (bs:byte[]) : (int*CrossPercent) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = CrossPercent.CrossPercent tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : int = 
@@ -11649,12 +12447,15 @@ let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadProgRptReqs (fldValIn:string) : ProgRptReqs = 
-    match fldValIn with
-    |"1" -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
-    |"2" -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
-    |"3" -> ProgRptReqs.RealTimeExecutionReports
-    | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
+let ReadProgRptReqs (pos:int) (bs:byte[]) : (int * ProgRptReqs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
+        |"2"B -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
+        |"3"B -> ProgRptReqs.RealTimeExecutionReports
+        | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : int =
@@ -11679,9 +12480,11 @@ let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadProgPeriodInterval valIn =
-    let tmp = System.Int32.Parse valIn
-    ProgPeriodInterval.ProgPeriodInterval tmp
+let ReadProgPeriodInterval (pos:int) (bs:byte[]) : (int*ProgPeriodInterval) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = ProgPeriodInterval.ProgPeriodInterval tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodInterval) : int = 
@@ -11695,11 +12498,14 @@ let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodIn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIncTaxInd (fldValIn:string) : IncTaxInd = 
-    match fldValIn with
-    |"1" -> IncTaxInd.Net
-    |"2" -> IncTaxInd.Gross
-    | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
+let ReadIncTaxInd (pos:int) (bs:byte[]) : (int * IncTaxInd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> IncTaxInd.Net
+        |"2"B -> IncTaxInd.Gross
+        | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
@@ -11718,9 +12524,11 @@ let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumBidders valIn =
-    let tmp = System.Int32.Parse valIn
-    NumBidders.NumBidders tmp
+let ReadNumBidders (pos:int) (bs:byte[]) : (int*NumBidders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NumBidders.NumBidders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int = 
@@ -11734,13 +12542,16 @@ let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidTradeType (fldValIn:string) : BidTradeType = 
-    match fldValIn with
-    |"R" -> BidTradeType.RiskTrade
-    |"G" -> BidTradeType.VwapGuarantee
-    |"A" -> BidTradeType.Agency
-    |"J" -> BidTradeType.GuaranteedClose
-    | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
+let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"R"B -> BidTradeType.RiskTrade
+        |"G"B -> BidTradeType.VwapGuarantee
+        |"A"B -> BidTradeType.Agency
+        |"J"B -> BidTradeType.GuaranteedClose
+        | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : int =
@@ -11771,22 +12582,25 @@ let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBasisPxType (fldValIn:string) : BasisPxType = 
-    match fldValIn with
-    |"2" -> BasisPxType.ClosingPriceAtMorningSession
-    |"3" -> BasisPxType.ClosingPrice
-    |"4" -> BasisPxType.CurrentPrice
-    |"5" -> BasisPxType.Sq
-    |"6" -> BasisPxType.VwapThroughADay
-    |"7" -> BasisPxType.VwapThroughAMorningSession
-    |"8" -> BasisPxType.VwapThroughAnAfternoonSession
-    |"9" -> BasisPxType.VwapThroughADayExceptYori
-    |"A" -> BasisPxType.VwapThroughAMorningSessionExceptYori
-    |"B" -> BasisPxType.VwapThroughAnAfternoonSessionExceptYori
-    |"C" -> BasisPxType.Strike
-    |"D" -> BasisPxType.Open
-    |"Z" -> BasisPxType.Others
-    | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
+let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"2"B -> BasisPxType.ClosingPriceAtMorningSession
+        |"3"B -> BasisPxType.ClosingPrice
+        |"4"B -> BasisPxType.CurrentPrice
+        |"5"B -> BasisPxType.Sq
+        |"6"B -> BasisPxType.VwapThroughADay
+        |"7"B -> BasisPxType.VwapThroughAMorningSession
+        |"8"B -> BasisPxType.VwapThroughAnAfternoonSession
+        |"9"B -> BasisPxType.VwapThroughADayExceptYori
+        |"A"B -> BasisPxType.VwapThroughAMorningSessionExceptYori
+        |"B"B -> BasisPxType.VwapThroughAnAfternoonSessionExceptYori
+        |"C"B -> BasisPxType.Strike
+        |"D"B -> BasisPxType.Open
+        |"Z"B -> BasisPxType.Others
+        | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : int =
@@ -11871,9 +12685,11 @@ let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoBidComponents valIn =
-    let tmp = System.Int32.Parse valIn
-    NoBidComponents.NoBidComponents tmp
+let ReadNoBidComponents (pos:int) (bs:byte[]) : (int*NoBidComponents) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoBidComponents.NoBidComponents tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents) : int = 
@@ -11887,9 +12703,11 @@ let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCountry valIn =
-    let tmp =  valIn
-    Country.Country tmp
+let ReadCountry (pos:int) (bs:byte[]) : (int*Country) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Country.Country tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int = 
@@ -11903,9 +12721,11 @@ let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoStrikes valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoStrikes.TotNoStrikes tmp
+let ReadTotNoStrikes (pos:int) (bs:byte[]) : (int*TotNoStrikes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoStrikes.TotNoStrikes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : int = 
@@ -11919,20 +12739,23 @@ let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriceType (fldValIn:string) : PriceType = 
-    match fldValIn with
-    |"1" -> PriceType.Percentage
-    |"2" -> PriceType.PerUnit
-    |"3" -> PriceType.FixedAmount
-    |"4" -> PriceType.Discount
-    |"5" -> PriceType.Premium
-    |"6" -> PriceType.Spread
-    |"7" -> PriceType.TedPrice
-    |"8" -> PriceType.TedYield
-    |"9" -> PriceType.Yield
-    |"10" -> PriceType.FixedCabinetTradePrice
-    |"11" -> PriceType.VariableCabinetTradePrice
-    | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
+let ReadPriceType (pos:int) (bs:byte[]) : (int * PriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PriceType.Percentage
+        |"2"B -> PriceType.PerUnit
+        |"3"B -> PriceType.FixedAmount
+        |"4"B -> PriceType.Discount
+        |"5"B -> PriceType.Premium
+        |"6"B -> PriceType.Spread
+        |"7"B -> PriceType.TedPrice
+        |"8"B -> PriceType.TedYield
+        |"9"B -> PriceType.Yield
+        |"10"B -> PriceType.FixedCabinetTradePrice
+        |"11"B -> PriceType.VariableCabinetTradePrice
+        | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
@@ -12005,9 +12828,11 @@ let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDayOrderQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    DayOrderQty.DayOrderQty tmp
+let ReadDayOrderQty (pos:int) (bs:byte[]) : (int*DayOrderQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DayOrderQty.DayOrderQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int = 
@@ -12021,9 +12846,11 @@ let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDayCumQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    DayCumQty.DayCumQty tmp
+let ReadDayCumQty (pos:int) (bs:byte[]) : (int*DayCumQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DayCumQty.DayCumQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int = 
@@ -12037,9 +12864,11 @@ let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDayAvgPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    DayAvgPx.DayAvgPx tmp
+let ReadDayAvgPx (pos:int) (bs:byte[]) : (int*DayAvgPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DayAvgPx.DayAvgPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int = 
@@ -12053,12 +12882,15 @@ let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadGTBookingInst (fldValIn:string) : GTBookingInst = 
-    match fldValIn with
-    |"0" -> GTBookingInst.BookOutAllTradesOnDayOfExecution
-    |"1" -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
-    |"2" -> GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise
-    | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
+let ReadGTBookingInst (pos:int) (bs:byte[]) : (int * GTBookingInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
+        |"1"B -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
+        |"2"B -> GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise
+        | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) : int =
@@ -12083,9 +12915,11 @@ let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoStrikes valIn =
-    let tmp = System.Int32.Parse valIn
-    NoStrikes.NoStrikes tmp
+let ReadNoStrikes (pos:int) (bs:byte[]) : (int*NoStrikes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoStrikes.NoStrikes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int = 
@@ -12099,15 +12933,18 @@ let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListStatusType (fldValIn:string) : ListStatusType = 
-    match fldValIn with
-    |"1" -> ListStatusType.Ack
-    |"2" -> ListStatusType.Response
-    |"3" -> ListStatusType.Timed
-    |"4" -> ListStatusType.Execstarted
-    |"5" -> ListStatusType.Alldone
-    |"6" -> ListStatusType.Alert
-    | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
+let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ListStatusType.Ack
+        |"2"B -> ListStatusType.Response
+        |"3"B -> ListStatusType.Timed
+        |"4"B -> ListStatusType.Execstarted
+        |"5"B -> ListStatusType.Alldone
+        |"6"B -> ListStatusType.Alert
+        | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType) : int =
@@ -12150,11 +12987,14 @@ let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNetGrossInd (fldValIn:string) : NetGrossInd = 
-    match fldValIn with
-    |"1" -> NetGrossInd.Net
-    |"2" -> NetGrossInd.Gross
-    | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
+let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> NetGrossInd.Net
+        |"2"B -> NetGrossInd.Gross
+        | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : int =
@@ -12173,16 +13013,19 @@ let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadListOrderStatus (fldValIn:string) : ListOrderStatus = 
-    match fldValIn with
-    |"1" -> ListOrderStatus.Inbiddingprocess
-    |"2" -> ListOrderStatus.Receivedforexecution
-    |"3" -> ListOrderStatus.Executing
-    |"4" -> ListOrderStatus.Canceling
-    |"5" -> ListOrderStatus.Alert
-    |"6" -> ListOrderStatus.AllDone
-    |"7" -> ListOrderStatus.Reject
-    | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
+let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ListOrderStatus.Inbiddingprocess
+        |"2"B -> ListOrderStatus.Receivedforexecution
+        |"3"B -> ListOrderStatus.Executing
+        |"4"B -> ListOrderStatus.Canceling
+        |"5"B -> ListOrderStatus.Alert
+        |"6"B -> ListOrderStatus.AllDone
+        |"7"B -> ListOrderStatus.Reject
+        | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStatus) : int =
@@ -12231,9 +13074,11 @@ let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStat
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExpireDate valIn =
-    let tmp =  valIn
-    ExpireDate.ExpireDate tmp
+let ReadExpireDate (pos:int) (bs:byte[]) : (int*ExpireDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExpireDate.ExpireDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int = 
@@ -12247,14 +13092,17 @@ let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListExecInstType (fldValIn:string) : ListExecInstType = 
-    match fldValIn with
-    |"1" -> ListExecInstType.Immediate
-    |"2" -> ListExecInstType.WaitForExecuteInstruction
-    |"3" -> ListExecInstType.ExchangeSwitchCivOrderSellDriven
-    |"4" -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp
-    |"5" -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw
-    | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
+let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ListExecInstType.Immediate
+        |"2"B -> ListExecInstType.WaitForExecuteInstruction
+        |"3"B -> ListExecInstType.ExchangeSwitchCivOrderSellDriven
+        |"4"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp
+        |"5"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw
+        | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInstType) : int =
@@ -12291,11 +13139,14 @@ let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCxlRejResponseTo (fldValIn:string) : CxlRejResponseTo = 
-    match fldValIn with
-    |"1" -> CxlRejResponseTo.OrderCancelRequest
-    |"2" -> CxlRejResponseTo.OrderCancelReplaceRequest
-    | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
+let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> CxlRejResponseTo.OrderCancelRequest
+        |"2"B -> CxlRejResponseTo.OrderCancelReplaceRequest
+        | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejResponseTo) : int =
@@ -12314,9 +13165,11 @@ let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejRespon
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCouponRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingCouponRate.UnderlyingCouponRate tmp
+let ReadUnderlyingCouponRate (pos:int) (bs:byte[]) : (int*UnderlyingCouponRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingCouponRate.UnderlyingCouponRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponRate) : int = 
@@ -12330,9 +13183,11 @@ let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingContractMultiplier valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingContractMultiplier.UnderlyingContractMultiplier tmp
+let ReadUnderlyingContractMultiplier (pos:int) (bs:byte[]) : (int*UnderlyingContractMultiplier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingContractMultiplier.UnderlyingContractMultiplier tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingContractMultiplier) : int = 
@@ -12346,9 +13201,11 @@ let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:Un
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraTradeQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    ContraTradeQty.ContraTradeQty tmp
+let ReadContraTradeQty (pos:int) (bs:byte[]) : (int*ContraTradeQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ContraTradeQty.ContraTradeQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) : int = 
@@ -12362,9 +13219,11 @@ let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraTradeTime valIn =
-    let tmp =  valIn
-    ContraTradeTime.ContraTradeTime tmp
+let ReadContraTradeTime (pos:int) (bs:byte[]) : (int*ContraTradeTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContraTradeTime.ContraTradeTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime) : int = 
@@ -12378,9 +13237,11 @@ let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityNumSecurities valIn =
-    let tmp = System.Int32.Parse valIn
-    LiquidityNumSecurities.LiquidityNumSecurities tmp
+let ReadLiquidityNumSecurities (pos:int) (bs:byte[]) : (int*LiquidityNumSecurities) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LiquidityNumSecurities.LiquidityNumSecurities tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityNumSecurities) : int = 
@@ -12394,12 +13255,15 @@ let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:Liquidit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMultiLegReportingType (fldValIn:string) : MultiLegReportingType = 
-    match fldValIn with
-    |"1" -> MultiLegReportingType.SingleSecurity
-    |"2" -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
-    |"3" -> MultiLegReportingType.MultiLegSecurity
-    | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
+let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> MultiLegReportingType.SingleSecurity
+        |"2"B -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
+        |"3"B -> MultiLegReportingType.MultiLegSecurity
+        | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegReportingType) : int =
@@ -12424,9 +13288,11 @@ let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikeTime valIn =
-    let tmp =  valIn
-    StrikeTime.StrikeTime tmp
+let ReadStrikeTime (pos:int) (bs:byte[]) : (int*StrikeTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StrikeTime.StrikeTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int = 
@@ -12440,9 +13306,11 @@ let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadListStatusText valIn =
-    let tmp =  valIn
-    ListStatusText.ListStatusText tmp
+let ReadListStatusText (pos:int) (bs:byte[]) : (int*ListStatusText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ListStatusText.ListStatusText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListStatusText (dest:byte []) (nextFreeIdx:int) (valIn:ListStatusText) : int = 
@@ -12493,27 +13361,30 @@ let ReadEncodedListStatusText valIn (strm:System.IO.Stream) =
     EncodedListStatusText.EncodedListStatusText raw
 
 
-let ReadPartyIDSource (fldValIn:string) : PartyIDSource = 
-    match fldValIn with
-    |"B" -> PartyIDSource.Bic
-    |"C" -> PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier
-    |"D" -> PartyIDSource.ProprietaryCustomCode
-    |"E" -> PartyIDSource.IsoCountryCode
-    |"F" -> PartyIDSource.SettlementEntityLocation
-    |"G" -> PartyIDSource.Mic
-    |"H" -> PartyIDSource.CsdParticipantMemberCode
-    |"1" -> PartyIDSource.KoreanInvestorId
-    |"2" -> PartyIDSource.TaiwaneseQualifiedForeignInvestorIdQfiiFid
-    |"3" -> PartyIDSource.TaiwaneseTradingAccount
-    |"4" -> PartyIDSource.MalaysianCentralDepositoryNumber
-    |"5" -> PartyIDSource.ChineseBShare
-    |"6" -> PartyIDSource.UkNationalInsuranceOrPensionNumber
-    |"7" -> PartyIDSource.UsSocialSecurityNumber
-    |"8" -> PartyIDSource.UsEmployerIdentificationNumber
-    |"9" -> PartyIDSource.AustralianBusinessNumber
-    |"A" -> PartyIDSource.AustralianTaxFileNumber
-    |"I" -> PartyIDSource.DirectedBroker
-    | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
+let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"B"B -> PartyIDSource.Bic
+        |"C"B -> PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier
+        |"D"B -> PartyIDSource.ProprietaryCustomCode
+        |"E"B -> PartyIDSource.IsoCountryCode
+        |"F"B -> PartyIDSource.SettlementEntityLocation
+        |"G"B -> PartyIDSource.Mic
+        |"H"B -> PartyIDSource.CsdParticipantMemberCode
+        |"1"B -> PartyIDSource.KoreanInvestorId
+        |"2"B -> PartyIDSource.TaiwaneseQualifiedForeignInvestorIdQfiiFid
+        |"3"B -> PartyIDSource.TaiwaneseTradingAccount
+        |"4"B -> PartyIDSource.MalaysianCentralDepositoryNumber
+        |"5"B -> PartyIDSource.ChineseBShare
+        |"6"B -> PartyIDSource.UkNationalInsuranceOrPensionNumber
+        |"7"B -> PartyIDSource.UsSocialSecurityNumber
+        |"8"B -> PartyIDSource.UsEmployerIdentificationNumber
+        |"9"B -> PartyIDSource.AustralianBusinessNumber
+        |"A"B -> PartyIDSource.AustralianTaxFileNumber
+        |"I"B -> PartyIDSource.DirectedBroker
+        | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) : int =
@@ -12628,9 +13499,11 @@ let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPartyID valIn =
-    let tmp =  valIn
-    PartyID.PartyID tmp
+let ReadPartyID (pos:int) (bs:byte[]) : (int*PartyID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PartyID.PartyID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int = 
@@ -12644,9 +13517,11 @@ let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetChgPrevDay valIn =
-    let tmp = System.Decimal.Parse valIn
-    NetChgPrevDay.NetChgPrevDay tmp
+let ReadNetChgPrevDay (pos:int) (bs:byte[]) : (int*NetChgPrevDay) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = NetChgPrevDay.NetChgPrevDay tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : int = 
@@ -12660,46 +13535,49 @@ let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPartyRole (fldValIn:string) : PartyRole = 
-    match fldValIn with
-    |"1" -> PartyRole.ExecutingFirm
-    |"2" -> PartyRole.BrokerOfCredit
-    |"3" -> PartyRole.ClientId
-    |"4" -> PartyRole.ClearingFirm
-    |"5" -> PartyRole.InvestorId
-    |"6" -> PartyRole.IntroducingFirm
-    |"7" -> PartyRole.EnteringFirm
-    |"8" -> PartyRole.LocateLendingFirm
-    |"9" -> PartyRole.FundManagerClientId
-    |"10" -> PartyRole.SettlementLocation
-    |"11" -> PartyRole.OrderOriginationTrader
-    |"12" -> PartyRole.ExecutingTrader
-    |"13" -> PartyRole.OrderOriginationFirm
-    |"14" -> PartyRole.GiveupClearingFirm
-    |"15" -> PartyRole.CorrespondantClearingFirm
-    |"16" -> PartyRole.ExecutingSystem
-    |"17" -> PartyRole.ContraFirm
-    |"18" -> PartyRole.ContraClearingFirm
-    |"19" -> PartyRole.SponsoringFirm
-    |"20" -> PartyRole.UnderlyingContraFirm
-    |"21" -> PartyRole.ClearingOrganization
-    |"22" -> PartyRole.Exchange
-    |"24" -> PartyRole.CustomerAccount
-    |"25" -> PartyRole.CorrespondentClearingOrganization
-    |"26" -> PartyRole.CorrespondentBroker
-    |"27" -> PartyRole.BuyerSeller
-    |"28" -> PartyRole.Custodian
-    |"29" -> PartyRole.Intermediary
-    |"30" -> PartyRole.Agent
-    |"31" -> PartyRole.SubCustodian
-    |"32" -> PartyRole.Beneficiary
-    |"33" -> PartyRole.InterestedParty
-    |"34" -> PartyRole.RegulatoryBody
-    |"35" -> PartyRole.LiquidityProvider
-    |"36" -> PartyRole.EnteringTrader
-    |"37" -> PartyRole.ContraTrader
-    |"38" -> PartyRole.PositionAccount
-    | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
+let ReadPartyRole (pos:int) (bs:byte[]) : (int * PartyRole) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PartyRole.ExecutingFirm
+        |"2"B -> PartyRole.BrokerOfCredit
+        |"3"B -> PartyRole.ClientId
+        |"4"B -> PartyRole.ClearingFirm
+        |"5"B -> PartyRole.InvestorId
+        |"6"B -> PartyRole.IntroducingFirm
+        |"7"B -> PartyRole.EnteringFirm
+        |"8"B -> PartyRole.LocateLendingFirm
+        |"9"B -> PartyRole.FundManagerClientId
+        |"10"B -> PartyRole.SettlementLocation
+        |"11"B -> PartyRole.OrderOriginationTrader
+        |"12"B -> PartyRole.ExecutingTrader
+        |"13"B -> PartyRole.OrderOriginationFirm
+        |"14"B -> PartyRole.GiveupClearingFirm
+        |"15"B -> PartyRole.CorrespondantClearingFirm
+        |"16"B -> PartyRole.ExecutingSystem
+        |"17"B -> PartyRole.ContraFirm
+        |"18"B -> PartyRole.ContraClearingFirm
+        |"19"B -> PartyRole.SponsoringFirm
+        |"20"B -> PartyRole.UnderlyingContraFirm
+        |"21"B -> PartyRole.ClearingOrganization
+        |"22"B -> PartyRole.Exchange
+        |"24"B -> PartyRole.CustomerAccount
+        |"25"B -> PartyRole.CorrespondentClearingOrganization
+        |"26"B -> PartyRole.CorrespondentBroker
+        |"27"B -> PartyRole.BuyerSeller
+        |"28"B -> PartyRole.Custodian
+        |"29"B -> PartyRole.Intermediary
+        |"30"B -> PartyRole.Agent
+        |"31"B -> PartyRole.SubCustodian
+        |"32"B -> PartyRole.Beneficiary
+        |"33"B -> PartyRole.InterestedParty
+        |"34"B -> PartyRole.RegulatoryBody
+        |"35"B -> PartyRole.LiquidityProvider
+        |"36"B -> PartyRole.EnteringTrader
+        |"37"B -> PartyRole.ContraTrader
+        |"38"B -> PartyRole.PositionAccount
+        | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
@@ -12928,9 +13806,11 @@ let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoPartyIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoPartyIDs.NoPartyIDs tmp
+let ReadNoPartyIDs (pos:int) (bs:byte[]) : (int*NoPartyIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoPartyIDs.NoPartyIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int = 
@@ -12944,9 +13824,11 @@ let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSecurityAltID valIn =
-    let tmp = System.Int32.Parse valIn
-    NoSecurityAltID.NoSecurityAltID tmp
+let ReadNoSecurityAltID (pos:int) (bs:byte[]) : (int*NoSecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoSecurityAltID.NoSecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID) : int = 
@@ -12960,9 +13842,11 @@ let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityAltID valIn =
-    let tmp =  valIn
-    SecurityAltID.SecurityAltID tmp
+let ReadSecurityAltID (pos:int) (bs:byte[]) : (int*SecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityAltID.SecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : int = 
@@ -12976,9 +13860,11 @@ let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityAltIDSource valIn =
-    let tmp =  valIn
-    SecurityAltIDSource.SecurityAltIDSource tmp
+let ReadSecurityAltIDSource (pos:int) (bs:byte[]) : (int*SecurityAltIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecurityAltIDSource.SecurityAltIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltIDSource) : int = 
@@ -12992,9 +13878,11 @@ let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAlt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoUnderlyingSecurityAltID valIn =
-    let tmp = System.Int32.Parse valIn
-    NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID tmp
+let ReadNoUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*NoUnderlyingSecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingSecurityAltID) : int = 
@@ -13008,9 +13896,11 @@ let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnd
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityAltID valIn =
-    let tmp =  valIn
-    UnderlyingSecurityAltID.UnderlyingSecurityAltID tmp
+let ReadUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityAltID.UnderlyingSecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltID) : int = 
@@ -13024,9 +13914,11 @@ let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityAltIDSource valIn =
-    let tmp =  valIn
-    UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource tmp
+let ReadUnderlyingSecurityAltIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltIDSource) : int = 
@@ -13040,22 +13932,25 @@ let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:U
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadProduct (fldValIn:string) : Product = 
-    match fldValIn with
-    |"1" -> Product.Agency
-    |"2" -> Product.Commodity
-    |"3" -> Product.Corporate
-    |"4" -> Product.Currency
-    |"5" -> Product.Equity
-    |"6" -> Product.Government
-    |"7" -> Product.Index
-    |"8" -> Product.Loan
-    |"9" -> Product.Moneymarket
-    |"10" -> Product.Mortgage
-    |"11" -> Product.Municipal
-    |"12" -> Product.Other
-    |"13" -> Product.Financing
-    | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
+let ReadProduct (pos:int) (bs:byte[]) : (int * Product) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> Product.Agency
+        |"2"B -> Product.Commodity
+        |"3"B -> Product.Corporate
+        |"4"B -> Product.Currency
+        |"5"B -> Product.Equity
+        |"6"B -> Product.Government
+        |"7"B -> Product.Index
+        |"8"B -> Product.Loan
+        |"9"B -> Product.Moneymarket
+        |"10"B -> Product.Mortgage
+        |"11"B -> Product.Municipal
+        |"12"B -> Product.Other
+        |"13"B -> Product.Financing
+        | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
@@ -13140,9 +14035,11 @@ let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCFICode valIn =
-    let tmp =  valIn
-    CFICode.CFICode tmp
+let ReadCFICode (pos:int) (bs:byte[]) : (int*CFICode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CFICode.CFICode tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int = 
@@ -13156,9 +14053,11 @@ let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingProduct valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingProduct.UnderlyingProduct tmp
+let ReadUnderlyingProduct (pos:int) (bs:byte[]) : (int*UnderlyingProduct) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingProduct.UnderlyingProduct tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingProduct) : int = 
@@ -13172,9 +14071,11 @@ let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPro
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCFICode valIn =
-    let tmp =  valIn
-    UnderlyingCFICode.UnderlyingCFICode tmp
+let ReadUnderlyingCFICode (pos:int) (bs:byte[]) : (int*UnderlyingCFICode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCFICode.UnderlyingCFICode tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFICode) : int = 
@@ -13188,9 +14089,11 @@ let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTestMessageIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    TestMessageIndicator.TestMessageIndicator tmp
+let ReadTestMessageIndicator (pos:int) (bs:byte[]) : (int*TestMessageIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = TestMessageIndicator.TestMessageIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessageIndicator) : int = 
@@ -13204,17 +14107,20 @@ let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessag
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuantityType (fldValIn:string) : QuantityType = 
-    match fldValIn with
-    |"1" -> QuantityType.Shares
-    |"2" -> QuantityType.Bonds
-    |"3" -> QuantityType.Currentface
-    |"4" -> QuantityType.Originalface
-    |"5" -> QuantityType.Currency
-    |"6" -> QuantityType.Contracts
-    |"7" -> QuantityType.Other
-    |"8" -> QuantityType.Par
-    | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
+let ReadQuantityType (pos:int) (bs:byte[]) : (int * QuantityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuantityType.Shares
+        |"2"B -> QuantityType.Bonds
+        |"3"B -> QuantityType.Currentface
+        |"4"B -> QuantityType.Originalface
+        |"5"B -> QuantityType.Currency
+        |"6"B -> QuantityType.Contracts
+        |"7"B -> QuantityType.Other
+        |"8"B -> QuantityType.Par
+        | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : int =
@@ -13269,9 +14175,11 @@ let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBookingRefID valIn =
-    let tmp =  valIn
-    BookingRefID.BookingRefID tmp
+let ReadBookingRefID (pos:int) (bs:byte[]) : (int*BookingRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BookingRefID.BookingRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : int = 
@@ -13285,9 +14193,11 @@ let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIndividualAllocID valIn =
-    let tmp =  valIn
-    IndividualAllocID.IndividualAllocID tmp
+let ReadIndividualAllocID (pos:int) (bs:byte[]) : (int*IndividualAllocID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = IndividualAllocID.IndividualAllocID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocID) : int = 
@@ -13301,12 +14211,15 @@ let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAll
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRoundingDirection (fldValIn:string) : RoundingDirection = 
-    match fldValIn with
-    |"0" -> RoundingDirection.RoundToNearest
-    |"1" -> RoundingDirection.RoundDown
-    |"2" -> RoundingDirection.RoundUp
-    | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
+let ReadRoundingDirection (pos:int) (bs:byte[]) : (int * RoundingDirection) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> RoundingDirection.RoundToNearest
+        |"1"B -> RoundingDirection.RoundDown
+        |"2"B -> RoundingDirection.RoundUp
+        | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDirection) : int =
@@ -13331,9 +14244,11 @@ let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDir
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoundingModulus valIn =
-    let tmp = System.Decimal.Parse valIn
-    RoundingModulus.RoundingModulus tmp
+let ReadRoundingModulus (pos:int) (bs:byte[]) : (int*RoundingModulus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = RoundingModulus.RoundingModulus tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus) : int = 
@@ -13347,9 +14262,11 @@ let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCountryOfIssue valIn =
-    let tmp =  valIn
-    CountryOfIssue.CountryOfIssue tmp
+let ReadCountryOfIssue (pos:int) (bs:byte[]) : (int*CountryOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CountryOfIssue.CountryOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) : int = 
@@ -13363,9 +14280,11 @@ let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStateOrProvinceOfIssue valIn =
-    let tmp =  valIn
-    StateOrProvinceOfIssue.StateOrProvinceOfIssue tmp
+let ReadStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*StateOrProvinceOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StateOrProvinceOfIssue.StateOrProvinceOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrProvinceOfIssue) : int = 
@@ -13379,9 +14298,11 @@ let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLocaleOfIssue valIn =
-    let tmp =  valIn
-    LocaleOfIssue.LocaleOfIssue tmp
+let ReadLocaleOfIssue (pos:int) (bs:byte[]) : (int*LocaleOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LocaleOfIssue.LocaleOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : int = 
@@ -13395,9 +14316,11 @@ let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRegistDtls valIn =
-    let tmp = System.Int32.Parse valIn
-    NoRegistDtls.NoRegistDtls tmp
+let ReadNoRegistDtls (pos:int) (bs:byte[]) : (int*NoRegistDtls) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoRegistDtls.NoRegistDtls tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : int = 
@@ -13411,9 +14334,11 @@ let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMailingDtls valIn =
-    let tmp =  valIn
-    MailingDtls.MailingDtls tmp
+let ReadMailingDtls (pos:int) (bs:byte[]) : (int*MailingDtls) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MailingDtls.MailingDtls tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int = 
@@ -13427,9 +14352,11 @@ let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInvestorCountryOfResidence valIn =
-    let tmp =  valIn
-    InvestorCountryOfResidence.InvestorCountryOfResidence tmp
+let ReadInvestorCountryOfResidence (pos:int) (bs:byte[]) : (int*InvestorCountryOfResidence) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = InvestorCountryOfResidence.InvestorCountryOfResidence tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:InvestorCountryOfResidence) : int = 
@@ -13443,9 +14370,11 @@ let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:Inve
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentRef valIn =
-    let tmp =  valIn
-    PaymentRef.PaymentRef tmp
+let ReadPaymentRef (pos:int) (bs:byte[]) : (int*PaymentRef) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PaymentRef.PaymentRef tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int = 
@@ -13459,21 +14388,24 @@ let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDistribPaymentMethod (fldValIn:string) : DistribPaymentMethod = 
-    match fldValIn with
-    |"1" -> DistribPaymentMethod.Crest
-    |"2" -> DistribPaymentMethod.Nscc
-    |"3" -> DistribPaymentMethod.Euroclear
-    |"4" -> DistribPaymentMethod.Clearstream
-    |"5" -> DistribPaymentMethod.Cheque
-    |"6" -> DistribPaymentMethod.TelegraphicTransfer
-    |"7" -> DistribPaymentMethod.Fedwire
-    |"8" -> DistribPaymentMethod.DirectCredit
-    |"9" -> DistribPaymentMethod.AchCredit
-    |"10" -> DistribPaymentMethod.Bpay
-    |"11" -> DistribPaymentMethod.HighValueClearingSystem
-    |"12" -> DistribPaymentMethod.ReinvestInFund
-    | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
+let ReadDistribPaymentMethod (pos:int) (bs:byte[]) : (int * DistribPaymentMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> DistribPaymentMethod.Crest
+        |"2"B -> DistribPaymentMethod.Nscc
+        |"3"B -> DistribPaymentMethod.Euroclear
+        |"4"B -> DistribPaymentMethod.Clearstream
+        |"5"B -> DistribPaymentMethod.Cheque
+        |"6"B -> DistribPaymentMethod.TelegraphicTransfer
+        |"7"B -> DistribPaymentMethod.Fedwire
+        |"8"B -> DistribPaymentMethod.DirectCredit
+        |"9"B -> DistribPaymentMethod.AchCredit
+        |"10"B -> DistribPaymentMethod.Bpay
+        |"11"B -> DistribPaymentMethod.HighValueClearingSystem
+        |"12"B -> DistribPaymentMethod.ReinvestInFund
+        | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribPaymentMethod) : int =
@@ -13552,9 +14484,11 @@ let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribP
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribCurr valIn =
-    let tmp =  valIn
-    CashDistribCurr.CashDistribCurr tmp
+let ReadCashDistribCurr (pos:int) (bs:byte[]) : (int*CashDistribCurr) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribCurr.CashDistribCurr tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr) : int = 
@@ -13568,9 +14502,11 @@ let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCommCurrency valIn =
-    let tmp =  valIn
-    CommCurrency.CommCurrency tmp
+let ReadCommCurrency (pos:int) (bs:byte[]) : (int*CommCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CommCurrency.CommCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : int = 
@@ -13584,13 +14520,16 @@ let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCancellationRights (fldValIn:string) : CancellationRights = 
-    match fldValIn with
-    |"Y" -> CancellationRights.Yes
-    |"N" -> CancellationRights.NoExecutionOnly
-    |"M" -> CancellationRights.NoWaiverAgreement
-    |"O" -> CancellationRights.NoInstitutional
-    | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
+let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"Y"B -> CancellationRights.Yes
+        |"N"B -> CancellationRights.NoExecutionOnly
+        |"M"B -> CancellationRights.NoWaiverAgreement
+        |"O"B -> CancellationRights.NoInstitutional
+        | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:CancellationRights) : int =
@@ -13621,14 +14560,17 @@ let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:Cancellati
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMoneyLaunderingStatus (fldValIn:string) : MoneyLaunderingStatus = 
-    match fldValIn with
-    |"Y" -> MoneyLaunderingStatus.Passed
-    |"N" -> MoneyLaunderingStatus.NotChecked
-    |"1" -> MoneyLaunderingStatus.ExemptBelowTheLimit
-    |"2" -> MoneyLaunderingStatus.ExemptClientMoneyTypeExemption
-    |"3" -> MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution
-    | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
+let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"Y"B -> MoneyLaunderingStatus.Passed
+        |"N"B -> MoneyLaunderingStatus.NotChecked
+        |"1"B -> MoneyLaunderingStatus.ExemptBelowTheLimit
+        |"2"B -> MoneyLaunderingStatus.ExemptClientMoneyTypeExemption
+        |"3"B -> MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution
+        | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLaunderingStatus) : int =
@@ -13665,9 +14607,11 @@ let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMailingInst valIn =
-    let tmp =  valIn
-    MailingInst.MailingInst tmp
+let ReadMailingInst (pos:int) (bs:byte[]) : (int*MailingInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MailingInst.MailingInst tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int = 
@@ -13681,9 +14625,11 @@ let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTransBkdTime valIn =
-    let tmp =  valIn
-    TransBkdTime.TransBkdTime tmp
+let ReadTransBkdTime (pos:int) (bs:byte[]) : (int*TransBkdTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TransBkdTime.TransBkdTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : int = 
@@ -13697,17 +14643,20 @@ let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecPriceType (fldValIn:string) : ExecPriceType = 
-    match fldValIn with
-    |"B" -> ExecPriceType.BidPrice
-    |"C" -> ExecPriceType.CreationPrice
-    |"D" -> ExecPriceType.CreationPricePlusAdjustmentPercent
-    |"E" -> ExecPriceType.CreationPricePlusAdjustmentAmount
-    |"O" -> ExecPriceType.OfferPrice
-    |"P" -> ExecPriceType.OfferPriceMinusAdjustmentPercent
-    |"Q" -> ExecPriceType.OfferPriceMinusAdjustmentAmount
-    |"S" -> ExecPriceType.SinglePrice
-    | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
+let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"B"B -> ExecPriceType.BidPrice
+        |"C"B -> ExecPriceType.CreationPrice
+        |"D"B -> ExecPriceType.CreationPricePlusAdjustmentPercent
+        |"E"B -> ExecPriceType.CreationPricePlusAdjustmentAmount
+        |"O"B -> ExecPriceType.OfferPrice
+        |"P"B -> ExecPriceType.OfferPriceMinusAdjustmentPercent
+        |"Q"B -> ExecPriceType.OfferPriceMinusAdjustmentAmount
+        |"S"B -> ExecPriceType.SinglePrice
+        | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) : int =
@@ -13762,9 +14711,11 @@ let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecPriceAdjustment valIn =
-    let tmp = System.Decimal.Parse valIn
-    ExecPriceAdjustment.ExecPriceAdjustment tmp
+let ReadExecPriceAdjustment (pos:int) (bs:byte[]) : (int*ExecPriceAdjustment) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ExecPriceAdjustment.ExecPriceAdjustment tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAdjustment) : int = 
@@ -13778,9 +14729,11 @@ let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAd
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDateOfBirth valIn =
-    let tmp =  valIn
-    DateOfBirth.DateOfBirth tmp
+let ReadDateOfBirth (pos:int) (bs:byte[]) : (int*DateOfBirth) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DateOfBirth.DateOfBirth tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int = 
@@ -13794,14 +14747,17 @@ let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportTransType (fldValIn:string) : TradeReportTransType = 
-    match fldValIn with
-    |"0" -> TradeReportTransType.New
-    |"1" -> TradeReportTransType.Cancel
-    |"2" -> TradeReportTransType.Replace
-    |"3" -> TradeReportTransType.Release
-    |"4" -> TradeReportTransType.Reverse
-    | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
+let ReadTradeReportTransType (pos:int) (bs:byte[]) : (int * TradeReportTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeReportTransType.New
+        |"1"B -> TradeReportTransType.Cancel
+        |"2"B -> TradeReportTransType.Replace
+        |"3"B -> TradeReportTransType.Release
+        |"4"B -> TradeReportTransType.Reverse
+        | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTransType) : int =
@@ -13838,9 +14794,11 @@ let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRep
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCardHolderName valIn =
-    let tmp =  valIn
-    CardHolderName.CardHolderName tmp
+let ReadCardHolderName (pos:int) (bs:byte[]) : (int*CardHolderName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CardHolderName.CardHolderName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) : int = 
@@ -13854,9 +14812,11 @@ let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardNumber valIn =
-    let tmp =  valIn
-    CardNumber.CardNumber tmp
+let ReadCardNumber (pos:int) (bs:byte[]) : (int*CardNumber) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CardNumber.CardNumber tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int = 
@@ -13870,9 +14830,11 @@ let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardExpDate valIn =
-    let tmp =  valIn
-    CardExpDate.CardExpDate tmp
+let ReadCardExpDate (pos:int) (bs:byte[]) : (int*CardExpDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CardExpDate.CardExpDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int = 
@@ -13886,9 +14848,11 @@ let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardIssNum valIn =
-    let tmp =  valIn
-    CardIssNum.CardIssNum tmp
+let ReadCardIssNum (pos:int) (bs:byte[]) : (int*CardIssNum) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CardIssNum.CardIssNum tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int = 
@@ -13902,24 +14866,27 @@ let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentMethod (fldValIn:string) : PaymentMethod = 
-    match fldValIn with
-    |"1" -> PaymentMethod.Crest
-    |"2" -> PaymentMethod.Nscc
-    |"3" -> PaymentMethod.Euroclear
-    |"4" -> PaymentMethod.Clearstream
-    |"5" -> PaymentMethod.Cheque
-    |"6" -> PaymentMethod.TelegraphicTransfer
-    |"7" -> PaymentMethod.Fedwire
-    |"8" -> PaymentMethod.DebitCard
-    |"9" -> PaymentMethod.DirectDebit
-    |"10" -> PaymentMethod.DirectCredit
-    |"11" -> PaymentMethod.CreditCard
-    |"12" -> PaymentMethod.AchDebit
-    |"13" -> PaymentMethod.AchCredit
-    |"14" -> PaymentMethod.Bpay
-    |"15" -> PaymentMethod.HighValueClearingSystem
-    | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
+let ReadPaymentMethod (pos:int) (bs:byte[]) : (int * PaymentMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PaymentMethod.Crest
+        |"2"B -> PaymentMethod.Nscc
+        |"3"B -> PaymentMethod.Euroclear
+        |"4"B -> PaymentMethod.Clearstream
+        |"5"B -> PaymentMethod.Cheque
+        |"6"B -> PaymentMethod.TelegraphicTransfer
+        |"7"B -> PaymentMethod.Fedwire
+        |"8"B -> PaymentMethod.DebitCard
+        |"9"B -> PaymentMethod.DirectDebit
+        |"10"B -> PaymentMethod.DirectCredit
+        |"11"B -> PaymentMethod.CreditCard
+        |"12"B -> PaymentMethod.AchDebit
+        |"13"B -> PaymentMethod.AchCredit
+        |"14"B -> PaymentMethod.Bpay
+        |"15"B -> PaymentMethod.HighValueClearingSystem
+        | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) : int =
@@ -14016,9 +14983,11 @@ let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistAcctType valIn =
-    let tmp =  valIn
-    RegistAcctType.RegistAcctType tmp
+let ReadRegistAcctType (pos:int) (bs:byte[]) : (int*RegistAcctType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistAcctType.RegistAcctType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) : int = 
@@ -14032,9 +15001,11 @@ let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDesignation valIn =
-    let tmp =  valIn
-    Designation.Designation tmp
+let ReadDesignation (pos:int) (bs:byte[]) : (int*Designation) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Designation.Designation tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int = 
@@ -14048,20 +15019,23 @@ let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTaxAdvantageType (fldValIn:string) : TaxAdvantageType = 
-    match fldValIn with
-    |"0" -> TaxAdvantageType.NNone
-    |"1" -> TaxAdvantageType.MaxiIsa
-    |"2" -> TaxAdvantageType.Tessa
-    |"3" -> TaxAdvantageType.MiniCashIsa
-    |"4" -> TaxAdvantageType.MiniStocksAndSharesIsa
-    |"5" -> TaxAdvantageType.MiniInsuranceIsa
-    |"6" -> TaxAdvantageType.CurrentYearPayment
-    |"7" -> TaxAdvantageType.PriorYearPayment
-    |"8" -> TaxAdvantageType.AssetTransfer
-    |"9" -> TaxAdvantageType.EmployeePriorYear
-    |"999" -> TaxAdvantageType.Other
-    | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
+let ReadTaxAdvantageType (pos:int) (bs:byte[]) : (int * TaxAdvantageType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TaxAdvantageType.NNone
+        |"1"B -> TaxAdvantageType.MaxiIsa
+        |"2"B -> TaxAdvantageType.Tessa
+        |"3"B -> TaxAdvantageType.MiniCashIsa
+        |"4"B -> TaxAdvantageType.MiniStocksAndSharesIsa
+        |"5"B -> TaxAdvantageType.MiniInsuranceIsa
+        |"6"B -> TaxAdvantageType.CurrentYearPayment
+        |"7"B -> TaxAdvantageType.PriorYearPayment
+        |"8"B -> TaxAdvantageType.AssetTransfer
+        |"9"B -> TaxAdvantageType.EmployeePriorYear
+        |"999"B -> TaxAdvantageType.Other
+        | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantageType) : int =
@@ -14134,9 +15108,11 @@ let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantage
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistRejReasonText valIn =
-    let tmp =  valIn
-    RegistRejReasonText.RegistRejReasonText tmp
+let ReadRegistRejReasonText (pos:int) (bs:byte[]) : (int*RegistRejReasonText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistRejReasonText.RegistRejReasonText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejReasonText) : int = 
@@ -14150,11 +15126,14 @@ let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejRe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFundRenewWaiv (fldValIn:string) : FundRenewWaiv = 
-    match fldValIn with
-    |"Y" -> FundRenewWaiv.Yes
-    |"N" -> FundRenewWaiv.No
-    | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
+let ReadFundRenewWaiv (pos:int) (bs:byte[]) : (int * FundRenewWaiv) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"Y"B -> FundRenewWaiv.Yes
+        |"N"B -> FundRenewWaiv.No
+        | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) : int =
@@ -14173,9 +15152,11 @@ let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentName valIn =
-    let tmp =  valIn
-    CashDistribAgentName.CashDistribAgentName tmp
+let ReadCashDistribAgentName (pos:int) (bs:byte[]) : (int*CashDistribAgentName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribAgentName.CashDistribAgentName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentName) : int = 
@@ -14189,9 +15170,11 @@ let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentCode valIn =
-    let tmp =  valIn
-    CashDistribAgentCode.CashDistribAgentCode tmp
+let ReadCashDistribAgentCode (pos:int) (bs:byte[]) : (int*CashDistribAgentCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribAgentCode.CashDistribAgentCode tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentCode) : int = 
@@ -14205,9 +15188,11 @@ let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentAcctNumber valIn =
-    let tmp =  valIn
-    CashDistribAgentAcctNumber.CashDistribAgentAcctNumber tmp
+let ReadCashDistribAgentAcctNumber (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctNumber) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribAgentAcctNumber.CashDistribAgentAcctNumber tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctNumber) : int = 
@@ -14221,9 +15206,11 @@ let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:Cash
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribPayRef valIn =
-    let tmp =  valIn
-    CashDistribPayRef.CashDistribPayRef tmp
+let ReadCashDistribPayRef (pos:int) (bs:byte[]) : (int*CashDistribPayRef) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribPayRef.CashDistribPayRef tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPayRef) : int = 
@@ -14237,9 +15224,11 @@ let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentAcctName valIn =
-    let tmp =  valIn
-    CashDistribAgentAcctName.CashDistribAgentAcctName tmp
+let ReadCashDistribAgentAcctName (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CashDistribAgentAcctName.CashDistribAgentAcctName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctName) : int = 
@@ -14253,9 +15242,11 @@ let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardStartDate valIn =
-    let tmp =  valIn
-    CardStartDate.CardStartDate tmp
+let ReadCardStartDate (pos:int) (bs:byte[]) : (int*CardStartDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CardStartDate.CardStartDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : int = 
@@ -14269,9 +15260,11 @@ let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentDate valIn =
-    let tmp =  valIn
-    PaymentDate.PaymentDate tmp
+let ReadPaymentDate (pos:int) (bs:byte[]) : (int*PaymentDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PaymentDate.PaymentDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int = 
@@ -14285,9 +15278,11 @@ let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentRemitterID valIn =
-    let tmp =  valIn
-    PaymentRemitterID.PaymentRemitterID tmp
+let ReadPaymentRemitterID (pos:int) (bs:byte[]) : (int*PaymentRemitterID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PaymentRemitterID.PaymentRemitterID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitterID) : int = 
@@ -14301,13 +15296,16 @@ let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistStatus (fldValIn:string) : RegistStatus = 
-    match fldValIn with
-    |"A" -> RegistStatus.Accepted
-    |"R" -> RegistStatus.Rejected
-    |"H" -> RegistStatus.Held
-    |"N" -> RegistStatus.Reminder
-    | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
+let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> RegistStatus.Accepted
+        |"R"B -> RegistStatus.Rejected
+        |"H"B -> RegistStatus.Held
+        |"N"B -> RegistStatus.Reminder
+        | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : int =
@@ -14338,28 +15336,31 @@ let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistRejReasonCode (fldValIn:string) : RegistRejReasonCode = 
-    match fldValIn with
-    |"1" -> RegistRejReasonCode.InvalidUnacceptableAccountType
-    |"2" -> RegistRejReasonCode.InvalidUnacceptableTaxExemptType
-    |"3" -> RegistRejReasonCode.InvalidUnacceptableOwnershipType
-    |"4" -> RegistRejReasonCode.InvalidUnacceptableNoRegDetls
-    |"5" -> RegistRejReasonCode.InvalidUnacceptableRegSeqNo
-    |"6" -> RegistRejReasonCode.InvalidUnacceptableRegDtls
-    |"7" -> RegistRejReasonCode.InvalidUnacceptableMailingDtls
-    |"8" -> RegistRejReasonCode.InvalidUnacceptableMailingInst
-    |"9" -> RegistRejReasonCode.InvalidUnacceptableInvestorId
-    |"10" -> RegistRejReasonCode.InvalidUnacceptableInvestorIdSource
-    |"11" -> RegistRejReasonCode.InvalidUnacceptableDateOfBirth
-    |"12" -> RegistRejReasonCode.InvalidUnacceptableInvestorCountryOfResidence
-    |"13" -> RegistRejReasonCode.InvalidUnacceptableNodistribinstns
-    |"14" -> RegistRejReasonCode.InvalidUnacceptableDistribPercentage
-    |"15" -> RegistRejReasonCode.InvalidUnacceptableDistribPaymentMethod
-    |"16" -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctName
-    |"17" -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode
-    |"18" -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum
-    |"99" -> RegistRejReasonCode.Other
-    | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
+let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> RegistRejReasonCode.InvalidUnacceptableAccountType
+        |"2"B -> RegistRejReasonCode.InvalidUnacceptableTaxExemptType
+        |"3"B -> RegistRejReasonCode.InvalidUnacceptableOwnershipType
+        |"4"B -> RegistRejReasonCode.InvalidUnacceptableNoRegDetls
+        |"5"B -> RegistRejReasonCode.InvalidUnacceptableRegSeqNo
+        |"6"B -> RegistRejReasonCode.InvalidUnacceptableRegDtls
+        |"7"B -> RegistRejReasonCode.InvalidUnacceptableMailingDtls
+        |"8"B -> RegistRejReasonCode.InvalidUnacceptableMailingInst
+        |"9"B -> RegistRejReasonCode.InvalidUnacceptableInvestorId
+        |"10"B -> RegistRejReasonCode.InvalidUnacceptableInvestorIdSource
+        |"11"B -> RegistRejReasonCode.InvalidUnacceptableDateOfBirth
+        |"12"B -> RegistRejReasonCode.InvalidUnacceptableInvestorCountryOfResidence
+        |"13"B -> RegistRejReasonCode.InvalidUnacceptableNodistribinstns
+        |"14"B -> RegistRejReasonCode.InvalidUnacceptableDistribPercentage
+        |"15"B -> RegistRejReasonCode.InvalidUnacceptableDistribPaymentMethod
+        |"16"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctName
+        |"17"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode
+        |"18"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum
+        |"99"B -> RegistRejReasonCode.Other
+        | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRejReasonCode) : int =
@@ -14480,9 +15481,11 @@ let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRej
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistRefID valIn =
-    let tmp =  valIn
-    RegistRefID.RegistRefID tmp
+let ReadRegistRefID (pos:int) (bs:byte[]) : (int*RegistRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistRefID.RegistRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int = 
@@ -14496,9 +15499,11 @@ let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistDtls valIn =
-    let tmp =  valIn
-    RegistDtls.RegistDtls tmp
+let ReadRegistDtls (pos:int) (bs:byte[]) : (int*RegistDtls) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistDtls.RegistDtls tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int = 
@@ -14512,9 +15517,11 @@ let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDistribInsts valIn =
-    let tmp = System.Int32.Parse valIn
-    NoDistribInsts.NoDistribInsts tmp
+let ReadNoDistribInsts (pos:int) (bs:byte[]) : (int*NoDistribInsts) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoDistribInsts.NoDistribInsts tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) : int = 
@@ -14528,9 +15535,11 @@ let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistEmail valIn =
-    let tmp =  valIn
-    RegistEmail.RegistEmail tmp
+let ReadRegistEmail (pos:int) (bs:byte[]) : (int*RegistEmail) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistEmail.RegistEmail tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int = 
@@ -14544,9 +15553,11 @@ let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDistribPercentage valIn =
-    let tmp = System.Decimal.Parse valIn
-    DistribPercentage.DistribPercentage tmp
+let ReadDistribPercentage (pos:int) (bs:byte[]) : (int*DistribPercentage) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DistribPercentage.DistribPercentage tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercentage) : int = 
@@ -14560,9 +15571,11 @@ let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercen
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistID valIn =
-    let tmp =  valIn
-    RegistID.RegistID tmp
+let ReadRegistID (pos:int) (bs:byte[]) : (int*RegistID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RegistID.RegistID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int = 
@@ -14576,12 +15589,15 @@ let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistTransType (fldValIn:string) : RegistTransType = 
-    match fldValIn with
-    |"0" -> RegistTransType.New
-    |"1" -> RegistTransType.Replace
-    |"2" -> RegistTransType.Cancel
-    | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
+let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> RegistTransType.New
+        |"1"B -> RegistTransType.Replace
+        |"2"B -> RegistTransType.Cancel
+        | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransType) : int =
@@ -14606,9 +15622,11 @@ let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecValuationPoint valIn =
-    let tmp =  valIn
-    ExecValuationPoint.ExecValuationPoint tmp
+let ReadExecValuationPoint (pos:int) (bs:byte[]) : (int*ExecValuationPoint) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExecValuationPoint.ExecValuationPoint tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuationPoint) : int = 
@@ -14622,9 +15640,11 @@ let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuatio
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderPercent valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderPercent.OrderPercent tmp
+let ReadOrderPercent (pos:int) (bs:byte[]) : (int*OrderPercent) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderPercent.OrderPercent tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : int = 
@@ -14638,12 +15658,15 @@ let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOwnershipType (fldValIn:string) : OwnershipType = 
-    match fldValIn with
-    |"J" -> OwnershipType.JointInvestors
-    |"T" -> OwnershipType.TenantsInCommon
-    |"2" -> OwnershipType.JointTrustees
-    | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
+let ReadOwnershipType (pos:int) (bs:byte[]) : (int * OwnershipType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"J"B -> OwnershipType.JointInvestors
+        |"T"B -> OwnershipType.TenantsInCommon
+        |"2"B -> OwnershipType.JointTrustees
+        | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) : int =
@@ -14668,9 +15691,11 @@ let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoContAmts valIn =
-    let tmp = System.Int32.Parse valIn
-    NoContAmts.NoContAmts tmp
+let ReadNoContAmts (pos:int) (bs:byte[]) : (int*NoContAmts) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoContAmts.NoContAmts tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int = 
@@ -14684,18 +15709,21 @@ let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContAmtType (fldValIn:string) : ContAmtType = 
-    match fldValIn with
-    |"1" -> ContAmtType.CommissionAmount
-    |"2" -> ContAmtType.CommissionPercent
-    |"3" -> ContAmtType.InitialChargeAmount
-    |"4" -> ContAmtType.InitialChargePercent
-    |"5" -> ContAmtType.DiscountAmount
-    |"6" -> ContAmtType.DiscountPercent
-    |"7" -> ContAmtType.DilutionLevyAmount
-    |"8" -> ContAmtType.DilutionLevyPercent
-    |"9" -> ContAmtType.ExitChargeAmount
-    | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
+let ReadContAmtType (pos:int) (bs:byte[]) : (int * ContAmtType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ContAmtType.CommissionAmount
+        |"2"B -> ContAmtType.CommissionPercent
+        |"3"B -> ContAmtType.InitialChargeAmount
+        |"4"B -> ContAmtType.InitialChargePercent
+        |"5"B -> ContAmtType.DiscountAmount
+        |"6"B -> ContAmtType.DiscountPercent
+        |"7"B -> ContAmtType.DilutionLevyAmount
+        |"8"B -> ContAmtType.DilutionLevyPercent
+        |"9"B -> ContAmtType.ExitChargeAmount
+        | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : int =
@@ -14756,9 +15784,11 @@ let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContAmtValue valIn =
-    let tmp = System.Decimal.Parse valIn
-    ContAmtValue.ContAmtValue tmp
+let ReadContAmtValue (pos:int) (bs:byte[]) : (int*ContAmtValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ContAmtValue.ContAmtValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : int = 
@@ -14772,9 +15802,11 @@ let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContAmtCurr valIn =
-    let tmp =  valIn
-    ContAmtCurr.ContAmtCurr tmp
+let ReadContAmtCurr (pos:int) (bs:byte[]) : (int*ContAmtCurr) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContAmtCurr.ContAmtCurr tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int = 
@@ -14788,22 +15820,25 @@ let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOwnerType (fldValIn:string) : OwnerType = 
-    match fldValIn with
-    |"1" -> OwnerType.IndividualInvestor
-    |"2" -> OwnerType.PublicCompany
-    |"3" -> OwnerType.PrivateCompany
-    |"4" -> OwnerType.IndividualTrustee
-    |"5" -> OwnerType.CompanyTrustee
-    |"6" -> OwnerType.PensionPlan
-    |"7" -> OwnerType.CustodianUnderGiftsToMinorsAct
-    |"8" -> OwnerType.Trusts
-    |"9" -> OwnerType.Fiduciaries
-    |"10" -> OwnerType.NetworkingSubAccount
-    |"11" -> OwnerType.NonProfitOrganization
-    |"12" -> OwnerType.CorporateBody
-    |"13" -> OwnerType.Nominee
-    | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
+let ReadOwnerType (pos:int) (bs:byte[]) : (int * OwnerType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> OwnerType.IndividualInvestor
+        |"2"B -> OwnerType.PublicCompany
+        |"3"B -> OwnerType.PrivateCompany
+        |"4"B -> OwnerType.IndividualTrustee
+        |"5"B -> OwnerType.CompanyTrustee
+        |"6"B -> OwnerType.PensionPlan
+        |"7"B -> OwnerType.CustodianUnderGiftsToMinorsAct
+        |"8"B -> OwnerType.Trusts
+        |"9"B -> OwnerType.Fiduciaries
+        |"10"B -> OwnerType.NetworkingSubAccount
+        |"11"B -> OwnerType.NonProfitOrganization
+        |"12"B -> OwnerType.CorporateBody
+        |"13"B -> OwnerType.Nominee
+        | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
@@ -14888,9 +15923,11 @@ let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPartySubID valIn =
-    let tmp =  valIn
-    PartySubID.PartySubID tmp
+let ReadPartySubID (pos:int) (bs:byte[]) : (int*PartySubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PartySubID.PartySubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int = 
@@ -14904,9 +15941,11 @@ let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartyID valIn =
-    let tmp =  valIn
-    NestedPartyID.NestedPartyID tmp
+let ReadNestedPartyID (pos:int) (bs:byte[]) : (int*NestedPartyID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = NestedPartyID.NestedPartyID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : int = 
@@ -14920,9 +15959,11 @@ let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartyIDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    NestedPartyIDSource.NestedPartyIDSource tmp
+let ReadNestedPartyIDSource (pos:int) (bs:byte[]) : (int*NestedPartyIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NestedPartyIDSource.NestedPartyIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyIDSource) : int = 
@@ -14936,9 +15977,11 @@ let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedParty
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryClOrdID valIn =
-    let tmp =  valIn
-    SecondaryClOrdID.SecondaryClOrdID tmp
+let ReadSecondaryClOrdID (pos:int) (bs:byte[]) : (int*SecondaryClOrdID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryClOrdID.SecondaryClOrdID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrdID) : int = 
@@ -14952,9 +15995,11 @@ let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrd
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryExecID valIn =
-    let tmp =  valIn
-    SecondaryExecID.SecondaryExecID tmp
+let ReadSecondaryExecID (pos:int) (bs:byte[]) : (int*SecondaryExecID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryExecID.SecondaryExecID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID) : int = 
@@ -14968,15 +16013,18 @@ let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderCapacity (fldValIn:string) : OrderCapacity = 
-    match fldValIn with
-    |"A" -> OrderCapacity.Agency
-    |"G" -> OrderCapacity.Proprietary
-    |"I" -> OrderCapacity.Individual
-    |"P" -> OrderCapacity.Principal
-    |"R" -> OrderCapacity.RisklessPrincipal
-    |"W" -> OrderCapacity.AgentForOtherMember
-    | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
+let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> OrderCapacity.Agency
+        |"G"B -> OrderCapacity.Proprietary
+        |"I"B -> OrderCapacity.Individual
+        |"P"B -> OrderCapacity.Principal
+        |"R"B -> OrderCapacity.RisklessPrincipal
+        |"W"B -> OrderCapacity.AgentForOtherMember
+        | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) : int =
@@ -15019,19 +16067,22 @@ let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrderRestrictions (fldValIn:string) : OrderRestrictions = 
-    match fldValIn with
-    |"1" -> OrderRestrictions.ProgramTrade
-    |"2" -> OrderRestrictions.IndexArbitrage
-    |"3" -> OrderRestrictions.NonIndexArbitrage
-    |"4" -> OrderRestrictions.CompetingMarketMaker
-    |"5" -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheSecurity
-    |"6" -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheUnderlyingSecurityOfADerivativeSecurity
-    |"7" -> OrderRestrictions.ForeignEntity
-    |"8" -> OrderRestrictions.ExternalMarketParticipant
-    |"9" -> OrderRestrictions.ExternalInterConnectedMarketLinkage
-    |"A" -> OrderRestrictions.RisklessArbitrage
-    | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
+let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> OrderRestrictions.ProgramTrade
+        |"2"B -> OrderRestrictions.IndexArbitrage
+        |"3"B -> OrderRestrictions.NonIndexArbitrage
+        |"4"B -> OrderRestrictions.CompetingMarketMaker
+        |"5"B -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheSecurity
+        |"6"B -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheUnderlyingSecurityOfADerivativeSecurity
+        |"7"B -> OrderRestrictions.ForeignEntity
+        |"8"B -> OrderRestrictions.ExternalMarketParticipant
+        |"9"B -> OrderRestrictions.ExternalInterConnectedMarketLinkage
+        |"A"B -> OrderRestrictions.RisklessArbitrage
+        | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestrictions) : int =
@@ -15098,16 +16149,19 @@ let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestri
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMassCancelRequestType (fldValIn:string) : MassCancelRequestType = 
-    match fldValIn with
-    |"1" -> MassCancelRequestType.CancelOrdersForASecurity
-    |"2" -> MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity
-    |"3" -> MassCancelRequestType.CancelOrdersForAProduct
-    |"4" -> MassCancelRequestType.CancelOrdersForACficode
-    |"5" -> MassCancelRequestType.CancelOrdersForASecuritytype
-    |"6" -> MassCancelRequestType.CancelOrdersForATradingSession
-    |"7" -> MassCancelRequestType.CancelAllOrders
-    | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
+let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> MassCancelRequestType.CancelOrdersForASecurity
+        |"2"B -> MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity
+        |"3"B -> MassCancelRequestType.CancelOrdersForAProduct
+        |"4"B -> MassCancelRequestType.CancelOrdersForACficode
+        |"5"B -> MassCancelRequestType.CancelOrdersForASecuritytype
+        |"6"B -> MassCancelRequestType.CancelOrdersForATradingSession
+        |"7"B -> MassCancelRequestType.CancelAllOrders
+        | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRequestType) : int =
@@ -15156,17 +16210,20 @@ let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCan
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMassCancelResponse (fldValIn:string) : MassCancelResponse = 
-    match fldValIn with
-    |"0" -> MassCancelResponse.CancelRequestRejected
-    |"1" -> MassCancelResponse.CancelOrdersForASecurity
-    |"2" -> MassCancelResponse.CancelOrdersForAnUnderlyingSecurity
-    |"3" -> MassCancelResponse.CancelOrdersForAProduct
-    |"4" -> MassCancelResponse.CancelOrdersForACficode
-    |"5" -> MassCancelResponse.CancelOrdersForASecuritytype
-    |"6" -> MassCancelResponse.CancelOrdersForATradingSession
-    |"7" -> MassCancelResponse.CancelAllOrders
-    | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
+let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MassCancelResponse.CancelRequestRejected
+        |"1"B -> MassCancelResponse.CancelOrdersForASecurity
+        |"2"B -> MassCancelResponse.CancelOrdersForAnUnderlyingSecurity
+        |"3"B -> MassCancelResponse.CancelOrdersForAProduct
+        |"4"B -> MassCancelResponse.CancelOrdersForACficode
+        |"5"B -> MassCancelResponse.CancelOrdersForASecuritytype
+        |"6"B -> MassCancelResponse.CancelOrdersForATradingSession
+        |"7"B -> MassCancelResponse.CancelAllOrders
+        | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelResponse) : int =
@@ -15221,17 +16278,20 @@ let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancel
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMassCancelRejectReason (fldValIn:string) : MassCancelRejectReason = 
-    match fldValIn with
-    |"0" -> MassCancelRejectReason.MassCancelNotSupported
-    |"1" -> MassCancelRejectReason.InvalidOrUnknownSecurity
-    |"2" -> MassCancelRejectReason.InvalidOrUnknownUnderlying
-    |"3" -> MassCancelRejectReason.InvalidOrUnknownProduct
-    |"4" -> MassCancelRejectReason.InvalidOrUnknownCficode
-    |"5" -> MassCancelRejectReason.InvalidOrUnknownSecurityType
-    |"6" -> MassCancelRejectReason.InvalidOrUnknownTradingSession
-    |"99" -> MassCancelRejectReason.Other
-    | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
+let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MassCancelRejectReason.MassCancelNotSupported
+        |"1"B -> MassCancelRejectReason.InvalidOrUnknownSecurity
+        |"2"B -> MassCancelRejectReason.InvalidOrUnknownUnderlying
+        |"3"B -> MassCancelRejectReason.InvalidOrUnknownProduct
+        |"4"B -> MassCancelRejectReason.InvalidOrUnknownCficode
+        |"5"B -> MassCancelRejectReason.InvalidOrUnknownSecurityType
+        |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
+        |"99"B -> MassCancelRejectReason.Other
+        | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRejectReason) : int =
@@ -15286,9 +16346,11 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotalAffectedOrders valIn =
-    let tmp = System.Int32.Parse valIn
-    TotalAffectedOrders.TotalAffectedOrders tmp
+let ReadTotalAffectedOrders (pos:int) (bs:byte[]) : (int*TotalAffectedOrders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotalAffectedOrders.TotalAffectedOrders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffectedOrders) : int = 
@@ -15302,9 +16364,11 @@ let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffect
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoAffectedOrders valIn =
-    let tmp = System.Int32.Parse valIn
-    NoAffectedOrders.NoAffectedOrders tmp
+let ReadNoAffectedOrders (pos:int) (bs:byte[]) : (int*NoAffectedOrders) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoAffectedOrders.NoAffectedOrders tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrders) : int = 
@@ -15318,9 +16382,11 @@ let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAffectedOrderID valIn =
-    let tmp =  valIn
-    AffectedOrderID.AffectedOrderID tmp
+let ReadAffectedOrderID (pos:int) (bs:byte[]) : (int*AffectedOrderID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AffectedOrderID.AffectedOrderID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID) : int = 
@@ -15334,9 +16400,11 @@ let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAffectedSecondaryOrderID valIn =
-    let tmp =  valIn
-    AffectedSecondaryOrderID.AffectedSecondaryOrderID tmp
+let ReadAffectedSecondaryOrderID (pos:int) (bs:byte[]) : (int*AffectedSecondaryOrderID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AffectedSecondaryOrderID.AffectedSecondaryOrderID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedSecondaryOrderID) : int = 
@@ -15350,13 +16418,16 @@ let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:Affect
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteType (fldValIn:string) : QuoteType = 
-    match fldValIn with
-    |"0" -> QuoteType.Indicative
-    |"1" -> QuoteType.Tradeable
-    |"2" -> QuoteType.RestrictedTradeable
-    |"3" -> QuoteType.Counter
-    | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
+let ReadQuoteType (pos:int) (bs:byte[]) : (int * QuoteType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> QuoteType.Indicative
+        |"1"B -> QuoteType.Tradeable
+        |"2"B -> QuoteType.RestrictedTradeable
+        |"3"B -> QuoteType.Counter
+        | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
@@ -15387,9 +16458,11 @@ let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartyRole valIn =
-    let tmp = System.Int32.Parse valIn
-    NestedPartyRole.NestedPartyRole tmp
+let ReadNestedPartyRole (pos:int) (bs:byte[]) : (int*NestedPartyRole) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NestedPartyRole.NestedPartyRole tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole) : int = 
@@ -15403,9 +16476,11 @@ let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNestedPartyIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNestedPartyIDs.NoNestedPartyIDs tmp
+let ReadNoNestedPartyIDs (pos:int) (bs:byte[]) : (int*NoNestedPartyIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNestedPartyIDs.NoNestedPartyIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyIDs) : int = 
@@ -15419,9 +16494,11 @@ let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalAccruedInterestAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    TotalAccruedInterestAmt.TotalAccruedInterestAmt tmp
+let ReadTotalAccruedInterestAmt (pos:int) (bs:byte[]) : (int*TotalAccruedInterestAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotalAccruedInterestAmt.TotalAccruedInterestAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAccruedInterestAmt) : int = 
@@ -15435,9 +16512,11 @@ let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaturityDate valIn =
-    let tmp =  valIn
-    MaturityDate.MaturityDate tmp
+let ReadMaturityDate (pos:int) (bs:byte[]) : (int*MaturityDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MaturityDate.MaturityDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : int = 
@@ -15451,9 +16530,11 @@ let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingMaturityDate valIn =
-    let tmp =  valIn
-    UnderlyingMaturityDate.UnderlyingMaturityDate tmp
+let ReadUnderlyingMaturityDate (pos:int) (bs:byte[]) : (int*UnderlyingMaturityDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingMaturityDate.UnderlyingMaturityDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityDate) : int = 
@@ -15467,9 +16548,11 @@ let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInstrRegistry valIn =
-    let tmp =  valIn
-    InstrRegistry.InstrRegistry tmp
+let ReadInstrRegistry (pos:int) (bs:byte[]) : (int*InstrRegistry) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = InstrRegistry.InstrRegistry tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : int = 
@@ -15483,12 +16566,15 @@ let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashMargin (fldValIn:string) : CashMargin = 
-    match fldValIn with
-    |"1" -> CashMargin.Cash
-    |"2" -> CashMargin.MarginOpen
-    |"3" -> CashMargin.MarginClose
-    | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
+let ReadCashMargin (pos:int) (bs:byte[]) : (int * CashMargin) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> CashMargin.Cash
+        |"2"B -> CashMargin.MarginOpen
+        |"3"B -> CashMargin.MarginClose
+        | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int =
@@ -15513,9 +16599,11 @@ let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartySubID valIn =
-    let tmp =  valIn
-    NestedPartySubID.NestedPartySubID tmp
+let ReadNestedPartySubID (pos:int) (bs:byte[]) : (int*NestedPartySubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = NestedPartySubID.NestedPartySubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubID) : int = 
@@ -15529,12 +16617,15 @@ let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySub
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadScope (fldValIn:string) : Scope = 
-    match fldValIn with
-    |"1" -> Scope.Local
-    |"2" -> Scope.National
-    |"3" -> Scope.Global
-    | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
+let ReadScope (pos:int) (bs:byte[]) : (int * Scope) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> Scope.Local
+        |"2"B -> Scope.National
+        |"3"B -> Scope.Global
+        | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
@@ -15559,9 +16650,11 @@ let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDImplicitDelete valIn =
-    let tmp = System.Boolean.Parse valIn
-    MDImplicitDelete.MDImplicitDelete tmp
+let ReadMDImplicitDelete (pos:int) (bs:byte[]) : (int*MDImplicitDelete) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = MDImplicitDelete.MDImplicitDelete tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDelete) : int = 
@@ -15575,9 +16668,11 @@ let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDele
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCrossID valIn =
-    let tmp =  valIn
-    CrossID.CrossID tmp
+let ReadCrossID (pos:int) (bs:byte[]) : (int*CrossID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CrossID.CrossID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int = 
@@ -15591,13 +16686,16 @@ let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCrossType (fldValIn:string) : CrossType = 
-    match fldValIn with
-    |"1" -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
-    |"2" -> CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled
-    |"3" -> CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive
-    |"4" -> CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice
-    | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
+let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
+        |"2"B -> CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled
+        |"3"B -> CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive
+        |"4"B -> CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice
+        | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
@@ -15628,12 +16726,15 @@ let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCrossPrioritization (fldValIn:string) : CrossPrioritization = 
-    match fldValIn with
-    |"0" -> CrossPrioritization.NNone
-    |"1" -> CrossPrioritization.BuySideIsPrioritized
-    |"2" -> CrossPrioritization.SellSideIsPrioritized
-    | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
+let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CrossPrioritization.NNone
+        |"1"B -> CrossPrioritization.BuySideIsPrioritized
+        |"2"B -> CrossPrioritization.SellSideIsPrioritized
+        | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrioritization) : int =
@@ -15658,9 +16759,11 @@ let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrio
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigCrossID valIn =
-    let tmp =  valIn
-    OrigCrossID.OrigCrossID tmp
+let ReadOrigCrossID (pos:int) (bs:byte[]) : (int*OrigCrossID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigCrossID.OrigCrossID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int = 
@@ -15674,11 +16777,14 @@ let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSides (fldValIn:string) : NoSides = 
-    match fldValIn with
-    |"1" -> NoSides.OneSide
-    |"2" -> NoSides.BothSides
-    | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
+let ReadNoSides (pos:int) (bs:byte[]) : (int * NoSides) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> NoSides.OneSide
+        |"2"B -> NoSides.BothSides
+        | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
@@ -15697,9 +16803,11 @@ let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUsername valIn =
-    let tmp =  valIn
-    Username.Username tmp
+let ReadUsername (pos:int) (bs:byte[]) : (int*Username) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Username.Username tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int = 
@@ -15713,9 +16821,11 @@ let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPassword valIn =
-    let tmp =  valIn
-    Password.Password tmp
+let ReadPassword (pos:int) (bs:byte[]) : (int*Password) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Password.Password tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int = 
@@ -15729,9 +16839,11 @@ let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoLegs.NoLegs tmp
+let ReadNoLegs (pos:int) (bs:byte[]) : (int*NoLegs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoLegs.NoLegs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int = 
@@ -15745,9 +16857,11 @@ let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCurrency valIn =
-    let tmp =  valIn
-    LegCurrency.LegCurrency tmp
+let ReadLegCurrency (pos:int) (bs:byte[]) : (int*LegCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegCurrency.LegCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int = 
@@ -15761,9 +16875,11 @@ let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoSecurityTypes valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoSecurityTypes.TotNoSecurityTypes tmp
+let ReadTotNoSecurityTypes (pos:int) (bs:byte[]) : (int*TotNoSecurityTypes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoSecurityTypes.TotNoSecurityTypes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurityTypes) : int = 
@@ -15777,9 +16893,11 @@ let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSecurityTypes valIn =
-    let tmp = System.Int32.Parse valIn
-    NoSecurityTypes.NoSecurityTypes tmp
+let ReadNoSecurityTypes (pos:int) (bs:byte[]) : (int*NoSecurityTypes) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoSecurityTypes.NoSecurityTypes tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes) : int = 
@@ -15793,14 +16911,17 @@ let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityListRequestType (fldValIn:string) : SecurityListRequestType = 
-    match fldValIn with
-    |"0" -> SecurityListRequestType.Symbol
-    |"1" -> SecurityListRequestType.SecuritytypeAndOrCficode
-    |"2" -> SecurityListRequestType.Product
-    |"3" -> SecurityListRequestType.Tradingsessionid
-    |"4" -> SecurityListRequestType.AllSecurities
-    | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
+let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SecurityListRequestType.Symbol
+        |"1"B -> SecurityListRequestType.SecuritytypeAndOrCficode
+        |"2"B -> SecurityListRequestType.Product
+        |"3"B -> SecurityListRequestType.Tradingsessionid
+        |"4"B -> SecurityListRequestType.AllSecurities
+        | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityListRequestType) : int =
@@ -15837,15 +16958,18 @@ let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Secur
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityRequestResult (fldValIn:string) : SecurityRequestResult = 
-    match fldValIn with
-    |"0" -> SecurityRequestResult.ValidRequest
-    |"1" -> SecurityRequestResult.InvalidOrUnsupportedRequest
-    |"2" -> SecurityRequestResult.NoInstrumentsFoundThatMatchSelectionCriteria
-    |"3" -> SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData
-    |"4" -> SecurityRequestResult.InstrumentDataTemporarilyUnavailable
-    |"5" -> SecurityRequestResult.RequestForInstrumentDataNotSupported
-    | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
+let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResult) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SecurityRequestResult.ValidRequest
+        |"1"B -> SecurityRequestResult.InvalidOrUnsupportedRequest
+        |"2"B -> SecurityRequestResult.NoInstrumentsFoundThatMatchSelectionCriteria
+        |"3"B -> SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData
+        |"4"B -> SecurityRequestResult.InstrumentDataTemporarilyUnavailable
+        |"5"B -> SecurityRequestResult.RequestForInstrumentDataNotSupported
+        | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestResult) : int =
@@ -15888,9 +17012,11 @@ let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoundLot valIn =
-    let tmp = System.Decimal.Parse valIn
-    RoundLot.RoundLot tmp
+let ReadRoundLot (pos:int) (bs:byte[]) : (int*RoundLot) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = RoundLot.RoundLot tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int = 
@@ -15904,9 +17030,11 @@ let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinTradeVol valIn =
-    let tmp = System.Decimal.Parse valIn
-    MinTradeVol.MinTradeVol tmp
+let ReadMinTradeVol (pos:int) (bs:byte[]) : (int*MinTradeVol) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MinTradeVol.MinTradeVol tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int = 
@@ -15920,12 +17048,15 @@ let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMultiLegRptTypeReq (fldValIn:string) : MultiLegRptTypeReq = 
-    match fldValIn with
-    |"0" -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
-    |"1" -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
-    |"2" -> MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly
-    | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
+let ReadMultiLegRptTypeReq (pos:int) (bs:byte[]) : (int * MultiLegRptTypeReq) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
+        |"1"B -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
+        |"2"B -> MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly
+        | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRptTypeReq) : int =
@@ -15950,9 +17081,11 @@ let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRp
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLegPositionEffect valIn =
-    let tmp = System.Int32.Parse valIn
-    LegPositionEffect.LegPositionEffect tmp
+let ReadLegPositionEffect (pos:int) (bs:byte[]) : (int*LegPositionEffect) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegPositionEffect.LegPositionEffect tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEffect) : int = 
@@ -15966,9 +17099,11 @@ let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEf
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCoveredOrUncovered valIn =
-    let tmp = System.Int32.Parse valIn
-    LegCoveredOrUncovered.LegCoveredOrUncovered tmp
+let ReadLegCoveredOrUncovered (pos:int) (bs:byte[]) : (int*LegCoveredOrUncovered) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegCoveredOrUncovered.LegCoveredOrUncovered tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCoveredOrUncovered) : int = 
@@ -15982,9 +17117,11 @@ let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCovere
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegPrice.LegPrice tmp
+let ReadLegPrice (pos:int) (bs:byte[]) : (int*LegPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegPrice.LegPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int = 
@@ -15998,10 +17135,13 @@ let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesStatusRejReason (fldValIn:string) : TradSesStatusRejReason = 
-    match fldValIn with
-    |"1" -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
-    | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
+let ReadTradSesStatusRejReason (pos:int) (bs:byte[]) : (int * TradSesStatusRejReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
+        | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatusRejReason) : int =
@@ -16014,9 +17154,11 @@ let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestID valIn =
-    let tmp =  valIn
-    TradeRequestID.TradeRequestID tmp
+let ReadTradeRequestID (pos:int) (bs:byte[]) : (int*TradeRequestID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeRequestID.TradeRequestID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) : int = 
@@ -16030,14 +17172,17 @@ let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestType (fldValIn:string) : TradeRequestType = 
-    match fldValIn with
-    |"0" -> TradeRequestType.AllTrades
-    |"1" -> TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest
-    |"2" -> TradeRequestType.UnmatchedTradesThatMatchCriteria
-    |"3" -> TradeRequestType.UnreportedTradesThatMatchCriteria
-    |"4" -> TradeRequestType.AdvisoriesThatMatchCriteria
-    | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
+let ReadTradeRequestType (pos:int) (bs:byte[]) : (int * TradeRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeRequestType.AllTrades
+        |"1"B -> TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest
+        |"2"B -> TradeRequestType.UnmatchedTradesThatMatchCriteria
+        |"3"B -> TradeRequestType.UnreportedTradesThatMatchCriteria
+        |"4"B -> TradeRequestType.AdvisoriesThatMatchCriteria
+        | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestType) : int =
@@ -16074,9 +17219,11 @@ let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequest
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPreviouslyReported valIn =
-    let tmp = System.Boolean.Parse valIn
-    PreviouslyReported.PreviouslyReported tmp
+let ReadPreviouslyReported (pos:int) (bs:byte[]) : (int*PreviouslyReported) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = PreviouslyReported.PreviouslyReported tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyReported) : int = 
@@ -16090,9 +17237,11 @@ let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyRe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportID valIn =
-    let tmp =  valIn
-    TradeReportID.TradeReportID tmp
+let ReadTradeReportID (pos:int) (bs:byte[]) : (int*TradeReportID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeReportID.TradeReportID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : int = 
@@ -16106,9 +17255,11 @@ let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportRefID valIn =
-    let tmp =  valIn
-    TradeReportRefID.TradeReportRefID tmp
+let ReadTradeReportRefID (pos:int) (bs:byte[]) : (int*TradeReportRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeReportRefID.TradeReportRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRefID) : int = 
@@ -16122,12 +17273,15 @@ let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRef
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMatchStatus (fldValIn:string) : MatchStatus = 
-    match fldValIn with
-    |"0" -> MatchStatus.ComparedMatchedOrAffirmed
-    |"1" -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
-    |"2" -> MatchStatus.AdvisoryOrAlert
-    | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
+let ReadMatchStatus (pos:int) (bs:byte[]) : (int * MatchStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
+        |"1"B -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
+        |"2"B -> MatchStatus.AdvisoryOrAlert
+        | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : int =
@@ -16152,9 +17306,11 @@ let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMatchType valIn =
-    let tmp =  valIn
-    MatchType.MatchType tmp
+let ReadMatchType (pos:int) (bs:byte[]) : (int*MatchType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MatchType.MatchType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int = 
@@ -16168,9 +17324,11 @@ let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOddLot valIn =
-    let tmp = System.Boolean.Parse valIn
-    OddLot.OddLot tmp
+let ReadOddLot (pos:int) (bs:byte[]) : (int*OddLot) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = OddLot.OddLot tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int = 
@@ -16184,9 +17342,11 @@ let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoClearingInstructions valIn =
-    let tmp = System.Int32.Parse valIn
-    NoClearingInstructions.NoClearingInstructions tmp
+let ReadNoClearingInstructions (pos:int) (bs:byte[]) : (int*NoClearingInstructions) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoClearingInstructions.NoClearingInstructions tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoClearingInstructions) : int = 
@@ -16200,23 +17360,26 @@ let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoCleari
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClearingInstruction (fldValIn:string) : ClearingInstruction = 
-    match fldValIn with
-    |"0" -> ClearingInstruction.ProcessNormally
-    |"1" -> ClearingInstruction.ExcludeFromAllNetting
-    |"2" -> ClearingInstruction.BilateralNettingOnly
-    |"3" -> ClearingInstruction.ExClearing
-    |"4" -> ClearingInstruction.SpecialTrade
-    |"5" -> ClearingInstruction.MultilateralNetting
-    |"6" -> ClearingInstruction.ClearAgainstCentralCounterparty
-    |"7" -> ClearingInstruction.ExcludeFromCentralCounterparty
-    |"8" -> ClearingInstruction.ManualMode
-    |"9" -> ClearingInstruction.AutomaticPostingMode
-    |"10" -> ClearingInstruction.AutomaticGiveUpMode
-    |"11" -> ClearingInstruction.QualifiedServiceRepresentative
-    |"12" -> ClearingInstruction.CustomerTrade
-    |"13" -> ClearingInstruction.SelfClearing
-    | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
+let ReadClearingInstruction (pos:int) (bs:byte[]) : (int * ClearingInstruction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ClearingInstruction.ProcessNormally
+        |"1"B -> ClearingInstruction.ExcludeFromAllNetting
+        |"2"B -> ClearingInstruction.BilateralNettingOnly
+        |"3"B -> ClearingInstruction.ExClearing
+        |"4"B -> ClearingInstruction.SpecialTrade
+        |"5"B -> ClearingInstruction.MultilateralNetting
+        |"6"B -> ClearingInstruction.ClearAgainstCentralCounterparty
+        |"7"B -> ClearingInstruction.ExcludeFromCentralCounterparty
+        |"8"B -> ClearingInstruction.ManualMode
+        |"9"B -> ClearingInstruction.AutomaticPostingMode
+        |"10"B -> ClearingInstruction.AutomaticGiveUpMode
+        |"11"B -> ClearingInstruction.QualifiedServiceRepresentative
+        |"12"B -> ClearingInstruction.CustomerTrade
+        |"13"B -> ClearingInstruction.SelfClearing
+        | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingInstruction) : int =
@@ -16307,9 +17470,11 @@ let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingI
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeInputSource valIn =
-    let tmp =  valIn
-    TradeInputSource.TradeInputSource tmp
+let ReadTradeInputSource (pos:int) (bs:byte[]) : (int*TradeInputSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeInputSource.TradeInputSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSource) : int = 
@@ -16323,9 +17488,11 @@ let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSour
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeInputDevice valIn =
-    let tmp =  valIn
-    TradeInputDevice.TradeInputDevice tmp
+let ReadTradeInputDevice (pos:int) (bs:byte[]) : (int*TradeInputDevice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeInputDevice.TradeInputDevice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevice) : int = 
@@ -16339,9 +17506,11 @@ let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDates valIn =
-    let tmp = System.Int32.Parse valIn
-    NoDates.NoDates tmp
+let ReadNoDates (pos:int) (bs:byte[]) : (int*NoDates) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoDates.NoDates tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int = 
@@ -16355,16 +17524,19 @@ let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAccountType (fldValIn:string) : AccountType = 
-    match fldValIn with
-    |"1" -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
-    |"2" -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooks
-    |"3" -> AccountType.HouseTrader
-    |"4" -> AccountType.FloorTrader
-    |"6" -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
-    |"7" -> AccountType.AccountIsHouseTraderAndIsCrossMargined
-    |"8" -> AccountType.JointBackofficeAccount
-    | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
+let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
+        |"2"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooks
+        |"3"B -> AccountType.HouseTrader
+        |"4"B -> AccountType.FloorTrader
+        |"6"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
+        |"7"B -> AccountType.AccountIsHouseTraderAndIsCrossMargined
+        |"8"B -> AccountType.JointBackofficeAccount
+        | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : int =
@@ -16413,13 +17585,16 @@ let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCustOrderCapacity (fldValIn:string) : CustOrderCapacity = 
-    match fldValIn with
-    |"1" -> CustOrderCapacity.MemberTradingForTheirOwnAccount
-    |"2" -> CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount
-    |"3" -> CustOrderCapacity.MemberTradingForAnotherMember
-    |"4" -> CustOrderCapacity.AllOther
-    | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
+let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> CustOrderCapacity.MemberTradingForTheirOwnAccount
+        |"2"B -> CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount
+        |"3"B -> CustOrderCapacity.MemberTradingForAnotherMember
+        |"4"B -> CustOrderCapacity.AllOther
+        | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCapacity) : int =
@@ -16450,9 +17625,11 @@ let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadClOrdLinkID valIn =
-    let tmp =  valIn
-    ClOrdLinkID.ClOrdLinkID tmp
+let ReadClOrdLinkID (pos:int) (bs:byte[]) : (int*ClOrdLinkID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ClOrdLinkID.ClOrdLinkID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int = 
@@ -16466,9 +17643,11 @@ let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMassStatusReqID valIn =
-    let tmp =  valIn
-    MassStatusReqID.MassStatusReqID tmp
+let ReadMassStatusReqID (pos:int) (bs:byte[]) : (int*MassStatusReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = MassStatusReqID.MassStatusReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID) : int = 
@@ -16482,17 +17661,20 @@ let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMassStatusReqType (fldValIn:string) : MassStatusReqType = 
-    match fldValIn with
-    |"1" -> MassStatusReqType.StatusForOrdersForASecurity
-    |"2" -> MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity
-    |"3" -> MassStatusReqType.StatusForOrdersForAProduct
-    |"4" -> MassStatusReqType.StatusForOrdersForACficode
-    |"5" -> MassStatusReqType.StatusForOrdersForASecuritytype
-    |"6" -> MassStatusReqType.StatusForOrdersForATradingSession
-    |"7" -> MassStatusReqType.StatusForAllOrders
-    |"8" -> MassStatusReqType.StatusForOrdersForAPartyid
-    | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
+let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> MassStatusReqType.StatusForOrdersForASecurity
+        |"2"B -> MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity
+        |"3"B -> MassStatusReqType.StatusForOrdersForAProduct
+        |"4"B -> MassStatusReqType.StatusForOrdersForACficode
+        |"5"B -> MassStatusReqType.StatusForOrdersForASecuritytype
+        |"6"B -> MassStatusReqType.StatusForOrdersForATradingSession
+        |"7"B -> MassStatusReqType.StatusForAllOrders
+        |"8"B -> MassStatusReqType.StatusForOrdersForAPartyid
+        | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusReqType) : int =
@@ -16547,9 +17729,11 @@ let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusR
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigOrdModTime valIn =
-    let tmp =  valIn
-    OrigOrdModTime.OrigOrdModTime tmp
+let ReadOrigOrdModTime (pos:int) (bs:byte[]) : (int*OrigOrdModTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigOrdModTime.OrigOrdModTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) : int = 
@@ -16563,9 +17747,11 @@ let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSettlType valIn =
-    let tmp = System.Int32.Parse valIn
-    LegSettlType.LegSettlType tmp
+let ReadLegSettlType (pos:int) (bs:byte[]) : (int*LegSettlType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegSettlType.LegSettlType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : int = 
@@ -16579,9 +17765,11 @@ let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSettlDate valIn =
-    let tmp =  valIn
-    LegSettlDate.LegSettlDate tmp
+let ReadLegSettlDate (pos:int) (bs:byte[]) : (int*LegSettlDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSettlDate.LegSettlDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : int = 
@@ -16595,12 +17783,15 @@ let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDayBookingInst (fldValIn:string) : DayBookingInst = 
-    match fldValIn with
-    |"0" -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
-    |"1" -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
-    |"2" -> DayBookingInst.Accumulate
-    | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
+let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
+        |"1"B -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
+        |"2"B -> DayBookingInst.Accumulate
+        | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst) : int =
@@ -16625,12 +17816,15 @@ let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBookingUnit (fldValIn:string) : BookingUnit = 
-    match fldValIn with
-    |"0" -> BookingUnit.EachPartialExecutionIsABookableUnit
-    |"1" -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
-    |"2" -> BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate
-    | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
+let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
+        |"1"B -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
+        |"2"B -> BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate
+        | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : int =
@@ -16655,11 +17849,14 @@ let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPreallocMethod (fldValIn:string) : PreallocMethod = 
-    match fldValIn with
-    |"0" -> PreallocMethod.ProRata
-    |"1" -> PreallocMethod.DoNotProRata
-    | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
+let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PreallocMethod.ProRata
+        |"1"B -> PreallocMethod.DoNotProRata
+        | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod) : int =
@@ -16678,9 +17875,11 @@ let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCountryOfIssue valIn =
-    let tmp =  valIn
-    UnderlyingCountryOfIssue.UnderlyingCountryOfIssue tmp
+let ReadUnderlyingCountryOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingCountryOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCountryOfIssue.UnderlyingCountryOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCountryOfIssue) : int = 
@@ -16694,9 +17893,11 @@ let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStateOrProvinceOfIssue valIn =
-    let tmp =  valIn
-    UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue tmp
+let ReadUnderlyingStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingStateOrProvinceOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStateOrProvinceOfIssue) : int = 
@@ -16710,9 +17911,11 @@ let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingLocaleOfIssue valIn =
-    let tmp =  valIn
-    UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue tmp
+let ReadUnderlyingLocaleOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingLocaleOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLocaleOfIssue) : int = 
@@ -16726,9 +17929,11 @@ let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingInstrRegistry valIn =
-    let tmp =  valIn
-    UnderlyingInstrRegistry.UnderlyingInstrRegistry tmp
+let ReadUnderlyingInstrRegistry (pos:int) (bs:byte[]) : (int*UnderlyingInstrRegistry) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingInstrRegistry.UnderlyingInstrRegistry tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingInstrRegistry) : int = 
@@ -16742,9 +17947,11 @@ let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCountryOfIssue valIn =
-    let tmp =  valIn
-    LegCountryOfIssue.LegCountryOfIssue tmp
+let ReadLegCountryOfIssue (pos:int) (bs:byte[]) : (int*LegCountryOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegCountryOfIssue.LegCountryOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfIssue) : int = 
@@ -16758,9 +17965,11 @@ let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStateOrProvinceOfIssue valIn =
-    let tmp =  valIn
-    LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue tmp
+let ReadLegStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*LegStateOrProvinceOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegStateOrProvinceOfIssue) : int = 
@@ -16774,9 +17983,11 @@ let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegSt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegLocaleOfIssue valIn =
-    let tmp =  valIn
-    LegLocaleOfIssue.LegLocaleOfIssue tmp
+let ReadLegLocaleOfIssue (pos:int) (bs:byte[]) : (int*LegLocaleOfIssue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegLocaleOfIssue.LegLocaleOfIssue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIssue) : int = 
@@ -16790,9 +18001,11 @@ let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIss
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegInstrRegistry valIn =
-    let tmp =  valIn
-    LegInstrRegistry.LegInstrRegistry tmp
+let ReadLegInstrRegistry (pos:int) (bs:byte[]) : (int*LegInstrRegistry) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegInstrRegistry.LegInstrRegistry tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegistry) : int = 
@@ -16806,9 +18019,11 @@ let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegist
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSymbol valIn =
-    let tmp =  valIn
-    LegSymbol.LegSymbol tmp
+let ReadLegSymbol (pos:int) (bs:byte[]) : (int*LegSymbol) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSymbol.LegSymbol tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int = 
@@ -16822,9 +18037,11 @@ let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSymbolSfx valIn =
-    let tmp =  valIn
-    LegSymbolSfx.LegSymbolSfx tmp
+let ReadLegSymbolSfx (pos:int) (bs:byte[]) : (int*LegSymbolSfx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSymbolSfx.LegSymbolSfx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : int = 
@@ -16838,9 +18055,11 @@ let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityID valIn =
-    let tmp =  valIn
-    LegSecurityID.LegSecurityID tmp
+let ReadLegSecurityID (pos:int) (bs:byte[]) : (int*LegSecurityID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityID.LegSecurityID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : int = 
@@ -16854,9 +18073,11 @@ let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityIDSource valIn =
-    let tmp =  valIn
-    LegSecurityIDSource.LegSecurityIDSource tmp
+let ReadLegSecurityIDSource (pos:int) (bs:byte[]) : (int*LegSecurityIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityIDSource.LegSecurityIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityIDSource) : int = 
@@ -16870,9 +18091,11 @@ let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegSecurityAltID valIn =
-    let tmp = System.Int32.Parse valIn
-    NoLegSecurityAltID.NoLegSecurityAltID tmp
+let ReadNoLegSecurityAltID (pos:int) (bs:byte[]) : (int*NoLegSecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoLegSecurityAltID.NoLegSecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurityAltID) : int = 
@@ -16886,9 +18109,11 @@ let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityAltID valIn =
-    let tmp =  valIn
-    LegSecurityAltID.LegSecurityAltID tmp
+let ReadLegSecurityAltID (pos:int) (bs:byte[]) : (int*LegSecurityAltID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityAltID.LegSecurityAltID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltID) : int = 
@@ -16902,9 +18127,11 @@ let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAlt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityAltIDSource valIn =
-    let tmp =  valIn
-    LegSecurityAltIDSource.LegSecurityAltIDSource tmp
+let ReadLegSecurityAltIDSource (pos:int) (bs:byte[]) : (int*LegSecurityAltIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityAltIDSource.LegSecurityAltIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltIDSource) : int = 
@@ -16918,9 +18145,11 @@ let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecur
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegProduct valIn =
-    let tmp = System.Int32.Parse valIn
-    LegProduct.LegProduct tmp
+let ReadLegProduct (pos:int) (bs:byte[]) : (int*LegProduct) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegProduct.LegProduct tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int = 
@@ -16934,9 +18163,11 @@ let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCFICode valIn =
-    let tmp =  valIn
-    LegCFICode.LegCFICode tmp
+let ReadLegCFICode (pos:int) (bs:byte[]) : (int*LegCFICode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegCFICode.LegCFICode tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int = 
@@ -16950,9 +18181,11 @@ let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityType valIn =
-    let tmp =  valIn
-    LegSecurityType.LegSecurityType tmp
+let ReadLegSecurityType (pos:int) (bs:byte[]) : (int*LegSecurityType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityType.LegSecurityType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType) : int = 
@@ -16966,9 +18199,11 @@ let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegMaturityMonthYear valIn =
-    let tmp =  valIn
-    LegMaturityMonthYear.LegMaturityMonthYear tmp
+let ReadLegMaturityMonthYear (pos:int) (bs:byte[]) : (int*LegMaturityMonthYear) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegMaturityMonthYear.LegMaturityMonthYear tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityMonthYear) : int = 
@@ -16982,9 +18217,11 @@ let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegMaturityDate valIn =
-    let tmp =  valIn
-    LegMaturityDate.LegMaturityDate tmp
+let ReadLegMaturityDate (pos:int) (bs:byte[]) : (int*LegMaturityDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegMaturityDate.LegMaturityDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate) : int = 
@@ -16998,9 +18235,11 @@ let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStrikePrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegStrikePrice.LegStrikePrice tmp
+let ReadLegStrikePrice (pos:int) (bs:byte[]) : (int*LegStrikePrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegStrikePrice.LegStrikePrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) : int = 
@@ -17014,9 +18253,11 @@ let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegOptAttribute valIn =
-    let tmp = System.Int32.Parse valIn
-    LegOptAttribute.LegOptAttribute tmp
+let ReadLegOptAttribute (pos:int) (bs:byte[]) : (int*LegOptAttribute) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegOptAttribute.LegOptAttribute tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute) : int = 
@@ -17030,9 +18271,11 @@ let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegContractMultiplier valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegContractMultiplier.LegContractMultiplier tmp
+let ReadLegContractMultiplier (pos:int) (bs:byte[]) : (int*LegContractMultiplier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegContractMultiplier.LegContractMultiplier tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContractMultiplier) : int = 
@@ -17046,9 +18289,11 @@ let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCouponRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegCouponRate.LegCouponRate tmp
+let ReadLegCouponRate (pos:int) (bs:byte[]) : (int*LegCouponRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegCouponRate.LegCouponRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : int = 
@@ -17062,9 +18307,11 @@ let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityExchange valIn =
-    let tmp =  valIn
-    LegSecurityExchange.LegSecurityExchange tmp
+let ReadLegSecurityExchange (pos:int) (bs:byte[]) : (int*LegSecurityExchange) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityExchange.LegSecurityExchange tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityExchange) : int = 
@@ -17078,9 +18325,11 @@ let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegIssuer valIn =
-    let tmp =  valIn
-    LegIssuer.LegIssuer tmp
+let ReadLegIssuer (pos:int) (bs:byte[]) : (int*LegIssuer) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegIssuer.LegIssuer tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegIssuer (dest:byte []) (nextFreeIdx:int) (valIn:LegIssuer) : int = 
@@ -17131,9 +18380,11 @@ let ReadEncodedLegIssuer valIn (strm:System.IO.Stream) =
     EncodedLegIssuer.EncodedLegIssuer raw
 
 
-let ReadLegSecurityDesc valIn =
-    let tmp =  valIn
-    LegSecurityDesc.LegSecurityDesc tmp
+let ReadLegSecurityDesc (pos:int) (bs:byte[]) : (int*LegSecurityDesc) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecurityDesc.LegSecurityDesc tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityDesc) : int = 
@@ -17184,9 +18435,11 @@ let ReadEncodedLegSecurityDesc valIn (strm:System.IO.Stream) =
     EncodedLegSecurityDesc.EncodedLegSecurityDesc raw
 
 
-let ReadLegRatioQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegRatioQty.LegRatioQty tmp
+let ReadLegRatioQty (pos:int) (bs:byte[]) : (int*LegRatioQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegRatioQty.LegRatioQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int = 
@@ -17200,9 +18453,11 @@ let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSide valIn =
-    let tmp = System.Int32.Parse valIn
-    LegSide.LegSide tmp
+let ReadLegSide (pos:int) (bs:byte[]) : (int*LegSide) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegSide.LegSide tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int = 
@@ -17216,9 +18471,11 @@ let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradingSessionSubID valIn =
-    let tmp =  valIn
-    TradingSessionSubID.TradingSessionSubID tmp
+let ReadTradingSessionSubID (pos:int) (bs:byte[]) : (int*TradingSessionSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradingSessionSubID.TradingSessionSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionSubID) : int = 
@@ -17232,14 +18489,17 @@ let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSess
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocType (fldValIn:string) : AllocType = 
-    match fldValIn with
-    |"1" -> AllocType.Calculated
-    |"2" -> AllocType.Preliminary
-    |"5" -> AllocType.ReadyToBookSingleOrder
-    |"7" -> AllocType.WarehouseInstruction
-    |"8" -> AllocType.RequestToIntermediary
-    | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
+let ReadAllocType (pos:int) (bs:byte[]) : (int * AllocType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AllocType.Calculated
+        |"2"B -> AllocType.Preliminary
+        |"5"B -> AllocType.ReadyToBookSingleOrder
+        |"7"B -> AllocType.WarehouseInstruction
+        |"8"B -> AllocType.RequestToIntermediary
+        | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
@@ -17276,9 +18536,11 @@ let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoHops valIn =
-    let tmp = System.Int32.Parse valIn
-    NoHops.NoHops tmp
+let ReadNoHops (pos:int) (bs:byte[]) : (int*NoHops) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoHops.NoHops tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int = 
@@ -17292,9 +18554,11 @@ let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHopCompID valIn =
-    let tmp =  valIn
-    HopCompID.HopCompID tmp
+let ReadHopCompID (pos:int) (bs:byte[]) : (int*HopCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = HopCompID.HopCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int = 
@@ -17308,9 +18572,11 @@ let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHopSendingTime valIn =
-    let tmp =  valIn
-    HopSendingTime.HopSendingTime tmp
+let ReadHopSendingTime (pos:int) (bs:byte[]) : (int*HopSendingTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = HopSendingTime.HopSendingTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) : int = 
@@ -17324,9 +18590,11 @@ let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHopRefID valIn =
-    let tmp = System.Int32.Parse valIn
-    HopRefID.HopRefID tmp
+let ReadHopRefID (pos:int) (bs:byte[]) : (int*HopRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = HopRefID.HopRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int = 
@@ -17340,9 +18608,11 @@ let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMidPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    MidPx.MidPx tmp
+let ReadMidPx (pos:int) (bs:byte[]) : (int*MidPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MidPx.MidPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int = 
@@ -17356,9 +18626,11 @@ let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidYield valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidYield.BidYield tmp
+let ReadBidYield (pos:int) (bs:byte[]) : (int*BidYield) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidYield.BidYield tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int = 
@@ -17372,9 +18644,11 @@ let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMidYield valIn =
-    let tmp = System.Decimal.Parse valIn
-    MidYield.MidYield tmp
+let ReadMidYield (pos:int) (bs:byte[]) : (int*MidYield) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MidYield.MidYield tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int = 
@@ -17388,9 +18662,11 @@ let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferYield valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferYield.OfferYield tmp
+let ReadOfferYield (pos:int) (bs:byte[]) : (int*OfferYield) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferYield.OfferYield tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int = 
@@ -17404,17 +18680,20 @@ let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClearingFeeIndicator (fldValIn:string) : ClearingFeeIndicator = 
-    match fldValIn with
-    |"B" -> ClearingFeeIndicator.CboeMember
-    |"C" -> ClearingFeeIndicator.NonMemberAndCustomer
-    |"E" -> ClearingFeeIndicator.EquityMemberAndClearingMember
-    |"F" -> ClearingFeeIndicator.FullAndAssociateMemberTradingForOwnAccountAndAsFloorBrokers
-    |"H" -> ClearingFeeIndicator.Firms106hAnd106j
-    |"I" -> ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders
-    |"L" -> ClearingFeeIndicator.LesseeAnd106fEmployees
-    |"M" -> ClearingFeeIndicator.AllOtherOwnershipTypes
-    | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
+let ReadClearingFeeIndicator (pos:int) (bs:byte[]) : (int * ClearingFeeIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"B"B -> ClearingFeeIndicator.CboeMember
+        |"C"B -> ClearingFeeIndicator.NonMemberAndCustomer
+        |"E"B -> ClearingFeeIndicator.EquityMemberAndClearingMember
+        |"F"B -> ClearingFeeIndicator.FullAndAssociateMemberTradingForOwnAccountAndAsFloorBrokers
+        |"H"B -> ClearingFeeIndicator.Firms106hAnd106j
+        |"I"B -> ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders
+        |"L"B -> ClearingFeeIndicator.LesseeAnd106fEmployees
+        |"M"B -> ClearingFeeIndicator.AllOtherOwnershipTypes
+        | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingFeeIndicator) : int =
@@ -17469,9 +18748,11 @@ let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:Clearing
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWorkingIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    WorkingIndicator.WorkingIndicator tmp
+let ReadWorkingIndicator (pos:int) (bs:byte[]) : (int*WorkingIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = WorkingIndicator.WorkingIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicator) : int = 
@@ -17485,9 +18766,11 @@ let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicat
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegLastPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegLastPx.LegLastPx tmp
+let ReadLegLastPx (pos:int) (bs:byte[]) : (int*LegLastPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegLastPx.LegLastPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int = 
@@ -17501,11 +18784,14 @@ let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriorityIndicator (fldValIn:string) : PriorityIndicator = 
-    match fldValIn with
-    |"0" -> PriorityIndicator.PriorityUnchanged
-    |"1" -> PriorityIndicator.LostPriorityAsResultOfOrderChange
-    | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
+let ReadPriorityIndicator (pos:int) (bs:byte[]) : (int * PriorityIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PriorityIndicator.PriorityUnchanged
+        |"1"B -> PriorityIndicator.LostPriorityAsResultOfOrderChange
+        | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityIndicator) : int =
@@ -17524,9 +18810,11 @@ let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityInd
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPriceImprovement valIn =
-    let tmp = System.Decimal.Parse valIn
-    PriceImprovement.PriceImprovement tmp
+let ReadPriceImprovement (pos:int) (bs:byte[]) : (int*PriceImprovement) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PriceImprovement.PriceImprovement tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImprovement) : int = 
@@ -17540,9 +18828,11 @@ let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImproveme
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPrice2 valIn =
-    let tmp = System.Decimal.Parse valIn
-    Price2.Price2 tmp
+let ReadPrice2 (pos:int) (bs:byte[]) : (int*Price2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = Price2.Price2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int = 
@@ -17556,9 +18846,11 @@ let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastForwardPoints2 valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastForwardPoints2.LastForwardPoints2 tmp
+let ReadLastForwardPoints2 (pos:int) (bs:byte[]) : (int*LastForwardPoints2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastForwardPoints2.LastForwardPoints2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints2) : int = 
@@ -17572,9 +18864,11 @@ let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidForwardPoints2 valIn =
-    let tmp = System.Decimal.Parse valIn
-    BidForwardPoints2.BidForwardPoints2 tmp
+let ReadBidForwardPoints2 (pos:int) (bs:byte[]) : (int*BidForwardPoints2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BidForwardPoints2.BidForwardPoints2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints2) : int = 
@@ -17588,9 +18882,11 @@ let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferForwardPoints2 valIn =
-    let tmp = System.Decimal.Parse valIn
-    OfferForwardPoints2.OfferForwardPoints2 tmp
+let ReadOfferForwardPoints2 (pos:int) (bs:byte[]) : (int*OfferForwardPoints2) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OfferForwardPoints2.OfferForwardPoints2 tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints2) : int = 
@@ -17604,9 +18900,11 @@ let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwar
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRFQReqID valIn =
-    let tmp =  valIn
-    RFQReqID.RFQReqID tmp
+let ReadRFQReqID (pos:int) (bs:byte[]) : (int*RFQReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RFQReqID.RFQReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int = 
@@ -17620,9 +18918,11 @@ let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMktBidPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    MktBidPx.MktBidPx tmp
+let ReadMktBidPx (pos:int) (bs:byte[]) : (int*MktBidPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MktBidPx.MktBidPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int = 
@@ -17636,9 +18936,11 @@ let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMktOfferPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    MktOfferPx.MktOfferPx tmp
+let ReadMktOfferPx (pos:int) (bs:byte[]) : (int*MktOfferPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MktOfferPx.MktOfferPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int = 
@@ -17652,9 +18954,11 @@ let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinBidSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    MinBidSize.MinBidSize tmp
+let ReadMinBidSize (pos:int) (bs:byte[]) : (int*MinBidSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MinBidSize.MinBidSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int = 
@@ -17668,9 +18972,11 @@ let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinOfferSize valIn =
-    let tmp = System.Decimal.Parse valIn
-    MinOfferSize.MinOfferSize tmp
+let ReadMinOfferSize (pos:int) (bs:byte[]) : (int*MinOfferSize) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MinOfferSize.MinOfferSize tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : int = 
@@ -17684,9 +18990,11 @@ let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteStatusReqID valIn =
-    let tmp =  valIn
-    QuoteStatusReqID.QuoteStatusReqID tmp
+let ReadQuoteStatusReqID (pos:int) (bs:byte[]) : (int*QuoteStatusReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteStatusReqID.QuoteStatusReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReqID) : int = 
@@ -17700,9 +19008,11 @@ let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReq
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegalConfirm valIn =
-    let tmp = System.Boolean.Parse valIn
-    LegalConfirm.LegalConfirm tmp
+let ReadLegalConfirm (pos:int) (bs:byte[]) : (int*LegalConfirm) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = LegalConfirm.LegalConfirm tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : int = 
@@ -17716,9 +19026,11 @@ let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingLastPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingLastPx.UnderlyingLastPx tmp
+let ReadUnderlyingLastPx (pos:int) (bs:byte[]) : (int*UnderlyingLastPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingLastPx.UnderlyingLastPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastPx) : int = 
@@ -17732,9 +19044,11 @@ let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLast
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingLastQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingLastQty.UnderlyingLastQty tmp
+let ReadUnderlyingLastQty (pos:int) (bs:byte[]) : (int*UnderlyingLastQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingLastQty.UnderlyingLastQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastQty) : int = 
@@ -17748,9 +19062,11 @@ let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLas
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRefID valIn =
-    let tmp =  valIn
-    LegRefID.LegRefID tmp
+let ReadLegRefID (pos:int) (bs:byte[]) : (int*LegRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegRefID.LegRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int = 
@@ -17764,9 +19080,11 @@ let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraLegRefID valIn =
-    let tmp =  valIn
-    ContraLegRefID.ContraLegRefID tmp
+let ReadContraLegRefID (pos:int) (bs:byte[]) : (int*ContraLegRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContraLegRefID.ContraLegRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) : int = 
@@ -17780,9 +19098,11 @@ let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrBidFxRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    SettlCurrBidFxRate.SettlCurrBidFxRate tmp
+let ReadSettlCurrBidFxRate (pos:int) (bs:byte[]) : (int*SettlCurrBidFxRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = SettlCurrBidFxRate.SettlCurrBidFxRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBidFxRate) : int = 
@@ -17796,9 +19116,11 @@ let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBid
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrOfferFxRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    SettlCurrOfferFxRate.SettlCurrOfferFxRate tmp
+let ReadSettlCurrOfferFxRate (pos:int) (bs:byte[]) : (int*SettlCurrOfferFxRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = SettlCurrOfferFxRate.SettlCurrOfferFxRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrOfferFxRate) : int = 
@@ -17812,20 +19134,23 @@ let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrO
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRequestRejectReason (fldValIn:string) : QuoteRequestRejectReason = 
-    match fldValIn with
-    |"1" -> QuoteRequestRejectReason.UnknownSymbol
-    |"2" -> QuoteRequestRejectReason.ExchangeClosed
-    |"3" -> QuoteRequestRejectReason.QuoteRequestExceedsLimit
-    |"4" -> QuoteRequestRejectReason.TooLateToEnter
-    |"5" -> QuoteRequestRejectReason.InvalidPrice
-    |"6" -> QuoteRequestRejectReason.NotAuthorizedToRequestQuote
-    |"7" -> QuoteRequestRejectReason.NoMatchForInquiry
-    |"8" -> QuoteRequestRejectReason.NoMarketForInstrument
-    |"9" -> QuoteRequestRejectReason.NoInventory
-    |"10" -> QuoteRequestRejectReason.Pass
-    |"99" -> QuoteRequestRejectReason.Other
-    | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
+let ReadQuoteRequestRejectReason (pos:int) (bs:byte[]) : (int * QuoteRequestRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteRequestRejectReason.UnknownSymbol
+        |"2"B -> QuoteRequestRejectReason.ExchangeClosed
+        |"3"B -> QuoteRequestRejectReason.QuoteRequestExceedsLimit
+        |"4"B -> QuoteRequestRejectReason.TooLateToEnter
+        |"5"B -> QuoteRequestRejectReason.InvalidPrice
+        |"6"B -> QuoteRequestRejectReason.NotAuthorizedToRequestQuote
+        |"7"B -> QuoteRequestRejectReason.NoMatchForInquiry
+        |"8"B -> QuoteRequestRejectReason.NoMarketForInstrument
+        |"9"B -> QuoteRequestRejectReason.NoInventory
+        |"10"B -> QuoteRequestRejectReason.Pass
+        |"99"B -> QuoteRequestRejectReason.Other
+        | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestRejectReason) : int =
@@ -17898,9 +19223,11 @@ let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Quot
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSideComplianceID valIn =
-    let tmp =  valIn
-    SideComplianceID.SideComplianceID tmp
+let ReadSideComplianceID (pos:int) (bs:byte[]) : (int*SideComplianceID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SideComplianceID.SideComplianceID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideComplianceID) : int = 
@@ -17914,15 +19241,18 @@ let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideCompliance
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAcctIDSource (fldValIn:string) : AcctIDSource = 
-    match fldValIn with
-    |"1" -> AcctIDSource.Bic
-    |"2" -> AcctIDSource.SidCode
-    |"3" -> AcctIDSource.Tfm
-    |"4" -> AcctIDSource.Omgeo
-    |"5" -> AcctIDSource.DtccCode
-    |"99" -> AcctIDSource.Other
-    | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
+let ReadAcctIDSource (pos:int) (bs:byte[]) : (int * AcctIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AcctIDSource.Bic
+        |"2"B -> AcctIDSource.SidCode
+        |"3"B -> AcctIDSource.Tfm
+        |"4"B -> AcctIDSource.Omgeo
+        |"5"B -> AcctIDSource.DtccCode
+        |"99"B -> AcctIDSource.Other
+        | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : int =
@@ -17965,9 +19295,11 @@ let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAcctIDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    AllocAcctIDSource.AllocAcctIDSource tmp
+let ReadAllocAcctIDSource (pos:int) (bs:byte[]) : (int*AllocAcctIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllocAcctIDSource.AllocAcctIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSource) : int = 
@@ -17981,9 +19313,11 @@ let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    BenchmarkPrice.BenchmarkPrice tmp
+let ReadBenchmarkPrice (pos:int) (bs:byte[]) : (int*BenchmarkPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = BenchmarkPrice.BenchmarkPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) : int = 
@@ -17997,9 +19331,11 @@ let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkPriceType valIn =
-    let tmp = System.Int32.Parse valIn
-    BenchmarkPriceType.BenchmarkPriceType tmp
+let ReadBenchmarkPriceType (pos:int) (bs:byte[]) : (int*BenchmarkPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = BenchmarkPriceType.BenchmarkPriceType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPriceType) : int = 
@@ -18013,9 +19349,11 @@ let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPri
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmID valIn =
-    let tmp =  valIn
-    ConfirmID.ConfirmID tmp
+let ReadConfirmID (pos:int) (bs:byte[]) : (int*ConfirmID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ConfirmID.ConfirmID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int = 
@@ -18029,14 +19367,17 @@ let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmStatus (fldValIn:string) : ConfirmStatus = 
-    match fldValIn with
-    |"1" -> ConfirmStatus.Received
-    |"2" -> ConfirmStatus.MismatchedAccount
-    |"3" -> ConfirmStatus.MissingSettlementInstructions
-    |"4" -> ConfirmStatus.Confirmed
-    |"5" -> ConfirmStatus.RequestRejected
-    | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
+let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ConfirmStatus.Received
+        |"2"B -> ConfirmStatus.MismatchedAccount
+        |"3"B -> ConfirmStatus.MissingSettlementInstructions
+        |"4"B -> ConfirmStatus.Confirmed
+        |"5"B -> ConfirmStatus.RequestRejected
+        | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) : int =
@@ -18073,12 +19414,15 @@ let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmTransType (fldValIn:string) : ConfirmTransType = 
-    match fldValIn with
-    |"0" -> ConfirmTransType.New
-    |"1" -> ConfirmTransType.Replace
-    |"2" -> ConfirmTransType.Cancel
-    | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
+let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ConfirmTransType.New
+        |"1"B -> ConfirmTransType.Replace
+        |"2"B -> ConfirmTransType.Cancel
+        | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTransType) : int =
@@ -18103,9 +19447,11 @@ let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTrans
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContractSettlMonth valIn =
-    let tmp =  valIn
-    ContractSettlMonth.ContractSettlMonth tmp
+let ReadContractSettlMonth (pos:int) (bs:byte[]) : (int*ContractSettlMonth) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ContractSettlMonth.ContractSettlMonth tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSettlMonth) : int = 
@@ -18119,11 +19465,14 @@ let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSett
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliveryForm (fldValIn:string) : DeliveryForm = 
-    match fldValIn with
-    |"1" -> DeliveryForm.Bookentry
-    |"2" -> DeliveryForm.Bearer
-    | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
+let ReadDeliveryForm (pos:int) (bs:byte[]) : (int * DeliveryForm) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> DeliveryForm.Bookentry
+        |"2"B -> DeliveryForm.Bearer
+        | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : int =
@@ -18142,9 +19491,11 @@ let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastParPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LastParPx.LastParPx tmp
+let ReadLastParPx (pos:int) (bs:byte[]) : (int*LastParPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LastParPx.LastParPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int = 
@@ -18158,9 +19509,11 @@ let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegAllocs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoLegAllocs.NoLegAllocs tmp
+let ReadNoLegAllocs (pos:int) (bs:byte[]) : (int*NoLegAllocs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoLegAllocs.NoLegAllocs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int = 
@@ -18174,9 +19527,11 @@ let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegAllocAccount valIn =
-    let tmp =  valIn
-    LegAllocAccount.LegAllocAccount tmp
+let ReadLegAllocAccount (pos:int) (bs:byte[]) : (int*LegAllocAccount) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegAllocAccount.LegAllocAccount tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount) : int = 
@@ -18190,9 +19545,11 @@ let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegIndividualAllocID valIn =
-    let tmp =  valIn
-    LegIndividualAllocID.LegIndividualAllocID tmp
+let ReadLegIndividualAllocID (pos:int) (bs:byte[]) : (int*LegIndividualAllocID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegIndividualAllocID.LegIndividualAllocID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndividualAllocID) : int = 
@@ -18206,9 +19563,11 @@ let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndivid
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegAllocQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegAllocQty.LegAllocQty tmp
+let ReadLegAllocQty (pos:int) (bs:byte[]) : (int*LegAllocQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegAllocQty.LegAllocQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int = 
@@ -18222,9 +19581,11 @@ let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegAllocAcctIDSource valIn =
-    let tmp =  valIn
-    LegAllocAcctIDSource.LegAllocAcctIDSource tmp
+let ReadLegAllocAcctIDSource (pos:int) (bs:byte[]) : (int*LegAllocAcctIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegAllocAcctIDSource.LegAllocAcctIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAcctIDSource) : int = 
@@ -18238,9 +19599,11 @@ let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSettlCurrency valIn =
-    let tmp =  valIn
-    LegSettlCurrency.LegSettlCurrency tmp
+let ReadLegSettlCurrency (pos:int) (bs:byte[]) : (int*LegSettlCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSettlCurrency.LegSettlCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurrency) : int = 
@@ -18254,9 +19617,11 @@ let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurren
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkCurveCurrency valIn =
-    let tmp =  valIn
-    LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency tmp
+let ReadLegBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveCurrency) : int = 
@@ -18270,9 +19635,11 @@ let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkCurveName valIn =
-    let tmp =  valIn
-    LegBenchmarkCurveName.LegBenchmarkCurveName tmp
+let ReadLegBenchmarkCurveName (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveName) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegBenchmarkCurveName.LegBenchmarkCurveName tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveName) : int = 
@@ -18286,9 +19653,11 @@ let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkCurvePoint valIn =
-    let tmp =  valIn
-    LegBenchmarkCurvePoint.LegBenchmarkCurvePoint tmp
+let ReadLegBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*LegBenchmarkCurvePoint) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegBenchmarkCurvePoint.LegBenchmarkCurvePoint tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurvePoint) : int = 
@@ -18302,9 +19671,11 @@ let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBench
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegBenchmarkPrice.LegBenchmarkPrice tmp
+let ReadLegBenchmarkPrice (pos:int) (bs:byte[]) : (int*LegBenchmarkPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegBenchmarkPrice.LegBenchmarkPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPrice) : int = 
@@ -18318,9 +19689,11 @@ let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkPriceType valIn =
-    let tmp = System.Int32.Parse valIn
-    LegBenchmarkPriceType.LegBenchmarkPriceType tmp
+let ReadLegBenchmarkPriceType (pos:int) (bs:byte[]) : (int*LegBenchmarkPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegBenchmarkPriceType.LegBenchmarkPriceType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPriceType) : int = 
@@ -18334,9 +19707,11 @@ let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBidPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegBidPx.LegBidPx tmp
+let ReadLegBidPx (pos:int) (bs:byte[]) : (int*LegBidPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegBidPx.LegBidPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int = 
@@ -18350,9 +19725,11 @@ let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegIOIQty valIn =
-    let tmp =  valIn
-    LegIOIQty.LegIOIQty tmp
+let ReadLegIOIQty (pos:int) (bs:byte[]) : (int*LegIOIQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegIOIQty.LegIOIQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int = 
@@ -18366,9 +19743,11 @@ let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegStipulations valIn =
-    let tmp = System.Int32.Parse valIn
-    NoLegStipulations.NoLegStipulations tmp
+let ReadNoLegStipulations (pos:int) (bs:byte[]) : (int*NoLegStipulations) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoLegStipulations.NoLegStipulations tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulations) : int = 
@@ -18382,9 +19761,11 @@ let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulat
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegOfferPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegOfferPx.LegOfferPx tmp
+let ReadLegOfferPx (pos:int) (bs:byte[]) : (int*LegOfferPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegOfferPx.LegOfferPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int = 
@@ -18398,9 +19779,11 @@ let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegOrderQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegOrderQty.LegOrderQty tmp
+let ReadLegOrderQty (pos:int) (bs:byte[]) : (int*LegOrderQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegOrderQty.LegOrderQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int = 
@@ -18414,9 +19797,11 @@ let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegPriceType valIn =
-    let tmp = System.Int32.Parse valIn
-    LegPriceType.LegPriceType tmp
+let ReadLegPriceType (pos:int) (bs:byte[]) : (int*LegPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = LegPriceType.LegPriceType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : int = 
@@ -18430,9 +19815,11 @@ let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LegQty.LegQty tmp
+let ReadLegQty (pos:int) (bs:byte[]) : (int*LegQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LegQty.LegQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int = 
@@ -18446,9 +19833,11 @@ let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStipulationType valIn =
-    let tmp =  valIn
-    LegStipulationType.LegStipulationType tmp
+let ReadLegStipulationType (pos:int) (bs:byte[]) : (int*LegStipulationType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegStipulationType.LegStipulationType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationType) : int = 
@@ -18462,9 +19851,11 @@ let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulati
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStipulationValue valIn =
-    let tmp =  valIn
-    LegStipulationValue.LegStipulationValue tmp
+let ReadLegStipulationValue (pos:int) (bs:byte[]) : (int*LegStipulationValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegStipulationValue.LegStipulationValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationValue) : int = 
@@ -18478,13 +19869,16 @@ let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulat
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSwapType (fldValIn:string) : LegSwapType = 
-    match fldValIn with
-    |"1" -> LegSwapType.ParForPar
-    |"2" -> LegSwapType.ModifiedDuration
-    |"4" -> LegSwapType.Risk
-    |"5" -> LegSwapType.Proceeds
-    | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
+let ReadLegSwapType (pos:int) (bs:byte[]) : (int * LegSwapType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> LegSwapType.ParForPar
+        |"2"B -> LegSwapType.ModifiedDuration
+        |"4"B -> LegSwapType.Risk
+        |"5"B -> LegSwapType.Proceeds
+        | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : int =
@@ -18515,9 +19909,11 @@ let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPool valIn =
-    let tmp =  valIn
-    Pool.Pool tmp
+let ReadPool (pos:int) (bs:byte[]) : (int*Pool) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Pool.Pool tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int = 
@@ -18531,19 +19927,22 @@ let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuotePriceType (fldValIn:string) : QuotePriceType = 
-    match fldValIn with
-    |"1" -> QuotePriceType.Percent
-    |"2" -> QuotePriceType.PerShare
-    |"3" -> QuotePriceType.FixedAmount
-    |"4" -> QuotePriceType.Discount
-    |"5" -> QuotePriceType.Premium
-    |"6" -> QuotePriceType.BasisPointsRelativeToBenchmark
-    |"7" -> QuotePriceType.TedPrice
-    |"8" -> QuotePriceType.TedYield
-    |"9" -> QuotePriceType.YieldSpread
-    |"10" -> QuotePriceType.Yield
-    | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
+let ReadQuotePriceType (pos:int) (bs:byte[]) : (int * QuotePriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuotePriceType.Percent
+        |"2"B -> QuotePriceType.PerShare
+        |"3"B -> QuotePriceType.FixedAmount
+        |"4"B -> QuotePriceType.Discount
+        |"5"B -> QuotePriceType.Premium
+        |"6"B -> QuotePriceType.BasisPointsRelativeToBenchmark
+        |"7"B -> QuotePriceType.TedPrice
+        |"8"B -> QuotePriceType.TedYield
+        |"9"B -> QuotePriceType.YieldSpread
+        |"10"B -> QuotePriceType.Yield
+        | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType) : int =
@@ -18610,9 +20009,11 @@ let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRespID valIn =
-    let tmp =  valIn
-    QuoteRespID.QuoteRespID tmp
+let ReadQuoteRespID (pos:int) (bs:byte[]) : (int*QuoteRespID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = QuoteRespID.QuoteRespID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int = 
@@ -18626,15 +20027,18 @@ let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRespType (fldValIn:string) : QuoteRespType = 
-    match fldValIn with
-    |"1" -> QuoteRespType.HitLift
-    |"2" -> QuoteRespType.Counter
-    |"3" -> QuoteRespType.Expired
-    |"4" -> QuoteRespType.Cover
-    |"5" -> QuoteRespType.DoneAway
-    |"6" -> QuoteRespType.Pass
-    | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
+let ReadQuoteRespType (pos:int) (bs:byte[]) : (int * QuoteRespType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> QuoteRespType.HitLift
+        |"2"B -> QuoteRespType.Counter
+        |"3"B -> QuoteRespType.Expired
+        |"4"B -> QuoteRespType.Cover
+        |"5"B -> QuoteRespType.DoneAway
+        |"6"B -> QuoteRespType.Pass
+        | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) : int =
@@ -18677,9 +20081,11 @@ let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteQualifier valIn =
-    let tmp = System.Int32.Parse valIn
-    QuoteQualifier.QuoteQualifier tmp
+let ReadQuoteQualifier (pos:int) (bs:byte[]) : (int*QuoteQualifier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = QuoteQualifier.QuoteQualifier tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) : int = 
@@ -18693,9 +20099,11 @@ let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldRedemptionDate valIn =
-    let tmp =  valIn
-    YieldRedemptionDate.YieldRedemptionDate tmp
+let ReadYieldRedemptionDate (pos:int) (bs:byte[]) : (int*YieldRedemptionDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = YieldRedemptionDate.YieldRedemptionDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionDate) : int = 
@@ -18709,9 +20117,11 @@ let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldRedemptionPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    YieldRedemptionPrice.YieldRedemptionPrice tmp
+let ReadYieldRedemptionPrice (pos:int) (bs:byte[]) : (int*YieldRedemptionPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = YieldRedemptionPrice.YieldRedemptionPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPrice) : int = 
@@ -18725,9 +20135,11 @@ let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedem
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldRedemptionPriceType valIn =
-    let tmp = System.Int32.Parse valIn
-    YieldRedemptionPriceType.YieldRedemptionPriceType tmp
+let ReadYieldRedemptionPriceType (pos:int) (bs:byte[]) : (int*YieldRedemptionPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = YieldRedemptionPriceType.YieldRedemptionPriceType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPriceType) : int = 
@@ -18741,9 +20153,11 @@ let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldR
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkSecurityID valIn =
-    let tmp =  valIn
-    BenchmarkSecurityID.BenchmarkSecurityID tmp
+let ReadBenchmarkSecurityID (pos:int) (bs:byte[]) : (int*BenchmarkSecurityID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BenchmarkSecurityID.BenchmarkSecurityID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityID) : int = 
@@ -18757,9 +20171,11 @@ let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadReversalIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    ReversalIndicator.ReversalIndicator tmp
+let ReadReversalIndicator (pos:int) (bs:byte[]) : (int*ReversalIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ReversalIndicator.ReversalIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndicator) : int = 
@@ -18773,9 +20189,11 @@ let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndic
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldCalcDate valIn =
-    let tmp =  valIn
-    YieldCalcDate.YieldCalcDate tmp
+let ReadYieldCalcDate (pos:int) (bs:byte[]) : (int*YieldCalcDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = YieldCalcDate.YieldCalcDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : int = 
@@ -18789,9 +20207,11 @@ let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoPositions valIn =
-    let tmp = System.Int32.Parse valIn
-    NoPositions.NoPositions tmp
+let ReadNoPositions (pos:int) (bs:byte[]) : (int*NoPositions) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoPositions.NoPositions tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int = 
@@ -18805,28 +20225,31 @@ let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosType (fldValIn:string) : PosType = 
-    match fldValIn with
-    |"TQ" -> PosType.TransactionQuantity
-    |"IAS" -> PosType.IntraSpreadQty
-    |"IES" -> PosType.InterSpreadQty
-    |"FIN" -> PosType.EndOfDayQty
-    |"SOD" -> PosType.StartOfDayQty
-    |"EX" -> PosType.OptionExerciseQty
-    |"AS" -> PosType.OptionAssignment
-    |"TX" -> PosType.TransactionFromExercise
-    |"TA" -> PosType.TransactionFromAssignment
-    |"PIT" -> PosType.PitTradeQty
-    |"TRF" -> PosType.TransferTradeQty
-    |"ETR" -> PosType.ElectronicTradeQty
-    |"ALC" -> PosType.AllocationTradeQty
-    |"PA" -> PosType.AdjustmentQty
-    |"ASF" -> PosType.AsOfTradeQty
-    |"DLV" -> PosType.DeliveryQty
-    |"TOT" -> PosType.TotalTransactionQty
-    |"XM" -> PosType.CrossMarginQty
-    |"SPL" -> PosType.IntegralSplit
-    | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
+let ReadPosType (pos:int) (bs:byte[]) : (int * PosType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"TQ"B -> PosType.TransactionQuantity
+        |"IAS"B -> PosType.IntraSpreadQty
+        |"IES"B -> PosType.InterSpreadQty
+        |"FIN"B -> PosType.EndOfDayQty
+        |"SOD"B -> PosType.StartOfDayQty
+        |"EX"B -> PosType.OptionExerciseQty
+        |"AS"B -> PosType.OptionAssignment
+        |"TX"B -> PosType.TransactionFromExercise
+        |"TA"B -> PosType.TransactionFromAssignment
+        |"PIT"B -> PosType.PitTradeQty
+        |"TRF"B -> PosType.TransferTradeQty
+        |"ETR"B -> PosType.ElectronicTradeQty
+        |"ALC"B -> PosType.AllocationTradeQty
+        |"PA"B -> PosType.AdjustmentQty
+        |"ASF"B -> PosType.AsOfTradeQty
+        |"DLV"B -> PosType.DeliveryQty
+        |"TOT"B -> PosType.TotalTransactionQty
+        |"XM"B -> PosType.CrossMarginQty
+        |"SPL"B -> PosType.IntegralSplit
+        | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
@@ -18947,9 +20370,11 @@ let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLongQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    LongQty.LongQty tmp
+let ReadLongQty (pos:int) (bs:byte[]) : (int*LongQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = LongQty.LongQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int = 
@@ -18963,9 +20388,11 @@ let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadShortQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    ShortQty.ShortQty tmp
+let ReadShortQty (pos:int) (bs:byte[]) : (int*ShortQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ShortQty.ShortQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int = 
@@ -18979,12 +20406,15 @@ let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosQtyStatus (fldValIn:string) : PosQtyStatus = 
-    match fldValIn with
-    |"0" -> PosQtyStatus.Submitted
-    |"1" -> PosQtyStatus.Accepted
-    |"2" -> PosQtyStatus.Rejected
-    | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
+let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosQtyStatus.Submitted
+        |"1"B -> PosQtyStatus.Accepted
+        |"2"B -> PosQtyStatus.Rejected
+        | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : int =
@@ -19009,17 +20439,20 @@ let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosAmtType (fldValIn:string) : PosAmtType = 
-    match fldValIn with
-    |"FMTM" -> PosAmtType.FinalMarkToMarketAmount
-    |"IMTM" -> PosAmtType.IncrementalMarkToMarketAmount
-    |"TVAR" -> PosAmtType.TradeVariationAmount
-    |"SMTM" -> PosAmtType.StartOfDayMarkToMarketAmount
-    |"PREM" -> PosAmtType.PremiumAmount
-    |"CRES" -> PosAmtType.CashResidualAmount
-    |"CASH" -> PosAmtType.CashAmount
-    |"VADJ" -> PosAmtType.ValueAdjustedAmount
-    | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
+let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"FMTM"B -> PosAmtType.FinalMarkToMarketAmount
+        |"IMTM"B -> PosAmtType.IncrementalMarkToMarketAmount
+        |"TVAR"B -> PosAmtType.TradeVariationAmount
+        |"SMTM"B -> PosAmtType.StartOfDayMarkToMarketAmount
+        |"PREM"B -> PosAmtType.PremiumAmount
+        |"CRES"B -> PosAmtType.CashResidualAmount
+        |"CASH"B -> PosAmtType.CashAmount
+        |"VADJ"B -> PosAmtType.ValueAdjustedAmount
+        | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int =
@@ -19074,9 +20507,11 @@ let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    PosAmt.PosAmt tmp
+let ReadPosAmt (pos:int) (bs:byte[]) : (int*PosAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = PosAmt.PosAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int = 
@@ -19090,14 +20525,17 @@ let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosTransType (fldValIn:string) : PosTransType = 
-    match fldValIn with
-    |"1" -> PosTransType.Exercise
-    |"2" -> PosTransType.DoNotExercise
-    |"3" -> PosTransType.PositionAdjustment
-    |"4" -> PosTransType.PositionChangeSubmissionMarginDisposition
-    |"5" -> PosTransType.Pledge
-    | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
+let ReadPosTransType (pos:int) (bs:byte[]) : (int * PosTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PosTransType.Exercise
+        |"2"B -> PosTransType.DoNotExercise
+        |"3"B -> PosTransType.PositionAdjustment
+        |"4"B -> PosTransType.PositionChangeSubmissionMarginDisposition
+        |"5"B -> PosTransType.Pledge
+        | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : int =
@@ -19134,9 +20572,11 @@ let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqID valIn =
-    let tmp =  valIn
-    PosReqID.PosReqID tmp
+let ReadPosReqID (pos:int) (bs:byte[]) : (int*PosReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PosReqID.PosReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int = 
@@ -19150,9 +20590,11 @@ let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoUnderlyings valIn =
-    let tmp = System.Int32.Parse valIn
-    NoUnderlyings.NoUnderlyings tmp
+let ReadNoUnderlyings (pos:int) (bs:byte[]) : (int*NoUnderlyings) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoUnderlyings.NoUnderlyings tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : int = 
@@ -19166,12 +20608,15 @@ let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintAction (fldValIn:string) : PosMaintAction = 
-    match fldValIn with
-    |"1" -> PosMaintAction.New
-    |"2" -> PosMaintAction.Replace
-    |"3" -> PosMaintAction.Cancel
-    | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
+let ReadPosMaintAction (pos:int) (bs:byte[]) : (int * PosMaintAction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PosMaintAction.New
+        |"2"B -> PosMaintAction.Replace
+        |"3"B -> PosMaintAction.Cancel
+        | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction) : int =
@@ -19196,9 +20641,11 @@ let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigPosReqRefID valIn =
-    let tmp =  valIn
-    OrigPosReqRefID.OrigPosReqRefID tmp
+let ReadOrigPosReqRefID (pos:int) (bs:byte[]) : (int*OrigPosReqRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrigPosReqRefID.OrigPosReqRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID) : int = 
@@ -19212,9 +20659,11 @@ let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintRptRefID valIn =
-    let tmp =  valIn
-    PosMaintRptRefID.PosMaintRptRefID tmp
+let ReadPosMaintRptRefID (pos:int) (bs:byte[]) : (int*PosMaintRptRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PosMaintRptRefID.PosMaintRptRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRefID) : int = 
@@ -19228,9 +20677,11 @@ let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRef
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClearingBusinessDate valIn =
-    let tmp =  valIn
-    ClearingBusinessDate.ClearingBusinessDate tmp
+let ReadClearingBusinessDate (pos:int) (bs:byte[]) : (int*ClearingBusinessDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ClearingBusinessDate.ClearingBusinessDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBusinessDate) : int = 
@@ -19244,9 +20695,11 @@ let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlSessID valIn =
-    let tmp =  valIn
-    SettlSessID.SettlSessID tmp
+let ReadSettlSessID (pos:int) (bs:byte[]) : (int*SettlSessID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlSessID.SettlSessID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int = 
@@ -19260,9 +20713,11 @@ let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlSessSubID valIn =
-    let tmp =  valIn
-    SettlSessSubID.SettlSessSubID tmp
+let ReadSettlSessSubID (pos:int) (bs:byte[]) : (int*SettlSessSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlSessSubID.SettlSessSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) : int = 
@@ -19276,13 +20731,16 @@ let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdjustmentType (fldValIn:string) : AdjustmentType = 
-    match fldValIn with
-    |"0" -> AdjustmentType.ProcessRequestAsMarginDisposition
-    |"1" -> AdjustmentType.DeltaPlus
-    |"2" -> AdjustmentType.DeltaMinus
-    |"3" -> AdjustmentType.Final
-    | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
+let ReadAdjustmentType (pos:int) (bs:byte[]) : (int * AdjustmentType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AdjustmentType.ProcessRequestAsMarginDisposition
+        |"1"B -> AdjustmentType.DeltaPlus
+        |"2"B -> AdjustmentType.DeltaMinus
+        |"3"B -> AdjustmentType.Final
+        | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType) : int =
@@ -19313,9 +20771,11 @@ let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContraryInstructionIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    ContraryInstructionIndicator.ContraryInstructionIndicator tmp
+let ReadContraryInstructionIndicator (pos:int) (bs:byte[]) : (int*ContraryInstructionIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = ContraryInstructionIndicator.ContraryInstructionIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ContraryInstructionIndicator) : int = 
@@ -19329,9 +20789,11 @@ let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Co
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriorSpreadIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    PriorSpreadIndicator.PriorSpreadIndicator tmp
+let ReadPriorSpreadIndicator (pos:int) (bs:byte[]) : (int*PriorSpreadIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = PriorSpreadIndicator.PriorSpreadIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSpreadIndicator) : int = 
@@ -19345,9 +20807,11 @@ let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSprea
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintRptID valIn =
-    let tmp =  valIn
-    PosMaintRptID.PosMaintRptID tmp
+let ReadPosMaintRptID (pos:int) (bs:byte[]) : (int*PosMaintRptID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = PosMaintRptID.PosMaintRptID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : int = 
@@ -19361,14 +20825,17 @@ let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintStatus (fldValIn:string) : PosMaintStatus = 
-    match fldValIn with
-    |"0" -> PosMaintStatus.Accepted
-    |"1" -> PosMaintStatus.AcceptedWithWarnings
-    |"2" -> PosMaintStatus.Rejected
-    |"3" -> PosMaintStatus.Completed
-    |"4" -> PosMaintStatus.CompletedWithWarnings
-    | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
+let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosMaintStatus.Accepted
+        |"1"B -> PosMaintStatus.AcceptedWithWarnings
+        |"2"B -> PosMaintStatus.Rejected
+        |"3"B -> PosMaintStatus.Completed
+        |"4"B -> PosMaintStatus.CompletedWithWarnings
+        | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus) : int =
@@ -19405,12 +20872,15 @@ let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintResult (fldValIn:string) : PosMaintResult = 
-    match fldValIn with
-    |"0" -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
-    |"1" -> PosMaintResult.Rejected
-    |"99" -> PosMaintResult.Other
-    | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
+let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
+        |"1"B -> PosMaintResult.Rejected
+        |"99"B -> PosMaintResult.Other
+        | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult) : int =
@@ -19435,13 +20905,16 @@ let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqType (fldValIn:string) : PosReqType = 
-    match fldValIn with
-    |"0" -> PosReqType.Positions
-    |"1" -> PosReqType.Trades
-    |"2" -> PosReqType.Exercises
-    |"3" -> PosReqType.Assignments
-    | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
+let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosReqType.Positions
+        |"1"B -> PosReqType.Trades
+        |"2"B -> PosReqType.Exercises
+        |"3"B -> PosReqType.Assignments
+        | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int =
@@ -19472,11 +20945,14 @@ let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadResponseTransportType (fldValIn:string) : ResponseTransportType = 
-    match fldValIn with
-    |"0" -> ResponseTransportType.Inband
-    |"1" -> ResponseTransportType.OutOfBand
-    | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
+let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ResponseTransportType.Inband
+        |"1"B -> ResponseTransportType.OutOfBand
+        | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:ResponseTransportType) : int =
@@ -19495,9 +20971,11 @@ let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:Respons
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadResponseDestination valIn =
-    let tmp =  valIn
-    ResponseDestination.ResponseDestination tmp
+let ReadResponseDestination (pos:int) (bs:byte[]) : (int*ResponseDestination) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ResponseDestination.ResponseDestination tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDestination) : int = 
@@ -19511,9 +20989,11 @@ let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDes
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalNumPosReports valIn =
-    let tmp = System.Int32.Parse valIn
-    TotalNumPosReports.TotalNumPosReports tmp
+let ReadTotalNumPosReports (pos:int) (bs:byte[]) : (int*TotalNumPosReports) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotalNumPosReports.TotalNumPosReports tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosReports) : int = 
@@ -19527,15 +21007,18 @@ let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosR
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqResult (fldValIn:string) : PosReqResult = 
-    match fldValIn with
-    |"0" -> PosReqResult.ValidRequest
-    |"1" -> PosReqResult.InvalidOrUnsupportedRequest
-    |"2" -> PosReqResult.NoPositionsFoundThatMatchCriteria
-    |"3" -> PosReqResult.NotAuthorizedToRequestPositions
-    |"4" -> PosReqResult.RequestForPositionNotSupported
-    |"99" -> PosReqResult.Other
-    | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
+let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosReqResult.ValidRequest
+        |"1"B -> PosReqResult.InvalidOrUnsupportedRequest
+        |"2"B -> PosReqResult.NoPositionsFoundThatMatchCriteria
+        |"3"B -> PosReqResult.NotAuthorizedToRequestPositions
+        |"4"B -> PosReqResult.RequestForPositionNotSupported
+        |"99"B -> PosReqResult.Other
+        | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : int =
@@ -19578,12 +21061,15 @@ let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqStatus (fldValIn:string) : PosReqStatus = 
-    match fldValIn with
-    |"0" -> PosReqStatus.Completed
-    |"1" -> PosReqStatus.CompletedWithWarnings
-    |"2" -> PosReqStatus.Rejected
-    | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
+let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PosReqStatus.Completed
+        |"1"B -> PosReqStatus.CompletedWithWarnings
+        |"2"B -> PosReqStatus.Rejected
+        | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : int =
@@ -19608,9 +21094,11 @@ let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    SettlPrice.SettlPrice tmp
+let ReadSettlPrice (pos:int) (bs:byte[]) : (int*SettlPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = SettlPrice.SettlPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int = 
@@ -19624,11 +21112,14 @@ let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPriceType (fldValIn:string) : SettlPriceType = 
-    match fldValIn with
-    |"1" -> SettlPriceType.Final
-    |"2" -> SettlPriceType.Theoretical
-    | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
+let ReadSettlPriceType (pos:int) (bs:byte[]) : (int * SettlPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SettlPriceType.Final
+        |"2"B -> SettlPriceType.Theoretical
+        | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType) : int =
@@ -19647,9 +21138,11 @@ let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSettlPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingSettlPrice.UnderlyingSettlPrice tmp
+let ReadUnderlyingSettlPrice (pos:int) (bs:byte[]) : (int*UnderlyingSettlPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingSettlPrice.UnderlyingSettlPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPrice) : int = 
@@ -19663,9 +21156,11 @@ let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSettlPriceType valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingSettlPriceType.UnderlyingSettlPriceType tmp
+let ReadUnderlyingSettlPriceType (pos:int) (bs:byte[]) : (int*UnderlyingSettlPriceType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingSettlPriceType.UnderlyingSettlPriceType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPriceType) : int = 
@@ -19679,9 +21174,11 @@ let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriorSettlPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    PriorSettlPrice.PriorSettlPrice tmp
+let ReadPriorSettlPrice (pos:int) (bs:byte[]) : (int*PriorSettlPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PriorSettlPrice.PriorSettlPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice) : int = 
@@ -19695,9 +21192,11 @@ let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoQuoteQualifiers valIn =
-    let tmp = System.Int32.Parse valIn
-    NoQuoteQualifiers.NoQuoteQualifiers tmp
+let ReadNoQuoteQualifiers (pos:int) (bs:byte[]) : (int*NoQuoteQualifiers) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoQuoteQualifiers.NoQuoteQualifiers tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualifiers) : int = 
@@ -19711,9 +21210,11 @@ let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualif
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocSettlCurrency valIn =
-    let tmp =  valIn
-    AllocSettlCurrency.AllocSettlCurrency tmp
+let ReadAllocSettlCurrency (pos:int) (bs:byte[]) : (int*AllocSettlCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocSettlCurrency.AllocSettlCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrency) : int = 
@@ -19727,9 +21228,11 @@ let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocSettlCurrAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    AllocSettlCurrAmt.AllocSettlCurrAmt tmp
+let ReadAllocSettlCurrAmt (pos:int) (bs:byte[]) : (int*AllocSettlCurrAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllocSettlCurrAmt.AllocSettlCurrAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrAmt) : int = 
@@ -19743,9 +21246,11 @@ let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCur
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInterestAtMaturity valIn =
-    let tmp = System.Int32.Parse valIn
-    InterestAtMaturity.InterestAtMaturity tmp
+let ReadInterestAtMaturity (pos:int) (bs:byte[]) : (int*InterestAtMaturity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = InterestAtMaturity.InterestAtMaturity tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMaturity) : int = 
@@ -19759,9 +21264,11 @@ let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegDatedDate valIn =
-    let tmp =  valIn
-    LegDatedDate.LegDatedDate tmp
+let ReadLegDatedDate (pos:int) (bs:byte[]) : (int*LegDatedDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegDatedDate.LegDatedDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : int = 
@@ -19775,9 +21282,11 @@ let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegPool valIn =
-    let tmp =  valIn
-    LegPool.LegPool tmp
+let ReadLegPool (pos:int) (bs:byte[]) : (int*LegPool) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegPool.LegPool tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int = 
@@ -19791,9 +21300,11 @@ let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocInterestAtMaturity valIn =
-    let tmp = System.Int32.Parse valIn
-    AllocInterestAtMaturity.AllocInterestAtMaturity tmp
+let ReadAllocInterestAtMaturity (pos:int) (bs:byte[]) : (int*AllocInterestAtMaturity) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllocInterestAtMaturity.AllocInterestAtMaturity tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocInterestAtMaturity) : int = 
@@ -19807,9 +21318,11 @@ let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocIn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAccruedInterestAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    AllocAccruedInterestAmt.AllocAccruedInterestAmt tmp
+let ReadAllocAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AllocAccruedInterestAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllocAccruedInterestAmt.AllocAccruedInterestAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccruedInterestAmt) : int = 
@@ -19823,9 +21336,11 @@ let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliveryDate valIn =
-    let tmp =  valIn
-    DeliveryDate.DeliveryDate tmp
+let ReadDeliveryDate (pos:int) (bs:byte[]) : (int*DeliveryDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DeliveryDate.DeliveryDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : int = 
@@ -19839,11 +21354,14 @@ let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAssignmentMethod (fldValIn:string) : AssignmentMethod = 
-    match fldValIn with
-    |"R" -> AssignmentMethod.Random
-    |"P" -> AssignmentMethod.Prorata
-    | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
+let ReadAssignmentMethod (pos:int) (bs:byte[]) : (int * AssignmentMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"R"B -> AssignmentMethod.Random
+        |"P"B -> AssignmentMethod.Prorata
+        | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMethod) : int =
@@ -19862,9 +21380,11 @@ let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAssignmentUnit valIn =
-    let tmp = System.Decimal.Parse valIn
-    AssignmentUnit.AssignmentUnit tmp
+let ReadAssignmentUnit (pos:int) (bs:byte[]) : (int*AssignmentUnit) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AssignmentUnit.AssignmentUnit tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) : int = 
@@ -19878,9 +21398,11 @@ let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOpenInterest valIn =
-    let tmp = System.Int32.Parse valIn
-    OpenInterest.OpenInterest tmp
+let ReadOpenInterest (pos:int) (bs:byte[]) : (int*OpenInterest) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = OpenInterest.OpenInterest tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : int = 
@@ -19894,11 +21416,14 @@ let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExerciseMethod (fldValIn:string) : ExerciseMethod = 
-    match fldValIn with
-    |"A" -> ExerciseMethod.Automatic
-    |"M" -> ExerciseMethod.Manual
-    | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
+let ReadExerciseMethod (pos:int) (bs:byte[]) : (int * ExerciseMethod) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"A"B -> ExerciseMethod.Automatic
+        |"M"B -> ExerciseMethod.Manual
+        | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod) : int =
@@ -19917,9 +21442,11 @@ let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNumTradeReports valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNumTradeReports.TotNumTradeReports tmp
+let ReadTotNumTradeReports (pos:int) (bs:byte[]) : (int*TotNumTradeReports) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNumTradeReports.TotNumTradeReports tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeReports) : int = 
@@ -19933,18 +21460,21 @@ let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeR
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestResult (fldValIn:string) : TradeRequestResult = 
-    match fldValIn with
-    |"0" -> TradeRequestResult.Successful
-    |"1" -> TradeRequestResult.InvalidOrUnknownInstrument
-    |"2" -> TradeRequestResult.InvalidTypeOfTradeRequested
-    |"3" -> TradeRequestResult.InvalidParties
-    |"4" -> TradeRequestResult.InvalidTransportTypeRequested
-    |"5" -> TradeRequestResult.InvalidDestinationRequested
-    |"8" -> TradeRequestResult.TraderequesttypeNotSupported
-    |"9" -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
-    |"10" -> TradeRequestResult.Yield
-    | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
+let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeRequestResult.Successful
+        |"1"B -> TradeRequestResult.InvalidOrUnknownInstrument
+        |"2"B -> TradeRequestResult.InvalidTypeOfTradeRequested
+        |"3"B -> TradeRequestResult.InvalidParties
+        |"4"B -> TradeRequestResult.InvalidTransportTypeRequested
+        |"5"B -> TradeRequestResult.InvalidDestinationRequested
+        |"8"B -> TradeRequestResult.TraderequesttypeNotSupported
+        |"9"B -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
+        |"10"B -> TradeRequestResult.Yield
+        | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestResult) : int =
@@ -20005,12 +21535,15 @@ let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestStatus (fldValIn:string) : TradeRequestStatus = 
-    match fldValIn with
-    |"0" -> TradeRequestStatus.Accepted
-    |"1" -> TradeRequestStatus.Completed
-    |"2" -> TradeRequestStatus.Rejected
-    | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
+let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeRequestStatus.Accepted
+        |"1"B -> TradeRequestStatus.Completed
+        |"2"B -> TradeRequestStatus.Rejected
+        | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestStatus) : int =
@@ -20035,15 +21568,18 @@ let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportRejectReason (fldValIn:string) : TradeReportRejectReason = 
-    match fldValIn with
-    |"0" -> TradeReportRejectReason.Successful
-    |"1" -> TradeReportRejectReason.InvalidPartyInformation
-    |"2" -> TradeReportRejectReason.UnknownInstrument
-    |"3" -> TradeReportRejectReason.UnauthorizedToReportTrades
-    |"4" -> TradeReportRejectReason.InvalidTradeType
-    |"10" -> TradeReportRejectReason.Yield
-    | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
+let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeReportRejectReason.Successful
+        |"1"B -> TradeReportRejectReason.InvalidPartyInformation
+        |"2"B -> TradeReportRejectReason.UnknownInstrument
+        |"3"B -> TradeReportRejectReason.UnauthorizedToReportTrades
+        |"4"B -> TradeReportRejectReason.InvalidTradeType
+        |"10"B -> TradeReportRejectReason.Yield
+        | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportRejectReason) : int =
@@ -20086,12 +21622,15 @@ let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Trade
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSideMultiLegReportingType (fldValIn:string) : SideMultiLegReportingType = 
-    match fldValIn with
-    |"1" -> SideMultiLegReportingType.SingleSecurity
-    |"2" -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
-    |"3" -> SideMultiLegReportingType.MultiLegSecurity
-    | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
+let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegReportingType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> SideMultiLegReportingType.SingleSecurity
+        |"2"B -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
+        |"3"B -> SideMultiLegReportingType.MultiLegSecurity
+        | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:SideMultiLegReportingType) : int =
@@ -20116,9 +21655,11 @@ let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:Sid
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoPosAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    NoPosAmt.NoPosAmt tmp
+let ReadNoPosAmt (pos:int) (bs:byte[]) : (int*NoPosAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoPosAmt.NoPosAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int = 
@@ -20132,9 +21673,11 @@ let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAutoAcceptIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    AutoAcceptIndicator.AutoAcceptIndicator tmp
+let ReadAutoAcceptIndicator (pos:int) (bs:byte[]) : (int*AutoAcceptIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = AutoAcceptIndicator.AutoAcceptIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptIndicator) : int = 
@@ -20148,9 +21691,11 @@ let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocReportID valIn =
-    let tmp =  valIn
-    AllocReportID.AllocReportID tmp
+let ReadAllocReportID (pos:int) (bs:byte[]) : (int*AllocReportID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocReportID.AllocReportID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : int = 
@@ -20164,9 +21709,11 @@ let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNested2PartyIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNested2PartyIDs.NoNested2PartyIDs tmp
+let ReadNoNested2PartyIDs (pos:int) (bs:byte[]) : (int*NoNested2PartyIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNested2PartyIDs.NoNested2PartyIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartyIDs) : int = 
@@ -20180,9 +21727,11 @@ let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2Part
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartyID valIn =
-    let tmp =  valIn
-    Nested2PartyID.Nested2PartyID tmp
+let ReadNested2PartyID (pos:int) (bs:byte[]) : (int*Nested2PartyID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Nested2PartyID.Nested2PartyID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) : int = 
@@ -20196,9 +21745,11 @@ let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartyIDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested2PartyIDSource.Nested2PartyIDSource tmp
+let ReadNested2PartyIDSource (pos:int) (bs:byte[]) : (int*Nested2PartyIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested2PartyIDSource.Nested2PartyIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyIDSource) : int = 
@@ -20212,9 +21763,11 @@ let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Par
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartyRole valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested2PartyRole.Nested2PartyRole tmp
+let ReadNested2PartyRole (pos:int) (bs:byte[]) : (int*Nested2PartyRole) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested2PartyRole.Nested2PartyRole tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRole) : int = 
@@ -20228,9 +21781,11 @@ let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartySubID valIn =
-    let tmp =  valIn
-    Nested2PartySubID.Nested2PartySubID tmp
+let ReadNested2PartySubID (pos:int) (bs:byte[]) : (int*Nested2PartySubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Nested2PartySubID.Nested2PartySubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubID) : int = 
@@ -20244,9 +21799,11 @@ let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkSecurityIDSource valIn =
-    let tmp =  valIn
-    BenchmarkSecurityIDSource.BenchmarkSecurityIDSource tmp
+let ReadBenchmarkSecurityIDSource (pos:int) (bs:byte[]) : (int*BenchmarkSecurityIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = BenchmarkSecurityIDSource.BenchmarkSecurityIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityIDSource) : int = 
@@ -20260,9 +21817,11 @@ let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Bench
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecuritySubType valIn =
-    let tmp =  valIn
-    SecuritySubType.SecuritySubType tmp
+let ReadSecuritySubType (pos:int) (bs:byte[]) : (int*SecuritySubType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecuritySubType.SecuritySubType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType) : int = 
@@ -20276,9 +21835,11 @@ let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecuritySubType valIn =
-    let tmp =  valIn
-    UnderlyingSecuritySubType.UnderlyingSecuritySubType tmp
+let ReadUnderlyingSecuritySubType (pos:int) (bs:byte[]) : (int*UnderlyingSecuritySubType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingSecuritySubType.UnderlyingSecuritySubType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecuritySubType) : int = 
@@ -20292,9 +21853,11 @@ let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:Under
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecuritySubType valIn =
-    let tmp =  valIn
-    LegSecuritySubType.LegSecuritySubType tmp
+let ReadLegSecuritySubType (pos:int) (bs:byte[]) : (int*LegSecuritySubType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegSecuritySubType.LegSecuritySubType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecuritySubType) : int = 
@@ -20308,9 +21871,11 @@ let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllowableOneSidednessPct valIn =
-    let tmp = System.Decimal.Parse valIn
-    AllowableOneSidednessPct.AllowableOneSidednessPct tmp
+let ReadAllowableOneSidednessPct (pos:int) (bs:byte[]) : (int*AllowableOneSidednessPct) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AllowableOneSidednessPct.AllowableOneSidednessPct tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessPct) : int = 
@@ -20324,9 +21889,11 @@ let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:Allowa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllowableOneSidednessValue valIn =
-    let tmp = System.Int32.Parse valIn
-    AllowableOneSidednessValue.AllowableOneSidednessValue tmp
+let ReadAllowableOneSidednessValue (pos:int) (bs:byte[]) : (int*AllowableOneSidednessValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = AllowableOneSidednessValue.AllowableOneSidednessValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessValue) : int = 
@@ -20340,9 +21907,11 @@ let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:Allo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllowableOneSidednessCurr valIn =
-    let tmp =  valIn
-    AllowableOneSidednessCurr.AllowableOneSidednessCurr tmp
+let ReadAllowableOneSidednessCurr (pos:int) (bs:byte[]) : (int*AllowableOneSidednessCurr) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllowableOneSidednessCurr.AllowableOneSidednessCurr tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessCurr) : int = 
@@ -20356,9 +21925,11 @@ let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:Allow
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoTrdRegTimestamps valIn =
-    let tmp = System.Int32.Parse valIn
-    NoTrdRegTimestamps.NoTrdRegTimestamps tmp
+let ReadNoTrdRegTimestamps (pos:int) (bs:byte[]) : (int*NoTrdRegTimestamps) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoTrdRegTimestamps.NoTrdRegTimestamps tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTimestamps) : int = 
@@ -20372,9 +21943,11 @@ let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRegTimestamp valIn =
-    let tmp =  valIn
-    TrdRegTimestamp.TrdRegTimestamp tmp
+let ReadTrdRegTimestamp (pos:int) (bs:byte[]) : (int*TrdRegTimestamp) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TrdRegTimestamp.TrdRegTimestamp tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp) : int = 
@@ -20388,14 +21961,17 @@ let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRegTimestampType (fldValIn:string) : TrdRegTimestampType = 
-    match fldValIn with
-    |"1" -> TrdRegTimestampType.ExecutionTime
-    |"2" -> TrdRegTimestampType.TimeIn
-    |"3" -> TrdRegTimestampType.TimeOut
-    |"4" -> TrdRegTimestampType.BrokerReceipt
-    |"5" -> TrdRegTimestampType.BrokerExecution
-    | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
+let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> TrdRegTimestampType.ExecutionTime
+        |"2"B -> TrdRegTimestampType.TimeIn
+        |"3"B -> TrdRegTimestampType.TimeOut
+        |"4"B -> TrdRegTimestampType.BrokerReceipt
+        |"5"B -> TrdRegTimestampType.BrokerExecution
+        | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTimestampType) : int =
@@ -20432,9 +22008,11 @@ let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTim
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRegTimestampOrigin valIn =
-    let tmp =  valIn
-    TrdRegTimestampOrigin.TrdRegTimestampOrigin tmp
+let ReadTrdRegTimestampOrigin (pos:int) (bs:byte[]) : (int*TrdRegTimestampOrigin) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TrdRegTimestampOrigin.TrdRegTimestampOrigin tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestampOrigin) : int = 
@@ -20448,9 +22026,11 @@ let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTim
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmRefID valIn =
-    let tmp =  valIn
-    ConfirmRefID.ConfirmRefID tmp
+let ReadConfirmRefID (pos:int) (bs:byte[]) : (int*ConfirmRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ConfirmRefID.ConfirmRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : int = 
@@ -20464,12 +22044,15 @@ let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmType (fldValIn:string) : ConfirmType = 
-    match fldValIn with
-    |"1" -> ConfirmType.Status
-    |"2" -> ConfirmType.Confirmation
-    |"3" -> ConfirmType.ConfirmationRequestRejected
-    | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
+let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ConfirmType.Status
+        |"2"B -> ConfirmType.Confirmation
+        |"3"B -> ConfirmType.ConfirmationRequestRejected
+        | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : int =
@@ -20494,12 +22077,15 @@ let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmRejReason (fldValIn:string) : ConfirmRejReason = 
-    match fldValIn with
-    |"1" -> ConfirmRejReason.MismatchedAccount
-    |"2" -> ConfirmRejReason.MissingSettlementInstructions
-    |"99" -> ConfirmRejReason.Other
-    | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
+let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> ConfirmRejReason.MismatchedAccount
+        |"2"B -> ConfirmRejReason.MissingSettlementInstructions
+        |"99"B -> ConfirmRejReason.Other
+        | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejReason) : int =
@@ -20524,12 +22110,15 @@ let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejRe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBookingType (fldValIn:string) : BookingType = 
-    match fldValIn with
-    |"0" -> BookingType.RegularBooking
-    |"1" -> BookingType.Cfd
-    |"2" -> BookingType.TotalReturnSwap
-    | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
+let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> BookingType.RegularBooking
+        |"1"B -> BookingType.Cfd
+        |"2"B -> BookingType.TotalReturnSwap
+        | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : int =
@@ -20554,9 +22143,11 @@ let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIndividualAllocRejCode valIn =
-    let tmp = System.Int32.Parse valIn
-    IndividualAllocRejCode.IndividualAllocRejCode tmp
+let ReadIndividualAllocRejCode (pos:int) (bs:byte[]) : (int*IndividualAllocRejCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = IndividualAllocRejCode.IndividualAllocRejCode tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocRejCode) : int = 
@@ -20570,9 +22161,11 @@ let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:Individu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstMsgID valIn =
-    let tmp =  valIn
-    SettlInstMsgID.SettlInstMsgID tmp
+let ReadSettlInstMsgID (pos:int) (bs:byte[]) : (int*SettlInstMsgID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlInstMsgID.SettlInstMsgID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) : int = 
@@ -20586,9 +22179,11 @@ let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlInst valIn =
-    let tmp = System.Int32.Parse valIn
-    NoSettlInst.NoSettlInst tmp
+let ReadNoSettlInst (pos:int) (bs:byte[]) : (int*NoSettlInst) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoSettlInst.NoSettlInst tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int = 
@@ -20602,9 +22197,11 @@ let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastUpdateTime valIn =
-    let tmp =  valIn
-    LastUpdateTime.LastUpdateTime tmp
+let ReadLastUpdateTime (pos:int) (bs:byte[]) : (int*LastUpdateTime) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LastUpdateTime.LastUpdateTime tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) : int = 
@@ -20618,14 +22215,17 @@ let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocSettlInstType (fldValIn:string) : AllocSettlInstType = 
-    match fldValIn with
-    |"0" -> AllocSettlInstType.UseDefaultInstructions
-    |"1" -> AllocSettlInstType.DeriveFromParametersProvided
-    |"2" -> AllocSettlInstType.FullDetailsProvided
-    |"3" -> AllocSettlInstType.SsiDbIdsProvided
-    |"4" -> AllocSettlInstType.PhoneForInstructions
-    | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
+let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocSettlInstType.UseDefaultInstructions
+        |"1"B -> AllocSettlInstType.DeriveFromParametersProvided
+        |"2"B -> AllocSettlInstType.FullDetailsProvided
+        |"3"B -> AllocSettlInstType.SsiDbIdsProvided
+        |"4"B -> AllocSettlInstType.PhoneForInstructions
+        | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettlInstType) : int =
@@ -20662,9 +22262,11 @@ let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettl
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlPartyIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoSettlPartyIDs.NoSettlPartyIDs tmp
+let ReadNoSettlPartyIDs (pos:int) (bs:byte[]) : (int*NoSettlPartyIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoSettlPartyIDs.NoSettlPartyIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs) : int = 
@@ -20678,9 +22280,11 @@ let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartyID valIn =
-    let tmp =  valIn
-    SettlPartyID.SettlPartyID tmp
+let ReadSettlPartyID (pos:int) (bs:byte[]) : (int*SettlPartyID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlPartyID.SettlPartyID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : int = 
@@ -20694,9 +22298,11 @@ let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartyIDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    SettlPartyIDSource.SettlPartyIDSource tmp
+let ReadSettlPartyIDSource (pos:int) (bs:byte[]) : (int*SettlPartyIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SettlPartyIDSource.SettlPartyIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyIDSource) : int = 
@@ -20710,9 +22316,11 @@ let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartyRole valIn =
-    let tmp = System.Int32.Parse valIn
-    SettlPartyRole.SettlPartyRole tmp
+let ReadSettlPartyRole (pos:int) (bs:byte[]) : (int*SettlPartyRole) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SettlPartyRole.SettlPartyRole tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) : int = 
@@ -20726,9 +22334,11 @@ let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartySubID valIn =
-    let tmp =  valIn
-    SettlPartySubID.SettlPartySubID tmp
+let ReadSettlPartySubID (pos:int) (bs:byte[]) : (int*SettlPartySubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlPartySubID.SettlPartySubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID) : int = 
@@ -20742,9 +22352,11 @@ let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartySubIDType valIn =
-    let tmp = System.Int32.Parse valIn
-    SettlPartySubIDType.SettlPartySubIDType tmp
+let ReadSettlPartySubIDType (pos:int) (bs:byte[]) : (int*SettlPartySubIDType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SettlPartySubIDType.SettlPartySubIDType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubIDType) : int = 
@@ -20758,11 +22370,14 @@ let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDlvyInstType (fldValIn:string) : DlvyInstType = 
-    match fldValIn with
-    |"S" -> DlvyInstType.Securities
-    |"C" -> DlvyInstType.Cash
-    | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
+let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"S"B -> DlvyInstType.Securities
+        |"C"B -> DlvyInstType.Cash
+        | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : int =
@@ -20781,13 +22396,16 @@ let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTerminationType (fldValIn:string) : TerminationType = 
-    match fldValIn with
-    |"1" -> TerminationType.Overnight
-    |"2" -> TerminationType.Term
-    |"3" -> TerminationType.Flexible
-    |"4" -> TerminationType.Open
-    | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
+let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> TerminationType.Overnight
+        |"2"B -> TerminationType.Term
+        |"3"B -> TerminationType.Flexible
+        |"4"B -> TerminationType.Open
+        | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationType) : int =
@@ -20818,9 +22436,11 @@ let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNextExpectedMsgSeqNum valIn =
-    let tmp = System.Int32.Parse valIn
-    NextExpectedMsgSeqNum.NextExpectedMsgSeqNum tmp
+let ReadNextExpectedMsgSeqNum (pos:int) (bs:byte[]) : (int*NextExpectedMsgSeqNum) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpectedMsgSeqNum) : int = 
@@ -20834,9 +22454,11 @@ let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpec
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrdStatusReqID valIn =
-    let tmp =  valIn
-    OrdStatusReqID.OrdStatusReqID tmp
+let ReadOrdStatusReqID (pos:int) (bs:byte[]) : (int*OrdStatusReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrdStatusReqID.OrdStatusReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) : int = 
@@ -20850,9 +22472,11 @@ let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstReqID valIn =
-    let tmp =  valIn
-    SettlInstReqID.SettlInstReqID tmp
+let ReadSettlInstReqID (pos:int) (bs:byte[]) : (int*SettlInstReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SettlInstReqID.SettlInstReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) : int = 
@@ -20866,13 +22490,16 @@ let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstReqRejCode (fldValIn:string) : SettlInstReqRejCode = 
-    match fldValIn with
-    |"0" -> SettlInstReqRejCode.UnableToProcessRequest
-    |"1" -> SettlInstReqRejCode.UnknownAccount
-    |"2" -> SettlInstReqRejCode.NoMatchingSettlementInstructionsFound
-    |"99" -> SettlInstReqRejCode.Other
-    | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
+let ReadSettlInstReqRejCode (pos:int) (bs:byte[]) : (int * SettlInstReqRejCode) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> SettlInstReqRejCode.UnableToProcessRequest
+        |"1"B -> SettlInstReqRejCode.UnknownAccount
+        |"2"B -> SettlInstReqRejCode.NoMatchingSettlementInstructionsFound
+        |"99"B -> SettlInstReqRejCode.Other
+        | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstReqRejCode) : int =
@@ -20903,9 +22530,11 @@ let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryAllocID valIn =
-    let tmp =  valIn
-    SecondaryAllocID.SecondaryAllocID tmp
+let ReadSecondaryAllocID (pos:int) (bs:byte[]) : (int*SecondaryAllocID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryAllocID.SecondaryAllocID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAllocID) : int = 
@@ -20919,13 +22548,16 @@ let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAlloc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocReportType (fldValIn:string) : AllocReportType = 
-    match fldValIn with
-    |"3" -> AllocReportType.SellsideCalculatedUsingPreliminary
-    |"4" -> AllocReportType.SellsideCalculatedWithoutPreliminary
-    |"5" -> AllocReportType.WarehouseRecap
-    |"8" -> AllocReportType.RequestToIntermediary
-    | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
+let ReadAllocReportType (pos:int) (bs:byte[]) : (int * AllocReportType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"3"B -> AllocReportType.SellsideCalculatedUsingPreliminary
+        |"4"B -> AllocReportType.SellsideCalculatedWithoutPreliminary
+        |"5"B -> AllocReportType.WarehouseRecap
+        |"8"B -> AllocReportType.RequestToIntermediary
+        | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportType) : int =
@@ -20956,9 +22588,11 @@ let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocReportRefID valIn =
-    let tmp =  valIn
-    AllocReportRefID.AllocReportRefID tmp
+let ReadAllocReportRefID (pos:int) (bs:byte[]) : (int*AllocReportRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AllocReportRefID.AllocReportRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRefID) : int = 
@@ -20972,11 +22606,14 @@ let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRef
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocCancReplaceReason (fldValIn:string) : AllocCancReplaceReason = 
-    match fldValIn with
-    |"1" -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
-    |"2" -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
-    | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
+let ReadAllocCancReplaceReason (pos:int) (bs:byte[]) : (int * AllocCancReplaceReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
+        |"2"B -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
+        | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocCancReplaceReason) : int =
@@ -20995,9 +22632,11 @@ let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocC
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCopyMsgIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    CopyMsgIndicator.CopyMsgIndicator tmp
+let ReadCopyMsgIndicator (pos:int) (bs:byte[]) : (int*CopyMsgIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = CopyMsgIndicator.CopyMsgIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicator) : int = 
@@ -21011,16 +22650,19 @@ let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicat
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAccountType (fldValIn:string) : AllocAccountType = 
-    match fldValIn with
-    |"1" -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
-    |"2" -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks
-    |"3" -> AllocAccountType.HouseTrader
-    |"4" -> AllocAccountType.FloorTrader
-    |"6" -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
-    |"7" -> AllocAccountType.AccountIsHouseTraderAndIsCrossMargined
-    |"8" -> AllocAccountType.JointBackofficeAccount
-    | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
+let ReadAllocAccountType (pos:int) (bs:byte[]) : (int * AllocAccountType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
+        |"2"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks
+        |"3"B -> AllocAccountType.HouseTrader
+        |"4"B -> AllocAccountType.FloorTrader
+        |"6"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
+        |"7"B -> AllocAccountType.AccountIsHouseTraderAndIsCrossMargined
+        |"8"B -> AllocAccountType.JointBackofficeAccount
+        | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccountType) : int =
@@ -21069,9 +22711,11 @@ let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccount
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrderAvgPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderAvgPx.OrderAvgPx tmp
+let ReadOrderAvgPx (pos:int) (bs:byte[]) : (int*OrderAvgPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderAvgPx.OrderAvgPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int = 
@@ -21085,9 +22729,11 @@ let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderBookingQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderBookingQty.OrderBookingQty tmp
+let ReadOrderBookingQty (pos:int) (bs:byte[]) : (int*OrderBookingQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderBookingQty.OrderBookingQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty) : int = 
@@ -21101,9 +22747,11 @@ let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlPartySubIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoSettlPartySubIDs.NoSettlPartySubIDs tmp
+let ReadNoSettlPartySubIDs (pos:int) (bs:byte[]) : (int*NoSettlPartySubIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoSettlPartySubIDs.NoSettlPartySubIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartySubIDs) : int = 
@@ -21117,9 +22765,11 @@ let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlParty
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoPartySubIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoPartySubIDs.NoPartySubIDs tmp
+let ReadNoPartySubIDs (pos:int) (bs:byte[]) : (int*NoPartySubIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoPartySubIDs.NoPartySubIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : int = 
@@ -21133,9 +22783,11 @@ let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPartySubIDType valIn =
-    let tmp = System.Int32.Parse valIn
-    PartySubIDType.PartySubIDType tmp
+let ReadPartySubIDType (pos:int) (bs:byte[]) : (int*PartySubIDType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = PartySubIDType.PartySubIDType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) : int = 
@@ -21149,9 +22801,11 @@ let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNestedPartySubIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNestedPartySubIDs.NoNestedPartySubIDs tmp
+let ReadNoNestedPartySubIDs (pos:int) (bs:byte[]) : (int*NoNestedPartySubIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNestedPartySubIDs.NoNestedPartySubIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartySubIDs) : int = 
@@ -21165,9 +22819,11 @@ let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPar
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartySubIDType valIn =
-    let tmp = System.Int32.Parse valIn
-    NestedPartySubIDType.NestedPartySubIDType tmp
+let ReadNestedPartySubIDType (pos:int) (bs:byte[]) : (int*NestedPartySubIDType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NestedPartySubIDType.NestedPartySubIDType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubIDType) : int = 
@@ -21181,9 +22837,11 @@ let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPart
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNested2PartySubIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNested2PartySubIDs.NoNested2PartySubIDs tmp
+let ReadNoNested2PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested2PartySubIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNested2PartySubIDs.NoNested2PartySubIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartySubIDs) : int = 
@@ -21197,9 +22855,11 @@ let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2P
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartySubIDType valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested2PartySubIDType.Nested2PartySubIDType tmp
+let ReadNested2PartySubIDType (pos:int) (bs:byte[]) : (int*Nested2PartySubIDType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested2PartySubIDType.Nested2PartySubIDType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubIDType) : int = 
@@ -21213,15 +22873,18 @@ let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Pa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocIntermedReqType (fldValIn:string) : AllocIntermedReqType = 
-    match fldValIn with
-    |"1" -> AllocIntermedReqType.PendingAccept
-    |"2" -> AllocIntermedReqType.PendingRelease
-    |"3" -> AllocIntermedReqType.PendingReversal
-    |"4" -> AllocIntermedReqType.Accept
-    |"5" -> AllocIntermedReqType.BlockLevelReject
-    |"6" -> AllocIntermedReqType.AccountLevelReject
-    | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
+let ReadAllocIntermedReqType (pos:int) (bs:byte[]) : (int * AllocIntermedReqType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AllocIntermedReqType.PendingAccept
+        |"2"B -> AllocIntermedReqType.PendingRelease
+        |"3"B -> AllocIntermedReqType.PendingReversal
+        |"4"B -> AllocIntermedReqType.Accept
+        |"5"B -> AllocIntermedReqType.BlockLevelReject
+        |"6"B -> AllocIntermedReqType.AccountLevelReject
+        | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocIntermedReqType) : int =
@@ -21264,9 +22927,11 @@ let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocInt
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingPx.UnderlyingPx tmp
+let ReadUnderlyingPx (pos:int) (bs:byte[]) : (int*UnderlyingPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingPx.UnderlyingPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : int = 
@@ -21280,9 +22945,11 @@ let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriceDelta valIn =
-    let tmp = System.Decimal.Parse valIn
-    PriceDelta.PriceDelta tmp
+let ReadPriceDelta (pos:int) (bs:byte[]) : (int*PriceDelta) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PriceDelta.PriceDelta tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int = 
@@ -21296,9 +22963,11 @@ let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueMax valIn =
-    let tmp = System.Int32.Parse valIn
-    ApplQueueMax.ApplQueueMax tmp
+let ReadApplQueueMax (pos:int) (bs:byte[]) : (int*ApplQueueMax) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = ApplQueueMax.ApplQueueMax tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : int = 
@@ -21312,9 +22981,11 @@ let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueDepth valIn =
-    let tmp = System.Int32.Parse valIn
-    ApplQueueDepth.ApplQueueDepth tmp
+let ReadApplQueueDepth (pos:int) (bs:byte[]) : (int*ApplQueueDepth) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = ApplQueueDepth.ApplQueueDepth tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) : int = 
@@ -21328,13 +22999,16 @@ let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueResolution (fldValIn:string) : ApplQueueResolution = 
-    match fldValIn with
-    |"0" -> ApplQueueResolution.NoActionTaken
-    |"1" -> ApplQueueResolution.QueueFlushed
-    |"2" -> ApplQueueResolution.OverlayLast
-    |"3" -> ApplQueueResolution.EndSession
-    | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
+let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ApplQueueResolution.NoActionTaken
+        |"1"B -> ApplQueueResolution.QueueFlushed
+        |"2"B -> ApplQueueResolution.OverlayLast
+        |"3"B -> ApplQueueResolution.EndSession
+        | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueResolution) : int =
@@ -21365,13 +23039,16 @@ let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueue
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueAction (fldValIn:string) : ApplQueueAction = 
-    match fldValIn with
-    |"0" -> ApplQueueAction.NoActionTaken
-    |"1" -> ApplQueueAction.QueueFlushed
-    |"2" -> ApplQueueAction.OverlayLast
-    |"3" -> ApplQueueAction.EndSession
-    | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
+let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ApplQueueAction.NoActionTaken
+        |"1"B -> ApplQueueAction.QueueFlushed
+        |"2"B -> ApplQueueAction.OverlayLast
+        |"3"B -> ApplQueueAction.EndSession
+        | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueAction) : int =
@@ -21402,9 +23079,11 @@ let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueActi
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoAltMDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    NoAltMDSource.NoAltMDSource tmp
+let ReadNoAltMDSource (pos:int) (bs:byte[]) : (int*NoAltMDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoAltMDSource.NoAltMDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : int = 
@@ -21418,9 +23097,11 @@ let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAltMDSourceID valIn =
-    let tmp =  valIn
-    AltMDSourceID.AltMDSourceID tmp
+let ReadAltMDSourceID (pos:int) (bs:byte[]) : (int*AltMDSourceID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AltMDSourceID.AltMDSourceID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : int = 
@@ -21434,9 +23115,11 @@ let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryTradeReportID valIn =
-    let tmp =  valIn
-    SecondaryTradeReportID.SecondaryTradeReportID tmp
+let ReadSecondaryTradeReportID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryTradeReportID.SecondaryTradeReportID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportID) : int = 
@@ -21450,12 +23133,15 @@ let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:Secondar
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAvgPxIndicator (fldValIn:string) : AvgPxIndicator = 
-    match fldValIn with
-    |"0" -> AvgPxIndicator.NoAveragePricing
-    |"1" -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
-    |"2" -> AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid
-    | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
+let ReadAvgPxIndicator (pos:int) (bs:byte[]) : (int * AvgPxIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AvgPxIndicator.NoAveragePricing
+        |"1"B -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
+        |"2"B -> AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid
+        | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator) : int =
@@ -21480,9 +23166,11 @@ let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeLinkID valIn =
-    let tmp =  valIn
-    TradeLinkID.TradeLinkID tmp
+let ReadTradeLinkID (pos:int) (bs:byte[]) : (int*TradeLinkID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeLinkID.TradeLinkID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int = 
@@ -21496,9 +23184,11 @@ let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderInputDevice valIn =
-    let tmp =  valIn
-    OrderInputDevice.OrderInputDevice tmp
+let ReadOrderInputDevice (pos:int) (bs:byte[]) : (int*OrderInputDevice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = OrderInputDevice.OrderInputDevice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevice) : int = 
@@ -21512,9 +23202,11 @@ let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingTradingSessionID valIn =
-    let tmp =  valIn
-    UnderlyingTradingSessionID.UnderlyingTradingSessionID tmp
+let ReadUnderlyingTradingSessionID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingTradingSessionID.UnderlyingTradingSessionID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionID) : int = 
@@ -21528,9 +23220,11 @@ let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingTradingSessionSubID valIn =
-    let tmp =  valIn
-    UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID tmp
+let ReadUnderlyingTradingSessionSubID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionSubID) : int = 
@@ -21544,9 +23238,11 @@ let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:U
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeLegRefID valIn =
-    let tmp =  valIn
-    TradeLegRefID.TradeLegRefID tmp
+let ReadTradeLegRefID (pos:int) (bs:byte[]) : (int*TradeLegRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TradeLegRefID.TradeLegRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : int = 
@@ -21560,9 +23256,11 @@ let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExchangeRule valIn =
-    let tmp =  valIn
-    ExchangeRule.ExchangeRule tmp
+let ReadExchangeRule (pos:int) (bs:byte[]) : (int*ExchangeRule) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ExchangeRule.ExchangeRule tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : int = 
@@ -21576,12 +23274,15 @@ let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeAllocIndicator (fldValIn:string) : TradeAllocIndicator = 
-    match fldValIn with
-    |"0" -> TradeAllocIndicator.AllocationNotRequired
-    |"1" -> TradeAllocIndicator.AllocationRequired
-    |"2" -> TradeAllocIndicator.UseAllocationProvidedWithTheTrade
-    | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
+let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeAllocIndicator.AllocationNotRequired
+        |"1"B -> TradeAllocIndicator.AllocationRequired
+        |"2"B -> TradeAllocIndicator.UseAllocationProvidedWithTheTrade
+        | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllocIndicator) : int =
@@ -21606,11 +23307,14 @@ let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExpirationCycle (fldValIn:string) : ExpirationCycle = 
-    match fldValIn with
-    |"0" -> ExpirationCycle.ExpireOnTradingSessionClose
-    |"1" -> ExpirationCycle.ExpireOnTradingSessionOpen
-    | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
+let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
+        |"1"B -> ExpirationCycle.ExpireOnTradingSessionOpen
+        | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCycle) : int =
@@ -21629,20 +23333,23 @@ let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCyc
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTrdType (fldValIn:string) : TrdType = 
-    match fldValIn with
-    |"0" -> TrdType.RegularTrade
-    |"1" -> TrdType.BlockTrade
-    |"2" -> TrdType.Efp
-    |"3" -> TrdType.Transfer
-    |"4" -> TrdType.LateTrade
-    |"5" -> TrdType.TTrade
-    |"6" -> TrdType.WeightedAveragePriceTrade
-    |"7" -> TrdType.BunchedTrade
-    |"8" -> TrdType.LateBunchedTrade
-    |"9" -> TrdType.PriorReferencePriceTrade
-    |"10" -> TrdType.AfterHoursTrade
-    | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
+let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TrdType.RegularTrade
+        |"1"B -> TrdType.BlockTrade
+        |"2"B -> TrdType.Efp
+        |"3"B -> TrdType.Transfer
+        |"4"B -> TrdType.LateTrade
+        |"5"B -> TrdType.TTrade
+        |"6"B -> TrdType.WeightedAveragePriceTrade
+        |"7"B -> TrdType.BunchedTrade
+        |"8"B -> TrdType.LateBunchedTrade
+        |"9"B -> TrdType.PriorReferencePriceTrade
+        |"10"B -> TrdType.AfterHoursTrade
+        | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
@@ -21715,9 +23422,11 @@ let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTrdSubType valIn =
-    let tmp = System.Int32.Parse valIn
-    TrdSubType.TrdSubType tmp
+let ReadTrdSubType (pos:int) (bs:byte[]) : (int*TrdSubType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TrdSubType.TrdSubType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int = 
@@ -21731,9 +23440,11 @@ let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTransferReason valIn =
-    let tmp =  valIn
-    TransferReason.TransferReason tmp
+let ReadTransferReason (pos:int) (bs:byte[]) : (int*TransferReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TransferReason.TransferReason tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) : int = 
@@ -21747,9 +23458,11 @@ let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAsgnReqID valIn =
-    let tmp =  valIn
-    AsgnReqID.AsgnReqID tmp
+let ReadAsgnReqID (pos:int) (bs:byte[]) : (int*AsgnReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AsgnReqID.AsgnReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int = 
@@ -21763,9 +23476,11 @@ let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNumAssignmentReports valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNumAssignmentReports.TotNumAssignmentReports tmp
+let ReadTotNumAssignmentReports (pos:int) (bs:byte[]) : (int*TotNumAssignmentReports) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNumAssignmentReports.TotNumAssignmentReports tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumAssignmentReports) : int = 
@@ -21779,9 +23494,11 @@ let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumA
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAsgnRptID valIn =
-    let tmp =  valIn
-    AsgnRptID.AsgnRptID tmp
+let ReadAsgnRptID (pos:int) (bs:byte[]) : (int*AsgnRptID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AsgnRptID.AsgnRptID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int = 
@@ -21795,9 +23512,11 @@ let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadThresholdAmount valIn =
-    let tmp = System.Decimal.Parse valIn
-    ThresholdAmount.ThresholdAmount tmp
+let ReadThresholdAmount (pos:int) (bs:byte[]) : (int*ThresholdAmount) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ThresholdAmount.ThresholdAmount tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount) : int = 
@@ -21811,11 +23530,14 @@ let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPegMoveType (fldValIn:string) : PegMoveType = 
-    match fldValIn with
-    |"0" -> PegMoveType.Floating
-    |"1" -> PegMoveType.Fixed
-    | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
+let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PegMoveType.Floating
+        |"1"B -> PegMoveType.Fixed
+        | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : int =
@@ -21834,13 +23556,16 @@ let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPegOffsetType (fldValIn:string) : PegOffsetType = 
-    match fldValIn with
-    |"0" -> PegOffsetType.Price
-    |"1" -> PegOffsetType.BasisPoints
-    |"2" -> PegOffsetType.Ticks
-    |"3" -> PegOffsetType.PriceTierLevel
-    | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
+let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PegOffsetType.Price
+        |"1"B -> PegOffsetType.BasisPoints
+        |"2"B -> PegOffsetType.Ticks
+        |"3"B -> PegOffsetType.PriceTierLevel
+        | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) : int =
@@ -21871,12 +23596,15 @@ let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPegLimitType (fldValIn:string) : PegLimitType = 
-    match fldValIn with
-    |"0" -> PegLimitType.OrBetter
-    |"1" -> PegLimitType.Strict
-    |"2" -> PegLimitType.OrWorse
-    | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
+let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> PegLimitType.OrBetter
+        |"1"B -> PegLimitType.Strict
+        |"2"B -> PegLimitType.OrWorse
+        | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : int =
@@ -21901,11 +23629,14 @@ let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPegRoundDirection (fldValIn:string) : PegRoundDirection = 
-    match fldValIn with
-    |"1" -> PegRoundDirection.MoreAggressive
-    |"2" -> PegRoundDirection.MorePassive
-    | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
+let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PegRoundDirection.MoreAggressive
+        |"2"B -> PegRoundDirection.MorePassive
+        | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDirection) : int =
@@ -21924,9 +23655,11 @@ let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDir
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPeggedPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    PeggedPrice.PeggedPrice tmp
+let ReadPeggedPrice (pos:int) (bs:byte[]) : (int*PeggedPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PeggedPrice.PeggedPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int = 
@@ -21940,13 +23673,16 @@ let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPegScope (fldValIn:string) : PegScope = 
-    match fldValIn with
-    |"1" -> PegScope.Local
-    |"2" -> PegScope.National
-    |"3" -> PegScope.Global
-    |"4" -> PegScope.NationalExcludingLocal
-    | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
+let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> PegScope.Local
+        |"2"B -> PegScope.National
+        |"3"B -> PegScope.Global
+        |"4"B -> PegScope.NationalExcludingLocal
+        | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
@@ -21977,11 +23713,14 @@ let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionMoveType (fldValIn:string) : DiscretionMoveType = 
-    match fldValIn with
-    |"0" -> DiscretionMoveType.Floating
-    |"1" -> DiscretionMoveType.Fixed
-    | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
+let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DiscretionMoveType.Floating
+        |"1"B -> DiscretionMoveType.Fixed
+        | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionMoveType) : int =
@@ -22000,13 +23739,16 @@ let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretion
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionOffsetType (fldValIn:string) : DiscretionOffsetType = 
-    match fldValIn with
-    |"0" -> DiscretionOffsetType.Price
-    |"1" -> DiscretionOffsetType.BasisPoints
-    |"2" -> DiscretionOffsetType.Ticks
-    |"3" -> DiscretionOffsetType.PriceTierLevel
-    | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
+let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DiscretionOffsetType.Price
+        |"1"B -> DiscretionOffsetType.BasisPoints
+        |"2"B -> DiscretionOffsetType.Ticks
+        |"3"B -> DiscretionOffsetType.PriceTierLevel
+        | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionOffsetType) : int =
@@ -22037,12 +23779,15 @@ let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:Discreti
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionLimitType (fldValIn:string) : DiscretionLimitType = 
-    match fldValIn with
-    |"0" -> DiscretionLimitType.OrBetter
-    |"1" -> DiscretionLimitType.Strict
-    |"2" -> DiscretionLimitType.OrWorse
-    | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
+let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DiscretionLimitType.OrBetter
+        |"1"B -> DiscretionLimitType.Strict
+        |"2"B -> DiscretionLimitType.OrWorse
+        | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionLimitType) : int =
@@ -22067,11 +23812,14 @@ let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretio
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionRoundDirection (fldValIn:string) : DiscretionRoundDirection = 
-    match fldValIn with
-    |"1" -> DiscretionRoundDirection.MoreAggressive
-    |"2" -> DiscretionRoundDirection.MorePassive
-    | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
+let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundDirection) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> DiscretionRoundDirection.MoreAggressive
+        |"2"B -> DiscretionRoundDirection.MorePassive
+        | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionRoundDirection) : int =
@@ -22090,9 +23838,11 @@ let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:Disc
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    DiscretionPrice.DiscretionPrice tmp
+let ReadDiscretionPrice (pos:int) (bs:byte[]) : (int*DiscretionPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = DiscretionPrice.DiscretionPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice) : int = 
@@ -22106,13 +23856,16 @@ let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionScope (fldValIn:string) : DiscretionScope = 
-    match fldValIn with
-    |"1" -> DiscretionScope.Local
-    |"2" -> DiscretionScope.National
-    |"3" -> DiscretionScope.Global
-    |"4" -> DiscretionScope.NationalExcludingLocal
-    | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
+let ReadDiscretionScope (pos:int) (bs:byte[]) : (int * DiscretionScope) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> DiscretionScope.Local
+        |"2"B -> DiscretionScope.National
+        |"3"B -> DiscretionScope.Global
+        |"4"B -> DiscretionScope.NationalExcludingLocal
+        | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionScope) : int =
@@ -22143,9 +23896,11 @@ let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionSco
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTargetStrategy valIn =
-    let tmp = System.Int32.Parse valIn
-    TargetStrategy.TargetStrategy tmp
+let ReadTargetStrategy (pos:int) (bs:byte[]) : (int*TargetStrategy) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TargetStrategy.TargetStrategy tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) : int = 
@@ -22159,9 +23914,11 @@ let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetStrategyParameters valIn =
-    let tmp =  valIn
-    TargetStrategyParameters.TargetStrategyParameters tmp
+let ReadTargetStrategyParameters (pos:int) (bs:byte[]) : (int*TargetStrategyParameters) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TargetStrategyParameters.TargetStrategyParameters tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyParameters) : int = 
@@ -22175,9 +23932,11 @@ let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:Target
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadParticipationRate valIn =
-    let tmp = System.Decimal.Parse valIn
-    ParticipationRate.ParticipationRate tmp
+let ReadParticipationRate (pos:int) (bs:byte[]) : (int*ParticipationRate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ParticipationRate.ParticipationRate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:ParticipationRate) : int = 
@@ -22191,9 +23950,11 @@ let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:Participation
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetStrategyPerformance valIn =
-    let tmp = System.Decimal.Parse valIn
-    TargetStrategyPerformance.TargetStrategyPerformance tmp
+let ReadTargetStrategyPerformance (pos:int) (bs:byte[]) : (int*TargetStrategyPerformance) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = TargetStrategyPerformance.TargetStrategyPerformance tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyPerformance) : int = 
@@ -22207,12 +23968,15 @@ let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:Targe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastLiquidityInd (fldValIn:string) : LastLiquidityInd = 
-    match fldValIn with
-    |"1" -> LastLiquidityInd.AddedLiquidity
-    |"2" -> LastLiquidityInd.RemovedLiquidity
-    |"3" -> LastLiquidityInd.LiquidityRoutedOut
-    | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
+let ReadLastLiquidityInd (pos:int) (bs:byte[]) : (int * LastLiquidityInd) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> LastLiquidityInd.AddedLiquidity
+        |"2"B -> LastLiquidityInd.RemovedLiquidity
+        |"3"B -> LastLiquidityInd.LiquidityRoutedOut
+        | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidityInd) : int =
@@ -22237,9 +24001,11 @@ let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPublishTrdIndicator valIn =
-    let tmp = System.Boolean.Parse valIn
-    PublishTrdIndicator.PublishTrdIndicator tmp
+let ReadPublishTrdIndicator (pos:int) (bs:byte[]) : (int*PublishTrdIndicator) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = PublishTrdIndicator.PublishTrdIndicator tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdIndicator) : int = 
@@ -22253,15 +24019,18 @@ let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadShortSaleReason (fldValIn:string) : ShortSaleReason = 
-    match fldValIn with
-    |"0" -> ShortSaleReason.DealerSoldShort
-    |"1" -> ShortSaleReason.DealerSoldShortExempt
-    |"2" -> ShortSaleReason.SellingCustomerSoldShort
-    |"3" -> ShortSaleReason.SellingCustomerSoldShortExempt
-    |"4" -> ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort
-    |"5" -> ShortSaleReason.QsrOrAguContraSideSoldShortExempt
-    | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
+let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> ShortSaleReason.DealerSoldShort
+        |"1"B -> ShortSaleReason.DealerSoldShortExempt
+        |"2"B -> ShortSaleReason.SellingCustomerSoldShort
+        |"3"B -> ShortSaleReason.SellingCustomerSoldShortExempt
+        |"4"B -> ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort
+        |"5"B -> ShortSaleReason.QsrOrAguContraSideSoldShortExempt
+        | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReason) : int =
@@ -22304,11 +24073,14 @@ let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReas
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQtyType (fldValIn:string) : QtyType = 
-    match fldValIn with
-    |"0" -> QtyType.Units
-    |"1" -> QtyType.Contracts
-    | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
+let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> QtyType.Units
+        |"1"B -> QtyType.Contracts
+        | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
@@ -22327,9 +24099,11 @@ let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryTrdType valIn =
-    let tmp = System.Int32.Parse valIn
-    SecondaryTrdType.SecondaryTrdType tmp
+let ReadSecondaryTrdType (pos:int) (bs:byte[]) : (int*SecondaryTrdType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SecondaryTrdType.SecondaryTrdType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdType) : int = 
@@ -22343,17 +24117,20 @@ let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdTy
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportType (fldValIn:string) : TradeReportType = 
-    match fldValIn with
-    |"0" -> TradeReportType.Submit
-    |"1" -> TradeReportType.Alleged
-    |"2" -> TradeReportType.Accept
-    |"3" -> TradeReportType.Decline
-    |"4" -> TradeReportType.Addendum
-    |"5" -> TradeReportType.NoWas
-    |"6" -> TradeReportType.TradeReportCancel
-    |"7" -> TradeReportType.LockedInTradeBreak
-    | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
+let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TradeReportType.Submit
+        |"1"B -> TradeReportType.Alleged
+        |"2"B -> TradeReportType.Accept
+        |"3"B -> TradeReportType.Decline
+        |"4"B -> TradeReportType.Addendum
+        |"5"B -> TradeReportType.NoWas
+        |"6"B -> TradeReportType.TradeReportCancel
+        |"7"B -> TradeReportType.LockedInTradeBreak
+        | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportType) : int =
@@ -22408,11 +24185,14 @@ let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocNoOrdersType (fldValIn:string) : AllocNoOrdersType = 
-    match fldValIn with
-    |"0" -> AllocNoOrdersType.NotSpecified
-    |"1" -> AllocNoOrdersType.ExplicitListProvided
-    | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
+let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> AllocNoOrdersType.NotSpecified
+        |"1"B -> AllocNoOrdersType.ExplicitListProvided
+        | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrdersType) : int =
@@ -22431,9 +24211,11 @@ let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrde
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSharedCommission valIn =
-    let tmp = System.Int32.Parse valIn
-    SharedCommission.SharedCommission tmp
+let ReadSharedCommission (pos:int) (bs:byte[]) : (int*SharedCommission) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = SharedCommission.SharedCommission tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommission) : int = 
@@ -22447,9 +24229,11 @@ let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommissi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmReqID valIn =
-    let tmp =  valIn
-    ConfirmReqID.ConfirmReqID tmp
+let ReadConfirmReqID (pos:int) (bs:byte[]) : (int*ConfirmReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = ConfirmReqID.ConfirmReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : int = 
@@ -22463,9 +24247,11 @@ let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAvgParPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    AvgParPx.AvgParPx tmp
+let ReadAvgParPx (pos:int) (bs:byte[]) : (int*AvgParPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = AvgParPx.AvgParPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int = 
@@ -22479,9 +24265,11 @@ let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadReportedPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    ReportedPx.ReportedPx tmp
+let ReadReportedPx (pos:int) (bs:byte[]) : (int*ReportedPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = ReportedPx.ReportedPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int = 
@@ -22495,9 +24283,11 @@ let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoCapacities valIn =
-    let tmp = System.Int32.Parse valIn
-    NoCapacities.NoCapacities tmp
+let ReadNoCapacities (pos:int) (bs:byte[]) : (int*NoCapacities) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoCapacities.NoCapacities tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : int = 
@@ -22511,9 +24301,11 @@ let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderCapacityQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    OrderCapacityQty.OrderCapacityQty tmp
+let ReadOrderCapacityQty (pos:int) (bs:byte[]) : (int*OrderCapacityQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = OrderCapacityQty.OrderCapacityQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQty) : int = 
@@ -22527,9 +24319,11 @@ let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQ
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoEvents valIn =
-    let tmp = System.Int32.Parse valIn
-    NoEvents.NoEvents tmp
+let ReadNoEvents (pos:int) (bs:byte[]) : (int*NoEvents) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoEvents.NoEvents tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int = 
@@ -22543,14 +24337,17 @@ let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEventType (fldValIn:string) : EventType = 
-    match fldValIn with
-    |"1" -> EventType.Put
-    |"2" -> EventType.Call
-    |"3" -> EventType.Tender
-    |"4" -> EventType.SinkingFundCall
-    |"99" -> EventType.Other
-    | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
+let ReadEventType (pos:int) (bs:byte[]) : (int * EventType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> EventType.Put
+        |"2"B -> EventType.Call
+        |"3"B -> EventType.Tender
+        |"4"B -> EventType.SinkingFundCall
+        |"99"B -> EventType.Other
+        | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
@@ -22587,9 +24384,11 @@ let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEventDate valIn =
-    let tmp =  valIn
-    EventDate.EventDate tmp
+let ReadEventDate (pos:int) (bs:byte[]) : (int*EventDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = EventDate.EventDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int = 
@@ -22603,9 +24402,11 @@ let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEventPx valIn =
-    let tmp = System.Decimal.Parse valIn
-    EventPx.EventPx tmp
+let ReadEventPx (pos:int) (bs:byte[]) : (int*EventPx) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = EventPx.EventPx tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int = 
@@ -22619,9 +24420,11 @@ let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEventText valIn =
-    let tmp =  valIn
-    EventText.EventText tmp
+let ReadEventText (pos:int) (bs:byte[]) : (int*EventText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = EventText.EventText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int = 
@@ -22635,9 +24438,11 @@ let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPctAtRisk valIn =
-    let tmp = System.Decimal.Parse valIn
-    PctAtRisk.PctAtRisk tmp
+let ReadPctAtRisk (pos:int) (bs:byte[]) : (int*PctAtRisk) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = PctAtRisk.PctAtRisk tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int = 
@@ -22651,9 +24456,11 @@ let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoInstrAttrib valIn =
-    let tmp = System.Int32.Parse valIn
-    NoInstrAttrib.NoInstrAttrib tmp
+let ReadNoInstrAttrib (pos:int) (bs:byte[]) : (int*NoInstrAttrib) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoInstrAttrib.NoInstrAttrib tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : int = 
@@ -22667,32 +24474,35 @@ let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInstrAttribType (fldValIn:string) : InstrAttribType = 
-    match fldValIn with
-    |"1" -> InstrAttribType.Flat
-    |"2" -> InstrAttribType.ZeroCoupon
-    |"3" -> InstrAttribType.InterestBearing
-    |"4" -> InstrAttribType.NoPeriodicPayments
-    |"5" -> InstrAttribType.VariableRate
-    |"6" -> InstrAttribType.LessFeeForPut
-    |"7" -> InstrAttribType.SteppedCoupon
-    |"8" -> InstrAttribType.CouponPeriod
-    |"9" -> InstrAttribType.WhenAndIfIssued
-    |"10" -> InstrAttribType.OriginalIssueDiscount
-    |"11" -> InstrAttribType.CallablePuttable
-    |"12" -> InstrAttribType.EscrowedToMaturity
-    |"13" -> InstrAttribType.EscrowedToRedemptionDate
-    |"14" -> InstrAttribType.PreRefunded
-    |"15" -> InstrAttribType.InDefault
-    |"16" -> InstrAttribType.Unrated
-    |"17" -> InstrAttribType.Taxable
-    |"18" -> InstrAttribType.Indexed
-    |"19" -> InstrAttribType.SubjectToAlternativeMinimumTax
-    |"20" -> InstrAttribType.OriginalIssueDiscountPrice
-    |"21" -> InstrAttribType.CallableBelowMaturityValue
-    |"22" -> InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered
-    |"99" -> InstrAttribType.Text
-    | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
+let ReadInstrAttribType (pos:int) (bs:byte[]) : (int * InstrAttribType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> InstrAttribType.Flat
+        |"2"B -> InstrAttribType.ZeroCoupon
+        |"3"B -> InstrAttribType.InterestBearing
+        |"4"B -> InstrAttribType.NoPeriodicPayments
+        |"5"B -> InstrAttribType.VariableRate
+        |"6"B -> InstrAttribType.LessFeeForPut
+        |"7"B -> InstrAttribType.SteppedCoupon
+        |"8"B -> InstrAttribType.CouponPeriod
+        |"9"B -> InstrAttribType.WhenAndIfIssued
+        |"10"B -> InstrAttribType.OriginalIssueDiscount
+        |"11"B -> InstrAttribType.CallablePuttable
+        |"12"B -> InstrAttribType.EscrowedToMaturity
+        |"13"B -> InstrAttribType.EscrowedToRedemptionDate
+        |"14"B -> InstrAttribType.PreRefunded
+        |"15"B -> InstrAttribType.InDefault
+        |"16"B -> InstrAttribType.Unrated
+        |"17"B -> InstrAttribType.Taxable
+        |"18"B -> InstrAttribType.Indexed
+        |"19"B -> InstrAttribType.SubjectToAlternativeMinimumTax
+        |"20"B -> InstrAttribType.OriginalIssueDiscountPrice
+        |"21"B -> InstrAttribType.CallableBelowMaturityValue
+        |"22"B -> InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered
+        |"99"B -> InstrAttribType.Text
+        | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribType) : int =
@@ -22837,9 +24647,11 @@ let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadInstrAttribValue valIn =
-    let tmp =  valIn
-    InstrAttribValue.InstrAttribValue tmp
+let ReadInstrAttribValue (pos:int) (bs:byte[]) : (int*InstrAttribValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = InstrAttribValue.InstrAttribValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribValue) : int = 
@@ -22853,9 +24665,11 @@ let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribVal
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDatedDate valIn =
-    let tmp =  valIn
-    DatedDate.DatedDate tmp
+let ReadDatedDate (pos:int) (bs:byte[]) : (int*DatedDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = DatedDate.DatedDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int = 
@@ -22869,9 +24683,11 @@ let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInterestAccrualDate valIn =
-    let tmp =  valIn
-    InterestAccrualDate.InterestAccrualDate tmp
+let ReadInterestAccrualDate (pos:int) (bs:byte[]) : (int*InterestAccrualDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = InterestAccrualDate.InterestAccrualDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAccrualDate) : int = 
@@ -22885,9 +24701,11 @@ let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAcc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCPProgram valIn =
-    let tmp = System.Int32.Parse valIn
-    CPProgram.CPProgram tmp
+let ReadCPProgram (pos:int) (bs:byte[]) : (int*CPProgram) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = CPProgram.CPProgram tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int = 
@@ -22901,9 +24719,11 @@ let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCPRegType valIn =
-    let tmp =  valIn
-    CPRegType.CPRegType tmp
+let ReadCPRegType (pos:int) (bs:byte[]) : (int*CPRegType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CPRegType.CPRegType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int = 
@@ -22917,9 +24737,11 @@ let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCPProgram valIn =
-    let tmp =  valIn
-    UnderlyingCPProgram.UnderlyingCPProgram tmp
+let ReadUnderlyingCPProgram (pos:int) (bs:byte[]) : (int*UnderlyingCPProgram) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCPProgram.UnderlyingCPProgram tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPProgram) : int = 
@@ -22933,9 +24755,11 @@ let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCPRegType valIn =
-    let tmp =  valIn
-    UnderlyingCPRegType.UnderlyingCPRegType tmp
+let ReadUnderlyingCPRegType (pos:int) (bs:byte[]) : (int*UnderlyingCPRegType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingCPRegType.UnderlyingCPRegType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPRegType) : int = 
@@ -22949,9 +24773,11 @@ let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingQty valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingQty.UnderlyingQty tmp
+let ReadUnderlyingQty (pos:int) (bs:byte[]) : (int*UnderlyingQty) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingQty.UnderlyingQty tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : int = 
@@ -22965,9 +24791,11 @@ let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdMatchID valIn =
-    let tmp =  valIn
-    TrdMatchID.TrdMatchID tmp
+let ReadTrdMatchID (pos:int) (bs:byte[]) : (int*TrdMatchID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TrdMatchID.TrdMatchID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int = 
@@ -22981,9 +24809,11 @@ let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryTradeReportRefID valIn =
-    let tmp =  valIn
-    SecondaryTradeReportRefID.SecondaryTradeReportRefID tmp
+let ReadSecondaryTradeReportRefID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = SecondaryTradeReportRefID.SecondaryTradeReportRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportRefID) : int = 
@@ -22997,9 +24827,11 @@ let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:Secon
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingDirtyPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingDirtyPrice.UnderlyingDirtyPrice tmp
+let ReadUnderlyingDirtyPrice (pos:int) (bs:byte[]) : (int*UnderlyingDirtyPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingDirtyPrice.UnderlyingDirtyPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingDirtyPrice) : int = 
@@ -23013,9 +24845,11 @@ let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingEndPrice valIn =
-    let tmp = System.Decimal.Parse valIn
-    UnderlyingEndPrice.UnderlyingEndPrice tmp
+let ReadUnderlyingEndPrice (pos:int) (bs:byte[]) : (int*UnderlyingEndPrice) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = UnderlyingEndPrice.UnderlyingEndPrice tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndPrice) : int = 
@@ -23029,9 +24863,11 @@ let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStartValue valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingStartValue.UnderlyingStartValue tmp
+let ReadUnderlyingStartValue (pos:int) (bs:byte[]) : (int*UnderlyingStartValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingStartValue.UnderlyingStartValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStartValue) : int = 
@@ -23045,9 +24881,11 @@ let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCurrentValue valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingCurrentValue.UnderlyingCurrentValue tmp
+let ReadUnderlyingCurrentValue (pos:int) (bs:byte[]) : (int*UnderlyingCurrentValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingCurrentValue.UnderlyingCurrentValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrentValue) : int = 
@@ -23061,9 +24899,11 @@ let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingEndValue valIn =
-    let tmp = System.Int32.Parse valIn
-    UnderlyingEndValue.UnderlyingEndValue tmp
+let ReadUnderlyingEndValue (pos:int) (bs:byte[]) : (int*UnderlyingEndValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = UnderlyingEndValue.UnderlyingEndValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndValue) : int = 
@@ -23077,9 +24917,11 @@ let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoUnderlyingStips valIn =
-    let tmp = System.Int32.Parse valIn
-    NoUnderlyingStips.NoUnderlyingStips tmp
+let ReadNoUnderlyingStips (pos:int) (bs:byte[]) : (int*NoUnderlyingStips) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoUnderlyingStips.NoUnderlyingStips tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingStips) : int = 
@@ -23093,9 +24935,11 @@ let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStipType valIn =
-    let tmp =  valIn
-    UnderlyingStipType.UnderlyingStipType tmp
+let ReadUnderlyingStipType (pos:int) (bs:byte[]) : (int*UnderlyingStipType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingStipType.UnderlyingStipType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipType) : int = 
@@ -23109,9 +24953,11 @@ let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStipValue valIn =
-    let tmp =  valIn
-    UnderlyingStipValue.UnderlyingStipValue tmp
+let ReadUnderlyingStipValue (pos:int) (bs:byte[]) : (int*UnderlyingStipValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingStipValue.UnderlyingStipValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipValue) : int = 
@@ -23125,9 +24971,11 @@ let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaturityNetMoney valIn =
-    let tmp = System.Int32.Parse valIn
-    MaturityNetMoney.MaturityNetMoney tmp
+let ReadMaturityNetMoney (pos:int) (bs:byte[]) : (int*MaturityNetMoney) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MaturityNetMoney.MaturityNetMoney tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMoney) : int = 
@@ -23141,12 +24989,15 @@ let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMon
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMiscFeeBasis (fldValIn:string) : MiscFeeBasis = 
-    match fldValIn with
-    |"0" -> MiscFeeBasis.Absolute
-    |"1" -> MiscFeeBasis.PerUnit
-    |"2" -> MiscFeeBasis.Percentage
-    | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
+let ReadMiscFeeBasis (pos:int) (bs:byte[]) : (int * MiscFeeBasis) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> MiscFeeBasis.Absolute
+        |"1"B -> MiscFeeBasis.PerUnit
+        |"2"B -> MiscFeeBasis.Percentage
+        | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : int =
@@ -23171,9 +25022,11 @@ let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoAllocs valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNoAllocs.TotNoAllocs tmp
+let ReadTotNoAllocs (pos:int) (bs:byte[]) : (int*TotNoAllocs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNoAllocs.TotNoAllocs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int = 
@@ -23187,9 +25040,11 @@ let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastFragment valIn =
-    let tmp = System.Boolean.Parse valIn
-    LastFragment.LastFragment tmp
+let ReadLastFragment (pos:int) (bs:byte[]) : (int*LastFragment) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = LastFragment.LastFragment tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : int = 
@@ -23203,9 +25058,11 @@ let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollReqID valIn =
-    let tmp =  valIn
-    CollReqID.CollReqID tmp
+let ReadCollReqID (pos:int) (bs:byte[]) : (int*CollReqID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollReqID.CollReqID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int = 
@@ -23219,17 +25076,20 @@ let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnReason (fldValIn:string) : CollAsgnReason = 
-    match fldValIn with
-    |"0" -> CollAsgnReason.Initial
-    |"1" -> CollAsgnReason.Scheduled
-    |"2" -> CollAsgnReason.TimeWarning
-    |"3" -> CollAsgnReason.MarginDeficiency
-    |"4" -> CollAsgnReason.MarginExcess
-    |"5" -> CollAsgnReason.ForwardCollateralDemand
-    |"6" -> CollAsgnReason.EventOfDefault
-    |"7" -> CollAsgnReason.AdverseTaxEvent
-    | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
+let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollAsgnReason.Initial
+        |"1"B -> CollAsgnReason.Scheduled
+        |"2"B -> CollAsgnReason.TimeWarning
+        |"3"B -> CollAsgnReason.MarginDeficiency
+        |"4"B -> CollAsgnReason.MarginExcess
+        |"5"B -> CollAsgnReason.ForwardCollateralDemand
+        |"6"B -> CollAsgnReason.EventOfDefault
+        |"7"B -> CollAsgnReason.AdverseTaxEvent
+        | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason) : int =
@@ -23284,17 +25144,20 @@ let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryQualifier (fldValIn:string) : CollInquiryQualifier = 
-    match fldValIn with
-    |"0" -> CollInquiryQualifier.Tradedate
-    |"1" -> CollInquiryQualifier.GcInstrument
-    |"2" -> CollInquiryQualifier.Collateralinstrument
-    |"3" -> CollInquiryQualifier.SubstitutionEligible
-    |"4" -> CollInquiryQualifier.NotAssigned
-    |"5" -> CollInquiryQualifier.PartiallyAssigned
-    |"6" -> CollInquiryQualifier.FullyAssigned
-    |"7" -> CollInquiryQualifier.OutstandingTrades
-    | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
+let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollInquiryQualifier.Tradedate
+        |"1"B -> CollInquiryQualifier.GcInstrument
+        |"2"B -> CollInquiryQualifier.Collateralinstrument
+        |"3"B -> CollInquiryQualifier.SubstitutionEligible
+        |"4"B -> CollInquiryQualifier.NotAssigned
+        |"5"B -> CollInquiryQualifier.PartiallyAssigned
+        |"6"B -> CollInquiryQualifier.FullyAssigned
+        |"7"B -> CollInquiryQualifier.OutstandingTrades
+        | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryQualifier) : int =
@@ -23349,9 +25212,11 @@ let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInqu
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoTrades valIn =
-    let tmp = System.Int32.Parse valIn
-    NoTrades.NoTrades tmp
+let ReadNoTrades (pos:int) (bs:byte[]) : (int*NoTrades) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoTrades.NoTrades tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int = 
@@ -23365,9 +25230,11 @@ let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMarginRatio valIn =
-    let tmp = System.Decimal.Parse valIn
-    MarginRatio.MarginRatio tmp
+let ReadMarginRatio (pos:int) (bs:byte[]) : (int*MarginRatio) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToDecimal valIn
+    let fld = MarginRatio.MarginRatio tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int = 
@@ -23381,9 +25248,11 @@ let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMarginExcess valIn =
-    let tmp = System.Int32.Parse valIn
-    MarginExcess.MarginExcess tmp
+let ReadMarginExcess (pos:int) (bs:byte[]) : (int*MarginExcess) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = MarginExcess.MarginExcess tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : int = 
@@ -23397,9 +25266,11 @@ let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalNetValue valIn =
-    let tmp = System.Int32.Parse valIn
-    TotalNetValue.TotalNetValue tmp
+let ReadTotalNetValue (pos:int) (bs:byte[]) : (int*TotalNetValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotalNetValue.TotalNetValue tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : int = 
@@ -23413,9 +25284,11 @@ let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashOutstanding valIn =
-    let tmp = System.Int32.Parse valIn
-    CashOutstanding.CashOutstanding tmp
+let ReadCashOutstanding (pos:int) (bs:byte[]) : (int*CashOutstanding) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = CashOutstanding.CashOutstanding tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding) : int = 
@@ -23429,9 +25302,11 @@ let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnID valIn =
-    let tmp =  valIn
-    CollAsgnID.CollAsgnID tmp
+let ReadCollAsgnID (pos:int) (bs:byte[]) : (int*CollAsgnID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollAsgnID.CollAsgnID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int = 
@@ -23445,14 +25320,17 @@ let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnTransType (fldValIn:string) : CollAsgnTransType = 
-    match fldValIn with
-    |"0" -> CollAsgnTransType.New
-    |"1" -> CollAsgnTransType.Replace
-    |"2" -> CollAsgnTransType.Cancel
-    |"3" -> CollAsgnTransType.Release
-    |"4" -> CollAsgnTransType.Reverse
-    | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
+let ReadCollAsgnTransType (pos:int) (bs:byte[]) : (int * CollAsgnTransType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollAsgnTransType.New
+        |"1"B -> CollAsgnTransType.Replace
+        |"2"B -> CollAsgnTransType.Cancel
+        |"3"B -> CollAsgnTransType.Release
+        |"4"B -> CollAsgnTransType.Reverse
+        | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTransType) : int =
@@ -23489,9 +25367,11 @@ let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTra
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollRespID valIn =
-    let tmp =  valIn
-    CollRespID.CollRespID tmp
+let ReadCollRespID (pos:int) (bs:byte[]) : (int*CollRespID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollRespID.CollRespID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int = 
@@ -23505,13 +25385,16 @@ let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnRespType (fldValIn:string) : CollAsgnRespType = 
-    match fldValIn with
-    |"0" -> CollAsgnRespType.Received
-    |"1" -> CollAsgnRespType.Accepted
-    |"2" -> CollAsgnRespType.Declined
-    |"3" -> CollAsgnRespType.Rejected
-    | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
+let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollAsgnRespType.Received
+        |"1"B -> CollAsgnRespType.Accepted
+        |"2"B -> CollAsgnRespType.Declined
+        |"3"B -> CollAsgnRespType.Rejected
+        | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRespType) : int =
@@ -23542,16 +25425,19 @@ let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnResp
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnRejectReason (fldValIn:string) : CollAsgnRejectReason = 
-    match fldValIn with
-    |"0" -> CollAsgnRejectReason.UnknownDeal
-    |"1" -> CollAsgnRejectReason.UnknownOrInvalidInstrument
-    |"2" -> CollAsgnRejectReason.UnauthorizedTransaction
-    |"3" -> CollAsgnRejectReason.InsufficientCollateral
-    |"4" -> CollAsgnRejectReason.InvalidTypeOfCollateral
-    |"5" -> CollAsgnRejectReason.ExcessiveSubstitution
-    |"99" -> CollAsgnRejectReason.Other
-    | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
+let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollAsgnRejectReason.UnknownDeal
+        |"1"B -> CollAsgnRejectReason.UnknownOrInvalidInstrument
+        |"2"B -> CollAsgnRejectReason.UnauthorizedTransaction
+        |"3"B -> CollAsgnRejectReason.InsufficientCollateral
+        |"4"B -> CollAsgnRejectReason.InvalidTypeOfCollateral
+        |"5"B -> CollAsgnRejectReason.ExcessiveSubstitution
+        |"99"B -> CollAsgnRejectReason.Other
+        | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRejectReason) : int =
@@ -23600,9 +25486,11 @@ let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgn
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnRefID valIn =
-    let tmp =  valIn
-    CollAsgnRefID.CollAsgnRefID tmp
+let ReadCollAsgnRefID (pos:int) (bs:byte[]) : (int*CollAsgnRefID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollAsgnRefID.CollAsgnRefID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : int = 
@@ -23616,9 +25504,11 @@ let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollRptID valIn =
-    let tmp =  valIn
-    CollRptID.CollRptID tmp
+let ReadCollRptID (pos:int) (bs:byte[]) : (int*CollRptID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollRptID.CollRptID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int = 
@@ -23632,9 +25522,11 @@ let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryID valIn =
-    let tmp =  valIn
-    CollInquiryID.CollInquiryID tmp
+let ReadCollInquiryID (pos:int) (bs:byte[]) : (int*CollInquiryID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = CollInquiryID.CollInquiryID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : int = 
@@ -23648,14 +25540,17 @@ let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollStatus (fldValIn:string) : CollStatus = 
-    match fldValIn with
-    |"0" -> CollStatus.Unassigned
-    |"1" -> CollStatus.PartiallyAssigned
-    |"2" -> CollStatus.AssignmentProposed
-    |"3" -> CollStatus.Assigned
-    |"4" -> CollStatus.Challenged
-    | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
+let ReadCollStatus (pos:int) (bs:byte[]) : (int * CollStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollStatus.Unassigned
+        |"1"B -> CollStatus.PartiallyAssigned
+        |"2"B -> CollStatus.AssignmentProposed
+        |"3"B -> CollStatus.Assigned
+        |"4"B -> CollStatus.Challenged
+        | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int =
@@ -23692,9 +25587,11 @@ let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNumReports valIn =
-    let tmp = System.Int32.Parse valIn
-    TotNumReports.TotNumReports tmp
+let ReadTotNumReports (pos:int) (bs:byte[]) : (int*TotNumReports) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = TotNumReports.TotNumReports tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : int = 
@@ -23708,9 +25605,11 @@ let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastRptRequested valIn =
-    let tmp = System.Boolean.Parse valIn
-    LastRptRequested.LastRptRequested tmp
+let ReadLastRptRequested (pos:int) (bs:byte[]) : (int*LastRptRequested) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToBool valIn
+    let fld = LastRptRequested.LastRptRequested tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequested) : int = 
@@ -23724,9 +25623,11 @@ let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequest
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementDesc valIn =
-    let tmp =  valIn
-    AgreementDesc.AgreementDesc tmp
+let ReadAgreementDesc (pos:int) (bs:byte[]) : (int*AgreementDesc) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AgreementDesc.AgreementDesc tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : int = 
@@ -23740,9 +25641,11 @@ let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementID valIn =
-    let tmp =  valIn
-    AgreementID.AgreementID tmp
+let ReadAgreementID (pos:int) (bs:byte[]) : (int*AgreementID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AgreementID.AgreementID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int = 
@@ -23756,9 +25659,11 @@ let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementDate valIn =
-    let tmp =  valIn
-    AgreementDate.AgreementDate tmp
+let ReadAgreementDate (pos:int) (bs:byte[]) : (int*AgreementDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AgreementDate.AgreementDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : int = 
@@ -23772,9 +25677,11 @@ let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStartDate valIn =
-    let tmp =  valIn
-    StartDate.StartDate tmp
+let ReadStartDate (pos:int) (bs:byte[]) : (int*StartDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StartDate.StartDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int = 
@@ -23788,9 +25695,11 @@ let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndDate valIn =
-    let tmp =  valIn
-    EndDate.EndDate tmp
+let ReadEndDate (pos:int) (bs:byte[]) : (int*EndDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = EndDate.EndDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int = 
@@ -23804,9 +25713,11 @@ let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementCurrency valIn =
-    let tmp =  valIn
-    AgreementCurrency.AgreementCurrency tmp
+let ReadAgreementCurrency (pos:int) (bs:byte[]) : (int*AgreementCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = AgreementCurrency.AgreementCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurrency) : int = 
@@ -23820,13 +25731,16 @@ let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliveryType (fldValIn:string) : DeliveryType = 
-    match fldValIn with
-    |"0" -> DeliveryType.VersusPayment
-    |"1" -> DeliveryType.Free
-    |"2" -> DeliveryType.TriParty
-    |"3" -> DeliveryType.HoldInCustody
-    | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
+let ReadDeliveryType (pos:int) (bs:byte[]) : (int * DeliveryType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> DeliveryType.VersusPayment
+        |"1"B -> DeliveryType.Free
+        |"2"B -> DeliveryType.TriParty
+        |"3"B -> DeliveryType.HoldInCustody
+        | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : int =
@@ -23857,9 +25771,11 @@ let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEndAccruedInterestAmt valIn =
-    let tmp = System.Int32.Parse valIn
-    EndAccruedInterestAmt.EndAccruedInterestAmt tmp
+let ReadEndAccruedInterestAmt (pos:int) (bs:byte[]) : (int*EndAccruedInterestAmt) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = EndAccruedInterestAmt.EndAccruedInterestAmt tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccruedInterestAmt) : int = 
@@ -23873,9 +25789,11 @@ let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccrue
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStartCash valIn =
-    let tmp = System.Int32.Parse valIn
-    StartCash.StartCash tmp
+let ReadStartCash (pos:int) (bs:byte[]) : (int*StartCash) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = StartCash.StartCash tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int = 
@@ -23889,9 +25807,11 @@ let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndCash valIn =
-    let tmp = System.Int32.Parse valIn
-    EndCash.EndCash tmp
+let ReadEndCash (pos:int) (bs:byte[]) : (int*EndCash) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = EndCash.EndCash tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int = 
@@ -23905,9 +25825,11 @@ let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUserRequestID valIn =
-    let tmp =  valIn
-    UserRequestID.UserRequestID tmp
+let ReadUserRequestID (pos:int) (bs:byte[]) : (int*UserRequestID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UserRequestID.UserRequestID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : int = 
@@ -23921,13 +25843,16 @@ let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUserRequestType (fldValIn:string) : UserRequestType = 
-    match fldValIn with
-    |"1" -> UserRequestType.Logonuser
-    |"2" -> UserRequestType.Logoffuser
-    |"3" -> UserRequestType.Changepasswordforuser
-    |"4" -> UserRequestType.RequestIndividualUserStatus
-    | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
+let ReadUserRequestType (pos:int) (bs:byte[]) : (int * UserRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> UserRequestType.Logonuser
+        |"2"B -> UserRequestType.Logoffuser
+        |"3"B -> UserRequestType.Changepasswordforuser
+        |"4"B -> UserRequestType.RequestIndividualUserStatus
+        | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestType) : int =
@@ -23958,9 +25883,11 @@ let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNewPassword valIn =
-    let tmp =  valIn
-    NewPassword.NewPassword tmp
+let ReadNewPassword (pos:int) (bs:byte[]) : (int*NewPassword) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = NewPassword.NewPassword tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int = 
@@ -23974,15 +25901,18 @@ let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUserStatus (fldValIn:string) : UserStatus = 
-    match fldValIn with
-    |"1" -> UserStatus.LoggedIn
-    |"2" -> UserStatus.NotLoggedIn
-    |"3" -> UserStatus.UserNotRecognised
-    |"4" -> UserStatus.PasswordIncorrect
-    |"5" -> UserStatus.PasswordChanged
-    |"6" -> UserStatus.Other
-    | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
+let ReadUserStatus (pos:int) (bs:byte[]) : (int * UserStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> UserStatus.LoggedIn
+        |"2"B -> UserStatus.NotLoggedIn
+        |"3"B -> UserStatus.UserNotRecognised
+        |"4"B -> UserStatus.PasswordIncorrect
+        |"5"B -> UserStatus.PasswordChanged
+        |"6"B -> UserStatus.Other
+        | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int =
@@ -24025,9 +25955,11 @@ let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUserStatusText valIn =
-    let tmp =  valIn
-    UserStatusText.UserStatusText tmp
+let ReadUserStatusText (pos:int) (bs:byte[]) : (int*UserStatusText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UserStatusText.UserStatusText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) : int = 
@@ -24041,13 +25973,16 @@ let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStatusValue (fldValIn:string) : StatusValue = 
-    match fldValIn with
-    |"1" -> StatusValue.Connected
-    |"2" -> StatusValue.NotConnectedDownExpectedUp
-    |"3" -> StatusValue.NotConnectedDownExpectedDown
-    |"4" -> StatusValue.InProcess
-    | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
+let ReadStatusValue (pos:int) (bs:byte[]) : (int * StatusValue) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> StatusValue.Connected
+        |"2"B -> StatusValue.NotConnectedDownExpectedUp
+        |"3"B -> StatusValue.NotConnectedDownExpectedDown
+        |"4"B -> StatusValue.InProcess
+        | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : int =
@@ -24078,9 +26013,11 @@ let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStatusText valIn =
-    let tmp =  valIn
-    StatusText.StatusText tmp
+let ReadStatusText (pos:int) (bs:byte[]) : (int*StatusText) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StatusText.StatusText tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int = 
@@ -24094,9 +26031,11 @@ let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefCompID valIn =
-    let tmp =  valIn
-    RefCompID.RefCompID tmp
+let ReadRefCompID (pos:int) (bs:byte[]) : (int*RefCompID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RefCompID.RefCompID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int = 
@@ -24110,9 +26049,11 @@ let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefSubID valIn =
-    let tmp =  valIn
-    RefSubID.RefSubID tmp
+let ReadRefSubID (pos:int) (bs:byte[]) : (int*RefSubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = RefSubID.RefSubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int = 
@@ -24126,9 +26067,11 @@ let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetworkResponseID valIn =
-    let tmp =  valIn
-    NetworkResponseID.NetworkResponseID tmp
+let ReadNetworkResponseID (pos:int) (bs:byte[]) : (int*NetworkResponseID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = NetworkResponseID.NetworkResponseID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkResponseID) : int = 
@@ -24142,9 +26085,11 @@ let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRespon
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetworkRequestID valIn =
-    let tmp =  valIn
-    NetworkRequestID.NetworkRequestID tmp
+let ReadNetworkRequestID (pos:int) (bs:byte[]) : (int*NetworkRequestID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = NetworkRequestID.NetworkRequestID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequestID) : int = 
@@ -24158,9 +26103,11 @@ let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequest
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastNetworkResponseID valIn =
-    let tmp =  valIn
-    LastNetworkResponseID.LastNetworkResponseID tmp
+let ReadLastNetworkResponseID (pos:int) (bs:byte[]) : (int*LastNetworkResponseID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LastNetworkResponseID.LastNetworkResponseID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetworkResponseID) : int = 
@@ -24174,13 +26121,16 @@ let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetwo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetworkRequestType (fldValIn:string) : NetworkRequestType = 
-    match fldValIn with
-    |"1" -> NetworkRequestType.Snapshot
-    |"2" -> NetworkRequestType.Subscribe
-    |"4" -> NetworkRequestType.StopSubscribing
-    |"8" -> NetworkRequestType.LevelOfDetail
-    | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
+let ReadNetworkRequestType (pos:int) (bs:byte[]) : (int * NetworkRequestType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> NetworkRequestType.Snapshot
+        |"2"B -> NetworkRequestType.Subscribe
+        |"4"B -> NetworkRequestType.StopSubscribing
+        |"8"B -> NetworkRequestType.LevelOfDetail
+        | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkRequestType) : int =
@@ -24211,9 +26161,11 @@ let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkReq
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoCompIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoCompIDs.NoCompIDs tmp
+let ReadNoCompIDs (pos:int) (bs:byte[]) : (int*NoCompIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoCompIDs.NoCompIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int = 
@@ -24227,11 +26179,14 @@ let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetworkStatusResponseType (fldValIn:string) : NetworkStatusResponseType = 
-    match fldValIn with
-    |"1" -> NetworkStatusResponseType.Full
-    |"2" -> NetworkStatusResponseType.IncrementalUpdate
-    | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
+let ReadNetworkStatusResponseType (pos:int) (bs:byte[]) : (int * NetworkStatusResponseType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> NetworkStatusResponseType.Full
+        |"2"B -> NetworkStatusResponseType.IncrementalUpdate
+        | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkStatusResponseType) : int =
@@ -24250,9 +26205,11 @@ let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Net
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoCollInquiryQualifier valIn =
-    let tmp = System.Int32.Parse valIn
-    NoCollInquiryQualifier.NoCollInquiryQualifier tmp
+let ReadNoCollInquiryQualifier (pos:int) (bs:byte[]) : (int*NoCollInquiryQualifier) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoCollInquiryQualifier.NoCollInquiryQualifier tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollInquiryQualifier) : int = 
@@ -24266,11 +26223,14 @@ let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollIn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRptStatus (fldValIn:string) : TrdRptStatus = 
-    match fldValIn with
-    |"0" -> TrdRptStatus.Accepted
-    |"1" -> TrdRptStatus.Rejected
-    | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
+let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> TrdRptStatus.Accepted
+        |"1"B -> TrdRptStatus.Rejected
+        | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : int =
@@ -24289,12 +26249,15 @@ let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAffirmStatus (fldValIn:string) : AffirmStatus = 
-    match fldValIn with
-    |"1" -> AffirmStatus.Received
-    |"2" -> AffirmStatus.ConfirmRejected
-    |"3" -> AffirmStatus.Affirmed
-    | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
+let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"1"B -> AffirmStatus.Received
+        |"2"B -> AffirmStatus.ConfirmRejected
+        |"3"B -> AffirmStatus.Affirmed
+        | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : int =
@@ -24319,9 +26282,11 @@ let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStrikeCurrency valIn =
-    let tmp =  valIn
-    UnderlyingStrikeCurrency.UnderlyingStrikeCurrency tmp
+let ReadUnderlyingStrikeCurrency (pos:int) (bs:byte[]) : (int*UnderlyingStrikeCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = UnderlyingStrikeCurrency.UnderlyingStrikeCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikeCurrency) : int = 
@@ -24335,9 +26300,11 @@ let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStrikeCurrency valIn =
-    let tmp =  valIn
-    LegStrikeCurrency.LegStrikeCurrency tmp
+let ReadLegStrikeCurrency (pos:int) (bs:byte[]) : (int*LegStrikeCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegStrikeCurrency.LegStrikeCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurrency) : int = 
@@ -24351,9 +26318,11 @@ let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTimeBracket valIn =
-    let tmp =  valIn
-    TimeBracket.TimeBracket tmp
+let ReadTimeBracket (pos:int) (bs:byte[]) : (int*TimeBracket) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = TimeBracket.TimeBracket tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int = 
@@ -24367,12 +26336,15 @@ let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAction (fldValIn:string) : CollAction = 
-    match fldValIn with
-    |"0" -> CollAction.Retain
-    |"1" -> CollAction.Add
-    |"2" -> CollAction.Remove
-    | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
+let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollAction.Retain
+        |"1"B -> CollAction.Add
+        |"2"B -> CollAction.Remove
+        | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int =
@@ -24397,14 +26369,17 @@ let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryStatus (fldValIn:string) : CollInquiryStatus = 
-    match fldValIn with
-    |"0" -> CollInquiryStatus.Accepted
-    |"1" -> CollInquiryStatus.AcceptedWithWarnings
-    |"2" -> CollInquiryStatus.Completed
-    |"3" -> CollInquiryStatus.CompletedWithWarnings
-    |"4" -> CollInquiryStatus.Rejected
-    | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
+let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollInquiryStatus.Accepted
+        |"1"B -> CollInquiryStatus.AcceptedWithWarnings
+        |"2"B -> CollInquiryStatus.Completed
+        |"3"B -> CollInquiryStatus.CompletedWithWarnings
+        |"4"B -> CollInquiryStatus.Rejected
+        | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryStatus) : int =
@@ -24441,20 +26416,23 @@ let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryResult (fldValIn:string) : CollInquiryResult = 
-    match fldValIn with
-    |"0" -> CollInquiryResult.Successful
-    |"1" -> CollInquiryResult.InvalidOrUnknownInstrument
-    |"2" -> CollInquiryResult.InvalidOrUnknownCollateralType
-    |"3" -> CollInquiryResult.InvalidParties
-    |"4" -> CollInquiryResult.InvalidTransportTypeRequested
-    |"5" -> CollInquiryResult.InvalidDestinationRequested
-    |"6" -> CollInquiryResult.NoCollateralFoundForTheTradeSpecified
-    |"7" -> CollInquiryResult.NoCollateralFoundForTheOrderSpecified
-    |"8" -> CollInquiryResult.CollateralInquiryTypeNotSupported
-    |"9" -> CollInquiryResult.UnauthorizedForCollateralInquiry
-    |"99" -> CollInquiryResult.Other
-    | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
+let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let fld = 
+        match valIn with
+        |"0"B -> CollInquiryResult.Successful
+        |"1"B -> CollInquiryResult.InvalidOrUnknownInstrument
+        |"2"B -> CollInquiryResult.InvalidOrUnknownCollateralType
+        |"3"B -> CollInquiryResult.InvalidParties
+        |"4"B -> CollInquiryResult.InvalidTransportTypeRequested
+        |"5"B -> CollInquiryResult.InvalidDestinationRequested
+        |"6"B -> CollInquiryResult.NoCollateralFoundForTheTradeSpecified
+        |"7"B -> CollInquiryResult.NoCollateralFoundForTheOrderSpecified
+        |"8"B -> CollInquiryResult.CollateralInquiryTypeNotSupported
+        |"9"B -> CollInquiryResult.UnauthorizedForCollateralInquiry
+        |"99"B -> CollInquiryResult.Other
+        | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryResult) : int =
@@ -24527,9 +26505,11 @@ let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikeCurrency valIn =
-    let tmp =  valIn
-    StrikeCurrency.StrikeCurrency tmp
+let ReadStrikeCurrency (pos:int) (bs:byte[]) : (int*StrikeCurrency) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = StrikeCurrency.StrikeCurrency tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) : int = 
@@ -24543,9 +26523,11 @@ let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNested3PartyIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNested3PartyIDs.NoNested3PartyIDs tmp
+let ReadNoNested3PartyIDs (pos:int) (bs:byte[]) : (int*NoNested3PartyIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNested3PartyIDs.NoNested3PartyIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartyIDs) : int = 
@@ -24559,9 +26541,11 @@ let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3Part
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartyID valIn =
-    let tmp =  valIn
-    Nested3PartyID.Nested3PartyID tmp
+let ReadNested3PartyID (pos:int) (bs:byte[]) : (int*Nested3PartyID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Nested3PartyID.Nested3PartyID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) : int = 
@@ -24575,9 +26559,11 @@ let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartyIDSource valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested3PartyIDSource.Nested3PartyIDSource tmp
+let ReadNested3PartyIDSource (pos:int) (bs:byte[]) : (int*Nested3PartyIDSource) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested3PartyIDSource.Nested3PartyIDSource tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyIDSource) : int = 
@@ -24591,9 +26577,11 @@ let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Par
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartyRole valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested3PartyRole.Nested3PartyRole tmp
+let ReadNested3PartyRole (pos:int) (bs:byte[]) : (int*Nested3PartyRole) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested3PartyRole.Nested3PartyRole tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRole) : int = 
@@ -24607,9 +26595,11 @@ let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoNested3PartySubIDs valIn =
-    let tmp = System.Int32.Parse valIn
-    NoNested3PartySubIDs.NoNested3PartySubIDs tmp
+let ReadNoNested3PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested3PartySubIDs) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = NoNested3PartySubIDs.NoNested3PartySubIDs tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartySubIDs) : int = 
@@ -24623,9 +26613,11 @@ let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3P
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartySubID valIn =
-    let tmp =  valIn
-    Nested3PartySubID.Nested3PartySubID tmp
+let ReadNested3PartySubID (pos:int) (bs:byte[]) : (int*Nested3PartySubID) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = Nested3PartySubID.Nested3PartySubID tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubID) : int = 
@@ -24639,9 +26631,11 @@ let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartySubIDType valIn =
-    let tmp = System.Int32.Parse valIn
-    Nested3PartySubIDType.Nested3PartySubIDType tmp
+let ReadNested3PartySubIDType (pos:int) (bs:byte[]) : (int*Nested3PartySubIDType) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToInt32 valIn
+    let fld = Nested3PartySubIDType.Nested3PartySubIDType tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubIDType) : int = 
@@ -24655,9 +26649,11 @@ let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Pa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegContractSettlMonth valIn =
-    let tmp =  valIn
-    LegContractSettlMonth.LegContractSettlMonth tmp
+let ReadLegContractSettlMonth (pos:int) (bs:byte[]) : (int*LegContractSettlMonth) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegContractSettlMonth.LegContractSettlMonth tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContractSettlMonth) : int = 
@@ -24671,9 +26667,11 @@ let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegInterestAccrualDate valIn =
-    let tmp =  valIn
-    LegInterestAccrualDate.LegInterestAccrualDate tmp
+let ReadLegInterestAccrualDate (pos:int) (bs:byte[]) : (int*LegInterestAccrualDate) =
+    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let tmp = ReadWriteFuncs.bytesToStr valIn
+    let fld = LegInterestAccrualDate.LegInterestAccrualDate tmp
+    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInterestAccrualDate) : int = 
@@ -24689,1821 +26687,907 @@ let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInter
 
 
 
-let WriteField nextFreeIdx dest fixField =
+let WriteField dest nextFreeIdx fixField =
     match fixField with
-    | Account fixField -> WriteAccount nextFreeIdx dest fixField
-    | AdvId fixField -> WriteAdvId nextFreeIdx dest fixField
-    | AdvRefID fixField -> WriteAdvRefID nextFreeIdx dest fixField
-    | AdvSide fixField -> WriteAdvSide nextFreeIdx dest fixField
-    | AdvTransType fixField -> WriteAdvTransType nextFreeIdx dest fixField
-    | AvgPx fixField -> WriteAvgPx nextFreeIdx dest fixField
-    | BeginSeqNo fixField -> WriteBeginSeqNo nextFreeIdx dest fixField
-    | BeginString fixField -> WriteBeginString nextFreeIdx dest fixField
-    | BodyLength fixField -> WriteBodyLength nextFreeIdx dest fixField
-    | CheckSum fixField -> WriteCheckSum nextFreeIdx dest fixField
-    | ClOrdID fixField -> WriteClOrdID nextFreeIdx dest fixField
-    | Commission fixField -> WriteCommission nextFreeIdx dest fixField
-    | CommType fixField -> WriteCommType nextFreeIdx dest fixField
-    | CumQty fixField -> WriteCumQty nextFreeIdx dest fixField
-    | Currency fixField -> WriteCurrency nextFreeIdx dest fixField
-    | EndSeqNo fixField -> WriteEndSeqNo nextFreeIdx dest fixField
-    | ExecID fixField -> WriteExecID nextFreeIdx dest fixField
-    | ExecInst fixField -> WriteExecInst nextFreeIdx dest fixField
-    | ExecRefID fixField -> WriteExecRefID nextFreeIdx dest fixField
-    | HandlInst fixField -> WriteHandlInst nextFreeIdx dest fixField
-    | SecurityIDSource fixField -> WriteSecurityIDSource nextFreeIdx dest fixField
-    | IOIid fixField -> WriteIOIid nextFreeIdx dest fixField
-    | IOIQltyInd fixField -> WriteIOIQltyInd nextFreeIdx dest fixField
-    | IOIRefID fixField -> WriteIOIRefID nextFreeIdx dest fixField
-    | IOIQty fixField -> WriteIOIQty nextFreeIdx dest fixField
-    | IOITransType fixField -> WriteIOITransType nextFreeIdx dest fixField
-    | LastCapacity fixField -> WriteLastCapacity nextFreeIdx dest fixField
-    | LastMkt fixField -> WriteLastMkt nextFreeIdx dest fixField
-    | LastPx fixField -> WriteLastPx nextFreeIdx dest fixField
-    | LastQty fixField -> WriteLastQty nextFreeIdx dest fixField
-    | LinesOfText fixField -> WriteLinesOfText nextFreeIdx dest fixField
-    | MsgSeqNum fixField -> WriteMsgSeqNum nextFreeIdx dest fixField
-    | MsgType fixField -> WriteMsgType nextFreeIdx dest fixField
-    | NewSeqNo fixField -> WriteNewSeqNo nextFreeIdx dest fixField
-    | OrderID fixField -> WriteOrderID nextFreeIdx dest fixField
-    | OrderQty fixField -> WriteOrderQty nextFreeIdx dest fixField
-    | OrdStatus fixField -> WriteOrdStatus nextFreeIdx dest fixField
-    | OrdType fixField -> WriteOrdType nextFreeIdx dest fixField
-    | OrigClOrdID fixField -> WriteOrigClOrdID nextFreeIdx dest fixField
-    | OrigTime fixField -> WriteOrigTime nextFreeIdx dest fixField
-    | PossDupFlag fixField -> WritePossDupFlag nextFreeIdx dest fixField
-    | Price fixField -> WritePrice nextFreeIdx dest fixField
-    | RefSeqNum fixField -> WriteRefSeqNum nextFreeIdx dest fixField
-    | SecurityID fixField -> WriteSecurityID nextFreeIdx dest fixField
-    | SenderCompID fixField -> WriteSenderCompID nextFreeIdx dest fixField
-    | SenderSubID fixField -> WriteSenderSubID nextFreeIdx dest fixField
-    | SendingTime fixField -> WriteSendingTime nextFreeIdx dest fixField
-    | Quantity fixField -> WriteQuantity nextFreeIdx dest fixField
-    | Side fixField -> WriteSide nextFreeIdx dest fixField
-    | Symbol fixField -> WriteSymbol nextFreeIdx dest fixField
-    | TargetCompID fixField -> WriteTargetCompID nextFreeIdx dest fixField
-    | TargetSubID fixField -> WriteTargetSubID nextFreeIdx dest fixField
-    | Text fixField -> WriteText nextFreeIdx dest fixField
-    | TimeInForce fixField -> WriteTimeInForce nextFreeIdx dest fixField
-    | TransactTime fixField -> WriteTransactTime nextFreeIdx dest fixField
-    | Urgency fixField -> WriteUrgency nextFreeIdx dest fixField
-    | ValidUntilTime fixField -> WriteValidUntilTime nextFreeIdx dest fixField
-    | SettlType fixField -> WriteSettlType nextFreeIdx dest fixField
-    | SettlDate fixField -> WriteSettlDate nextFreeIdx dest fixField
-    | SymbolSfx fixField -> WriteSymbolSfx nextFreeIdx dest fixField
-    | ListID fixField -> WriteListID nextFreeIdx dest fixField
-    | ListSeqNo fixField -> WriteListSeqNo nextFreeIdx dest fixField
-    | TotNoOrders fixField -> WriteTotNoOrders nextFreeIdx dest fixField
-    | ListExecInst fixField -> WriteListExecInst nextFreeIdx dest fixField
-    | AllocID fixField -> WriteAllocID nextFreeIdx dest fixField
-    | AllocTransType fixField -> WriteAllocTransType nextFreeIdx dest fixField
-    | RefAllocID fixField -> WriteRefAllocID nextFreeIdx dest fixField
-    | NoOrders fixField -> WriteNoOrders nextFreeIdx dest fixField
-    | AvgPxPrecision fixField -> WriteAvgPxPrecision nextFreeIdx dest fixField
-    | TradeDate fixField -> WriteTradeDate nextFreeIdx dest fixField
-    | PositionEffect fixField -> WritePositionEffect nextFreeIdx dest fixField
-    | NoAllocs fixField -> WriteNoAllocs nextFreeIdx dest fixField
-    | AllocAccount fixField -> WriteAllocAccount nextFreeIdx dest fixField
-    | AllocQty fixField -> WriteAllocQty nextFreeIdx dest fixField
-    | ProcessCode fixField -> WriteProcessCode nextFreeIdx dest fixField
-    | NoRpts fixField -> WriteNoRpts nextFreeIdx dest fixField
-    | RptSeq fixField -> WriteRptSeq nextFreeIdx dest fixField
-    | CxlQty fixField -> WriteCxlQty nextFreeIdx dest fixField
-    | NoDlvyInst fixField -> WriteNoDlvyInst nextFreeIdx dest fixField
-    | AllocStatus fixField -> WriteAllocStatus nextFreeIdx dest fixField
-    | AllocRejCode fixField -> WriteAllocRejCode nextFreeIdx dest fixField
-    | Signature fixField -> WriteSignature nextFreeIdx dest fixField
-    | SecureData fixField -> WriteSecureData nextFreeIdx dest fixField // compound field
-    | SignatureLength fixField -> WriteSignatureLength nextFreeIdx dest fixField
-    | EmailType fixField -> WriteEmailType nextFreeIdx dest fixField
-    | RawDataLength fixField -> WriteRawDataLength nextFreeIdx dest fixField
-    | RawData fixField -> WriteRawData nextFreeIdx dest fixField
-    | PossResend fixField -> WritePossResend nextFreeIdx dest fixField
-    | EncryptMethod fixField -> WriteEncryptMethod nextFreeIdx dest fixField
-    | StopPx fixField -> WriteStopPx nextFreeIdx dest fixField
-    | ExDestination fixField -> WriteExDestination nextFreeIdx dest fixField
-    | CxlRejReason fixField -> WriteCxlRejReason nextFreeIdx dest fixField
-    | OrdRejReason fixField -> WriteOrdRejReason nextFreeIdx dest fixField
-    | IOIQualifier fixField -> WriteIOIQualifier nextFreeIdx dest fixField
-    | WaveNo fixField -> WriteWaveNo nextFreeIdx dest fixField
-    | Issuer fixField -> WriteIssuer nextFreeIdx dest fixField
-    | SecurityDesc fixField -> WriteSecurityDesc nextFreeIdx dest fixField
-    | HeartBtInt fixField -> WriteHeartBtInt nextFreeIdx dest fixField
-    | MinQty fixField -> WriteMinQty nextFreeIdx dest fixField
-    | MaxFloor fixField -> WriteMaxFloor nextFreeIdx dest fixField
-    | TestReqID fixField -> WriteTestReqID nextFreeIdx dest fixField
-    | ReportToExch fixField -> WriteReportToExch nextFreeIdx dest fixField
-    | LocateReqd fixField -> WriteLocateReqd nextFreeIdx dest fixField
-    | OnBehalfOfCompID fixField -> WriteOnBehalfOfCompID nextFreeIdx dest fixField
-    | OnBehalfOfSubID fixField -> WriteOnBehalfOfSubID nextFreeIdx dest fixField
-    | QuoteID fixField -> WriteQuoteID nextFreeIdx dest fixField
-    | NetMoney fixField -> WriteNetMoney nextFreeIdx dest fixField
-    | SettlCurrAmt fixField -> WriteSettlCurrAmt nextFreeIdx dest fixField
-    | SettlCurrency fixField -> WriteSettlCurrency nextFreeIdx dest fixField
-    | ForexReq fixField -> WriteForexReq nextFreeIdx dest fixField
-    | OrigSendingTime fixField -> WriteOrigSendingTime nextFreeIdx dest fixField
-    | GapFillFlag fixField -> WriteGapFillFlag nextFreeIdx dest fixField
-    | NoExecs fixField -> WriteNoExecs nextFreeIdx dest fixField
-    | ExpireTime fixField -> WriteExpireTime nextFreeIdx dest fixField
-    | DKReason fixField -> WriteDKReason nextFreeIdx dest fixField
-    | DeliverToCompID fixField -> WriteDeliverToCompID nextFreeIdx dest fixField
-    | DeliverToSubID fixField -> WriteDeliverToSubID nextFreeIdx dest fixField
-    | IOINaturalFlag fixField -> WriteIOINaturalFlag nextFreeIdx dest fixField
-    | QuoteReqID fixField -> WriteQuoteReqID nextFreeIdx dest fixField
-    | BidPx fixField -> WriteBidPx nextFreeIdx dest fixField
-    | OfferPx fixField -> WriteOfferPx nextFreeIdx dest fixField
-    | BidSize fixField -> WriteBidSize nextFreeIdx dest fixField
-    | OfferSize fixField -> WriteOfferSize nextFreeIdx dest fixField
-    | NoMiscFees fixField -> WriteNoMiscFees nextFreeIdx dest fixField
-    | MiscFeeAmt fixField -> WriteMiscFeeAmt nextFreeIdx dest fixField
-    | MiscFeeCurr fixField -> WriteMiscFeeCurr nextFreeIdx dest fixField
-    | MiscFeeType fixField -> WriteMiscFeeType nextFreeIdx dest fixField
-    | PrevClosePx fixField -> WritePrevClosePx nextFreeIdx dest fixField
-    | ResetSeqNumFlag fixField -> WriteResetSeqNumFlag nextFreeIdx dest fixField
-    | SenderLocationID fixField -> WriteSenderLocationID nextFreeIdx dest fixField
-    | TargetLocationID fixField -> WriteTargetLocationID nextFreeIdx dest fixField
-    | OnBehalfOfLocationID fixField -> WriteOnBehalfOfLocationID nextFreeIdx dest fixField
-    | DeliverToLocationID fixField -> WriteDeliverToLocationID nextFreeIdx dest fixField
-    | NoRelatedSym fixField -> WriteNoRelatedSym nextFreeIdx dest fixField
-    | Subject fixField -> WriteSubject nextFreeIdx dest fixField
-    | Headline fixField -> WriteHeadline nextFreeIdx dest fixField
-    | URLLink fixField -> WriteURLLink nextFreeIdx dest fixField
-    | ExecType fixField -> WriteExecType nextFreeIdx dest fixField
-    | LeavesQty fixField -> WriteLeavesQty nextFreeIdx dest fixField
-    | CashOrderQty fixField -> WriteCashOrderQty nextFreeIdx dest fixField
-    | AllocAvgPx fixField -> WriteAllocAvgPx nextFreeIdx dest fixField
-    | AllocNetMoney fixField -> WriteAllocNetMoney nextFreeIdx dest fixField
-    | SettlCurrFxRate fixField -> WriteSettlCurrFxRate nextFreeIdx dest fixField
-    | SettlCurrFxRateCalc fixField -> WriteSettlCurrFxRateCalc nextFreeIdx dest fixField
-    | NumDaysInterest fixField -> WriteNumDaysInterest nextFreeIdx dest fixField
-    | AccruedInterestRate fixField -> WriteAccruedInterestRate nextFreeIdx dest fixField
-    | AccruedInterestAmt fixField -> WriteAccruedInterestAmt nextFreeIdx dest fixField
-    | SettlInstMode fixField -> WriteSettlInstMode nextFreeIdx dest fixField
-    | AllocText fixField -> WriteAllocText nextFreeIdx dest fixField
-    | SettlInstID fixField -> WriteSettlInstID nextFreeIdx dest fixField
-    | SettlInstTransType fixField -> WriteSettlInstTransType nextFreeIdx dest fixField
-    | EmailThreadID fixField -> WriteEmailThreadID nextFreeIdx dest fixField
-    | SettlInstSource fixField -> WriteSettlInstSource nextFreeIdx dest fixField
-    | SecurityType fixField -> WriteSecurityType nextFreeIdx dest fixField
-    | EffectiveTime fixField -> WriteEffectiveTime nextFreeIdx dest fixField
-    | StandInstDbType fixField -> WriteStandInstDbType nextFreeIdx dest fixField
-    | StandInstDbName fixField -> WriteStandInstDbName nextFreeIdx dest fixField
-    | StandInstDbID fixField -> WriteStandInstDbID nextFreeIdx dest fixField
-    | SettlDeliveryType fixField -> WriteSettlDeliveryType nextFreeIdx dest fixField
-    | BidSpotRate fixField -> WriteBidSpotRate nextFreeIdx dest fixField
-    | BidForwardPoints fixField -> WriteBidForwardPoints nextFreeIdx dest fixField
-    | OfferSpotRate fixField -> WriteOfferSpotRate nextFreeIdx dest fixField
-    | OfferForwardPoints fixField -> WriteOfferForwardPoints nextFreeIdx dest fixField
-    | OrderQty2 fixField -> WriteOrderQty2 nextFreeIdx dest fixField
-    | SettlDate2 fixField -> WriteSettlDate2 nextFreeIdx dest fixField
-    | LastSpotRate fixField -> WriteLastSpotRate nextFreeIdx dest fixField
-    | LastForwardPoints fixField -> WriteLastForwardPoints nextFreeIdx dest fixField
-    | AllocLinkID fixField -> WriteAllocLinkID nextFreeIdx dest fixField
-    | AllocLinkType fixField -> WriteAllocLinkType nextFreeIdx dest fixField
-    | SecondaryOrderID fixField -> WriteSecondaryOrderID nextFreeIdx dest fixField
-    | NoIOIQualifiers fixField -> WriteNoIOIQualifiers nextFreeIdx dest fixField
-    | MaturityMonthYear fixField -> WriteMaturityMonthYear nextFreeIdx dest fixField
-    | PutOrCall fixField -> WritePutOrCall nextFreeIdx dest fixField
-    | StrikePrice fixField -> WriteStrikePrice nextFreeIdx dest fixField
-    | CoveredOrUncovered fixField -> WriteCoveredOrUncovered nextFreeIdx dest fixField
-    | OptAttribute fixField -> WriteOptAttribute nextFreeIdx dest fixField
-    | SecurityExchange fixField -> WriteSecurityExchange nextFreeIdx dest fixField
-    | NotifyBrokerOfCredit fixField -> WriteNotifyBrokerOfCredit nextFreeIdx dest fixField
-    | AllocHandlInst fixField -> WriteAllocHandlInst nextFreeIdx dest fixField
-    | MaxShow fixField -> WriteMaxShow nextFreeIdx dest fixField
-    | PegOffsetValue fixField -> WritePegOffsetValue nextFreeIdx dest fixField
-    | XmlData fixField -> WriteXmlData nextFreeIdx dest fixField // compound field
-    | SettlInstRefID fixField -> WriteSettlInstRefID nextFreeIdx dest fixField
-    | NoRoutingIDs fixField -> WriteNoRoutingIDs nextFreeIdx dest fixField
-    | RoutingType fixField -> WriteRoutingType nextFreeIdx dest fixField
-    | RoutingID fixField -> WriteRoutingID nextFreeIdx dest fixField
-    | Spread fixField -> WriteSpread nextFreeIdx dest fixField
-    | BenchmarkCurveCurrency fixField -> WriteBenchmarkCurveCurrency nextFreeIdx dest fixField
-    | BenchmarkCurveName fixField -> WriteBenchmarkCurveName nextFreeIdx dest fixField
-    | BenchmarkCurvePoint fixField -> WriteBenchmarkCurvePoint nextFreeIdx dest fixField
-    | CouponRate fixField -> WriteCouponRate nextFreeIdx dest fixField
-    | CouponPaymentDate fixField -> WriteCouponPaymentDate nextFreeIdx dest fixField
-    | IssueDate fixField -> WriteIssueDate nextFreeIdx dest fixField
-    | RepurchaseTerm fixField -> WriteRepurchaseTerm nextFreeIdx dest fixField
-    | RepurchaseRate fixField -> WriteRepurchaseRate nextFreeIdx dest fixField
-    | Factor fixField -> WriteFactor nextFreeIdx dest fixField
-    | TradeOriginationDate fixField -> WriteTradeOriginationDate nextFreeIdx dest fixField
-    | ExDate fixField -> WriteExDate nextFreeIdx dest fixField
-    | ContractMultiplier fixField -> WriteContractMultiplier nextFreeIdx dest fixField
-    | NoStipulations fixField -> WriteNoStipulations nextFreeIdx dest fixField
-    | StipulationType fixField -> WriteStipulationType nextFreeIdx dest fixField
-    | StipulationValue fixField -> WriteStipulationValue nextFreeIdx dest fixField
-    | YieldType fixField -> WriteYieldType nextFreeIdx dest fixField
-    | Yield fixField -> WriteYield nextFreeIdx dest fixField
-    | TotalTakedown fixField -> WriteTotalTakedown nextFreeIdx dest fixField
-    | Concession fixField -> WriteConcession nextFreeIdx dest fixField
-    | RepoCollateralSecurityType fixField -> WriteRepoCollateralSecurityType nextFreeIdx dest fixField
-    | RedemptionDate fixField -> WriteRedemptionDate nextFreeIdx dest fixField
-    | UnderlyingCouponPaymentDate fixField -> WriteUnderlyingCouponPaymentDate nextFreeIdx dest fixField
-    | UnderlyingIssueDate fixField -> WriteUnderlyingIssueDate nextFreeIdx dest fixField
-    | UnderlyingRepoCollateralSecurityType fixField -> WriteUnderlyingRepoCollateralSecurityType nextFreeIdx dest fixField
-    | UnderlyingRepurchaseTerm fixField -> WriteUnderlyingRepurchaseTerm nextFreeIdx dest fixField
-    | UnderlyingRepurchaseRate fixField -> WriteUnderlyingRepurchaseRate nextFreeIdx dest fixField
-    | UnderlyingFactor fixField -> WriteUnderlyingFactor nextFreeIdx dest fixField
-    | UnderlyingRedemptionDate fixField -> WriteUnderlyingRedemptionDate nextFreeIdx dest fixField
-    | LegCouponPaymentDate fixField -> WriteLegCouponPaymentDate nextFreeIdx dest fixField
-    | LegIssueDate fixField -> WriteLegIssueDate nextFreeIdx dest fixField
-    | LegRepoCollateralSecurityType fixField -> WriteLegRepoCollateralSecurityType nextFreeIdx dest fixField
-    | LegRepurchaseTerm fixField -> WriteLegRepurchaseTerm nextFreeIdx dest fixField
-    | LegRepurchaseRate fixField -> WriteLegRepurchaseRate nextFreeIdx dest fixField
-    | LegFactor fixField -> WriteLegFactor nextFreeIdx dest fixField
-    | LegRedemptionDate fixField -> WriteLegRedemptionDate nextFreeIdx dest fixField
-    | CreditRating fixField -> WriteCreditRating nextFreeIdx dest fixField
-    | UnderlyingCreditRating fixField -> WriteUnderlyingCreditRating nextFreeIdx dest fixField
-    | LegCreditRating fixField -> WriteLegCreditRating nextFreeIdx dest fixField
-    | TradedFlatSwitch fixField -> WriteTradedFlatSwitch nextFreeIdx dest fixField
-    | BasisFeatureDate fixField -> WriteBasisFeatureDate nextFreeIdx dest fixField
-    | BasisFeaturePrice fixField -> WriteBasisFeaturePrice nextFreeIdx dest fixField
-    | MDReqID fixField -> WriteMDReqID nextFreeIdx dest fixField
-    | SubscriptionRequestType fixField -> WriteSubscriptionRequestType nextFreeIdx dest fixField
-    | MarketDepth fixField -> WriteMarketDepth nextFreeIdx dest fixField
-    | MDUpdateType fixField -> WriteMDUpdateType nextFreeIdx dest fixField
-    | AggregatedBook fixField -> WriteAggregatedBook nextFreeIdx dest fixField
-    | NoMDEntryTypes fixField -> WriteNoMDEntryTypes nextFreeIdx dest fixField
-    | NoMDEntries fixField -> WriteNoMDEntries nextFreeIdx dest fixField
-    | MDEntryType fixField -> WriteMDEntryType nextFreeIdx dest fixField
-    | MDEntryPx fixField -> WriteMDEntryPx nextFreeIdx dest fixField
-    | MDEntrySize fixField -> WriteMDEntrySize nextFreeIdx dest fixField
-    | MDEntryDate fixField -> WriteMDEntryDate nextFreeIdx dest fixField
-    | MDEntryTime fixField -> WriteMDEntryTime nextFreeIdx dest fixField
-    | TickDirection fixField -> WriteTickDirection nextFreeIdx dest fixField
-    | MDMkt fixField -> WriteMDMkt nextFreeIdx dest fixField
-    | QuoteCondition fixField -> WriteQuoteCondition nextFreeIdx dest fixField
-    | TradeCondition fixField -> WriteTradeCondition nextFreeIdx dest fixField
-    | MDEntryID fixField -> WriteMDEntryID nextFreeIdx dest fixField
-    | MDUpdateAction fixField -> WriteMDUpdateAction nextFreeIdx dest fixField
-    | MDEntryRefID fixField -> WriteMDEntryRefID nextFreeIdx dest fixField
-    | MDReqRejReason fixField -> WriteMDReqRejReason nextFreeIdx dest fixField
-    | MDEntryOriginator fixField -> WriteMDEntryOriginator nextFreeIdx dest fixField
-    | LocationID fixField -> WriteLocationID nextFreeIdx dest fixField
-    | DeskID fixField -> WriteDeskID nextFreeIdx dest fixField
-    | DeleteReason fixField -> WriteDeleteReason nextFreeIdx dest fixField
-    | OpenCloseSettlFlag fixField -> WriteOpenCloseSettlFlag nextFreeIdx dest fixField
-    | SellerDays fixField -> WriteSellerDays nextFreeIdx dest fixField
-    | MDEntryBuyer fixField -> WriteMDEntryBuyer nextFreeIdx dest fixField
-    | MDEntrySeller fixField -> WriteMDEntrySeller nextFreeIdx dest fixField
-    | MDEntryPositionNo fixField -> WriteMDEntryPositionNo nextFreeIdx dest fixField
-    | FinancialStatus fixField -> WriteFinancialStatus nextFreeIdx dest fixField
-    | CorporateAction fixField -> WriteCorporateAction nextFreeIdx dest fixField
-    | DefBidSize fixField -> WriteDefBidSize nextFreeIdx dest fixField
-    | DefOfferSize fixField -> WriteDefOfferSize nextFreeIdx dest fixField
-    | NoQuoteEntries fixField -> WriteNoQuoteEntries nextFreeIdx dest fixField
-    | NoQuoteSets fixField -> WriteNoQuoteSets nextFreeIdx dest fixField
-    | QuoteStatus fixField -> WriteQuoteStatus nextFreeIdx dest fixField
-    | QuoteCancelType fixField -> WriteQuoteCancelType nextFreeIdx dest fixField
-    | QuoteEntryID fixField -> WriteQuoteEntryID nextFreeIdx dest fixField
-    | QuoteRejectReason fixField -> WriteQuoteRejectReason nextFreeIdx dest fixField
-    | QuoteResponseLevel fixField -> WriteQuoteResponseLevel nextFreeIdx dest fixField
-    | QuoteSetID fixField -> WriteQuoteSetID nextFreeIdx dest fixField
-    | QuoteRequestType fixField -> WriteQuoteRequestType nextFreeIdx dest fixField
-    | TotNoQuoteEntries fixField -> WriteTotNoQuoteEntries nextFreeIdx dest fixField
-    | UnderlyingSecurityIDSource fixField -> WriteUnderlyingSecurityIDSource nextFreeIdx dest fixField
-    | UnderlyingIssuer fixField -> WriteUnderlyingIssuer nextFreeIdx dest fixField
-    | UnderlyingSecurityDesc fixField -> WriteUnderlyingSecurityDesc nextFreeIdx dest fixField
-    | UnderlyingSecurityExchange fixField -> WriteUnderlyingSecurityExchange nextFreeIdx dest fixField
-    | UnderlyingSecurityID fixField -> WriteUnderlyingSecurityID nextFreeIdx dest fixField
-    | UnderlyingSecurityType fixField -> WriteUnderlyingSecurityType nextFreeIdx dest fixField
-    | UnderlyingSymbol fixField -> WriteUnderlyingSymbol nextFreeIdx dest fixField
-    | UnderlyingSymbolSfx fixField -> WriteUnderlyingSymbolSfx nextFreeIdx dest fixField
-    | UnderlyingMaturityMonthYear fixField -> WriteUnderlyingMaturityMonthYear nextFreeIdx dest fixField
-    | UnderlyingPutOrCall fixField -> WriteUnderlyingPutOrCall nextFreeIdx dest fixField
-    | UnderlyingStrikePrice fixField -> WriteUnderlyingStrikePrice nextFreeIdx dest fixField
-    | UnderlyingOptAttribute fixField -> WriteUnderlyingOptAttribute nextFreeIdx dest fixField
-    | UnderlyingCurrency fixField -> WriteUnderlyingCurrency nextFreeIdx dest fixField
-    | SecurityReqID fixField -> WriteSecurityReqID nextFreeIdx dest fixField
-    | SecurityRequestType fixField -> WriteSecurityRequestType nextFreeIdx dest fixField
-    | SecurityResponseID fixField -> WriteSecurityResponseID nextFreeIdx dest fixField
-    | SecurityResponseType fixField -> WriteSecurityResponseType nextFreeIdx dest fixField
-    | SecurityStatusReqID fixField -> WriteSecurityStatusReqID nextFreeIdx dest fixField
-    | UnsolicitedIndicator fixField -> WriteUnsolicitedIndicator nextFreeIdx dest fixField
-    | SecurityTradingStatus fixField -> WriteSecurityTradingStatus nextFreeIdx dest fixField
-    | HaltReason fixField -> WriteHaltReason nextFreeIdx dest fixField
-    | InViewOfCommon fixField -> WriteInViewOfCommon nextFreeIdx dest fixField
-    | DueToRelated fixField -> WriteDueToRelated nextFreeIdx dest fixField
-    | BuyVolume fixField -> WriteBuyVolume nextFreeIdx dest fixField
-    | SellVolume fixField -> WriteSellVolume nextFreeIdx dest fixField
-    | HighPx fixField -> WriteHighPx nextFreeIdx dest fixField
-    | LowPx fixField -> WriteLowPx nextFreeIdx dest fixField
-    | Adjustment fixField -> WriteAdjustment nextFreeIdx dest fixField
-    | TradSesReqID fixField -> WriteTradSesReqID nextFreeIdx dest fixField
-    | TradingSessionID fixField -> WriteTradingSessionID nextFreeIdx dest fixField
-    | ContraTrader fixField -> WriteContraTrader nextFreeIdx dest fixField
-    | TradSesMethod fixField -> WriteTradSesMethod nextFreeIdx dest fixField
-    | TradSesMode fixField -> WriteTradSesMode nextFreeIdx dest fixField
-    | TradSesStatus fixField -> WriteTradSesStatus nextFreeIdx dest fixField
-    | TradSesStartTime fixField -> WriteTradSesStartTime nextFreeIdx dest fixField
-    | TradSesOpenTime fixField -> WriteTradSesOpenTime nextFreeIdx dest fixField
-    | TradSesPreCloseTime fixField -> WriteTradSesPreCloseTime nextFreeIdx dest fixField
-    | TradSesCloseTime fixField -> WriteTradSesCloseTime nextFreeIdx dest fixField
-    | TradSesEndTime fixField -> WriteTradSesEndTime nextFreeIdx dest fixField
-    | NumberOfOrders fixField -> WriteNumberOfOrders nextFreeIdx dest fixField
-    | MessageEncoding fixField -> WriteMessageEncoding nextFreeIdx dest fixField
-    | EncodedIssuer fixField -> WriteEncodedIssuer nextFreeIdx dest fixField // compound field
-    | EncodedSecurityDesc fixField -> WriteEncodedSecurityDesc nextFreeIdx dest fixField // compound field
-    | EncodedListExecInst fixField -> WriteEncodedListExecInst nextFreeIdx dest fixField // compound field
-    | EncodedText fixField -> WriteEncodedText nextFreeIdx dest fixField // compound field
-    | EncodedSubject fixField -> WriteEncodedSubject nextFreeIdx dest fixField // compound field
-    | EncodedHeadline fixField -> WriteEncodedHeadline nextFreeIdx dest fixField // compound field
-    | EncodedAllocText fixField -> WriteEncodedAllocText nextFreeIdx dest fixField // compound field
-    | EncodedUnderlyingIssuer fixField -> WriteEncodedUnderlyingIssuer nextFreeIdx dest fixField // compound field
-    | EncodedUnderlyingSecurityDesc fixField -> WriteEncodedUnderlyingSecurityDesc nextFreeIdx dest fixField // compound field
-    | AllocPrice fixField -> WriteAllocPrice nextFreeIdx dest fixField
-    | QuoteSetValidUntilTime fixField -> WriteQuoteSetValidUntilTime nextFreeIdx dest fixField
-    | QuoteEntryRejectReason fixField -> WriteQuoteEntryRejectReason nextFreeIdx dest fixField
-    | LastMsgSeqNumProcessed fixField -> WriteLastMsgSeqNumProcessed nextFreeIdx dest fixField
-    | RefTagID fixField -> WriteRefTagID nextFreeIdx dest fixField
-    | RefMsgType fixField -> WriteRefMsgType nextFreeIdx dest fixField
-    | SessionRejectReason fixField -> WriteSessionRejectReason nextFreeIdx dest fixField
-    | BidRequestTransType fixField -> WriteBidRequestTransType nextFreeIdx dest fixField
-    | ContraBroker fixField -> WriteContraBroker nextFreeIdx dest fixField
-    | ComplianceID fixField -> WriteComplianceID nextFreeIdx dest fixField
-    | SolicitedFlag fixField -> WriteSolicitedFlag nextFreeIdx dest fixField
-    | ExecRestatementReason fixField -> WriteExecRestatementReason nextFreeIdx dest fixField
-    | BusinessRejectRefID fixField -> WriteBusinessRejectRefID nextFreeIdx dest fixField
-    | BusinessRejectReason fixField -> WriteBusinessRejectReason nextFreeIdx dest fixField
-    | GrossTradeAmt fixField -> WriteGrossTradeAmt nextFreeIdx dest fixField
-    | NoContraBrokers fixField -> WriteNoContraBrokers nextFreeIdx dest fixField
-    | MaxMessageSize fixField -> WriteMaxMessageSize nextFreeIdx dest fixField
-    | NoMsgTypes fixField -> WriteNoMsgTypes nextFreeIdx dest fixField
-    | MsgDirection fixField -> WriteMsgDirection nextFreeIdx dest fixField
-    | NoTradingSessions fixField -> WriteNoTradingSessions nextFreeIdx dest fixField
-    | TotalVolumeTraded fixField -> WriteTotalVolumeTraded nextFreeIdx dest fixField
-    | DiscretionInst fixField -> WriteDiscretionInst nextFreeIdx dest fixField
-    | DiscretionOffsetValue fixField -> WriteDiscretionOffsetValue nextFreeIdx dest fixField
-    | BidID fixField -> WriteBidID nextFreeIdx dest fixField
-    | ClientBidID fixField -> WriteClientBidID nextFreeIdx dest fixField
-    | ListName fixField -> WriteListName nextFreeIdx dest fixField
-    | TotNoRelatedSym fixField -> WriteTotNoRelatedSym nextFreeIdx dest fixField
-    | BidType fixField -> WriteBidType nextFreeIdx dest fixField
-    | NumTickets fixField -> WriteNumTickets nextFreeIdx dest fixField
-    | SideValue1 fixField -> WriteSideValue1 nextFreeIdx dest fixField
-    | SideValue2 fixField -> WriteSideValue2 nextFreeIdx dest fixField
-    | NoBidDescriptors fixField -> WriteNoBidDescriptors nextFreeIdx dest fixField
-    | BidDescriptorType fixField -> WriteBidDescriptorType nextFreeIdx dest fixField
-    | BidDescriptor fixField -> WriteBidDescriptor nextFreeIdx dest fixField
-    | SideValueInd fixField -> WriteSideValueInd nextFreeIdx dest fixField
-    | LiquidityPctLow fixField -> WriteLiquidityPctLow nextFreeIdx dest fixField
-    | LiquidityPctHigh fixField -> WriteLiquidityPctHigh nextFreeIdx dest fixField
-    | LiquidityValue fixField -> WriteLiquidityValue nextFreeIdx dest fixField
-    | EFPTrackingError fixField -> WriteEFPTrackingError nextFreeIdx dest fixField
-    | FairValue fixField -> WriteFairValue nextFreeIdx dest fixField
-    | OutsideIndexPct fixField -> WriteOutsideIndexPct nextFreeIdx dest fixField
-    | ValueOfFutures fixField -> WriteValueOfFutures nextFreeIdx dest fixField
-    | LiquidityIndType fixField -> WriteLiquidityIndType nextFreeIdx dest fixField
-    | WtAverageLiquidity fixField -> WriteWtAverageLiquidity nextFreeIdx dest fixField
-    | ExchangeForPhysical fixField -> WriteExchangeForPhysical nextFreeIdx dest fixField
-    | OutMainCntryUIndex fixField -> WriteOutMainCntryUIndex nextFreeIdx dest fixField
-    | CrossPercent fixField -> WriteCrossPercent nextFreeIdx dest fixField
-    | ProgRptReqs fixField -> WriteProgRptReqs nextFreeIdx dest fixField
-    | ProgPeriodInterval fixField -> WriteProgPeriodInterval nextFreeIdx dest fixField
-    | IncTaxInd fixField -> WriteIncTaxInd nextFreeIdx dest fixField
-    | NumBidders fixField -> WriteNumBidders nextFreeIdx dest fixField
-    | BidTradeType fixField -> WriteBidTradeType nextFreeIdx dest fixField
-    | BasisPxType fixField -> WriteBasisPxType nextFreeIdx dest fixField
-    | NoBidComponents fixField -> WriteNoBidComponents nextFreeIdx dest fixField
-    | Country fixField -> WriteCountry nextFreeIdx dest fixField
-    | TotNoStrikes fixField -> WriteTotNoStrikes nextFreeIdx dest fixField
-    | PriceType fixField -> WritePriceType nextFreeIdx dest fixField
-    | DayOrderQty fixField -> WriteDayOrderQty nextFreeIdx dest fixField
-    | DayCumQty fixField -> WriteDayCumQty nextFreeIdx dest fixField
-    | DayAvgPx fixField -> WriteDayAvgPx nextFreeIdx dest fixField
-    | GTBookingInst fixField -> WriteGTBookingInst nextFreeIdx dest fixField
-    | NoStrikes fixField -> WriteNoStrikes nextFreeIdx dest fixField
-    | ListStatusType fixField -> WriteListStatusType nextFreeIdx dest fixField
-    | NetGrossInd fixField -> WriteNetGrossInd nextFreeIdx dest fixField
-    | ListOrderStatus fixField -> WriteListOrderStatus nextFreeIdx dest fixField
-    | ExpireDate fixField -> WriteExpireDate nextFreeIdx dest fixField
-    | ListExecInstType fixField -> WriteListExecInstType nextFreeIdx dest fixField
-    | CxlRejResponseTo fixField -> WriteCxlRejResponseTo nextFreeIdx dest fixField
-    | UnderlyingCouponRate fixField -> WriteUnderlyingCouponRate nextFreeIdx dest fixField
-    | UnderlyingContractMultiplier fixField -> WriteUnderlyingContractMultiplier nextFreeIdx dest fixField
-    | ContraTradeQty fixField -> WriteContraTradeQty nextFreeIdx dest fixField
-    | ContraTradeTime fixField -> WriteContraTradeTime nextFreeIdx dest fixField
-    | LiquidityNumSecurities fixField -> WriteLiquidityNumSecurities nextFreeIdx dest fixField
-    | MultiLegReportingType fixField -> WriteMultiLegReportingType nextFreeIdx dest fixField
-    | StrikeTime fixField -> WriteStrikeTime nextFreeIdx dest fixField
-    | ListStatusText fixField -> WriteListStatusText nextFreeIdx dest fixField
-    | EncodedListStatusText fixField -> WriteEncodedListStatusText nextFreeIdx dest fixField // compound field
-    | PartyIDSource fixField -> WritePartyIDSource nextFreeIdx dest fixField
-    | PartyID fixField -> WritePartyID nextFreeIdx dest fixField
-    | NetChgPrevDay fixField -> WriteNetChgPrevDay nextFreeIdx dest fixField
-    | PartyRole fixField -> WritePartyRole nextFreeIdx dest fixField
-    | NoPartyIDs fixField -> WriteNoPartyIDs nextFreeIdx dest fixField
-    | NoSecurityAltID fixField -> WriteNoSecurityAltID nextFreeIdx dest fixField
-    | SecurityAltID fixField -> WriteSecurityAltID nextFreeIdx dest fixField
-    | SecurityAltIDSource fixField -> WriteSecurityAltIDSource nextFreeIdx dest fixField
-    | NoUnderlyingSecurityAltID fixField -> WriteNoUnderlyingSecurityAltID nextFreeIdx dest fixField
-    | UnderlyingSecurityAltID fixField -> WriteUnderlyingSecurityAltID nextFreeIdx dest fixField
-    | UnderlyingSecurityAltIDSource fixField -> WriteUnderlyingSecurityAltIDSource nextFreeIdx dest fixField
-    | Product fixField -> WriteProduct nextFreeIdx dest fixField
-    | CFICode fixField -> WriteCFICode nextFreeIdx dest fixField
-    | UnderlyingProduct fixField -> WriteUnderlyingProduct nextFreeIdx dest fixField
-    | UnderlyingCFICode fixField -> WriteUnderlyingCFICode nextFreeIdx dest fixField
-    | TestMessageIndicator fixField -> WriteTestMessageIndicator nextFreeIdx dest fixField
-    | QuantityType fixField -> WriteQuantityType nextFreeIdx dest fixField
-    | BookingRefID fixField -> WriteBookingRefID nextFreeIdx dest fixField
-    | IndividualAllocID fixField -> WriteIndividualAllocID nextFreeIdx dest fixField
-    | RoundingDirection fixField -> WriteRoundingDirection nextFreeIdx dest fixField
-    | RoundingModulus fixField -> WriteRoundingModulus nextFreeIdx dest fixField
-    | CountryOfIssue fixField -> WriteCountryOfIssue nextFreeIdx dest fixField
-    | StateOrProvinceOfIssue fixField -> WriteStateOrProvinceOfIssue nextFreeIdx dest fixField
-    | LocaleOfIssue fixField -> WriteLocaleOfIssue nextFreeIdx dest fixField
-    | NoRegistDtls fixField -> WriteNoRegistDtls nextFreeIdx dest fixField
-    | MailingDtls fixField -> WriteMailingDtls nextFreeIdx dest fixField
-    | InvestorCountryOfResidence fixField -> WriteInvestorCountryOfResidence nextFreeIdx dest fixField
-    | PaymentRef fixField -> WritePaymentRef nextFreeIdx dest fixField
-    | DistribPaymentMethod fixField -> WriteDistribPaymentMethod nextFreeIdx dest fixField
-    | CashDistribCurr fixField -> WriteCashDistribCurr nextFreeIdx dest fixField
-    | CommCurrency fixField -> WriteCommCurrency nextFreeIdx dest fixField
-    | CancellationRights fixField -> WriteCancellationRights nextFreeIdx dest fixField
-    | MoneyLaunderingStatus fixField -> WriteMoneyLaunderingStatus nextFreeIdx dest fixField
-    | MailingInst fixField -> WriteMailingInst nextFreeIdx dest fixField
-    | TransBkdTime fixField -> WriteTransBkdTime nextFreeIdx dest fixField
-    | ExecPriceType fixField -> WriteExecPriceType nextFreeIdx dest fixField
-    | ExecPriceAdjustment fixField -> WriteExecPriceAdjustment nextFreeIdx dest fixField
-    | DateOfBirth fixField -> WriteDateOfBirth nextFreeIdx dest fixField
-    | TradeReportTransType fixField -> WriteTradeReportTransType nextFreeIdx dest fixField
-    | CardHolderName fixField -> WriteCardHolderName nextFreeIdx dest fixField
-    | CardNumber fixField -> WriteCardNumber nextFreeIdx dest fixField
-    | CardExpDate fixField -> WriteCardExpDate nextFreeIdx dest fixField
-    | CardIssNum fixField -> WriteCardIssNum nextFreeIdx dest fixField
-    | PaymentMethod fixField -> WritePaymentMethod nextFreeIdx dest fixField
-    | RegistAcctType fixField -> WriteRegistAcctType nextFreeIdx dest fixField
-    | Designation fixField -> WriteDesignation nextFreeIdx dest fixField
-    | TaxAdvantageType fixField -> WriteTaxAdvantageType nextFreeIdx dest fixField
-    | RegistRejReasonText fixField -> WriteRegistRejReasonText nextFreeIdx dest fixField
-    | FundRenewWaiv fixField -> WriteFundRenewWaiv nextFreeIdx dest fixField
-    | CashDistribAgentName fixField -> WriteCashDistribAgentName nextFreeIdx dest fixField
-    | CashDistribAgentCode fixField -> WriteCashDistribAgentCode nextFreeIdx dest fixField
-    | CashDistribAgentAcctNumber fixField -> WriteCashDistribAgentAcctNumber nextFreeIdx dest fixField
-    | CashDistribPayRef fixField -> WriteCashDistribPayRef nextFreeIdx dest fixField
-    | CashDistribAgentAcctName fixField -> WriteCashDistribAgentAcctName nextFreeIdx dest fixField
-    | CardStartDate fixField -> WriteCardStartDate nextFreeIdx dest fixField
-    | PaymentDate fixField -> WritePaymentDate nextFreeIdx dest fixField
-    | PaymentRemitterID fixField -> WritePaymentRemitterID nextFreeIdx dest fixField
-    | RegistStatus fixField -> WriteRegistStatus nextFreeIdx dest fixField
-    | RegistRejReasonCode fixField -> WriteRegistRejReasonCode nextFreeIdx dest fixField
-    | RegistRefID fixField -> WriteRegistRefID nextFreeIdx dest fixField
-    | RegistDtls fixField -> WriteRegistDtls nextFreeIdx dest fixField
-    | NoDistribInsts fixField -> WriteNoDistribInsts nextFreeIdx dest fixField
-    | RegistEmail fixField -> WriteRegistEmail nextFreeIdx dest fixField
-    | DistribPercentage fixField -> WriteDistribPercentage nextFreeIdx dest fixField
-    | RegistID fixField -> WriteRegistID nextFreeIdx dest fixField
-    | RegistTransType fixField -> WriteRegistTransType nextFreeIdx dest fixField
-    | ExecValuationPoint fixField -> WriteExecValuationPoint nextFreeIdx dest fixField
-    | OrderPercent fixField -> WriteOrderPercent nextFreeIdx dest fixField
-    | OwnershipType fixField -> WriteOwnershipType nextFreeIdx dest fixField
-    | NoContAmts fixField -> WriteNoContAmts nextFreeIdx dest fixField
-    | ContAmtType fixField -> WriteContAmtType nextFreeIdx dest fixField
-    | ContAmtValue fixField -> WriteContAmtValue nextFreeIdx dest fixField
-    | ContAmtCurr fixField -> WriteContAmtCurr nextFreeIdx dest fixField
-    | OwnerType fixField -> WriteOwnerType nextFreeIdx dest fixField
-    | PartySubID fixField -> WritePartySubID nextFreeIdx dest fixField
-    | NestedPartyID fixField -> WriteNestedPartyID nextFreeIdx dest fixField
-    | NestedPartyIDSource fixField -> WriteNestedPartyIDSource nextFreeIdx dest fixField
-    | SecondaryClOrdID fixField -> WriteSecondaryClOrdID nextFreeIdx dest fixField
-    | SecondaryExecID fixField -> WriteSecondaryExecID nextFreeIdx dest fixField
-    | OrderCapacity fixField -> WriteOrderCapacity nextFreeIdx dest fixField
-    | OrderRestrictions fixField -> WriteOrderRestrictions nextFreeIdx dest fixField
-    | MassCancelRequestType fixField -> WriteMassCancelRequestType nextFreeIdx dest fixField
-    | MassCancelResponse fixField -> WriteMassCancelResponse nextFreeIdx dest fixField
-    | MassCancelRejectReason fixField -> WriteMassCancelRejectReason nextFreeIdx dest fixField
-    | TotalAffectedOrders fixField -> WriteTotalAffectedOrders nextFreeIdx dest fixField
-    | NoAffectedOrders fixField -> WriteNoAffectedOrders nextFreeIdx dest fixField
-    | AffectedOrderID fixField -> WriteAffectedOrderID nextFreeIdx dest fixField
-    | AffectedSecondaryOrderID fixField -> WriteAffectedSecondaryOrderID nextFreeIdx dest fixField
-    | QuoteType fixField -> WriteQuoteType nextFreeIdx dest fixField
-    | NestedPartyRole fixField -> WriteNestedPartyRole nextFreeIdx dest fixField
-    | NoNestedPartyIDs fixField -> WriteNoNestedPartyIDs nextFreeIdx dest fixField
-    | TotalAccruedInterestAmt fixField -> WriteTotalAccruedInterestAmt nextFreeIdx dest fixField
-    | MaturityDate fixField -> WriteMaturityDate nextFreeIdx dest fixField
-    | UnderlyingMaturityDate fixField -> WriteUnderlyingMaturityDate nextFreeIdx dest fixField
-    | InstrRegistry fixField -> WriteInstrRegistry nextFreeIdx dest fixField
-    | CashMargin fixField -> WriteCashMargin nextFreeIdx dest fixField
-    | NestedPartySubID fixField -> WriteNestedPartySubID nextFreeIdx dest fixField
-    | Scope fixField -> WriteScope nextFreeIdx dest fixField
-    | MDImplicitDelete fixField -> WriteMDImplicitDelete nextFreeIdx dest fixField
-    | CrossID fixField -> WriteCrossID nextFreeIdx dest fixField
-    | CrossType fixField -> WriteCrossType nextFreeIdx dest fixField
-    | CrossPrioritization fixField -> WriteCrossPrioritization nextFreeIdx dest fixField
-    | OrigCrossID fixField -> WriteOrigCrossID nextFreeIdx dest fixField
-    | NoSides fixField -> WriteNoSides nextFreeIdx dest fixField
-    | Username fixField -> WriteUsername nextFreeIdx dest fixField
-    | Password fixField -> WritePassword nextFreeIdx dest fixField
-    | NoLegs fixField -> WriteNoLegs nextFreeIdx dest fixField
-    | LegCurrency fixField -> WriteLegCurrency nextFreeIdx dest fixField
-    | TotNoSecurityTypes fixField -> WriteTotNoSecurityTypes nextFreeIdx dest fixField
-    | NoSecurityTypes fixField -> WriteNoSecurityTypes nextFreeIdx dest fixField
-    | SecurityListRequestType fixField -> WriteSecurityListRequestType nextFreeIdx dest fixField
-    | SecurityRequestResult fixField -> WriteSecurityRequestResult nextFreeIdx dest fixField
-    | RoundLot fixField -> WriteRoundLot nextFreeIdx dest fixField
-    | MinTradeVol fixField -> WriteMinTradeVol nextFreeIdx dest fixField
-    | MultiLegRptTypeReq fixField -> WriteMultiLegRptTypeReq nextFreeIdx dest fixField
-    | LegPositionEffect fixField -> WriteLegPositionEffect nextFreeIdx dest fixField
-    | LegCoveredOrUncovered fixField -> WriteLegCoveredOrUncovered nextFreeIdx dest fixField
-    | LegPrice fixField -> WriteLegPrice nextFreeIdx dest fixField
-    | TradSesStatusRejReason fixField -> WriteTradSesStatusRejReason nextFreeIdx dest fixField
-    | TradeRequestID fixField -> WriteTradeRequestID nextFreeIdx dest fixField
-    | TradeRequestType fixField -> WriteTradeRequestType nextFreeIdx dest fixField
-    | PreviouslyReported fixField -> WritePreviouslyReported nextFreeIdx dest fixField
-    | TradeReportID fixField -> WriteTradeReportID nextFreeIdx dest fixField
-    | TradeReportRefID fixField -> WriteTradeReportRefID nextFreeIdx dest fixField
-    | MatchStatus fixField -> WriteMatchStatus nextFreeIdx dest fixField
-    | MatchType fixField -> WriteMatchType nextFreeIdx dest fixField
-    | OddLot fixField -> WriteOddLot nextFreeIdx dest fixField
-    | NoClearingInstructions fixField -> WriteNoClearingInstructions nextFreeIdx dest fixField
-    | ClearingInstruction fixField -> WriteClearingInstruction nextFreeIdx dest fixField
-    | TradeInputSource fixField -> WriteTradeInputSource nextFreeIdx dest fixField
-    | TradeInputDevice fixField -> WriteTradeInputDevice nextFreeIdx dest fixField
-    | NoDates fixField -> WriteNoDates nextFreeIdx dest fixField
-    | AccountType fixField -> WriteAccountType nextFreeIdx dest fixField
-    | CustOrderCapacity fixField -> WriteCustOrderCapacity nextFreeIdx dest fixField
-    | ClOrdLinkID fixField -> WriteClOrdLinkID nextFreeIdx dest fixField
-    | MassStatusReqID fixField -> WriteMassStatusReqID nextFreeIdx dest fixField
-    | MassStatusReqType fixField -> WriteMassStatusReqType nextFreeIdx dest fixField
-    | OrigOrdModTime fixField -> WriteOrigOrdModTime nextFreeIdx dest fixField
-    | LegSettlType fixField -> WriteLegSettlType nextFreeIdx dest fixField
-    | LegSettlDate fixField -> WriteLegSettlDate nextFreeIdx dest fixField
-    | DayBookingInst fixField -> WriteDayBookingInst nextFreeIdx dest fixField
-    | BookingUnit fixField -> WriteBookingUnit nextFreeIdx dest fixField
-    | PreallocMethod fixField -> WritePreallocMethod nextFreeIdx dest fixField
-    | UnderlyingCountryOfIssue fixField -> WriteUnderlyingCountryOfIssue nextFreeIdx dest fixField
-    | UnderlyingStateOrProvinceOfIssue fixField -> WriteUnderlyingStateOrProvinceOfIssue nextFreeIdx dest fixField
-    | UnderlyingLocaleOfIssue fixField -> WriteUnderlyingLocaleOfIssue nextFreeIdx dest fixField
-    | UnderlyingInstrRegistry fixField -> WriteUnderlyingInstrRegistry nextFreeIdx dest fixField
-    | LegCountryOfIssue fixField -> WriteLegCountryOfIssue nextFreeIdx dest fixField
-    | LegStateOrProvinceOfIssue fixField -> WriteLegStateOrProvinceOfIssue nextFreeIdx dest fixField
-    | LegLocaleOfIssue fixField -> WriteLegLocaleOfIssue nextFreeIdx dest fixField
-    | LegInstrRegistry fixField -> WriteLegInstrRegistry nextFreeIdx dest fixField
-    | LegSymbol fixField -> WriteLegSymbol nextFreeIdx dest fixField
-    | LegSymbolSfx fixField -> WriteLegSymbolSfx nextFreeIdx dest fixField
-    | LegSecurityID fixField -> WriteLegSecurityID nextFreeIdx dest fixField
-    | LegSecurityIDSource fixField -> WriteLegSecurityIDSource nextFreeIdx dest fixField
-    | NoLegSecurityAltID fixField -> WriteNoLegSecurityAltID nextFreeIdx dest fixField
-    | LegSecurityAltID fixField -> WriteLegSecurityAltID nextFreeIdx dest fixField
-    | LegSecurityAltIDSource fixField -> WriteLegSecurityAltIDSource nextFreeIdx dest fixField
-    | LegProduct fixField -> WriteLegProduct nextFreeIdx dest fixField
-    | LegCFICode fixField -> WriteLegCFICode nextFreeIdx dest fixField
-    | LegSecurityType fixField -> WriteLegSecurityType nextFreeIdx dest fixField
-    | LegMaturityMonthYear fixField -> WriteLegMaturityMonthYear nextFreeIdx dest fixField
-    | LegMaturityDate fixField -> WriteLegMaturityDate nextFreeIdx dest fixField
-    | LegStrikePrice fixField -> WriteLegStrikePrice nextFreeIdx dest fixField
-    | LegOptAttribute fixField -> WriteLegOptAttribute nextFreeIdx dest fixField
-    | LegContractMultiplier fixField -> WriteLegContractMultiplier nextFreeIdx dest fixField
-    | LegCouponRate fixField -> WriteLegCouponRate nextFreeIdx dest fixField
-    | LegSecurityExchange fixField -> WriteLegSecurityExchange nextFreeIdx dest fixField
-    | LegIssuer fixField -> WriteLegIssuer nextFreeIdx dest fixField
-    | EncodedLegIssuer fixField -> WriteEncodedLegIssuer nextFreeIdx dest fixField // compound field
-    | LegSecurityDesc fixField -> WriteLegSecurityDesc nextFreeIdx dest fixField
-    | EncodedLegSecurityDesc fixField -> WriteEncodedLegSecurityDesc nextFreeIdx dest fixField // compound field
-    | LegRatioQty fixField -> WriteLegRatioQty nextFreeIdx dest fixField
-    | LegSide fixField -> WriteLegSide nextFreeIdx dest fixField
-    | TradingSessionSubID fixField -> WriteTradingSessionSubID nextFreeIdx dest fixField
-    | AllocType fixField -> WriteAllocType nextFreeIdx dest fixField
-    | NoHops fixField -> WriteNoHops nextFreeIdx dest fixField
-    | HopCompID fixField -> WriteHopCompID nextFreeIdx dest fixField
-    | HopSendingTime fixField -> WriteHopSendingTime nextFreeIdx dest fixField
-    | HopRefID fixField -> WriteHopRefID nextFreeIdx dest fixField
-    | MidPx fixField -> WriteMidPx nextFreeIdx dest fixField
-    | BidYield fixField -> WriteBidYield nextFreeIdx dest fixField
-    | MidYield fixField -> WriteMidYield nextFreeIdx dest fixField
-    | OfferYield fixField -> WriteOfferYield nextFreeIdx dest fixField
-    | ClearingFeeIndicator fixField -> WriteClearingFeeIndicator nextFreeIdx dest fixField
-    | WorkingIndicator fixField -> WriteWorkingIndicator nextFreeIdx dest fixField
-    | LegLastPx fixField -> WriteLegLastPx nextFreeIdx dest fixField
-    | PriorityIndicator fixField -> WritePriorityIndicator nextFreeIdx dest fixField
-    | PriceImprovement fixField -> WritePriceImprovement nextFreeIdx dest fixField
-    | Price2 fixField -> WritePrice2 nextFreeIdx dest fixField
-    | LastForwardPoints2 fixField -> WriteLastForwardPoints2 nextFreeIdx dest fixField
-    | BidForwardPoints2 fixField -> WriteBidForwardPoints2 nextFreeIdx dest fixField
-    | OfferForwardPoints2 fixField -> WriteOfferForwardPoints2 nextFreeIdx dest fixField
-    | RFQReqID fixField -> WriteRFQReqID nextFreeIdx dest fixField
-    | MktBidPx fixField -> WriteMktBidPx nextFreeIdx dest fixField
-    | MktOfferPx fixField -> WriteMktOfferPx nextFreeIdx dest fixField
-    | MinBidSize fixField -> WriteMinBidSize nextFreeIdx dest fixField
-    | MinOfferSize fixField -> WriteMinOfferSize nextFreeIdx dest fixField
-    | QuoteStatusReqID fixField -> WriteQuoteStatusReqID nextFreeIdx dest fixField
-    | LegalConfirm fixField -> WriteLegalConfirm nextFreeIdx dest fixField
-    | UnderlyingLastPx fixField -> WriteUnderlyingLastPx nextFreeIdx dest fixField
-    | UnderlyingLastQty fixField -> WriteUnderlyingLastQty nextFreeIdx dest fixField
-    | LegRefID fixField -> WriteLegRefID nextFreeIdx dest fixField
-    | ContraLegRefID fixField -> WriteContraLegRefID nextFreeIdx dest fixField
-    | SettlCurrBidFxRate fixField -> WriteSettlCurrBidFxRate nextFreeIdx dest fixField
-    | SettlCurrOfferFxRate fixField -> WriteSettlCurrOfferFxRate nextFreeIdx dest fixField
-    | QuoteRequestRejectReason fixField -> WriteQuoteRequestRejectReason nextFreeIdx dest fixField
-    | SideComplianceID fixField -> WriteSideComplianceID nextFreeIdx dest fixField
-    | AcctIDSource fixField -> WriteAcctIDSource nextFreeIdx dest fixField
-    | AllocAcctIDSource fixField -> WriteAllocAcctIDSource nextFreeIdx dest fixField
-    | BenchmarkPrice fixField -> WriteBenchmarkPrice nextFreeIdx dest fixField
-    | BenchmarkPriceType fixField -> WriteBenchmarkPriceType nextFreeIdx dest fixField
-    | ConfirmID fixField -> WriteConfirmID nextFreeIdx dest fixField
-    | ConfirmStatus fixField -> WriteConfirmStatus nextFreeIdx dest fixField
-    | ConfirmTransType fixField -> WriteConfirmTransType nextFreeIdx dest fixField
-    | ContractSettlMonth fixField -> WriteContractSettlMonth nextFreeIdx dest fixField
-    | DeliveryForm fixField -> WriteDeliveryForm nextFreeIdx dest fixField
-    | LastParPx fixField -> WriteLastParPx nextFreeIdx dest fixField
-    | NoLegAllocs fixField -> WriteNoLegAllocs nextFreeIdx dest fixField
-    | LegAllocAccount fixField -> WriteLegAllocAccount nextFreeIdx dest fixField
-    | LegIndividualAllocID fixField -> WriteLegIndividualAllocID nextFreeIdx dest fixField
-    | LegAllocQty fixField -> WriteLegAllocQty nextFreeIdx dest fixField
-    | LegAllocAcctIDSource fixField -> WriteLegAllocAcctIDSource nextFreeIdx dest fixField
-    | LegSettlCurrency fixField -> WriteLegSettlCurrency nextFreeIdx dest fixField
-    | LegBenchmarkCurveCurrency fixField -> WriteLegBenchmarkCurveCurrency nextFreeIdx dest fixField
-    | LegBenchmarkCurveName fixField -> WriteLegBenchmarkCurveName nextFreeIdx dest fixField
-    | LegBenchmarkCurvePoint fixField -> WriteLegBenchmarkCurvePoint nextFreeIdx dest fixField
-    | LegBenchmarkPrice fixField -> WriteLegBenchmarkPrice nextFreeIdx dest fixField
-    | LegBenchmarkPriceType fixField -> WriteLegBenchmarkPriceType nextFreeIdx dest fixField
-    | LegBidPx fixField -> WriteLegBidPx nextFreeIdx dest fixField
-    | LegIOIQty fixField -> WriteLegIOIQty nextFreeIdx dest fixField
-    | NoLegStipulations fixField -> WriteNoLegStipulations nextFreeIdx dest fixField
-    | LegOfferPx fixField -> WriteLegOfferPx nextFreeIdx dest fixField
-    | LegOrderQty fixField -> WriteLegOrderQty nextFreeIdx dest fixField
-    | LegPriceType fixField -> WriteLegPriceType nextFreeIdx dest fixField
-    | LegQty fixField -> WriteLegQty nextFreeIdx dest fixField
-    | LegStipulationType fixField -> WriteLegStipulationType nextFreeIdx dest fixField
-    | LegStipulationValue fixField -> WriteLegStipulationValue nextFreeIdx dest fixField
-    | LegSwapType fixField -> WriteLegSwapType nextFreeIdx dest fixField
-    | Pool fixField -> WritePool nextFreeIdx dest fixField
-    | QuotePriceType fixField -> WriteQuotePriceType nextFreeIdx dest fixField
-    | QuoteRespID fixField -> WriteQuoteRespID nextFreeIdx dest fixField
-    | QuoteRespType fixField -> WriteQuoteRespType nextFreeIdx dest fixField
-    | QuoteQualifier fixField -> WriteQuoteQualifier nextFreeIdx dest fixField
-    | YieldRedemptionDate fixField -> WriteYieldRedemptionDate nextFreeIdx dest fixField
-    | YieldRedemptionPrice fixField -> WriteYieldRedemptionPrice nextFreeIdx dest fixField
-    | YieldRedemptionPriceType fixField -> WriteYieldRedemptionPriceType nextFreeIdx dest fixField
-    | BenchmarkSecurityID fixField -> WriteBenchmarkSecurityID nextFreeIdx dest fixField
-    | ReversalIndicator fixField -> WriteReversalIndicator nextFreeIdx dest fixField
-    | YieldCalcDate fixField -> WriteYieldCalcDate nextFreeIdx dest fixField
-    | NoPositions fixField -> WriteNoPositions nextFreeIdx dest fixField
-    | PosType fixField -> WritePosType nextFreeIdx dest fixField
-    | LongQty fixField -> WriteLongQty nextFreeIdx dest fixField
-    | ShortQty fixField -> WriteShortQty nextFreeIdx dest fixField
-    | PosQtyStatus fixField -> WritePosQtyStatus nextFreeIdx dest fixField
-    | PosAmtType fixField -> WritePosAmtType nextFreeIdx dest fixField
-    | PosAmt fixField -> WritePosAmt nextFreeIdx dest fixField
-    | PosTransType fixField -> WritePosTransType nextFreeIdx dest fixField
-    | PosReqID fixField -> WritePosReqID nextFreeIdx dest fixField
-    | NoUnderlyings fixField -> WriteNoUnderlyings nextFreeIdx dest fixField
-    | PosMaintAction fixField -> WritePosMaintAction nextFreeIdx dest fixField
-    | OrigPosReqRefID fixField -> WriteOrigPosReqRefID nextFreeIdx dest fixField
-    | PosMaintRptRefID fixField -> WritePosMaintRptRefID nextFreeIdx dest fixField
-    | ClearingBusinessDate fixField -> WriteClearingBusinessDate nextFreeIdx dest fixField
-    | SettlSessID fixField -> WriteSettlSessID nextFreeIdx dest fixField
-    | SettlSessSubID fixField -> WriteSettlSessSubID nextFreeIdx dest fixField
-    | AdjustmentType fixField -> WriteAdjustmentType nextFreeIdx dest fixField
-    | ContraryInstructionIndicator fixField -> WriteContraryInstructionIndicator nextFreeIdx dest fixField
-    | PriorSpreadIndicator fixField -> WritePriorSpreadIndicator nextFreeIdx dest fixField
-    | PosMaintRptID fixField -> WritePosMaintRptID nextFreeIdx dest fixField
-    | PosMaintStatus fixField -> WritePosMaintStatus nextFreeIdx dest fixField
-    | PosMaintResult fixField -> WritePosMaintResult nextFreeIdx dest fixField
-    | PosReqType fixField -> WritePosReqType nextFreeIdx dest fixField
-    | ResponseTransportType fixField -> WriteResponseTransportType nextFreeIdx dest fixField
-    | ResponseDestination fixField -> WriteResponseDestination nextFreeIdx dest fixField
-    | TotalNumPosReports fixField -> WriteTotalNumPosReports nextFreeIdx dest fixField
-    | PosReqResult fixField -> WritePosReqResult nextFreeIdx dest fixField
-    | PosReqStatus fixField -> WritePosReqStatus nextFreeIdx dest fixField
-    | SettlPrice fixField -> WriteSettlPrice nextFreeIdx dest fixField
-    | SettlPriceType fixField -> WriteSettlPriceType nextFreeIdx dest fixField
-    | UnderlyingSettlPrice fixField -> WriteUnderlyingSettlPrice nextFreeIdx dest fixField
-    | UnderlyingSettlPriceType fixField -> WriteUnderlyingSettlPriceType nextFreeIdx dest fixField
-    | PriorSettlPrice fixField -> WritePriorSettlPrice nextFreeIdx dest fixField
-    | NoQuoteQualifiers fixField -> WriteNoQuoteQualifiers nextFreeIdx dest fixField
-    | AllocSettlCurrency fixField -> WriteAllocSettlCurrency nextFreeIdx dest fixField
-    | AllocSettlCurrAmt fixField -> WriteAllocSettlCurrAmt nextFreeIdx dest fixField
-    | InterestAtMaturity fixField -> WriteInterestAtMaturity nextFreeIdx dest fixField
-    | LegDatedDate fixField -> WriteLegDatedDate nextFreeIdx dest fixField
-    | LegPool fixField -> WriteLegPool nextFreeIdx dest fixField
-    | AllocInterestAtMaturity fixField -> WriteAllocInterestAtMaturity nextFreeIdx dest fixField
-    | AllocAccruedInterestAmt fixField -> WriteAllocAccruedInterestAmt nextFreeIdx dest fixField
-    | DeliveryDate fixField -> WriteDeliveryDate nextFreeIdx dest fixField
-    | AssignmentMethod fixField -> WriteAssignmentMethod nextFreeIdx dest fixField
-    | AssignmentUnit fixField -> WriteAssignmentUnit nextFreeIdx dest fixField
-    | OpenInterest fixField -> WriteOpenInterest nextFreeIdx dest fixField
-    | ExerciseMethod fixField -> WriteExerciseMethod nextFreeIdx dest fixField
-    | TotNumTradeReports fixField -> WriteTotNumTradeReports nextFreeIdx dest fixField
-    | TradeRequestResult fixField -> WriteTradeRequestResult nextFreeIdx dest fixField
-    | TradeRequestStatus fixField -> WriteTradeRequestStatus nextFreeIdx dest fixField
-    | TradeReportRejectReason fixField -> WriteTradeReportRejectReason nextFreeIdx dest fixField
-    | SideMultiLegReportingType fixField -> WriteSideMultiLegReportingType nextFreeIdx dest fixField
-    | NoPosAmt fixField -> WriteNoPosAmt nextFreeIdx dest fixField
-    | AutoAcceptIndicator fixField -> WriteAutoAcceptIndicator nextFreeIdx dest fixField
-    | AllocReportID fixField -> WriteAllocReportID nextFreeIdx dest fixField
-    | NoNested2PartyIDs fixField -> WriteNoNested2PartyIDs nextFreeIdx dest fixField
-    | Nested2PartyID fixField -> WriteNested2PartyID nextFreeIdx dest fixField
-    | Nested2PartyIDSource fixField -> WriteNested2PartyIDSource nextFreeIdx dest fixField
-    | Nested2PartyRole fixField -> WriteNested2PartyRole nextFreeIdx dest fixField
-    | Nested2PartySubID fixField -> WriteNested2PartySubID nextFreeIdx dest fixField
-    | BenchmarkSecurityIDSource fixField -> WriteBenchmarkSecurityIDSource nextFreeIdx dest fixField
-    | SecuritySubType fixField -> WriteSecuritySubType nextFreeIdx dest fixField
-    | UnderlyingSecuritySubType fixField -> WriteUnderlyingSecuritySubType nextFreeIdx dest fixField
-    | LegSecuritySubType fixField -> WriteLegSecuritySubType nextFreeIdx dest fixField
-    | AllowableOneSidednessPct fixField -> WriteAllowableOneSidednessPct nextFreeIdx dest fixField
-    | AllowableOneSidednessValue fixField -> WriteAllowableOneSidednessValue nextFreeIdx dest fixField
-    | AllowableOneSidednessCurr fixField -> WriteAllowableOneSidednessCurr nextFreeIdx dest fixField
-    | NoTrdRegTimestamps fixField -> WriteNoTrdRegTimestamps nextFreeIdx dest fixField
-    | TrdRegTimestamp fixField -> WriteTrdRegTimestamp nextFreeIdx dest fixField
-    | TrdRegTimestampType fixField -> WriteTrdRegTimestampType nextFreeIdx dest fixField
-    | TrdRegTimestampOrigin fixField -> WriteTrdRegTimestampOrigin nextFreeIdx dest fixField
-    | ConfirmRefID fixField -> WriteConfirmRefID nextFreeIdx dest fixField
-    | ConfirmType fixField -> WriteConfirmType nextFreeIdx dest fixField
-    | ConfirmRejReason fixField -> WriteConfirmRejReason nextFreeIdx dest fixField
-    | BookingType fixField -> WriteBookingType nextFreeIdx dest fixField
-    | IndividualAllocRejCode fixField -> WriteIndividualAllocRejCode nextFreeIdx dest fixField
-    | SettlInstMsgID fixField -> WriteSettlInstMsgID nextFreeIdx dest fixField
-    | NoSettlInst fixField -> WriteNoSettlInst nextFreeIdx dest fixField
-    | LastUpdateTime fixField -> WriteLastUpdateTime nextFreeIdx dest fixField
-    | AllocSettlInstType fixField -> WriteAllocSettlInstType nextFreeIdx dest fixField
-    | NoSettlPartyIDs fixField -> WriteNoSettlPartyIDs nextFreeIdx dest fixField
-    | SettlPartyID fixField -> WriteSettlPartyID nextFreeIdx dest fixField
-    | SettlPartyIDSource fixField -> WriteSettlPartyIDSource nextFreeIdx dest fixField
-    | SettlPartyRole fixField -> WriteSettlPartyRole nextFreeIdx dest fixField
-    | SettlPartySubID fixField -> WriteSettlPartySubID nextFreeIdx dest fixField
-    | SettlPartySubIDType fixField -> WriteSettlPartySubIDType nextFreeIdx dest fixField
-    | DlvyInstType fixField -> WriteDlvyInstType nextFreeIdx dest fixField
-    | TerminationType fixField -> WriteTerminationType nextFreeIdx dest fixField
-    | NextExpectedMsgSeqNum fixField -> WriteNextExpectedMsgSeqNum nextFreeIdx dest fixField
-    | OrdStatusReqID fixField -> WriteOrdStatusReqID nextFreeIdx dest fixField
-    | SettlInstReqID fixField -> WriteSettlInstReqID nextFreeIdx dest fixField
-    | SettlInstReqRejCode fixField -> WriteSettlInstReqRejCode nextFreeIdx dest fixField
-    | SecondaryAllocID fixField -> WriteSecondaryAllocID nextFreeIdx dest fixField
-    | AllocReportType fixField -> WriteAllocReportType nextFreeIdx dest fixField
-    | AllocReportRefID fixField -> WriteAllocReportRefID nextFreeIdx dest fixField
-    | AllocCancReplaceReason fixField -> WriteAllocCancReplaceReason nextFreeIdx dest fixField
-    | CopyMsgIndicator fixField -> WriteCopyMsgIndicator nextFreeIdx dest fixField
-    | AllocAccountType fixField -> WriteAllocAccountType nextFreeIdx dest fixField
-    | OrderAvgPx fixField -> WriteOrderAvgPx nextFreeIdx dest fixField
-    | OrderBookingQty fixField -> WriteOrderBookingQty nextFreeIdx dest fixField
-    | NoSettlPartySubIDs fixField -> WriteNoSettlPartySubIDs nextFreeIdx dest fixField
-    | NoPartySubIDs fixField -> WriteNoPartySubIDs nextFreeIdx dest fixField
-    | PartySubIDType fixField -> WritePartySubIDType nextFreeIdx dest fixField
-    | NoNestedPartySubIDs fixField -> WriteNoNestedPartySubIDs nextFreeIdx dest fixField
-    | NestedPartySubIDType fixField -> WriteNestedPartySubIDType nextFreeIdx dest fixField
-    | NoNested2PartySubIDs fixField -> WriteNoNested2PartySubIDs nextFreeIdx dest fixField
-    | Nested2PartySubIDType fixField -> WriteNested2PartySubIDType nextFreeIdx dest fixField
-    | AllocIntermedReqType fixField -> WriteAllocIntermedReqType nextFreeIdx dest fixField
-    | UnderlyingPx fixField -> WriteUnderlyingPx nextFreeIdx dest fixField
-    | PriceDelta fixField -> WritePriceDelta nextFreeIdx dest fixField
-    | ApplQueueMax fixField -> WriteApplQueueMax nextFreeIdx dest fixField
-    | ApplQueueDepth fixField -> WriteApplQueueDepth nextFreeIdx dest fixField
-    | ApplQueueResolution fixField -> WriteApplQueueResolution nextFreeIdx dest fixField
-    | ApplQueueAction fixField -> WriteApplQueueAction nextFreeIdx dest fixField
-    | NoAltMDSource fixField -> WriteNoAltMDSource nextFreeIdx dest fixField
-    | AltMDSourceID fixField -> WriteAltMDSourceID nextFreeIdx dest fixField
-    | SecondaryTradeReportID fixField -> WriteSecondaryTradeReportID nextFreeIdx dest fixField
-    | AvgPxIndicator fixField -> WriteAvgPxIndicator nextFreeIdx dest fixField
-    | TradeLinkID fixField -> WriteTradeLinkID nextFreeIdx dest fixField
-    | OrderInputDevice fixField -> WriteOrderInputDevice nextFreeIdx dest fixField
-    | UnderlyingTradingSessionID fixField -> WriteUnderlyingTradingSessionID nextFreeIdx dest fixField
-    | UnderlyingTradingSessionSubID fixField -> WriteUnderlyingTradingSessionSubID nextFreeIdx dest fixField
-    | TradeLegRefID fixField -> WriteTradeLegRefID nextFreeIdx dest fixField
-    | ExchangeRule fixField -> WriteExchangeRule nextFreeIdx dest fixField
-    | TradeAllocIndicator fixField -> WriteTradeAllocIndicator nextFreeIdx dest fixField
-    | ExpirationCycle fixField -> WriteExpirationCycle nextFreeIdx dest fixField
-    | TrdType fixField -> WriteTrdType nextFreeIdx dest fixField
-    | TrdSubType fixField -> WriteTrdSubType nextFreeIdx dest fixField
-    | TransferReason fixField -> WriteTransferReason nextFreeIdx dest fixField
-    | AsgnReqID fixField -> WriteAsgnReqID nextFreeIdx dest fixField
-    | TotNumAssignmentReports fixField -> WriteTotNumAssignmentReports nextFreeIdx dest fixField
-    | AsgnRptID fixField -> WriteAsgnRptID nextFreeIdx dest fixField
-    | ThresholdAmount fixField -> WriteThresholdAmount nextFreeIdx dest fixField
-    | PegMoveType fixField -> WritePegMoveType nextFreeIdx dest fixField
-    | PegOffsetType fixField -> WritePegOffsetType nextFreeIdx dest fixField
-    | PegLimitType fixField -> WritePegLimitType nextFreeIdx dest fixField
-    | PegRoundDirection fixField -> WritePegRoundDirection nextFreeIdx dest fixField
-    | PeggedPrice fixField -> WritePeggedPrice nextFreeIdx dest fixField
-    | PegScope fixField -> WritePegScope nextFreeIdx dest fixField
-    | DiscretionMoveType fixField -> WriteDiscretionMoveType nextFreeIdx dest fixField
-    | DiscretionOffsetType fixField -> WriteDiscretionOffsetType nextFreeIdx dest fixField
-    | DiscretionLimitType fixField -> WriteDiscretionLimitType nextFreeIdx dest fixField
-    | DiscretionRoundDirection fixField -> WriteDiscretionRoundDirection nextFreeIdx dest fixField
-    | DiscretionPrice fixField -> WriteDiscretionPrice nextFreeIdx dest fixField
-    | DiscretionScope fixField -> WriteDiscretionScope nextFreeIdx dest fixField
-    | TargetStrategy fixField -> WriteTargetStrategy nextFreeIdx dest fixField
-    | TargetStrategyParameters fixField -> WriteTargetStrategyParameters nextFreeIdx dest fixField
-    | ParticipationRate fixField -> WriteParticipationRate nextFreeIdx dest fixField
-    | TargetStrategyPerformance fixField -> WriteTargetStrategyPerformance nextFreeIdx dest fixField
-    | LastLiquidityInd fixField -> WriteLastLiquidityInd nextFreeIdx dest fixField
-    | PublishTrdIndicator fixField -> WritePublishTrdIndicator nextFreeIdx dest fixField
-    | ShortSaleReason fixField -> WriteShortSaleReason nextFreeIdx dest fixField
-    | QtyType fixField -> WriteQtyType nextFreeIdx dest fixField
-    | SecondaryTrdType fixField -> WriteSecondaryTrdType nextFreeIdx dest fixField
-    | TradeReportType fixField -> WriteTradeReportType nextFreeIdx dest fixField
-    | AllocNoOrdersType fixField -> WriteAllocNoOrdersType nextFreeIdx dest fixField
-    | SharedCommission fixField -> WriteSharedCommission nextFreeIdx dest fixField
-    | ConfirmReqID fixField -> WriteConfirmReqID nextFreeIdx dest fixField
-    | AvgParPx fixField -> WriteAvgParPx nextFreeIdx dest fixField
-    | ReportedPx fixField -> WriteReportedPx nextFreeIdx dest fixField
-    | NoCapacities fixField -> WriteNoCapacities nextFreeIdx dest fixField
-    | OrderCapacityQty fixField -> WriteOrderCapacityQty nextFreeIdx dest fixField
-    | NoEvents fixField -> WriteNoEvents nextFreeIdx dest fixField
-    | EventType fixField -> WriteEventType nextFreeIdx dest fixField
-    | EventDate fixField -> WriteEventDate nextFreeIdx dest fixField
-    | EventPx fixField -> WriteEventPx nextFreeIdx dest fixField
-    | EventText fixField -> WriteEventText nextFreeIdx dest fixField
-    | PctAtRisk fixField -> WritePctAtRisk nextFreeIdx dest fixField
-    | NoInstrAttrib fixField -> WriteNoInstrAttrib nextFreeIdx dest fixField
-    | InstrAttribType fixField -> WriteInstrAttribType nextFreeIdx dest fixField
-    | InstrAttribValue fixField -> WriteInstrAttribValue nextFreeIdx dest fixField
-    | DatedDate fixField -> WriteDatedDate nextFreeIdx dest fixField
-    | InterestAccrualDate fixField -> WriteInterestAccrualDate nextFreeIdx dest fixField
-    | CPProgram fixField -> WriteCPProgram nextFreeIdx dest fixField
-    | CPRegType fixField -> WriteCPRegType nextFreeIdx dest fixField
-    | UnderlyingCPProgram fixField -> WriteUnderlyingCPProgram nextFreeIdx dest fixField
-    | UnderlyingCPRegType fixField -> WriteUnderlyingCPRegType nextFreeIdx dest fixField
-    | UnderlyingQty fixField -> WriteUnderlyingQty nextFreeIdx dest fixField
-    | TrdMatchID fixField -> WriteTrdMatchID nextFreeIdx dest fixField
-    | SecondaryTradeReportRefID fixField -> WriteSecondaryTradeReportRefID nextFreeIdx dest fixField
-    | UnderlyingDirtyPrice fixField -> WriteUnderlyingDirtyPrice nextFreeIdx dest fixField
-    | UnderlyingEndPrice fixField -> WriteUnderlyingEndPrice nextFreeIdx dest fixField
-    | UnderlyingStartValue fixField -> WriteUnderlyingStartValue nextFreeIdx dest fixField
-    | UnderlyingCurrentValue fixField -> WriteUnderlyingCurrentValue nextFreeIdx dest fixField
-    | UnderlyingEndValue fixField -> WriteUnderlyingEndValue nextFreeIdx dest fixField
-    | NoUnderlyingStips fixField -> WriteNoUnderlyingStips nextFreeIdx dest fixField
-    | UnderlyingStipType fixField -> WriteUnderlyingStipType nextFreeIdx dest fixField
-    | UnderlyingStipValue fixField -> WriteUnderlyingStipValue nextFreeIdx dest fixField
-    | MaturityNetMoney fixField -> WriteMaturityNetMoney nextFreeIdx dest fixField
-    | MiscFeeBasis fixField -> WriteMiscFeeBasis nextFreeIdx dest fixField
-    | TotNoAllocs fixField -> WriteTotNoAllocs nextFreeIdx dest fixField
-    | LastFragment fixField -> WriteLastFragment nextFreeIdx dest fixField
-    | CollReqID fixField -> WriteCollReqID nextFreeIdx dest fixField
-    | CollAsgnReason fixField -> WriteCollAsgnReason nextFreeIdx dest fixField
-    | CollInquiryQualifier fixField -> WriteCollInquiryQualifier nextFreeIdx dest fixField
-    | NoTrades fixField -> WriteNoTrades nextFreeIdx dest fixField
-    | MarginRatio fixField -> WriteMarginRatio nextFreeIdx dest fixField
-    | MarginExcess fixField -> WriteMarginExcess nextFreeIdx dest fixField
-    | TotalNetValue fixField -> WriteTotalNetValue nextFreeIdx dest fixField
-    | CashOutstanding fixField -> WriteCashOutstanding nextFreeIdx dest fixField
-    | CollAsgnID fixField -> WriteCollAsgnID nextFreeIdx dest fixField
-    | CollAsgnTransType fixField -> WriteCollAsgnTransType nextFreeIdx dest fixField
-    | CollRespID fixField -> WriteCollRespID nextFreeIdx dest fixField
-    | CollAsgnRespType fixField -> WriteCollAsgnRespType nextFreeIdx dest fixField
-    | CollAsgnRejectReason fixField -> WriteCollAsgnRejectReason nextFreeIdx dest fixField
-    | CollAsgnRefID fixField -> WriteCollAsgnRefID nextFreeIdx dest fixField
-    | CollRptID fixField -> WriteCollRptID nextFreeIdx dest fixField
-    | CollInquiryID fixField -> WriteCollInquiryID nextFreeIdx dest fixField
-    | CollStatus fixField -> WriteCollStatus nextFreeIdx dest fixField
-    | TotNumReports fixField -> WriteTotNumReports nextFreeIdx dest fixField
-    | LastRptRequested fixField -> WriteLastRptRequested nextFreeIdx dest fixField
-    | AgreementDesc fixField -> WriteAgreementDesc nextFreeIdx dest fixField
-    | AgreementID fixField -> WriteAgreementID nextFreeIdx dest fixField
-    | AgreementDate fixField -> WriteAgreementDate nextFreeIdx dest fixField
-    | StartDate fixField -> WriteStartDate nextFreeIdx dest fixField
-    | EndDate fixField -> WriteEndDate nextFreeIdx dest fixField
-    | AgreementCurrency fixField -> WriteAgreementCurrency nextFreeIdx dest fixField
-    | DeliveryType fixField -> WriteDeliveryType nextFreeIdx dest fixField
-    | EndAccruedInterestAmt fixField -> WriteEndAccruedInterestAmt nextFreeIdx dest fixField
-    | StartCash fixField -> WriteStartCash nextFreeIdx dest fixField
-    | EndCash fixField -> WriteEndCash nextFreeIdx dest fixField
-    | UserRequestID fixField -> WriteUserRequestID nextFreeIdx dest fixField
-    | UserRequestType fixField -> WriteUserRequestType nextFreeIdx dest fixField
-    | NewPassword fixField -> WriteNewPassword nextFreeIdx dest fixField
-    | UserStatus fixField -> WriteUserStatus nextFreeIdx dest fixField
-    | UserStatusText fixField -> WriteUserStatusText nextFreeIdx dest fixField
-    | StatusValue fixField -> WriteStatusValue nextFreeIdx dest fixField
-    | StatusText fixField -> WriteStatusText nextFreeIdx dest fixField
-    | RefCompID fixField -> WriteRefCompID nextFreeIdx dest fixField
-    | RefSubID fixField -> WriteRefSubID nextFreeIdx dest fixField
-    | NetworkResponseID fixField -> WriteNetworkResponseID nextFreeIdx dest fixField
-    | NetworkRequestID fixField -> WriteNetworkRequestID nextFreeIdx dest fixField
-    | LastNetworkResponseID fixField -> WriteLastNetworkResponseID nextFreeIdx dest fixField
-    | NetworkRequestType fixField -> WriteNetworkRequestType nextFreeIdx dest fixField
-    | NoCompIDs fixField -> WriteNoCompIDs nextFreeIdx dest fixField
-    | NetworkStatusResponseType fixField -> WriteNetworkStatusResponseType nextFreeIdx dest fixField
-    | NoCollInquiryQualifier fixField -> WriteNoCollInquiryQualifier nextFreeIdx dest fixField
-    | TrdRptStatus fixField -> WriteTrdRptStatus nextFreeIdx dest fixField
-    | AffirmStatus fixField -> WriteAffirmStatus nextFreeIdx dest fixField
-    | UnderlyingStrikeCurrency fixField -> WriteUnderlyingStrikeCurrency nextFreeIdx dest fixField
-    | LegStrikeCurrency fixField -> WriteLegStrikeCurrency nextFreeIdx dest fixField
-    | TimeBracket fixField -> WriteTimeBracket nextFreeIdx dest fixField
-    | CollAction fixField -> WriteCollAction nextFreeIdx dest fixField
-    | CollInquiryStatus fixField -> WriteCollInquiryStatus nextFreeIdx dest fixField
-    | CollInquiryResult fixField -> WriteCollInquiryResult nextFreeIdx dest fixField
-    | StrikeCurrency fixField -> WriteStrikeCurrency nextFreeIdx dest fixField
-    | NoNested3PartyIDs fixField -> WriteNoNested3PartyIDs nextFreeIdx dest fixField
-    | Nested3PartyID fixField -> WriteNested3PartyID nextFreeIdx dest fixField
-    | Nested3PartyIDSource fixField -> WriteNested3PartyIDSource nextFreeIdx dest fixField
-    | Nested3PartyRole fixField -> WriteNested3PartyRole nextFreeIdx dest fixField
-    | NoNested3PartySubIDs fixField -> WriteNoNested3PartySubIDs nextFreeIdx dest fixField
-    | Nested3PartySubID fixField -> WriteNested3PartySubID nextFreeIdx dest fixField
-    | Nested3PartySubIDType fixField -> WriteNested3PartySubIDType nextFreeIdx dest fixField
-    | LegContractSettlMonth fixField -> WriteLegContractSettlMonth nextFreeIdx dest fixField
-    | LegInterestAccrualDate fixField -> WriteLegInterestAccrualDate nextFreeIdx dest fixField
-
-
-// todo consider replacing ReadFields match statement with lookup in a map
-let ReadField (strm:Stream) =
-    let ss = CrapReadUntilDelim strm // todo: replace with something efficient
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    let fld =    
-        match tag with
-        | "1" -> ReadAccount raw |> FIXField.Account
-        | "2" -> ReadAdvId raw |> FIXField.AdvId
-        | "3" -> ReadAdvRefID raw |> FIXField.AdvRefID
-        | "4" -> ReadAdvSide raw |> FIXField.AdvSide
-        | "5" -> ReadAdvTransType raw |> FIXField.AdvTransType
-        | "6" -> ReadAvgPx raw |> FIXField.AvgPx
-        | "7" -> ReadBeginSeqNo raw |> FIXField.BeginSeqNo
-        | "8" -> ReadBeginString raw |> FIXField.BeginString
-        | "9" -> ReadBodyLength raw |> FIXField.BodyLength
-        | "10" -> ReadCheckSum raw |> FIXField.CheckSum
-        | "11" -> ReadClOrdID raw |> FIXField.ClOrdID
-        | "12" -> ReadCommission raw |> FIXField.Commission
-        | "13" -> ReadCommType raw |> FIXField.CommType
-        | "14" -> ReadCumQty raw |> FIXField.CumQty
-        | "15" -> ReadCurrency raw |> FIXField.Currency
-        | "16" -> ReadEndSeqNo raw |> FIXField.EndSeqNo
-        | "17" -> ReadExecID raw |> FIXField.ExecID
-        | "18" -> ReadExecInst raw |> FIXField.ExecInst
-        | "19" -> ReadExecRefID raw |> FIXField.ExecRefID
-        | "21" -> ReadHandlInst raw |> FIXField.HandlInst
-        | "22" -> ReadSecurityIDSource raw |> FIXField.SecurityIDSource
-        | "23" -> ReadIOIid raw |> FIXField.IOIid
-        | "25" -> ReadIOIQltyInd raw |> FIXField.IOIQltyInd
-        | "26" -> ReadIOIRefID raw |> FIXField.IOIRefID
-        | "27" -> ReadIOIQty raw |> FIXField.IOIQty
-        | "28" -> ReadIOITransType raw |> FIXField.IOITransType
-        | "29" -> ReadLastCapacity raw |> FIXField.LastCapacity
-        | "30" -> ReadLastMkt raw |> FIXField.LastMkt
-        | "31" -> ReadLastPx raw |> FIXField.LastPx
-        | "32" -> ReadLastQty raw |> FIXField.LastQty
-        | "33" -> ReadLinesOfText raw |> FIXField.LinesOfText
-        | "34" -> ReadMsgSeqNum raw |> FIXField.MsgSeqNum
-        | "35" -> ReadMsgType raw |> FIXField.MsgType
-        | "36" -> ReadNewSeqNo raw |> FIXField.NewSeqNo
-        | "37" -> ReadOrderID raw |> FIXField.OrderID
-        | "38" -> ReadOrderQty raw |> FIXField.OrderQty
-        | "39" -> ReadOrdStatus raw |> FIXField.OrdStatus
-        | "40" -> ReadOrdType raw |> FIXField.OrdType
-        | "41" -> ReadOrigClOrdID raw |> FIXField.OrigClOrdID
-        | "42" -> ReadOrigTime raw |> FIXField.OrigTime
-        | "43" -> ReadPossDupFlag raw |> FIXField.PossDupFlag
-        | "44" -> ReadPrice raw |> FIXField.Price
-        | "45" -> ReadRefSeqNum raw |> FIXField.RefSeqNum
-        | "48" -> ReadSecurityID raw |> FIXField.SecurityID
-        | "49" -> ReadSenderCompID raw |> FIXField.SenderCompID
-        | "50" -> ReadSenderSubID raw |> FIXField.SenderSubID
-        | "52" -> ReadSendingTime raw |> FIXField.SendingTime
-        | "53" -> ReadQuantity raw |> FIXField.Quantity
-        | "54" -> ReadSide raw |> FIXField.Side
-        | "55" -> ReadSymbol raw |> FIXField.Symbol
-        | "56" -> ReadTargetCompID raw |> FIXField.TargetCompID
-        | "57" -> ReadTargetSubID raw |> FIXField.TargetSubID
-        | "58" -> ReadText raw |> FIXField.Text
-        | "59" -> ReadTimeInForce raw |> FIXField.TimeInForce
-        | "60" -> ReadTransactTime raw |> FIXField.TransactTime
-        | "61" -> ReadUrgency raw |> FIXField.Urgency
-        | "62" -> ReadValidUntilTime raw |> FIXField.ValidUntilTime
-        | "63" -> ReadSettlType raw |> FIXField.SettlType
-        | "64" -> ReadSettlDate raw |> FIXField.SettlDate
-        | "65" -> ReadSymbolSfx raw |> FIXField.SymbolSfx
-        | "66" -> ReadListID raw |> FIXField.ListID
-        | "67" -> ReadListSeqNo raw |> FIXField.ListSeqNo
-        | "68" -> ReadTotNoOrders raw |> FIXField.TotNoOrders
-        | "69" -> ReadListExecInst raw |> FIXField.ListExecInst
-        | "70" -> ReadAllocID raw |> FIXField.AllocID
-        | "71" -> ReadAllocTransType raw |> FIXField.AllocTransType
-        | "72" -> ReadRefAllocID raw |> FIXField.RefAllocID
-        | "73" -> ReadNoOrders raw |> FIXField.NoOrders
-        | "74" -> ReadAvgPxPrecision raw |> FIXField.AvgPxPrecision
-        | "75" -> ReadTradeDate raw |> FIXField.TradeDate
-        | "77" -> ReadPositionEffect raw |> FIXField.PositionEffect
-        | "78" -> ReadNoAllocs raw |> FIXField.NoAllocs
-        | "79" -> ReadAllocAccount raw |> FIXField.AllocAccount
-        | "80" -> ReadAllocQty raw |> FIXField.AllocQty
-        | "81" -> ReadProcessCode raw |> FIXField.ProcessCode
-        | "82" -> ReadNoRpts raw |> FIXField.NoRpts
-        | "83" -> ReadRptSeq raw |> FIXField.RptSeq
-        | "84" -> ReadCxlQty raw |> FIXField.CxlQty
-        | "85" -> ReadNoDlvyInst raw |> FIXField.NoDlvyInst
-        | "87" -> ReadAllocStatus raw |> FIXField.AllocStatus
-        | "88" -> ReadAllocRejCode raw |> FIXField.AllocRejCode
-        | "89" -> ReadSignature raw |> FIXField.Signature
-        | "90" -> ReadSecureData raw strm|> FIXField.SecureData // len->string compound field
-        | "93" -> ReadSignatureLength raw |> FIXField.SignatureLength
-        | "94" -> ReadEmailType raw |> FIXField.EmailType
-        | "95" -> ReadRawDataLength raw |> FIXField.RawDataLength
-        | "96" -> ReadRawData raw |> FIXField.RawData
-        | "97" -> ReadPossResend raw |> FIXField.PossResend
-        | "98" -> ReadEncryptMethod raw |> FIXField.EncryptMethod
-        | "99" -> ReadStopPx raw |> FIXField.StopPx
-        | "100" -> ReadExDestination raw |> FIXField.ExDestination
-        | "102" -> ReadCxlRejReason raw |> FIXField.CxlRejReason
-        | "103" -> ReadOrdRejReason raw |> FIXField.OrdRejReason
-        | "104" -> ReadIOIQualifier raw |> FIXField.IOIQualifier
-        | "105" -> ReadWaveNo raw |> FIXField.WaveNo
-        | "106" -> ReadIssuer raw |> FIXField.Issuer
-        | "107" -> ReadSecurityDesc raw |> FIXField.SecurityDesc
-        | "108" -> ReadHeartBtInt raw |> FIXField.HeartBtInt
-        | "110" -> ReadMinQty raw |> FIXField.MinQty
-        | "111" -> ReadMaxFloor raw |> FIXField.MaxFloor
-        | "112" -> ReadTestReqID raw |> FIXField.TestReqID
-        | "113" -> ReadReportToExch raw |> FIXField.ReportToExch
-        | "114" -> ReadLocateReqd raw |> FIXField.LocateReqd
-        | "115" -> ReadOnBehalfOfCompID raw |> FIXField.OnBehalfOfCompID
-        | "116" -> ReadOnBehalfOfSubID raw |> FIXField.OnBehalfOfSubID
-        | "117" -> ReadQuoteID raw |> FIXField.QuoteID
-        | "118" -> ReadNetMoney raw |> FIXField.NetMoney
-        | "119" -> ReadSettlCurrAmt raw |> FIXField.SettlCurrAmt
-        | "120" -> ReadSettlCurrency raw |> FIXField.SettlCurrency
-        | "121" -> ReadForexReq raw |> FIXField.ForexReq
-        | "122" -> ReadOrigSendingTime raw |> FIXField.OrigSendingTime
-        | "123" -> ReadGapFillFlag raw |> FIXField.GapFillFlag
-        | "124" -> ReadNoExecs raw |> FIXField.NoExecs
-        | "126" -> ReadExpireTime raw |> FIXField.ExpireTime
-        | "127" -> ReadDKReason raw |> FIXField.DKReason
-        | "128" -> ReadDeliverToCompID raw |> FIXField.DeliverToCompID
-        | "129" -> ReadDeliverToSubID raw |> FIXField.DeliverToSubID
-        | "130" -> ReadIOINaturalFlag raw |> FIXField.IOINaturalFlag
-        | "131" -> ReadQuoteReqID raw |> FIXField.QuoteReqID
-        | "132" -> ReadBidPx raw |> FIXField.BidPx
-        | "133" -> ReadOfferPx raw |> FIXField.OfferPx
-        | "134" -> ReadBidSize raw |> FIXField.BidSize
-        | "135" -> ReadOfferSize raw |> FIXField.OfferSize
-        | "136" -> ReadNoMiscFees raw |> FIXField.NoMiscFees
-        | "137" -> ReadMiscFeeAmt raw |> FIXField.MiscFeeAmt
-        | "138" -> ReadMiscFeeCurr raw |> FIXField.MiscFeeCurr
-        | "139" -> ReadMiscFeeType raw |> FIXField.MiscFeeType
-        | "140" -> ReadPrevClosePx raw |> FIXField.PrevClosePx
-        | "141" -> ReadResetSeqNumFlag raw |> FIXField.ResetSeqNumFlag
-        | "142" -> ReadSenderLocationID raw |> FIXField.SenderLocationID
-        | "143" -> ReadTargetLocationID raw |> FIXField.TargetLocationID
-        | "144" -> ReadOnBehalfOfLocationID raw |> FIXField.OnBehalfOfLocationID
-        | "145" -> ReadDeliverToLocationID raw |> FIXField.DeliverToLocationID
-        | "146" -> ReadNoRelatedSym raw |> FIXField.NoRelatedSym
-        | "147" -> ReadSubject raw |> FIXField.Subject
-        | "148" -> ReadHeadline raw |> FIXField.Headline
-        | "149" -> ReadURLLink raw |> FIXField.URLLink
-        | "150" -> ReadExecType raw |> FIXField.ExecType
-        | "151" -> ReadLeavesQty raw |> FIXField.LeavesQty
-        | "152" -> ReadCashOrderQty raw |> FIXField.CashOrderQty
-        | "153" -> ReadAllocAvgPx raw |> FIXField.AllocAvgPx
-        | "154" -> ReadAllocNetMoney raw |> FIXField.AllocNetMoney
-        | "155" -> ReadSettlCurrFxRate raw |> FIXField.SettlCurrFxRate
-        | "156" -> ReadSettlCurrFxRateCalc raw |> FIXField.SettlCurrFxRateCalc
-        | "157" -> ReadNumDaysInterest raw |> FIXField.NumDaysInterest
-        | "158" -> ReadAccruedInterestRate raw |> FIXField.AccruedInterestRate
-        | "159" -> ReadAccruedInterestAmt raw |> FIXField.AccruedInterestAmt
-        | "160" -> ReadSettlInstMode raw |> FIXField.SettlInstMode
-        | "161" -> ReadAllocText raw |> FIXField.AllocText
-        | "162" -> ReadSettlInstID raw |> FIXField.SettlInstID
-        | "163" -> ReadSettlInstTransType raw |> FIXField.SettlInstTransType
-        | "164" -> ReadEmailThreadID raw |> FIXField.EmailThreadID
-        | "165" -> ReadSettlInstSource raw |> FIXField.SettlInstSource
-        | "167" -> ReadSecurityType raw |> FIXField.SecurityType
-        | "168" -> ReadEffectiveTime raw |> FIXField.EffectiveTime
-        | "169" -> ReadStandInstDbType raw |> FIXField.StandInstDbType
-        | "170" -> ReadStandInstDbName raw |> FIXField.StandInstDbName
-        | "171" -> ReadStandInstDbID raw |> FIXField.StandInstDbID
-        | "172" -> ReadSettlDeliveryType raw |> FIXField.SettlDeliveryType
-        | "188" -> ReadBidSpotRate raw |> FIXField.BidSpotRate
-        | "189" -> ReadBidForwardPoints raw |> FIXField.BidForwardPoints
-        | "190" -> ReadOfferSpotRate raw |> FIXField.OfferSpotRate
-        | "191" -> ReadOfferForwardPoints raw |> FIXField.OfferForwardPoints
-        | "192" -> ReadOrderQty2 raw |> FIXField.OrderQty2
-        | "193" -> ReadSettlDate2 raw |> FIXField.SettlDate2
-        | "194" -> ReadLastSpotRate raw |> FIXField.LastSpotRate
-        | "195" -> ReadLastForwardPoints raw |> FIXField.LastForwardPoints
-        | "196" -> ReadAllocLinkID raw |> FIXField.AllocLinkID
-        | "197" -> ReadAllocLinkType raw |> FIXField.AllocLinkType
-        | "198" -> ReadSecondaryOrderID raw |> FIXField.SecondaryOrderID
-        | "199" -> ReadNoIOIQualifiers raw |> FIXField.NoIOIQualifiers
-        | "200" -> ReadMaturityMonthYear raw |> FIXField.MaturityMonthYear
-        | "201" -> ReadPutOrCall raw |> FIXField.PutOrCall
-        | "202" -> ReadStrikePrice raw |> FIXField.StrikePrice
-        | "203" -> ReadCoveredOrUncovered raw |> FIXField.CoveredOrUncovered
-        | "206" -> ReadOptAttribute raw |> FIXField.OptAttribute
-        | "207" -> ReadSecurityExchange raw |> FIXField.SecurityExchange
-        | "208" -> ReadNotifyBrokerOfCredit raw |> FIXField.NotifyBrokerOfCredit
-        | "209" -> ReadAllocHandlInst raw |> FIXField.AllocHandlInst
-        | "210" -> ReadMaxShow raw |> FIXField.MaxShow
-        | "211" -> ReadPegOffsetValue raw |> FIXField.PegOffsetValue
-        | "212" -> ReadXmlData raw strm|> FIXField.XmlData // len->string compound field
-        | "214" -> ReadSettlInstRefID raw |> FIXField.SettlInstRefID
-        | "215" -> ReadNoRoutingIDs raw |> FIXField.NoRoutingIDs
-        | "216" -> ReadRoutingType raw |> FIXField.RoutingType
-        | "217" -> ReadRoutingID raw |> FIXField.RoutingID
-        | "218" -> ReadSpread raw |> FIXField.Spread
-        | "220" -> ReadBenchmarkCurveCurrency raw |> FIXField.BenchmarkCurveCurrency
-        | "221" -> ReadBenchmarkCurveName raw |> FIXField.BenchmarkCurveName
-        | "222" -> ReadBenchmarkCurvePoint raw |> FIXField.BenchmarkCurvePoint
-        | "223" -> ReadCouponRate raw |> FIXField.CouponRate
-        | "224" -> ReadCouponPaymentDate raw |> FIXField.CouponPaymentDate
-        | "225" -> ReadIssueDate raw |> FIXField.IssueDate
-        | "226" -> ReadRepurchaseTerm raw |> FIXField.RepurchaseTerm
-        | "227" -> ReadRepurchaseRate raw |> FIXField.RepurchaseRate
-        | "228" -> ReadFactor raw |> FIXField.Factor
-        | "229" -> ReadTradeOriginationDate raw |> FIXField.TradeOriginationDate
-        | "230" -> ReadExDate raw |> FIXField.ExDate
-        | "231" -> ReadContractMultiplier raw |> FIXField.ContractMultiplier
-        | "232" -> ReadNoStipulations raw |> FIXField.NoStipulations
-        | "233" -> ReadStipulationType raw |> FIXField.StipulationType
-        | "234" -> ReadStipulationValue raw |> FIXField.StipulationValue
-        | "235" -> ReadYieldType raw |> FIXField.YieldType
-        | "236" -> ReadYield raw |> FIXField.Yield
-        | "237" -> ReadTotalTakedown raw |> FIXField.TotalTakedown
-        | "238" -> ReadConcession raw |> FIXField.Concession
-        | "239" -> ReadRepoCollateralSecurityType raw |> FIXField.RepoCollateralSecurityType
-        | "240" -> ReadRedemptionDate raw |> FIXField.RedemptionDate
-        | "241" -> ReadUnderlyingCouponPaymentDate raw |> FIXField.UnderlyingCouponPaymentDate
-        | "242" -> ReadUnderlyingIssueDate raw |> FIXField.UnderlyingIssueDate
-        | "243" -> ReadUnderlyingRepoCollateralSecurityType raw |> FIXField.UnderlyingRepoCollateralSecurityType
-        | "244" -> ReadUnderlyingRepurchaseTerm raw |> FIXField.UnderlyingRepurchaseTerm
-        | "245" -> ReadUnderlyingRepurchaseRate raw |> FIXField.UnderlyingRepurchaseRate
-        | "246" -> ReadUnderlyingFactor raw |> FIXField.UnderlyingFactor
-        | "247" -> ReadUnderlyingRedemptionDate raw |> FIXField.UnderlyingRedemptionDate
-        | "248" -> ReadLegCouponPaymentDate raw |> FIXField.LegCouponPaymentDate
-        | "249" -> ReadLegIssueDate raw |> FIXField.LegIssueDate
-        | "250" -> ReadLegRepoCollateralSecurityType raw |> FIXField.LegRepoCollateralSecurityType
-        | "251" -> ReadLegRepurchaseTerm raw |> FIXField.LegRepurchaseTerm
-        | "252" -> ReadLegRepurchaseRate raw |> FIXField.LegRepurchaseRate
-        | "253" -> ReadLegFactor raw |> FIXField.LegFactor
-        | "254" -> ReadLegRedemptionDate raw |> FIXField.LegRedemptionDate
-        | "255" -> ReadCreditRating raw |> FIXField.CreditRating
-        | "256" -> ReadUnderlyingCreditRating raw |> FIXField.UnderlyingCreditRating
-        | "257" -> ReadLegCreditRating raw |> FIXField.LegCreditRating
-        | "258" -> ReadTradedFlatSwitch raw |> FIXField.TradedFlatSwitch
-        | "259" -> ReadBasisFeatureDate raw |> FIXField.BasisFeatureDate
-        | "260" -> ReadBasisFeaturePrice raw |> FIXField.BasisFeaturePrice
-        | "262" -> ReadMDReqID raw |> FIXField.MDReqID
-        | "263" -> ReadSubscriptionRequestType raw |> FIXField.SubscriptionRequestType
-        | "264" -> ReadMarketDepth raw |> FIXField.MarketDepth
-        | "265" -> ReadMDUpdateType raw |> FIXField.MDUpdateType
-        | "266" -> ReadAggregatedBook raw |> FIXField.AggregatedBook
-        | "267" -> ReadNoMDEntryTypes raw |> FIXField.NoMDEntryTypes
-        | "268" -> ReadNoMDEntries raw |> FIXField.NoMDEntries
-        | "269" -> ReadMDEntryType raw |> FIXField.MDEntryType
-        | "270" -> ReadMDEntryPx raw |> FIXField.MDEntryPx
-        | "271" -> ReadMDEntrySize raw |> FIXField.MDEntrySize
-        | "272" -> ReadMDEntryDate raw |> FIXField.MDEntryDate
-        | "273" -> ReadMDEntryTime raw |> FIXField.MDEntryTime
-        | "274" -> ReadTickDirection raw |> FIXField.TickDirection
-        | "275" -> ReadMDMkt raw |> FIXField.MDMkt
-        | "276" -> ReadQuoteCondition raw |> FIXField.QuoteCondition
-        | "277" -> ReadTradeCondition raw |> FIXField.TradeCondition
-        | "278" -> ReadMDEntryID raw |> FIXField.MDEntryID
-        | "279" -> ReadMDUpdateAction raw |> FIXField.MDUpdateAction
-        | "280" -> ReadMDEntryRefID raw |> FIXField.MDEntryRefID
-        | "281" -> ReadMDReqRejReason raw |> FIXField.MDReqRejReason
-        | "282" -> ReadMDEntryOriginator raw |> FIXField.MDEntryOriginator
-        | "283" -> ReadLocationID raw |> FIXField.LocationID
-        | "284" -> ReadDeskID raw |> FIXField.DeskID
-        | "285" -> ReadDeleteReason raw |> FIXField.DeleteReason
-        | "286" -> ReadOpenCloseSettlFlag raw |> FIXField.OpenCloseSettlFlag
-        | "287" -> ReadSellerDays raw |> FIXField.SellerDays
-        | "288" -> ReadMDEntryBuyer raw |> FIXField.MDEntryBuyer
-        | "289" -> ReadMDEntrySeller raw |> FIXField.MDEntrySeller
-        | "290" -> ReadMDEntryPositionNo raw |> FIXField.MDEntryPositionNo
-        | "291" -> ReadFinancialStatus raw |> FIXField.FinancialStatus
-        | "292" -> ReadCorporateAction raw |> FIXField.CorporateAction
-        | "293" -> ReadDefBidSize raw |> FIXField.DefBidSize
-        | "294" -> ReadDefOfferSize raw |> FIXField.DefOfferSize
-        | "295" -> ReadNoQuoteEntries raw |> FIXField.NoQuoteEntries
-        | "296" -> ReadNoQuoteSets raw |> FIXField.NoQuoteSets
-        | "297" -> ReadQuoteStatus raw |> FIXField.QuoteStatus
-        | "298" -> ReadQuoteCancelType raw |> FIXField.QuoteCancelType
-        | "299" -> ReadQuoteEntryID raw |> FIXField.QuoteEntryID
-        | "300" -> ReadQuoteRejectReason raw |> FIXField.QuoteRejectReason
-        | "301" -> ReadQuoteResponseLevel raw |> FIXField.QuoteResponseLevel
-        | "302" -> ReadQuoteSetID raw |> FIXField.QuoteSetID
-        | "303" -> ReadQuoteRequestType raw |> FIXField.QuoteRequestType
-        | "304" -> ReadTotNoQuoteEntries raw |> FIXField.TotNoQuoteEntries
-        | "305" -> ReadUnderlyingSecurityIDSource raw |> FIXField.UnderlyingSecurityIDSource
-        | "306" -> ReadUnderlyingIssuer raw |> FIXField.UnderlyingIssuer
-        | "307" -> ReadUnderlyingSecurityDesc raw |> FIXField.UnderlyingSecurityDesc
-        | "308" -> ReadUnderlyingSecurityExchange raw |> FIXField.UnderlyingSecurityExchange
-        | "309" -> ReadUnderlyingSecurityID raw |> FIXField.UnderlyingSecurityID
-        | "310" -> ReadUnderlyingSecurityType raw |> FIXField.UnderlyingSecurityType
-        | "311" -> ReadUnderlyingSymbol raw |> FIXField.UnderlyingSymbol
-        | "312" -> ReadUnderlyingSymbolSfx raw |> FIXField.UnderlyingSymbolSfx
-        | "313" -> ReadUnderlyingMaturityMonthYear raw |> FIXField.UnderlyingMaturityMonthYear
-        | "315" -> ReadUnderlyingPutOrCall raw |> FIXField.UnderlyingPutOrCall
-        | "316" -> ReadUnderlyingStrikePrice raw |> FIXField.UnderlyingStrikePrice
-        | "317" -> ReadUnderlyingOptAttribute raw |> FIXField.UnderlyingOptAttribute
-        | "318" -> ReadUnderlyingCurrency raw |> FIXField.UnderlyingCurrency
-        | "320" -> ReadSecurityReqID raw |> FIXField.SecurityReqID
-        | "321" -> ReadSecurityRequestType raw |> FIXField.SecurityRequestType
-        | "322" -> ReadSecurityResponseID raw |> FIXField.SecurityResponseID
-        | "323" -> ReadSecurityResponseType raw |> FIXField.SecurityResponseType
-        | "324" -> ReadSecurityStatusReqID raw |> FIXField.SecurityStatusReqID
-        | "325" -> ReadUnsolicitedIndicator raw |> FIXField.UnsolicitedIndicator
-        | "326" -> ReadSecurityTradingStatus raw |> FIXField.SecurityTradingStatus
-        | "327" -> ReadHaltReason raw |> FIXField.HaltReason
-        | "328" -> ReadInViewOfCommon raw |> FIXField.InViewOfCommon
-        | "329" -> ReadDueToRelated raw |> FIXField.DueToRelated
-        | "330" -> ReadBuyVolume raw |> FIXField.BuyVolume
-        | "331" -> ReadSellVolume raw |> FIXField.SellVolume
-        | "332" -> ReadHighPx raw |> FIXField.HighPx
-        | "333" -> ReadLowPx raw |> FIXField.LowPx
-        | "334" -> ReadAdjustment raw |> FIXField.Adjustment
-        | "335" -> ReadTradSesReqID raw |> FIXField.TradSesReqID
-        | "336" -> ReadTradingSessionID raw |> FIXField.TradingSessionID
-        | "337" -> ReadContraTrader raw |> FIXField.ContraTrader
-        | "338" -> ReadTradSesMethod raw |> FIXField.TradSesMethod
-        | "339" -> ReadTradSesMode raw |> FIXField.TradSesMode
-        | "340" -> ReadTradSesStatus raw |> FIXField.TradSesStatus
-        | "341" -> ReadTradSesStartTime raw |> FIXField.TradSesStartTime
-        | "342" -> ReadTradSesOpenTime raw |> FIXField.TradSesOpenTime
-        | "343" -> ReadTradSesPreCloseTime raw |> FIXField.TradSesPreCloseTime
-        | "344" -> ReadTradSesCloseTime raw |> FIXField.TradSesCloseTime
-        | "345" -> ReadTradSesEndTime raw |> FIXField.TradSesEndTime
-        | "346" -> ReadNumberOfOrders raw |> FIXField.NumberOfOrders
-        | "347" -> ReadMessageEncoding raw |> FIXField.MessageEncoding
-        | "348" -> ReadEncodedIssuer raw strm|> FIXField.EncodedIssuer // len->string compound field
-        | "350" -> ReadEncodedSecurityDesc raw strm|> FIXField.EncodedSecurityDesc // len->string compound field
-        | "352" -> ReadEncodedListExecInst raw strm|> FIXField.EncodedListExecInst // len->string compound field
-        | "354" -> ReadEncodedText raw strm|> FIXField.EncodedText // len->string compound field
-        | "356" -> ReadEncodedSubject raw strm|> FIXField.EncodedSubject // len->string compound field
-        | "358" -> ReadEncodedHeadline raw strm|> FIXField.EncodedHeadline // len->string compound field
-        | "360" -> ReadEncodedAllocText raw strm|> FIXField.EncodedAllocText // len->string compound field
-        | "362" -> ReadEncodedUnderlyingIssuer raw strm|> FIXField.EncodedUnderlyingIssuer // len->string compound field
-        | "364" -> ReadEncodedUnderlyingSecurityDesc raw strm|> FIXField.EncodedUnderlyingSecurityDesc // len->string compound field
-        | "366" -> ReadAllocPrice raw |> FIXField.AllocPrice
-        | "367" -> ReadQuoteSetValidUntilTime raw |> FIXField.QuoteSetValidUntilTime
-        | "368" -> ReadQuoteEntryRejectReason raw |> FIXField.QuoteEntryRejectReason
-        | "369" -> ReadLastMsgSeqNumProcessed raw |> FIXField.LastMsgSeqNumProcessed
-        | "371" -> ReadRefTagID raw |> FIXField.RefTagID
-        | "372" -> ReadRefMsgType raw |> FIXField.RefMsgType
-        | "373" -> ReadSessionRejectReason raw |> FIXField.SessionRejectReason
-        | "374" -> ReadBidRequestTransType raw |> FIXField.BidRequestTransType
-        | "375" -> ReadContraBroker raw |> FIXField.ContraBroker
-        | "376" -> ReadComplianceID raw |> FIXField.ComplianceID
-        | "377" -> ReadSolicitedFlag raw |> FIXField.SolicitedFlag
-        | "378" -> ReadExecRestatementReason raw |> FIXField.ExecRestatementReason
-        | "379" -> ReadBusinessRejectRefID raw |> FIXField.BusinessRejectRefID
-        | "380" -> ReadBusinessRejectReason raw |> FIXField.BusinessRejectReason
-        | "381" -> ReadGrossTradeAmt raw |> FIXField.GrossTradeAmt
-        | "382" -> ReadNoContraBrokers raw |> FIXField.NoContraBrokers
-        | "383" -> ReadMaxMessageSize raw |> FIXField.MaxMessageSize
-        | "384" -> ReadNoMsgTypes raw |> FIXField.NoMsgTypes
-        | "385" -> ReadMsgDirection raw |> FIXField.MsgDirection
-        | "386" -> ReadNoTradingSessions raw |> FIXField.NoTradingSessions
-        | "387" -> ReadTotalVolumeTraded raw |> FIXField.TotalVolumeTraded
-        | "388" -> ReadDiscretionInst raw |> FIXField.DiscretionInst
-        | "389" -> ReadDiscretionOffsetValue raw |> FIXField.DiscretionOffsetValue
-        | "390" -> ReadBidID raw |> FIXField.BidID
-        | "391" -> ReadClientBidID raw |> FIXField.ClientBidID
-        | "392" -> ReadListName raw |> FIXField.ListName
-        | "393" -> ReadTotNoRelatedSym raw |> FIXField.TotNoRelatedSym
-        | "394" -> ReadBidType raw |> FIXField.BidType
-        | "395" -> ReadNumTickets raw |> FIXField.NumTickets
-        | "396" -> ReadSideValue1 raw |> FIXField.SideValue1
-        | "397" -> ReadSideValue2 raw |> FIXField.SideValue2
-        | "398" -> ReadNoBidDescriptors raw |> FIXField.NoBidDescriptors
-        | "399" -> ReadBidDescriptorType raw |> FIXField.BidDescriptorType
-        | "400" -> ReadBidDescriptor raw |> FIXField.BidDescriptor
-        | "401" -> ReadSideValueInd raw |> FIXField.SideValueInd
-        | "402" -> ReadLiquidityPctLow raw |> FIXField.LiquidityPctLow
-        | "403" -> ReadLiquidityPctHigh raw |> FIXField.LiquidityPctHigh
-        | "404" -> ReadLiquidityValue raw |> FIXField.LiquidityValue
-        | "405" -> ReadEFPTrackingError raw |> FIXField.EFPTrackingError
-        | "406" -> ReadFairValue raw |> FIXField.FairValue
-        | "407" -> ReadOutsideIndexPct raw |> FIXField.OutsideIndexPct
-        | "408" -> ReadValueOfFutures raw |> FIXField.ValueOfFutures
-        | "409" -> ReadLiquidityIndType raw |> FIXField.LiquidityIndType
-        | "410" -> ReadWtAverageLiquidity raw |> FIXField.WtAverageLiquidity
-        | "411" -> ReadExchangeForPhysical raw |> FIXField.ExchangeForPhysical
-        | "412" -> ReadOutMainCntryUIndex raw |> FIXField.OutMainCntryUIndex
-        | "413" -> ReadCrossPercent raw |> FIXField.CrossPercent
-        | "414" -> ReadProgRptReqs raw |> FIXField.ProgRptReqs
-        | "415" -> ReadProgPeriodInterval raw |> FIXField.ProgPeriodInterval
-        | "416" -> ReadIncTaxInd raw |> FIXField.IncTaxInd
-        | "417" -> ReadNumBidders raw |> FIXField.NumBidders
-        | "418" -> ReadBidTradeType raw |> FIXField.BidTradeType
-        | "419" -> ReadBasisPxType raw |> FIXField.BasisPxType
-        | "420" -> ReadNoBidComponents raw |> FIXField.NoBidComponents
-        | "421" -> ReadCountry raw |> FIXField.Country
-        | "422" -> ReadTotNoStrikes raw |> FIXField.TotNoStrikes
-        | "423" -> ReadPriceType raw |> FIXField.PriceType
-        | "424" -> ReadDayOrderQty raw |> FIXField.DayOrderQty
-        | "425" -> ReadDayCumQty raw |> FIXField.DayCumQty
-        | "426" -> ReadDayAvgPx raw |> FIXField.DayAvgPx
-        | "427" -> ReadGTBookingInst raw |> FIXField.GTBookingInst
-        | "428" -> ReadNoStrikes raw |> FIXField.NoStrikes
-        | "429" -> ReadListStatusType raw |> FIXField.ListStatusType
-        | "430" -> ReadNetGrossInd raw |> FIXField.NetGrossInd
-        | "431" -> ReadListOrderStatus raw |> FIXField.ListOrderStatus
-        | "432" -> ReadExpireDate raw |> FIXField.ExpireDate
-        | "433" -> ReadListExecInstType raw |> FIXField.ListExecInstType
-        | "434" -> ReadCxlRejResponseTo raw |> FIXField.CxlRejResponseTo
-        | "435" -> ReadUnderlyingCouponRate raw |> FIXField.UnderlyingCouponRate
-        | "436" -> ReadUnderlyingContractMultiplier raw |> FIXField.UnderlyingContractMultiplier
-        | "437" -> ReadContraTradeQty raw |> FIXField.ContraTradeQty
-        | "438" -> ReadContraTradeTime raw |> FIXField.ContraTradeTime
-        | "441" -> ReadLiquidityNumSecurities raw |> FIXField.LiquidityNumSecurities
-        | "442" -> ReadMultiLegReportingType raw |> FIXField.MultiLegReportingType
-        | "443" -> ReadStrikeTime raw |> FIXField.StrikeTime
-        | "444" -> ReadListStatusText raw |> FIXField.ListStatusText
-        | "445" -> ReadEncodedListStatusText raw strm|> FIXField.EncodedListStatusText // len->string compound field
-        | "447" -> ReadPartyIDSource raw |> FIXField.PartyIDSource
-        | "448" -> ReadPartyID raw |> FIXField.PartyID
-        | "451" -> ReadNetChgPrevDay raw |> FIXField.NetChgPrevDay
-        | "452" -> ReadPartyRole raw |> FIXField.PartyRole
-        | "453" -> ReadNoPartyIDs raw |> FIXField.NoPartyIDs
-        | "454" -> ReadNoSecurityAltID raw |> FIXField.NoSecurityAltID
-        | "455" -> ReadSecurityAltID raw |> FIXField.SecurityAltID
-        | "456" -> ReadSecurityAltIDSource raw |> FIXField.SecurityAltIDSource
-        | "457" -> ReadNoUnderlyingSecurityAltID raw |> FIXField.NoUnderlyingSecurityAltID
-        | "458" -> ReadUnderlyingSecurityAltID raw |> FIXField.UnderlyingSecurityAltID
-        | "459" -> ReadUnderlyingSecurityAltIDSource raw |> FIXField.UnderlyingSecurityAltIDSource
-        | "460" -> ReadProduct raw |> FIXField.Product
-        | "461" -> ReadCFICode raw |> FIXField.CFICode
-        | "462" -> ReadUnderlyingProduct raw |> FIXField.UnderlyingProduct
-        | "463" -> ReadUnderlyingCFICode raw |> FIXField.UnderlyingCFICode
-        | "464" -> ReadTestMessageIndicator raw |> FIXField.TestMessageIndicator
-        | "465" -> ReadQuantityType raw |> FIXField.QuantityType
-        | "466" -> ReadBookingRefID raw |> FIXField.BookingRefID
-        | "467" -> ReadIndividualAllocID raw |> FIXField.IndividualAllocID
-        | "468" -> ReadRoundingDirection raw |> FIXField.RoundingDirection
-        | "469" -> ReadRoundingModulus raw |> FIXField.RoundingModulus
-        | "470" -> ReadCountryOfIssue raw |> FIXField.CountryOfIssue
-        | "471" -> ReadStateOrProvinceOfIssue raw |> FIXField.StateOrProvinceOfIssue
-        | "472" -> ReadLocaleOfIssue raw |> FIXField.LocaleOfIssue
-        | "473" -> ReadNoRegistDtls raw |> FIXField.NoRegistDtls
-        | "474" -> ReadMailingDtls raw |> FIXField.MailingDtls
-        | "475" -> ReadInvestorCountryOfResidence raw |> FIXField.InvestorCountryOfResidence
-        | "476" -> ReadPaymentRef raw |> FIXField.PaymentRef
-        | "477" -> ReadDistribPaymentMethod raw |> FIXField.DistribPaymentMethod
-        | "478" -> ReadCashDistribCurr raw |> FIXField.CashDistribCurr
-        | "479" -> ReadCommCurrency raw |> FIXField.CommCurrency
-        | "480" -> ReadCancellationRights raw |> FIXField.CancellationRights
-        | "481" -> ReadMoneyLaunderingStatus raw |> FIXField.MoneyLaunderingStatus
-        | "482" -> ReadMailingInst raw |> FIXField.MailingInst
-        | "483" -> ReadTransBkdTime raw |> FIXField.TransBkdTime
-        | "484" -> ReadExecPriceType raw |> FIXField.ExecPriceType
-        | "485" -> ReadExecPriceAdjustment raw |> FIXField.ExecPriceAdjustment
-        | "486" -> ReadDateOfBirth raw |> FIXField.DateOfBirth
-        | "487" -> ReadTradeReportTransType raw |> FIXField.TradeReportTransType
-        | "488" -> ReadCardHolderName raw |> FIXField.CardHolderName
-        | "489" -> ReadCardNumber raw |> FIXField.CardNumber
-        | "490" -> ReadCardExpDate raw |> FIXField.CardExpDate
-        | "491" -> ReadCardIssNum raw |> FIXField.CardIssNum
-        | "492" -> ReadPaymentMethod raw |> FIXField.PaymentMethod
-        | "493" -> ReadRegistAcctType raw |> FIXField.RegistAcctType
-        | "494" -> ReadDesignation raw |> FIXField.Designation
-        | "495" -> ReadTaxAdvantageType raw |> FIXField.TaxAdvantageType
-        | "496" -> ReadRegistRejReasonText raw |> FIXField.RegistRejReasonText
-        | "497" -> ReadFundRenewWaiv raw |> FIXField.FundRenewWaiv
-        | "498" -> ReadCashDistribAgentName raw |> FIXField.CashDistribAgentName
-        | "499" -> ReadCashDistribAgentCode raw |> FIXField.CashDistribAgentCode
-        | "500" -> ReadCashDistribAgentAcctNumber raw |> FIXField.CashDistribAgentAcctNumber
-        | "501" -> ReadCashDistribPayRef raw |> FIXField.CashDistribPayRef
-        | "502" -> ReadCashDistribAgentAcctName raw |> FIXField.CashDistribAgentAcctName
-        | "503" -> ReadCardStartDate raw |> FIXField.CardStartDate
-        | "504" -> ReadPaymentDate raw |> FIXField.PaymentDate
-        | "505" -> ReadPaymentRemitterID raw |> FIXField.PaymentRemitterID
-        | "506" -> ReadRegistStatus raw |> FIXField.RegistStatus
-        | "507" -> ReadRegistRejReasonCode raw |> FIXField.RegistRejReasonCode
-        | "508" -> ReadRegistRefID raw |> FIXField.RegistRefID
-        | "509" -> ReadRegistDtls raw |> FIXField.RegistDtls
-        | "510" -> ReadNoDistribInsts raw |> FIXField.NoDistribInsts
-        | "511" -> ReadRegistEmail raw |> FIXField.RegistEmail
-        | "512" -> ReadDistribPercentage raw |> FIXField.DistribPercentage
-        | "513" -> ReadRegistID raw |> FIXField.RegistID
-        | "514" -> ReadRegistTransType raw |> FIXField.RegistTransType
-        | "515" -> ReadExecValuationPoint raw |> FIXField.ExecValuationPoint
-        | "516" -> ReadOrderPercent raw |> FIXField.OrderPercent
-        | "517" -> ReadOwnershipType raw |> FIXField.OwnershipType
-        | "518" -> ReadNoContAmts raw |> FIXField.NoContAmts
-        | "519" -> ReadContAmtType raw |> FIXField.ContAmtType
-        | "520" -> ReadContAmtValue raw |> FIXField.ContAmtValue
-        | "521" -> ReadContAmtCurr raw |> FIXField.ContAmtCurr
-        | "522" -> ReadOwnerType raw |> FIXField.OwnerType
-        | "523" -> ReadPartySubID raw |> FIXField.PartySubID
-        | "524" -> ReadNestedPartyID raw |> FIXField.NestedPartyID
-        | "525" -> ReadNestedPartyIDSource raw |> FIXField.NestedPartyIDSource
-        | "526" -> ReadSecondaryClOrdID raw |> FIXField.SecondaryClOrdID
-        | "527" -> ReadSecondaryExecID raw |> FIXField.SecondaryExecID
-        | "528" -> ReadOrderCapacity raw |> FIXField.OrderCapacity
-        | "529" -> ReadOrderRestrictions raw |> FIXField.OrderRestrictions
-        | "530" -> ReadMassCancelRequestType raw |> FIXField.MassCancelRequestType
-        | "531" -> ReadMassCancelResponse raw |> FIXField.MassCancelResponse
-        | "532" -> ReadMassCancelRejectReason raw |> FIXField.MassCancelRejectReason
-        | "533" -> ReadTotalAffectedOrders raw |> FIXField.TotalAffectedOrders
-        | "534" -> ReadNoAffectedOrders raw |> FIXField.NoAffectedOrders
-        | "535" -> ReadAffectedOrderID raw |> FIXField.AffectedOrderID
-        | "536" -> ReadAffectedSecondaryOrderID raw |> FIXField.AffectedSecondaryOrderID
-        | "537" -> ReadQuoteType raw |> FIXField.QuoteType
-        | "538" -> ReadNestedPartyRole raw |> FIXField.NestedPartyRole
-        | "539" -> ReadNoNestedPartyIDs raw |> FIXField.NoNestedPartyIDs
-        | "540" -> ReadTotalAccruedInterestAmt raw |> FIXField.TotalAccruedInterestAmt
-        | "541" -> ReadMaturityDate raw |> FIXField.MaturityDate
-        | "542" -> ReadUnderlyingMaturityDate raw |> FIXField.UnderlyingMaturityDate
-        | "543" -> ReadInstrRegistry raw |> FIXField.InstrRegistry
-        | "544" -> ReadCashMargin raw |> FIXField.CashMargin
-        | "545" -> ReadNestedPartySubID raw |> FIXField.NestedPartySubID
-        | "546" -> ReadScope raw |> FIXField.Scope
-        | "547" -> ReadMDImplicitDelete raw |> FIXField.MDImplicitDelete
-        | "548" -> ReadCrossID raw |> FIXField.CrossID
-        | "549" -> ReadCrossType raw |> FIXField.CrossType
-        | "550" -> ReadCrossPrioritization raw |> FIXField.CrossPrioritization
-        | "551" -> ReadOrigCrossID raw |> FIXField.OrigCrossID
-        | "552" -> ReadNoSides raw |> FIXField.NoSides
-        | "553" -> ReadUsername raw |> FIXField.Username
-        | "554" -> ReadPassword raw |> FIXField.Password
-        | "555" -> ReadNoLegs raw |> FIXField.NoLegs
-        | "556" -> ReadLegCurrency raw |> FIXField.LegCurrency
-        | "557" -> ReadTotNoSecurityTypes raw |> FIXField.TotNoSecurityTypes
-        | "558" -> ReadNoSecurityTypes raw |> FIXField.NoSecurityTypes
-        | "559" -> ReadSecurityListRequestType raw |> FIXField.SecurityListRequestType
-        | "560" -> ReadSecurityRequestResult raw |> FIXField.SecurityRequestResult
-        | "561" -> ReadRoundLot raw |> FIXField.RoundLot
-        | "562" -> ReadMinTradeVol raw |> FIXField.MinTradeVol
-        | "563" -> ReadMultiLegRptTypeReq raw |> FIXField.MultiLegRptTypeReq
-        | "564" -> ReadLegPositionEffect raw |> FIXField.LegPositionEffect
-        | "565" -> ReadLegCoveredOrUncovered raw |> FIXField.LegCoveredOrUncovered
-        | "566" -> ReadLegPrice raw |> FIXField.LegPrice
-        | "567" -> ReadTradSesStatusRejReason raw |> FIXField.TradSesStatusRejReason
-        | "568" -> ReadTradeRequestID raw |> FIXField.TradeRequestID
-        | "569" -> ReadTradeRequestType raw |> FIXField.TradeRequestType
-        | "570" -> ReadPreviouslyReported raw |> FIXField.PreviouslyReported
-        | "571" -> ReadTradeReportID raw |> FIXField.TradeReportID
-        | "572" -> ReadTradeReportRefID raw |> FIXField.TradeReportRefID
-        | "573" -> ReadMatchStatus raw |> FIXField.MatchStatus
-        | "574" -> ReadMatchType raw |> FIXField.MatchType
-        | "575" -> ReadOddLot raw |> FIXField.OddLot
-        | "576" -> ReadNoClearingInstructions raw |> FIXField.NoClearingInstructions
-        | "577" -> ReadClearingInstruction raw |> FIXField.ClearingInstruction
-        | "578" -> ReadTradeInputSource raw |> FIXField.TradeInputSource
-        | "579" -> ReadTradeInputDevice raw |> FIXField.TradeInputDevice
-        | "580" -> ReadNoDates raw |> FIXField.NoDates
-        | "581" -> ReadAccountType raw |> FIXField.AccountType
-        | "582" -> ReadCustOrderCapacity raw |> FIXField.CustOrderCapacity
-        | "583" -> ReadClOrdLinkID raw |> FIXField.ClOrdLinkID
-        | "584" -> ReadMassStatusReqID raw |> FIXField.MassStatusReqID
-        | "585" -> ReadMassStatusReqType raw |> FIXField.MassStatusReqType
-        | "586" -> ReadOrigOrdModTime raw |> FIXField.OrigOrdModTime
-        | "587" -> ReadLegSettlType raw |> FIXField.LegSettlType
-        | "588" -> ReadLegSettlDate raw |> FIXField.LegSettlDate
-        | "589" -> ReadDayBookingInst raw |> FIXField.DayBookingInst
-        | "590" -> ReadBookingUnit raw |> FIXField.BookingUnit
-        | "591" -> ReadPreallocMethod raw |> FIXField.PreallocMethod
-        | "592" -> ReadUnderlyingCountryOfIssue raw |> FIXField.UnderlyingCountryOfIssue
-        | "593" -> ReadUnderlyingStateOrProvinceOfIssue raw |> FIXField.UnderlyingStateOrProvinceOfIssue
-        | "594" -> ReadUnderlyingLocaleOfIssue raw |> FIXField.UnderlyingLocaleOfIssue
-        | "595" -> ReadUnderlyingInstrRegistry raw |> FIXField.UnderlyingInstrRegistry
-        | "596" -> ReadLegCountryOfIssue raw |> FIXField.LegCountryOfIssue
-        | "597" -> ReadLegStateOrProvinceOfIssue raw |> FIXField.LegStateOrProvinceOfIssue
-        | "598" -> ReadLegLocaleOfIssue raw |> FIXField.LegLocaleOfIssue
-        | "599" -> ReadLegInstrRegistry raw |> FIXField.LegInstrRegistry
-        | "600" -> ReadLegSymbol raw |> FIXField.LegSymbol
-        | "601" -> ReadLegSymbolSfx raw |> FIXField.LegSymbolSfx
-        | "602" -> ReadLegSecurityID raw |> FIXField.LegSecurityID
-        | "603" -> ReadLegSecurityIDSource raw |> FIXField.LegSecurityIDSource
-        | "604" -> ReadNoLegSecurityAltID raw |> FIXField.NoLegSecurityAltID
-        | "605" -> ReadLegSecurityAltID raw |> FIXField.LegSecurityAltID
-        | "606" -> ReadLegSecurityAltIDSource raw |> FIXField.LegSecurityAltIDSource
-        | "607" -> ReadLegProduct raw |> FIXField.LegProduct
-        | "608" -> ReadLegCFICode raw |> FIXField.LegCFICode
-        | "609" -> ReadLegSecurityType raw |> FIXField.LegSecurityType
-        | "610" -> ReadLegMaturityMonthYear raw |> FIXField.LegMaturityMonthYear
-        | "611" -> ReadLegMaturityDate raw |> FIXField.LegMaturityDate
-        | "612" -> ReadLegStrikePrice raw |> FIXField.LegStrikePrice
-        | "613" -> ReadLegOptAttribute raw |> FIXField.LegOptAttribute
-        | "614" -> ReadLegContractMultiplier raw |> FIXField.LegContractMultiplier
-        | "615" -> ReadLegCouponRate raw |> FIXField.LegCouponRate
-        | "616" -> ReadLegSecurityExchange raw |> FIXField.LegSecurityExchange
-        | "617" -> ReadLegIssuer raw |> FIXField.LegIssuer
-        | "618" -> ReadEncodedLegIssuer raw strm|> FIXField.EncodedLegIssuer // len->string compound field
-        | "620" -> ReadLegSecurityDesc raw |> FIXField.LegSecurityDesc
-        | "621" -> ReadEncodedLegSecurityDesc raw strm|> FIXField.EncodedLegSecurityDesc // len->string compound field
-        | "623" -> ReadLegRatioQty raw |> FIXField.LegRatioQty
-        | "624" -> ReadLegSide raw |> FIXField.LegSide
-        | "625" -> ReadTradingSessionSubID raw |> FIXField.TradingSessionSubID
-        | "626" -> ReadAllocType raw |> FIXField.AllocType
-        | "627" -> ReadNoHops raw |> FIXField.NoHops
-        | "628" -> ReadHopCompID raw |> FIXField.HopCompID
-        | "629" -> ReadHopSendingTime raw |> FIXField.HopSendingTime
-        | "630" -> ReadHopRefID raw |> FIXField.HopRefID
-        | "631" -> ReadMidPx raw |> FIXField.MidPx
-        | "632" -> ReadBidYield raw |> FIXField.BidYield
-        | "633" -> ReadMidYield raw |> FIXField.MidYield
-        | "634" -> ReadOfferYield raw |> FIXField.OfferYield
-        | "635" -> ReadClearingFeeIndicator raw |> FIXField.ClearingFeeIndicator
-        | "636" -> ReadWorkingIndicator raw |> FIXField.WorkingIndicator
-        | "637" -> ReadLegLastPx raw |> FIXField.LegLastPx
-        | "638" -> ReadPriorityIndicator raw |> FIXField.PriorityIndicator
-        | "639" -> ReadPriceImprovement raw |> FIXField.PriceImprovement
-        | "640" -> ReadPrice2 raw |> FIXField.Price2
-        | "641" -> ReadLastForwardPoints2 raw |> FIXField.LastForwardPoints2
-        | "642" -> ReadBidForwardPoints2 raw |> FIXField.BidForwardPoints2
-        | "643" -> ReadOfferForwardPoints2 raw |> FIXField.OfferForwardPoints2
-        | "644" -> ReadRFQReqID raw |> FIXField.RFQReqID
-        | "645" -> ReadMktBidPx raw |> FIXField.MktBidPx
-        | "646" -> ReadMktOfferPx raw |> FIXField.MktOfferPx
-        | "647" -> ReadMinBidSize raw |> FIXField.MinBidSize
-        | "648" -> ReadMinOfferSize raw |> FIXField.MinOfferSize
-        | "649" -> ReadQuoteStatusReqID raw |> FIXField.QuoteStatusReqID
-        | "650" -> ReadLegalConfirm raw |> FIXField.LegalConfirm
-        | "651" -> ReadUnderlyingLastPx raw |> FIXField.UnderlyingLastPx
-        | "652" -> ReadUnderlyingLastQty raw |> FIXField.UnderlyingLastQty
-        | "654" -> ReadLegRefID raw |> FIXField.LegRefID
-        | "655" -> ReadContraLegRefID raw |> FIXField.ContraLegRefID
-        | "656" -> ReadSettlCurrBidFxRate raw |> FIXField.SettlCurrBidFxRate
-        | "657" -> ReadSettlCurrOfferFxRate raw |> FIXField.SettlCurrOfferFxRate
-        | "658" -> ReadQuoteRequestRejectReason raw |> FIXField.QuoteRequestRejectReason
-        | "659" -> ReadSideComplianceID raw |> FIXField.SideComplianceID
-        | "660" -> ReadAcctIDSource raw |> FIXField.AcctIDSource
-        | "661" -> ReadAllocAcctIDSource raw |> FIXField.AllocAcctIDSource
-        | "662" -> ReadBenchmarkPrice raw |> FIXField.BenchmarkPrice
-        | "663" -> ReadBenchmarkPriceType raw |> FIXField.BenchmarkPriceType
-        | "664" -> ReadConfirmID raw |> FIXField.ConfirmID
-        | "665" -> ReadConfirmStatus raw |> FIXField.ConfirmStatus
-        | "666" -> ReadConfirmTransType raw |> FIXField.ConfirmTransType
-        | "667" -> ReadContractSettlMonth raw |> FIXField.ContractSettlMonth
-        | "668" -> ReadDeliveryForm raw |> FIXField.DeliveryForm
-        | "669" -> ReadLastParPx raw |> FIXField.LastParPx
-        | "670" -> ReadNoLegAllocs raw |> FIXField.NoLegAllocs
-        | "671" -> ReadLegAllocAccount raw |> FIXField.LegAllocAccount
-        | "672" -> ReadLegIndividualAllocID raw |> FIXField.LegIndividualAllocID
-        | "673" -> ReadLegAllocQty raw |> FIXField.LegAllocQty
-        | "674" -> ReadLegAllocAcctIDSource raw |> FIXField.LegAllocAcctIDSource
-        | "675" -> ReadLegSettlCurrency raw |> FIXField.LegSettlCurrency
-        | "676" -> ReadLegBenchmarkCurveCurrency raw |> FIXField.LegBenchmarkCurveCurrency
-        | "677" -> ReadLegBenchmarkCurveName raw |> FIXField.LegBenchmarkCurveName
-        | "678" -> ReadLegBenchmarkCurvePoint raw |> FIXField.LegBenchmarkCurvePoint
-        | "679" -> ReadLegBenchmarkPrice raw |> FIXField.LegBenchmarkPrice
-        | "680" -> ReadLegBenchmarkPriceType raw |> FIXField.LegBenchmarkPriceType
-        | "681" -> ReadLegBidPx raw |> FIXField.LegBidPx
-        | "682" -> ReadLegIOIQty raw |> FIXField.LegIOIQty
-        | "683" -> ReadNoLegStipulations raw |> FIXField.NoLegStipulations
-        | "684" -> ReadLegOfferPx raw |> FIXField.LegOfferPx
-        | "685" -> ReadLegOrderQty raw |> FIXField.LegOrderQty
-        | "686" -> ReadLegPriceType raw |> FIXField.LegPriceType
-        | "687" -> ReadLegQty raw |> FIXField.LegQty
-        | "688" -> ReadLegStipulationType raw |> FIXField.LegStipulationType
-        | "689" -> ReadLegStipulationValue raw |> FIXField.LegStipulationValue
-        | "690" -> ReadLegSwapType raw |> FIXField.LegSwapType
-        | "691" -> ReadPool raw |> FIXField.Pool
-        | "692" -> ReadQuotePriceType raw |> FIXField.QuotePriceType
-        | "693" -> ReadQuoteRespID raw |> FIXField.QuoteRespID
-        | "694" -> ReadQuoteRespType raw |> FIXField.QuoteRespType
-        | "695" -> ReadQuoteQualifier raw |> FIXField.QuoteQualifier
-        | "696" -> ReadYieldRedemptionDate raw |> FIXField.YieldRedemptionDate
-        | "697" -> ReadYieldRedemptionPrice raw |> FIXField.YieldRedemptionPrice
-        | "698" -> ReadYieldRedemptionPriceType raw |> FIXField.YieldRedemptionPriceType
-        | "699" -> ReadBenchmarkSecurityID raw |> FIXField.BenchmarkSecurityID
-        | "700" -> ReadReversalIndicator raw |> FIXField.ReversalIndicator
-        | "701" -> ReadYieldCalcDate raw |> FIXField.YieldCalcDate
-        | "702" -> ReadNoPositions raw |> FIXField.NoPositions
-        | "703" -> ReadPosType raw |> FIXField.PosType
-        | "704" -> ReadLongQty raw |> FIXField.LongQty
-        | "705" -> ReadShortQty raw |> FIXField.ShortQty
-        | "706" -> ReadPosQtyStatus raw |> FIXField.PosQtyStatus
-        | "707" -> ReadPosAmtType raw |> FIXField.PosAmtType
-        | "708" -> ReadPosAmt raw |> FIXField.PosAmt
-        | "709" -> ReadPosTransType raw |> FIXField.PosTransType
-        | "710" -> ReadPosReqID raw |> FIXField.PosReqID
-        | "711" -> ReadNoUnderlyings raw |> FIXField.NoUnderlyings
-        | "712" -> ReadPosMaintAction raw |> FIXField.PosMaintAction
-        | "713" -> ReadOrigPosReqRefID raw |> FIXField.OrigPosReqRefID
-        | "714" -> ReadPosMaintRptRefID raw |> FIXField.PosMaintRptRefID
-        | "715" -> ReadClearingBusinessDate raw |> FIXField.ClearingBusinessDate
-        | "716" -> ReadSettlSessID raw |> FIXField.SettlSessID
-        | "717" -> ReadSettlSessSubID raw |> FIXField.SettlSessSubID
-        | "718" -> ReadAdjustmentType raw |> FIXField.AdjustmentType
-        | "719" -> ReadContraryInstructionIndicator raw |> FIXField.ContraryInstructionIndicator
-        | "720" -> ReadPriorSpreadIndicator raw |> FIXField.PriorSpreadIndicator
-        | "721" -> ReadPosMaintRptID raw |> FIXField.PosMaintRptID
-        | "722" -> ReadPosMaintStatus raw |> FIXField.PosMaintStatus
-        | "723" -> ReadPosMaintResult raw |> FIXField.PosMaintResult
-        | "724" -> ReadPosReqType raw |> FIXField.PosReqType
-        | "725" -> ReadResponseTransportType raw |> FIXField.ResponseTransportType
-        | "726" -> ReadResponseDestination raw |> FIXField.ResponseDestination
-        | "727" -> ReadTotalNumPosReports raw |> FIXField.TotalNumPosReports
-        | "728" -> ReadPosReqResult raw |> FIXField.PosReqResult
-        | "729" -> ReadPosReqStatus raw |> FIXField.PosReqStatus
-        | "730" -> ReadSettlPrice raw |> FIXField.SettlPrice
-        | "731" -> ReadSettlPriceType raw |> FIXField.SettlPriceType
-        | "732" -> ReadUnderlyingSettlPrice raw |> FIXField.UnderlyingSettlPrice
-        | "733" -> ReadUnderlyingSettlPriceType raw |> FIXField.UnderlyingSettlPriceType
-        | "734" -> ReadPriorSettlPrice raw |> FIXField.PriorSettlPrice
-        | "735" -> ReadNoQuoteQualifiers raw |> FIXField.NoQuoteQualifiers
-        | "736" -> ReadAllocSettlCurrency raw |> FIXField.AllocSettlCurrency
-        | "737" -> ReadAllocSettlCurrAmt raw |> FIXField.AllocSettlCurrAmt
-        | "738" -> ReadInterestAtMaturity raw |> FIXField.InterestAtMaturity
-        | "739" -> ReadLegDatedDate raw |> FIXField.LegDatedDate
-        | "740" -> ReadLegPool raw |> FIXField.LegPool
-        | "741" -> ReadAllocInterestAtMaturity raw |> FIXField.AllocInterestAtMaturity
-        | "742" -> ReadAllocAccruedInterestAmt raw |> FIXField.AllocAccruedInterestAmt
-        | "743" -> ReadDeliveryDate raw |> FIXField.DeliveryDate
-        | "744" -> ReadAssignmentMethod raw |> FIXField.AssignmentMethod
-        | "745" -> ReadAssignmentUnit raw |> FIXField.AssignmentUnit
-        | "746" -> ReadOpenInterest raw |> FIXField.OpenInterest
-        | "747" -> ReadExerciseMethod raw |> FIXField.ExerciseMethod
-        | "748" -> ReadTotNumTradeReports raw |> FIXField.TotNumTradeReports
-        | "749" -> ReadTradeRequestResult raw |> FIXField.TradeRequestResult
-        | "750" -> ReadTradeRequestStatus raw |> FIXField.TradeRequestStatus
-        | "751" -> ReadTradeReportRejectReason raw |> FIXField.TradeReportRejectReason
-        | "752" -> ReadSideMultiLegReportingType raw |> FIXField.SideMultiLegReportingType
-        | "753" -> ReadNoPosAmt raw |> FIXField.NoPosAmt
-        | "754" -> ReadAutoAcceptIndicator raw |> FIXField.AutoAcceptIndicator
-        | "755" -> ReadAllocReportID raw |> FIXField.AllocReportID
-        | "756" -> ReadNoNested2PartyIDs raw |> FIXField.NoNested2PartyIDs
-        | "757" -> ReadNested2PartyID raw |> FIXField.Nested2PartyID
-        | "758" -> ReadNested2PartyIDSource raw |> FIXField.Nested2PartyIDSource
-        | "759" -> ReadNested2PartyRole raw |> FIXField.Nested2PartyRole
-        | "760" -> ReadNested2PartySubID raw |> FIXField.Nested2PartySubID
-        | "761" -> ReadBenchmarkSecurityIDSource raw |> FIXField.BenchmarkSecurityIDSource
-        | "762" -> ReadSecuritySubType raw |> FIXField.SecuritySubType
-        | "763" -> ReadUnderlyingSecuritySubType raw |> FIXField.UnderlyingSecuritySubType
-        | "764" -> ReadLegSecuritySubType raw |> FIXField.LegSecuritySubType
-        | "765" -> ReadAllowableOneSidednessPct raw |> FIXField.AllowableOneSidednessPct
-        | "766" -> ReadAllowableOneSidednessValue raw |> FIXField.AllowableOneSidednessValue
-        | "767" -> ReadAllowableOneSidednessCurr raw |> FIXField.AllowableOneSidednessCurr
-        | "768" -> ReadNoTrdRegTimestamps raw |> FIXField.NoTrdRegTimestamps
-        | "769" -> ReadTrdRegTimestamp raw |> FIXField.TrdRegTimestamp
-        | "770" -> ReadTrdRegTimestampType raw |> FIXField.TrdRegTimestampType
-        | "771" -> ReadTrdRegTimestampOrigin raw |> FIXField.TrdRegTimestampOrigin
-        | "772" -> ReadConfirmRefID raw |> FIXField.ConfirmRefID
-        | "773" -> ReadConfirmType raw |> FIXField.ConfirmType
-        | "774" -> ReadConfirmRejReason raw |> FIXField.ConfirmRejReason
-        | "775" -> ReadBookingType raw |> FIXField.BookingType
-        | "776" -> ReadIndividualAllocRejCode raw |> FIXField.IndividualAllocRejCode
-        | "777" -> ReadSettlInstMsgID raw |> FIXField.SettlInstMsgID
-        | "778" -> ReadNoSettlInst raw |> FIXField.NoSettlInst
-        | "779" -> ReadLastUpdateTime raw |> FIXField.LastUpdateTime
-        | "780" -> ReadAllocSettlInstType raw |> FIXField.AllocSettlInstType
-        | "781" -> ReadNoSettlPartyIDs raw |> FIXField.NoSettlPartyIDs
-        | "782" -> ReadSettlPartyID raw |> FIXField.SettlPartyID
-        | "783" -> ReadSettlPartyIDSource raw |> FIXField.SettlPartyIDSource
-        | "784" -> ReadSettlPartyRole raw |> FIXField.SettlPartyRole
-        | "785" -> ReadSettlPartySubID raw |> FIXField.SettlPartySubID
-        | "786" -> ReadSettlPartySubIDType raw |> FIXField.SettlPartySubIDType
-        | "787" -> ReadDlvyInstType raw |> FIXField.DlvyInstType
-        | "788" -> ReadTerminationType raw |> FIXField.TerminationType
-        | "789" -> ReadNextExpectedMsgSeqNum raw |> FIXField.NextExpectedMsgSeqNum
-        | "790" -> ReadOrdStatusReqID raw |> FIXField.OrdStatusReqID
-        | "791" -> ReadSettlInstReqID raw |> FIXField.SettlInstReqID
-        | "792" -> ReadSettlInstReqRejCode raw |> FIXField.SettlInstReqRejCode
-        | "793" -> ReadSecondaryAllocID raw |> FIXField.SecondaryAllocID
-        | "794" -> ReadAllocReportType raw |> FIXField.AllocReportType
-        | "795" -> ReadAllocReportRefID raw |> FIXField.AllocReportRefID
-        | "796" -> ReadAllocCancReplaceReason raw |> FIXField.AllocCancReplaceReason
-        | "797" -> ReadCopyMsgIndicator raw |> FIXField.CopyMsgIndicator
-        | "798" -> ReadAllocAccountType raw |> FIXField.AllocAccountType
-        | "799" -> ReadOrderAvgPx raw |> FIXField.OrderAvgPx
-        | "800" -> ReadOrderBookingQty raw |> FIXField.OrderBookingQty
-        | "801" -> ReadNoSettlPartySubIDs raw |> FIXField.NoSettlPartySubIDs
-        | "802" -> ReadNoPartySubIDs raw |> FIXField.NoPartySubIDs
-        | "803" -> ReadPartySubIDType raw |> FIXField.PartySubIDType
-        | "804" -> ReadNoNestedPartySubIDs raw |> FIXField.NoNestedPartySubIDs
-        | "805" -> ReadNestedPartySubIDType raw |> FIXField.NestedPartySubIDType
-        | "806" -> ReadNoNested2PartySubIDs raw |> FIXField.NoNested2PartySubIDs
-        | "807" -> ReadNested2PartySubIDType raw |> FIXField.Nested2PartySubIDType
-        | "808" -> ReadAllocIntermedReqType raw |> FIXField.AllocIntermedReqType
-        | "810" -> ReadUnderlyingPx raw |> FIXField.UnderlyingPx
-        | "811" -> ReadPriceDelta raw |> FIXField.PriceDelta
-        | "812" -> ReadApplQueueMax raw |> FIXField.ApplQueueMax
-        | "813" -> ReadApplQueueDepth raw |> FIXField.ApplQueueDepth
-        | "814" -> ReadApplQueueResolution raw |> FIXField.ApplQueueResolution
-        | "815" -> ReadApplQueueAction raw |> FIXField.ApplQueueAction
-        | "816" -> ReadNoAltMDSource raw |> FIXField.NoAltMDSource
-        | "817" -> ReadAltMDSourceID raw |> FIXField.AltMDSourceID
-        | "818" -> ReadSecondaryTradeReportID raw |> FIXField.SecondaryTradeReportID
-        | "819" -> ReadAvgPxIndicator raw |> FIXField.AvgPxIndicator
-        | "820" -> ReadTradeLinkID raw |> FIXField.TradeLinkID
-        | "821" -> ReadOrderInputDevice raw |> FIXField.OrderInputDevice
-        | "822" -> ReadUnderlyingTradingSessionID raw |> FIXField.UnderlyingTradingSessionID
-        | "823" -> ReadUnderlyingTradingSessionSubID raw |> FIXField.UnderlyingTradingSessionSubID
-        | "824" -> ReadTradeLegRefID raw |> FIXField.TradeLegRefID
-        | "825" -> ReadExchangeRule raw |> FIXField.ExchangeRule
-        | "826" -> ReadTradeAllocIndicator raw |> FIXField.TradeAllocIndicator
-        | "827" -> ReadExpirationCycle raw |> FIXField.ExpirationCycle
-        | "828" -> ReadTrdType raw |> FIXField.TrdType
-        | "829" -> ReadTrdSubType raw |> FIXField.TrdSubType
-        | "830" -> ReadTransferReason raw |> FIXField.TransferReason
-        | "831" -> ReadAsgnReqID raw |> FIXField.AsgnReqID
-        | "832" -> ReadTotNumAssignmentReports raw |> FIXField.TotNumAssignmentReports
-        | "833" -> ReadAsgnRptID raw |> FIXField.AsgnRptID
-        | "834" -> ReadThresholdAmount raw |> FIXField.ThresholdAmount
-        | "835" -> ReadPegMoveType raw |> FIXField.PegMoveType
-        | "836" -> ReadPegOffsetType raw |> FIXField.PegOffsetType
-        | "837" -> ReadPegLimitType raw |> FIXField.PegLimitType
-        | "838" -> ReadPegRoundDirection raw |> FIXField.PegRoundDirection
-        | "839" -> ReadPeggedPrice raw |> FIXField.PeggedPrice
-        | "840" -> ReadPegScope raw |> FIXField.PegScope
-        | "841" -> ReadDiscretionMoveType raw |> FIXField.DiscretionMoveType
-        | "842" -> ReadDiscretionOffsetType raw |> FIXField.DiscretionOffsetType
-        | "843" -> ReadDiscretionLimitType raw |> FIXField.DiscretionLimitType
-        | "844" -> ReadDiscretionRoundDirection raw |> FIXField.DiscretionRoundDirection
-        | "845" -> ReadDiscretionPrice raw |> FIXField.DiscretionPrice
-        | "846" -> ReadDiscretionScope raw |> FIXField.DiscretionScope
-        | "847" -> ReadTargetStrategy raw |> FIXField.TargetStrategy
-        | "848" -> ReadTargetStrategyParameters raw |> FIXField.TargetStrategyParameters
-        | "849" -> ReadParticipationRate raw |> FIXField.ParticipationRate
-        | "850" -> ReadTargetStrategyPerformance raw |> FIXField.TargetStrategyPerformance
-        | "851" -> ReadLastLiquidityInd raw |> FIXField.LastLiquidityInd
-        | "852" -> ReadPublishTrdIndicator raw |> FIXField.PublishTrdIndicator
-        | "853" -> ReadShortSaleReason raw |> FIXField.ShortSaleReason
-        | "854" -> ReadQtyType raw |> FIXField.QtyType
-        | "855" -> ReadSecondaryTrdType raw |> FIXField.SecondaryTrdType
-        | "856" -> ReadTradeReportType raw |> FIXField.TradeReportType
-        | "857" -> ReadAllocNoOrdersType raw |> FIXField.AllocNoOrdersType
-        | "858" -> ReadSharedCommission raw |> FIXField.SharedCommission
-        | "859" -> ReadConfirmReqID raw |> FIXField.ConfirmReqID
-        | "860" -> ReadAvgParPx raw |> FIXField.AvgParPx
-        | "861" -> ReadReportedPx raw |> FIXField.ReportedPx
-        | "862" -> ReadNoCapacities raw |> FIXField.NoCapacities
-        | "863" -> ReadOrderCapacityQty raw |> FIXField.OrderCapacityQty
-        | "864" -> ReadNoEvents raw |> FIXField.NoEvents
-        | "865" -> ReadEventType raw |> FIXField.EventType
-        | "866" -> ReadEventDate raw |> FIXField.EventDate
-        | "867" -> ReadEventPx raw |> FIXField.EventPx
-        | "868" -> ReadEventText raw |> FIXField.EventText
-        | "869" -> ReadPctAtRisk raw |> FIXField.PctAtRisk
-        | "870" -> ReadNoInstrAttrib raw |> FIXField.NoInstrAttrib
-        | "871" -> ReadInstrAttribType raw |> FIXField.InstrAttribType
-        | "872" -> ReadInstrAttribValue raw |> FIXField.InstrAttribValue
-        | "873" -> ReadDatedDate raw |> FIXField.DatedDate
-        | "874" -> ReadInterestAccrualDate raw |> FIXField.InterestAccrualDate
-        | "875" -> ReadCPProgram raw |> FIXField.CPProgram
-        | "876" -> ReadCPRegType raw |> FIXField.CPRegType
-        | "877" -> ReadUnderlyingCPProgram raw |> FIXField.UnderlyingCPProgram
-        | "878" -> ReadUnderlyingCPRegType raw |> FIXField.UnderlyingCPRegType
-        | "879" -> ReadUnderlyingQty raw |> FIXField.UnderlyingQty
-        | "880" -> ReadTrdMatchID raw |> FIXField.TrdMatchID
-        | "881" -> ReadSecondaryTradeReportRefID raw |> FIXField.SecondaryTradeReportRefID
-        | "882" -> ReadUnderlyingDirtyPrice raw |> FIXField.UnderlyingDirtyPrice
-        | "883" -> ReadUnderlyingEndPrice raw |> FIXField.UnderlyingEndPrice
-        | "884" -> ReadUnderlyingStartValue raw |> FIXField.UnderlyingStartValue
-        | "885" -> ReadUnderlyingCurrentValue raw |> FIXField.UnderlyingCurrentValue
-        | "886" -> ReadUnderlyingEndValue raw |> FIXField.UnderlyingEndValue
-        | "887" -> ReadNoUnderlyingStips raw |> FIXField.NoUnderlyingStips
-        | "888" -> ReadUnderlyingStipType raw |> FIXField.UnderlyingStipType
-        | "889" -> ReadUnderlyingStipValue raw |> FIXField.UnderlyingStipValue
-        | "890" -> ReadMaturityNetMoney raw |> FIXField.MaturityNetMoney
-        | "891" -> ReadMiscFeeBasis raw |> FIXField.MiscFeeBasis
-        | "892" -> ReadTotNoAllocs raw |> FIXField.TotNoAllocs
-        | "893" -> ReadLastFragment raw |> FIXField.LastFragment
-        | "894" -> ReadCollReqID raw |> FIXField.CollReqID
-        | "895" -> ReadCollAsgnReason raw |> FIXField.CollAsgnReason
-        | "896" -> ReadCollInquiryQualifier raw |> FIXField.CollInquiryQualifier
-        | "897" -> ReadNoTrades raw |> FIXField.NoTrades
-        | "898" -> ReadMarginRatio raw |> FIXField.MarginRatio
-        | "899" -> ReadMarginExcess raw |> FIXField.MarginExcess
-        | "900" -> ReadTotalNetValue raw |> FIXField.TotalNetValue
-        | "901" -> ReadCashOutstanding raw |> FIXField.CashOutstanding
-        | "902" -> ReadCollAsgnID raw |> FIXField.CollAsgnID
-        | "903" -> ReadCollAsgnTransType raw |> FIXField.CollAsgnTransType
-        | "904" -> ReadCollRespID raw |> FIXField.CollRespID
-        | "905" -> ReadCollAsgnRespType raw |> FIXField.CollAsgnRespType
-        | "906" -> ReadCollAsgnRejectReason raw |> FIXField.CollAsgnRejectReason
-        | "907" -> ReadCollAsgnRefID raw |> FIXField.CollAsgnRefID
-        | "908" -> ReadCollRptID raw |> FIXField.CollRptID
-        | "909" -> ReadCollInquiryID raw |> FIXField.CollInquiryID
-        | "910" -> ReadCollStatus raw |> FIXField.CollStatus
-        | "911" -> ReadTotNumReports raw |> FIXField.TotNumReports
-        | "912" -> ReadLastRptRequested raw |> FIXField.LastRptRequested
-        | "913" -> ReadAgreementDesc raw |> FIXField.AgreementDesc
-        | "914" -> ReadAgreementID raw |> FIXField.AgreementID
-        | "915" -> ReadAgreementDate raw |> FIXField.AgreementDate
-        | "916" -> ReadStartDate raw |> FIXField.StartDate
-        | "917" -> ReadEndDate raw |> FIXField.EndDate
-        | "918" -> ReadAgreementCurrency raw |> FIXField.AgreementCurrency
-        | "919" -> ReadDeliveryType raw |> FIXField.DeliveryType
-        | "920" -> ReadEndAccruedInterestAmt raw |> FIXField.EndAccruedInterestAmt
-        | "921" -> ReadStartCash raw |> FIXField.StartCash
-        | "922" -> ReadEndCash raw |> FIXField.EndCash
-        | "923" -> ReadUserRequestID raw |> FIXField.UserRequestID
-        | "924" -> ReadUserRequestType raw |> FIXField.UserRequestType
-        | "925" -> ReadNewPassword raw |> FIXField.NewPassword
-        | "926" -> ReadUserStatus raw |> FIXField.UserStatus
-        | "927" -> ReadUserStatusText raw |> FIXField.UserStatusText
-        | "928" -> ReadStatusValue raw |> FIXField.StatusValue
-        | "929" -> ReadStatusText raw |> FIXField.StatusText
-        | "930" -> ReadRefCompID raw |> FIXField.RefCompID
-        | "931" -> ReadRefSubID raw |> FIXField.RefSubID
-        | "932" -> ReadNetworkResponseID raw |> FIXField.NetworkResponseID
-        | "933" -> ReadNetworkRequestID raw |> FIXField.NetworkRequestID
-        | "934" -> ReadLastNetworkResponseID raw |> FIXField.LastNetworkResponseID
-        | "935" -> ReadNetworkRequestType raw |> FIXField.NetworkRequestType
-        | "936" -> ReadNoCompIDs raw |> FIXField.NoCompIDs
-        | "937" -> ReadNetworkStatusResponseType raw |> FIXField.NetworkStatusResponseType
-        | "938" -> ReadNoCollInquiryQualifier raw |> FIXField.NoCollInquiryQualifier
-        | "939" -> ReadTrdRptStatus raw |> FIXField.TrdRptStatus
-        | "940" -> ReadAffirmStatus raw |> FIXField.AffirmStatus
-        | "941" -> ReadUnderlyingStrikeCurrency raw |> FIXField.UnderlyingStrikeCurrency
-        | "942" -> ReadLegStrikeCurrency raw |> FIXField.LegStrikeCurrency
-        | "943" -> ReadTimeBracket raw |> FIXField.TimeBracket
-        | "944" -> ReadCollAction raw |> FIXField.CollAction
-        | "945" -> ReadCollInquiryStatus raw |> FIXField.CollInquiryStatus
-        | "946" -> ReadCollInquiryResult raw |> FIXField.CollInquiryResult
-        | "947" -> ReadStrikeCurrency raw |> FIXField.StrikeCurrency
-        | "948" -> ReadNoNested3PartyIDs raw |> FIXField.NoNested3PartyIDs
-        | "949" -> ReadNested3PartyID raw |> FIXField.Nested3PartyID
-        | "950" -> ReadNested3PartyIDSource raw |> FIXField.Nested3PartyIDSource
-        | "951" -> ReadNested3PartyRole raw |> FIXField.Nested3PartyRole
-        | "952" -> ReadNoNested3PartySubIDs raw |> FIXField.NoNested3PartySubIDs
-        | "953" -> ReadNested3PartySubID raw |> FIXField.Nested3PartySubID
-        | "954" -> ReadNested3PartySubIDType raw |> FIXField.Nested3PartySubIDType
-        | "955" -> ReadLegContractSettlMonth raw |> FIXField.LegContractSettlMonth
-        | "956" -> ReadLegInterestAccrualDate raw |> FIXField.LegInterestAccrualDate
-        |  _  -> failwith "FIXField invalid tag" 
-    fld
+    | Account fixField -> WriteAccount dest nextFreeIdx fixField
+    | AdvId fixField -> WriteAdvId dest nextFreeIdx fixField
+    | AdvRefID fixField -> WriteAdvRefID dest nextFreeIdx fixField
+    | AdvSide fixField -> WriteAdvSide dest nextFreeIdx fixField
+    | AdvTransType fixField -> WriteAdvTransType dest nextFreeIdx fixField
+    | AvgPx fixField -> WriteAvgPx dest nextFreeIdx fixField
+    | BeginSeqNo fixField -> WriteBeginSeqNo dest nextFreeIdx fixField
+    | BeginString fixField -> WriteBeginString dest nextFreeIdx fixField
+    | BodyLength fixField -> WriteBodyLength dest nextFreeIdx fixField
+    | CheckSum fixField -> WriteCheckSum dest nextFreeIdx fixField
+    | ClOrdID fixField -> WriteClOrdID dest nextFreeIdx fixField
+    | Commission fixField -> WriteCommission dest nextFreeIdx fixField
+    | CommType fixField -> WriteCommType dest nextFreeIdx fixField
+    | CumQty fixField -> WriteCumQty dest nextFreeIdx fixField
+    | Currency fixField -> WriteCurrency dest nextFreeIdx fixField
+    | EndSeqNo fixField -> WriteEndSeqNo dest nextFreeIdx fixField
+    | ExecID fixField -> WriteExecID dest nextFreeIdx fixField
+    | ExecInst fixField -> WriteExecInst dest nextFreeIdx fixField
+    | ExecRefID fixField -> WriteExecRefID dest nextFreeIdx fixField
+    | HandlInst fixField -> WriteHandlInst dest nextFreeIdx fixField
+    | SecurityIDSource fixField -> WriteSecurityIDSource dest nextFreeIdx fixField
+    | IOIid fixField -> WriteIOIid dest nextFreeIdx fixField
+    | IOIQltyInd fixField -> WriteIOIQltyInd dest nextFreeIdx fixField
+    | IOIRefID fixField -> WriteIOIRefID dest nextFreeIdx fixField
+    | IOIQty fixField -> WriteIOIQty dest nextFreeIdx fixField
+    | IOITransType fixField -> WriteIOITransType dest nextFreeIdx fixField
+    | LastCapacity fixField -> WriteLastCapacity dest nextFreeIdx fixField
+    | LastMkt fixField -> WriteLastMkt dest nextFreeIdx fixField
+    | LastPx fixField -> WriteLastPx dest nextFreeIdx fixField
+    | LastQty fixField -> WriteLastQty dest nextFreeIdx fixField
+    | LinesOfText fixField -> WriteLinesOfText dest nextFreeIdx fixField
+    | MsgSeqNum fixField -> WriteMsgSeqNum dest nextFreeIdx fixField
+    | MsgType fixField -> WriteMsgType dest nextFreeIdx fixField
+    | NewSeqNo fixField -> WriteNewSeqNo dest nextFreeIdx fixField
+    | OrderID fixField -> WriteOrderID dest nextFreeIdx fixField
+    | OrderQty fixField -> WriteOrderQty dest nextFreeIdx fixField
+    | OrdStatus fixField -> WriteOrdStatus dest nextFreeIdx fixField
+    | OrdType fixField -> WriteOrdType dest nextFreeIdx fixField
+    | OrigClOrdID fixField -> WriteOrigClOrdID dest nextFreeIdx fixField
+    | OrigTime fixField -> WriteOrigTime dest nextFreeIdx fixField
+    | PossDupFlag fixField -> WritePossDupFlag dest nextFreeIdx fixField
+    | Price fixField -> WritePrice dest nextFreeIdx fixField
+    | RefSeqNum fixField -> WriteRefSeqNum dest nextFreeIdx fixField
+    | SecurityID fixField -> WriteSecurityID dest nextFreeIdx fixField
+    | SenderCompID fixField -> WriteSenderCompID dest nextFreeIdx fixField
+    | SenderSubID fixField -> WriteSenderSubID dest nextFreeIdx fixField
+    | SendingTime fixField -> WriteSendingTime dest nextFreeIdx fixField
+    | Quantity fixField -> WriteQuantity dest nextFreeIdx fixField
+    | Side fixField -> WriteSide dest nextFreeIdx fixField
+    | Symbol fixField -> WriteSymbol dest nextFreeIdx fixField
+    | TargetCompID fixField -> WriteTargetCompID dest nextFreeIdx fixField
+    | TargetSubID fixField -> WriteTargetSubID dest nextFreeIdx fixField
+    | Text fixField -> WriteText dest nextFreeIdx fixField
+    | TimeInForce fixField -> WriteTimeInForce dest nextFreeIdx fixField
+    | TransactTime fixField -> WriteTransactTime dest nextFreeIdx fixField
+    | Urgency fixField -> WriteUrgency dest nextFreeIdx fixField
+    | ValidUntilTime fixField -> WriteValidUntilTime dest nextFreeIdx fixField
+    | SettlType fixField -> WriteSettlType dest nextFreeIdx fixField
+    | SettlDate fixField -> WriteSettlDate dest nextFreeIdx fixField
+    | SymbolSfx fixField -> WriteSymbolSfx dest nextFreeIdx fixField
+    | ListID fixField -> WriteListID dest nextFreeIdx fixField
+    | ListSeqNo fixField -> WriteListSeqNo dest nextFreeIdx fixField
+    | TotNoOrders fixField -> WriteTotNoOrders dest nextFreeIdx fixField
+    | ListExecInst fixField -> WriteListExecInst dest nextFreeIdx fixField
+    | AllocID fixField -> WriteAllocID dest nextFreeIdx fixField
+    | AllocTransType fixField -> WriteAllocTransType dest nextFreeIdx fixField
+    | RefAllocID fixField -> WriteRefAllocID dest nextFreeIdx fixField
+    | NoOrders fixField -> WriteNoOrders dest nextFreeIdx fixField
+    | AvgPxPrecision fixField -> WriteAvgPxPrecision dest nextFreeIdx fixField
+    | TradeDate fixField -> WriteTradeDate dest nextFreeIdx fixField
+    | PositionEffect fixField -> WritePositionEffect dest nextFreeIdx fixField
+    | NoAllocs fixField -> WriteNoAllocs dest nextFreeIdx fixField
+    | AllocAccount fixField -> WriteAllocAccount dest nextFreeIdx fixField
+    | AllocQty fixField -> WriteAllocQty dest nextFreeIdx fixField
+    | ProcessCode fixField -> WriteProcessCode dest nextFreeIdx fixField
+    | NoRpts fixField -> WriteNoRpts dest nextFreeIdx fixField
+    | RptSeq fixField -> WriteRptSeq dest nextFreeIdx fixField
+    | CxlQty fixField -> WriteCxlQty dest nextFreeIdx fixField
+    | NoDlvyInst fixField -> WriteNoDlvyInst dest nextFreeIdx fixField
+    | AllocStatus fixField -> WriteAllocStatus dest nextFreeIdx fixField
+    | AllocRejCode fixField -> WriteAllocRejCode dest nextFreeIdx fixField
+    | Signature fixField -> WriteSignature dest nextFreeIdx fixField
+    | SecureData fixField -> WriteSecureData dest nextFreeIdx fixField // compound field
+    | SignatureLength fixField -> WriteSignatureLength dest nextFreeIdx fixField
+    | EmailType fixField -> WriteEmailType dest nextFreeIdx fixField
+    | RawDataLength fixField -> WriteRawDataLength dest nextFreeIdx fixField
+    | RawData fixField -> WriteRawData dest nextFreeIdx fixField
+    | PossResend fixField -> WritePossResend dest nextFreeIdx fixField
+    | EncryptMethod fixField -> WriteEncryptMethod dest nextFreeIdx fixField
+    | StopPx fixField -> WriteStopPx dest nextFreeIdx fixField
+    | ExDestination fixField -> WriteExDestination dest nextFreeIdx fixField
+    | CxlRejReason fixField -> WriteCxlRejReason dest nextFreeIdx fixField
+    | OrdRejReason fixField -> WriteOrdRejReason dest nextFreeIdx fixField
+    | IOIQualifier fixField -> WriteIOIQualifier dest nextFreeIdx fixField
+    | WaveNo fixField -> WriteWaveNo dest nextFreeIdx fixField
+    | Issuer fixField -> WriteIssuer dest nextFreeIdx fixField
+    | SecurityDesc fixField -> WriteSecurityDesc dest nextFreeIdx fixField
+    | HeartBtInt fixField -> WriteHeartBtInt dest nextFreeIdx fixField
+    | MinQty fixField -> WriteMinQty dest nextFreeIdx fixField
+    | MaxFloor fixField -> WriteMaxFloor dest nextFreeIdx fixField
+    | TestReqID fixField -> WriteTestReqID dest nextFreeIdx fixField
+    | ReportToExch fixField -> WriteReportToExch dest nextFreeIdx fixField
+    | LocateReqd fixField -> WriteLocateReqd dest nextFreeIdx fixField
+    | OnBehalfOfCompID fixField -> WriteOnBehalfOfCompID dest nextFreeIdx fixField
+    | OnBehalfOfSubID fixField -> WriteOnBehalfOfSubID dest nextFreeIdx fixField
+    | QuoteID fixField -> WriteQuoteID dest nextFreeIdx fixField
+    | NetMoney fixField -> WriteNetMoney dest nextFreeIdx fixField
+    | SettlCurrAmt fixField -> WriteSettlCurrAmt dest nextFreeIdx fixField
+    | SettlCurrency fixField -> WriteSettlCurrency dest nextFreeIdx fixField
+    | ForexReq fixField -> WriteForexReq dest nextFreeIdx fixField
+    | OrigSendingTime fixField -> WriteOrigSendingTime dest nextFreeIdx fixField
+    | GapFillFlag fixField -> WriteGapFillFlag dest nextFreeIdx fixField
+    | NoExecs fixField -> WriteNoExecs dest nextFreeIdx fixField
+    | ExpireTime fixField -> WriteExpireTime dest nextFreeIdx fixField
+    | DKReason fixField -> WriteDKReason dest nextFreeIdx fixField
+    | DeliverToCompID fixField -> WriteDeliverToCompID dest nextFreeIdx fixField
+    | DeliverToSubID fixField -> WriteDeliverToSubID dest nextFreeIdx fixField
+    | IOINaturalFlag fixField -> WriteIOINaturalFlag dest nextFreeIdx fixField
+    | QuoteReqID fixField -> WriteQuoteReqID dest nextFreeIdx fixField
+    | BidPx fixField -> WriteBidPx dest nextFreeIdx fixField
+    | OfferPx fixField -> WriteOfferPx dest nextFreeIdx fixField
+    | BidSize fixField -> WriteBidSize dest nextFreeIdx fixField
+    | OfferSize fixField -> WriteOfferSize dest nextFreeIdx fixField
+    | NoMiscFees fixField -> WriteNoMiscFees dest nextFreeIdx fixField
+    | MiscFeeAmt fixField -> WriteMiscFeeAmt dest nextFreeIdx fixField
+    | MiscFeeCurr fixField -> WriteMiscFeeCurr dest nextFreeIdx fixField
+    | MiscFeeType fixField -> WriteMiscFeeType dest nextFreeIdx fixField
+    | PrevClosePx fixField -> WritePrevClosePx dest nextFreeIdx fixField
+    | ResetSeqNumFlag fixField -> WriteResetSeqNumFlag dest nextFreeIdx fixField
+    | SenderLocationID fixField -> WriteSenderLocationID dest nextFreeIdx fixField
+    | TargetLocationID fixField -> WriteTargetLocationID dest nextFreeIdx fixField
+    | OnBehalfOfLocationID fixField -> WriteOnBehalfOfLocationID dest nextFreeIdx fixField
+    | DeliverToLocationID fixField -> WriteDeliverToLocationID dest nextFreeIdx fixField
+    | NoRelatedSym fixField -> WriteNoRelatedSym dest nextFreeIdx fixField
+    | Subject fixField -> WriteSubject dest nextFreeIdx fixField
+    | Headline fixField -> WriteHeadline dest nextFreeIdx fixField
+    | URLLink fixField -> WriteURLLink dest nextFreeIdx fixField
+    | ExecType fixField -> WriteExecType dest nextFreeIdx fixField
+    | LeavesQty fixField -> WriteLeavesQty dest nextFreeIdx fixField
+    | CashOrderQty fixField -> WriteCashOrderQty dest nextFreeIdx fixField
+    | AllocAvgPx fixField -> WriteAllocAvgPx dest nextFreeIdx fixField
+    | AllocNetMoney fixField -> WriteAllocNetMoney dest nextFreeIdx fixField
+    | SettlCurrFxRate fixField -> WriteSettlCurrFxRate dest nextFreeIdx fixField
+    | SettlCurrFxRateCalc fixField -> WriteSettlCurrFxRateCalc dest nextFreeIdx fixField
+    | NumDaysInterest fixField -> WriteNumDaysInterest dest nextFreeIdx fixField
+    | AccruedInterestRate fixField -> WriteAccruedInterestRate dest nextFreeIdx fixField
+    | AccruedInterestAmt fixField -> WriteAccruedInterestAmt dest nextFreeIdx fixField
+    | SettlInstMode fixField -> WriteSettlInstMode dest nextFreeIdx fixField
+    | AllocText fixField -> WriteAllocText dest nextFreeIdx fixField
+    | SettlInstID fixField -> WriteSettlInstID dest nextFreeIdx fixField
+    | SettlInstTransType fixField -> WriteSettlInstTransType dest nextFreeIdx fixField
+    | EmailThreadID fixField -> WriteEmailThreadID dest nextFreeIdx fixField
+    | SettlInstSource fixField -> WriteSettlInstSource dest nextFreeIdx fixField
+    | SecurityType fixField -> WriteSecurityType dest nextFreeIdx fixField
+    | EffectiveTime fixField -> WriteEffectiveTime dest nextFreeIdx fixField
+    | StandInstDbType fixField -> WriteStandInstDbType dest nextFreeIdx fixField
+    | StandInstDbName fixField -> WriteStandInstDbName dest nextFreeIdx fixField
+    | StandInstDbID fixField -> WriteStandInstDbID dest nextFreeIdx fixField
+    | SettlDeliveryType fixField -> WriteSettlDeliveryType dest nextFreeIdx fixField
+    | BidSpotRate fixField -> WriteBidSpotRate dest nextFreeIdx fixField
+    | BidForwardPoints fixField -> WriteBidForwardPoints dest nextFreeIdx fixField
+    | OfferSpotRate fixField -> WriteOfferSpotRate dest nextFreeIdx fixField
+    | OfferForwardPoints fixField -> WriteOfferForwardPoints dest nextFreeIdx fixField
+    | OrderQty2 fixField -> WriteOrderQty2 dest nextFreeIdx fixField
+    | SettlDate2 fixField -> WriteSettlDate2 dest nextFreeIdx fixField
+    | LastSpotRate fixField -> WriteLastSpotRate dest nextFreeIdx fixField
+    | LastForwardPoints fixField -> WriteLastForwardPoints dest nextFreeIdx fixField
+    | AllocLinkID fixField -> WriteAllocLinkID dest nextFreeIdx fixField
+    | AllocLinkType fixField -> WriteAllocLinkType dest nextFreeIdx fixField
+    | SecondaryOrderID fixField -> WriteSecondaryOrderID dest nextFreeIdx fixField
+    | NoIOIQualifiers fixField -> WriteNoIOIQualifiers dest nextFreeIdx fixField
+    | MaturityMonthYear fixField -> WriteMaturityMonthYear dest nextFreeIdx fixField
+    | PutOrCall fixField -> WritePutOrCall dest nextFreeIdx fixField
+    | StrikePrice fixField -> WriteStrikePrice dest nextFreeIdx fixField
+    | CoveredOrUncovered fixField -> WriteCoveredOrUncovered dest nextFreeIdx fixField
+    | OptAttribute fixField -> WriteOptAttribute dest nextFreeIdx fixField
+    | SecurityExchange fixField -> WriteSecurityExchange dest nextFreeIdx fixField
+    | NotifyBrokerOfCredit fixField -> WriteNotifyBrokerOfCredit dest nextFreeIdx fixField
+    | AllocHandlInst fixField -> WriteAllocHandlInst dest nextFreeIdx fixField
+    | MaxShow fixField -> WriteMaxShow dest nextFreeIdx fixField
+    | PegOffsetValue fixField -> WritePegOffsetValue dest nextFreeIdx fixField
+    | XmlData fixField -> WriteXmlData dest nextFreeIdx fixField // compound field
+    | SettlInstRefID fixField -> WriteSettlInstRefID dest nextFreeIdx fixField
+    | NoRoutingIDs fixField -> WriteNoRoutingIDs dest nextFreeIdx fixField
+    | RoutingType fixField -> WriteRoutingType dest nextFreeIdx fixField
+    | RoutingID fixField -> WriteRoutingID dest nextFreeIdx fixField
+    | Spread fixField -> WriteSpread dest nextFreeIdx fixField
+    | BenchmarkCurveCurrency fixField -> WriteBenchmarkCurveCurrency dest nextFreeIdx fixField
+    | BenchmarkCurveName fixField -> WriteBenchmarkCurveName dest nextFreeIdx fixField
+    | BenchmarkCurvePoint fixField -> WriteBenchmarkCurvePoint dest nextFreeIdx fixField
+    | CouponRate fixField -> WriteCouponRate dest nextFreeIdx fixField
+    | CouponPaymentDate fixField -> WriteCouponPaymentDate dest nextFreeIdx fixField
+    | IssueDate fixField -> WriteIssueDate dest nextFreeIdx fixField
+    | RepurchaseTerm fixField -> WriteRepurchaseTerm dest nextFreeIdx fixField
+    | RepurchaseRate fixField -> WriteRepurchaseRate dest nextFreeIdx fixField
+    | Factor fixField -> WriteFactor dest nextFreeIdx fixField
+    | TradeOriginationDate fixField -> WriteTradeOriginationDate dest nextFreeIdx fixField
+    | ExDate fixField -> WriteExDate dest nextFreeIdx fixField
+    | ContractMultiplier fixField -> WriteContractMultiplier dest nextFreeIdx fixField
+    | NoStipulations fixField -> WriteNoStipulations dest nextFreeIdx fixField
+    | StipulationType fixField -> WriteStipulationType dest nextFreeIdx fixField
+    | StipulationValue fixField -> WriteStipulationValue dest nextFreeIdx fixField
+    | YieldType fixField -> WriteYieldType dest nextFreeIdx fixField
+    | Yield fixField -> WriteYield dest nextFreeIdx fixField
+    | TotalTakedown fixField -> WriteTotalTakedown dest nextFreeIdx fixField
+    | Concession fixField -> WriteConcession dest nextFreeIdx fixField
+    | RepoCollateralSecurityType fixField -> WriteRepoCollateralSecurityType dest nextFreeIdx fixField
+    | RedemptionDate fixField -> WriteRedemptionDate dest nextFreeIdx fixField
+    | UnderlyingCouponPaymentDate fixField -> WriteUnderlyingCouponPaymentDate dest nextFreeIdx fixField
+    | UnderlyingIssueDate fixField -> WriteUnderlyingIssueDate dest nextFreeIdx fixField
+    | UnderlyingRepoCollateralSecurityType fixField -> WriteUnderlyingRepoCollateralSecurityType dest nextFreeIdx fixField
+    | UnderlyingRepurchaseTerm fixField -> WriteUnderlyingRepurchaseTerm dest nextFreeIdx fixField
+    | UnderlyingRepurchaseRate fixField -> WriteUnderlyingRepurchaseRate dest nextFreeIdx fixField
+    | UnderlyingFactor fixField -> WriteUnderlyingFactor dest nextFreeIdx fixField
+    | UnderlyingRedemptionDate fixField -> WriteUnderlyingRedemptionDate dest nextFreeIdx fixField
+    | LegCouponPaymentDate fixField -> WriteLegCouponPaymentDate dest nextFreeIdx fixField
+    | LegIssueDate fixField -> WriteLegIssueDate dest nextFreeIdx fixField
+    | LegRepoCollateralSecurityType fixField -> WriteLegRepoCollateralSecurityType dest nextFreeIdx fixField
+    | LegRepurchaseTerm fixField -> WriteLegRepurchaseTerm dest nextFreeIdx fixField
+    | LegRepurchaseRate fixField -> WriteLegRepurchaseRate dest nextFreeIdx fixField
+    | LegFactor fixField -> WriteLegFactor dest nextFreeIdx fixField
+    | LegRedemptionDate fixField -> WriteLegRedemptionDate dest nextFreeIdx fixField
+    | CreditRating fixField -> WriteCreditRating dest nextFreeIdx fixField
+    | UnderlyingCreditRating fixField -> WriteUnderlyingCreditRating dest nextFreeIdx fixField
+    | LegCreditRating fixField -> WriteLegCreditRating dest nextFreeIdx fixField
+    | TradedFlatSwitch fixField -> WriteTradedFlatSwitch dest nextFreeIdx fixField
+    | BasisFeatureDate fixField -> WriteBasisFeatureDate dest nextFreeIdx fixField
+    | BasisFeaturePrice fixField -> WriteBasisFeaturePrice dest nextFreeIdx fixField
+    | MDReqID fixField -> WriteMDReqID dest nextFreeIdx fixField
+    | SubscriptionRequestType fixField -> WriteSubscriptionRequestType dest nextFreeIdx fixField
+    | MarketDepth fixField -> WriteMarketDepth dest nextFreeIdx fixField
+    | MDUpdateType fixField -> WriteMDUpdateType dest nextFreeIdx fixField
+    | AggregatedBook fixField -> WriteAggregatedBook dest nextFreeIdx fixField
+    | NoMDEntryTypes fixField -> WriteNoMDEntryTypes dest nextFreeIdx fixField
+    | NoMDEntries fixField -> WriteNoMDEntries dest nextFreeIdx fixField
+    | MDEntryType fixField -> WriteMDEntryType dest nextFreeIdx fixField
+    | MDEntryPx fixField -> WriteMDEntryPx dest nextFreeIdx fixField
+    | MDEntrySize fixField -> WriteMDEntrySize dest nextFreeIdx fixField
+    | MDEntryDate fixField -> WriteMDEntryDate dest nextFreeIdx fixField
+    | MDEntryTime fixField -> WriteMDEntryTime dest nextFreeIdx fixField
+    | TickDirection fixField -> WriteTickDirection dest nextFreeIdx fixField
+    | MDMkt fixField -> WriteMDMkt dest nextFreeIdx fixField
+    | QuoteCondition fixField -> WriteQuoteCondition dest nextFreeIdx fixField
+    | TradeCondition fixField -> WriteTradeCondition dest nextFreeIdx fixField
+    | MDEntryID fixField -> WriteMDEntryID dest nextFreeIdx fixField
+    | MDUpdateAction fixField -> WriteMDUpdateAction dest nextFreeIdx fixField
+    | MDEntryRefID fixField -> WriteMDEntryRefID dest nextFreeIdx fixField
+    | MDReqRejReason fixField -> WriteMDReqRejReason dest nextFreeIdx fixField
+    | MDEntryOriginator fixField -> WriteMDEntryOriginator dest nextFreeIdx fixField
+    | LocationID fixField -> WriteLocationID dest nextFreeIdx fixField
+    | DeskID fixField -> WriteDeskID dest nextFreeIdx fixField
+    | DeleteReason fixField -> WriteDeleteReason dest nextFreeIdx fixField
+    | OpenCloseSettlFlag fixField -> WriteOpenCloseSettlFlag dest nextFreeIdx fixField
+    | SellerDays fixField -> WriteSellerDays dest nextFreeIdx fixField
+    | MDEntryBuyer fixField -> WriteMDEntryBuyer dest nextFreeIdx fixField
+    | MDEntrySeller fixField -> WriteMDEntrySeller dest nextFreeIdx fixField
+    | MDEntryPositionNo fixField -> WriteMDEntryPositionNo dest nextFreeIdx fixField
+    | FinancialStatus fixField -> WriteFinancialStatus dest nextFreeIdx fixField
+    | CorporateAction fixField -> WriteCorporateAction dest nextFreeIdx fixField
+    | DefBidSize fixField -> WriteDefBidSize dest nextFreeIdx fixField
+    | DefOfferSize fixField -> WriteDefOfferSize dest nextFreeIdx fixField
+    | NoQuoteEntries fixField -> WriteNoQuoteEntries dest nextFreeIdx fixField
+    | NoQuoteSets fixField -> WriteNoQuoteSets dest nextFreeIdx fixField
+    | QuoteStatus fixField -> WriteQuoteStatus dest nextFreeIdx fixField
+    | QuoteCancelType fixField -> WriteQuoteCancelType dest nextFreeIdx fixField
+    | QuoteEntryID fixField -> WriteQuoteEntryID dest nextFreeIdx fixField
+    | QuoteRejectReason fixField -> WriteQuoteRejectReason dest nextFreeIdx fixField
+    | QuoteResponseLevel fixField -> WriteQuoteResponseLevel dest nextFreeIdx fixField
+    | QuoteSetID fixField -> WriteQuoteSetID dest nextFreeIdx fixField
+    | QuoteRequestType fixField -> WriteQuoteRequestType dest nextFreeIdx fixField
+    | TotNoQuoteEntries fixField -> WriteTotNoQuoteEntries dest nextFreeIdx fixField
+    | UnderlyingSecurityIDSource fixField -> WriteUnderlyingSecurityIDSource dest nextFreeIdx fixField
+    | UnderlyingIssuer fixField -> WriteUnderlyingIssuer dest nextFreeIdx fixField
+    | UnderlyingSecurityDesc fixField -> WriteUnderlyingSecurityDesc dest nextFreeIdx fixField
+    | UnderlyingSecurityExchange fixField -> WriteUnderlyingSecurityExchange dest nextFreeIdx fixField
+    | UnderlyingSecurityID fixField -> WriteUnderlyingSecurityID dest nextFreeIdx fixField
+    | UnderlyingSecurityType fixField -> WriteUnderlyingSecurityType dest nextFreeIdx fixField
+    | UnderlyingSymbol fixField -> WriteUnderlyingSymbol dest nextFreeIdx fixField
+    | UnderlyingSymbolSfx fixField -> WriteUnderlyingSymbolSfx dest nextFreeIdx fixField
+    | UnderlyingMaturityMonthYear fixField -> WriteUnderlyingMaturityMonthYear dest nextFreeIdx fixField
+    | UnderlyingPutOrCall fixField -> WriteUnderlyingPutOrCall dest nextFreeIdx fixField
+    | UnderlyingStrikePrice fixField -> WriteUnderlyingStrikePrice dest nextFreeIdx fixField
+    | UnderlyingOptAttribute fixField -> WriteUnderlyingOptAttribute dest nextFreeIdx fixField
+    | UnderlyingCurrency fixField -> WriteUnderlyingCurrency dest nextFreeIdx fixField
+    | SecurityReqID fixField -> WriteSecurityReqID dest nextFreeIdx fixField
+    | SecurityRequestType fixField -> WriteSecurityRequestType dest nextFreeIdx fixField
+    | SecurityResponseID fixField -> WriteSecurityResponseID dest nextFreeIdx fixField
+    | SecurityResponseType fixField -> WriteSecurityResponseType dest nextFreeIdx fixField
+    | SecurityStatusReqID fixField -> WriteSecurityStatusReqID dest nextFreeIdx fixField
+    | UnsolicitedIndicator fixField -> WriteUnsolicitedIndicator dest nextFreeIdx fixField
+    | SecurityTradingStatus fixField -> WriteSecurityTradingStatus dest nextFreeIdx fixField
+    | HaltReason fixField -> WriteHaltReason dest nextFreeIdx fixField
+    | InViewOfCommon fixField -> WriteInViewOfCommon dest nextFreeIdx fixField
+    | DueToRelated fixField -> WriteDueToRelated dest nextFreeIdx fixField
+    | BuyVolume fixField -> WriteBuyVolume dest nextFreeIdx fixField
+    | SellVolume fixField -> WriteSellVolume dest nextFreeIdx fixField
+    | HighPx fixField -> WriteHighPx dest nextFreeIdx fixField
+    | LowPx fixField -> WriteLowPx dest nextFreeIdx fixField
+    | Adjustment fixField -> WriteAdjustment dest nextFreeIdx fixField
+    | TradSesReqID fixField -> WriteTradSesReqID dest nextFreeIdx fixField
+    | TradingSessionID fixField -> WriteTradingSessionID dest nextFreeIdx fixField
+    | ContraTrader fixField -> WriteContraTrader dest nextFreeIdx fixField
+    | TradSesMethod fixField -> WriteTradSesMethod dest nextFreeIdx fixField
+    | TradSesMode fixField -> WriteTradSesMode dest nextFreeIdx fixField
+    | TradSesStatus fixField -> WriteTradSesStatus dest nextFreeIdx fixField
+    | TradSesStartTime fixField -> WriteTradSesStartTime dest nextFreeIdx fixField
+    | TradSesOpenTime fixField -> WriteTradSesOpenTime dest nextFreeIdx fixField
+    | TradSesPreCloseTime fixField -> WriteTradSesPreCloseTime dest nextFreeIdx fixField
+    | TradSesCloseTime fixField -> WriteTradSesCloseTime dest nextFreeIdx fixField
+    | TradSesEndTime fixField -> WriteTradSesEndTime dest nextFreeIdx fixField
+    | NumberOfOrders fixField -> WriteNumberOfOrders dest nextFreeIdx fixField
+    | MessageEncoding fixField -> WriteMessageEncoding dest nextFreeIdx fixField
+    | EncodedIssuer fixField -> WriteEncodedIssuer dest nextFreeIdx fixField // compound field
+    | EncodedSecurityDesc fixField -> WriteEncodedSecurityDesc dest nextFreeIdx fixField // compound field
+    | EncodedListExecInst fixField -> WriteEncodedListExecInst dest nextFreeIdx fixField // compound field
+    | EncodedText fixField -> WriteEncodedText dest nextFreeIdx fixField // compound field
+    | EncodedSubject fixField -> WriteEncodedSubject dest nextFreeIdx fixField // compound field
+    | EncodedHeadline fixField -> WriteEncodedHeadline dest nextFreeIdx fixField // compound field
+    | EncodedAllocText fixField -> WriteEncodedAllocText dest nextFreeIdx fixField // compound field
+    | EncodedUnderlyingIssuer fixField -> WriteEncodedUnderlyingIssuer dest nextFreeIdx fixField // compound field
+    | EncodedUnderlyingSecurityDesc fixField -> WriteEncodedUnderlyingSecurityDesc dest nextFreeIdx fixField // compound field
+    | AllocPrice fixField -> WriteAllocPrice dest nextFreeIdx fixField
+    | QuoteSetValidUntilTime fixField -> WriteQuoteSetValidUntilTime dest nextFreeIdx fixField
+    | QuoteEntryRejectReason fixField -> WriteQuoteEntryRejectReason dest nextFreeIdx fixField
+    | LastMsgSeqNumProcessed fixField -> WriteLastMsgSeqNumProcessed dest nextFreeIdx fixField
+    | RefTagID fixField -> WriteRefTagID dest nextFreeIdx fixField
+    | RefMsgType fixField -> WriteRefMsgType dest nextFreeIdx fixField
+    | SessionRejectReason fixField -> WriteSessionRejectReason dest nextFreeIdx fixField
+    | BidRequestTransType fixField -> WriteBidRequestTransType dest nextFreeIdx fixField
+    | ContraBroker fixField -> WriteContraBroker dest nextFreeIdx fixField
+    | ComplianceID fixField -> WriteComplianceID dest nextFreeIdx fixField
+    | SolicitedFlag fixField -> WriteSolicitedFlag dest nextFreeIdx fixField
+    | ExecRestatementReason fixField -> WriteExecRestatementReason dest nextFreeIdx fixField
+    | BusinessRejectRefID fixField -> WriteBusinessRejectRefID dest nextFreeIdx fixField
+    | BusinessRejectReason fixField -> WriteBusinessRejectReason dest nextFreeIdx fixField
+    | GrossTradeAmt fixField -> WriteGrossTradeAmt dest nextFreeIdx fixField
+    | NoContraBrokers fixField -> WriteNoContraBrokers dest nextFreeIdx fixField
+    | MaxMessageSize fixField -> WriteMaxMessageSize dest nextFreeIdx fixField
+    | NoMsgTypes fixField -> WriteNoMsgTypes dest nextFreeIdx fixField
+    | MsgDirection fixField -> WriteMsgDirection dest nextFreeIdx fixField
+    | NoTradingSessions fixField -> WriteNoTradingSessions dest nextFreeIdx fixField
+    | TotalVolumeTraded fixField -> WriteTotalVolumeTraded dest nextFreeIdx fixField
+    | DiscretionInst fixField -> WriteDiscretionInst dest nextFreeIdx fixField
+    | DiscretionOffsetValue fixField -> WriteDiscretionOffsetValue dest nextFreeIdx fixField
+    | BidID fixField -> WriteBidID dest nextFreeIdx fixField
+    | ClientBidID fixField -> WriteClientBidID dest nextFreeIdx fixField
+    | ListName fixField -> WriteListName dest nextFreeIdx fixField
+    | TotNoRelatedSym fixField -> WriteTotNoRelatedSym dest nextFreeIdx fixField
+    | BidType fixField -> WriteBidType dest nextFreeIdx fixField
+    | NumTickets fixField -> WriteNumTickets dest nextFreeIdx fixField
+    | SideValue1 fixField -> WriteSideValue1 dest nextFreeIdx fixField
+    | SideValue2 fixField -> WriteSideValue2 dest nextFreeIdx fixField
+    | NoBidDescriptors fixField -> WriteNoBidDescriptors dest nextFreeIdx fixField
+    | BidDescriptorType fixField -> WriteBidDescriptorType dest nextFreeIdx fixField
+    | BidDescriptor fixField -> WriteBidDescriptor dest nextFreeIdx fixField
+    | SideValueInd fixField -> WriteSideValueInd dest nextFreeIdx fixField
+    | LiquidityPctLow fixField -> WriteLiquidityPctLow dest nextFreeIdx fixField
+    | LiquidityPctHigh fixField -> WriteLiquidityPctHigh dest nextFreeIdx fixField
+    | LiquidityValue fixField -> WriteLiquidityValue dest nextFreeIdx fixField
+    | EFPTrackingError fixField -> WriteEFPTrackingError dest nextFreeIdx fixField
+    | FairValue fixField -> WriteFairValue dest nextFreeIdx fixField
+    | OutsideIndexPct fixField -> WriteOutsideIndexPct dest nextFreeIdx fixField
+    | ValueOfFutures fixField -> WriteValueOfFutures dest nextFreeIdx fixField
+    | LiquidityIndType fixField -> WriteLiquidityIndType dest nextFreeIdx fixField
+    | WtAverageLiquidity fixField -> WriteWtAverageLiquidity dest nextFreeIdx fixField
+    | ExchangeForPhysical fixField -> WriteExchangeForPhysical dest nextFreeIdx fixField
+    | OutMainCntryUIndex fixField -> WriteOutMainCntryUIndex dest nextFreeIdx fixField
+    | CrossPercent fixField -> WriteCrossPercent dest nextFreeIdx fixField
+    | ProgRptReqs fixField -> WriteProgRptReqs dest nextFreeIdx fixField
+    | ProgPeriodInterval fixField -> WriteProgPeriodInterval dest nextFreeIdx fixField
+    | IncTaxInd fixField -> WriteIncTaxInd dest nextFreeIdx fixField
+    | NumBidders fixField -> WriteNumBidders dest nextFreeIdx fixField
+    | BidTradeType fixField -> WriteBidTradeType dest nextFreeIdx fixField
+    | BasisPxType fixField -> WriteBasisPxType dest nextFreeIdx fixField
+    | NoBidComponents fixField -> WriteNoBidComponents dest nextFreeIdx fixField
+    | Country fixField -> WriteCountry dest nextFreeIdx fixField
+    | TotNoStrikes fixField -> WriteTotNoStrikes dest nextFreeIdx fixField
+    | PriceType fixField -> WritePriceType dest nextFreeIdx fixField
+    | DayOrderQty fixField -> WriteDayOrderQty dest nextFreeIdx fixField
+    | DayCumQty fixField -> WriteDayCumQty dest nextFreeIdx fixField
+    | DayAvgPx fixField -> WriteDayAvgPx dest nextFreeIdx fixField
+    | GTBookingInst fixField -> WriteGTBookingInst dest nextFreeIdx fixField
+    | NoStrikes fixField -> WriteNoStrikes dest nextFreeIdx fixField
+    | ListStatusType fixField -> WriteListStatusType dest nextFreeIdx fixField
+    | NetGrossInd fixField -> WriteNetGrossInd dest nextFreeIdx fixField
+    | ListOrderStatus fixField -> WriteListOrderStatus dest nextFreeIdx fixField
+    | ExpireDate fixField -> WriteExpireDate dest nextFreeIdx fixField
+    | ListExecInstType fixField -> WriteListExecInstType dest nextFreeIdx fixField
+    | CxlRejResponseTo fixField -> WriteCxlRejResponseTo dest nextFreeIdx fixField
+    | UnderlyingCouponRate fixField -> WriteUnderlyingCouponRate dest nextFreeIdx fixField
+    | UnderlyingContractMultiplier fixField -> WriteUnderlyingContractMultiplier dest nextFreeIdx fixField
+    | ContraTradeQty fixField -> WriteContraTradeQty dest nextFreeIdx fixField
+    | ContraTradeTime fixField -> WriteContraTradeTime dest nextFreeIdx fixField
+    | LiquidityNumSecurities fixField -> WriteLiquidityNumSecurities dest nextFreeIdx fixField
+    | MultiLegReportingType fixField -> WriteMultiLegReportingType dest nextFreeIdx fixField
+    | StrikeTime fixField -> WriteStrikeTime dest nextFreeIdx fixField
+    | ListStatusText fixField -> WriteListStatusText dest nextFreeIdx fixField
+    | EncodedListStatusText fixField -> WriteEncodedListStatusText dest nextFreeIdx fixField // compound field
+    | PartyIDSource fixField -> WritePartyIDSource dest nextFreeIdx fixField
+    | PartyID fixField -> WritePartyID dest nextFreeIdx fixField
+    | NetChgPrevDay fixField -> WriteNetChgPrevDay dest nextFreeIdx fixField
+    | PartyRole fixField -> WritePartyRole dest nextFreeIdx fixField
+    | NoPartyIDs fixField -> WriteNoPartyIDs dest nextFreeIdx fixField
+    | NoSecurityAltID fixField -> WriteNoSecurityAltID dest nextFreeIdx fixField
+    | SecurityAltID fixField -> WriteSecurityAltID dest nextFreeIdx fixField
+    | SecurityAltIDSource fixField -> WriteSecurityAltIDSource dest nextFreeIdx fixField
+    | NoUnderlyingSecurityAltID fixField -> WriteNoUnderlyingSecurityAltID dest nextFreeIdx fixField
+    | UnderlyingSecurityAltID fixField -> WriteUnderlyingSecurityAltID dest nextFreeIdx fixField
+    | UnderlyingSecurityAltIDSource fixField -> WriteUnderlyingSecurityAltIDSource dest nextFreeIdx fixField
+    | Product fixField -> WriteProduct dest nextFreeIdx fixField
+    | CFICode fixField -> WriteCFICode dest nextFreeIdx fixField
+    | UnderlyingProduct fixField -> WriteUnderlyingProduct dest nextFreeIdx fixField
+    | UnderlyingCFICode fixField -> WriteUnderlyingCFICode dest nextFreeIdx fixField
+    | TestMessageIndicator fixField -> WriteTestMessageIndicator dest nextFreeIdx fixField
+    | QuantityType fixField -> WriteQuantityType dest nextFreeIdx fixField
+    | BookingRefID fixField -> WriteBookingRefID dest nextFreeIdx fixField
+    | IndividualAllocID fixField -> WriteIndividualAllocID dest nextFreeIdx fixField
+    | RoundingDirection fixField -> WriteRoundingDirection dest nextFreeIdx fixField
+    | RoundingModulus fixField -> WriteRoundingModulus dest nextFreeIdx fixField
+    | CountryOfIssue fixField -> WriteCountryOfIssue dest nextFreeIdx fixField
+    | StateOrProvinceOfIssue fixField -> WriteStateOrProvinceOfIssue dest nextFreeIdx fixField
+    | LocaleOfIssue fixField -> WriteLocaleOfIssue dest nextFreeIdx fixField
+    | NoRegistDtls fixField -> WriteNoRegistDtls dest nextFreeIdx fixField
+    | MailingDtls fixField -> WriteMailingDtls dest nextFreeIdx fixField
+    | InvestorCountryOfResidence fixField -> WriteInvestorCountryOfResidence dest nextFreeIdx fixField
+    | PaymentRef fixField -> WritePaymentRef dest nextFreeIdx fixField
+    | DistribPaymentMethod fixField -> WriteDistribPaymentMethod dest nextFreeIdx fixField
+    | CashDistribCurr fixField -> WriteCashDistribCurr dest nextFreeIdx fixField
+    | CommCurrency fixField -> WriteCommCurrency dest nextFreeIdx fixField
+    | CancellationRights fixField -> WriteCancellationRights dest nextFreeIdx fixField
+    | MoneyLaunderingStatus fixField -> WriteMoneyLaunderingStatus dest nextFreeIdx fixField
+    | MailingInst fixField -> WriteMailingInst dest nextFreeIdx fixField
+    | TransBkdTime fixField -> WriteTransBkdTime dest nextFreeIdx fixField
+    | ExecPriceType fixField -> WriteExecPriceType dest nextFreeIdx fixField
+    | ExecPriceAdjustment fixField -> WriteExecPriceAdjustment dest nextFreeIdx fixField
+    | DateOfBirth fixField -> WriteDateOfBirth dest nextFreeIdx fixField
+    | TradeReportTransType fixField -> WriteTradeReportTransType dest nextFreeIdx fixField
+    | CardHolderName fixField -> WriteCardHolderName dest nextFreeIdx fixField
+    | CardNumber fixField -> WriteCardNumber dest nextFreeIdx fixField
+    | CardExpDate fixField -> WriteCardExpDate dest nextFreeIdx fixField
+    | CardIssNum fixField -> WriteCardIssNum dest nextFreeIdx fixField
+    | PaymentMethod fixField -> WritePaymentMethod dest nextFreeIdx fixField
+    | RegistAcctType fixField -> WriteRegistAcctType dest nextFreeIdx fixField
+    | Designation fixField -> WriteDesignation dest nextFreeIdx fixField
+    | TaxAdvantageType fixField -> WriteTaxAdvantageType dest nextFreeIdx fixField
+    | RegistRejReasonText fixField -> WriteRegistRejReasonText dest nextFreeIdx fixField
+    | FundRenewWaiv fixField -> WriteFundRenewWaiv dest nextFreeIdx fixField
+    | CashDistribAgentName fixField -> WriteCashDistribAgentName dest nextFreeIdx fixField
+    | CashDistribAgentCode fixField -> WriteCashDistribAgentCode dest nextFreeIdx fixField
+    | CashDistribAgentAcctNumber fixField -> WriteCashDistribAgentAcctNumber dest nextFreeIdx fixField
+    | CashDistribPayRef fixField -> WriteCashDistribPayRef dest nextFreeIdx fixField
+    | CashDistribAgentAcctName fixField -> WriteCashDistribAgentAcctName dest nextFreeIdx fixField
+    | CardStartDate fixField -> WriteCardStartDate dest nextFreeIdx fixField
+    | PaymentDate fixField -> WritePaymentDate dest nextFreeIdx fixField
+    | PaymentRemitterID fixField -> WritePaymentRemitterID dest nextFreeIdx fixField
+    | RegistStatus fixField -> WriteRegistStatus dest nextFreeIdx fixField
+    | RegistRejReasonCode fixField -> WriteRegistRejReasonCode dest nextFreeIdx fixField
+    | RegistRefID fixField -> WriteRegistRefID dest nextFreeIdx fixField
+    | RegistDtls fixField -> WriteRegistDtls dest nextFreeIdx fixField
+    | NoDistribInsts fixField -> WriteNoDistribInsts dest nextFreeIdx fixField
+    | RegistEmail fixField -> WriteRegistEmail dest nextFreeIdx fixField
+    | DistribPercentage fixField -> WriteDistribPercentage dest nextFreeIdx fixField
+    | RegistID fixField -> WriteRegistID dest nextFreeIdx fixField
+    | RegistTransType fixField -> WriteRegistTransType dest nextFreeIdx fixField
+    | ExecValuationPoint fixField -> WriteExecValuationPoint dest nextFreeIdx fixField
+    | OrderPercent fixField -> WriteOrderPercent dest nextFreeIdx fixField
+    | OwnershipType fixField -> WriteOwnershipType dest nextFreeIdx fixField
+    | NoContAmts fixField -> WriteNoContAmts dest nextFreeIdx fixField
+    | ContAmtType fixField -> WriteContAmtType dest nextFreeIdx fixField
+    | ContAmtValue fixField -> WriteContAmtValue dest nextFreeIdx fixField
+    | ContAmtCurr fixField -> WriteContAmtCurr dest nextFreeIdx fixField
+    | OwnerType fixField -> WriteOwnerType dest nextFreeIdx fixField
+    | PartySubID fixField -> WritePartySubID dest nextFreeIdx fixField
+    | NestedPartyID fixField -> WriteNestedPartyID dest nextFreeIdx fixField
+    | NestedPartyIDSource fixField -> WriteNestedPartyIDSource dest nextFreeIdx fixField
+    | SecondaryClOrdID fixField -> WriteSecondaryClOrdID dest nextFreeIdx fixField
+    | SecondaryExecID fixField -> WriteSecondaryExecID dest nextFreeIdx fixField
+    | OrderCapacity fixField -> WriteOrderCapacity dest nextFreeIdx fixField
+    | OrderRestrictions fixField -> WriteOrderRestrictions dest nextFreeIdx fixField
+    | MassCancelRequestType fixField -> WriteMassCancelRequestType dest nextFreeIdx fixField
+    | MassCancelResponse fixField -> WriteMassCancelResponse dest nextFreeIdx fixField
+    | MassCancelRejectReason fixField -> WriteMassCancelRejectReason dest nextFreeIdx fixField
+    | TotalAffectedOrders fixField -> WriteTotalAffectedOrders dest nextFreeIdx fixField
+    | NoAffectedOrders fixField -> WriteNoAffectedOrders dest nextFreeIdx fixField
+    | AffectedOrderID fixField -> WriteAffectedOrderID dest nextFreeIdx fixField
+    | AffectedSecondaryOrderID fixField -> WriteAffectedSecondaryOrderID dest nextFreeIdx fixField
+    | QuoteType fixField -> WriteQuoteType dest nextFreeIdx fixField
+    | NestedPartyRole fixField -> WriteNestedPartyRole dest nextFreeIdx fixField
+    | NoNestedPartyIDs fixField -> WriteNoNestedPartyIDs dest nextFreeIdx fixField
+    | TotalAccruedInterestAmt fixField -> WriteTotalAccruedInterestAmt dest nextFreeIdx fixField
+    | MaturityDate fixField -> WriteMaturityDate dest nextFreeIdx fixField
+    | UnderlyingMaturityDate fixField -> WriteUnderlyingMaturityDate dest nextFreeIdx fixField
+    | InstrRegistry fixField -> WriteInstrRegistry dest nextFreeIdx fixField
+    | CashMargin fixField -> WriteCashMargin dest nextFreeIdx fixField
+    | NestedPartySubID fixField -> WriteNestedPartySubID dest nextFreeIdx fixField
+    | Scope fixField -> WriteScope dest nextFreeIdx fixField
+    | MDImplicitDelete fixField -> WriteMDImplicitDelete dest nextFreeIdx fixField
+    | CrossID fixField -> WriteCrossID dest nextFreeIdx fixField
+    | CrossType fixField -> WriteCrossType dest nextFreeIdx fixField
+    | CrossPrioritization fixField -> WriteCrossPrioritization dest nextFreeIdx fixField
+    | OrigCrossID fixField -> WriteOrigCrossID dest nextFreeIdx fixField
+    | NoSides fixField -> WriteNoSides dest nextFreeIdx fixField
+    | Username fixField -> WriteUsername dest nextFreeIdx fixField
+    | Password fixField -> WritePassword dest nextFreeIdx fixField
+    | NoLegs fixField -> WriteNoLegs dest nextFreeIdx fixField
+    | LegCurrency fixField -> WriteLegCurrency dest nextFreeIdx fixField
+    | TotNoSecurityTypes fixField -> WriteTotNoSecurityTypes dest nextFreeIdx fixField
+    | NoSecurityTypes fixField -> WriteNoSecurityTypes dest nextFreeIdx fixField
+    | SecurityListRequestType fixField -> WriteSecurityListRequestType dest nextFreeIdx fixField
+    | SecurityRequestResult fixField -> WriteSecurityRequestResult dest nextFreeIdx fixField
+    | RoundLot fixField -> WriteRoundLot dest nextFreeIdx fixField
+    | MinTradeVol fixField -> WriteMinTradeVol dest nextFreeIdx fixField
+    | MultiLegRptTypeReq fixField -> WriteMultiLegRptTypeReq dest nextFreeIdx fixField
+    | LegPositionEffect fixField -> WriteLegPositionEffect dest nextFreeIdx fixField
+    | LegCoveredOrUncovered fixField -> WriteLegCoveredOrUncovered dest nextFreeIdx fixField
+    | LegPrice fixField -> WriteLegPrice dest nextFreeIdx fixField
+    | TradSesStatusRejReason fixField -> WriteTradSesStatusRejReason dest nextFreeIdx fixField
+    | TradeRequestID fixField -> WriteTradeRequestID dest nextFreeIdx fixField
+    | TradeRequestType fixField -> WriteTradeRequestType dest nextFreeIdx fixField
+    | PreviouslyReported fixField -> WritePreviouslyReported dest nextFreeIdx fixField
+    | TradeReportID fixField -> WriteTradeReportID dest nextFreeIdx fixField
+    | TradeReportRefID fixField -> WriteTradeReportRefID dest nextFreeIdx fixField
+    | MatchStatus fixField -> WriteMatchStatus dest nextFreeIdx fixField
+    | MatchType fixField -> WriteMatchType dest nextFreeIdx fixField
+    | OddLot fixField -> WriteOddLot dest nextFreeIdx fixField
+    | NoClearingInstructions fixField -> WriteNoClearingInstructions dest nextFreeIdx fixField
+    | ClearingInstruction fixField -> WriteClearingInstruction dest nextFreeIdx fixField
+    | TradeInputSource fixField -> WriteTradeInputSource dest nextFreeIdx fixField
+    | TradeInputDevice fixField -> WriteTradeInputDevice dest nextFreeIdx fixField
+    | NoDates fixField -> WriteNoDates dest nextFreeIdx fixField
+    | AccountType fixField -> WriteAccountType dest nextFreeIdx fixField
+    | CustOrderCapacity fixField -> WriteCustOrderCapacity dest nextFreeIdx fixField
+    | ClOrdLinkID fixField -> WriteClOrdLinkID dest nextFreeIdx fixField
+    | MassStatusReqID fixField -> WriteMassStatusReqID dest nextFreeIdx fixField
+    | MassStatusReqType fixField -> WriteMassStatusReqType dest nextFreeIdx fixField
+    | OrigOrdModTime fixField -> WriteOrigOrdModTime dest nextFreeIdx fixField
+    | LegSettlType fixField -> WriteLegSettlType dest nextFreeIdx fixField
+    | LegSettlDate fixField -> WriteLegSettlDate dest nextFreeIdx fixField
+    | DayBookingInst fixField -> WriteDayBookingInst dest nextFreeIdx fixField
+    | BookingUnit fixField -> WriteBookingUnit dest nextFreeIdx fixField
+    | PreallocMethod fixField -> WritePreallocMethod dest nextFreeIdx fixField
+    | UnderlyingCountryOfIssue fixField -> WriteUnderlyingCountryOfIssue dest nextFreeIdx fixField
+    | UnderlyingStateOrProvinceOfIssue fixField -> WriteUnderlyingStateOrProvinceOfIssue dest nextFreeIdx fixField
+    | UnderlyingLocaleOfIssue fixField -> WriteUnderlyingLocaleOfIssue dest nextFreeIdx fixField
+    | UnderlyingInstrRegistry fixField -> WriteUnderlyingInstrRegistry dest nextFreeIdx fixField
+    | LegCountryOfIssue fixField -> WriteLegCountryOfIssue dest nextFreeIdx fixField
+    | LegStateOrProvinceOfIssue fixField -> WriteLegStateOrProvinceOfIssue dest nextFreeIdx fixField
+    | LegLocaleOfIssue fixField -> WriteLegLocaleOfIssue dest nextFreeIdx fixField
+    | LegInstrRegistry fixField -> WriteLegInstrRegistry dest nextFreeIdx fixField
+    | LegSymbol fixField -> WriteLegSymbol dest nextFreeIdx fixField
+    | LegSymbolSfx fixField -> WriteLegSymbolSfx dest nextFreeIdx fixField
+    | LegSecurityID fixField -> WriteLegSecurityID dest nextFreeIdx fixField
+    | LegSecurityIDSource fixField -> WriteLegSecurityIDSource dest nextFreeIdx fixField
+    | NoLegSecurityAltID fixField -> WriteNoLegSecurityAltID dest nextFreeIdx fixField
+    | LegSecurityAltID fixField -> WriteLegSecurityAltID dest nextFreeIdx fixField
+    | LegSecurityAltIDSource fixField -> WriteLegSecurityAltIDSource dest nextFreeIdx fixField
+    | LegProduct fixField -> WriteLegProduct dest nextFreeIdx fixField
+    | LegCFICode fixField -> WriteLegCFICode dest nextFreeIdx fixField
+    | LegSecurityType fixField -> WriteLegSecurityType dest nextFreeIdx fixField
+    | LegMaturityMonthYear fixField -> WriteLegMaturityMonthYear dest nextFreeIdx fixField
+    | LegMaturityDate fixField -> WriteLegMaturityDate dest nextFreeIdx fixField
+    | LegStrikePrice fixField -> WriteLegStrikePrice dest nextFreeIdx fixField
+    | LegOptAttribute fixField -> WriteLegOptAttribute dest nextFreeIdx fixField
+    | LegContractMultiplier fixField -> WriteLegContractMultiplier dest nextFreeIdx fixField
+    | LegCouponRate fixField -> WriteLegCouponRate dest nextFreeIdx fixField
+    | LegSecurityExchange fixField -> WriteLegSecurityExchange dest nextFreeIdx fixField
+    | LegIssuer fixField -> WriteLegIssuer dest nextFreeIdx fixField
+    | EncodedLegIssuer fixField -> WriteEncodedLegIssuer dest nextFreeIdx fixField // compound field
+    | LegSecurityDesc fixField -> WriteLegSecurityDesc dest nextFreeIdx fixField
+    | EncodedLegSecurityDesc fixField -> WriteEncodedLegSecurityDesc dest nextFreeIdx fixField // compound field
+    | LegRatioQty fixField -> WriteLegRatioQty dest nextFreeIdx fixField
+    | LegSide fixField -> WriteLegSide dest nextFreeIdx fixField
+    | TradingSessionSubID fixField -> WriteTradingSessionSubID dest nextFreeIdx fixField
+    | AllocType fixField -> WriteAllocType dest nextFreeIdx fixField
+    | NoHops fixField -> WriteNoHops dest nextFreeIdx fixField
+    | HopCompID fixField -> WriteHopCompID dest nextFreeIdx fixField
+    | HopSendingTime fixField -> WriteHopSendingTime dest nextFreeIdx fixField
+    | HopRefID fixField -> WriteHopRefID dest nextFreeIdx fixField
+    | MidPx fixField -> WriteMidPx dest nextFreeIdx fixField
+    | BidYield fixField -> WriteBidYield dest nextFreeIdx fixField
+    | MidYield fixField -> WriteMidYield dest nextFreeIdx fixField
+    | OfferYield fixField -> WriteOfferYield dest nextFreeIdx fixField
+    | ClearingFeeIndicator fixField -> WriteClearingFeeIndicator dest nextFreeIdx fixField
+    | WorkingIndicator fixField -> WriteWorkingIndicator dest nextFreeIdx fixField
+    | LegLastPx fixField -> WriteLegLastPx dest nextFreeIdx fixField
+    | PriorityIndicator fixField -> WritePriorityIndicator dest nextFreeIdx fixField
+    | PriceImprovement fixField -> WritePriceImprovement dest nextFreeIdx fixField
+    | Price2 fixField -> WritePrice2 dest nextFreeIdx fixField
+    | LastForwardPoints2 fixField -> WriteLastForwardPoints2 dest nextFreeIdx fixField
+    | BidForwardPoints2 fixField -> WriteBidForwardPoints2 dest nextFreeIdx fixField
+    | OfferForwardPoints2 fixField -> WriteOfferForwardPoints2 dest nextFreeIdx fixField
+    | RFQReqID fixField -> WriteRFQReqID dest nextFreeIdx fixField
+    | MktBidPx fixField -> WriteMktBidPx dest nextFreeIdx fixField
+    | MktOfferPx fixField -> WriteMktOfferPx dest nextFreeIdx fixField
+    | MinBidSize fixField -> WriteMinBidSize dest nextFreeIdx fixField
+    | MinOfferSize fixField -> WriteMinOfferSize dest nextFreeIdx fixField
+    | QuoteStatusReqID fixField -> WriteQuoteStatusReqID dest nextFreeIdx fixField
+    | LegalConfirm fixField -> WriteLegalConfirm dest nextFreeIdx fixField
+    | UnderlyingLastPx fixField -> WriteUnderlyingLastPx dest nextFreeIdx fixField
+    | UnderlyingLastQty fixField -> WriteUnderlyingLastQty dest nextFreeIdx fixField
+    | LegRefID fixField -> WriteLegRefID dest nextFreeIdx fixField
+    | ContraLegRefID fixField -> WriteContraLegRefID dest nextFreeIdx fixField
+    | SettlCurrBidFxRate fixField -> WriteSettlCurrBidFxRate dest nextFreeIdx fixField
+    | SettlCurrOfferFxRate fixField -> WriteSettlCurrOfferFxRate dest nextFreeIdx fixField
+    | QuoteRequestRejectReason fixField -> WriteQuoteRequestRejectReason dest nextFreeIdx fixField
+    | SideComplianceID fixField -> WriteSideComplianceID dest nextFreeIdx fixField
+    | AcctIDSource fixField -> WriteAcctIDSource dest nextFreeIdx fixField
+    | AllocAcctIDSource fixField -> WriteAllocAcctIDSource dest nextFreeIdx fixField
+    | BenchmarkPrice fixField -> WriteBenchmarkPrice dest nextFreeIdx fixField
+    | BenchmarkPriceType fixField -> WriteBenchmarkPriceType dest nextFreeIdx fixField
+    | ConfirmID fixField -> WriteConfirmID dest nextFreeIdx fixField
+    | ConfirmStatus fixField -> WriteConfirmStatus dest nextFreeIdx fixField
+    | ConfirmTransType fixField -> WriteConfirmTransType dest nextFreeIdx fixField
+    | ContractSettlMonth fixField -> WriteContractSettlMonth dest nextFreeIdx fixField
+    | DeliveryForm fixField -> WriteDeliveryForm dest nextFreeIdx fixField
+    | LastParPx fixField -> WriteLastParPx dest nextFreeIdx fixField
+    | NoLegAllocs fixField -> WriteNoLegAllocs dest nextFreeIdx fixField
+    | LegAllocAccount fixField -> WriteLegAllocAccount dest nextFreeIdx fixField
+    | LegIndividualAllocID fixField -> WriteLegIndividualAllocID dest nextFreeIdx fixField
+    | LegAllocQty fixField -> WriteLegAllocQty dest nextFreeIdx fixField
+    | LegAllocAcctIDSource fixField -> WriteLegAllocAcctIDSource dest nextFreeIdx fixField
+    | LegSettlCurrency fixField -> WriteLegSettlCurrency dest nextFreeIdx fixField
+    | LegBenchmarkCurveCurrency fixField -> WriteLegBenchmarkCurveCurrency dest nextFreeIdx fixField
+    | LegBenchmarkCurveName fixField -> WriteLegBenchmarkCurveName dest nextFreeIdx fixField
+    | LegBenchmarkCurvePoint fixField -> WriteLegBenchmarkCurvePoint dest nextFreeIdx fixField
+    | LegBenchmarkPrice fixField -> WriteLegBenchmarkPrice dest nextFreeIdx fixField
+    | LegBenchmarkPriceType fixField -> WriteLegBenchmarkPriceType dest nextFreeIdx fixField
+    | LegBidPx fixField -> WriteLegBidPx dest nextFreeIdx fixField
+    | LegIOIQty fixField -> WriteLegIOIQty dest nextFreeIdx fixField
+    | NoLegStipulations fixField -> WriteNoLegStipulations dest nextFreeIdx fixField
+    | LegOfferPx fixField -> WriteLegOfferPx dest nextFreeIdx fixField
+    | LegOrderQty fixField -> WriteLegOrderQty dest nextFreeIdx fixField
+    | LegPriceType fixField -> WriteLegPriceType dest nextFreeIdx fixField
+    | LegQty fixField -> WriteLegQty dest nextFreeIdx fixField
+    | LegStipulationType fixField -> WriteLegStipulationType dest nextFreeIdx fixField
+    | LegStipulationValue fixField -> WriteLegStipulationValue dest nextFreeIdx fixField
+    | LegSwapType fixField -> WriteLegSwapType dest nextFreeIdx fixField
+    | Pool fixField -> WritePool dest nextFreeIdx fixField
+    | QuotePriceType fixField -> WriteQuotePriceType dest nextFreeIdx fixField
+    | QuoteRespID fixField -> WriteQuoteRespID dest nextFreeIdx fixField
+    | QuoteRespType fixField -> WriteQuoteRespType dest nextFreeIdx fixField
+    | QuoteQualifier fixField -> WriteQuoteQualifier dest nextFreeIdx fixField
+    | YieldRedemptionDate fixField -> WriteYieldRedemptionDate dest nextFreeIdx fixField
+    | YieldRedemptionPrice fixField -> WriteYieldRedemptionPrice dest nextFreeIdx fixField
+    | YieldRedemptionPriceType fixField -> WriteYieldRedemptionPriceType dest nextFreeIdx fixField
+    | BenchmarkSecurityID fixField -> WriteBenchmarkSecurityID dest nextFreeIdx fixField
+    | ReversalIndicator fixField -> WriteReversalIndicator dest nextFreeIdx fixField
+    | YieldCalcDate fixField -> WriteYieldCalcDate dest nextFreeIdx fixField
+    | NoPositions fixField -> WriteNoPositions dest nextFreeIdx fixField
+    | PosType fixField -> WritePosType dest nextFreeIdx fixField
+    | LongQty fixField -> WriteLongQty dest nextFreeIdx fixField
+    | ShortQty fixField -> WriteShortQty dest nextFreeIdx fixField
+    | PosQtyStatus fixField -> WritePosQtyStatus dest nextFreeIdx fixField
+    | PosAmtType fixField -> WritePosAmtType dest nextFreeIdx fixField
+    | PosAmt fixField -> WritePosAmt dest nextFreeIdx fixField
+    | PosTransType fixField -> WritePosTransType dest nextFreeIdx fixField
+    | PosReqID fixField -> WritePosReqID dest nextFreeIdx fixField
+    | NoUnderlyings fixField -> WriteNoUnderlyings dest nextFreeIdx fixField
+    | PosMaintAction fixField -> WritePosMaintAction dest nextFreeIdx fixField
+    | OrigPosReqRefID fixField -> WriteOrigPosReqRefID dest nextFreeIdx fixField
+    | PosMaintRptRefID fixField -> WritePosMaintRptRefID dest nextFreeIdx fixField
+    | ClearingBusinessDate fixField -> WriteClearingBusinessDate dest nextFreeIdx fixField
+    | SettlSessID fixField -> WriteSettlSessID dest nextFreeIdx fixField
+    | SettlSessSubID fixField -> WriteSettlSessSubID dest nextFreeIdx fixField
+    | AdjustmentType fixField -> WriteAdjustmentType dest nextFreeIdx fixField
+    | ContraryInstructionIndicator fixField -> WriteContraryInstructionIndicator dest nextFreeIdx fixField
+    | PriorSpreadIndicator fixField -> WritePriorSpreadIndicator dest nextFreeIdx fixField
+    | PosMaintRptID fixField -> WritePosMaintRptID dest nextFreeIdx fixField
+    | PosMaintStatus fixField -> WritePosMaintStatus dest nextFreeIdx fixField
+    | PosMaintResult fixField -> WritePosMaintResult dest nextFreeIdx fixField
+    | PosReqType fixField -> WritePosReqType dest nextFreeIdx fixField
+    | ResponseTransportType fixField -> WriteResponseTransportType dest nextFreeIdx fixField
+    | ResponseDestination fixField -> WriteResponseDestination dest nextFreeIdx fixField
+    | TotalNumPosReports fixField -> WriteTotalNumPosReports dest nextFreeIdx fixField
+    | PosReqResult fixField -> WritePosReqResult dest nextFreeIdx fixField
+    | PosReqStatus fixField -> WritePosReqStatus dest nextFreeIdx fixField
+    | SettlPrice fixField -> WriteSettlPrice dest nextFreeIdx fixField
+    | SettlPriceType fixField -> WriteSettlPriceType dest nextFreeIdx fixField
+    | UnderlyingSettlPrice fixField -> WriteUnderlyingSettlPrice dest nextFreeIdx fixField
+    | UnderlyingSettlPriceType fixField -> WriteUnderlyingSettlPriceType dest nextFreeIdx fixField
+    | PriorSettlPrice fixField -> WritePriorSettlPrice dest nextFreeIdx fixField
+    | NoQuoteQualifiers fixField -> WriteNoQuoteQualifiers dest nextFreeIdx fixField
+    | AllocSettlCurrency fixField -> WriteAllocSettlCurrency dest nextFreeIdx fixField
+    | AllocSettlCurrAmt fixField -> WriteAllocSettlCurrAmt dest nextFreeIdx fixField
+    | InterestAtMaturity fixField -> WriteInterestAtMaturity dest nextFreeIdx fixField
+    | LegDatedDate fixField -> WriteLegDatedDate dest nextFreeIdx fixField
+    | LegPool fixField -> WriteLegPool dest nextFreeIdx fixField
+    | AllocInterestAtMaturity fixField -> WriteAllocInterestAtMaturity dest nextFreeIdx fixField
+    | AllocAccruedInterestAmt fixField -> WriteAllocAccruedInterestAmt dest nextFreeIdx fixField
+    | DeliveryDate fixField -> WriteDeliveryDate dest nextFreeIdx fixField
+    | AssignmentMethod fixField -> WriteAssignmentMethod dest nextFreeIdx fixField
+    | AssignmentUnit fixField -> WriteAssignmentUnit dest nextFreeIdx fixField
+    | OpenInterest fixField -> WriteOpenInterest dest nextFreeIdx fixField
+    | ExerciseMethod fixField -> WriteExerciseMethod dest nextFreeIdx fixField
+    | TotNumTradeReports fixField -> WriteTotNumTradeReports dest nextFreeIdx fixField
+    | TradeRequestResult fixField -> WriteTradeRequestResult dest nextFreeIdx fixField
+    | TradeRequestStatus fixField -> WriteTradeRequestStatus dest nextFreeIdx fixField
+    | TradeReportRejectReason fixField -> WriteTradeReportRejectReason dest nextFreeIdx fixField
+    | SideMultiLegReportingType fixField -> WriteSideMultiLegReportingType dest nextFreeIdx fixField
+    | NoPosAmt fixField -> WriteNoPosAmt dest nextFreeIdx fixField
+    | AutoAcceptIndicator fixField -> WriteAutoAcceptIndicator dest nextFreeIdx fixField
+    | AllocReportID fixField -> WriteAllocReportID dest nextFreeIdx fixField
+    | NoNested2PartyIDs fixField -> WriteNoNested2PartyIDs dest nextFreeIdx fixField
+    | Nested2PartyID fixField -> WriteNested2PartyID dest nextFreeIdx fixField
+    | Nested2PartyIDSource fixField -> WriteNested2PartyIDSource dest nextFreeIdx fixField
+    | Nested2PartyRole fixField -> WriteNested2PartyRole dest nextFreeIdx fixField
+    | Nested2PartySubID fixField -> WriteNested2PartySubID dest nextFreeIdx fixField
+    | BenchmarkSecurityIDSource fixField -> WriteBenchmarkSecurityIDSource dest nextFreeIdx fixField
+    | SecuritySubType fixField -> WriteSecuritySubType dest nextFreeIdx fixField
+    | UnderlyingSecuritySubType fixField -> WriteUnderlyingSecuritySubType dest nextFreeIdx fixField
+    | LegSecuritySubType fixField -> WriteLegSecuritySubType dest nextFreeIdx fixField
+    | AllowableOneSidednessPct fixField -> WriteAllowableOneSidednessPct dest nextFreeIdx fixField
+    | AllowableOneSidednessValue fixField -> WriteAllowableOneSidednessValue dest nextFreeIdx fixField
+    | AllowableOneSidednessCurr fixField -> WriteAllowableOneSidednessCurr dest nextFreeIdx fixField
+    | NoTrdRegTimestamps fixField -> WriteNoTrdRegTimestamps dest nextFreeIdx fixField
+    | TrdRegTimestamp fixField -> WriteTrdRegTimestamp dest nextFreeIdx fixField
+    | TrdRegTimestampType fixField -> WriteTrdRegTimestampType dest nextFreeIdx fixField
+    | TrdRegTimestampOrigin fixField -> WriteTrdRegTimestampOrigin dest nextFreeIdx fixField
+    | ConfirmRefID fixField -> WriteConfirmRefID dest nextFreeIdx fixField
+    | ConfirmType fixField -> WriteConfirmType dest nextFreeIdx fixField
+    | ConfirmRejReason fixField -> WriteConfirmRejReason dest nextFreeIdx fixField
+    | BookingType fixField -> WriteBookingType dest nextFreeIdx fixField
+    | IndividualAllocRejCode fixField -> WriteIndividualAllocRejCode dest nextFreeIdx fixField
+    | SettlInstMsgID fixField -> WriteSettlInstMsgID dest nextFreeIdx fixField
+    | NoSettlInst fixField -> WriteNoSettlInst dest nextFreeIdx fixField
+    | LastUpdateTime fixField -> WriteLastUpdateTime dest nextFreeIdx fixField
+    | AllocSettlInstType fixField -> WriteAllocSettlInstType dest nextFreeIdx fixField
+    | NoSettlPartyIDs fixField -> WriteNoSettlPartyIDs dest nextFreeIdx fixField
+    | SettlPartyID fixField -> WriteSettlPartyID dest nextFreeIdx fixField
+    | SettlPartyIDSource fixField -> WriteSettlPartyIDSource dest nextFreeIdx fixField
+    | SettlPartyRole fixField -> WriteSettlPartyRole dest nextFreeIdx fixField
+    | SettlPartySubID fixField -> WriteSettlPartySubID dest nextFreeIdx fixField
+    | SettlPartySubIDType fixField -> WriteSettlPartySubIDType dest nextFreeIdx fixField
+    | DlvyInstType fixField -> WriteDlvyInstType dest nextFreeIdx fixField
+    | TerminationType fixField -> WriteTerminationType dest nextFreeIdx fixField
+    | NextExpectedMsgSeqNum fixField -> WriteNextExpectedMsgSeqNum dest nextFreeIdx fixField
+    | OrdStatusReqID fixField -> WriteOrdStatusReqID dest nextFreeIdx fixField
+    | SettlInstReqID fixField -> WriteSettlInstReqID dest nextFreeIdx fixField
+    | SettlInstReqRejCode fixField -> WriteSettlInstReqRejCode dest nextFreeIdx fixField
+    | SecondaryAllocID fixField -> WriteSecondaryAllocID dest nextFreeIdx fixField
+    | AllocReportType fixField -> WriteAllocReportType dest nextFreeIdx fixField
+    | AllocReportRefID fixField -> WriteAllocReportRefID dest nextFreeIdx fixField
+    | AllocCancReplaceReason fixField -> WriteAllocCancReplaceReason dest nextFreeIdx fixField
+    | CopyMsgIndicator fixField -> WriteCopyMsgIndicator dest nextFreeIdx fixField
+    | AllocAccountType fixField -> WriteAllocAccountType dest nextFreeIdx fixField
+    | OrderAvgPx fixField -> WriteOrderAvgPx dest nextFreeIdx fixField
+    | OrderBookingQty fixField -> WriteOrderBookingQty dest nextFreeIdx fixField
+    | NoSettlPartySubIDs fixField -> WriteNoSettlPartySubIDs dest nextFreeIdx fixField
+    | NoPartySubIDs fixField -> WriteNoPartySubIDs dest nextFreeIdx fixField
+    | PartySubIDType fixField -> WritePartySubIDType dest nextFreeIdx fixField
+    | NoNestedPartySubIDs fixField -> WriteNoNestedPartySubIDs dest nextFreeIdx fixField
+    | NestedPartySubIDType fixField -> WriteNestedPartySubIDType dest nextFreeIdx fixField
+    | NoNested2PartySubIDs fixField -> WriteNoNested2PartySubIDs dest nextFreeIdx fixField
+    | Nested2PartySubIDType fixField -> WriteNested2PartySubIDType dest nextFreeIdx fixField
+    | AllocIntermedReqType fixField -> WriteAllocIntermedReqType dest nextFreeIdx fixField
+    | UnderlyingPx fixField -> WriteUnderlyingPx dest nextFreeIdx fixField
+    | PriceDelta fixField -> WritePriceDelta dest nextFreeIdx fixField
+    | ApplQueueMax fixField -> WriteApplQueueMax dest nextFreeIdx fixField
+    | ApplQueueDepth fixField -> WriteApplQueueDepth dest nextFreeIdx fixField
+    | ApplQueueResolution fixField -> WriteApplQueueResolution dest nextFreeIdx fixField
+    | ApplQueueAction fixField -> WriteApplQueueAction dest nextFreeIdx fixField
+    | NoAltMDSource fixField -> WriteNoAltMDSource dest nextFreeIdx fixField
+    | AltMDSourceID fixField -> WriteAltMDSourceID dest nextFreeIdx fixField
+    | SecondaryTradeReportID fixField -> WriteSecondaryTradeReportID dest nextFreeIdx fixField
+    | AvgPxIndicator fixField -> WriteAvgPxIndicator dest nextFreeIdx fixField
+    | TradeLinkID fixField -> WriteTradeLinkID dest nextFreeIdx fixField
+    | OrderInputDevice fixField -> WriteOrderInputDevice dest nextFreeIdx fixField
+    | UnderlyingTradingSessionID fixField -> WriteUnderlyingTradingSessionID dest nextFreeIdx fixField
+    | UnderlyingTradingSessionSubID fixField -> WriteUnderlyingTradingSessionSubID dest nextFreeIdx fixField
+    | TradeLegRefID fixField -> WriteTradeLegRefID dest nextFreeIdx fixField
+    | ExchangeRule fixField -> WriteExchangeRule dest nextFreeIdx fixField
+    | TradeAllocIndicator fixField -> WriteTradeAllocIndicator dest nextFreeIdx fixField
+    | ExpirationCycle fixField -> WriteExpirationCycle dest nextFreeIdx fixField
+    | TrdType fixField -> WriteTrdType dest nextFreeIdx fixField
+    | TrdSubType fixField -> WriteTrdSubType dest nextFreeIdx fixField
+    | TransferReason fixField -> WriteTransferReason dest nextFreeIdx fixField
+    | AsgnReqID fixField -> WriteAsgnReqID dest nextFreeIdx fixField
+    | TotNumAssignmentReports fixField -> WriteTotNumAssignmentReports dest nextFreeIdx fixField
+    | AsgnRptID fixField -> WriteAsgnRptID dest nextFreeIdx fixField
+    | ThresholdAmount fixField -> WriteThresholdAmount dest nextFreeIdx fixField
+    | PegMoveType fixField -> WritePegMoveType dest nextFreeIdx fixField
+    | PegOffsetType fixField -> WritePegOffsetType dest nextFreeIdx fixField
+    | PegLimitType fixField -> WritePegLimitType dest nextFreeIdx fixField
+    | PegRoundDirection fixField -> WritePegRoundDirection dest nextFreeIdx fixField
+    | PeggedPrice fixField -> WritePeggedPrice dest nextFreeIdx fixField
+    | PegScope fixField -> WritePegScope dest nextFreeIdx fixField
+    | DiscretionMoveType fixField -> WriteDiscretionMoveType dest nextFreeIdx fixField
+    | DiscretionOffsetType fixField -> WriteDiscretionOffsetType dest nextFreeIdx fixField
+    | DiscretionLimitType fixField -> WriteDiscretionLimitType dest nextFreeIdx fixField
+    | DiscretionRoundDirection fixField -> WriteDiscretionRoundDirection dest nextFreeIdx fixField
+    | DiscretionPrice fixField -> WriteDiscretionPrice dest nextFreeIdx fixField
+    | DiscretionScope fixField -> WriteDiscretionScope dest nextFreeIdx fixField
+    | TargetStrategy fixField -> WriteTargetStrategy dest nextFreeIdx fixField
+    | TargetStrategyParameters fixField -> WriteTargetStrategyParameters dest nextFreeIdx fixField
+    | ParticipationRate fixField -> WriteParticipationRate dest nextFreeIdx fixField
+    | TargetStrategyPerformance fixField -> WriteTargetStrategyPerformance dest nextFreeIdx fixField
+    | LastLiquidityInd fixField -> WriteLastLiquidityInd dest nextFreeIdx fixField
+    | PublishTrdIndicator fixField -> WritePublishTrdIndicator dest nextFreeIdx fixField
+    | ShortSaleReason fixField -> WriteShortSaleReason dest nextFreeIdx fixField
+    | QtyType fixField -> WriteQtyType dest nextFreeIdx fixField
+    | SecondaryTrdType fixField -> WriteSecondaryTrdType dest nextFreeIdx fixField
+    | TradeReportType fixField -> WriteTradeReportType dest nextFreeIdx fixField
+    | AllocNoOrdersType fixField -> WriteAllocNoOrdersType dest nextFreeIdx fixField
+    | SharedCommission fixField -> WriteSharedCommission dest nextFreeIdx fixField
+    | ConfirmReqID fixField -> WriteConfirmReqID dest nextFreeIdx fixField
+    | AvgParPx fixField -> WriteAvgParPx dest nextFreeIdx fixField
+    | ReportedPx fixField -> WriteReportedPx dest nextFreeIdx fixField
+    | NoCapacities fixField -> WriteNoCapacities dest nextFreeIdx fixField
+    | OrderCapacityQty fixField -> WriteOrderCapacityQty dest nextFreeIdx fixField
+    | NoEvents fixField -> WriteNoEvents dest nextFreeIdx fixField
+    | EventType fixField -> WriteEventType dest nextFreeIdx fixField
+    | EventDate fixField -> WriteEventDate dest nextFreeIdx fixField
+    | EventPx fixField -> WriteEventPx dest nextFreeIdx fixField
+    | EventText fixField -> WriteEventText dest nextFreeIdx fixField
+    | PctAtRisk fixField -> WritePctAtRisk dest nextFreeIdx fixField
+    | NoInstrAttrib fixField -> WriteNoInstrAttrib dest nextFreeIdx fixField
+    | InstrAttribType fixField -> WriteInstrAttribType dest nextFreeIdx fixField
+    | InstrAttribValue fixField -> WriteInstrAttribValue dest nextFreeIdx fixField
+    | DatedDate fixField -> WriteDatedDate dest nextFreeIdx fixField
+    | InterestAccrualDate fixField -> WriteInterestAccrualDate dest nextFreeIdx fixField
+    | CPProgram fixField -> WriteCPProgram dest nextFreeIdx fixField
+    | CPRegType fixField -> WriteCPRegType dest nextFreeIdx fixField
+    | UnderlyingCPProgram fixField -> WriteUnderlyingCPProgram dest nextFreeIdx fixField
+    | UnderlyingCPRegType fixField -> WriteUnderlyingCPRegType dest nextFreeIdx fixField
+    | UnderlyingQty fixField -> WriteUnderlyingQty dest nextFreeIdx fixField
+    | TrdMatchID fixField -> WriteTrdMatchID dest nextFreeIdx fixField
+    | SecondaryTradeReportRefID fixField -> WriteSecondaryTradeReportRefID dest nextFreeIdx fixField
+    | UnderlyingDirtyPrice fixField -> WriteUnderlyingDirtyPrice dest nextFreeIdx fixField
+    | UnderlyingEndPrice fixField -> WriteUnderlyingEndPrice dest nextFreeIdx fixField
+    | UnderlyingStartValue fixField -> WriteUnderlyingStartValue dest nextFreeIdx fixField
+    | UnderlyingCurrentValue fixField -> WriteUnderlyingCurrentValue dest nextFreeIdx fixField
+    | UnderlyingEndValue fixField -> WriteUnderlyingEndValue dest nextFreeIdx fixField
+    | NoUnderlyingStips fixField -> WriteNoUnderlyingStips dest nextFreeIdx fixField
+    | UnderlyingStipType fixField -> WriteUnderlyingStipType dest nextFreeIdx fixField
+    | UnderlyingStipValue fixField -> WriteUnderlyingStipValue dest nextFreeIdx fixField
+    | MaturityNetMoney fixField -> WriteMaturityNetMoney dest nextFreeIdx fixField
+    | MiscFeeBasis fixField -> WriteMiscFeeBasis dest nextFreeIdx fixField
+    | TotNoAllocs fixField -> WriteTotNoAllocs dest nextFreeIdx fixField
+    | LastFragment fixField -> WriteLastFragment dest nextFreeIdx fixField
+    | CollReqID fixField -> WriteCollReqID dest nextFreeIdx fixField
+    | CollAsgnReason fixField -> WriteCollAsgnReason dest nextFreeIdx fixField
+    | CollInquiryQualifier fixField -> WriteCollInquiryQualifier dest nextFreeIdx fixField
+    | NoTrades fixField -> WriteNoTrades dest nextFreeIdx fixField
+    | MarginRatio fixField -> WriteMarginRatio dest nextFreeIdx fixField
+    | MarginExcess fixField -> WriteMarginExcess dest nextFreeIdx fixField
+    | TotalNetValue fixField -> WriteTotalNetValue dest nextFreeIdx fixField
+    | CashOutstanding fixField -> WriteCashOutstanding dest nextFreeIdx fixField
+    | CollAsgnID fixField -> WriteCollAsgnID dest nextFreeIdx fixField
+    | CollAsgnTransType fixField -> WriteCollAsgnTransType dest nextFreeIdx fixField
+    | CollRespID fixField -> WriteCollRespID dest nextFreeIdx fixField
+    | CollAsgnRespType fixField -> WriteCollAsgnRespType dest nextFreeIdx fixField
+    | CollAsgnRejectReason fixField -> WriteCollAsgnRejectReason dest nextFreeIdx fixField
+    | CollAsgnRefID fixField -> WriteCollAsgnRefID dest nextFreeIdx fixField
+    | CollRptID fixField -> WriteCollRptID dest nextFreeIdx fixField
+    | CollInquiryID fixField -> WriteCollInquiryID dest nextFreeIdx fixField
+    | CollStatus fixField -> WriteCollStatus dest nextFreeIdx fixField
+    | TotNumReports fixField -> WriteTotNumReports dest nextFreeIdx fixField
+    | LastRptRequested fixField -> WriteLastRptRequested dest nextFreeIdx fixField
+    | AgreementDesc fixField -> WriteAgreementDesc dest nextFreeIdx fixField
+    | AgreementID fixField -> WriteAgreementID dest nextFreeIdx fixField
+    | AgreementDate fixField -> WriteAgreementDate dest nextFreeIdx fixField
+    | StartDate fixField -> WriteStartDate dest nextFreeIdx fixField
+    | EndDate fixField -> WriteEndDate dest nextFreeIdx fixField
+    | AgreementCurrency fixField -> WriteAgreementCurrency dest nextFreeIdx fixField
+    | DeliveryType fixField -> WriteDeliveryType dest nextFreeIdx fixField
+    | EndAccruedInterestAmt fixField -> WriteEndAccruedInterestAmt dest nextFreeIdx fixField
+    | StartCash fixField -> WriteStartCash dest nextFreeIdx fixField
+    | EndCash fixField -> WriteEndCash dest nextFreeIdx fixField
+    | UserRequestID fixField -> WriteUserRequestID dest nextFreeIdx fixField
+    | UserRequestType fixField -> WriteUserRequestType dest nextFreeIdx fixField
+    | NewPassword fixField -> WriteNewPassword dest nextFreeIdx fixField
+    | UserStatus fixField -> WriteUserStatus dest nextFreeIdx fixField
+    | UserStatusText fixField -> WriteUserStatusText dest nextFreeIdx fixField
+    | StatusValue fixField -> WriteStatusValue dest nextFreeIdx fixField
+    | StatusText fixField -> WriteStatusText dest nextFreeIdx fixField
+    | RefCompID fixField -> WriteRefCompID dest nextFreeIdx fixField
+    | RefSubID fixField -> WriteRefSubID dest nextFreeIdx fixField
+    | NetworkResponseID fixField -> WriteNetworkResponseID dest nextFreeIdx fixField
+    | NetworkRequestID fixField -> WriteNetworkRequestID dest nextFreeIdx fixField
+    | LastNetworkResponseID fixField -> WriteLastNetworkResponseID dest nextFreeIdx fixField
+    | NetworkRequestType fixField -> WriteNetworkRequestType dest nextFreeIdx fixField
+    | NoCompIDs fixField -> WriteNoCompIDs dest nextFreeIdx fixField
+    | NetworkStatusResponseType fixField -> WriteNetworkStatusResponseType dest nextFreeIdx fixField
+    | NoCollInquiryQualifier fixField -> WriteNoCollInquiryQualifier dest nextFreeIdx fixField
+    | TrdRptStatus fixField -> WriteTrdRptStatus dest nextFreeIdx fixField
+    | AffirmStatus fixField -> WriteAffirmStatus dest nextFreeIdx fixField
+    | UnderlyingStrikeCurrency fixField -> WriteUnderlyingStrikeCurrency dest nextFreeIdx fixField
+    | LegStrikeCurrency fixField -> WriteLegStrikeCurrency dest nextFreeIdx fixField
+    | TimeBracket fixField -> WriteTimeBracket dest nextFreeIdx fixField
+    | CollAction fixField -> WriteCollAction dest nextFreeIdx fixField
+    | CollInquiryStatus fixField -> WriteCollInquiryStatus dest nextFreeIdx fixField
+    | CollInquiryResult fixField -> WriteCollInquiryResult dest nextFreeIdx fixField
+    | StrikeCurrency fixField -> WriteStrikeCurrency dest nextFreeIdx fixField
+    | NoNested3PartyIDs fixField -> WriteNoNested3PartyIDs dest nextFreeIdx fixField
+    | Nested3PartyID fixField -> WriteNested3PartyID dest nextFreeIdx fixField
+    | Nested3PartyIDSource fixField -> WriteNested3PartyIDSource dest nextFreeIdx fixField
+    | Nested3PartyRole fixField -> WriteNested3PartyRole dest nextFreeIdx fixField
+    | NoNested3PartySubIDs fixField -> WriteNoNested3PartySubIDs dest nextFreeIdx fixField
+    | Nested3PartySubID fixField -> WriteNested3PartySubID dest nextFreeIdx fixField
+    | Nested3PartySubIDType fixField -> WriteNested3PartySubIDType dest nextFreeIdx fixField
+    | LegContractSettlMonth fixField -> WriteLegContractSettlMonth dest nextFreeIdx fixField
+    | LegInterestAccrualDate fixField -> WriteLegInterestAccrualDate dest nextFreeIdx fixField

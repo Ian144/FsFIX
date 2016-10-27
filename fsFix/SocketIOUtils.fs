@@ -5,9 +5,48 @@ open System.IO
 
 
 
-let private bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
+let findNextFieldTerm (pos:int) (bs:byte[]) =
+    let mutable found = false
+    let mutable ctr = pos
+    while (ctr < bs.Length && (not found)) do
+        if bs.[ctr] = 1uy then
+            found <- true
+        else
+            ctr <- ctr + 1
+    if found then ctr else -1
 
-let private bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
+
+/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
+/// returns the index of first char after the field value and the value itself
+let readValAfterTagValSep (pos:int) (bs:byte[]) =
+    // byte value of '=' is 61
+    if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
+    let fldTermPos = findNextFieldTerm pos bs
+    if fldTermPos = -1 then failwith "could not find next field separator"
+    let valLen = fldTermPos - pos // -1 because the field term should not be included in the val
+    let bsVal = Array.zeroCreate<byte> valLen
+    Buffer.BlockCopy (bs, pos, bsVal, 0, valLen) // pos+1 because the field value does not include the separator
+    fldTermPos, bsVal
+    
+
+let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
+
+let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
+
+let bytesToBool (bs:byte[]) = 
+    let ii = bytesToInt32 bs
+    match ii with
+    | 0 ->  false
+    | 1 ->  true
+    | _ ->  failwith (sprintf "invalid value for bool field: %d" ii) 
+
+    
+let bytesToDecimal (bs:byte[]) = 
+    let ss = bs |> bytesToStr
+    match Decimal.TryParse(ss) with
+    | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
+    | true, dd  -> dd
+
 
 let private bytesToInt32ArSeg (bs:ArraySegment<byte>) = 
     let mutable (ii:int) = 0
@@ -15,11 +54,9 @@ let private bytesToInt32ArSeg (bs:ArraySegment<byte>) =
     for ctr = bs.Offset + bs.Count to bs.Offset do
         ii <- ii + int(bs.Array.[ctr])
     ii
-    
-
-
 
 let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
+
 
 // function overloading in F#
 [<AbstractClass;Sealed>]
