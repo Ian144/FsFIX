@@ -269,11 +269,11 @@ let private createLenStrFieldWriteFunction (fld:CompoundField) =
             sprintf "    let strTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
             sprintf "    Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)"
             sprintf "    let nextFreeIdx5 = nextFreeIdx4 + strTag.Length"
-            sprintf "    let strBs = ToBytes.Convert fld.Value"
-            sprintf "    Buffer.BlockCopy (strBs, 0, dest, nextFreeIdx5, strBs.Length)"
-            sprintf "    let nextFreeIdx6 = nextFreeIdx5 + strTag.Length"
+            sprintf "    let dataBs = fld.Value"
+            sprintf "    Buffer.BlockCopy (dataBs, 0, dest, nextFreeIdx5, dataBs.Length)"
+            sprintf "    let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length"
             sprintf "    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter"
-            sprintf "    nextFreeIdx6 + lenBs.Length + 1 // +1 to include the delimeter"
+            sprintf "    nextFreeIdx6 + 1 // +1 to include the delimeter"
         ]
     Utils.joinStrs "\n" lines
 
