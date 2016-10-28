@@ -2,9 +2,9 @@ module Fix44.FieldReadWriteFuncs
 
 
 open System
-open System.IO
 open Fix44.Fields
-open ReadWriteFuncs
+open Conversions
+open StreamUtils
 open FieldFuncs
 
 
@@ -54,7 +54,7 @@ let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int =
 
 
 let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> AdvSide.Buy
@@ -94,7 +94,7 @@ let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
 
 
 let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> AdvTransType.New
@@ -232,7 +232,7 @@ let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int =
 
 
 let ReadCommType (pos:int) (bs:byte[]) : (int * CommType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CommType.PerUnit
@@ -346,7 +346,7 @@ let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int =
 
 
 let ReadExecInst (pos:int) (bs:byte[]) : (int * ExecInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ExecInst.NotHeld
@@ -660,7 +660,7 @@ let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int =
 
 
 let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
@@ -693,7 +693,7 @@ let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
 
 
 let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityIDSource.Cusip
@@ -853,7 +853,7 @@ let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int =
 
 
 let ReadIOIQltyInd (pos:int) (bs:byte[]) : (int * IOIQltyInd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"L"B -> IOIQltyInd.Low
@@ -916,7 +916,7 @@ let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int =
 
 
 let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> IOITransType.New
@@ -949,7 +949,7 @@ let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : 
 
 
 let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LastCapacity.Agent
@@ -1064,7 +1064,7 @@ let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int =
 
 
 let ReadMsgType (pos:int) (bs:byte[]) : (int * MsgType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MsgType.Heartbeat
@@ -1772,7 +1772,7 @@ let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int =
 
 
 let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OrdStatus.New
@@ -1889,7 +1889,7 @@ let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
 
 
 let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OrdType.Market
@@ -2212,7 +2212,7 @@ let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int =
 
 
 let ReadSide (pos:int) (bs:byte[]) : (int * Side) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Side.Buy
@@ -2396,7 +2396,7 @@ let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int =
 
 
 let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TimeInForce.Day
@@ -2479,7 +2479,7 @@ let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : in
 
 
 let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> Urgency.Normal
@@ -2527,7 +2527,7 @@ let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) 
 
 
 let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlType.Regular
@@ -2624,7 +2624,7 @@ let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int =
 
 
 let ReadSymbolSfx (pos:int) (bs:byte[]) : (int * SymbolSfx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"WI"B -> SymbolSfx.WhenIssued
@@ -2725,7 +2725,7 @@ let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int =
 
 
 let ReadAllocTransType (pos:int) (bs:byte[]) : (int * AllocTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocTransType.New
@@ -2818,7 +2818,7 @@ let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int =
 
 
 let ReadPositionEffect (pos:int) (bs:byte[]) : (int * PositionEffect) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"O"B -> PositionEffect.Open
@@ -2903,7 +2903,7 @@ let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int =
 
 
 let ReadProcessCode (pos:int) (bs:byte[]) : (int * ProcessCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ProcessCode.Regular
@@ -3024,7 +3024,7 @@ let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int =
 
 
 let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocStatus.Accepted
@@ -3078,7 +3078,7 @@ let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : in
 
 
 let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocRejCode.UnknownAccount
@@ -3225,7 +3225,7 @@ let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
 
 
 // compound read
-let ReadSecureData (pos:int) (bs:byte[]) : (int*SecureData) =
+let ReadSecureData (pos:int) (bs:byte[]) : (int * SecureData) =
     ReadLengthStringCompoundField "91"B (pos:int) (bs:byte[]) SecureData.SecureData
 
 
@@ -3245,7 +3245,7 @@ let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength
 
 
 let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> EmailType.New
@@ -3323,7 +3323,7 @@ let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int =
 
 
 let ReadEncryptMethod (pos:int) (bs:byte[]) : (int * EncryptMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> EncryptMethod.NoneOther
@@ -3414,7 +3414,7 @@ let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : 
 
 
 let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CxlRejReason.TooLateToCancel
@@ -3482,7 +3482,7 @@ let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : 
 
 
 let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OrdRejReason.BrokerExchangeOption
@@ -3613,7 +3613,7 @@ let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : 
 
 
 let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> IOIQualifier.AllOrNone
@@ -4051,7 +4051,7 @@ let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int =
 
 
 let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> DKReason.UnknownSymbol
@@ -4277,7 +4277,7 @@ let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int 
 
 
 let ReadMiscFeeType (pos:int) (bs:byte[]) : (int * MiscFeeType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MiscFeeType.Regulatory
@@ -4523,7 +4523,7 @@ let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int =
 
 
 let ReadExecType (pos:int) (bs:byte[]) : (int * ExecType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExecType.New
@@ -4743,7 +4743,7 @@ let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate
 
 
 let ReadSettlCurrFxRateCalc (pos:int) (bs:byte[]) : (int * SettlCurrFxRateCalc) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"M"B -> SettlCurrFxRateCalc.Multiply
@@ -4814,7 +4814,7 @@ let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInter
 
 
 let ReadSettlInstMode (pos:int) (bs:byte[]) : (int * SettlInstMode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlInstMode.Default
@@ -4884,7 +4884,7 @@ let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int 
 
 
 let ReadSettlInstTransType (pos:int) (bs:byte[]) : (int * SettlInstTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> SettlInstTransType.New
@@ -4939,7 +4939,7 @@ let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : 
 
 
 let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SettlInstSource.BrokersInstructions
@@ -4972,7 +4972,7 @@ let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSour
 
 
 let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
@@ -5657,7 +5657,7 @@ let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : 
 
 
 let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> StandInstDbType.Other
@@ -5734,7 +5734,7 @@ let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : 
 
 
 let ReadSettlDeliveryType (pos:int) (bs:byte[]) : (int * SettlDeliveryType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlDeliveryType.VersusPayment
@@ -5909,7 +5909,7 @@ let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int 
 
 
 let ReadAllocLinkType (pos:int) (bs:byte[]) : (int * AllocLinkType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocLinkType.FXNetting
@@ -5980,7 +5980,7 @@ let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonth
 
 
 let ReadPutOrCall (pos:int) (bs:byte[]) : (int * PutOrCall) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PutOrCall.Put
@@ -6021,7 +6021,7 @@ let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int 
 
 
 let ReadCoveredOrUncovered (pos:int) (bs:byte[]) : (int * CoveredOrUncovered) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CoveredOrUncovered.Covered
@@ -6092,7 +6092,7 @@ let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrok
 
 
 let ReadAllocHandlInst (pos:int) (bs:byte[]) : (int * AllocHandlInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocHandlInst.Match
@@ -6212,7 +6212,7 @@ let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : in
 
 
 let ReadRoutingType (pos:int) (bs:byte[]) : (int * RoutingType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> RoutingType.TargetFirm
@@ -6297,7 +6297,7 @@ let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Benchmar
 
 
 let ReadBenchmarkCurveName (pos:int) (bs:byte[]) : (int * BenchmarkCurveName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"MuniAAA"B -> BenchmarkCurveName.Muniaaa
@@ -6558,7 +6558,7 @@ let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) 
 
 
 let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"AMT"B -> StipulationType.Amt
@@ -6983,7 +6983,7 @@ let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationTy
 
 
 let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"CD"B -> StipulationValue.SpecialCumDividend
@@ -7093,7 +7093,7 @@ let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationV
 
 
 let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"AFTERTAX"B -> YieldType.AfterTaxYield
@@ -7733,7 +7733,7 @@ let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int =
 
 
 let ReadSubscriptionRequestType (pos:int) (bs:byte[]) : (int * SubscriptionRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SubscriptionRequestType.Snapshot
@@ -7781,7 +7781,7 @@ let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int 
 
 
 let ReadMDUpdateType (pos:int) (bs:byte[]) : (int * MDUpdateType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDUpdateType.FullRefresh
@@ -7852,7 +7852,7 @@ let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int 
 
 
 let ReadMDEntryType (pos:int) (bs:byte[]) : (int * MDEntryType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDEntryType.Bid
@@ -8015,7 +8015,7 @@ let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int 
 
 
 let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TickDirection.PlusTick
@@ -8070,7 +8070,7 @@ let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int =
 
 
 let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> QuoteCondition.OpenActive
@@ -8145,7 +8145,7 @@ let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition
 
 
 let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> TradeCondition.CashMarket
@@ -8291,7 +8291,7 @@ let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int =
 
 
 let ReadMDUpdateAction (pos:int) (bs:byte[]) : (int * MDUpdateAction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDUpdateAction.New
@@ -8339,7 +8339,7 @@ let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : in
 
 
 let ReadMDReqRejReason (pos:int) (bs:byte[]) : (int * MDReqRejReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDReqRejReason.UnknownSymbol
@@ -8487,7 +8487,7 @@ let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int =
 
 
 let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DeleteReason.CancelationTradeBust
@@ -8513,7 +8513,7 @@ let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : 
 
 
 let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
@@ -8627,7 +8627,7 @@ let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositi
 
 
 let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> FinancialStatus.Bankrupt
@@ -8653,7 +8653,7 @@ let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStat
 
 
 let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> CorporateAction.ExDividend
@@ -8760,7 +8760,7 @@ let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int 
 
 
 let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteStatus.Accepted
@@ -8884,7 +8884,7 @@ let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : in
 
 
 let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteCancelType.CancelForSymbol
@@ -8939,7 +8939,7 @@ let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : in
 
 
 let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRejectReason.UnknownSymbol
@@ -9021,7 +9021,7 @@ let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteReject
 
 
 let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteResponseLevel.NoAcknowledgement
@@ -9069,7 +9069,7 @@ let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int =
 
 
 let ReadQuoteRequestType (pos:int) (bs:byte[]) : (int * QuoteRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRequestType.Manual
@@ -9245,7 +9245,7 @@ let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:Und
 
 
 let ReadUnderlyingPutOrCall (pos:int) (bs:byte[]) : (int * UnderlyingPutOrCall) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> UnderlyingPutOrCall.Put
@@ -9331,7 +9331,7 @@ let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : 
 
 
 let ReadSecurityRequestType (pos:int) (bs:byte[]) : (int * SecurityRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
@@ -9386,7 +9386,7 @@ let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResp
 
 
 let ReadSecurityResponseType (pos:int) (bs:byte[]) : (int * SecurityResponseType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityResponseType.AcceptSecurityProposalAsIs
@@ -9470,7 +9470,7 @@ let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Unsolicite
 
 
 let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityTradingStatus.OpeningDelay
@@ -9643,7 +9643,7 @@ let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
 
 
 let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"I"B -> HaltReason.OrderImbalance
@@ -9787,7 +9787,7 @@ let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int =
 
 
 let ReadAdjustment (pos:int) (bs:byte[]) : (int * Adjustment) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Adjustment.Cancel
@@ -9865,7 +9865,7 @@ let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : in
 
 
 let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesMethod.Electronic
@@ -9898,7 +9898,7 @@ let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) 
 
 
 let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesMode.Testing
@@ -9931,7 +9931,7 @@ let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : in
 
 
 let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradSesStatus.Unknown
@@ -10082,7 +10082,7 @@ let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) 
 
 
 let ReadMessageEncoding (pos:int) (bs:byte[]) : (int * MessageEncoding) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"ISO-2022-JP"B -> MessageEncoding.Iso2022Jp
@@ -10395,7 +10395,7 @@ let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSet
 
 
 let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteEntryRejectReason.UnknownSymbol
@@ -10515,7 +10515,7 @@ let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int =
 
 
 let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SessionRejectReason.InvalidTagNumber
@@ -10660,7 +10660,7 @@ let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRe
 
 
 let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> BidRequestTransType.New
@@ -10731,7 +10731,7 @@ let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : 
 
 
 let ReadExecRestatementReason (pos:int) (bs:byte[]) : (int * ExecRestatementReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExecRestatementReason.GtCorporateAction
@@ -10828,7 +10828,7 @@ let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRej
 
 
 let ReadBusinessRejectReason (pos:int) (bs:byte[]) : (int * BusinessRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BusinessRejectReason.Other
@@ -10956,7 +10956,7 @@ let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int =
 
 
 let ReadMsgDirection (pos:int) (bs:byte[]) : (int * MsgDirection) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"S"B -> MsgDirection.Send
@@ -11012,7 +11012,7 @@ let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTr
 
 
 let ReadDiscretionInst (pos:int) (bs:byte[]) : (int * DiscretionInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionInst.RelatedToDisplayedPrice
@@ -11148,7 +11148,7 @@ let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym
 
 
 let ReadBidType (pos:int) (bs:byte[]) : (int * BidType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> BidType.NonDisclosed
@@ -11241,7 +11241,7 @@ let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescripto
 
 
 let ReadBidDescriptorType (pos:int) (bs:byte[]) : (int * BidDescriptorType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> BidDescriptorType.Sector
@@ -11289,7 +11289,7 @@ let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : 
 
 
 let ReadSideValueInd (pos:int) (bs:byte[]) : (int * SideValueInd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SideValueInd.Sidevalue1
@@ -11420,7 +11420,7 @@ let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) 
 
 
 let ReadLiquidityIndType (pos:int) (bs:byte[]) : (int * LiquidityIndType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LiquidityIndType.FivedayMovingAverage
@@ -11520,7 +11520,7 @@ let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : in
 
 
 let ReadProgRptReqs (pos:int) (bs:byte[]) : (int * ProgRptReqs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
@@ -11568,7 +11568,7 @@ let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodIn
 
 
 let ReadIncTaxInd (pos:int) (bs:byte[]) : (int * IncTaxInd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> IncTaxInd.Net
@@ -11609,7 +11609,7 @@ let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int =
 
 
 let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"R"B -> BidTradeType.RiskTrade
@@ -11649,7 +11649,7 @@ let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : 
 
 
 let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"2"B -> BasisPxType.ClosingPriceAtMorningSession
@@ -11797,7 +11797,7 @@ let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : in
 
 
 let ReadPriceType (pos:int) (bs:byte[]) : (int * PriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PriceType.Percentage
@@ -11931,7 +11931,7 @@ let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int =
 
 
 let ReadGTBookingInst (pos:int) (bs:byte[]) : (int * GTBookingInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
@@ -11979,7 +11979,7 @@ let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int =
 
 
 let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListStatusType.Ack
@@ -12033,7 +12033,7 @@ let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType
 
 
 let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetGrossInd.Net
@@ -12059,7 +12059,7 @@ let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : in
 
 
 let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListOrderStatus.Inbiddingprocess
@@ -12135,7 +12135,7 @@ let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int =
 
 
 let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListExecInstType.Immediate
@@ -12182,7 +12182,7 @@ let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInst
 
 
 let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CxlRejResponseTo.OrderCancelRequest
@@ -12283,7 +12283,7 @@ let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:Liquidit
 
 
 let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MultiLegReportingType.SingleSecurity
@@ -12373,7 +12373,7 @@ let ReadEncodedListStatusText (pos:int) (bs:byte[]) : (int * EncodedListStatusTe
 
 
 let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> PartyIDSource.Bic
@@ -12541,7 +12541,7 @@ let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : 
 
 
 let ReadPartyRole (pos:int) (bs:byte[]) : (int * PartyRole) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PartyRole.ExecutingFirm
@@ -12917,7 +12917,7 @@ let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:U
 
 
 let ReadProduct (pos:int) (bs:byte[]) : (int * Product) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Product.Agency
@@ -13080,7 +13080,7 @@ let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessag
 
 
 let ReadQuantityType (pos:int) (bs:byte[]) : (int * QuantityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuantityType.Shares
@@ -13178,7 +13178,7 @@ let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAll
 
 
 let ReadRoundingDirection (pos:int) (bs:byte[]) : (int * RoundingDirection) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> RoundingDirection.RoundToNearest
@@ -13331,7 +13331,7 @@ let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int =
 
 
 let ReadDistribPaymentMethod (pos:int) (bs:byte[]) : (int * DistribPaymentMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DistribPaymentMethod.Crest
@@ -13457,7 +13457,7 @@ let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : in
 
 
 let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> CancellationRights.Yes
@@ -13497,7 +13497,7 @@ let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:Cancellati
 
 
 let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> MoneyLaunderingStatus.Passed
@@ -13574,7 +13574,7 @@ let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : in
 
 
 let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> ExecPriceType.BidPrice
@@ -13672,7 +13672,7 @@ let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int 
 
 
 let ReadTradeReportTransType (pos:int) (bs:byte[]) : (int * TradeReportTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportTransType.New
@@ -13779,7 +13779,7 @@ let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int =
 
 
 let ReadPaymentMethod (pos:int) (bs:byte[]) : (int * PaymentMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PaymentMethod.Crest
@@ -13926,7 +13926,7 @@ let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int 
 
 
 let ReadTaxAdvantageType (pos:int) (bs:byte[]) : (int * TaxAdvantageType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TaxAdvantageType.NNone
@@ -14030,7 +14030,7 @@ let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejRe
 
 
 let ReadFundRenewWaiv (pos:int) (bs:byte[]) : (int * FundRenewWaiv) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> FundRenewWaiv.Yes
@@ -14176,7 +14176,7 @@ let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitt
 
 
 let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> RegistStatus.Accepted
@@ -14216,7 +14216,7 @@ let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : 
 
 
 let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> RegistRejReasonCode.InvalidUnacceptableAccountType
@@ -14451,7 +14451,7 @@ let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int =
 
 
 let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> RegistTransType.New
@@ -14514,7 +14514,7 @@ let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : in
 
 
 let ReadOwnershipType (pos:int) (bs:byte[]) : (int * OwnershipType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"J"B -> OwnershipType.JointInvestors
@@ -14562,7 +14562,7 @@ let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int =
 
 
 let ReadContAmtType (pos:int) (bs:byte[]) : (int * ContAmtType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ContAmtType.CommissionAmount
@@ -14667,7 +14667,7 @@ let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int 
 
 
 let ReadOwnerType (pos:int) (bs:byte[]) : (int * OwnerType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OwnerType.IndividualInvestor
@@ -14845,7 +14845,7 @@ let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID
 
 
 let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> OrderCapacity.Agency
@@ -14899,7 +14899,7 @@ let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) 
 
 
 let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OrderRestrictions.ProgramTrade
@@ -14981,7 +14981,7 @@ let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestri
 
 
 let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MassCancelRequestType.CancelOrdersForASecurity
@@ -15042,7 +15042,7 @@ let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCan
 
 
 let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MassCancelResponse.CancelRequestRejected
@@ -15110,7 +15110,7 @@ let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancel
 
 
 let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MassCancelRejectReason.MassCancelNotSupported
@@ -15238,7 +15238,7 @@ let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:Affect
 
 
 let ReadQuoteType (pos:int) (bs:byte[]) : (int * QuoteType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteType.Indicative
@@ -15368,7 +15368,7 @@ let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : 
 
 
 let ReadCashMargin (pos:int) (bs:byte[]) : (int * CashMargin) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CashMargin.Cash
@@ -15416,7 +15416,7 @@ let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySub
 
 
 let ReadScope (pos:int) (bs:byte[]) : (int * Scope) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Scope.Local
@@ -15479,7 +15479,7 @@ let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int =
 
 
 let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
@@ -15519,7 +15519,7 @@ let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
 
 
 let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CrossPrioritization.NNone
@@ -15567,7 +15567,7 @@ let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int 
 
 
 let ReadNoSides (pos:int) (bs:byte[]) : (int * NoSides) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NoSides.OneSide
@@ -15683,7 +15683,7 @@ let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes
 
 
 let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityListRequestType.Symbol
@@ -15730,7 +15730,7 @@ let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Secur
 
 
 let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResult) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityRequestResult.ValidRequest
@@ -15814,7 +15814,7 @@ let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int 
 
 
 let ReadMultiLegRptTypeReq (pos:int) (bs:byte[]) : (int * MultiLegRptTypeReq) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
@@ -15892,7 +15892,7 @@ let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int =
 
 
 let ReadTradSesStatusRejReason (pos:int) (bs:byte[]) : (int * TradSesStatusRejReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
@@ -15926,7 +15926,7 @@ let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) 
 
 
 let ReadTradeRequestType (pos:int) (bs:byte[]) : (int * TradeRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestType.AllTrades
@@ -16018,7 +16018,7 @@ let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRef
 
 
 let ReadMatchStatus (pos:int) (bs:byte[]) : (int * MatchStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
@@ -16096,7 +16096,7 @@ let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoCleari
 
 
 let ReadClearingInstruction (pos:int) (bs:byte[]) : (int * ClearingInstruction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ClearingInstruction.ProcessNormally
@@ -16251,7 +16251,7 @@ let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int =
 
 
 let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
@@ -16312,7 +16312,7 @@ let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : in
 
 
 let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CustOrderCapacity.MemberTradingForTheirOwnAccount
@@ -16382,7 +16382,7 @@ let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID
 
 
 let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MassStatusReqType.StatusForOrdersForASecurity
@@ -16495,7 +16495,7 @@ let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : in
 
 
 let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
@@ -16528,7 +16528,7 @@ let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst
 
 
 let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
@@ -16561,7 +16561,7 @@ let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : in
 
 
 let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PreallocMethod.ProRata
@@ -17091,7 +17091,7 @@ let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSess
 
 
 let ReadAllocType (pos:int) (bs:byte[]) : (int * AllocType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocType.Calculated
@@ -17258,7 +17258,7 @@ let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int =
 
 
 let ReadClearingFeeIndicator (pos:int) (bs:byte[]) : (int * ClearingFeeIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> ClearingFeeIndicator.CboeMember
@@ -17356,7 +17356,7 @@ let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int =
 
 
 let ReadPriorityIndicator (pos:int) (bs:byte[]) : (int * PriorityIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PriorityIndicator.PriorityUnchanged
@@ -17652,7 +17652,7 @@ let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrO
 
 
 let ReadQuoteRequestRejectReason (pos:int) (bs:byte[]) : (int * QuoteRequestRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRequestRejectReason.UnknownSymbol
@@ -17756,7 +17756,7 @@ let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideCompliance
 
 
 let ReadAcctIDSource (pos:int) (bs:byte[]) : (int * AcctIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AcctIDSource.Bic
@@ -17870,7 +17870,7 @@ let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int =
 
 
 let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmStatus.Received
@@ -17917,7 +17917,7 @@ let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) 
 
 
 let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ConfirmTransType.New
@@ -17965,7 +17965,7 @@ let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSett
 
 
 let ReadDeliveryForm (pos:int) (bs:byte[]) : (int * DeliveryForm) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DeliveryForm.Bookentry
@@ -18306,7 +18306,7 @@ let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulat
 
 
 let ReadLegSwapType (pos:int) (bs:byte[]) : (int * LegSwapType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LegSwapType.ParForPar
@@ -18361,7 +18361,7 @@ let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int =
 
 
 let ReadQuotePriceType (pos:int) (bs:byte[]) : (int * QuotePriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuotePriceType.Percent
@@ -18458,7 +18458,7 @@ let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int 
 
 
 let ReadQuoteRespType (pos:int) (bs:byte[]) : (int * QuoteRespType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRespType.HitLift
@@ -18632,7 +18632,7 @@ let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int 
 
 
 let ReadPosType (pos:int) (bs:byte[]) : (int * PosType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"TQ"B -> PosType.TransactionQuantity
@@ -18807,7 +18807,7 @@ let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int =
 
 
 let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosQtyStatus.Submitted
@@ -18840,7 +18840,7 @@ let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : 
 
 
 let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"FMTM"B -> PosAmtType.FinalMarkToMarketAmount
@@ -18923,7 +18923,7 @@ let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int =
 
 
 let ReadPosTransType (pos:int) (bs:byte[]) : (int * PosTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PosTransType.Exercise
@@ -19000,7 +19000,7 @@ let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : 
 
 
 let ReadPosMaintAction (pos:int) (bs:byte[]) : (int * PosMaintAction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PosMaintAction.New
@@ -19108,7 +19108,7 @@ let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) 
 
 
 let ReadAdjustmentType (pos:int) (bs:byte[]) : (int * AdjustmentType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AdjustmentType.ProcessRequestAsMarginDisposition
@@ -19193,7 +19193,7 @@ let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : 
 
 
 let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosMaintStatus.Accepted
@@ -19240,7 +19240,7 @@ let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus
 
 
 let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
@@ -19273,7 +19273,7 @@ let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult
 
 
 let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqType.Positions
@@ -19313,7 +19313,7 @@ let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int 
 
 
 let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ResponseTransportType.Inband
@@ -19369,7 +19369,7 @@ let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosR
 
 
 let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqResult.ValidRequest
@@ -19423,7 +19423,7 @@ let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : 
 
 
 let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqStatus.Completed
@@ -19471,7 +19471,7 @@ let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int =
 
 
 let ReadSettlPriceType (pos:int) (bs:byte[]) : (int * SettlPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SettlPriceType.Final
@@ -19677,7 +19677,7 @@ let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : in
 
 
 let ReadAssignmentMethod (pos:int) (bs:byte[]) : (int * AssignmentMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"R"B -> AssignmentMethod.Random
@@ -19733,7 +19733,7 @@ let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : in
 
 
 let ReadExerciseMethod (pos:int) (bs:byte[]) : (int * ExerciseMethod) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> ExerciseMethod.Automatic
@@ -19774,7 +19774,7 @@ let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeR
 
 
 let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestResult.Successful
@@ -19849,7 +19849,7 @@ let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
 
 
 let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestStatus.Accepted
@@ -19882,7 +19882,7 @@ let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
 
 
 let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportRejectReason.Successful
@@ -19936,7 +19936,7 @@ let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Trade
 
 
 let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegReportingType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SideMultiLegReportingType.SingleSecurity
@@ -20224,7 +20224,7 @@ let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp
 
 
 let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TrdRegTimestampType.ExecutionTime
@@ -20301,7 +20301,7 @@ let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : in
 
 
 let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmType.Status
@@ -20334,7 +20334,7 @@ let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : in
 
 
 let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmRejReason.MismatchedAccount
@@ -20367,7 +20367,7 @@ let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejRe
 
 
 let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BookingType.RegularBooking
@@ -20460,7 +20460,7 @@ let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) 
 
 
 let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocSettlInstType.UseDefaultInstructions
@@ -20597,7 +20597,7 @@ let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyS
 
 
 let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"S"B -> DlvyInstType.Securities
@@ -20623,7 +20623,7 @@ let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : 
 
 
 let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TerminationType.Overnight
@@ -20708,7 +20708,7 @@ let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) 
 
 
 let ReadSettlInstReqRejCode (pos:int) (bs:byte[]) : (int * SettlInstReqRejCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlInstReqRejCode.UnableToProcessRequest
@@ -20763,7 +20763,7 @@ let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAlloc
 
 
 let ReadAllocReportType (pos:int) (bs:byte[]) : (int * AllocReportType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"3"B -> AllocReportType.SellsideCalculatedUsingPreliminary
@@ -20818,7 +20818,7 @@ let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRef
 
 
 let ReadAllocCancReplaceReason (pos:int) (bs:byte[]) : (int * AllocCancReplaceReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
@@ -20859,7 +20859,7 @@ let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicat
 
 
 let ReadAllocAccountType (pos:int) (bs:byte[]) : (int * AllocAccountType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
@@ -21055,7 +21055,7 @@ let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Pa
 
 
 let ReadAllocIntermedReqType (pos:int) (bs:byte[]) : (int * AllocIntermedReqType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocIntermedReqType.PendingAccept
@@ -21169,7 +21169,7 @@ let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) 
 
 
 let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ApplQueueResolution.NoActionTaken
@@ -21209,7 +21209,7 @@ let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueue
 
 
 let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ApplQueueAction.NoActionTaken
@@ -21294,7 +21294,7 @@ let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:Secondar
 
 
 let ReadAvgPxIndicator (pos:int) (bs:byte[]) : (int * AvgPxIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AvgPxIndicator.NoAveragePricing
@@ -21417,7 +21417,7 @@ let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : in
 
 
 let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeAllocIndicator.AllocationNotRequired
@@ -21450,7 +21450,7 @@ let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllo
 
 
 let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
@@ -21476,7 +21476,7 @@ let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCyc
 
 
 let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TrdType.RegularTrade
@@ -21655,7 +21655,7 @@ let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount
 
 
 let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegMoveType.Floating
@@ -21681,7 +21681,7 @@ let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : in
 
 
 let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegOffsetType.Price
@@ -21721,7 +21721,7 @@ let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) 
 
 
 let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegLimitType.OrBetter
@@ -21754,7 +21754,7 @@ let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : 
 
 
 let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PegRoundDirection.MoreAggressive
@@ -21795,7 +21795,7 @@ let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int 
 
 
 let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PegScope.Local
@@ -21835,7 +21835,7 @@ let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
 
 
 let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionMoveType.Floating
@@ -21861,7 +21861,7 @@ let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretion
 
 
 let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionOffsetType.Price
@@ -21901,7 +21901,7 @@ let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:Discreti
 
 
 let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionLimitType.OrBetter
@@ -21934,7 +21934,7 @@ let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretio
 
 
 let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundDirection) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DiscretionRoundDirection.MoreAggressive
@@ -21975,7 +21975,7 @@ let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice
 
 
 let ReadDiscretionScope (pos:int) (bs:byte[]) : (int * DiscretionScope) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DiscretionScope.Local
@@ -22075,7 +22075,7 @@ let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:Targe
 
 
 let ReadLastLiquidityInd (pos:int) (bs:byte[]) : (int * LastLiquidityInd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LastLiquidityInd.AddedLiquidity
@@ -22123,7 +22123,7 @@ let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdI
 
 
 let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ShortSaleReason.DealerSoldShort
@@ -22177,7 +22177,7 @@ let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReas
 
 
 let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QtyType.Units
@@ -22218,7 +22218,7 @@ let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdTy
 
 
 let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportType.Submit
@@ -22286,7 +22286,7 @@ let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTy
 
 
 let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocNoOrdersType.NotSpecified
@@ -22417,7 +22417,7 @@ let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int =
 
 
 let ReadEventType (pos:int) (bs:byte[]) : (int * EventType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> EventType.Put
@@ -22539,7 +22539,7 @@ let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : 
 
 
 let ReadInstrAttribType (pos:int) (bs:byte[]) : (int * InstrAttribType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> InstrAttribType.Flat
@@ -22997,7 +22997,7 @@ let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMon
 
 
 let ReadMiscFeeBasis (pos:int) (bs:byte[]) : (int * MiscFeeBasis) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MiscFeeBasis.Absolute
@@ -23075,7 +23075,7 @@ let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int =
 
 
 let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnReason.Initial
@@ -23143,7 +23143,7 @@ let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason
 
 
 let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryQualifier.Tradedate
@@ -23301,7 +23301,7 @@ let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int =
 
 
 let ReadCollAsgnTransType (pos:int) (bs:byte[]) : (int * CollAsgnTransType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnTransType.New
@@ -23363,7 +23363,7 @@ let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int =
 
 
 let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnRespType.Received
@@ -23403,7 +23403,7 @@ let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnResp
 
 
 let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnRejectReason.UnknownDeal
@@ -23509,7 +23509,7 @@ let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : 
 
 
 let ReadCollStatus (pos:int) (bs:byte[]) : (int * CollStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollStatus.Unassigned
@@ -23676,7 +23676,7 @@ let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurr
 
 
 let ReadDeliveryType (pos:int) (bs:byte[]) : (int * DeliveryType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DeliveryType.VersusPayment
@@ -23776,7 +23776,7 @@ let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : 
 
 
 let ReadUserRequestType (pos:int) (bs:byte[]) : (int * UserRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> UserRequestType.Logonuser
@@ -23831,7 +23831,7 @@ let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int 
 
 
 let ReadUserStatus (pos:int) (bs:byte[]) : (int * UserStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> UserStatus.LoggedIn
@@ -23900,7 +23900,7 @@ let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) 
 
 
 let ReadStatusValue (pos:int) (bs:byte[]) : (int * StatusValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> StatusValue.Connected
@@ -24030,7 +24030,7 @@ let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetwo
 
 
 let ReadNetworkRequestType (pos:int) (bs:byte[]) : (int * NetworkRequestType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetworkRequestType.Snapshot
@@ -24085,7 +24085,7 @@ let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int =
 
 
 let ReadNetworkStatusResponseType (pos:int) (bs:byte[]) : (int * NetworkStatusResponseType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetworkStatusResponseType.Full
@@ -24126,7 +24126,7 @@ let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollIn
 
 
 let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TrdRptStatus.Accepted
@@ -24152,7 +24152,7 @@ let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : 
 
 
 let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AffirmStatus.Received
@@ -24230,7 +24230,7 @@ let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int 
 
 
 let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAction.Retain
@@ -24263,7 +24263,7 @@ let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int 
 
 
 let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryStatus.Accepted
@@ -24310,7 +24310,7 @@ let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
 
 
 let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
+    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryResult.Successful

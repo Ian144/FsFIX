@@ -45,7 +45,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
-    <Compile Include="SocketIOUtils.fs" />
+    <Compile Include="Conversions.fs" />
+    <Compile Include="ByteArrayUtils.fs" />
+    <Compile Include="StreamUtils.fs" />
     <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadWriteFuncs.fs" />

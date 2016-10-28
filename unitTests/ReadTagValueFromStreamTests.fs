@@ -12,7 +12,7 @@ let ``read first field value from buf`` () =
             yield! "8=XXXX"B; yield 1uy 
         |]
     let tagValSepPos = 1 // the index of the = in the input array
-    let newPos, fldVal = ReadWriteFuncs.readValAfterTagValSep tagValSepPos input
+    let newPos, fldVal = ByteArrayUtils.readValAfterTagValSep tagValSepPos input
     test<@ 6 = newPos @> 
     test<@ "XXXX"B = fldVal @>
 
@@ -23,7 +23,7 @@ let ``read second field value from buf`` () =
             yield! "8=YYYY"B; yield 1uy 
         |]
     let tagValSepPos = 8 // the index of the 2ND '=' in the input array
-    let newPos, fldVal = ReadWriteFuncs.readValAfterTagValSep tagValSepPos input
+    let newPos, fldVal = ByteArrayUtils.readValAfterTagValSep tagValSepPos input
     test<@ 13 = newPos @>
     test<@ "YYYY"B = fldVal @>
 
@@ -40,7 +40,7 @@ let ``single field then checksum then another field, should not read last field`
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = ReadWriteFuncs.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 2 // the 3rd field should be ignored, the first two must be read
     test<@ expectedNumTagValues = tagVals.Length @>
     Assert.Equal (2, tagVals.Length) 
@@ -64,7 +64,7 @@ let ``two fields then checksum then another field, should not read last field`` 
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = ReadWriteFuncs.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -89,7 +89,7 @@ let ``RawDataLength then RawData containing field terminator`` () =
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = ReadWriteFuncs.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -112,7 +112,7 @@ let ``RawDataLength then RawData containing tag-value separator`` () =
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = ReadWriteFuncs.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -238,7 +238,7 @@ let ``read msg`` () =
     //let fld = Fix44.FieldReadWriteFuncs.ReadField ms
 
 
-    let output = ReadWriteFuncs.ReadMsgBytes ms
+    let output = StreamUtils.ReadMsgBytes ms
     test<@ expectedOutput = output @>
 
 

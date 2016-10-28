@@ -1,7 +1,6 @@
 ﻿module ParsingFuncs
 
 open System.Xml.Linq
-open System.Xml.XPath
 
 
 open FIXGenTypes
@@ -41,7 +40,7 @@ let rec ReadGroup (parents:string list) (el:XElement) =
 //        <field name="RoutingID" required="N" />
 //    </group>
 //
-// not a total function, failfast if FIX xml cannot be parsed
+// not a total function, fails fast if FIX xml cannot be parsed
 and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     let itemTypeStr = el.Name.ToString()
     let reqStr = gas el "required"

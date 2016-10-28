@@ -1,98 +1,11 @@
-﻿module ReadWriteFuncs
+﻿module StreamUtils
 
 open System
 open System.IO
 
+open Conversions
 
 
-
-let findNext (bb:byte) (pos:int) (bs:byte[]) =
-    let mutable found = false
-    let mutable ctr = pos
-    while (ctr < bs.Length && (not found)) do
-        if bs.[ctr] = bb then
-            found <- true
-        else
-            ctr <- ctr + 1
-    if found then ctr else -1
-
-
-let findNextFieldTerm (pos:int) (bs:byte[]) = findNext 1uy pos bs
-let findNextTagValSep (pos:int) (bs:byte[]) = findNext 61uy pos bs
-
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
-/// returns the index of first char after the field value and the value itself
-let readValAfterTagValSep (pos:int) (bs:byte[]) =
-    // byte value of '=' is 61
-    if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
-    let fldTermPos = findNextFieldTerm pos bs
-    if fldTermPos = -1 then failwith "could not find next field separator"
-    let valLen = fldTermPos - pos
-    let bsVal = Array.zeroCreate<byte> valLen
-    Buffer.BlockCopy (bs, pos, bsVal, 0, valLen)
-    fldTermPos, bsVal
-
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
-/// returns the index of first char after the field value and the value itself
-let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
-    // byte value of '=' is 61, of field delim is 1
-    if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
-    if bs.[pos+count] <> 1uy then failwith "readValAfterFieldSep, next byte is not a field delimator"
-    let bsVal = Array.zeroCreate<byte> count
-    Buffer.BlockCopy (bs, pos, bsVal, 0, count)
-    pos+count, bsVal
-
-
-// assumes and checks that the prevByte points to a field delimitor
-let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
-    if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
-    let tagValSepPos = findNextTagValSep pos bs
-    if tagValSepPos = -1 then failwith "could not find next tag-valus separator"
-    let tagLen = tagValSepPos - pos
-    let bsVal = Array.zeroCreate<byte> tagLen
-    Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
-    tagValSepPos, bsVal
-
-
-
-
-
-let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
-
-let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
-
-let bytesToBool (bs:byte[]) =
-    let ii = bytesToInt32 bs
-    match ii with
-    | 0 ->  false
-    | 1 ->  true
-    | _ ->  failwith (sprintf "invalid value for bool field: %d" ii) 
-
-    
-let bytesToDecimal (bs:byte[]) = 
-    let ss = bs |> bytesToStr
-    match Decimal.TryParse(ss) with
-    | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
-    | true, dd  -> dd
-
-
-//let private bytesToInt32ArSeg (bs:ArraySegment<byte>) = 
-//    let mutable (ii:int) = 0
-//    // todo: consider endianess
-//    for ctr = bs.Offset + bs.Count to bs.Offset do
-//        ii <- ii + int(bs.Array.[ctr])
-//    ii
-
-let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
-
-// todo: is this still needed, as bytesToStr still exists
-// function overloading in F#
-[<AbstractClass;Sealed>]
-type ToBytes private () =
-    static member Convert (str:string) = sToB str
-    static member Convert (ii:int32)   = sprintf "%d" ii |> sToB     // todo: what is FIX byte representation endianness
-    static member Convert (dd:decimal) = sprintf "%.32f" dd |> sToB  // todo: is "%.32f" ok for Decimal->string conversion, how does fix represent such types? what is thier byte representation
-    static member Convert (bb:bool)    = if bb then "1"B else "0"B   // todo: confirm this is how FIX sends bools down the wire
 
 
 type Stream with
@@ -183,18 +96,18 @@ let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array =
 
 
 // the checksum value is always three digits long, as is the tag
-let checkSumLen = 6
-
-// todo: careful not to confuse rawData with a checksum
-let findCheckSumPos (pos:int) (bs:byte[]) =
-    let mutable found = false
-    let mutable ctr = pos - checkSumLen
-    while ctr >= 0 && (not found)  do
-        if bs.[ctr] = 49uy && bs.[ctr+1] = 48uy && bs.[ctr+2] = 61uy then
-            found <- true
-        else
-            ctr <- ctr - 1
-    ctr // will be -1 if 
+//let checkSumLen = 6
+//
+//// todo: careful not to confuse rawData with a checksum
+//let findCheckSumPos (pos:int) (bs:byte[]) =
+//    let mutable found = false
+//    let mutable ctr = pos - checkSumLen
+//    while ctr >= 0 && (not found)  do
+//        if bs.[ctr] = 49uy && bs.[ctr+1] = 48uy && bs.[ctr+2] = 61uy then
+//            found <- true
+//        else
+//            ctr <- ctr - 1
+//    ctr // will be -1 if 
 
 
 // todo: deal with partial bytes from previous reads

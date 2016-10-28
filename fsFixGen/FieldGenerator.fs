@@ -12,40 +12,11 @@ open ParsingFuncs
 
 
 
-
 type FieldDUCase = { Enum:string; Description:string }
 type SimpleField = { FixTag:int; Name:string; Type:string; Values:FieldDUCase list }
 type CompoundField = { Name:string; LenField:SimpleField; StrField:SimpleField }
 type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
-
-
-//let WriteAdvSide (nextFreeIdx:int) (dest:byte []) (xxIn:AdvSide) : int =
-//    match xxIn with
-//    | AdvSide.Buy ->
-//        let tag = "4=B"B
-//        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-//        let nextFreeIdx2 = nextFreeIdx + tag.Length
-//        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-//        nextFreeIdx2 + 1 // +1 to include the delimeter
-//    | AdvSide.Sell ->
-//        let tag = "4=S"B
-//        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-//        let nextFreeIdx2 = nextFreeIdx + tag.Length
-//        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-//        nextFreeIdx2 + 1 // +1 to include the delimeter
-//    | AdvSide.Cross ->
-//        let tag = "4=X"B
-//        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-//        let nextFreeIdx2 = nextFreeIdx + tag.Length
-//        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-//        nextFreeIdx2 + 1 // +1 to include the delimeter
-//    | AdvSide.Trade ->
-//        let tag = "4=T"B
-//        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-//        let nextFreeIdx2 = nextFreeIdx + tag.Length
-//        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-//        nextFreeIdx2 + 1 // +1 to include the delimeter
 
 let private createFieldDUWriterFunc (fldName:string) (fixTag:int) (values:FieldDUCase list) = 
     let lines = [
@@ -126,25 +97,6 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "bool"    -> "ReadSingleCaseDUBoolField"
     | "string"  -> "ReadSingleCaseDUStrField"
     | _         -> failwith "unknown type name"
-
-
-//let private getFromBytesFuncString (typeName:string) =
-//    match typeName with
-//    | "int"     -> "ReadWriteFuncs.bytesToInt32"
-//    | "decimal" -> "ReadWriteFuncs.bytesToDecimal"
-//    | "bool"    -> "ReadWriteFuncs.bytesToBool"
-//    | "string"  -> "ReadWriteFuncs.bytesToStr"
-//    | _         -> failwith "unknown type name"
-//
-//
-//let private getParseFuncString (typeName:string) =
-//    match typeName with
-//    | "int"     -> "System.Int32.Parse"
-//    | "decimal" -> "System.Decimal.Parse"
-//    | "bool"    -> "System.Boolean.Parse"
-//    | "string"  -> ""
-//    | _         -> failwith "unknown type name"
-
 
 
 let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
@@ -361,6 +313,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
     swRWFuncs.WriteLine "open System"
     swRWFuncs.WriteLine "open System.IO"
     swRWFuncs.WriteLine "open Fix44.Fields"
+    swRWFuncs.WriteLine "open Conversions"
     swRWFuncs.WriteLine "open ReadWriteFuncs"
     swRWFuncs.WriteLine "open FieldFuncs"
     swRWFuncs.WriteLine ""
