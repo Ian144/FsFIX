@@ -652,6 +652,7 @@ type AllocRejCode =
     | WarehouseRequestRejected
 
 
+// compound len+str field
 type Signature =
     |Signature of byte []
      member x.Value = let (Signature v) = x in v
@@ -659,13 +660,8 @@ type Signature =
 
 // compound len+str field
 type SecureData =
-    |SecureData of string
+    |SecureData of byte []
      member x.Value = let (SecureData v) = x in v
-
-
-type SignatureLength =
-    |SignatureLength of int
-     member x.Value = let (SignatureLength v) = x in v
 
 
 type EmailType =
@@ -674,11 +670,7 @@ type EmailType =
     | AdminReply
 
 
-type RawDataLength =
-    |RawDataLength of int
-     member x.Value = let (RawDataLength v) = x in v
-
-
+// compound len+str field
 type RawData =
     |RawData of byte []
      member x.Value = let (RawData v) = x in v
@@ -1333,7 +1325,7 @@ type PegOffsetValue =
 
 // compound len+str field
 type XmlData =
-    |XmlData of string
+    |XmlData of byte []
      member x.Value = let (XmlData v) = x in v
 
 
@@ -2223,55 +2215,55 @@ type MessageEncoding =
 
 // compound len+str field
 type EncodedIssuer =
-    |EncodedIssuer of string
+    |EncodedIssuer of byte []
      member x.Value = let (EncodedIssuer v) = x in v
 
 
 // compound len+str field
 type EncodedSecurityDesc =
-    |EncodedSecurityDesc of string
+    |EncodedSecurityDesc of byte []
      member x.Value = let (EncodedSecurityDesc v) = x in v
 
 
 // compound len+str field
 type EncodedListExecInst =
-    |EncodedListExecInst of string
+    |EncodedListExecInst of byte []
      member x.Value = let (EncodedListExecInst v) = x in v
 
 
 // compound len+str field
 type EncodedText =
-    |EncodedText of string
+    |EncodedText of byte []
      member x.Value = let (EncodedText v) = x in v
 
 
 // compound len+str field
 type EncodedSubject =
-    |EncodedSubject of string
+    |EncodedSubject of byte []
      member x.Value = let (EncodedSubject v) = x in v
 
 
 // compound len+str field
 type EncodedHeadline =
-    |EncodedHeadline of string
+    |EncodedHeadline of byte []
      member x.Value = let (EncodedHeadline v) = x in v
 
 
 // compound len+str field
 type EncodedAllocText =
-    |EncodedAllocText of string
+    |EncodedAllocText of byte []
      member x.Value = let (EncodedAllocText v) = x in v
 
 
 // compound len+str field
 type EncodedUnderlyingIssuer =
-    |EncodedUnderlyingIssuer of string
+    |EncodedUnderlyingIssuer of byte []
      member x.Value = let (EncodedUnderlyingIssuer v) = x in v
 
 
 // compound len+str field
 type EncodedUnderlyingSecurityDesc =
-    |EncodedUnderlyingSecurityDesc of string
+    |EncodedUnderlyingSecurityDesc of byte []
      member x.Value = let (EncodedUnderlyingSecurityDesc v) = x in v
 
 
@@ -2741,7 +2733,7 @@ type ListStatusText =
 
 // compound len+str field
 type EncodedListStatusText =
-    |EncodedListStatusText of string
+    |EncodedListStatusText of byte []
      member x.Value = let (EncodedListStatusText v) = x in v
 
 
@@ -3820,7 +3812,7 @@ type LegIssuer =
 
 // compound len+str field
 type EncodedLegIssuer =
-    |EncodedLegIssuer of string
+    |EncodedLegIssuer of byte []
      member x.Value = let (EncodedLegIssuer v) = x in v
 
 
@@ -3831,7 +3823,7 @@ type LegSecurityDesc =
 
 // compound len+str field
 type EncodedLegSecurityDesc =
-    |EncodedLegSecurityDesc of string
+    |EncodedLegSecurityDesc of byte []
      member x.Value = let (EncodedLegSecurityDesc v) = x in v
 
 
@@ -5809,9 +5801,7 @@ type FIXField =
     | AllocRejCode of AllocRejCode
     | Signature of Signature
     | SecureData of SecureData
-    | SignatureLength of SignatureLength
     | EmailType of EmailType
-    | RawDataLength of RawDataLength
     | RawData of RawData
     | PossResend of PossResend
     | EncryptMethod of EncryptMethod

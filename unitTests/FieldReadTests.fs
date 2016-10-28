@@ -70,20 +70,19 @@ let ``read compound len+str pair`` () =
                     yield! "91=ABCDEFGH"B; yield 1uy|]  // SecureData, that has not been encrypted
     let pos = 3 // the tag and the the tag value separator have been read
     let posOut, fld = ReadSecureData pos input
-    test<@ (SecureData.SecureData "ABCDEFGH") = fld @>
+    test<@ (SecureData.SecureData "ABCDEFGH"B) = fld @>
     test<@ input.Length = posOut @>
 
 
 [<Fact>]
 let ``read compound len+str pair, containing a field seperator in the string`` () =
     let valToRead = [|yield! "ABCD"B; yield 1uy; yield! "EFGH"B; |] // contains a field seperator
-    let strValtoRead = Conversions.bytesToStr valToRead
     
     let input = [|  yield! "90=9"B; yield 1uy           // SecureDataLen, containing the length of the data in SecureData
                     yield! "91="B; yield! valToRead; yield 1uy |]  // SecureData, that has not been encrypted
     let pos = 3 // the tag and the the tag value separator have been read
     let posOut, fld = ReadSecureData pos input
-    test<@ (SecureData.SecureData strValtoRead) = fld @>
+    test<@ SecureData.SecureData valToRead = fld @>
     test<@ input.Length = posOut @>
 
 
@@ -94,28 +93,36 @@ let ``read compound len+str pair, containing a tag-value seperator in the string
                     yield! "91=ABCD=EFGH"B; yield 1uy|]  // SecureData, that has not been encrypted
     let pos = 3 // the tag and the the tag value separator have been read
     let posOut, fld = ReadSecureData pos input
-    test<@ (SecureData.SecureData "ABCD=EFGH") = fld @>
+    test<@ SecureData.SecureData "ABCD=EFGH"B = fld @>
     test<@ input.Length = posOut @>
 
 
 [<Fact>]
-let ``AA read RawDataLength`` () = 
-    let input = [| 
-            yield! "95=7"B; yield 1uy       // raw data length
-            yield! "96=aaa=aaa"B; yield 1uy // raw data containing tag-value separator
-            //yield! "10=000"B; yield 1uy     // the checksum field
-        |]
-
+let ``read RawDataLength`` () = 
+    let input = [| yield! "95=6"B; yield 1uy            // raw data length
+                   yield! "96=aaaaaa"B; yield 1uy |]    // raw data 
     let pos = 3 // the tag and the the tag value separator have been read
     let posOut, fld = ReadRawData pos input
-    test<@ (RawData.RawData "aaa=aaa"B) = fld @>
+    test<@ RawData.RawData "aaaaaa"B = fld @>
     test<@ input.Length = posOut @>
 
 
 [<Fact>]
 let ``read RawDataLength + RawData pair, containing a field seperator in the string`` () = 
-    test<@ false @>
+    let input = [| yield! "95=7"B; yield 1uy            // raw data length
+                   yield! "96=aaa=aaa"B; yield 1uy |]    // raw data 
+    let pos = 3 // the tag and the the tag value separator have been read
+    let posOut, fld = ReadRawData pos input
+    test<@ RawData.RawData "aaa=aaa"B = fld @>
+    test<@ input.Length = posOut @>
+
 
 [<Fact>]
 let ``read RawDataLength + RawData pair, containing a tag-value seperator in the string`` () =
-    test<@ false @>
+    let valToRead = [|yield! "ABCD"B; yield 1uy; yield! "EFGH"B; |] // contains a field seperator
+    let input = [|  yield! "95=9"B; yield 1uy           // SecureDataLen, containing the length of the data in SecureData
+                    yield! "96="B; yield! valToRead; yield 1uy |]  // SecureData, that has not been encrypted
+    let pos = 3 // the tag and the the tag value separator have been read
+    let posOut, fld = ReadRawData pos input
+    test<@ RawData.RawData valToRead = fld @>
+    test<@ input.Length = posOut @>

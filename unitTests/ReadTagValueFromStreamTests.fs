@@ -11,7 +11,7 @@ let ``read first field value from buf`` () =
     let input = [|
             yield! "8=XXXX"B; yield 1uy 
         |]
-    let tagValSepPos = 1 // the index of the = in the input array
+    let tagValSepPos = 2 // the index of the = in the input array
     let newPos, fldVal = ByteArrayUtils.readValAfterTagValSep tagValSepPos input
     test<@ 6 = newPos @> 
     test<@ "XXXX"B = fldVal @>
@@ -22,7 +22,7 @@ let ``read second field value from buf`` () =
             yield! "8=XXXX"B; yield 1uy 
             yield! "8=YYYY"B; yield 1uy 
         |]
-    let tagValSepPos = 8 // the index of the 2ND '=' in the input array
+    let tagValSepPos = 9 // the index of the char one past the 2nd '=' in the input array
     let newPos, fldVal = ByteArrayUtils.readValAfterTagValSep tagValSepPos input
     test<@ 13 = newPos @>
     test<@ "YYYY"B = fldVal @>

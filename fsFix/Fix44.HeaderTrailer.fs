@@ -34,7 +34,6 @@ type Header = {
     }
 
 type Trailer = {
-    SignatureLength: SignatureLength option
     Signature: Signature option
     CheckSum: CheckSum
     }

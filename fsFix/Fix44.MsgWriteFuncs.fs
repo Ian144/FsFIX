@@ -18,7 +18,6 @@ let WriteHeartbeat (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (b
 let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) = 
     let nextFreeIdx = WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
     let nextFreeIdx = WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
-    let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
     let nextFreeIdx = Option.fold (WriteResetSeqNumFlag dest) nextFreeIdx xx.ResetSeqNumFlag
     let nextFreeIdx = Option.fold (WriteNextExpectedMsgSeqNum dest) nextFreeIdx xx.NextExpectedMsgSeqNum
@@ -92,7 +91,6 @@ let WriteUserRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) 
     let nextFreeIdx = WriteUsername dest nextFreeIdx xx.Username
     let nextFreeIdx = Option.fold (WritePassword dest) nextFreeIdx xx.Password
     let nextFreeIdx = Option.fold (WriteNewPassword dest) nextFreeIdx xx.NewPassword
-    let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
     nextFreeIdx
 
@@ -235,7 +233,6 @@ let WriteNews (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLe
     let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // write the 'num group repeats' field
     let nextFreeIdx =  xx.LinesOfTextGrp |> List.fold (fun accFreeIdx gg -> WriteLinesOfTextGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteURLLink dest) nextFreeIdx xx.URLLink
-    let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
     nextFreeIdx
 
@@ -280,7 +277,6 @@ let WriteEmail (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
     let numGrps = xx.LinesOfTextGrp.Length
     let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // write the 'num group repeats' field
     let nextFreeIdx =  xx.LinesOfTextGrp |> List.fold (fun accFreeIdx gg -> WriteLinesOfTextGrp dest accFreeIdx gg) nextFreeIdx
-    let nextFreeIdx = Option.fold (WriteRawDataLength dest) nextFreeIdx xx.RawDataLength
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
     nextFreeIdx
 

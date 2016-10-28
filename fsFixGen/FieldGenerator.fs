@@ -11,7 +11,7 @@ open System.Xml.XPath
 
 type FieldDUCase = { Enum:string; Description:string }
 type SimpleField = { FixTag:int; Name:string; Type:string; Values:FieldDUCase list }
-type CompoundField = { Name:string; LenField:SimpleField; StrField:SimpleField }
+type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
 type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
 
@@ -98,18 +98,17 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
 
 
 let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
-    let lines = 
-            [
-                sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (valIn:%s) : int = " typeName typeName
-                sprintf "   let tag = \"%d=\"B" fixTag
-                sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
-                sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
-                sprintf "   let bs = ToBytes.Convert(valIn.Value)"
-                sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
-                sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
-                sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
-                sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
-            ]
+    let lines = [
+            sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (valIn:%s) : int = " typeName typeName
+            sprintf "   let tag = \"%d=\"B" fixTag
+            sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
+            sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
+            sprintf "   let bs = ToBytes.Convert(valIn.Value)"
+            sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
+            sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
+            sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
+            sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
+    ]
     Utils.joinStrs "\n" lines
 
 
@@ -122,94 +121,99 @@ let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
     Utils.joinStrs "\n" lines
 
 
-let private makeSingleCaseDU (typeName:string) (fixTag:int) (fsharpInnerType:string) =
-    let typeStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" typeName typeName fsharpInnerType typeName
+let private makeSingleCaseDU (fieldName:string) (tag:int) (innerType:string) =
+    let fieldDefStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" fieldName fieldName innerType fieldName
     //let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
-    let readerFunc = makeSingleCaseDUReaderFunc fsharpInnerType typeName
-    let writerFunc = makeSingleCaseDUWriterFunc typeName fixTag
-    typeStr, readerFunc, writerFunc
+    let readerFunc = makeSingleCaseDUReaderFunc innerType fieldName
+    let writerFunc = makeSingleCaseDUWriterFunc fieldName tag
+    fieldDefStr, readerFunc, writerFunc
 
 
-let private createFieldTypes (fd2:SimpleField) =
-    let fieldType = fd2.Type
-    let typeName = fd2.Name
-    let fixNumber = fd2.FixTag
-    let values = fd2.Values
+let private createFieldTypes (field:SimpleField) =
+    let fieldType = field.Type
+    let fieldName = field.Name
+    let tag = field.FixTag
+    let values = field.Values
     match fieldType, (Seq.isEmpty values) with
-    | "AMT",                    true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "BOOLEAN",                true    -> makeSingleCaseDU typeName fixNumber "bool"
-    | "CHAR",                   true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "COUNTRY",                true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "CURRENCY",               true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "DATA",                   true    -> makeSingleCaseDU typeName fixNumber "byte []"
-    | "DAYOFMONTH",             true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "EXCHANGE",               true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "FLOAT",                  true    -> makeSingleCaseDU typeName fixNumber "decimal"
-    | "INT",                    true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "LANGUAGE",               true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "LENGTH",                 true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "LOCALMKTDATE",           true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing LOCALMKTDATE as string, use appropriate type
-    | "MONTHYEAR",              true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing MONTHYEAR as string, use appropriate type
-    | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "NUMINGROUP",             true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "PERCENTAGE",             true    -> makeSingleCaseDU typeName fixNumber "decimal"
-    | "PRICE",                  true    -> makeSingleCaseDU typeName fixNumber "decimal"
-    | "PRICEOFFSET",            true    -> makeSingleCaseDU typeName fixNumber "decimal"
-    | "QTY",                    true    -> makeSingleCaseDU typeName fixNumber "decimal"
-    | "SEQNUM",                 true    -> makeSingleCaseDU typeName fixNumber "int"
-    | "STRING",                 true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "TZTIMEONLY",             true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing TZTIMESTAMP as string, use appropriate type
-    | "TZTIMESTAMP",            true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing TZTIMESTAMP as string, use appropriate type
-    | "UTCDATEONLY",            true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing UTCDATEONLY as string, use appropriate type
-    | "UTCTIMEONLY",            true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing UTCTIMEONLY as string, use appropriate type
-    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU typeName fixNumber "string" // todo: storing UTCTIMESTAMP as string, use appropriate type
-    | "XMLDATA",                true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "INT",                    false   -> createFieldDUWithValues typeName fixNumber values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
-    | "CHAR",                   false   -> createFieldDUWithValues typeName fixNumber values
-    | "BOOLEAN",                false   -> createFieldDUWithValues typeName fixNumber values
-    | "STRING",                 false   -> createFieldDUWithValues typeName fixNumber values
-    | "MULTIPLECHARVALUE",      false   -> createFieldDUWithValues typeName fixNumber values    // required for 5.0sp2
-    | "MULTIPLESTRINGVALUE",    false   -> createFieldDUWithValues typeName fixNumber values
-    | "MULTIPLEVALUESTRING",    false   -> createFieldDUWithValues typeName fixNumber values    // required for 4.4
-    | "NUMINGROUP",             false   -> createFieldDUWithValues typeName fixNumber values
-    | _                                 -> let msg = sprintf "NOT IMPLEMENTED %s - %s" typeName fieldType
+    | "AMT",                    true    -> makeSingleCaseDU fieldName tag "int"
+    | "BOOLEAN",                true    -> makeSingleCaseDU fieldName tag "bool"
+    | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "int"
+    | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string"
+    | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"
+    | "DATA",                   true    -> makeSingleCaseDU fieldName tag "byte []"
+    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "int"
+    | "EXCHANGE",               true    -> makeSingleCaseDU fieldName tag "string"
+    | "FLOAT",                  true    -> makeSingleCaseDU fieldName tag "decimal"
+    | "INT",                    true    -> makeSingleCaseDU fieldName tag "int"
+    | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
+    | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"
+    | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type
+    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type
+    | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
+    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"
+    | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
+    | "PRICE",                  true    -> makeSingleCaseDU fieldName tag "decimal"
+    | "PRICEOFFSET",            true    -> makeSingleCaseDU fieldName tag "decimal"
+    | "QTY",                    true    -> makeSingleCaseDU fieldName tag "decimal"
+    | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"
+    | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
+    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type
+    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type
+    | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCDATEONLY as string, use appropriate type
+    | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMEONLY as string, use appropriate type
+    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMESTAMP as string, use appropriate type
+    | "XMLDATA",                true    -> makeSingleCaseDU fieldName tag "string"
+    | "INT",                    false   -> createFieldDUWithValues fieldName tag values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
+    | "CHAR",                   false   -> createFieldDUWithValues fieldName tag values
+    | "BOOLEAN",                false   -> createFieldDUWithValues fieldName tag values
+    | "STRING",                 false   -> createFieldDUWithValues fieldName tag values
+    | "MULTIPLECHARVALUE",      false   -> createFieldDUWithValues fieldName tag values    // required for 5.0sp2
+    | "MULTIPLESTRINGVALUE",    false   -> createFieldDUWithValues fieldName tag values
+    | "MULTIPLEVALUESTRING",    false   -> createFieldDUWithValues fieldName tag values    // required for 4.4
+    | "NUMINGROUP",             false   -> createFieldDUWithValues fieldName tag values
+    | _                                 -> let msg = sprintf "NOT IMPLEMENTED %s - %s" fieldName fieldType
                                            failwith msg
 
 
 
-// merge len fields and the corresponding string fields into a CmpdField, other fields are in a SngleField
-let MergeLenFields (fds:SimpleField list) =
+// merge len fields and the corresponding string fields into a CompoundField, other fields are in a SimpleField
+// there are also length fields, RawData(Length) and Signature(Length), requiring similare
+let MergeLenFields (fields:SimpleField list) =
     let isLenFieldName (fldName:string) =  System.Text.RegularExpressions.Regex.IsMatch(fldName, ".*Len\z" )
+    let isLengthFieldName (fldName:string) =  System.Text.RegularExpressions.Regex.IsMatch(fldName, ".*Length$" )
     let stripLen (fieldName:string) = fieldName.Substring (0, (fieldName.Length - 3) )
-    let nameToFieldMap = fds |> List.map (fun fd -> fd.Name, fd) |> Map.ofList
+    let stripLength (fieldName:string) = fieldName.Substring (0, (fieldName.Length - 6) )
+    
+    let nameToFieldMap = fields |> List.map (fun fd -> fd.Name, fd) |> Map.ofList
 
-    let lenFields = fds |> List.filter (fun fd -> isLenFieldName fd.Name)
+    let lenFields = fields |> List.filter (fun fd -> isLenFieldName fd.Name)
+    let lengthFields = fields |> List.filter (fun fd -> isLengthFieldName fd.Name) |> List.filter (fun fd -> fd.Name <> "BodyLength") // todo: fix hardcoded field name in length-data field pair detection
+    let allLengthTypeFields = lengthFields @ lenFields |> Set.ofList
 
-    // find those string fields which have a corresponding len field
-    let stringFieldsWithLen =
+    // find those fields (string or byte[]) paired with a len|length field
+    let lengthPairs =
+        [   for fld in lengthFields do
+            let fn = stripLength fld.Name
+            yield nameToFieldMap.[fn], fld ]
+
+    let lenPairs =
         [   for fld in lenFields do
             let fn = stripLen fld.Name
-            yield nameToFieldMap.[fn]   ]
+            yield nameToFieldMap.[fn], fld ]
 
-
-    let lenFieldSet = lenFields |> List.map (fun fld -> fld.Name) |> Set.ofList               // used in group and msg generation to filter out 'Len' fields
-    let stringFieldSet = stringFieldsWithLen |> Set.ofList
+    let allFieldPairsMap = lenPairs @ lengthPairs |> Map.ofList
 
     let mergedFields =
-        [   for fld in fds do
-            let fldName = fld.Name
-            let isNotLenFld = lenFieldSet |> Set.contains fldName |> not
-            if isNotLenFld then
-                let isStrFld = stringFieldSet |> Set.contains fld
-                if isStrFld then
-                    let lenFldName = sprintf "%sLen" fld.Name
-                    let lenFld = nameToFieldMap.[lenFldName]
-                    yield FieldData.CompoundField {Name=fld.Name; LenField = lenFld; StrField = fld}
+        [   for fld in fields do
+            if allLengthTypeFields |> Set.contains fld |> not then
+                if allFieldPairsMap.ContainsKey fld then
+                    let lenField = allFieldPairsMap.[fld] // 'len' and 'length' fields
+                    yield FieldData.CompoundField {Name=fld.Name; LenField = lenField; DataField = fld}
                 else
-                    yield FieldData.SimpleField fld
-            ]
+                    yield FieldData.SimpleField fld ]
 
-    lenFieldSet, mergedFields
+    let lengthPairedFields =  lengthFields @ lenFields |> List.map (fun fld -> fld.Name) |> Set.ofList //todo: get client of this function to use a Set<Field>
+    lengthPairedFields, mergedFields
 
 
 
@@ -235,7 +239,7 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
 
 
 let private createLenStrFieldDefinition (cfd:CompoundField) =
-    sprintf "// compound len+str field\ntype %s =\n    |%s of string\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
+    sprintf "// compound len+str field\ntype %s =\n    |%s of byte []\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
 
 
 
@@ -243,7 +247,7 @@ let private createLenStrFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
             sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" fld.Name fld.Name
-            sprintf "    ReadLengthStringCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.StrField.FixTag) fld.Name fld.Name 
+            sprintf "    ReadLengthDataCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.DataField.FixTag) fld.Name fld.Name 
     ]
     Utils.joinStrs "\n" lines
 
@@ -262,7 +266,7 @@ let private createLenStrFieldWriteFunction (fld:CompoundField) =
             sprintf "    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
             sprintf "    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter"
             sprintf "    // write the string part of the compound msg"
-            sprintf "    let strTag = \"91=\"B // i.e. a tag for the string field of the compound msg"
+            sprintf "    let strTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
             sprintf "    Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)"
             sprintf "    let nextFreeIdx5 = nextFreeIdx4 + strTag.Length"
             sprintf "    let strBs = ToBytes.Convert fld.Value"

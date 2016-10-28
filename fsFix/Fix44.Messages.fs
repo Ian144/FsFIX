@@ -13,7 +13,6 @@ type Heartbeat = {
 type Logon = {
     EncryptMethod: EncryptMethod
     HeartBtInt: HeartBtInt
-    RawDataLength: RawDataLength option
     RawData: RawData option
     ResetSeqNumFlag: ResetSeqNumFlag option
     NextExpectedMsgSeqNum: NextExpectedMsgSeqNum option
@@ -67,7 +66,6 @@ type UserRequest = {
     Username: Username
     Password: Password option
     NewPassword: NewPassword option
-    RawDataLength: RawDataLength option
     RawData: RawData option
     }
 
@@ -140,7 +138,6 @@ type News = {
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     LinesOfTextGrp: LinesOfTextGrp list // group
     URLLink: URLLink option
-    RawDataLength: RawDataLength option
     RawData: RawData option
     }
 
@@ -157,7 +154,6 @@ type Email = {
     OrderID: OrderID option
     ClOrdID: ClOrdID option
     LinesOfTextGrp: LinesOfTextGrp list // group
-    RawDataLength: RawDataLength option
     RawData: RawData option
     }
 

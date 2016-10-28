@@ -3187,19 +3187,31 @@ let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSignature (pos:int) (bs:byte[]) : (int*Signature) =
-    ReadSingleCaseDUDataField (pos:int) (bs:byte[]) Signature.Signature
+// compound write, of a length field and the corresponding string field
+let WriteSignature (dest:byte []) (nextFreeIdx:int) (fld:Signature) : int =
+    // write the string length part of the compound msg
+    let lenTag = "93="B
+    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
+    let nextFreeIdx2 = nextFreeIdx + lenTag.Length
+    let lenBs = ToBytes.Convert fld.Value.Length
+    Buffer.BlockCopy (lenBs, 0, dest, nextFreeIdx2, lenBs.Length)
+    let nextFreeIdx3 = nextFreeIdx2 + lenBs.Length
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
+    // write the string part of the compound msg
+    let strTag = "89="B // i.e. tag for the data field of the compound msg
+    Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
+    let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
+    let strBs = ToBytes.Convert fld.Value
+    Buffer.BlockCopy (strBs, 0, dest, nextFreeIdx5, strBs.Length)
+    let nextFreeIdx6 = nextFreeIdx5 + strTag.Length
+    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
+    nextFreeIdx6 + lenBs.Length + 1 // +1 to include the delimeter
 
 
-let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int = 
-   let tag = "89="B
-   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-   let nextFreeIdx2 = nextFreeIdx + tag.Length
-   let bs = ToBytes.Convert(valIn.Value)
-   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-   nextFreeIdx3 + 1 // +1 to include the delimeter
+// compound read
+let ReadSignature (pos:int) (bs:byte[]) : (int * Signature) =
+    ReadLengthDataCompoundField "89"B (pos:int) (bs:byte[]) Signature.Signature
 
 
 // compound write, of a length field and the corresponding string field
@@ -3214,7 +3226,7 @@ let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "91="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -3226,22 +3238,7 @@ let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
 
 // compound read
 let ReadSecureData (pos:int) (bs:byte[]) : (int * SecureData) =
-    ReadLengthStringCompoundField "91"B (pos:int) (bs:byte[]) SecureData.SecureData
-
-
-let ReadSignatureLength (pos:int) (bs:byte[]) : (int*SignatureLength) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SignatureLength.SignatureLength
-
-
-let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength) : int = 
-   let tag = "93="B
-   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-   let nextFreeIdx2 = nextFreeIdx + tag.Length
-   let bs = ToBytes.Convert(valIn.Value)
-   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-   nextFreeIdx3 + 1 // +1 to include the delimeter
+    ReadLengthDataCompoundField "91"B (pos:int) (bs:byte[]) SecureData.SecureData
 
 
 let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
@@ -3277,34 +3274,31 @@ let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRawDataLength (pos:int) (bs:byte[]) : (int*RawDataLength) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RawDataLength.RawDataLength
+// compound write, of a length field and the corresponding string field
+let WriteRawData (dest:byte []) (nextFreeIdx:int) (fld:RawData) : int =
+    // write the string length part of the compound msg
+    let lenTag = "95="B
+    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
+    let nextFreeIdx2 = nextFreeIdx + lenTag.Length
+    let lenBs = ToBytes.Convert fld.Value.Length
+    Buffer.BlockCopy (lenBs, 0, dest, nextFreeIdx2, lenBs.Length)
+    let nextFreeIdx3 = nextFreeIdx2 + lenBs.Length
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
+    // write the string part of the compound msg
+    let strTag = "96="B // i.e. tag for the data field of the compound msg
+    Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
+    let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
+    let strBs = ToBytes.Convert fld.Value
+    Buffer.BlockCopy (strBs, 0, dest, nextFreeIdx5, strBs.Length)
+    let nextFreeIdx6 = nextFreeIdx5 + strTag.Length
+    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
+    nextFreeIdx6 + lenBs.Length + 1 // +1 to include the delimeter
 
 
-let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : int = 
-   let tag = "95="B
-   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-   let nextFreeIdx2 = nextFreeIdx + tag.Length
-   let bs = ToBytes.Convert(valIn.Value)
-   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-   nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRawData (pos:int) (bs:byte[]) : (int*RawData) =
-    ReadSingleCaseDUDataField (pos:int) (bs:byte[]) RawData.RawData
-
-
-let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int = 
-   let tag = "96="B
-   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-   let nextFreeIdx2 = nextFreeIdx + tag.Length
-   let bs = ToBytes.Convert(valIn.Value)
-   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-   let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-   nextFreeIdx3 + 1 // +1 to include the delimeter
+// compound read
+let ReadRawData (pos:int) (bs:byte[]) : (int * RawData) =
+    ReadLengthDataCompoundField "96"B (pos:int) (bs:byte[]) RawData.RawData
 
 
 let ReadPossResend (pos:int) (bs:byte[]) : (int*PossResend) =
@@ -6166,7 +6160,7 @@ let WriteXmlData (dest:byte []) (nextFreeIdx:int) (fld:XmlData) : int =
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "213="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -6178,7 +6172,7 @@ let WriteXmlData (dest:byte []) (nextFreeIdx:int) (fld:XmlData) : int =
 
 // compound read
 let ReadXmlData (pos:int) (bs:byte[]) : (int * XmlData) =
-    ReadLengthStringCompoundField "213"B (pos:int) (bs:byte[]) XmlData.XmlData
+    ReadLengthDataCompoundField "213"B (pos:int) (bs:byte[]) XmlData.XmlData
 
 
 let ReadSettlInstRefID (pos:int) (bs:byte[]) : (int*SettlInstRefID) =
@@ -10133,7 +10127,7 @@ let WriteEncodedIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedIssuer) : in
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "349="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10145,7 +10139,7 @@ let WriteEncodedIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedIssuer) : in
 
 // compound read
 let ReadEncodedIssuer (pos:int) (bs:byte[]) : (int * EncodedIssuer) =
-    ReadLengthStringCompoundField "349"B (pos:int) (bs:byte[]) EncodedIssuer.EncodedIssuer
+    ReadLengthDataCompoundField "349"B (pos:int) (bs:byte[]) EncodedIssuer.EncodedIssuer
 
 
 // compound write, of a length field and the corresponding string field
@@ -10160,7 +10154,7 @@ let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecuri
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "351="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10172,7 +10166,7 @@ let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecuri
 
 // compound read
 let ReadEncodedSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedSecurityDesc) =
-    ReadLengthStringCompoundField "351"B (pos:int) (bs:byte[]) EncodedSecurityDesc.EncodedSecurityDesc
+    ReadLengthDataCompoundField "351"B (pos:int) (bs:byte[]) EncodedSecurityDesc.EncodedSecurityDesc
 
 
 // compound write, of a length field and the corresponding string field
@@ -10187,7 +10181,7 @@ let WriteEncodedListExecInst (dest:byte []) (nextFreeIdx:int) (fld:EncodedListEx
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "353="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10199,7 +10193,7 @@ let WriteEncodedListExecInst (dest:byte []) (nextFreeIdx:int) (fld:EncodedListEx
 
 // compound read
 let ReadEncodedListExecInst (pos:int) (bs:byte[]) : (int * EncodedListExecInst) =
-    ReadLengthStringCompoundField "353"B (pos:int) (bs:byte[]) EncodedListExecInst.EncodedListExecInst
+    ReadLengthDataCompoundField "353"B (pos:int) (bs:byte[]) EncodedListExecInst.EncodedListExecInst
 
 
 // compound write, of a length field and the corresponding string field
@@ -10214,7 +10208,7 @@ let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "355="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10226,7 +10220,7 @@ let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
 
 // compound read
 let ReadEncodedText (pos:int) (bs:byte[]) : (int * EncodedText) =
-    ReadLengthStringCompoundField "355"B (pos:int) (bs:byte[]) EncodedText.EncodedText
+    ReadLengthDataCompoundField "355"B (pos:int) (bs:byte[]) EncodedText.EncodedText
 
 
 // compound write, of a length field and the corresponding string field
@@ -10241,7 +10235,7 @@ let WriteEncodedSubject (dest:byte []) (nextFreeIdx:int) (fld:EncodedSubject) : 
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "357="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10253,7 +10247,7 @@ let WriteEncodedSubject (dest:byte []) (nextFreeIdx:int) (fld:EncodedSubject) : 
 
 // compound read
 let ReadEncodedSubject (pos:int) (bs:byte[]) : (int * EncodedSubject) =
-    ReadLengthStringCompoundField "357"B (pos:int) (bs:byte[]) EncodedSubject.EncodedSubject
+    ReadLengthDataCompoundField "357"B (pos:int) (bs:byte[]) EncodedSubject.EncodedSubject
 
 
 // compound write, of a length field and the corresponding string field
@@ -10268,7 +10262,7 @@ let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) 
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "359="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10280,7 +10274,7 @@ let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) 
 
 // compound read
 let ReadEncodedHeadline (pos:int) (bs:byte[]) : (int * EncodedHeadline) =
-    ReadLengthStringCompoundField "359"B (pos:int) (bs:byte[]) EncodedHeadline.EncodedHeadline
+    ReadLengthDataCompoundField "359"B (pos:int) (bs:byte[]) EncodedHeadline.EncodedHeadline
 
 
 // compound write, of a length field and the corresponding string field
@@ -10295,7 +10289,7 @@ let WriteEncodedAllocText (dest:byte []) (nextFreeIdx:int) (fld:EncodedAllocText
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "361="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10307,7 +10301,7 @@ let WriteEncodedAllocText (dest:byte []) (nextFreeIdx:int) (fld:EncodedAllocText
 
 // compound read
 let ReadEncodedAllocText (pos:int) (bs:byte[]) : (int * EncodedAllocText) =
-    ReadLengthStringCompoundField "361"B (pos:int) (bs:byte[]) EncodedAllocText.EncodedAllocText
+    ReadLengthDataCompoundField "361"B (pos:int) (bs:byte[]) EncodedAllocText.EncodedAllocText
 
 
 // compound write, of a length field and the corresponding string field
@@ -10322,7 +10316,7 @@ let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUn
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "363="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10334,7 +10328,7 @@ let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUn
 
 // compound read
 let ReadEncodedUnderlyingIssuer (pos:int) (bs:byte[]) : (int * EncodedUnderlyingIssuer) =
-    ReadLengthStringCompoundField "363"B (pos:int) (bs:byte[]) EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
+    ReadLengthDataCompoundField "363"B (pos:int) (bs:byte[]) EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
 
 
 // compound write, of a length field and the corresponding string field
@@ -10349,7 +10343,7 @@ let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:Enc
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "365="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -10361,7 +10355,7 @@ let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:Enc
 
 // compound read
 let ReadEncodedUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedUnderlyingSecurityDesc) =
-    ReadLengthStringCompoundField "365"B (pos:int) (bs:byte[]) EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
+    ReadLengthDataCompoundField "365"B (pos:int) (bs:byte[]) EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
 
 
 let ReadAllocPrice (pos:int) (bs:byte[]) : (int*AllocPrice) =
@@ -12357,7 +12351,7 @@ let WriteEncodedListStatusText (dest:byte []) (nextFreeIdx:int) (fld:EncodedList
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "446="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -12369,7 +12363,7 @@ let WriteEncodedListStatusText (dest:byte []) (nextFreeIdx:int) (fld:EncodedList
 
 // compound read
 let ReadEncodedListStatusText (pos:int) (bs:byte[]) : (int * EncodedListStatusText) =
-    ReadLengthStringCompoundField "446"B (pos:int) (bs:byte[]) EncodedListStatusText.EncodedListStatusText
+    ReadLengthDataCompoundField "446"B (pos:int) (bs:byte[]) EncodedListStatusText.EncodedListStatusText
 
 
 let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
@@ -16988,7 +16982,7 @@ let WriteEncodedLegIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegIssuer
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "619="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -17000,7 +16994,7 @@ let WriteEncodedLegIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegIssuer
 
 // compound read
 let ReadEncodedLegIssuer (pos:int) (bs:byte[]) : (int * EncodedLegIssuer) =
-    ReadLengthStringCompoundField "619"B (pos:int) (bs:byte[]) EncodedLegIssuer.EncodedLegIssuer
+    ReadLengthDataCompoundField "619"B (pos:int) (bs:byte[]) EncodedLegIssuer.EncodedLegIssuer
 
 
 let ReadLegSecurityDesc (pos:int) (bs:byte[]) : (int*LegSecurityDesc) =
@@ -17030,7 +17024,7 @@ let WriteEncodedLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedLeg
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter
     // write the string part of the compound msg
-    let strTag = "91="B // i.e. a tag for the string field of the compound msg
+    let strTag = "622="B // i.e. tag for the data field of the compound msg
     Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)
     let nextFreeIdx5 = nextFreeIdx4 + strTag.Length
     let strBs = ToBytes.Convert fld.Value
@@ -17042,7 +17036,7 @@ let WriteEncodedLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedLeg
 
 // compound read
 let ReadEncodedLegSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedLegSecurityDesc) =
-    ReadLengthStringCompoundField "622"B (pos:int) (bs:byte[]) EncodedLegSecurityDesc.EncodedLegSecurityDesc
+    ReadLengthDataCompoundField "622"B (pos:int) (bs:byte[]) EncodedLegSecurityDesc.EncodedLegSecurityDesc
 
 
 let ReadLegRatioQty (pos:int) (bs:byte[]) : (int*LegRatioQty) =
@@ -24633,12 +24627,10 @@ let WriteField dest nextFreeIdx fixField =
     | NoDlvyInst fixField -> WriteNoDlvyInst dest nextFreeIdx fixField
     | AllocStatus fixField -> WriteAllocStatus dest nextFreeIdx fixField
     | AllocRejCode fixField -> WriteAllocRejCode dest nextFreeIdx fixField
-    | Signature fixField -> WriteSignature dest nextFreeIdx fixField
+    | Signature fixField -> WriteSignature dest nextFreeIdx fixField // compound field
     | SecureData fixField -> WriteSecureData dest nextFreeIdx fixField // compound field
-    | SignatureLength fixField -> WriteSignatureLength dest nextFreeIdx fixField
     | EmailType fixField -> WriteEmailType dest nextFreeIdx fixField
-    | RawDataLength fixField -> WriteRawDataLength dest nextFreeIdx fixField
-    | RawData fixField -> WriteRawData dest nextFreeIdx fixField
+    | RawData fixField -> WriteRawData dest nextFreeIdx fixField // compound field
     | PossResend fixField -> WritePossResend dest nextFreeIdx fixField
     | EncryptMethod fixField -> WriteEncryptMethod dest nextFreeIdx fixField
     | StopPx fixField -> WriteStopPx dest nextFreeIdx fixField
