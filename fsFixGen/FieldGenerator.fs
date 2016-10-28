@@ -238,12 +238,12 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
 
 
 
-let private createLenStrFieldDefinition (cfd:CompoundField) =
+let private createLenDataFieldDefinition (cfd:CompoundField) =
     sprintf "// compound len+str field\ntype %s =\n    |%s of byte []\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
 
 
 
-let private createLenStrFieldReadFunction (fld:CompoundField) =
+let private createLenDataFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
             sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" fld.Name fld.Name
@@ -252,7 +252,7 @@ let private createLenStrFieldReadFunction (fld:CompoundField) =
     Utils.joinStrs "\n" lines
 
 
-let private createLenStrFieldWriteFunction (fld:CompoundField) =
+let private createLenDataFieldWriteFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound write, of a length field and the corresponding string field"
             sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (fld:%s) : int =" fld.Name fld.Name
@@ -266,9 +266,9 @@ let private createLenStrFieldWriteFunction (fld:CompoundField) =
             sprintf "    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
             sprintf "    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter"
             sprintf "    // write the string part of the compound msg"
-            sprintf "    let strTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
-            sprintf "    Buffer.BlockCopy (strTag, 0, dest, nextFreeIdx4, strTag.Length)"
-            sprintf "    let nextFreeIdx5 = nextFreeIdx4 + strTag.Length"
+            sprintf "    let dataTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
+            sprintf "    Buffer.BlockCopy (dataTag, 0, dest, nextFreeIdx4, dataTag.Length)"
+            sprintf "    let nextFreeIdx5 = nextFreeIdx4 + dataTag.Length"
             sprintf "    let dataBs = fld.Value"
             sprintf "    Buffer.BlockCopy (dataBs, 0, dest, nextFreeIdx5, dataBs.Length)"
             sprintf "    let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length"
@@ -289,7 +289,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
     fieldData |> Seq.iter (fun fd ->
             let fldDef =
                 match fd with
-                | CompoundField cfd ->  createLenStrFieldDefinition cfd
+                | CompoundField cfd ->  createLenDataFieldDefinition cfd
                 | SimpleField sfd   ->  let fldDef, _, _ = createFieldTypes sfd
                                         fldDef
             sw.WriteLine fldDef
@@ -327,7 +327,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
                 | SimpleField sfd   ->  let _, rdrFunc, _ = createFieldTypes sfd          // calling createFieldTypes 3 times, cant determin len-str pairs until all fields have been parsed
                                         rdrFunc
 
-                | CompoundField cfd -> createLenStrFieldWriteFunction cfd
+                | CompoundField cfd -> createLenDataFieldWriteFunction cfd
             swRWFuncs.WriteLine writerFunc
             swRWFuncs.WriteLine ""
             swRWFuncs.WriteLine ""
@@ -335,7 +335,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
                 match fd with
                 | SimpleField sfd   ->  let _, _, writerFunc = createFieldTypes sfd
                                         writerFunc
-                | CompoundField cfd ->  createLenStrFieldReadFunction cfd
+                | CompoundField cfd ->  createLenDataFieldReadFunction cfd
             swRWFuncs.WriteLine readerFunc
             swRWFuncs.WriteLine ""
             swRWFuncs.WriteLine ""
