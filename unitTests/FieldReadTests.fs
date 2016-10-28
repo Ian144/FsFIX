@@ -66,12 +66,13 @@ let ``read multicase DU case invalid`` () =
 
 [<Fact>]
 let ``read len+str pair`` () =
-    let input = [|  yield! "90=8"B; yield 1uy           // SecureDataLen
-                    yield! "91=ABCDEFGH"B; yield 1uy|]  // SecureData, that has not been encrypted
-    let pos = 2 // the tag and the the tag value separator have been read
-    let posOut, fld = ReadSecureData pos input
-    test<@ input.Length = posOut @>
-    test<@ (SecureData.SecureData "ABCDEFGH") = fld @>
+    test<@ false @>
+//    let input = [|  yield! "90=8"B; yield 1uy           // SecureDataLen
+//                    yield! "91=ABCDEFGH"B; yield 1uy|]  // SecureData, that has not been encrypted
+//    let pos = 2 // the tag and the the tag value separator have been read
+//    let posOut, fld = ReadSecureData pos input
+//    test<@ input.Length = posOut @>
+//    test<@ (SecureData.SecureData "ABCDEFGH") = fld @>
 
 
 

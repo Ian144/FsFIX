@@ -5,16 +5,20 @@ open System.IO
 
 
 
-let findNextFieldTerm (pos:int) (bs:byte[]) =
+
+let findNext (bb:byte) (pos:int) (bs:byte[]) =
     let mutable found = false
     let mutable ctr = pos
     while (ctr < bs.Length && (not found)) do
-        if bs.[ctr] = 1uy then
+        if bs.[ctr] = bb then
             found <- true
         else
             ctr <- ctr + 1
     if found then ctr else -1
 
+
+let findNextFieldTerm (pos:int) (bs:byte[]) = findNext 1uy pos bs
+let findNextTagValSep (pos:int) (bs:byte[]) = findNext 61uy pos bs
 
 /// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 /// returns the index of first char after the field value and the value itself
@@ -23,17 +27,41 @@ let readValAfterTagValSep (pos:int) (bs:byte[]) =
     if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
     let fldTermPos = findNextFieldTerm pos bs
     if fldTermPos = -1 then failwith "could not find next field separator"
-    let valLen = fldTermPos - pos // -1 because the field term should not be included in the val
+    let valLen = fldTermPos - pos
     let bsVal = Array.zeroCreate<byte> valLen
-    Buffer.BlockCopy (bs, pos, bsVal, 0, valLen) // pos+1 because the field value does not include the separator
+    Buffer.BlockCopy (bs, pos, bsVal, 0, valLen)
     fldTermPos, bsVal
-    
+
+/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
+/// returns the index of first char after the field value and the value itself
+let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
+    // byte value of '=' is 61, of field delim is 1
+    if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
+    if bs.[pos+count] <> 1uy then failwith "readValAfterFieldSep, next byte is not a field delimator"
+    let bsVal = Array.zeroCreate<byte> count
+    Buffer.BlockCopy (bs, pos, bsVal, 0, count)
+    pos+count, bsVal
+
+
+// assumes and checks that the prevByte points to a field delimitor
+let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
+    if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
+    let tagValSepPos = findNextTagValSep pos bs
+    if tagValSepPos = -1 then failwith "could not find next tag-valus separator"
+    let tagLen = tagValSepPos - pos
+    let bsVal = Array.zeroCreate<byte> tagLen
+    Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
+    tagValSepPos, bsVal
+
+
+
+
 
 let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
 let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
 
-let bytesToBool (bs:byte[]) = 
+let bytesToBool (bs:byte[]) =
     let ii = bytesToInt32 bs
     match ii with
     | 0 ->  false
@@ -48,16 +76,16 @@ let bytesToDecimal (bs:byte[]) =
     | true, dd  -> dd
 
 
-let private bytesToInt32ArSeg (bs:ArraySegment<byte>) = 
-    let mutable (ii:int) = 0
-    // todo: consider endianess
-    for ctr = bs.Offset + bs.Count to bs.Offset do
-        ii <- ii + int(bs.Array.[ctr])
-    ii
+//let private bytesToInt32ArSeg (bs:ArraySegment<byte>) = 
+//    let mutable (ii:int) = 0
+//    // todo: consider endianess
+//    for ctr = bs.Offset + bs.Count to bs.Offset do
+//        ii <- ii + int(bs.Array.[ctr])
+//    ii
 
 let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
 
-
+// todo: is this still needed, as bytesToStr still exists
 // function overloading in F#
 [<AbstractClass;Sealed>]
 type ToBytes private () =
@@ -154,7 +182,7 @@ let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array =
 
 
 
-
+// the checksum value is always three digits long, as is the tag
 let checkSumLen = 6
 
 // todo: careful not to confuse rawData with a checksum
@@ -196,27 +224,19 @@ let calcCheckSum (arr:byte[])  =
     int (sum)
 
 
-//read
-//    fields upto MsgLen
-//    msgLen bytes
-//    fields until checksum
+// read
+//     fields upto MsgLen
+//     msgLen bytes
+//     fields until checksum
 let ReadMsgBytes (src:Stream) = 
     let hdr = ReadTagValuesUntilBodyLength src
-    let bodyLengthField = hdr |> List.rev |> List.head // bad taste warning
+    let bodyLengthField = hdr |> List.rev |> List.head //todo: ugly and probably slow code ReadingMsgBytes
     let bodyLen = bodyLengthField.Value |> bytesToInt32 
     let bsBody = ReadNBytes bodyLen src
     let trailer = ReadTagValuesUntilCheckSum src
-    let checkSumField = trailer |> List.rev |> List.head // bad taste warning
+    let checkSumField = trailer |> List.rev |> List.head //todo: ugly and probably slow code ReadingMsgBytes
     let expectedCheckSum = checkSumField.Value |> bytesToInt32 
     let calculatedCheckSum = calcCheckSum bsBody
     if expectedCheckSum <> calculatedCheckSum then failwith "checksum validation failure"
     bsBody
 
-
-
-//separate reading N bytes from parsing a correct msg body
-//does my 'one byte at a time' thing 
-//    enable simpler logic by not having any issue with partial reads needing to be followed by more reads?
-//      might be OK for 
-// break up bsBody in to an array of Segements (use ResizeArray<byte>?) 
-//modify Fix44.FieldReadWriteFuncs.ReadField to take two byte arrays, or an ArraySegment

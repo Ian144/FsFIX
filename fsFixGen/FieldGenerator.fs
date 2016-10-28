@@ -108,7 +108,6 @@ let private prefixNumericCaseNames (ss:string) =
 
 
 
-
 let private correctNone (ss:string) =
     match ss with
     | "None"    -> "NNone"
@@ -120,33 +119,33 @@ let private correctNone (ss:string) =
 let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> correctNone
 
 
-
-let private getFromBytesFuncString (typeName:string) =
-    match typeName with
-    | "int"     -> "ReadWriteFuncs.bytesToInt32"
-    | "decimal" -> "ReadWriteFuncs.bytesToDecimal"
-    | "bool"    -> "ReadWriteFuncs.bytesToBool"
-    | "string"  -> "ReadWriteFuncs.bytesToStr"
+let private getSingleCaseDUReadFuncString (fieldType:string) =
+    match fieldType with
+    | "int"     -> "ReadSingleCaseDUIntField"
+    | "decimal" -> "ReadSingleCaseDUDecimalField"
+    | "bool"    -> "ReadSingleCaseDUBoolField"
+    | "string"  -> "ReadSingleCaseDUStrField"
     | _         -> failwith "unknown type name"
 
 
-let private getParseFuncString (typeName:string) =
-    match typeName with
-    | "int"     -> "System.Int32.Parse"
-    | "decimal" -> "System.Decimal.Parse"
-    | "bool"    -> "System.Boolean.Parse"
-    | "string"  -> ""
-    | _         -> failwith "unknown type name"
+//let private getFromBytesFuncString (typeName:string) =
+//    match typeName with
+//    | "int"     -> "ReadWriteFuncs.bytesToInt32"
+//    | "decimal" -> "ReadWriteFuncs.bytesToDecimal"
+//    | "bool"    -> "ReadWriteFuncs.bytesToBool"
+//    | "string"  -> "ReadWriteFuncs.bytesToStr"
+//    | _         -> failwith "unknown type name"
+//
+//
+//let private getParseFuncString (typeName:string) =
+//    match typeName with
+//    | "int"     -> "System.Int32.Parse"
+//    | "decimal" -> "System.Decimal.Parse"
+//    | "bool"    -> "System.Boolean.Parse"
+//    | "string"  -> ""
+//    | _         -> failwith "unknown type name"
 
 
-//let WriteAccount (nextFreeIdx:int) (dest:byte []) (valIn:Account) : int =
-//   let tag = "1="B
-//   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-//   let nextFreeIdx2 = nextFreeIdx + tag.Length
-//   let bs = ToBytes.Convert(valIn.Value)
-//   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-//   dest.[nextFreeIdx2] <- 1uy // write the SOH delimeter
-//   nextFreeIdx2 + bs.Length + 1 // +1 to include the delimeter
 
 let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
     let lines = 
@@ -164,13 +163,11 @@ let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
     Utils.joinStrs "\n" lines
 
 
-let private makeSingleCaseDUReaderFunc (fsharpInnerType:string) (typeName:string) =
+let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
+    let commonReadFunc = getSingleCaseDUReadFuncString wrappedType
     let lines = [
-            sprintf "let Read%s (pos:int) (bs:byte[]) : (int*%s) =" typeName typeName 
-            sprintf "    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs"
-            sprintf "    let tmp = %s valIn" (getFromBytesFuncString fsharpInnerType)
-            sprintf "    let fld = %s.%s tmp" typeName typeName
-            sprintf "    pos2 + 1, fld  // +1 to advance the position to after the field separator" 
+            sprintf "let Read%s (pos:int) (bs:byte[]) : (int*%s) =" fieldName fieldName
+            sprintf "    %s (pos:int) (bs:byte[]) %s.%s" commonReadFunc fieldName fieldName
     ]    
     Utils.joinStrs "\n" lines
 
@@ -292,24 +289,13 @@ let private createLenStrFieldDefinition (cfd:CompoundField) =
 
 
 
-
 let private createLenStrFieldReadFunction (fld:CompoundField) =
-    let lines = 
-        [   sprintf "// compound read"
-            sprintf "let Read%s valIn (strm:System.IO.Stream) =" fld.Name
-            sprintf "    let strLen = System.Int32.Parse valIn"
-            sprintf "    // the len has been read, next read the string"
-            sprintf "    // the tag read-in must match the expected tag"
-            sprintf "    // todo: read in strLen bytes" // todo: read in strLen bytes + delim
-            sprintf "    let ss = CrapReadUntilDelim strm"
-            sprintf "    let subStrs = ss.Split([|'='|])"
-            sprintf "    let tag = subStrs.[0]"
-            sprintf "    let raw = subStrs.[1]"
-            sprintf "    if tag <> \"%d\" then failwith \"invalid tag reading %s\"" fld.StrField.FixTag fld.Name //todo comparing string tags, not byte arrays, i.e. not - if tag <> "91"B
-            sprintf "    if strLen <> raw.Length then failwith \"mismatched string len reading %s\"" fld.Name
-            sprintf "    %s.%s raw" fld.Name fld.Name   ]
+    let lines = [   
+            sprintf "// compound read"
+            sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" fld.Name fld.Name
+            sprintf "    ReadLengthStringCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.StrField.FixTag) fld.Name fld.Name 
+    ]
     Utils.joinStrs "\n" lines
-
 
 
 let private createLenStrFieldWriteFunction (fld:CompoundField) =
@@ -376,6 +362,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
     swRWFuncs.WriteLine "open System.IO"
     swRWFuncs.WriteLine "open Fix44.Fields"
     swRWFuncs.WriteLine "open ReadWriteFuncs"
+    swRWFuncs.WriteLine "open FieldFuncs"
     swRWFuncs.WriteLine ""
     swRWFuncs.WriteLine ""
 

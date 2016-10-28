@@ -5,13 +5,11 @@ open System
 open System.IO
 open Fix44.Fields
 open ReadWriteFuncs
+open FieldFuncs
 
 
 let ReadAccount (pos:int) (bs:byte[]) : (int*Account) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Account.Account tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Account.Account
 
 
 let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int = 
@@ -26,10 +24,7 @@ let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int =
 
 
 let ReadAdvId (pos:int) (bs:byte[]) : (int*AdvId) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AdvId.AdvId tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AdvId.AdvId
 
 
 let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int = 
@@ -44,10 +39,7 @@ let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int =
 
 
 let ReadAdvRefID (pos:int) (bs:byte[]) : (int*AdvRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AdvRefID.AdvRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AdvRefID.AdvRefID
 
 
 let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int = 
@@ -135,10 +127,7 @@ let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : 
 
 
 let ReadAvgPx (pos:int) (bs:byte[]) : (int*AvgPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AvgPx.AvgPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AvgPx.AvgPx
 
 
 let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int = 
@@ -153,10 +142,7 @@ let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int =
 
 
 let ReadBeginSeqNo (pos:int) (bs:byte[]) : (int*BeginSeqNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = BeginSeqNo.BeginSeqNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BeginSeqNo.BeginSeqNo
 
 
 let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int = 
@@ -171,10 +157,7 @@ let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int =
 
 
 let ReadBeginString (pos:int) (bs:byte[]) : (int*BeginString) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BeginString.BeginString tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BeginString.BeginString
 
 
 let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int = 
@@ -189,10 +172,7 @@ let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int 
 
 
 let ReadBodyLength (pos:int) (bs:byte[]) : (int*BodyLength) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = BodyLength.BodyLength tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BodyLength.BodyLength
 
 
 let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int = 
@@ -207,10 +187,7 @@ let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int =
 
 
 let ReadCheckSum (pos:int) (bs:byte[]) : (int*CheckSum) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CheckSum.CheckSum tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CheckSum.CheckSum
 
 
 let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int = 
@@ -225,10 +202,7 @@ let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int =
 
 
 let ReadClOrdID (pos:int) (bs:byte[]) : (int*ClOrdID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ClOrdID.ClOrdID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClOrdID.ClOrdID
 
 
 let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int = 
@@ -243,10 +217,7 @@ let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int =
 
 
 let ReadCommission (pos:int) (bs:byte[]) : (int*Commission) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Commission.Commission tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Commission.Commission
 
 
 let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int = 
@@ -315,10 +286,7 @@ let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
 
 
 let ReadCumQty (pos:int) (bs:byte[]) : (int*CumQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = CumQty.CumQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CumQty.CumQty
 
 
 let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int = 
@@ -333,10 +301,7 @@ let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int =
 
 
 let ReadCurrency (pos:int) (bs:byte[]) : (int*Currency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Currency.Currency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Currency.Currency
 
 
 let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int = 
@@ -351,10 +316,7 @@ let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int =
 
 
 let ReadEndSeqNo (pos:int) (bs:byte[]) : (int*EndSeqNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = EndSeqNo.EndSeqNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndSeqNo.EndSeqNo
 
 
 let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int = 
@@ -369,10 +331,7 @@ let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int =
 
 
 let ReadExecID (pos:int) (bs:byte[]) : (int*ExecID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExecID.ExecID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecID.ExecID
 
 
 let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int = 
@@ -686,10 +645,7 @@ let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
 
 
 let ReadExecRefID (pos:int) (bs:byte[]) : (int*ExecRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExecRefID.ExecRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecRefID.ExecRefID
 
 
 let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int = 
@@ -882,10 +838,7 @@ let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSo
 
 
 let ReadIOIid (pos:int) (bs:byte[]) : (int*IOIid) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = IOIid.IOIid tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIid.IOIid
 
 
 let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int = 
@@ -933,10 +886,7 @@ let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int 
 
 
 let ReadIOIRefID (pos:int) (bs:byte[]) : (int*IOIRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = IOIRefID.IOIRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIRefID.IOIRefID
 
 
 let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int = 
@@ -951,10 +901,7 @@ let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int =
 
 
 let ReadIOIQty (pos:int) (bs:byte[]) : (int*IOIQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = IOIQty.IOIQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIQty.IOIQty
 
 
 let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int = 
@@ -1042,10 +989,7 @@ let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : 
 
 
 let ReadLastMkt (pos:int) (bs:byte[]) : (int*LastMkt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LastMkt.LastMkt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastMkt.LastMkt
 
 
 let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int = 
@@ -1060,10 +1004,7 @@ let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int =
 
 
 let ReadLastPx (pos:int) (bs:byte[]) : (int*LastPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastPx.LastPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastPx.LastPx
 
 
 let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int = 
@@ -1078,10 +1019,7 @@ let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int =
 
 
 let ReadLastQty (pos:int) (bs:byte[]) : (int*LastQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastQty.LastQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastQty.LastQty
 
 
 let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int = 
@@ -1096,10 +1034,7 @@ let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int =
 
 
 let ReadLinesOfText (pos:int) (bs:byte[]) : (int*LinesOfText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LinesOfText.LinesOfText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LinesOfText.LinesOfText
 
 
 let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int = 
@@ -1114,10 +1049,7 @@ let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int 
 
 
 let ReadMsgSeqNum (pos:int) (bs:byte[]) : (int*MsgSeqNum) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MsgSeqNum.MsgSeqNum tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MsgSeqNum.MsgSeqNum
 
 
 let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int = 
@@ -1795,10 +1727,7 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
 
 
 let ReadNewSeqNo (pos:int) (bs:byte[]) : (int*NewSeqNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NewSeqNo.NewSeqNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NewSeqNo.NewSeqNo
 
 
 let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int = 
@@ -1813,10 +1742,7 @@ let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int =
 
 
 let ReadOrderID (pos:int) (bs:byte[]) : (int*OrderID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrderID.OrderID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrderID.OrderID
 
 
 let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int = 
@@ -1831,10 +1757,7 @@ let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int =
 
 
 let ReadOrderQty (pos:int) (bs:byte[]) : (int*OrderQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderQty.OrderQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderQty.OrderQty
 
 
 let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int = 
@@ -2139,10 +2062,7 @@ let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
 
 
 let ReadOrigClOrdID (pos:int) (bs:byte[]) : (int*OrigClOrdID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigClOrdID.OrigClOrdID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigClOrdID.OrigClOrdID
 
 
 let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int = 
@@ -2157,10 +2077,7 @@ let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int 
 
 
 let ReadOrigTime (pos:int) (bs:byte[]) : (int*OrigTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigTime.OrigTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigTime.OrigTime
 
 
 let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int = 
@@ -2175,10 +2092,7 @@ let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int =
 
 
 let ReadPossDupFlag (pos:int) (bs:byte[]) : (int*PossDupFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = PossDupFlag.PossDupFlag tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PossDupFlag.PossDupFlag
 
 
 let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int = 
@@ -2193,10 +2107,7 @@ let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int 
 
 
 let ReadPrice (pos:int) (bs:byte[]) : (int*Price) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Price.Price tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Price.Price
 
 
 let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int = 
@@ -2211,10 +2122,7 @@ let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int =
 
 
 let ReadRefSeqNum (pos:int) (bs:byte[]) : (int*RefSeqNum) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RefSeqNum.RefSeqNum tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RefSeqNum.RefSeqNum
 
 
 let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int = 
@@ -2229,10 +2137,7 @@ let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int =
 
 
 let ReadSecurityID (pos:int) (bs:byte[]) : (int*SecurityID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityID.SecurityID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityID.SecurityID
 
 
 let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int = 
@@ -2247,10 +2152,7 @@ let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int =
 
 
 let ReadSenderCompID (pos:int) (bs:byte[]) : (int*SenderCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SenderCompID.SenderCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderCompID.SenderCompID
 
 
 let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : int = 
@@ -2265,10 +2167,7 @@ let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : in
 
 
 let ReadSenderSubID (pos:int) (bs:byte[]) : (int*SenderSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SenderSubID.SenderSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderSubID.SenderSubID
 
 
 let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int = 
@@ -2283,10 +2182,7 @@ let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int 
 
 
 let ReadSendingTime (pos:int) (bs:byte[]) : (int*SendingTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SendingTime.SendingTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SendingTime.SendingTime
 
 
 let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int = 
@@ -2301,10 +2197,7 @@ let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int 
 
 
 let ReadQuantity (pos:int) (bs:byte[]) : (int*Quantity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Quantity.Quantity tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Quantity.Quantity
 
 
 let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int = 
@@ -2443,10 +2336,7 @@ let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
 
 
 let ReadSymbol (pos:int) (bs:byte[]) : (int*Symbol) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Symbol.Symbol tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Symbol.Symbol
 
 
 let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int = 
@@ -2461,10 +2351,7 @@ let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int =
 
 
 let ReadTargetCompID (pos:int) (bs:byte[]) : (int*TargetCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TargetCompID.TargetCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetCompID.TargetCompID
 
 
 let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : int = 
@@ -2479,10 +2366,7 @@ let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : in
 
 
 let ReadTargetSubID (pos:int) (bs:byte[]) : (int*TargetSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TargetSubID.TargetSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetSubID.TargetSubID
 
 
 let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int = 
@@ -2497,10 +2381,7 @@ let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int 
 
 
 let ReadText (pos:int) (bs:byte[]) : (int*Text) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Text.Text tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Text.Text
 
 
 let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int = 
@@ -2583,10 +2464,7 @@ let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : in
 
 
 let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TransactTime.TransactTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransactTime.TransactTime
 
 
 let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : int = 
@@ -2634,10 +2512,7 @@ let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
 
 
 let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ValidUntilTime.ValidUntilTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ValidUntilTime.ValidUntilTime
 
 
 let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) : int = 
@@ -2734,10 +2609,7 @@ let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
 
 
 let ReadSettlDate (pos:int) (bs:byte[]) : (int*SettlDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlDate.SettlDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlDate.SettlDate
 
 
 let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int = 
@@ -2778,10 +2650,7 @@ let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
 
 
 let ReadListID (pos:int) (bs:byte[]) : (int*ListID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ListID.ListID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListID.ListID
 
 
 let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int = 
@@ -2796,10 +2665,7 @@ let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int =
 
 
 let ReadListSeqNo (pos:int) (bs:byte[]) : (int*ListSeqNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = ListSeqNo.ListSeqNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ListSeqNo.ListSeqNo
 
 
 let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int = 
@@ -2814,10 +2680,7 @@ let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int =
 
 
 let ReadTotNoOrders (pos:int) (bs:byte[]) : (int*TotNoOrders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoOrders.TotNoOrders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoOrders.TotNoOrders
 
 
 let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int = 
@@ -2832,10 +2695,7 @@ let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int 
 
 
 let ReadListExecInst (pos:int) (bs:byte[]) : (int*ListExecInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ListExecInst.ListExecInst tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListExecInst.ListExecInst
 
 
 let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : int = 
@@ -2850,10 +2710,7 @@ let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : in
 
 
 let ReadAllocID (pos:int) (bs:byte[]) : (int*AllocID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocID.AllocID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocID.AllocID
 
 
 let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int = 
@@ -2901,10 +2758,7 @@ let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType
 
 
 let ReadRefAllocID (pos:int) (bs:byte[]) : (int*RefAllocID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RefAllocID.RefAllocID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefAllocID.RefAllocID
 
 
 let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int = 
@@ -2919,10 +2773,7 @@ let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int =
 
 
 let ReadNoOrders (pos:int) (bs:byte[]) : (int*NoOrders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoOrders.NoOrders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoOrders.NoOrders
 
 
 let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int = 
@@ -2937,10 +2788,7 @@ let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int =
 
 
 let ReadAvgPxPrecision (pos:int) (bs:byte[]) : (int*AvgPxPrecision) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AvgPxPrecision.AvgPxPrecision tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AvgPxPrecision.AvgPxPrecision
 
 
 let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) : int = 
@@ -2955,10 +2803,7 @@ let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) 
 
 
 let ReadTradeDate (pos:int) (bs:byte[]) : (int*TradeDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeDate.TradeDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeDate.TradeDate
 
 
 let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int = 
@@ -3013,10 +2858,7 @@ let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect
 
 
 let ReadNoAllocs (pos:int) (bs:byte[]) : (int*NoAllocs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoAllocs.NoAllocs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAllocs.NoAllocs
 
 
 let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int = 
@@ -3031,10 +2873,7 @@ let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int =
 
 
 let ReadAllocAccount (pos:int) (bs:byte[]) : (int*AllocAccount) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocAccount.AllocAccount tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocAccount.AllocAccount
 
 
 let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : int = 
@@ -3049,10 +2888,7 @@ let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : in
 
 
 let ReadAllocQty (pos:int) (bs:byte[]) : (int*AllocQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AllocQty.AllocQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocQty.AllocQty
 
 
 let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int = 
@@ -3128,10 +2964,7 @@ let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : in
 
 
 let ReadNoRpts (pos:int) (bs:byte[]) : (int*NoRpts) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoRpts.NoRpts tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRpts.NoRpts
 
 
 let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int = 
@@ -3146,10 +2979,7 @@ let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int =
 
 
 let ReadRptSeq (pos:int) (bs:byte[]) : (int*RptSeq) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RptSeq.RptSeq tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RptSeq.RptSeq
 
 
 let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int = 
@@ -3164,10 +2994,7 @@ let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int =
 
 
 let ReadCxlQty (pos:int) (bs:byte[]) : (int*CxlQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = CxlQty.CxlQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CxlQty.CxlQty
 
 
 let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int = 
@@ -3182,10 +3009,7 @@ let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int =
 
 
 let ReadNoDlvyInst (pos:int) (bs:byte[]) : (int*NoDlvyInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoDlvyInst.NoDlvyInst tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDlvyInst.NoDlvyInst
 
 
 let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int = 
@@ -3364,10 +3188,7 @@ let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : 
 
 
 let ReadSignature (pos:int) (bs:byte[]) : (int*Signature) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Signature.Signature tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Signature.Signature
 
 
 let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int = 
@@ -3404,25 +3225,12 @@ let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
 
 
 // compound read
-let ReadSecureData valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "91" then failwith "invalid tag reading SecureData"
-    if strLen <> raw.Length then failwith "mismatched string len reading SecureData"
-    SecureData.SecureData raw
+let ReadSecureData (pos:int) (bs:byte[]) : (int*SecureData) =
+    ReadLengthStringCompoundField "91"B (pos:int) (bs:byte[]) SecureData.SecureData
 
 
 let ReadSignatureLength (pos:int) (bs:byte[]) : (int*SignatureLength) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SignatureLength.SignatureLength tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SignatureLength.SignatureLength
 
 
 let WriteSignatureLength (dest:byte []) (nextFreeIdx:int) (valIn:SignatureLength) : int = 
@@ -3470,10 +3278,7 @@ let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
 
 
 let ReadRawDataLength (pos:int) (bs:byte[]) : (int*RawDataLength) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RawDataLength.RawDataLength tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RawDataLength.RawDataLength
 
 
 let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : int = 
@@ -3488,10 +3293,7 @@ let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : 
 
 
 let ReadRawData (pos:int) (bs:byte[]) : (int*RawData) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RawData.RawData tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RawData.RawData
 
 
 let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int = 
@@ -3506,10 +3308,7 @@ let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int =
 
 
 let ReadPossResend (pos:int) (bs:byte[]) : (int*PossResend) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = PossResend.PossResend tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PossResend.PossResend
 
 
 let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int = 
@@ -3585,10 +3384,7 @@ let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) 
 
 
 let ReadStopPx (pos:int) (bs:byte[]) : (int*StopPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = StopPx.StopPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) StopPx.StopPx
 
 
 let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int = 
@@ -3603,10 +3399,7 @@ let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int =
 
 
 let ReadExDestination (pos:int) (bs:byte[]) : (int*ExDestination) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExDestination.ExDestination tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExDestination.ExDestination
 
 
 let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : int = 
@@ -3958,10 +3751,7 @@ let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : 
 
 
 let ReadWaveNo (pos:int) (bs:byte[]) : (int*WaveNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = WaveNo.WaveNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) WaveNo.WaveNo
 
 
 let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int = 
@@ -3976,10 +3766,7 @@ let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int =
 
 
 let ReadIssuer (pos:int) (bs:byte[]) : (int*Issuer) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Issuer.Issuer tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Issuer.Issuer
 
 
 let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int = 
@@ -3994,10 +3781,7 @@ let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int =
 
 
 let ReadSecurityDesc (pos:int) (bs:byte[]) : (int*SecurityDesc) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityDesc.SecurityDesc tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityDesc.SecurityDesc
 
 
 let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : int = 
@@ -4012,10 +3796,7 @@ let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : in
 
 
 let ReadHeartBtInt (pos:int) (bs:byte[]) : (int*HeartBtInt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = HeartBtInt.HeartBtInt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) HeartBtInt.HeartBtInt
 
 
 let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int = 
@@ -4030,10 +3811,7 @@ let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int =
 
 
 let ReadMinQty (pos:int) (bs:byte[]) : (int*MinQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MinQty.MinQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinQty.MinQty
 
 
 let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int = 
@@ -4048,10 +3826,7 @@ let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int =
 
 
 let ReadMaxFloor (pos:int) (bs:byte[]) : (int*MaxFloor) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MaxFloor.MaxFloor tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MaxFloor.MaxFloor
 
 
 let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int = 
@@ -4066,10 +3841,7 @@ let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int =
 
 
 let ReadTestReqID (pos:int) (bs:byte[]) : (int*TestReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TestReqID.TestReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TestReqID.TestReqID
 
 
 let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int = 
@@ -4084,10 +3856,7 @@ let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int =
 
 
 let ReadReportToExch (pos:int) (bs:byte[]) : (int*ReportToExch) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ReportToExch.ReportToExch tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ReportToExch.ReportToExch
 
 
 let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : int = 
@@ -4102,10 +3871,7 @@ let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : in
 
 
 let ReadLocateReqd (pos:int) (bs:byte[]) : (int*LocateReqd) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = LocateReqd.LocateReqd tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LocateReqd.LocateReqd
 
 
 let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int = 
@@ -4120,10 +3886,7 @@ let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int =
 
 
 let ReadOnBehalfOfCompID (pos:int) (bs:byte[]) : (int*OnBehalfOfCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OnBehalfOfCompID.OnBehalfOfCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfCompID.OnBehalfOfCompID
 
 
 let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfCompID) : int = 
@@ -4138,10 +3901,7 @@ let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfComp
 
 
 let ReadOnBehalfOfSubID (pos:int) (bs:byte[]) : (int*OnBehalfOfSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OnBehalfOfSubID.OnBehalfOfSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfSubID.OnBehalfOfSubID
 
 
 let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID) : int = 
@@ -4156,10 +3916,7 @@ let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID
 
 
 let ReadQuoteID (pos:int) (bs:byte[]) : (int*QuoteID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteID.QuoteID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteID.QuoteID
 
 
 let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int = 
@@ -4174,10 +3931,7 @@ let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int =
 
 
 let ReadNetMoney (pos:int) (bs:byte[]) : (int*NetMoney) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NetMoney.NetMoney tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NetMoney.NetMoney
 
 
 let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int = 
@@ -4192,10 +3946,7 @@ let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int =
 
 
 let ReadSettlCurrAmt (pos:int) (bs:byte[]) : (int*SettlCurrAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SettlCurrAmt.SettlCurrAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlCurrAmt.SettlCurrAmt
 
 
 let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : int = 
@@ -4210,10 +3961,7 @@ let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : in
 
 
 let ReadSettlCurrency (pos:int) (bs:byte[]) : (int*SettlCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlCurrency.SettlCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlCurrency.SettlCurrency
 
 
 let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : int = 
@@ -4228,10 +3976,7 @@ let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : 
 
 
 let ReadForexReq (pos:int) (bs:byte[]) : (int*ForexReq) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ForexReq.ForexReq tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ForexReq.ForexReq
 
 
 let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int = 
@@ -4246,10 +3991,7 @@ let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int =
 
 
 let ReadOrigSendingTime (pos:int) (bs:byte[]) : (int*OrigSendingTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigSendingTime.OrigSendingTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigSendingTime.OrigSendingTime
 
 
 let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime) : int = 
@@ -4264,10 +4006,7 @@ let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime
 
 
 let ReadGapFillFlag (pos:int) (bs:byte[]) : (int*GapFillFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = GapFillFlag.GapFillFlag tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) GapFillFlag.GapFillFlag
 
 
 let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int = 
@@ -4282,10 +4021,7 @@ let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int 
 
 
 let ReadNoExecs (pos:int) (bs:byte[]) : (int*NoExecs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoExecs.NoExecs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoExecs.NoExecs
 
 
 let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int = 
@@ -4300,10 +4036,7 @@ let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int =
 
 
 let ReadExpireTime (pos:int) (bs:byte[]) : (int*ExpireTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExpireTime.ExpireTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExpireTime.ExpireTime
 
 
 let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int = 
@@ -4379,10 +4112,7 @@ let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
 
 
 let ReadDeliverToCompID (pos:int) (bs:byte[]) : (int*DeliverToCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DeliverToCompID.DeliverToCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToCompID.DeliverToCompID
 
 
 let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID) : int = 
@@ -4397,10 +4127,7 @@ let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID
 
 
 let ReadDeliverToSubID (pos:int) (bs:byte[]) : (int*DeliverToSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DeliverToSubID.DeliverToSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToSubID.DeliverToSubID
 
 
 let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) : int = 
@@ -4415,10 +4142,7 @@ let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) 
 
 
 let ReadIOINaturalFlag (pos:int) (bs:byte[]) : (int*IOINaturalFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = IOINaturalFlag.IOINaturalFlag tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) IOINaturalFlag.IOINaturalFlag
 
 
 let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) : int = 
@@ -4433,10 +4157,7 @@ let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) 
 
 
 let ReadQuoteReqID (pos:int) (bs:byte[]) : (int*QuoteReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteReqID.QuoteReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteReqID.QuoteReqID
 
 
 let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int = 
@@ -4451,10 +4172,7 @@ let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int =
 
 
 let ReadBidPx (pos:int) (bs:byte[]) : (int*BidPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidPx.BidPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidPx.BidPx
 
 
 let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int = 
@@ -4469,10 +4187,7 @@ let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int =
 
 
 let ReadOfferPx (pos:int) (bs:byte[]) : (int*OfferPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferPx.OfferPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferPx.OfferPx
 
 
 let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int = 
@@ -4487,10 +4202,7 @@ let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int =
 
 
 let ReadBidSize (pos:int) (bs:byte[]) : (int*BidSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidSize.BidSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidSize.BidSize
 
 
 let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int = 
@@ -4505,10 +4217,7 @@ let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int =
 
 
 let ReadOfferSize (pos:int) (bs:byte[]) : (int*OfferSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferSize.OfferSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferSize.OfferSize
 
 
 let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int = 
@@ -4523,10 +4232,7 @@ let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int =
 
 
 let ReadNoMiscFees (pos:int) (bs:byte[]) : (int*NoMiscFees) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoMiscFees.NoMiscFees tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMiscFees.NoMiscFees
 
 
 let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int = 
@@ -4541,10 +4247,7 @@ let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int =
 
 
 let ReadMiscFeeAmt (pos:int) (bs:byte[]) : (int*MiscFeeAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MiscFeeAmt.MiscFeeAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MiscFeeAmt.MiscFeeAmt
 
 
 let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int = 
@@ -4559,10 +4262,7 @@ let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int =
 
 
 let ReadMiscFeeCurr (pos:int) (bs:byte[]) : (int*MiscFeeCurr) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MiscFeeCurr.MiscFeeCurr tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MiscFeeCurr.MiscFeeCurr
 
 
 let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int = 
@@ -4673,10 +4373,7 @@ let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : in
 
 
 let ReadPrevClosePx (pos:int) (bs:byte[]) : (int*PrevClosePx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PrevClosePx.PrevClosePx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PrevClosePx.PrevClosePx
 
 
 let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int = 
@@ -4691,10 +4388,7 @@ let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int 
 
 
 let ReadResetSeqNumFlag (pos:int) (bs:byte[]) : (int*ResetSeqNumFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ResetSeqNumFlag.ResetSeqNumFlag tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ResetSeqNumFlag.ResetSeqNumFlag
 
 
 let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag) : int = 
@@ -4709,10 +4403,7 @@ let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag
 
 
 let ReadSenderLocationID (pos:int) (bs:byte[]) : (int*SenderLocationID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SenderLocationID.SenderLocationID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderLocationID.SenderLocationID
 
 
 let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocationID) : int = 
@@ -4727,10 +4418,7 @@ let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocation
 
 
 let ReadTargetLocationID (pos:int) (bs:byte[]) : (int*TargetLocationID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TargetLocationID.TargetLocationID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetLocationID.TargetLocationID
 
 
 let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocationID) : int = 
@@ -4745,10 +4433,7 @@ let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocation
 
 
 let ReadOnBehalfOfLocationID (pos:int) (bs:byte[]) : (int*OnBehalfOfLocationID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OnBehalfOfLocationID.OnBehalfOfLocationID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfLocationID.OnBehalfOfLocationID
 
 
 let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfLocationID) : int = 
@@ -4763,10 +4448,7 @@ let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOf
 
 
 let ReadDeliverToLocationID (pos:int) (bs:byte[]) : (int*DeliverToLocationID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DeliverToLocationID.DeliverToLocationID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToLocationID.DeliverToLocationID
 
 
 let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLocationID) : int = 
@@ -4781,10 +4463,7 @@ let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLo
 
 
 let ReadNoRelatedSym (pos:int) (bs:byte[]) : (int*NoRelatedSym) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoRelatedSym.NoRelatedSym tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRelatedSym.NoRelatedSym
 
 
 let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : int = 
@@ -4799,10 +4478,7 @@ let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : in
 
 
 let ReadSubject (pos:int) (bs:byte[]) : (int*Subject) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Subject.Subject tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Subject.Subject
 
 
 let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int = 
@@ -4817,10 +4493,7 @@ let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int =
 
 
 let ReadHeadline (pos:int) (bs:byte[]) : (int*Headline) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Headline.Headline tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Headline.Headline
 
 
 let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int = 
@@ -4835,10 +4508,7 @@ let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int =
 
 
 let ReadURLLink (pos:int) (bs:byte[]) : (int*URLLink) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = URLLink.URLLink tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) URLLink.URLLink
 
 
 let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int = 
@@ -4998,10 +4668,7 @@ let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
 
 
 let ReadLeavesQty (pos:int) (bs:byte[]) : (int*LeavesQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LeavesQty.LeavesQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LeavesQty.LeavesQty
 
 
 let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int = 
@@ -5016,10 +4683,7 @@ let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int =
 
 
 let ReadCashOrderQty (pos:int) (bs:byte[]) : (int*CashOrderQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = CashOrderQty.CashOrderQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CashOrderQty.CashOrderQty
 
 
 let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : int = 
@@ -5034,10 +4698,7 @@ let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : in
 
 
 let ReadAllocAvgPx (pos:int) (bs:byte[]) : (int*AllocAvgPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AllocAvgPx.AllocAvgPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocAvgPx.AllocAvgPx
 
 
 let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int = 
@@ -5052,10 +4713,7 @@ let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int =
 
 
 let ReadAllocNetMoney (pos:int) (bs:byte[]) : (int*AllocNetMoney) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllocNetMoney.AllocNetMoney tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocNetMoney.AllocNetMoney
 
 
 let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : int = 
@@ -5070,10 +4728,7 @@ let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : 
 
 
 let ReadSettlCurrFxRate (pos:int) (bs:byte[]) : (int*SettlCurrFxRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = SettlCurrFxRate.SettlCurrFxRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrFxRate.SettlCurrFxRate
 
 
 let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate) : int = 
@@ -5114,10 +4769,7 @@ let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurr
 
 
 let ReadNumDaysInterest (pos:int) (bs:byte[]) : (int*NumDaysInterest) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NumDaysInterest.NumDaysInterest tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumDaysInterest.NumDaysInterest
 
 
 let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest) : int = 
@@ -5132,10 +4784,7 @@ let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest
 
 
 let ReadAccruedInterestRate (pos:int) (bs:byte[]) : (int*AccruedInterestRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AccruedInterestRate.AccruedInterestRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AccruedInterestRate.AccruedInterestRate
 
 
 let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestRate) : int = 
@@ -5150,10 +4799,7 @@ let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInte
 
 
 let ReadAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AccruedInterestAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AccruedInterestAmt.AccruedInterestAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AccruedInterestAmt.AccruedInterestAmt
 
 
 let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestAmt) : int = 
@@ -5208,10 +4854,7 @@ let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) 
 
 
 let ReadAllocText (pos:int) (bs:byte[]) : (int*AllocText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocText.AllocText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocText.AllocText
 
 
 let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int = 
@@ -5226,10 +4869,7 @@ let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int =
 
 
 let ReadSettlInstID (pos:int) (bs:byte[]) : (int*SettlInstID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlInstID.SettlInstID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstID.SettlInstID
 
 
 let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int = 
@@ -5284,10 +4924,7 @@ let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstT
 
 
 let ReadEmailThreadID (pos:int) (bs:byte[]) : (int*EmailThreadID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = EmailThreadID.EmailThreadID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EmailThreadID.EmailThreadID
 
 
 let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : int = 
@@ -6005,10 +5642,7 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
 
 
 let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = EffectiveTime.EffectiveTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EffectiveTime.EffectiveTime
 
 
 let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : int = 
@@ -6070,10 +5704,7 @@ let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbTy
 
 
 let ReadStandInstDbName (pos:int) (bs:byte[]) : (int*StandInstDbName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StandInstDbName.StandInstDbName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StandInstDbName.StandInstDbName
 
 
 let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName) : int = 
@@ -6088,10 +5719,7 @@ let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName
 
 
 let ReadStandInstDbID (pos:int) (bs:byte[]) : (int*StandInstDbID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StandInstDbID.StandInstDbID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StandInstDbID.StandInstDbID
 
 
 let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : int = 
@@ -6146,10 +5774,7 @@ let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDelive
 
 
 let ReadBidSpotRate (pos:int) (bs:byte[]) : (int*BidSpotRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidSpotRate.BidSpotRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidSpotRate.BidSpotRate
 
 
 let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int = 
@@ -6164,10 +5789,7 @@ let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int 
 
 
 let ReadBidForwardPoints (pos:int) (bs:byte[]) : (int*BidForwardPoints) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidForwardPoints.BidForwardPoints tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidForwardPoints.BidForwardPoints
 
 
 let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints) : int = 
@@ -6182,10 +5804,7 @@ let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoin
 
 
 let ReadOfferSpotRate (pos:int) (bs:byte[]) : (int*OfferSpotRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferSpotRate.OfferSpotRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferSpotRate.OfferSpotRate
 
 
 let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : int = 
@@ -6200,10 +5819,7 @@ let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : 
 
 
 let ReadOfferForwardPoints (pos:int) (bs:byte[]) : (int*OfferForwardPoints) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferForwardPoints.OfferForwardPoints tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferForwardPoints.OfferForwardPoints
 
 
 let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints) : int = 
@@ -6218,10 +5834,7 @@ let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForward
 
 
 let ReadOrderQty2 (pos:int) (bs:byte[]) : (int*OrderQty2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderQty2.OrderQty2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderQty2.OrderQty2
 
 
 let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int = 
@@ -6236,10 +5849,7 @@ let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int =
 
 
 let ReadSettlDate2 (pos:int) (bs:byte[]) : (int*SettlDate2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlDate2.SettlDate2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlDate2.SettlDate2
 
 
 let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int = 
@@ -6254,10 +5864,7 @@ let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int =
 
 
 let ReadLastSpotRate (pos:int) (bs:byte[]) : (int*LastSpotRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastSpotRate.LastSpotRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastSpotRate.LastSpotRate
 
 
 let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : int = 
@@ -6272,10 +5879,7 @@ let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : in
 
 
 let ReadLastForwardPoints (pos:int) (bs:byte[]) : (int*LastForwardPoints) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastForwardPoints.LastForwardPoints tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastForwardPoints.LastForwardPoints
 
 
 let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints) : int = 
@@ -6290,10 +5894,7 @@ let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPo
 
 
 let ReadAllocLinkID (pos:int) (bs:byte[]) : (int*AllocLinkID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocLinkID.AllocLinkID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocLinkID.AllocLinkID
 
 
 let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int = 
@@ -6334,10 +5935,7 @@ let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) 
 
 
 let ReadSecondaryOrderID (pos:int) (bs:byte[]) : (int*SecondaryOrderID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryOrderID.SecondaryOrderID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryOrderID.SecondaryOrderID
 
 
 let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrderID) : int = 
@@ -6352,10 +5950,7 @@ let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrder
 
 
 let ReadNoIOIQualifiers (pos:int) (bs:byte[]) : (int*NoIOIQualifiers) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoIOIQualifiers.NoIOIQualifiers tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoIOIQualifiers.NoIOIQualifiers
 
 
 let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers) : int = 
@@ -6370,10 +5965,7 @@ let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers
 
 
 let ReadMaturityMonthYear (pos:int) (bs:byte[]) : (int*MaturityMonthYear) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MaturityMonthYear.MaturityMonthYear tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MaturityMonthYear.MaturityMonthYear
 
 
 let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonthYear) : int = 
@@ -6414,10 +6006,7 @@ let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
 
 
 let ReadStrikePrice (pos:int) (bs:byte[]) : (int*StrikePrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = StrikePrice.StrikePrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) StrikePrice.StrikePrice
 
 
 let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int = 
@@ -6458,10 +6047,7 @@ let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrU
 
 
 let ReadOptAttribute (pos:int) (bs:byte[]) : (int*OptAttribute) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = OptAttribute.OptAttribute tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OptAttribute.OptAttribute
 
 
 let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : int = 
@@ -6476,10 +6062,7 @@ let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : in
 
 
 let ReadSecurityExchange (pos:int) (bs:byte[]) : (int*SecurityExchange) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityExchange.SecurityExchange tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityExchange.SecurityExchange
 
 
 let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchange) : int = 
@@ -6494,10 +6077,7 @@ let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchan
 
 
 let ReadNotifyBrokerOfCredit (pos:int) (bs:byte[]) : (int*NotifyBrokerOfCredit) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = NotifyBrokerOfCredit.NotifyBrokerOfCredit tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) NotifyBrokerOfCredit.NotifyBrokerOfCredit
 
 
 let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrokerOfCredit) : int = 
@@ -6545,10 +6125,7 @@ let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst
 
 
 let ReadMaxShow (pos:int) (bs:byte[]) : (int*MaxShow) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MaxShow.MaxShow tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MaxShow.MaxShow
 
 
 let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int = 
@@ -6563,10 +6140,7 @@ let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int =
 
 
 let ReadPegOffsetValue (pos:int) (bs:byte[]) : (int*PegOffsetValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PegOffsetValue.PegOffsetValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PegOffsetValue.PegOffsetValue
 
 
 let WritePegOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:PegOffsetValue) : int = 
@@ -6603,25 +6177,12 @@ let WriteXmlData (dest:byte []) (nextFreeIdx:int) (fld:XmlData) : int =
 
 
 // compound read
-let ReadXmlData valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "213" then failwith "invalid tag reading XmlData"
-    if strLen <> raw.Length then failwith "mismatched string len reading XmlData"
-    XmlData.XmlData raw
+let ReadXmlData (pos:int) (bs:byte[]) : (int * XmlData) =
+    ReadLengthStringCompoundField "213"B (pos:int) (bs:byte[]) XmlData.XmlData
 
 
 let ReadSettlInstRefID (pos:int) (bs:byte[]) : (int*SettlInstRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlInstRefID.SettlInstRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstRefID.SettlInstRefID
 
 
 let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) : int = 
@@ -6636,10 +6197,7 @@ let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) 
 
 
 let ReadNoRoutingIDs (pos:int) (bs:byte[]) : (int*NoRoutingIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoRoutingIDs.NoRoutingIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRoutingIDs.NoRoutingIDs
 
 
 let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : int = 
@@ -6694,10 +6252,7 @@ let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : in
 
 
 let ReadRoutingID (pos:int) (bs:byte[]) : (int*RoutingID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RoutingID.RoutingID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RoutingID.RoutingID
 
 
 let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int = 
@@ -6712,10 +6267,7 @@ let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int =
 
 
 let ReadSpread (pos:int) (bs:byte[]) : (int*Spread) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Spread.Spread tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Spread.Spread
 
 
 let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int = 
@@ -6730,10 +6282,7 @@ let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int =
 
 
 let ReadBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*BenchmarkCurveCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BenchmarkCurveCurrency.BenchmarkCurveCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkCurveCurrency.BenchmarkCurveCurrency
 
 
 let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurveCurrency) : int = 
@@ -6844,10 +6393,7 @@ let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkC
 
 
 let ReadBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*BenchmarkCurvePoint) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BenchmarkCurvePoint.BenchmarkCurvePoint tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkCurvePoint.BenchmarkCurvePoint
 
 
 let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurvePoint) : int = 
@@ -6862,10 +6408,7 @@ let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCu
 
 
 let ReadCouponRate (pos:int) (bs:byte[]) : (int*CouponRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = CouponRate.CouponRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CouponRate.CouponRate
 
 
 let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int = 
@@ -6880,10 +6423,7 @@ let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int =
 
 
 let ReadCouponPaymentDate (pos:int) (bs:byte[]) : (int*CouponPaymentDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CouponPaymentDate.CouponPaymentDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CouponPaymentDate.CouponPaymentDate
 
 
 let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPaymentDate) : int = 
@@ -6898,10 +6438,7 @@ let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPayment
 
 
 let ReadIssueDate (pos:int) (bs:byte[]) : (int*IssueDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = IssueDate.IssueDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IssueDate.IssueDate
 
 
 let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int = 
@@ -6916,10 +6453,7 @@ let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int =
 
 
 let ReadRepurchaseTerm (pos:int) (bs:byte[]) : (int*RepurchaseTerm) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RepurchaseTerm.RepurchaseTerm tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RepurchaseTerm.RepurchaseTerm
 
 
 let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) : int = 
@@ -6934,10 +6468,7 @@ let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) 
 
 
 let ReadRepurchaseRate (pos:int) (bs:byte[]) : (int*RepurchaseRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = RepurchaseRate.RepurchaseRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RepurchaseRate.RepurchaseRate
 
 
 let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) : int = 
@@ -6952,10 +6483,7 @@ let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) 
 
 
 let ReadFactor (pos:int) (bs:byte[]) : (int*Factor) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Factor.Factor tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Factor.Factor
 
 
 let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int = 
@@ -6970,10 +6498,7 @@ let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int =
 
 
 let ReadTradeOriginationDate (pos:int) (bs:byte[]) : (int*TradeOriginationDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeOriginationDate.TradeOriginationDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeOriginationDate.TradeOriginationDate
 
 
 let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOriginationDate) : int = 
@@ -6988,10 +6513,7 @@ let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOrigi
 
 
 let ReadExDate (pos:int) (bs:byte[]) : (int*ExDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExDate.ExDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExDate.ExDate
 
 
 let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int = 
@@ -7006,10 +6528,7 @@ let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int =
 
 
 let ReadContractMultiplier (pos:int) (bs:byte[]) : (int*ContractMultiplier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ContractMultiplier.ContractMultiplier tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContractMultiplier.ContractMultiplier
 
 
 let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMultiplier) : int = 
@@ -7024,10 +6543,7 @@ let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMult
 
 
 let ReadNoStipulations (pos:int) (bs:byte[]) : (int*NoStipulations) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoStipulations.NoStipulations tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoStipulations.NoStipulations
 
 
 let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) : int = 
@@ -7827,10 +7343,7 @@ let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
 
 
 let ReadYield (pos:int) (bs:byte[]) : (int*Yield) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Yield.Yield tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Yield.Yield
 
 
 let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int = 
@@ -7845,10 +7358,7 @@ let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int =
 
 
 let ReadTotalTakedown (pos:int) (bs:byte[]) : (int*TotalTakedown) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotalTakedown.TotalTakedown tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalTakedown.TotalTakedown
 
 
 let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : int = 
@@ -7863,10 +7373,7 @@ let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : 
 
 
 let ReadConcession (pos:int) (bs:byte[]) : (int*Concession) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Concession.Concession tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Concession.Concession
 
 
 let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int = 
@@ -7881,10 +7388,7 @@ let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int =
 
 
 let ReadRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*RepoCollateralSecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RepoCollateralSecurityType.RepoCollateralSecurityType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RepoCollateralSecurityType.RepoCollateralSecurityType
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:RepoCollateralSecurityType) : int = 
@@ -7899,10 +7403,7 @@ let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Repo
 
 
 let ReadRedemptionDate (pos:int) (bs:byte[]) : (int*RedemptionDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RedemptionDate.RedemptionDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RedemptionDate.RedemptionDate
 
 
 let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) : int = 
@@ -7917,10 +7418,7 @@ let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) 
 
 
 let ReadUnderlyingCouponPaymentDate (pos:int) (bs:byte[]) : (int*UnderlyingCouponPaymentDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate
 
 
 let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponPaymentDate) : int = 
@@ -7935,10 +7433,7 @@ let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:Und
 
 
 let ReadUnderlyingIssueDate (pos:int) (bs:byte[]) : (int*UnderlyingIssueDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingIssueDate.UnderlyingIssueDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingIssueDate.UnderlyingIssueDate
 
 
 let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssueDate) : int = 
@@ -7953,10 +7448,7 @@ let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingI
 
 
 let ReadUnderlyingRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingRepoCollateralSecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
 
 
 let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
@@ -7971,10 +7463,7 @@ let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (
 
 
 let ReadUnderlyingRepurchaseTerm (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseTerm) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm
 
 
 let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseTerm) : int = 
@@ -7989,10 +7478,7 @@ let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadUnderlyingRepurchaseRate (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingRepurchaseRate.UnderlyingRepurchaseRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingRepurchaseRate.UnderlyingRepurchaseRate
 
 
 let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseRate) : int = 
@@ -8007,10 +7493,7 @@ let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadUnderlyingFactor (pos:int) (bs:byte[]) : (int*UnderlyingFactor) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingFactor.UnderlyingFactor tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingFactor.UnderlyingFactor
 
 
 let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFactor) : int = 
@@ -8025,10 +7508,7 @@ let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFact
 
 
 let ReadUnderlyingRedemptionDate (pos:int) (bs:byte[]) : (int*UnderlyingRedemptionDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingRedemptionDate.UnderlyingRedemptionDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingRedemptionDate.UnderlyingRedemptionDate
 
 
 let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRedemptionDate) : int = 
@@ -8043,10 +7523,7 @@ let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadLegCouponPaymentDate (pos:int) (bs:byte[]) : (int*LegCouponPaymentDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegCouponPaymentDate.LegCouponPaymentDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCouponPaymentDate.LegCouponPaymentDate
 
 
 let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponPaymentDate) : int = 
@@ -8061,10 +7538,7 @@ let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponP
 
 
 let ReadLegIssueDate (pos:int) (bs:byte[]) : (int*LegIssueDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegIssueDate.LegIssueDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIssueDate.LegIssueDate
 
 
 let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : int = 
@@ -8079,10 +7553,7 @@ let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : in
 
 
 let ReadLegRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*LegRepoCollateralSecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegRepoCollateralSecurityType.LegRepoCollateralSecurityType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
 
 
 let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegRepoCollateralSecurityType) : int = 
@@ -8097,10 +7568,7 @@ let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:L
 
 
 let ReadLegRepurchaseTerm (pos:int) (bs:byte[]) : (int*LegRepurchaseTerm) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegRepurchaseTerm.LegRepurchaseTerm tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegRepurchaseTerm.LegRepurchaseTerm
 
 
 let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseTerm) : int = 
@@ -8115,10 +7583,7 @@ let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
 
 
 let ReadLegRepurchaseRate (pos:int) (bs:byte[]) : (int*LegRepurchaseRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegRepurchaseRate.LegRepurchaseRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegRepurchaseRate.LegRepurchaseRate
 
 
 let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseRate) : int = 
@@ -8133,10 +7598,7 @@ let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
 
 
 let ReadLegFactor (pos:int) (bs:byte[]) : (int*LegFactor) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegFactor.LegFactor tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegFactor.LegFactor
 
 
 let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int = 
@@ -8151,10 +7613,7 @@ let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int =
 
 
 let ReadLegRedemptionDate (pos:int) (bs:byte[]) : (int*LegRedemptionDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegRedemptionDate.LegRedemptionDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegRedemptionDate.LegRedemptionDate
 
 
 let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemptionDate) : int = 
@@ -8169,10 +7628,7 @@ let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemption
 
 
 let ReadCreditRating (pos:int) (bs:byte[]) : (int*CreditRating) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CreditRating.CreditRating tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CreditRating.CreditRating
 
 
 let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : int = 
@@ -8187,10 +7643,7 @@ let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : in
 
 
 let ReadUnderlyingCreditRating (pos:int) (bs:byte[]) : (int*UnderlyingCreditRating) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCreditRating.UnderlyingCreditRating tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCreditRating.UnderlyingCreditRating
 
 
 let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCreditRating) : int = 
@@ -8205,10 +7658,7 @@ let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadLegCreditRating (pos:int) (bs:byte[]) : (int*LegCreditRating) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegCreditRating.LegCreditRating tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCreditRating.LegCreditRating
 
 
 let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating) : int = 
@@ -8223,10 +7673,7 @@ let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating
 
 
 let ReadTradedFlatSwitch (pos:int) (bs:byte[]) : (int*TradedFlatSwitch) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = TradedFlatSwitch.TradedFlatSwitch tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) TradedFlatSwitch.TradedFlatSwitch
 
 
 let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwitch) : int = 
@@ -8241,10 +7688,7 @@ let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwit
 
 
 let ReadBasisFeatureDate (pos:int) (bs:byte[]) : (int*BasisFeatureDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BasisFeatureDate.BasisFeatureDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BasisFeatureDate.BasisFeatureDate
 
 
 let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDate) : int = 
@@ -8259,10 +7703,7 @@ let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDa
 
 
 let ReadBasisFeaturePrice (pos:int) (bs:byte[]) : (int*BasisFeaturePrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BasisFeaturePrice.BasisFeaturePrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BasisFeaturePrice.BasisFeaturePrice
 
 
 let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeaturePrice) : int = 
@@ -8277,10 +7718,7 @@ let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureP
 
 
 let ReadMDReqID (pos:int) (bs:byte[]) : (int*MDReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDReqID.MDReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDReqID.MDReqID
 
 
 let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int = 
@@ -8328,10 +7766,7 @@ let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Subsc
 
 
 let ReadMarketDepth (pos:int) (bs:byte[]) : (int*MarketDepth) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MarketDepth.MarketDepth tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MarketDepth.MarketDepth
 
 
 let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int = 
@@ -8372,10 +7807,7 @@ let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : 
 
 
 let ReadAggregatedBook (pos:int) (bs:byte[]) : (int*AggregatedBook) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = AggregatedBook.AggregatedBook tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) AggregatedBook.AggregatedBook
 
 
 let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) : int = 
@@ -8390,10 +7822,7 @@ let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) 
 
 
 let ReadNoMDEntryTypes (pos:int) (bs:byte[]) : (int*NoMDEntryTypes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoMDEntryTypes.NoMDEntryTypes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMDEntryTypes.NoMDEntryTypes
 
 
 let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) : int = 
@@ -8408,10 +7837,7 @@ let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) 
 
 
 let ReadNoMDEntries (pos:int) (bs:byte[]) : (int*NoMDEntries) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoMDEntries.NoMDEntries tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMDEntries.NoMDEntries
 
 
 let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int = 
@@ -8529,10 +7955,7 @@ let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : in
 
 
 let ReadMDEntryPx (pos:int) (bs:byte[]) : (int*MDEntryPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MDEntryPx.MDEntryPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MDEntryPx.MDEntryPx
 
 
 let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int = 
@@ -8547,10 +7970,7 @@ let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int =
 
 
 let ReadMDEntrySize (pos:int) (bs:byte[]) : (int*MDEntrySize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MDEntrySize.MDEntrySize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MDEntrySize.MDEntrySize
 
 
 let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int = 
@@ -8565,10 +7985,7 @@ let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int 
 
 
 let ReadMDEntryDate (pos:int) (bs:byte[]) : (int*MDEntryDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryDate.MDEntryDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryDate.MDEntryDate
 
 
 let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int = 
@@ -8583,10 +8000,7 @@ let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int 
 
 
 let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryTime.MDEntryTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryTime.MDEntryTime
 
 
 let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int = 
@@ -8641,10 +8055,7 @@ let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) 
 
 
 let ReadMDMkt (pos:int) (bs:byte[]) : (int*MDMkt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDMkt.MDMkt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDMkt.MDMkt
 
 
 let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int = 
@@ -8865,10 +8276,7 @@ let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition
 
 
 let ReadMDEntryID (pos:int) (bs:byte[]) : (int*MDEntryID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryID.MDEntryID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryID.MDEntryID
 
 
 let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int = 
@@ -8916,10 +8324,7 @@ let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction
 
 
 let ReadMDEntryRefID (pos:int) (bs:byte[]) : (int*MDEntryRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryRefID.MDEntryRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryRefID.MDEntryRefID
 
 
 let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : int = 
@@ -9037,10 +8442,7 @@ let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason
 
 
 let ReadMDEntryOriginator (pos:int) (bs:byte[]) : (int*MDEntryOriginator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryOriginator.MDEntryOriginator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryOriginator.MDEntryOriginator
 
 
 let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOriginator) : int = 
@@ -9055,10 +8457,7 @@ let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOrigin
 
 
 let ReadLocationID (pos:int) (bs:byte[]) : (int*LocationID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LocationID.LocationID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LocationID.LocationID
 
 
 let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int = 
@@ -9073,10 +8472,7 @@ let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int =
 
 
 let ReadDeskID (pos:int) (bs:byte[]) : (int*DeskID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DeskID.DeskID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeskID.DeskID
 
 
 let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int = 
@@ -9171,10 +8567,7 @@ let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseS
 
 
 let ReadSellerDays (pos:int) (bs:byte[]) : (int*SellerDays) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SellerDays.SellerDays tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SellerDays.SellerDays
 
 
 let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int = 
@@ -9189,10 +8582,7 @@ let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int =
 
 
 let ReadMDEntryBuyer (pos:int) (bs:byte[]) : (int*MDEntryBuyer) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntryBuyer.MDEntryBuyer tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryBuyer.MDEntryBuyer
 
 
 let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : int = 
@@ -9207,10 +8597,7 @@ let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : in
 
 
 let ReadMDEntrySeller (pos:int) (bs:byte[]) : (int*MDEntrySeller) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MDEntrySeller.MDEntrySeller tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntrySeller.MDEntrySeller
 
 
 let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : int = 
@@ -9225,10 +8612,7 @@ let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : 
 
 
 let ReadMDEntryPositionNo (pos:int) (bs:byte[]) : (int*MDEntryPositionNo) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MDEntryPositionNo.MDEntryPositionNo tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MDEntryPositionNo.MDEntryPositionNo
 
 
 let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositionNo) : int = 
@@ -9316,10 +8700,7 @@ let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateActi
 
 
 let ReadDefBidSize (pos:int) (bs:byte[]) : (int*DefBidSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DefBidSize.DefBidSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DefBidSize.DefBidSize
 
 
 let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int = 
@@ -9334,10 +8715,7 @@ let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int =
 
 
 let ReadDefOfferSize (pos:int) (bs:byte[]) : (int*DefOfferSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DefOfferSize.DefOfferSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DefOfferSize.DefOfferSize
 
 
 let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : int = 
@@ -9352,10 +8730,7 @@ let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : in
 
 
 let ReadNoQuoteEntries (pos:int) (bs:byte[]) : (int*NoQuoteEntries) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoQuoteEntries.NoQuoteEntries tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteEntries.NoQuoteEntries
 
 
 let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) : int = 
@@ -9370,10 +8745,7 @@ let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) 
 
 
 let ReadNoQuoteSets (pos:int) (bs:byte[]) : (int*NoQuoteSets) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoQuoteSets.NoQuoteSets tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteSets.NoQuoteSets
 
 
 let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int = 
@@ -9552,10 +8924,7 @@ let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelTy
 
 
 let ReadQuoteEntryID (pos:int) (bs:byte[]) : (int*QuoteEntryID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteEntryID.QuoteEntryID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteEntryID.QuoteEntryID
 
 
 let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : int = 
@@ -9685,10 +9054,7 @@ let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespo
 
 
 let ReadQuoteSetID (pos:int) (bs:byte[]) : (int*QuoteSetID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteSetID.QuoteSetID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteSetID.QuoteSetID
 
 
 let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int = 
@@ -9729,10 +9095,7 @@ let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequest
 
 
 let ReadTotNoQuoteEntries (pos:int) (bs:byte[]) : (int*TotNoQuoteEntries) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoQuoteEntries.TotNoQuoteEntries tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoQuoteEntries.TotNoQuoteEntries
 
 
 let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEntries) : int = 
@@ -9747,10 +9110,7 @@ let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEnt
 
 
 let ReadUnderlyingSecurityIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityIDSource.UnderlyingSecurityIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityIDSource.UnderlyingSecurityIDSource
 
 
 let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityIDSource) : int = 
@@ -9765,10 +9125,7 @@ let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Unde
 
 
 let ReadUnderlyingIssuer (pos:int) (bs:byte[]) : (int*UnderlyingIssuer) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingIssuer.UnderlyingIssuer tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingIssuer.UnderlyingIssuer
 
 
 let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssuer) : int = 
@@ -9783,10 +9140,7 @@ let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssu
 
 
 let ReadUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int*UnderlyingSecurityDesc) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityDesc.UnderlyingSecurityDesc tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityDesc.UnderlyingSecurityDesc
 
 
 let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityDesc) : int = 
@@ -9801,10 +9155,7 @@ let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadUnderlyingSecurityExchange (pos:int) (bs:byte[]) : (int*UnderlyingSecurityExchange) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityExchange.UnderlyingSecurityExchange tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityExchange.UnderlyingSecurityExchange
 
 
 let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityExchange) : int = 
@@ -9819,10 +9170,7 @@ let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:Unde
 
 
 let ReadUnderlyingSecurityID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityID.UnderlyingSecurityID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityID.UnderlyingSecurityID
 
 
 let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityID) : int = 
@@ -9837,10 +9185,7 @@ let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
 
 
 let ReadUnderlyingSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingSecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityType.UnderlyingSecurityType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityType.UnderlyingSecurityType
 
 
 let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityType) : int = 
@@ -9855,10 +9200,7 @@ let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadUnderlyingSymbol (pos:int) (bs:byte[]) : (int*UnderlyingSymbol) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSymbol.UnderlyingSymbol tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSymbol.UnderlyingSymbol
 
 
 let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbol) : int = 
@@ -9873,10 +9215,7 @@ let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymb
 
 
 let ReadUnderlyingSymbolSfx (pos:int) (bs:byte[]) : (int*UnderlyingSymbolSfx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSymbolSfx.UnderlyingSymbolSfx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSymbolSfx.UnderlyingSymbolSfx
 
 
 let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbolSfx) : int = 
@@ -9891,10 +9230,7 @@ let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
 
 
 let ReadUnderlyingMaturityMonthYear (pos:int) (bs:byte[]) : (int*UnderlyingMaturityMonthYear) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear
 
 
 let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityMonthYear) : int = 
@@ -9935,10 +9271,7 @@ let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:Underlyin
 
 
 let ReadUnderlyingStrikePrice (pos:int) (bs:byte[]) : (int*UnderlyingStrikePrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingStrikePrice.UnderlyingStrikePrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingStrikePrice.UnderlyingStrikePrice
 
 
 let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikePrice) : int = 
@@ -9953,10 +9286,7 @@ let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlyin
 
 
 let ReadUnderlyingOptAttribute (pos:int) (bs:byte[]) : (int*UnderlyingOptAttribute) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingOptAttribute.UnderlyingOptAttribute tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingOptAttribute.UnderlyingOptAttribute
 
 
 let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingOptAttribute) : int = 
@@ -9971,10 +9301,7 @@ let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadUnderlyingCurrency (pos:int) (bs:byte[]) : (int*UnderlyingCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCurrency.UnderlyingCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCurrency.UnderlyingCurrency
 
 
 let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrency) : int = 
@@ -9989,10 +9316,7 @@ let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCu
 
 
 let ReadSecurityReqID (pos:int) (bs:byte[]) : (int*SecurityReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityReqID.SecurityReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityReqID.SecurityReqID
 
 
 let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : int = 
@@ -10047,10 +9371,7 @@ let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityR
 
 
 let ReadSecurityResponseID (pos:int) (bs:byte[]) : (int*SecurityResponseID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityResponseID.SecurityResponseID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityResponseID.SecurityResponseID
 
 
 let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResponseID) : int = 
@@ -10119,10 +9440,7 @@ let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Security
 
 
 let ReadSecurityStatusReqID (pos:int) (bs:byte[]) : (int*SecurityStatusReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityStatusReqID.SecurityStatusReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityStatusReqID.SecurityStatusReqID
 
 
 let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityStatusReqID) : int = 
@@ -10137,10 +9455,7 @@ let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySta
 
 
 let ReadUnsolicitedIndicator (pos:int) (bs:byte[]) : (int*UnsolicitedIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = UnsolicitedIndicator.UnsolicitedIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) UnsolicitedIndicator.UnsolicitedIndicator
 
 
 let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:UnsolicitedIndicator) : int = 
@@ -10382,10 +9697,7 @@ let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int 
 
 
 let ReadInViewOfCommon (pos:int) (bs:byte[]) : (int*InViewOfCommon) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = InViewOfCommon.InViewOfCommon tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) InViewOfCommon.InViewOfCommon
 
 
 let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) : int = 
@@ -10400,10 +9712,7 @@ let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) 
 
 
 let ReadDueToRelated (pos:int) (bs:byte[]) : (int*DueToRelated) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = DueToRelated.DueToRelated tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) DueToRelated.DueToRelated
 
 
 let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : int = 
@@ -10418,10 +9727,7 @@ let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : in
 
 
 let ReadBuyVolume (pos:int) (bs:byte[]) : (int*BuyVolume) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BuyVolume.BuyVolume tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BuyVolume.BuyVolume
 
 
 let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int = 
@@ -10436,10 +9742,7 @@ let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int =
 
 
 let ReadSellVolume (pos:int) (bs:byte[]) : (int*SellVolume) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = SellVolume.SellVolume tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SellVolume.SellVolume
 
 
 let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int = 
@@ -10454,10 +9757,7 @@ let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int =
 
 
 let ReadHighPx (pos:int) (bs:byte[]) : (int*HighPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = HighPx.HighPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) HighPx.HighPx
 
 
 let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int = 
@@ -10472,10 +9772,7 @@ let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int =
 
 
 let ReadLowPx (pos:int) (bs:byte[]) : (int*LowPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LowPx.LowPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LowPx.LowPx
 
 
 let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int = 
@@ -10523,10 +9820,7 @@ let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int 
 
 
 let ReadTradSesReqID (pos:int) (bs:byte[]) : (int*TradSesReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesReqID.TradSesReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesReqID.TradSesReqID
 
 
 let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : int = 
@@ -10541,10 +9835,7 @@ let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : in
 
 
 let ReadTradingSessionID (pos:int) (bs:byte[]) : (int*TradingSessionID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradingSessionID.TradingSessionID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradingSessionID.TradingSessionID
 
 
 let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionID) : int = 
@@ -10559,10 +9850,7 @@ let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSession
 
 
 let ReadContraTrader (pos:int) (bs:byte[]) : (int*ContraTrader) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContraTrader.ContraTrader tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraTrader.ContraTrader
 
 
 let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : int = 
@@ -10704,10 +9992,7 @@ let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) 
 
 
 let ReadTradSesStartTime (pos:int) (bs:byte[]) : (int*TradSesStartTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesStartTime.TradSesStartTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesStartTime.TradSesStartTime
 
 
 let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTime) : int = 
@@ -10722,10 +10007,7 @@ let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTi
 
 
 let ReadTradSesOpenTime (pos:int) (bs:byte[]) : (int*TradSesOpenTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesOpenTime.TradSesOpenTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesOpenTime.TradSesOpenTime
 
 
 let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime) : int = 
@@ -10740,10 +10022,7 @@ let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime
 
 
 let ReadTradSesPreCloseTime (pos:int) (bs:byte[]) : (int*TradSesPreCloseTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesPreCloseTime.TradSesPreCloseTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesPreCloseTime.TradSesPreCloseTime
 
 
 let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreCloseTime) : int = 
@@ -10758,10 +10037,7 @@ let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreC
 
 
 let ReadTradSesCloseTime (pos:int) (bs:byte[]) : (int*TradSesCloseTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesCloseTime.TradSesCloseTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesCloseTime.TradSesCloseTime
 
 
 let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTime) : int = 
@@ -10776,10 +10052,7 @@ let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTi
 
 
 let ReadTradSesEndTime (pos:int) (bs:byte[]) : (int*TradSesEndTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradSesEndTime.TradSesEndTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesEndTime.TradSesEndTime
 
 
 let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) : int = 
@@ -10794,10 +10067,7 @@ let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) 
 
 
 let ReadNumberOfOrders (pos:int) (bs:byte[]) : (int*NumberOfOrders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NumberOfOrders.NumberOfOrders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumberOfOrders.NumberOfOrders
 
 
 let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) : int = 
@@ -10874,18 +10144,8 @@ let WriteEncodedIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedIssuer) : in
 
 
 // compound read
-let ReadEncodedIssuer valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "349" then failwith "invalid tag reading EncodedIssuer"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedIssuer"
-    EncodedIssuer.EncodedIssuer raw
+let ReadEncodedIssuer (pos:int) (bs:byte[]) : (int * EncodedIssuer) =
+    ReadLengthStringCompoundField "349"B (pos:int) (bs:byte[]) EncodedIssuer.EncodedIssuer
 
 
 // compound write, of a length field and the corresponding string field
@@ -10911,18 +10171,8 @@ let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecuri
 
 
 // compound read
-let ReadEncodedSecurityDesc valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "351" then failwith "invalid tag reading EncodedSecurityDesc"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedSecurityDesc"
-    EncodedSecurityDesc.EncodedSecurityDesc raw
+let ReadEncodedSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedSecurityDesc) =
+    ReadLengthStringCompoundField "351"B (pos:int) (bs:byte[]) EncodedSecurityDesc.EncodedSecurityDesc
 
 
 // compound write, of a length field and the corresponding string field
@@ -10948,18 +10198,8 @@ let WriteEncodedListExecInst (dest:byte []) (nextFreeIdx:int) (fld:EncodedListEx
 
 
 // compound read
-let ReadEncodedListExecInst valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "353" then failwith "invalid tag reading EncodedListExecInst"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedListExecInst"
-    EncodedListExecInst.EncodedListExecInst raw
+let ReadEncodedListExecInst (pos:int) (bs:byte[]) : (int * EncodedListExecInst) =
+    ReadLengthStringCompoundField "353"B (pos:int) (bs:byte[]) EncodedListExecInst.EncodedListExecInst
 
 
 // compound write, of a length field and the corresponding string field
@@ -10985,18 +10225,8 @@ let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
 
 
 // compound read
-let ReadEncodedText valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "355" then failwith "invalid tag reading EncodedText"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedText"
-    EncodedText.EncodedText raw
+let ReadEncodedText (pos:int) (bs:byte[]) : (int * EncodedText) =
+    ReadLengthStringCompoundField "355"B (pos:int) (bs:byte[]) EncodedText.EncodedText
 
 
 // compound write, of a length field and the corresponding string field
@@ -11022,18 +10252,8 @@ let WriteEncodedSubject (dest:byte []) (nextFreeIdx:int) (fld:EncodedSubject) : 
 
 
 // compound read
-let ReadEncodedSubject valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "357" then failwith "invalid tag reading EncodedSubject"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedSubject"
-    EncodedSubject.EncodedSubject raw
+let ReadEncodedSubject (pos:int) (bs:byte[]) : (int * EncodedSubject) =
+    ReadLengthStringCompoundField "357"B (pos:int) (bs:byte[]) EncodedSubject.EncodedSubject
 
 
 // compound write, of a length field and the corresponding string field
@@ -11059,18 +10279,8 @@ let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) 
 
 
 // compound read
-let ReadEncodedHeadline valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "359" then failwith "invalid tag reading EncodedHeadline"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedHeadline"
-    EncodedHeadline.EncodedHeadline raw
+let ReadEncodedHeadline (pos:int) (bs:byte[]) : (int * EncodedHeadline) =
+    ReadLengthStringCompoundField "359"B (pos:int) (bs:byte[]) EncodedHeadline.EncodedHeadline
 
 
 // compound write, of a length field and the corresponding string field
@@ -11096,18 +10306,8 @@ let WriteEncodedAllocText (dest:byte []) (nextFreeIdx:int) (fld:EncodedAllocText
 
 
 // compound read
-let ReadEncodedAllocText valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "361" then failwith "invalid tag reading EncodedAllocText"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedAllocText"
-    EncodedAllocText.EncodedAllocText raw
+let ReadEncodedAllocText (pos:int) (bs:byte[]) : (int * EncodedAllocText) =
+    ReadLengthStringCompoundField "361"B (pos:int) (bs:byte[]) EncodedAllocText.EncodedAllocText
 
 
 // compound write, of a length field and the corresponding string field
@@ -11133,18 +10333,8 @@ let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUn
 
 
 // compound read
-let ReadEncodedUnderlyingIssuer valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "363" then failwith "invalid tag reading EncodedUnderlyingIssuer"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedUnderlyingIssuer"
-    EncodedUnderlyingIssuer.EncodedUnderlyingIssuer raw
+let ReadEncodedUnderlyingIssuer (pos:int) (bs:byte[]) : (int * EncodedUnderlyingIssuer) =
+    ReadLengthStringCompoundField "363"B (pos:int) (bs:byte[]) EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
 
 
 // compound write, of a length field and the corresponding string field
@@ -11170,25 +10360,12 @@ let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:Enc
 
 
 // compound read
-let ReadEncodedUnderlyingSecurityDesc valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "365" then failwith "invalid tag reading EncodedUnderlyingSecurityDesc"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedUnderlyingSecurityDesc"
-    EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc raw
+let ReadEncodedUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedUnderlyingSecurityDesc) =
+    ReadLengthStringCompoundField "365"B (pos:int) (bs:byte[]) EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
 
 
 let ReadAllocPrice (pos:int) (bs:byte[]) : (int*AllocPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AllocPrice.AllocPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocPrice.AllocPrice
 
 
 let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int = 
@@ -11203,10 +10380,7 @@ let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int =
 
 
 let ReadQuoteSetValidUntilTime (pos:int) (bs:byte[]) : (int*QuoteSetValidUntilTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteSetValidUntilTime.QuoteSetValidUntilTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteSetValidUntilTime.QuoteSetValidUntilTime
 
 
 let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetValidUntilTime) : int = 
@@ -11296,10 +10470,7 @@ let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteE
 
 
 let ReadLastMsgSeqNumProcessed (pos:int) (bs:byte[]) : (int*LastMsgSeqNumProcessed) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LastMsgSeqNumProcessed.LastMsgSeqNumProcessed tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
 
 
 let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgSeqNumProcessed) : int = 
@@ -11314,10 +10485,7 @@ let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgS
 
 
 let ReadRefTagID (pos:int) (bs:byte[]) : (int*RefTagID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = RefTagID.RefTagID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RefTagID.RefTagID
 
 
 let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int = 
@@ -11332,10 +10500,7 @@ let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int =
 
 
 let ReadRefMsgType (pos:int) (bs:byte[]) : (int*RefMsgType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RefMsgType.RefMsgType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefMsgType.RefMsgType
 
 
 let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int = 
@@ -11521,10 +10686,7 @@ let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidReques
 
 
 let ReadContraBroker (pos:int) (bs:byte[]) : (int*ContraBroker) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContraBroker.ContraBroker tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraBroker.ContraBroker
 
 
 let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : int = 
@@ -11539,10 +10701,7 @@ let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : in
 
 
 let ReadComplianceID (pos:int) (bs:byte[]) : (int*ComplianceID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ComplianceID.ComplianceID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ComplianceID.ComplianceID
 
 
 let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : int = 
@@ -11557,10 +10716,7 @@ let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : in
 
 
 let ReadSolicitedFlag (pos:int) (bs:byte[]) : (int*SolicitedFlag) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = SolicitedFlag.SolicitedFlag tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) SolicitedFlag.SolicitedFlag
 
 
 let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : int = 
@@ -11657,10 +10813,7 @@ let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRes
 
 
 let ReadBusinessRejectRefID (pos:int) (bs:byte[]) : (int*BusinessRejectRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BusinessRejectRefID.BusinessRejectRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BusinessRejectRefID.BusinessRejectRefID
 
 
 let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRejectRefID) : int = 
@@ -11743,10 +10896,7 @@ let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Business
 
 
 let ReadGrossTradeAmt (pos:int) (bs:byte[]) : (int*GrossTradeAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = GrossTradeAmt.GrossTradeAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) GrossTradeAmt.GrossTradeAmt
 
 
 let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : int = 
@@ -11761,10 +10911,7 @@ let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : 
 
 
 let ReadNoContraBrokers (pos:int) (bs:byte[]) : (int*NoContraBrokers) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoContraBrokers.NoContraBrokers tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoContraBrokers.NoContraBrokers
 
 
 let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers) : int = 
@@ -11779,10 +10926,7 @@ let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers
 
 
 let ReadMaxMessageSize (pos:int) (bs:byte[]) : (int*MaxMessageSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MaxMessageSize.MaxMessageSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MaxMessageSize.MaxMessageSize
 
 
 let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) : int = 
@@ -11797,10 +10941,7 @@ let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) 
 
 
 let ReadNoMsgTypes (pos:int) (bs:byte[]) : (int*NoMsgTypes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoMsgTypes.NoMsgTypes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMsgTypes.NoMsgTypes
 
 
 let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int = 
@@ -11841,10 +10982,7 @@ let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : 
 
 
 let ReadNoTradingSessions (pos:int) (bs:byte[]) : (int*NoTradingSessions) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoTradingSessions.NoTradingSessions tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTradingSessions.NoTradingSessions
 
 
 let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSessions) : int = 
@@ -11859,10 +10997,7 @@ let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSess
 
 
 let ReadTotalVolumeTraded (pos:int) (bs:byte[]) : (int*TotalVolumeTraded) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = TotalVolumeTraded.TotalVolumeTraded tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) TotalVolumeTraded.TotalVolumeTraded
 
 
 let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTraded) : int = 
@@ -11938,10 +11073,7 @@ let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst
 
 
 let ReadDiscretionOffsetValue (pos:int) (bs:byte[]) : (int*DiscretionOffsetValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DiscretionOffsetValue.DiscretionOffsetValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DiscretionOffsetValue.DiscretionOffsetValue
 
 
 let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionOffsetValue) : int = 
@@ -11956,10 +11088,7 @@ let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:Discretio
 
 
 let ReadBidID (pos:int) (bs:byte[]) : (int*BidID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BidID.BidID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BidID.BidID
 
 
 let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int = 
@@ -11974,10 +11103,7 @@ let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int =
 
 
 let ReadClientBidID (pos:int) (bs:byte[]) : (int*ClientBidID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ClientBidID.ClientBidID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClientBidID.ClientBidID
 
 
 let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int = 
@@ -11992,10 +11118,7 @@ let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int 
 
 
 let ReadListName (pos:int) (bs:byte[]) : (int*ListName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ListName.ListName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListName.ListName
 
 
 let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int = 
@@ -12010,10 +11133,7 @@ let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int =
 
 
 let ReadTotNoRelatedSym (pos:int) (bs:byte[]) : (int*TotNoRelatedSym) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoRelatedSym.TotNoRelatedSym tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoRelatedSym.TotNoRelatedSym
 
 
 let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym) : int = 
@@ -12061,10 +11181,7 @@ let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
 
 
 let ReadNumTickets (pos:int) (bs:byte[]) : (int*NumTickets) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NumTickets.NumTickets tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumTickets.NumTickets
 
 
 let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int = 
@@ -12079,10 +11196,7 @@ let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int =
 
 
 let ReadSideValue1 (pos:int) (bs:byte[]) : (int*SideValue1) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SideValue1.SideValue1 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SideValue1.SideValue1
 
 
 let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int = 
@@ -12097,10 +11211,7 @@ let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int =
 
 
 let ReadSideValue2 (pos:int) (bs:byte[]) : (int*SideValue2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SideValue2.SideValue2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SideValue2.SideValue2
 
 
 let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int = 
@@ -12115,10 +11226,7 @@ let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int =
 
 
 let ReadNoBidDescriptors (pos:int) (bs:byte[]) : (int*NoBidDescriptors) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoBidDescriptors.NoBidDescriptors tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoBidDescriptors.NoBidDescriptors
 
 
 let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescriptors) : int = 
@@ -12166,10 +11274,7 @@ let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescript
 
 
 let ReadBidDescriptor (pos:int) (bs:byte[]) : (int*BidDescriptor) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BidDescriptor.BidDescriptor tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BidDescriptor.BidDescriptor
 
 
 let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : int = 
@@ -12210,10 +11315,7 @@ let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : 
 
 
 let ReadLiquidityPctLow (pos:int) (bs:byte[]) : (int*LiquidityPctLow) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LiquidityPctLow.LiquidityPctLow tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LiquidityPctLow.LiquidityPctLow
 
 
 let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow) : int = 
@@ -12228,10 +11330,7 @@ let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow
 
 
 let ReadLiquidityPctHigh (pos:int) (bs:byte[]) : (int*LiquidityPctHigh) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LiquidityPctHigh.LiquidityPctHigh tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LiquidityPctHigh.LiquidityPctHigh
 
 
 let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHigh) : int = 
@@ -12246,10 +11345,7 @@ let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHi
 
 
 let ReadLiquidityValue (pos:int) (bs:byte[]) : (int*LiquidityValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LiquidityValue.LiquidityValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LiquidityValue.LiquidityValue
 
 
 let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) : int = 
@@ -12264,10 +11360,7 @@ let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) 
 
 
 let ReadEFPTrackingError (pos:int) (bs:byte[]) : (int*EFPTrackingError) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = EFPTrackingError.EFPTrackingError tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) EFPTrackingError.EFPTrackingError
 
 
 let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingError) : int = 
@@ -12282,10 +11375,7 @@ let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingErr
 
 
 let ReadFairValue (pos:int) (bs:byte[]) : (int*FairValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = FairValue.FairValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) FairValue.FairValue
 
 
 let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int = 
@@ -12300,10 +11390,7 @@ let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int =
 
 
 let ReadOutsideIndexPct (pos:int) (bs:byte[]) : (int*OutsideIndexPct) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OutsideIndexPct.OutsideIndexPct tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OutsideIndexPct.OutsideIndexPct
 
 
 let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct) : int = 
@@ -12318,10 +11405,7 @@ let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct
 
 
 let ReadValueOfFutures (pos:int) (bs:byte[]) : (int*ValueOfFutures) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = ValueOfFutures.ValueOfFutures tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ValueOfFutures.ValueOfFutures
 
 
 let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) : int = 
@@ -12376,10 +11460,7 @@ let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityInd
 
 
 let ReadWtAverageLiquidity (pos:int) (bs:byte[]) : (int*WtAverageLiquidity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = WtAverageLiquidity.WtAverageLiquidity tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) WtAverageLiquidity.WtAverageLiquidity
 
 
 let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiquidity) : int = 
@@ -12394,10 +11475,7 @@ let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiq
 
 
 let ReadExchangeForPhysical (pos:int) (bs:byte[]) : (int*ExchangeForPhysical) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ExchangeForPhysical.ExchangeForPhysical tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ExchangeForPhysical.ExchangeForPhysical
 
 
 let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeForPhysical) : int = 
@@ -12412,10 +11490,7 @@ let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeFor
 
 
 let ReadOutMainCntryUIndex (pos:int) (bs:byte[]) : (int*OutMainCntryUIndex) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = OutMainCntryUIndex.OutMainCntryUIndex tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OutMainCntryUIndex.OutMainCntryUIndex
 
 
 let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntryUIndex) : int = 
@@ -12430,10 +11505,7 @@ let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntry
 
 
 let ReadCrossPercent (pos:int) (bs:byte[]) : (int*CrossPercent) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = CrossPercent.CrossPercent tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CrossPercent.CrossPercent
 
 
 let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : int = 
@@ -12481,10 +11553,7 @@ let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : in
 
 
 let ReadProgPeriodInterval (pos:int) (bs:byte[]) : (int*ProgPeriodInterval) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = ProgPeriodInterval.ProgPeriodInterval tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ProgPeriodInterval.ProgPeriodInterval
 
 
 let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodInterval) : int = 
@@ -12525,10 +11594,7 @@ let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
 
 
 let ReadNumBidders (pos:int) (bs:byte[]) : (int*NumBidders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NumBidders.NumBidders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumBidders.NumBidders
 
 
 let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int = 
@@ -12686,10 +11752,7 @@ let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : in
 
 
 let ReadNoBidComponents (pos:int) (bs:byte[]) : (int*NoBidComponents) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoBidComponents.NoBidComponents tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoBidComponents.NoBidComponents
 
 
 let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents) : int = 
@@ -12704,10 +11767,7 @@ let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents
 
 
 let ReadCountry (pos:int) (bs:byte[]) : (int*Country) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Country.Country tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Country.Country
 
 
 let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int = 
@@ -12722,10 +11782,7 @@ let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int =
 
 
 let ReadTotNoStrikes (pos:int) (bs:byte[]) : (int*TotNoStrikes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoStrikes.TotNoStrikes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoStrikes.TotNoStrikes
 
 
 let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : int = 
@@ -12829,10 +11886,7 @@ let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
 
 
 let ReadDayOrderQty (pos:int) (bs:byte[]) : (int*DayOrderQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DayOrderQty.DayOrderQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayOrderQty.DayOrderQty
 
 
 let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int = 
@@ -12847,10 +11901,7 @@ let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int 
 
 
 let ReadDayCumQty (pos:int) (bs:byte[]) : (int*DayCumQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DayCumQty.DayCumQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayCumQty.DayCumQty
 
 
 let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int = 
@@ -12865,10 +11916,7 @@ let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int =
 
 
 let ReadDayAvgPx (pos:int) (bs:byte[]) : (int*DayAvgPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DayAvgPx.DayAvgPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayAvgPx.DayAvgPx
 
 
 let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int = 
@@ -12916,10 +11964,7 @@ let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) 
 
 
 let ReadNoStrikes (pos:int) (bs:byte[]) : (int*NoStrikes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoStrikes.NoStrikes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoStrikes.NoStrikes
 
 
 let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int = 
@@ -13075,10 +12120,7 @@ let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStat
 
 
 let ReadExpireDate (pos:int) (bs:byte[]) : (int*ExpireDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExpireDate.ExpireDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExpireDate.ExpireDate
 
 
 let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int = 
@@ -13166,10 +12208,7 @@ let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejRespon
 
 
 let ReadUnderlyingCouponRate (pos:int) (bs:byte[]) : (int*UnderlyingCouponRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingCouponRate.UnderlyingCouponRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingCouponRate.UnderlyingCouponRate
 
 
 let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponRate) : int = 
@@ -13184,10 +12223,7 @@ let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
 
 
 let ReadUnderlyingContractMultiplier (pos:int) (bs:byte[]) : (int*UnderlyingContractMultiplier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingContractMultiplier.UnderlyingContractMultiplier tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingContractMultiplier.UnderlyingContractMultiplier
 
 
 let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingContractMultiplier) : int = 
@@ -13202,10 +12238,7 @@ let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:Un
 
 
 let ReadContraTradeQty (pos:int) (bs:byte[]) : (int*ContraTradeQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ContraTradeQty.ContraTradeQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContraTradeQty.ContraTradeQty
 
 
 let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) : int = 
@@ -13220,10 +12253,7 @@ let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) 
 
 
 let ReadContraTradeTime (pos:int) (bs:byte[]) : (int*ContraTradeTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContraTradeTime.ContraTradeTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraTradeTime.ContraTradeTime
 
 
 let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime) : int = 
@@ -13238,10 +12268,7 @@ let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime
 
 
 let ReadLiquidityNumSecurities (pos:int) (bs:byte[]) : (int*LiquidityNumSecurities) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LiquidityNumSecurities.LiquidityNumSecurities tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LiquidityNumSecurities.LiquidityNumSecurities
 
 
 let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityNumSecurities) : int = 
@@ -13289,10 +12316,7 @@ let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLe
 
 
 let ReadStrikeTime (pos:int) (bs:byte[]) : (int*StrikeTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StrikeTime.StrikeTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StrikeTime.StrikeTime
 
 
 let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int = 
@@ -13307,10 +12331,7 @@ let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int =
 
 
 let ReadListStatusText (pos:int) (bs:byte[]) : (int*ListStatusText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ListStatusText.ListStatusText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListStatusText.ListStatusText
 
 
 let WriteListStatusText (dest:byte []) (nextFreeIdx:int) (valIn:ListStatusText) : int = 
@@ -13347,18 +12368,8 @@ let WriteEncodedListStatusText (dest:byte []) (nextFreeIdx:int) (fld:EncodedList
 
 
 // compound read
-let ReadEncodedListStatusText valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "446" then failwith "invalid tag reading EncodedListStatusText"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedListStatusText"
-    EncodedListStatusText.EncodedListStatusText raw
+let ReadEncodedListStatusText (pos:int) (bs:byte[]) : (int * EncodedListStatusText) =
+    ReadLengthStringCompoundField "446"B (pos:int) (bs:byte[]) EncodedListStatusText.EncodedListStatusText
 
 
 let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
@@ -13500,10 +12511,7 @@ let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) 
 
 
 let ReadPartyID (pos:int) (bs:byte[]) : (int*PartyID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PartyID.PartyID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PartyID.PartyID
 
 
 let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int = 
@@ -13518,10 +12526,7 @@ let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int =
 
 
 let ReadNetChgPrevDay (pos:int) (bs:byte[]) : (int*NetChgPrevDay) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = NetChgPrevDay.NetChgPrevDay tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) NetChgPrevDay.NetChgPrevDay
 
 
 let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : int = 
@@ -13807,10 +12812,7 @@ let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
 
 
 let ReadNoPartyIDs (pos:int) (bs:byte[]) : (int*NoPartyIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoPartyIDs.NoPartyIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPartyIDs.NoPartyIDs
 
 
 let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int = 
@@ -13825,10 +12827,7 @@ let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int =
 
 
 let ReadNoSecurityAltID (pos:int) (bs:byte[]) : (int*NoSecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoSecurityAltID.NoSecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSecurityAltID.NoSecurityAltID
 
 
 let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID) : int = 
@@ -13843,10 +12842,7 @@ let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID
 
 
 let ReadSecurityAltID (pos:int) (bs:byte[]) : (int*SecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityAltID.SecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityAltID.SecurityAltID
 
 
 let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : int = 
@@ -13861,10 +12857,7 @@ let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : 
 
 
 let ReadSecurityAltIDSource (pos:int) (bs:byte[]) : (int*SecurityAltIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecurityAltIDSource.SecurityAltIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityAltIDSource.SecurityAltIDSource
 
 
 let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltIDSource) : int = 
@@ -13879,10 +12872,7 @@ let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAlt
 
 
 let ReadNoUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*NoUnderlyingSecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID
 
 
 let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingSecurityAltID) : int = 
@@ -13897,10 +12887,7 @@ let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnd
 
 
 let ReadUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityAltID.UnderlyingSecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityAltID.UnderlyingSecurityAltID
 
 
 let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltID) : int = 
@@ -13915,10 +12902,7 @@ let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:Underly
 
 
 let ReadUnderlyingSecurityAltIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource
 
 
 let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltIDSource) : int = 
@@ -14036,10 +13020,7 @@ let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
 
 
 let ReadCFICode (pos:int) (bs:byte[]) : (int*CFICode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CFICode.CFICode tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CFICode.CFICode
 
 
 let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int = 
@@ -14054,10 +13035,7 @@ let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int =
 
 
 let ReadUnderlyingProduct (pos:int) (bs:byte[]) : (int*UnderlyingProduct) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingProduct.UnderlyingProduct tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingProduct.UnderlyingProduct
 
 
 let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingProduct) : int = 
@@ -14072,10 +13050,7 @@ let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPro
 
 
 let ReadUnderlyingCFICode (pos:int) (bs:byte[]) : (int*UnderlyingCFICode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCFICode.UnderlyingCFICode tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCFICode.UnderlyingCFICode
 
 
 let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFICode) : int = 
@@ -14090,10 +13065,7 @@ let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFI
 
 
 let ReadTestMessageIndicator (pos:int) (bs:byte[]) : (int*TestMessageIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = TestMessageIndicator.TestMessageIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) TestMessageIndicator.TestMessageIndicator
 
 
 let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessageIndicator) : int = 
@@ -14176,10 +13148,7 @@ let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : 
 
 
 let ReadBookingRefID (pos:int) (bs:byte[]) : (int*BookingRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BookingRefID.BookingRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BookingRefID.BookingRefID
 
 
 let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : int = 
@@ -14194,10 +13163,7 @@ let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : in
 
 
 let ReadIndividualAllocID (pos:int) (bs:byte[]) : (int*IndividualAllocID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = IndividualAllocID.IndividualAllocID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IndividualAllocID.IndividualAllocID
 
 
 let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocID) : int = 
@@ -14245,10 +13211,7 @@ let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDir
 
 
 let ReadRoundingModulus (pos:int) (bs:byte[]) : (int*RoundingModulus) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = RoundingModulus.RoundingModulus tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RoundingModulus.RoundingModulus
 
 
 let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus) : int = 
@@ -14263,10 +13226,7 @@ let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus
 
 
 let ReadCountryOfIssue (pos:int) (bs:byte[]) : (int*CountryOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CountryOfIssue.CountryOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CountryOfIssue.CountryOfIssue
 
 
 let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) : int = 
@@ -14281,10 +13241,7 @@ let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) 
 
 
 let ReadStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*StateOrProvinceOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StateOrProvinceOfIssue.StateOrProvinceOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StateOrProvinceOfIssue.StateOrProvinceOfIssue
 
 
 let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrProvinceOfIssue) : int = 
@@ -14299,10 +13256,7 @@ let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrP
 
 
 let ReadLocaleOfIssue (pos:int) (bs:byte[]) : (int*LocaleOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LocaleOfIssue.LocaleOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LocaleOfIssue.LocaleOfIssue
 
 
 let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : int = 
@@ -14317,10 +13271,7 @@ let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : 
 
 
 let ReadNoRegistDtls (pos:int) (bs:byte[]) : (int*NoRegistDtls) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoRegistDtls.NoRegistDtls tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRegistDtls.NoRegistDtls
 
 
 let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : int = 
@@ -14335,10 +13286,7 @@ let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : in
 
 
 let ReadMailingDtls (pos:int) (bs:byte[]) : (int*MailingDtls) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MailingDtls.MailingDtls tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MailingDtls.MailingDtls
 
 
 let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int = 
@@ -14353,10 +13301,7 @@ let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int 
 
 
 let ReadInvestorCountryOfResidence (pos:int) (bs:byte[]) : (int*InvestorCountryOfResidence) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = InvestorCountryOfResidence.InvestorCountryOfResidence tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InvestorCountryOfResidence.InvestorCountryOfResidence
 
 
 let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:InvestorCountryOfResidence) : int = 
@@ -14371,10 +13316,7 @@ let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:Inve
 
 
 let ReadPaymentRef (pos:int) (bs:byte[]) : (int*PaymentRef) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PaymentRef.PaymentRef tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentRef.PaymentRef
 
 
 let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int = 
@@ -14485,10 +13427,7 @@ let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribP
 
 
 let ReadCashDistribCurr (pos:int) (bs:byte[]) : (int*CashDistribCurr) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribCurr.CashDistribCurr tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribCurr.CashDistribCurr
 
 
 let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr) : int = 
@@ -14503,10 +13442,7 @@ let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr
 
 
 let ReadCommCurrency (pos:int) (bs:byte[]) : (int*CommCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CommCurrency.CommCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CommCurrency.CommCurrency
 
 
 let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : int = 
@@ -14608,10 +13544,7 @@ let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLa
 
 
 let ReadMailingInst (pos:int) (bs:byte[]) : (int*MailingInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MailingInst.MailingInst tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MailingInst.MailingInst
 
 
 let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int = 
@@ -14626,10 +13559,7 @@ let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int 
 
 
 let ReadTransBkdTime (pos:int) (bs:byte[]) : (int*TransBkdTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TransBkdTime.TransBkdTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransBkdTime.TransBkdTime
 
 
 let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : int = 
@@ -14712,10 +13642,7 @@ let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) 
 
 
 let ReadExecPriceAdjustment (pos:int) (bs:byte[]) : (int*ExecPriceAdjustment) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ExecPriceAdjustment.ExecPriceAdjustment tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ExecPriceAdjustment.ExecPriceAdjustment
 
 
 let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAdjustment) : int = 
@@ -14730,10 +13657,7 @@ let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAd
 
 
 let ReadDateOfBirth (pos:int) (bs:byte[]) : (int*DateOfBirth) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DateOfBirth.DateOfBirth tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DateOfBirth.DateOfBirth
 
 
 let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int = 
@@ -14795,10 +13719,7 @@ let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRep
 
 
 let ReadCardHolderName (pos:int) (bs:byte[]) : (int*CardHolderName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CardHolderName.CardHolderName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardHolderName.CardHolderName
 
 
 let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) : int = 
@@ -14813,10 +13734,7 @@ let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) 
 
 
 let ReadCardNumber (pos:int) (bs:byte[]) : (int*CardNumber) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CardNumber.CardNumber tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardNumber.CardNumber
 
 
 let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int = 
@@ -14831,10 +13749,7 @@ let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int =
 
 
 let ReadCardExpDate (pos:int) (bs:byte[]) : (int*CardExpDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CardExpDate.CardExpDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardExpDate.CardExpDate
 
 
 let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int = 
@@ -14849,10 +13764,7 @@ let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int 
 
 
 let ReadCardIssNum (pos:int) (bs:byte[]) : (int*CardIssNum) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CardIssNum.CardIssNum tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardIssNum.CardIssNum
 
 
 let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int = 
@@ -14984,10 +13896,7 @@ let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) 
 
 
 let ReadRegistAcctType (pos:int) (bs:byte[]) : (int*RegistAcctType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistAcctType.RegistAcctType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistAcctType.RegistAcctType
 
 
 let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) : int = 
@@ -15002,10 +13911,7 @@ let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) 
 
 
 let ReadDesignation (pos:int) (bs:byte[]) : (int*Designation) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Designation.Designation tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Designation.Designation
 
 
 let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int = 
@@ -15109,10 +14015,7 @@ let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantage
 
 
 let ReadRegistRejReasonText (pos:int) (bs:byte[]) : (int*RegistRejReasonText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistRejReasonText.RegistRejReasonText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistRejReasonText.RegistRejReasonText
 
 
 let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejReasonText) : int = 
@@ -15153,10 +14056,7 @@ let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) 
 
 
 let ReadCashDistribAgentName (pos:int) (bs:byte[]) : (int*CashDistribAgentName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribAgentName.CashDistribAgentName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentName.CashDistribAgentName
 
 
 let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentName) : int = 
@@ -15171,10 +14071,7 @@ let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
 
 
 let ReadCashDistribAgentCode (pos:int) (bs:byte[]) : (int*CashDistribAgentCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribAgentCode.CashDistribAgentCode tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentCode.CashDistribAgentCode
 
 
 let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentCode) : int = 
@@ -15189,10 +14086,7 @@ let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
 
 
 let ReadCashDistribAgentAcctNumber (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctNumber) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribAgentAcctNumber.CashDistribAgentAcctNumber tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentAcctNumber.CashDistribAgentAcctNumber
 
 
 let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctNumber) : int = 
@@ -15207,10 +14101,7 @@ let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:Cash
 
 
 let ReadCashDistribPayRef (pos:int) (bs:byte[]) : (int*CashDistribPayRef) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribPayRef.CashDistribPayRef tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribPayRef.CashDistribPayRef
 
 
 let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPayRef) : int = 
@@ -15225,10 +14116,7 @@ let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPa
 
 
 let ReadCashDistribAgentAcctName (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CashDistribAgentAcctName.CashDistribAgentAcctName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentAcctName.CashDistribAgentAcctName
 
 
 let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctName) : int = 
@@ -15243,10 +14131,7 @@ let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDi
 
 
 let ReadCardStartDate (pos:int) (bs:byte[]) : (int*CardStartDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CardStartDate.CardStartDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardStartDate.CardStartDate
 
 
 let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : int = 
@@ -15261,10 +14146,7 @@ let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : 
 
 
 let ReadPaymentDate (pos:int) (bs:byte[]) : (int*PaymentDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PaymentDate.PaymentDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentDate.PaymentDate
 
 
 let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int = 
@@ -15279,10 +14161,7 @@ let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int 
 
 
 let ReadPaymentRemitterID (pos:int) (bs:byte[]) : (int*PaymentRemitterID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PaymentRemitterID.PaymentRemitterID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentRemitterID.PaymentRemitterID
 
 
 let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitterID) : int = 
@@ -15482,10 +14361,7 @@ let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRej
 
 
 let ReadRegistRefID (pos:int) (bs:byte[]) : (int*RegistRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistRefID.RegistRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistRefID.RegistRefID
 
 
 let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int = 
@@ -15500,10 +14376,7 @@ let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int 
 
 
 let ReadRegistDtls (pos:int) (bs:byte[]) : (int*RegistDtls) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistDtls.RegistDtls tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistDtls.RegistDtls
 
 
 let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int = 
@@ -15518,10 +14391,7 @@ let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int =
 
 
 let ReadNoDistribInsts (pos:int) (bs:byte[]) : (int*NoDistribInsts) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoDistribInsts.NoDistribInsts tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDistribInsts.NoDistribInsts
 
 
 let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) : int = 
@@ -15536,10 +14406,7 @@ let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) 
 
 
 let ReadRegistEmail (pos:int) (bs:byte[]) : (int*RegistEmail) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistEmail.RegistEmail tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistEmail.RegistEmail
 
 
 let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int = 
@@ -15554,10 +14421,7 @@ let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int 
 
 
 let ReadDistribPercentage (pos:int) (bs:byte[]) : (int*DistribPercentage) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DistribPercentage.DistribPercentage tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DistribPercentage.DistribPercentage
 
 
 let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercentage) : int = 
@@ -15572,10 +14436,7 @@ let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercen
 
 
 let ReadRegistID (pos:int) (bs:byte[]) : (int*RegistID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RegistID.RegistID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistID.RegistID
 
 
 let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int = 
@@ -15623,10 +14484,7 @@ let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransTy
 
 
 let ReadExecValuationPoint (pos:int) (bs:byte[]) : (int*ExecValuationPoint) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExecValuationPoint.ExecValuationPoint tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecValuationPoint.ExecValuationPoint
 
 
 let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuationPoint) : int = 
@@ -15641,10 +14499,7 @@ let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuatio
 
 
 let ReadOrderPercent (pos:int) (bs:byte[]) : (int*OrderPercent) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderPercent.OrderPercent tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderPercent.OrderPercent
 
 
 let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : int = 
@@ -15692,10 +14547,7 @@ let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) 
 
 
 let ReadNoContAmts (pos:int) (bs:byte[]) : (int*NoContAmts) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoContAmts.NoContAmts tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoContAmts.NoContAmts
 
 
 let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int = 
@@ -15785,10 +14637,7 @@ let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : in
 
 
 let ReadContAmtValue (pos:int) (bs:byte[]) : (int*ContAmtValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ContAmtValue.ContAmtValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContAmtValue.ContAmtValue
 
 
 let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : int = 
@@ -15803,10 +14652,7 @@ let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : in
 
 
 let ReadContAmtCurr (pos:int) (bs:byte[]) : (int*ContAmtCurr) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContAmtCurr.ContAmtCurr tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContAmtCurr.ContAmtCurr
 
 
 let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int = 
@@ -15924,10 +14770,7 @@ let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
 
 
 let ReadPartySubID (pos:int) (bs:byte[]) : (int*PartySubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PartySubID.PartySubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PartySubID.PartySubID
 
 
 let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int = 
@@ -15942,10 +14785,7 @@ let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int =
 
 
 let ReadNestedPartyID (pos:int) (bs:byte[]) : (int*NestedPartyID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = NestedPartyID.NestedPartyID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NestedPartyID.NestedPartyID
 
 
 let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : int = 
@@ -15960,10 +14800,7 @@ let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : 
 
 
 let ReadNestedPartyIDSource (pos:int) (bs:byte[]) : (int*NestedPartyIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NestedPartyIDSource.NestedPartyIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartyIDSource.NestedPartyIDSource
 
 
 let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyIDSource) : int = 
@@ -15978,10 +14815,7 @@ let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedParty
 
 
 let ReadSecondaryClOrdID (pos:int) (bs:byte[]) : (int*SecondaryClOrdID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryClOrdID.SecondaryClOrdID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryClOrdID.SecondaryClOrdID
 
 
 let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrdID) : int = 
@@ -15996,10 +14830,7 @@ let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrd
 
 
 let ReadSecondaryExecID (pos:int) (bs:byte[]) : (int*SecondaryExecID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryExecID.SecondaryExecID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryExecID.SecondaryExecID
 
 
 let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID) : int = 
@@ -16347,10 +15178,7 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
 
 
 let ReadTotalAffectedOrders (pos:int) (bs:byte[]) : (int*TotalAffectedOrders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotalAffectedOrders.TotalAffectedOrders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalAffectedOrders.TotalAffectedOrders
 
 
 let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffectedOrders) : int = 
@@ -16365,10 +15193,7 @@ let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffect
 
 
 let ReadNoAffectedOrders (pos:int) (bs:byte[]) : (int*NoAffectedOrders) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoAffectedOrders.NoAffectedOrders tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAffectedOrders.NoAffectedOrders
 
 
 let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrders) : int = 
@@ -16383,10 +15208,7 @@ let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrde
 
 
 let ReadAffectedOrderID (pos:int) (bs:byte[]) : (int*AffectedOrderID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AffectedOrderID.AffectedOrderID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AffectedOrderID.AffectedOrderID
 
 
 let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID) : int = 
@@ -16401,10 +15223,7 @@ let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID
 
 
 let ReadAffectedSecondaryOrderID (pos:int) (bs:byte[]) : (int*AffectedSecondaryOrderID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AffectedSecondaryOrderID.AffectedSecondaryOrderID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AffectedSecondaryOrderID.AffectedSecondaryOrderID
 
 
 let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedSecondaryOrderID) : int = 
@@ -16459,10 +15278,7 @@ let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
 
 
 let ReadNestedPartyRole (pos:int) (bs:byte[]) : (int*NestedPartyRole) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NestedPartyRole.NestedPartyRole tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartyRole.NestedPartyRole
 
 
 let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole) : int = 
@@ -16477,10 +15293,7 @@ let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole
 
 
 let ReadNoNestedPartyIDs (pos:int) (bs:byte[]) : (int*NoNestedPartyIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNestedPartyIDs.NoNestedPartyIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNestedPartyIDs.NoNestedPartyIDs
 
 
 let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyIDs) : int = 
@@ -16495,10 +15308,7 @@ let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyI
 
 
 let ReadTotalAccruedInterestAmt (pos:int) (bs:byte[]) : (int*TotalAccruedInterestAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotalAccruedInterestAmt.TotalAccruedInterestAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalAccruedInterestAmt.TotalAccruedInterestAmt
 
 
 let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAccruedInterestAmt) : int = 
@@ -16513,10 +15323,7 @@ let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAc
 
 
 let ReadMaturityDate (pos:int) (bs:byte[]) : (int*MaturityDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MaturityDate.MaturityDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MaturityDate.MaturityDate
 
 
 let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : int = 
@@ -16531,10 +15338,7 @@ let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : in
 
 
 let ReadUnderlyingMaturityDate (pos:int) (bs:byte[]) : (int*UnderlyingMaturityDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingMaturityDate.UnderlyingMaturityDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingMaturityDate.UnderlyingMaturityDate
 
 
 let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityDate) : int = 
@@ -16549,10 +15353,7 @@ let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadInstrRegistry (pos:int) (bs:byte[]) : (int*InstrRegistry) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = InstrRegistry.InstrRegistry tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InstrRegistry.InstrRegistry
 
 
 let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : int = 
@@ -16600,10 +15401,7 @@ let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int 
 
 
 let ReadNestedPartySubID (pos:int) (bs:byte[]) : (int*NestedPartySubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = NestedPartySubID.NestedPartySubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NestedPartySubID.NestedPartySubID
 
 
 let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubID) : int = 
@@ -16651,10 +15449,7 @@ let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
 
 
 let ReadMDImplicitDelete (pos:int) (bs:byte[]) : (int*MDImplicitDelete) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = MDImplicitDelete.MDImplicitDelete tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) MDImplicitDelete.MDImplicitDelete
 
 
 let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDelete) : int = 
@@ -16669,10 +15464,7 @@ let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDele
 
 
 let ReadCrossID (pos:int) (bs:byte[]) : (int*CrossID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CrossID.CrossID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CrossID.CrossID
 
 
 let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int = 
@@ -16760,10 +15552,7 @@ let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrio
 
 
 let ReadOrigCrossID (pos:int) (bs:byte[]) : (int*OrigCrossID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigCrossID.OrigCrossID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigCrossID.OrigCrossID
 
 
 let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int = 
@@ -16804,10 +15593,7 @@ let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
 
 
 let ReadUsername (pos:int) (bs:byte[]) : (int*Username) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Username.Username tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Username.Username
 
 
 let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int = 
@@ -16822,10 +15608,7 @@ let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int =
 
 
 let ReadPassword (pos:int) (bs:byte[]) : (int*Password) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Password.Password tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Password.Password
 
 
 let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int = 
@@ -16840,10 +15623,7 @@ let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int =
 
 
 let ReadNoLegs (pos:int) (bs:byte[]) : (int*NoLegs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoLegs.NoLegs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegs.NoLegs
 
 
 let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int = 
@@ -16858,10 +15638,7 @@ let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int =
 
 
 let ReadLegCurrency (pos:int) (bs:byte[]) : (int*LegCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegCurrency.LegCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCurrency.LegCurrency
 
 
 let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int = 
@@ -16876,10 +15653,7 @@ let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int 
 
 
 let ReadTotNoSecurityTypes (pos:int) (bs:byte[]) : (int*TotNoSecurityTypes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoSecurityTypes.TotNoSecurityTypes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoSecurityTypes.TotNoSecurityTypes
 
 
 let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurityTypes) : int = 
@@ -16894,10 +15668,7 @@ let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurit
 
 
 let ReadNoSecurityTypes (pos:int) (bs:byte[]) : (int*NoSecurityTypes) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoSecurityTypes.NoSecurityTypes tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSecurityTypes.NoSecurityTypes
 
 
 let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes) : int = 
@@ -17013,10 +15784,7 @@ let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
 
 
 let ReadRoundLot (pos:int) (bs:byte[]) : (int*RoundLot) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = RoundLot.RoundLot tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RoundLot.RoundLot
 
 
 let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int = 
@@ -17031,10 +15799,7 @@ let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int =
 
 
 let ReadMinTradeVol (pos:int) (bs:byte[]) : (int*MinTradeVol) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MinTradeVol.MinTradeVol tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinTradeVol.MinTradeVol
 
 
 let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int = 
@@ -17082,10 +15847,7 @@ let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRp
 
 
 let ReadLegPositionEffect (pos:int) (bs:byte[]) : (int*LegPositionEffect) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegPositionEffect.LegPositionEffect tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegPositionEffect.LegPositionEffect
 
 
 let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEffect) : int = 
@@ -17100,10 +15862,7 @@ let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEf
 
 
 let ReadLegCoveredOrUncovered (pos:int) (bs:byte[]) : (int*LegCoveredOrUncovered) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegCoveredOrUncovered.LegCoveredOrUncovered tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegCoveredOrUncovered.LegCoveredOrUncovered
 
 
 let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCoveredOrUncovered) : int = 
@@ -17118,10 +15877,7 @@ let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCovere
 
 
 let ReadLegPrice (pos:int) (bs:byte[]) : (int*LegPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegPrice.LegPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegPrice.LegPrice
 
 
 let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int = 
@@ -17155,10 +15911,7 @@ let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSe
 
 
 let ReadTradeRequestID (pos:int) (bs:byte[]) : (int*TradeRequestID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeRequestID.TradeRequestID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeRequestID.TradeRequestID
 
 
 let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) : int = 
@@ -17220,10 +15973,7 @@ let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequest
 
 
 let ReadPreviouslyReported (pos:int) (bs:byte[]) : (int*PreviouslyReported) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = PreviouslyReported.PreviouslyReported tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PreviouslyReported.PreviouslyReported
 
 
 let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyReported) : int = 
@@ -17238,10 +15988,7 @@ let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyRe
 
 
 let ReadTradeReportID (pos:int) (bs:byte[]) : (int*TradeReportID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeReportID.TradeReportID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeReportID.TradeReportID
 
 
 let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : int = 
@@ -17256,10 +16003,7 @@ let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : 
 
 
 let ReadTradeReportRefID (pos:int) (bs:byte[]) : (int*TradeReportRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeReportRefID.TradeReportRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeReportRefID.TradeReportRefID
 
 
 let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRefID) : int = 
@@ -17307,10 +16051,7 @@ let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : in
 
 
 let ReadMatchType (pos:int) (bs:byte[]) : (int*MatchType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MatchType.MatchType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MatchType.MatchType
 
 
 let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int = 
@@ -17325,10 +16066,7 @@ let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int =
 
 
 let ReadOddLot (pos:int) (bs:byte[]) : (int*OddLot) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = OddLot.OddLot tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) OddLot.OddLot
 
 
 let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int = 
@@ -17343,10 +16081,7 @@ let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int =
 
 
 let ReadNoClearingInstructions (pos:int) (bs:byte[]) : (int*NoClearingInstructions) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoClearingInstructions.NoClearingInstructions tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoClearingInstructions.NoClearingInstructions
 
 
 let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoClearingInstructions) : int = 
@@ -17471,10 +16206,7 @@ let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingI
 
 
 let ReadTradeInputSource (pos:int) (bs:byte[]) : (int*TradeInputSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeInputSource.TradeInputSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeInputSource.TradeInputSource
 
 
 let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSource) : int = 
@@ -17489,10 +16221,7 @@ let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSour
 
 
 let ReadTradeInputDevice (pos:int) (bs:byte[]) : (int*TradeInputDevice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeInputDevice.TradeInputDevice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeInputDevice.TradeInputDevice
 
 
 let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevice) : int = 
@@ -17507,10 +16236,7 @@ let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevi
 
 
 let ReadNoDates (pos:int) (bs:byte[]) : (int*NoDates) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoDates.NoDates tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDates.NoDates
 
 
 let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int = 
@@ -17626,10 +16352,7 @@ let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCa
 
 
 let ReadClOrdLinkID (pos:int) (bs:byte[]) : (int*ClOrdLinkID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ClOrdLinkID.ClOrdLinkID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClOrdLinkID.ClOrdLinkID
 
 
 let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int = 
@@ -17644,10 +16367,7 @@ let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int 
 
 
 let ReadMassStatusReqID (pos:int) (bs:byte[]) : (int*MassStatusReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = MassStatusReqID.MassStatusReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MassStatusReqID.MassStatusReqID
 
 
 let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID) : int = 
@@ -17730,10 +16450,7 @@ let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusR
 
 
 let ReadOrigOrdModTime (pos:int) (bs:byte[]) : (int*OrigOrdModTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigOrdModTime.OrigOrdModTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigOrdModTime.OrigOrdModTime
 
 
 let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) : int = 
@@ -17748,10 +16465,7 @@ let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) 
 
 
 let ReadLegSettlType (pos:int) (bs:byte[]) : (int*LegSettlType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegSettlType.LegSettlType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegSettlType.LegSettlType
 
 
 let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : int = 
@@ -17766,10 +16480,7 @@ let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : in
 
 
 let ReadLegSettlDate (pos:int) (bs:byte[]) : (int*LegSettlDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSettlDate.LegSettlDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSettlDate.LegSettlDate
 
 
 let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : int = 
@@ -17876,10 +16587,7 @@ let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod
 
 
 let ReadUnderlyingCountryOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingCountryOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCountryOfIssue.UnderlyingCountryOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCountryOfIssue.UnderlyingCountryOfIssue
 
 
 let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCountryOfIssue) : int = 
@@ -17894,10 +16602,7 @@ let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadUnderlyingStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingStateOrProvinceOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue
 
 
 let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStateOrProvinceOfIssue) : int = 
@@ -17912,10 +16617,7 @@ let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valI
 
 
 let ReadUnderlyingLocaleOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingLocaleOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue
 
 
 let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLocaleOfIssue) : int = 
@@ -17930,10 +16632,7 @@ let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underly
 
 
 let ReadUnderlyingInstrRegistry (pos:int) (bs:byte[]) : (int*UnderlyingInstrRegistry) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingInstrRegistry.UnderlyingInstrRegistry tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingInstrRegistry.UnderlyingInstrRegistry
 
 
 let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingInstrRegistry) : int = 
@@ -17948,10 +16647,7 @@ let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:Underly
 
 
 let ReadLegCountryOfIssue (pos:int) (bs:byte[]) : (int*LegCountryOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegCountryOfIssue.LegCountryOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCountryOfIssue.LegCountryOfIssue
 
 
 let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfIssue) : int = 
@@ -17966,10 +16662,7 @@ let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfI
 
 
 let ReadLegStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*LegStateOrProvinceOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue
 
 
 let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegStateOrProvinceOfIssue) : int = 
@@ -17984,10 +16677,7 @@ let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegSt
 
 
 let ReadLegLocaleOfIssue (pos:int) (bs:byte[]) : (int*LegLocaleOfIssue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegLocaleOfIssue.LegLocaleOfIssue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegLocaleOfIssue.LegLocaleOfIssue
 
 
 let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIssue) : int = 
@@ -18002,10 +16692,7 @@ let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIss
 
 
 let ReadLegInstrRegistry (pos:int) (bs:byte[]) : (int*LegInstrRegistry) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegInstrRegistry.LegInstrRegistry tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegInstrRegistry.LegInstrRegistry
 
 
 let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegistry) : int = 
@@ -18020,10 +16707,7 @@ let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegist
 
 
 let ReadLegSymbol (pos:int) (bs:byte[]) : (int*LegSymbol) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSymbol.LegSymbol tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSymbol.LegSymbol
 
 
 let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int = 
@@ -18038,10 +16722,7 @@ let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int =
 
 
 let ReadLegSymbolSfx (pos:int) (bs:byte[]) : (int*LegSymbolSfx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSymbolSfx.LegSymbolSfx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSymbolSfx.LegSymbolSfx
 
 
 let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : int = 
@@ -18056,10 +16737,7 @@ let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : in
 
 
 let ReadLegSecurityID (pos:int) (bs:byte[]) : (int*LegSecurityID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityID.LegSecurityID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityID.LegSecurityID
 
 
 let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : int = 
@@ -18074,10 +16752,7 @@ let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : 
 
 
 let ReadLegSecurityIDSource (pos:int) (bs:byte[]) : (int*LegSecurityIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityIDSource.LegSecurityIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityIDSource.LegSecurityIDSource
 
 
 let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityIDSource) : int = 
@@ -18092,10 +16767,7 @@ let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
 
 
 let ReadNoLegSecurityAltID (pos:int) (bs:byte[]) : (int*NoLegSecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoLegSecurityAltID.NoLegSecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegSecurityAltID.NoLegSecurityAltID
 
 
 let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurityAltID) : int = 
@@ -18110,10 +16782,7 @@ let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurit
 
 
 let ReadLegSecurityAltID (pos:int) (bs:byte[]) : (int*LegSecurityAltID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityAltID.LegSecurityAltID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityAltID.LegSecurityAltID
 
 
 let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltID) : int = 
@@ -18128,10 +16797,7 @@ let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAlt
 
 
 let ReadLegSecurityAltIDSource (pos:int) (bs:byte[]) : (int*LegSecurityAltIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityAltIDSource.LegSecurityAltIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityAltIDSource.LegSecurityAltIDSource
 
 
 let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltIDSource) : int = 
@@ -18146,10 +16812,7 @@ let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecur
 
 
 let ReadLegProduct (pos:int) (bs:byte[]) : (int*LegProduct) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegProduct.LegProduct tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegProduct.LegProduct
 
 
 let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int = 
@@ -18164,10 +16827,7 @@ let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int =
 
 
 let ReadLegCFICode (pos:int) (bs:byte[]) : (int*LegCFICode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegCFICode.LegCFICode tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCFICode.LegCFICode
 
 
 let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int = 
@@ -18182,10 +16842,7 @@ let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int =
 
 
 let ReadLegSecurityType (pos:int) (bs:byte[]) : (int*LegSecurityType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityType.LegSecurityType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityType.LegSecurityType
 
 
 let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType) : int = 
@@ -18200,10 +16857,7 @@ let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType
 
 
 let ReadLegMaturityMonthYear (pos:int) (bs:byte[]) : (int*LegMaturityMonthYear) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegMaturityMonthYear.LegMaturityMonthYear tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegMaturityMonthYear.LegMaturityMonthYear
 
 
 let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityMonthYear) : int = 
@@ -18218,10 +16872,7 @@ let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturit
 
 
 let ReadLegMaturityDate (pos:int) (bs:byte[]) : (int*LegMaturityDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegMaturityDate.LegMaturityDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegMaturityDate.LegMaturityDate
 
 
 let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate) : int = 
@@ -18236,10 +16887,7 @@ let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate
 
 
 let ReadLegStrikePrice (pos:int) (bs:byte[]) : (int*LegStrikePrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegStrikePrice.LegStrikePrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegStrikePrice.LegStrikePrice
 
 
 let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) : int = 
@@ -18254,10 +16902,7 @@ let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) 
 
 
 let ReadLegOptAttribute (pos:int) (bs:byte[]) : (int*LegOptAttribute) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegOptAttribute.LegOptAttribute tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegOptAttribute.LegOptAttribute
 
 
 let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute) : int = 
@@ -18272,10 +16917,7 @@ let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute
 
 
 let ReadLegContractMultiplier (pos:int) (bs:byte[]) : (int*LegContractMultiplier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegContractMultiplier.LegContractMultiplier tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegContractMultiplier.LegContractMultiplier
 
 
 let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContractMultiplier) : int = 
@@ -18290,10 +16932,7 @@ let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
 
 
 let ReadLegCouponRate (pos:int) (bs:byte[]) : (int*LegCouponRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegCouponRate.LegCouponRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegCouponRate.LegCouponRate
 
 
 let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : int = 
@@ -18308,10 +16947,7 @@ let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : 
 
 
 let ReadLegSecurityExchange (pos:int) (bs:byte[]) : (int*LegSecurityExchange) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityExchange.LegSecurityExchange tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityExchange.LegSecurityExchange
 
 
 let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityExchange) : int = 
@@ -18326,10 +16962,7 @@ let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
 
 
 let ReadLegIssuer (pos:int) (bs:byte[]) : (int*LegIssuer) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegIssuer.LegIssuer tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIssuer.LegIssuer
 
 
 let WriteLegIssuer (dest:byte []) (nextFreeIdx:int) (valIn:LegIssuer) : int = 
@@ -18366,25 +16999,12 @@ let WriteEncodedLegIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegIssuer
 
 
 // compound read
-let ReadEncodedLegIssuer valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "619" then failwith "invalid tag reading EncodedLegIssuer"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedLegIssuer"
-    EncodedLegIssuer.EncodedLegIssuer raw
+let ReadEncodedLegIssuer (pos:int) (bs:byte[]) : (int * EncodedLegIssuer) =
+    ReadLengthStringCompoundField "619"B (pos:int) (bs:byte[]) EncodedLegIssuer.EncodedLegIssuer
 
 
 let ReadLegSecurityDesc (pos:int) (bs:byte[]) : (int*LegSecurityDesc) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecurityDesc.LegSecurityDesc tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityDesc.LegSecurityDesc
 
 
 let WriteLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityDesc) : int = 
@@ -18421,25 +17041,12 @@ let WriteEncodedLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedLeg
 
 
 // compound read
-let ReadEncodedLegSecurityDesc valIn (strm:System.IO.Stream) =
-    let strLen = System.Int32.Parse valIn
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    // todo: read in strLen bytes
-    let ss = CrapReadUntilDelim strm
-    let subStrs = ss.Split([|'='|])
-    let tag = subStrs.[0]
-    let raw = subStrs.[1]
-    if tag <> "622" then failwith "invalid tag reading EncodedLegSecurityDesc"
-    if strLen <> raw.Length then failwith "mismatched string len reading EncodedLegSecurityDesc"
-    EncodedLegSecurityDesc.EncodedLegSecurityDesc raw
+let ReadEncodedLegSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedLegSecurityDesc) =
+    ReadLengthStringCompoundField "622"B (pos:int) (bs:byte[]) EncodedLegSecurityDesc.EncodedLegSecurityDesc
 
 
 let ReadLegRatioQty (pos:int) (bs:byte[]) : (int*LegRatioQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegRatioQty.LegRatioQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegRatioQty.LegRatioQty
 
 
 let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int = 
@@ -18454,10 +17061,7 @@ let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int 
 
 
 let ReadLegSide (pos:int) (bs:byte[]) : (int*LegSide) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegSide.LegSide tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegSide.LegSide
 
 
 let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int = 
@@ -18472,10 +17076,7 @@ let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int =
 
 
 let ReadTradingSessionSubID (pos:int) (bs:byte[]) : (int*TradingSessionSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradingSessionSubID.TradingSessionSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradingSessionSubID.TradingSessionSubID
 
 
 let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionSubID) : int = 
@@ -18537,10 +17138,7 @@ let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
 
 
 let ReadNoHops (pos:int) (bs:byte[]) : (int*NoHops) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoHops.NoHops tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoHops.NoHops
 
 
 let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int = 
@@ -18555,10 +17153,7 @@ let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int =
 
 
 let ReadHopCompID (pos:int) (bs:byte[]) : (int*HopCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = HopCompID.HopCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) HopCompID.HopCompID
 
 
 let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int = 
@@ -18573,10 +17168,7 @@ let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int =
 
 
 let ReadHopSendingTime (pos:int) (bs:byte[]) : (int*HopSendingTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = HopSendingTime.HopSendingTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) HopSendingTime.HopSendingTime
 
 
 let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) : int = 
@@ -18591,10 +17183,7 @@ let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) 
 
 
 let ReadHopRefID (pos:int) (bs:byte[]) : (int*HopRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = HopRefID.HopRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) HopRefID.HopRefID
 
 
 let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int = 
@@ -18609,10 +17198,7 @@ let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int =
 
 
 let ReadMidPx (pos:int) (bs:byte[]) : (int*MidPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MidPx.MidPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MidPx.MidPx
 
 
 let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int = 
@@ -18627,10 +17213,7 @@ let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int =
 
 
 let ReadBidYield (pos:int) (bs:byte[]) : (int*BidYield) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidYield.BidYield tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidYield.BidYield
 
 
 let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int = 
@@ -18645,10 +17228,7 @@ let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int =
 
 
 let ReadMidYield (pos:int) (bs:byte[]) : (int*MidYield) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MidYield.MidYield tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MidYield.MidYield
 
 
 let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int = 
@@ -18663,10 +17243,7 @@ let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int =
 
 
 let ReadOfferYield (pos:int) (bs:byte[]) : (int*OfferYield) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferYield.OfferYield tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferYield.OfferYield
 
 
 let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int = 
@@ -18749,10 +17326,7 @@ let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:Clearing
 
 
 let ReadWorkingIndicator (pos:int) (bs:byte[]) : (int*WorkingIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = WorkingIndicator.WorkingIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) WorkingIndicator.WorkingIndicator
 
 
 let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicator) : int = 
@@ -18767,10 +17341,7 @@ let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicat
 
 
 let ReadLegLastPx (pos:int) (bs:byte[]) : (int*LegLastPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegLastPx.LegLastPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegLastPx.LegLastPx
 
 
 let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int = 
@@ -18811,10 +17382,7 @@ let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityInd
 
 
 let ReadPriceImprovement (pos:int) (bs:byte[]) : (int*PriceImprovement) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PriceImprovement.PriceImprovement tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriceImprovement.PriceImprovement
 
 
 let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImprovement) : int = 
@@ -18829,10 +17397,7 @@ let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImproveme
 
 
 let ReadPrice2 (pos:int) (bs:byte[]) : (int*Price2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = Price2.Price2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Price2.Price2
 
 
 let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int = 
@@ -18847,10 +17412,7 @@ let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int =
 
 
 let ReadLastForwardPoints2 (pos:int) (bs:byte[]) : (int*LastForwardPoints2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastForwardPoints2.LastForwardPoints2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastForwardPoints2.LastForwardPoints2
 
 
 let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints2) : int = 
@@ -18865,10 +17427,7 @@ let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardP
 
 
 let ReadBidForwardPoints2 (pos:int) (bs:byte[]) : (int*BidForwardPoints2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BidForwardPoints2.BidForwardPoints2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidForwardPoints2.BidForwardPoints2
 
 
 let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints2) : int = 
@@ -18883,10 +17442,7 @@ let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoi
 
 
 let ReadOfferForwardPoints2 (pos:int) (bs:byte[]) : (int*OfferForwardPoints2) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OfferForwardPoints2.OfferForwardPoints2 tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferForwardPoints2.OfferForwardPoints2
 
 
 let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints2) : int = 
@@ -18901,10 +17457,7 @@ let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwar
 
 
 let ReadRFQReqID (pos:int) (bs:byte[]) : (int*RFQReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RFQReqID.RFQReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RFQReqID.RFQReqID
 
 
 let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int = 
@@ -18919,10 +17472,7 @@ let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int =
 
 
 let ReadMktBidPx (pos:int) (bs:byte[]) : (int*MktBidPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MktBidPx.MktBidPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MktBidPx.MktBidPx
 
 
 let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int = 
@@ -18937,10 +17487,7 @@ let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int =
 
 
 let ReadMktOfferPx (pos:int) (bs:byte[]) : (int*MktOfferPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MktOfferPx.MktOfferPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MktOfferPx.MktOfferPx
 
 
 let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int = 
@@ -18955,10 +17502,7 @@ let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int =
 
 
 let ReadMinBidSize (pos:int) (bs:byte[]) : (int*MinBidSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MinBidSize.MinBidSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinBidSize.MinBidSize
 
 
 let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int = 
@@ -18973,10 +17517,7 @@ let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int =
 
 
 let ReadMinOfferSize (pos:int) (bs:byte[]) : (int*MinOfferSize) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MinOfferSize.MinOfferSize tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinOfferSize.MinOfferSize
 
 
 let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : int = 
@@ -18991,10 +17532,7 @@ let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : in
 
 
 let ReadQuoteStatusReqID (pos:int) (bs:byte[]) : (int*QuoteStatusReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteStatusReqID.QuoteStatusReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteStatusReqID.QuoteStatusReqID
 
 
 let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReqID) : int = 
@@ -19009,10 +17547,7 @@ let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReq
 
 
 let ReadLegalConfirm (pos:int) (bs:byte[]) : (int*LegalConfirm) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = LegalConfirm.LegalConfirm tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LegalConfirm.LegalConfirm
 
 
 let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : int = 
@@ -19027,10 +17562,7 @@ let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : in
 
 
 let ReadUnderlyingLastPx (pos:int) (bs:byte[]) : (int*UnderlyingLastPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingLastPx.UnderlyingLastPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingLastPx.UnderlyingLastPx
 
 
 let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastPx) : int = 
@@ -19045,10 +17577,7 @@ let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLast
 
 
 let ReadUnderlyingLastQty (pos:int) (bs:byte[]) : (int*UnderlyingLastQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingLastQty.UnderlyingLastQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingLastQty.UnderlyingLastQty
 
 
 let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastQty) : int = 
@@ -19063,10 +17592,7 @@ let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLas
 
 
 let ReadLegRefID (pos:int) (bs:byte[]) : (int*LegRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegRefID.LegRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegRefID.LegRefID
 
 
 let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int = 
@@ -19081,10 +17607,7 @@ let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int =
 
 
 let ReadContraLegRefID (pos:int) (bs:byte[]) : (int*ContraLegRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContraLegRefID.ContraLegRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraLegRefID.ContraLegRefID
 
 
 let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) : int = 
@@ -19099,10 +17622,7 @@ let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) 
 
 
 let ReadSettlCurrBidFxRate (pos:int) (bs:byte[]) : (int*SettlCurrBidFxRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = SettlCurrBidFxRate.SettlCurrBidFxRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrBidFxRate.SettlCurrBidFxRate
 
 
 let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBidFxRate) : int = 
@@ -19117,10 +17637,7 @@ let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBid
 
 
 let ReadSettlCurrOfferFxRate (pos:int) (bs:byte[]) : (int*SettlCurrOfferFxRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = SettlCurrOfferFxRate.SettlCurrOfferFxRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrOfferFxRate.SettlCurrOfferFxRate
 
 
 let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrOfferFxRate) : int = 
@@ -19224,10 +17741,7 @@ let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Quot
 
 
 let ReadSideComplianceID (pos:int) (bs:byte[]) : (int*SideComplianceID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SideComplianceID.SideComplianceID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SideComplianceID.SideComplianceID
 
 
 let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideComplianceID) : int = 
@@ -19296,10 +17810,7 @@ let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : 
 
 
 let ReadAllocAcctIDSource (pos:int) (bs:byte[]) : (int*AllocAcctIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllocAcctIDSource.AllocAcctIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocAcctIDSource.AllocAcctIDSource
 
 
 let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSource) : int = 
@@ -19314,10 +17825,7 @@ let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSo
 
 
 let ReadBenchmarkPrice (pos:int) (bs:byte[]) : (int*BenchmarkPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = BenchmarkPrice.BenchmarkPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BenchmarkPrice.BenchmarkPrice
 
 
 let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) : int = 
@@ -19332,10 +17840,7 @@ let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) 
 
 
 let ReadBenchmarkPriceType (pos:int) (bs:byte[]) : (int*BenchmarkPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = BenchmarkPriceType.BenchmarkPriceType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BenchmarkPriceType.BenchmarkPriceType
 
 
 let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPriceType) : int = 
@@ -19350,10 +17855,7 @@ let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPri
 
 
 let ReadConfirmID (pos:int) (bs:byte[]) : (int*ConfirmID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ConfirmID.ConfirmID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmID.ConfirmID
 
 
 let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int = 
@@ -19448,10 +17950,7 @@ let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTrans
 
 
 let ReadContractSettlMonth (pos:int) (bs:byte[]) : (int*ContractSettlMonth) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ContractSettlMonth.ContractSettlMonth tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContractSettlMonth.ContractSettlMonth
 
 
 let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSettlMonth) : int = 
@@ -19492,10 +17991,7 @@ let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : 
 
 
 let ReadLastParPx (pos:int) (bs:byte[]) : (int*LastParPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LastParPx.LastParPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastParPx.LastParPx
 
 
 let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int = 
@@ -19510,10 +18006,7 @@ let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int =
 
 
 let ReadNoLegAllocs (pos:int) (bs:byte[]) : (int*NoLegAllocs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoLegAllocs.NoLegAllocs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegAllocs.NoLegAllocs
 
 
 let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int = 
@@ -19528,10 +18021,7 @@ let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int 
 
 
 let ReadLegAllocAccount (pos:int) (bs:byte[]) : (int*LegAllocAccount) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegAllocAccount.LegAllocAccount tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegAllocAccount.LegAllocAccount
 
 
 let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount) : int = 
@@ -19546,10 +18036,7 @@ let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount
 
 
 let ReadLegIndividualAllocID (pos:int) (bs:byte[]) : (int*LegIndividualAllocID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegIndividualAllocID.LegIndividualAllocID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIndividualAllocID.LegIndividualAllocID
 
 
 let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndividualAllocID) : int = 
@@ -19564,10 +18051,7 @@ let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndivid
 
 
 let ReadLegAllocQty (pos:int) (bs:byte[]) : (int*LegAllocQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegAllocQty.LegAllocQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegAllocQty.LegAllocQty
 
 
 let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int = 
@@ -19582,10 +18066,7 @@ let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int 
 
 
 let ReadLegAllocAcctIDSource (pos:int) (bs:byte[]) : (int*LegAllocAcctIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegAllocAcctIDSource.LegAllocAcctIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegAllocAcctIDSource.LegAllocAcctIDSource
 
 
 let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAcctIDSource) : int = 
@@ -19600,10 +18081,7 @@ let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAc
 
 
 let ReadLegSettlCurrency (pos:int) (bs:byte[]) : (int*LegSettlCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSettlCurrency.LegSettlCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSettlCurrency.LegSettlCurrency
 
 
 let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurrency) : int = 
@@ -19618,10 +18096,7 @@ let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurren
 
 
 let ReadLegBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency
 
 
 let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveCurrency) : int = 
@@ -19636,10 +18111,7 @@ let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBe
 
 
 let ReadLegBenchmarkCurveName (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveName) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegBenchmarkCurveName.LegBenchmarkCurveName tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurveName.LegBenchmarkCurveName
 
 
 let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveName) : int = 
@@ -19654,10 +18126,7 @@ let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
 
 
 let ReadLegBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*LegBenchmarkCurvePoint) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegBenchmarkCurvePoint.LegBenchmarkCurvePoint tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurvePoint.LegBenchmarkCurvePoint
 
 
 let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurvePoint) : int = 
@@ -19672,10 +18141,7 @@ let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBench
 
 
 let ReadLegBenchmarkPrice (pos:int) (bs:byte[]) : (int*LegBenchmarkPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegBenchmarkPrice.LegBenchmarkPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegBenchmarkPrice.LegBenchmarkPrice
 
 
 let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPrice) : int = 
@@ -19690,10 +18156,7 @@ let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkP
 
 
 let ReadLegBenchmarkPriceType (pos:int) (bs:byte[]) : (int*LegBenchmarkPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegBenchmarkPriceType.LegBenchmarkPriceType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegBenchmarkPriceType.LegBenchmarkPriceType
 
 
 let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPriceType) : int = 
@@ -19708,10 +18171,7 @@ let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
 
 
 let ReadLegBidPx (pos:int) (bs:byte[]) : (int*LegBidPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegBidPx.LegBidPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegBidPx.LegBidPx
 
 
 let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int = 
@@ -19726,10 +18186,7 @@ let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int =
 
 
 let ReadLegIOIQty (pos:int) (bs:byte[]) : (int*LegIOIQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegIOIQty.LegIOIQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIOIQty.LegIOIQty
 
 
 let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int = 
@@ -19744,10 +18201,7 @@ let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int =
 
 
 let ReadNoLegStipulations (pos:int) (bs:byte[]) : (int*NoLegStipulations) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoLegStipulations.NoLegStipulations tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegStipulations.NoLegStipulations
 
 
 let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulations) : int = 
@@ -19762,10 +18216,7 @@ let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulat
 
 
 let ReadLegOfferPx (pos:int) (bs:byte[]) : (int*LegOfferPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegOfferPx.LegOfferPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegOfferPx.LegOfferPx
 
 
 let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int = 
@@ -19780,10 +18231,7 @@ let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int =
 
 
 let ReadLegOrderQty (pos:int) (bs:byte[]) : (int*LegOrderQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegOrderQty.LegOrderQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegOrderQty.LegOrderQty
 
 
 let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int = 
@@ -19798,10 +18246,7 @@ let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int 
 
 
 let ReadLegPriceType (pos:int) (bs:byte[]) : (int*LegPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = LegPriceType.LegPriceType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegPriceType.LegPriceType
 
 
 let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : int = 
@@ -19816,10 +18261,7 @@ let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : in
 
 
 let ReadLegQty (pos:int) (bs:byte[]) : (int*LegQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LegQty.LegQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegQty.LegQty
 
 
 let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int = 
@@ -19834,10 +18276,7 @@ let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int =
 
 
 let ReadLegStipulationType (pos:int) (bs:byte[]) : (int*LegStipulationType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegStipulationType.LegStipulationType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStipulationType.LegStipulationType
 
 
 let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationType) : int = 
@@ -19852,10 +18291,7 @@ let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulati
 
 
 let ReadLegStipulationValue (pos:int) (bs:byte[]) : (int*LegStipulationValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegStipulationValue.LegStipulationValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStipulationValue.LegStipulationValue
 
 
 let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationValue) : int = 
@@ -19910,10 +18346,7 @@ let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : in
 
 
 let ReadPool (pos:int) (bs:byte[]) : (int*Pool) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Pool.Pool tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Pool.Pool
 
 
 let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int = 
@@ -20010,10 +18443,7 @@ let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType
 
 
 let ReadQuoteRespID (pos:int) (bs:byte[]) : (int*QuoteRespID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = QuoteRespID.QuoteRespID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteRespID.QuoteRespID
 
 
 let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int = 
@@ -20082,10 +18512,7 @@ let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) 
 
 
 let ReadQuoteQualifier (pos:int) (bs:byte[]) : (int*QuoteQualifier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = QuoteQualifier.QuoteQualifier tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) QuoteQualifier.QuoteQualifier
 
 
 let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) : int = 
@@ -20100,10 +18527,7 @@ let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) 
 
 
 let ReadYieldRedemptionDate (pos:int) (bs:byte[]) : (int*YieldRedemptionDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = YieldRedemptionDate.YieldRedemptionDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) YieldRedemptionDate.YieldRedemptionDate
 
 
 let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionDate) : int = 
@@ -20118,10 +18542,7 @@ let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemp
 
 
 let ReadYieldRedemptionPrice (pos:int) (bs:byte[]) : (int*YieldRedemptionPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = YieldRedemptionPrice.YieldRedemptionPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) YieldRedemptionPrice.YieldRedemptionPrice
 
 
 let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPrice) : int = 
@@ -20136,10 +18557,7 @@ let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedem
 
 
 let ReadYieldRedemptionPriceType (pos:int) (bs:byte[]) : (int*YieldRedemptionPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = YieldRedemptionPriceType.YieldRedemptionPriceType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) YieldRedemptionPriceType.YieldRedemptionPriceType
 
 
 let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPriceType) : int = 
@@ -20154,10 +18572,7 @@ let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldR
 
 
 let ReadBenchmarkSecurityID (pos:int) (bs:byte[]) : (int*BenchmarkSecurityID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BenchmarkSecurityID.BenchmarkSecurityID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkSecurityID.BenchmarkSecurityID
 
 
 let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityID) : int = 
@@ -20172,10 +18587,7 @@ let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSe
 
 
 let ReadReversalIndicator (pos:int) (bs:byte[]) : (int*ReversalIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ReversalIndicator.ReversalIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ReversalIndicator.ReversalIndicator
 
 
 let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndicator) : int = 
@@ -20190,10 +18602,7 @@ let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndic
 
 
 let ReadYieldCalcDate (pos:int) (bs:byte[]) : (int*YieldCalcDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = YieldCalcDate.YieldCalcDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) YieldCalcDate.YieldCalcDate
 
 
 let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : int = 
@@ -20208,10 +18617,7 @@ let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : 
 
 
 let ReadNoPositions (pos:int) (bs:byte[]) : (int*NoPositions) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoPositions.NoPositions tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPositions.NoPositions
 
 
 let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int = 
@@ -20371,10 +18777,7 @@ let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
 
 
 let ReadLongQty (pos:int) (bs:byte[]) : (int*LongQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = LongQty.LongQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LongQty.LongQty
 
 
 let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int = 
@@ -20389,10 +18792,7 @@ let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int =
 
 
 let ReadShortQty (pos:int) (bs:byte[]) : (int*ShortQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ShortQty.ShortQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ShortQty.ShortQty
 
 
 let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int = 
@@ -20508,10 +18908,7 @@ let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int 
 
 
 let ReadPosAmt (pos:int) (bs:byte[]) : (int*PosAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = PosAmt.PosAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) PosAmt.PosAmt
 
 
 let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int = 
@@ -20573,10 +18970,7 @@ let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : 
 
 
 let ReadPosReqID (pos:int) (bs:byte[]) : (int*PosReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PosReqID.PosReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosReqID.PosReqID
 
 
 let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int = 
@@ -20591,10 +18985,7 @@ let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int =
 
 
 let ReadNoUnderlyings (pos:int) (bs:byte[]) : (int*NoUnderlyings) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoUnderlyings.NoUnderlyings tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyings.NoUnderlyings
 
 
 let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : int = 
@@ -20642,10 +19033,7 @@ let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction
 
 
 let ReadOrigPosReqRefID (pos:int) (bs:byte[]) : (int*OrigPosReqRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrigPosReqRefID.OrigPosReqRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigPosReqRefID.OrigPosReqRefID
 
 
 let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID) : int = 
@@ -20660,10 +19048,7 @@ let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID
 
 
 let ReadPosMaintRptRefID (pos:int) (bs:byte[]) : (int*PosMaintRptRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PosMaintRptRefID.PosMaintRptRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosMaintRptRefID.PosMaintRptRefID
 
 
 let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRefID) : int = 
@@ -20678,10 +19063,7 @@ let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRef
 
 
 let ReadClearingBusinessDate (pos:int) (bs:byte[]) : (int*ClearingBusinessDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ClearingBusinessDate.ClearingBusinessDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClearingBusinessDate.ClearingBusinessDate
 
 
 let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBusinessDate) : int = 
@@ -20696,10 +19078,7 @@ let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBu
 
 
 let ReadSettlSessID (pos:int) (bs:byte[]) : (int*SettlSessID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlSessID.SettlSessID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlSessID.SettlSessID
 
 
 let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int = 
@@ -20714,10 +19093,7 @@ let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int 
 
 
 let ReadSettlSessSubID (pos:int) (bs:byte[]) : (int*SettlSessSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlSessSubID.SettlSessSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlSessSubID.SettlSessSubID
 
 
 let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) : int = 
@@ -20772,10 +19148,7 @@ let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType
 
 
 let ReadContraryInstructionIndicator (pos:int) (bs:byte[]) : (int*ContraryInstructionIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = ContraryInstructionIndicator.ContraryInstructionIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ContraryInstructionIndicator.ContraryInstructionIndicator
 
 
 let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ContraryInstructionIndicator) : int = 
@@ -20790,10 +19163,7 @@ let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Co
 
 
 let ReadPriorSpreadIndicator (pos:int) (bs:byte[]) : (int*PriorSpreadIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = PriorSpreadIndicator.PriorSpreadIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PriorSpreadIndicator.PriorSpreadIndicator
 
 
 let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSpreadIndicator) : int = 
@@ -20808,10 +19178,7 @@ let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSprea
 
 
 let ReadPosMaintRptID (pos:int) (bs:byte[]) : (int*PosMaintRptID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = PosMaintRptID.PosMaintRptID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosMaintRptID.PosMaintRptID
 
 
 let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : int = 
@@ -20972,10 +19339,7 @@ let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:Respons
 
 
 let ReadResponseDestination (pos:int) (bs:byte[]) : (int*ResponseDestination) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ResponseDestination.ResponseDestination tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ResponseDestination.ResponseDestination
 
 
 let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDestination) : int = 
@@ -20990,10 +19354,7 @@ let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDes
 
 
 let ReadTotalNumPosReports (pos:int) (bs:byte[]) : (int*TotalNumPosReports) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotalNumPosReports.TotalNumPosReports tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalNumPosReports.TotalNumPosReports
 
 
 let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosReports) : int = 
@@ -21095,10 +19456,7 @@ let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : 
 
 
 let ReadSettlPrice (pos:int) (bs:byte[]) : (int*SettlPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = SettlPrice.SettlPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlPrice.SettlPrice
 
 
 let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int = 
@@ -21139,10 +19497,7 @@ let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType
 
 
 let ReadUnderlyingSettlPrice (pos:int) (bs:byte[]) : (int*UnderlyingSettlPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingSettlPrice.UnderlyingSettlPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingSettlPrice.UnderlyingSettlPrice
 
 
 let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPrice) : int = 
@@ -21157,10 +19512,7 @@ let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
 
 
 let ReadUnderlyingSettlPriceType (pos:int) (bs:byte[]) : (int*UnderlyingSettlPriceType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingSettlPriceType.UnderlyingSettlPriceType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingSettlPriceType.UnderlyingSettlPriceType
 
 
 let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPriceType) : int = 
@@ -21175,10 +19527,7 @@ let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadPriorSettlPrice (pos:int) (bs:byte[]) : (int*PriorSettlPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PriorSettlPrice.PriorSettlPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriorSettlPrice.PriorSettlPrice
 
 
 let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice) : int = 
@@ -21193,10 +19542,7 @@ let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice
 
 
 let ReadNoQuoteQualifiers (pos:int) (bs:byte[]) : (int*NoQuoteQualifiers) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoQuoteQualifiers.NoQuoteQualifiers tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteQualifiers.NoQuoteQualifiers
 
 
 let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualifiers) : int = 
@@ -21211,10 +19557,7 @@ let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualif
 
 
 let ReadAllocSettlCurrency (pos:int) (bs:byte[]) : (int*AllocSettlCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocSettlCurrency.AllocSettlCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocSettlCurrency.AllocSettlCurrency
 
 
 let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrency) : int = 
@@ -21229,10 +19572,7 @@ let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCu
 
 
 let ReadAllocSettlCurrAmt (pos:int) (bs:byte[]) : (int*AllocSettlCurrAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllocSettlCurrAmt.AllocSettlCurrAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocSettlCurrAmt.AllocSettlCurrAmt
 
 
 let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrAmt) : int = 
@@ -21247,10 +19587,7 @@ let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCur
 
 
 let ReadInterestAtMaturity (pos:int) (bs:byte[]) : (int*InterestAtMaturity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = InterestAtMaturity.InterestAtMaturity tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) InterestAtMaturity.InterestAtMaturity
 
 
 let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMaturity) : int = 
@@ -21265,10 +19602,7 @@ let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMa
 
 
 let ReadLegDatedDate (pos:int) (bs:byte[]) : (int*LegDatedDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegDatedDate.LegDatedDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegDatedDate.LegDatedDate
 
 
 let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : int = 
@@ -21283,10 +19617,7 @@ let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : in
 
 
 let ReadLegPool (pos:int) (bs:byte[]) : (int*LegPool) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegPool.LegPool tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegPool.LegPool
 
 
 let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int = 
@@ -21301,10 +19632,7 @@ let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int =
 
 
 let ReadAllocInterestAtMaturity (pos:int) (bs:byte[]) : (int*AllocInterestAtMaturity) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllocInterestAtMaturity.AllocInterestAtMaturity tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocInterestAtMaturity.AllocInterestAtMaturity
 
 
 let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocInterestAtMaturity) : int = 
@@ -21319,10 +19647,7 @@ let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocIn
 
 
 let ReadAllocAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AllocAccruedInterestAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllocAccruedInterestAmt.AllocAccruedInterestAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocAccruedInterestAmt.AllocAccruedInterestAmt
 
 
 let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccruedInterestAmt) : int = 
@@ -21337,10 +19662,7 @@ let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAc
 
 
 let ReadDeliveryDate (pos:int) (bs:byte[]) : (int*DeliveryDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DeliveryDate.DeliveryDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliveryDate.DeliveryDate
 
 
 let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : int = 
@@ -21381,10 +19703,7 @@ let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMe
 
 
 let ReadAssignmentUnit (pos:int) (bs:byte[]) : (int*AssignmentUnit) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AssignmentUnit.AssignmentUnit tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AssignmentUnit.AssignmentUnit
 
 
 let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) : int = 
@@ -21399,10 +19718,7 @@ let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) 
 
 
 let ReadOpenInterest (pos:int) (bs:byte[]) : (int*OpenInterest) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = OpenInterest.OpenInterest tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OpenInterest.OpenInterest
 
 
 let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : int = 
@@ -21443,10 +19759,7 @@ let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod
 
 
 let ReadTotNumTradeReports (pos:int) (bs:byte[]) : (int*TotNumTradeReports) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNumTradeReports.TotNumTradeReports tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumTradeReports.TotNumTradeReports
 
 
 let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeReports) : int = 
@@ -21656,10 +19969,7 @@ let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:Sid
 
 
 let ReadNoPosAmt (pos:int) (bs:byte[]) : (int*NoPosAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoPosAmt.NoPosAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPosAmt.NoPosAmt
 
 
 let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int = 
@@ -21674,10 +19984,7 @@ let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int =
 
 
 let ReadAutoAcceptIndicator (pos:int) (bs:byte[]) : (int*AutoAcceptIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = AutoAcceptIndicator.AutoAcceptIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) AutoAcceptIndicator.AutoAcceptIndicator
 
 
 let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptIndicator) : int = 
@@ -21692,10 +19999,7 @@ let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptI
 
 
 let ReadAllocReportID (pos:int) (bs:byte[]) : (int*AllocReportID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocReportID.AllocReportID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocReportID.AllocReportID
 
 
 let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : int = 
@@ -21710,10 +20014,7 @@ let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : 
 
 
 let ReadNoNested2PartyIDs (pos:int) (bs:byte[]) : (int*NoNested2PartyIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNested2PartyIDs.NoNested2PartyIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested2PartyIDs.NoNested2PartyIDs
 
 
 let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartyIDs) : int = 
@@ -21728,10 +20029,7 @@ let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2Part
 
 
 let ReadNested2PartyID (pos:int) (bs:byte[]) : (int*Nested2PartyID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Nested2PartyID.Nested2PartyID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested2PartyID.Nested2PartyID
 
 
 let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) : int = 
@@ -21746,10 +20044,7 @@ let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) 
 
 
 let ReadNested2PartyIDSource (pos:int) (bs:byte[]) : (int*Nested2PartyIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested2PartyIDSource.Nested2PartyIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartyIDSource.Nested2PartyIDSource
 
 
 let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyIDSource) : int = 
@@ -21764,10 +20059,7 @@ let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Par
 
 
 let ReadNested2PartyRole (pos:int) (bs:byte[]) : (int*Nested2PartyRole) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested2PartyRole.Nested2PartyRole tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartyRole.Nested2PartyRole
 
 
 let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRole) : int = 
@@ -21782,10 +20074,7 @@ let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRo
 
 
 let ReadNested2PartySubID (pos:int) (bs:byte[]) : (int*Nested2PartySubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Nested2PartySubID.Nested2PartySubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested2PartySubID.Nested2PartySubID
 
 
 let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubID) : int = 
@@ -21800,10 +20089,7 @@ let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyS
 
 
 let ReadBenchmarkSecurityIDSource (pos:int) (bs:byte[]) : (int*BenchmarkSecurityIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = BenchmarkSecurityIDSource.BenchmarkSecurityIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
 
 
 let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityIDSource) : int = 
@@ -21818,10 +20104,7 @@ let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Bench
 
 
 let ReadSecuritySubType (pos:int) (bs:byte[]) : (int*SecuritySubType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecuritySubType.SecuritySubType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecuritySubType.SecuritySubType
 
 
 let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType) : int = 
@@ -21836,10 +20119,7 @@ let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType
 
 
 let ReadUnderlyingSecuritySubType (pos:int) (bs:byte[]) : (int*UnderlyingSecuritySubType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingSecuritySubType.UnderlyingSecuritySubType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecuritySubType.UnderlyingSecuritySubType
 
 
 let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecuritySubType) : int = 
@@ -21854,10 +20134,7 @@ let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:Under
 
 
 let ReadLegSecuritySubType (pos:int) (bs:byte[]) : (int*LegSecuritySubType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegSecuritySubType.LegSecuritySubType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecuritySubType.LegSecuritySubType
 
 
 let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecuritySubType) : int = 
@@ -21872,10 +20149,7 @@ let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityS
 
 
 let ReadAllowableOneSidednessPct (pos:int) (bs:byte[]) : (int*AllowableOneSidednessPct) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AllowableOneSidednessPct.AllowableOneSidednessPct tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllowableOneSidednessPct.AllowableOneSidednessPct
 
 
 let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessPct) : int = 
@@ -21890,10 +20164,7 @@ let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:Allowa
 
 
 let ReadAllowableOneSidednessValue (pos:int) (bs:byte[]) : (int*AllowableOneSidednessValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = AllowableOneSidednessValue.AllowableOneSidednessValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllowableOneSidednessValue.AllowableOneSidednessValue
 
 
 let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessValue) : int = 
@@ -21908,10 +20179,7 @@ let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:Allo
 
 
 let ReadAllowableOneSidednessCurr (pos:int) (bs:byte[]) : (int*AllowableOneSidednessCurr) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllowableOneSidednessCurr.AllowableOneSidednessCurr tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllowableOneSidednessCurr.AllowableOneSidednessCurr
 
 
 let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessCurr) : int = 
@@ -21926,10 +20194,7 @@ let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:Allow
 
 
 let ReadNoTrdRegTimestamps (pos:int) (bs:byte[]) : (int*NoTrdRegTimestamps) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoTrdRegTimestamps.NoTrdRegTimestamps tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTrdRegTimestamps.NoTrdRegTimestamps
 
 
 let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTimestamps) : int = 
@@ -21944,10 +20209,7 @@ let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTime
 
 
 let ReadTrdRegTimestamp (pos:int) (bs:byte[]) : (int*TrdRegTimestamp) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TrdRegTimestamp.TrdRegTimestamp tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdRegTimestamp.TrdRegTimestamp
 
 
 let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp) : int = 
@@ -22009,10 +20271,7 @@ let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTim
 
 
 let ReadTrdRegTimestampOrigin (pos:int) (bs:byte[]) : (int*TrdRegTimestampOrigin) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TrdRegTimestampOrigin.TrdRegTimestampOrigin tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdRegTimestampOrigin.TrdRegTimestampOrigin
 
 
 let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestampOrigin) : int = 
@@ -22027,10 +20286,7 @@ let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTim
 
 
 let ReadConfirmRefID (pos:int) (bs:byte[]) : (int*ConfirmRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ConfirmRefID.ConfirmRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmRefID.ConfirmRefID
 
 
 let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : int = 
@@ -22144,10 +20400,7 @@ let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : in
 
 
 let ReadIndividualAllocRejCode (pos:int) (bs:byte[]) : (int*IndividualAllocRejCode) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = IndividualAllocRejCode.IndividualAllocRejCode tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) IndividualAllocRejCode.IndividualAllocRejCode
 
 
 let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocRejCode) : int = 
@@ -22162,10 +20415,7 @@ let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:Individu
 
 
 let ReadSettlInstMsgID (pos:int) (bs:byte[]) : (int*SettlInstMsgID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlInstMsgID.SettlInstMsgID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstMsgID.SettlInstMsgID
 
 
 let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) : int = 
@@ -22180,10 +20430,7 @@ let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) 
 
 
 let ReadNoSettlInst (pos:int) (bs:byte[]) : (int*NoSettlInst) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoSettlInst.NoSettlInst tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlInst.NoSettlInst
 
 
 let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int = 
@@ -22198,10 +20445,7 @@ let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int 
 
 
 let ReadLastUpdateTime (pos:int) (bs:byte[]) : (int*LastUpdateTime) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LastUpdateTime.LastUpdateTime tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastUpdateTime.LastUpdateTime
 
 
 let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) : int = 
@@ -22263,10 +20507,7 @@ let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettl
 
 
 let ReadNoSettlPartyIDs (pos:int) (bs:byte[]) : (int*NoSettlPartyIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoSettlPartyIDs.NoSettlPartyIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlPartyIDs.NoSettlPartyIDs
 
 
 let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs) : int = 
@@ -22281,10 +20522,7 @@ let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs
 
 
 let ReadSettlPartyID (pos:int) (bs:byte[]) : (int*SettlPartyID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlPartyID.SettlPartyID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlPartyID.SettlPartyID
 
 
 let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : int = 
@@ -22299,10 +20537,7 @@ let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : in
 
 
 let ReadSettlPartyIDSource (pos:int) (bs:byte[]) : (int*SettlPartyIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SettlPartyIDSource.SettlPartyIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartyIDSource.SettlPartyIDSource
 
 
 let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyIDSource) : int = 
@@ -22317,10 +20552,7 @@ let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID
 
 
 let ReadSettlPartyRole (pos:int) (bs:byte[]) : (int*SettlPartyRole) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SettlPartyRole.SettlPartyRole tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartyRole.SettlPartyRole
 
 
 let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) : int = 
@@ -22335,10 +20567,7 @@ let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) 
 
 
 let ReadSettlPartySubID (pos:int) (bs:byte[]) : (int*SettlPartySubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlPartySubID.SettlPartySubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlPartySubID.SettlPartySubID
 
 
 let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID) : int = 
@@ -22353,10 +20582,7 @@ let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID
 
 
 let ReadSettlPartySubIDType (pos:int) (bs:byte[]) : (int*SettlPartySubIDType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SettlPartySubIDType.SettlPartySubIDType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartySubIDType.SettlPartySubIDType
 
 
 let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubIDType) : int = 
@@ -22437,10 +20663,7 @@ let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationTy
 
 
 let ReadNextExpectedMsgSeqNum (pos:int) (bs:byte[]) : (int*NextExpectedMsgSeqNum) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
 
 
 let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpectedMsgSeqNum) : int = 
@@ -22455,10 +20678,7 @@ let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpec
 
 
 let ReadOrdStatusReqID (pos:int) (bs:byte[]) : (int*OrdStatusReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrdStatusReqID.OrdStatusReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrdStatusReqID.OrdStatusReqID
 
 
 let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) : int = 
@@ -22473,10 +20693,7 @@ let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) 
 
 
 let ReadSettlInstReqID (pos:int) (bs:byte[]) : (int*SettlInstReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SettlInstReqID.SettlInstReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstReqID.SettlInstReqID
 
 
 let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) : int = 
@@ -22531,10 +20748,7 @@ let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInst
 
 
 let ReadSecondaryAllocID (pos:int) (bs:byte[]) : (int*SecondaryAllocID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryAllocID.SecondaryAllocID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryAllocID.SecondaryAllocID
 
 
 let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAllocID) : int = 
@@ -22589,10 +20803,7 @@ let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportTy
 
 
 let ReadAllocReportRefID (pos:int) (bs:byte[]) : (int*AllocReportRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AllocReportRefID.AllocReportRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocReportRefID.AllocReportRefID
 
 
 let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRefID) : int = 
@@ -22633,10 +20844,7 @@ let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocC
 
 
 let ReadCopyMsgIndicator (pos:int) (bs:byte[]) : (int*CopyMsgIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = CopyMsgIndicator.CopyMsgIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) CopyMsgIndicator.CopyMsgIndicator
 
 
 let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicator) : int = 
@@ -22712,10 +20920,7 @@ let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccount
 
 
 let ReadOrderAvgPx (pos:int) (bs:byte[]) : (int*OrderAvgPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderAvgPx.OrderAvgPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderAvgPx.OrderAvgPx
 
 
 let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int = 
@@ -22730,10 +20935,7 @@ let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int =
 
 
 let ReadOrderBookingQty (pos:int) (bs:byte[]) : (int*OrderBookingQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderBookingQty.OrderBookingQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderBookingQty.OrderBookingQty
 
 
 let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty) : int = 
@@ -22748,10 +20950,7 @@ let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty
 
 
 let ReadNoSettlPartySubIDs (pos:int) (bs:byte[]) : (int*NoSettlPartySubIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoSettlPartySubIDs.NoSettlPartySubIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlPartySubIDs.NoSettlPartySubIDs
 
 
 let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartySubIDs) : int = 
@@ -22766,10 +20965,7 @@ let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlParty
 
 
 let ReadNoPartySubIDs (pos:int) (bs:byte[]) : (int*NoPartySubIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoPartySubIDs.NoPartySubIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPartySubIDs.NoPartySubIDs
 
 
 let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : int = 
@@ -22784,10 +20980,7 @@ let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : 
 
 
 let ReadPartySubIDType (pos:int) (bs:byte[]) : (int*PartySubIDType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = PartySubIDType.PartySubIDType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) PartySubIDType.PartySubIDType
 
 
 let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) : int = 
@@ -22802,10 +20995,7 @@ let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) 
 
 
 let ReadNoNestedPartySubIDs (pos:int) (bs:byte[]) : (int*NoNestedPartySubIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNestedPartySubIDs.NoNestedPartySubIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNestedPartySubIDs.NoNestedPartySubIDs
 
 
 let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartySubIDs) : int = 
@@ -22820,10 +21010,7 @@ let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPar
 
 
 let ReadNestedPartySubIDType (pos:int) (bs:byte[]) : (int*NestedPartySubIDType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NestedPartySubIDType.NestedPartySubIDType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartySubIDType.NestedPartySubIDType
 
 
 let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubIDType) : int = 
@@ -22838,10 +21025,7 @@ let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPart
 
 
 let ReadNoNested2PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested2PartySubIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNested2PartySubIDs.NoNested2PartySubIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested2PartySubIDs.NoNested2PartySubIDs
 
 
 let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartySubIDs) : int = 
@@ -22856,10 +21040,7 @@ let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2P
 
 
 let ReadNested2PartySubIDType (pos:int) (bs:byte[]) : (int*Nested2PartySubIDType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested2PartySubIDType.Nested2PartySubIDType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartySubIDType.Nested2PartySubIDType
 
 
 let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubIDType) : int = 
@@ -22928,10 +21109,7 @@ let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocInt
 
 
 let ReadUnderlyingPx (pos:int) (bs:byte[]) : (int*UnderlyingPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingPx.UnderlyingPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingPx.UnderlyingPx
 
 
 let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : int = 
@@ -22946,10 +21124,7 @@ let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : in
 
 
 let ReadPriceDelta (pos:int) (bs:byte[]) : (int*PriceDelta) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PriceDelta.PriceDelta tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriceDelta.PriceDelta
 
 
 let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int = 
@@ -22964,10 +21139,7 @@ let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int =
 
 
 let ReadApplQueueMax (pos:int) (bs:byte[]) : (int*ApplQueueMax) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = ApplQueueMax.ApplQueueMax tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ApplQueueMax.ApplQueueMax
 
 
 let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : int = 
@@ -22982,10 +21154,7 @@ let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : in
 
 
 let ReadApplQueueDepth (pos:int) (bs:byte[]) : (int*ApplQueueDepth) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = ApplQueueDepth.ApplQueueDepth tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ApplQueueDepth.ApplQueueDepth
 
 
 let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) : int = 
@@ -23080,10 +21249,7 @@ let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueActi
 
 
 let ReadNoAltMDSource (pos:int) (bs:byte[]) : (int*NoAltMDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoAltMDSource.NoAltMDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAltMDSource.NoAltMDSource
 
 
 let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : int = 
@@ -23098,10 +21264,7 @@ let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : 
 
 
 let ReadAltMDSourceID (pos:int) (bs:byte[]) : (int*AltMDSourceID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AltMDSourceID.AltMDSourceID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AltMDSourceID.AltMDSourceID
 
 
 let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : int = 
@@ -23116,10 +21279,7 @@ let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : 
 
 
 let ReadSecondaryTradeReportID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryTradeReportID.SecondaryTradeReportID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryTradeReportID.SecondaryTradeReportID
 
 
 let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportID) : int = 
@@ -23167,10 +21327,7 @@ let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator
 
 
 let ReadTradeLinkID (pos:int) (bs:byte[]) : (int*TradeLinkID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeLinkID.TradeLinkID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeLinkID.TradeLinkID
 
 
 let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int = 
@@ -23185,10 +21342,7 @@ let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int 
 
 
 let ReadOrderInputDevice (pos:int) (bs:byte[]) : (int*OrderInputDevice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = OrderInputDevice.OrderInputDevice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrderInputDevice.OrderInputDevice
 
 
 let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevice) : int = 
@@ -23203,10 +21357,7 @@ let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevi
 
 
 let ReadUnderlyingTradingSessionID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingTradingSessionID.UnderlyingTradingSessionID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingTradingSessionID.UnderlyingTradingSessionID
 
 
 let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionID) : int = 
@@ -23221,10 +21372,7 @@ let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:Unde
 
 
 let ReadUnderlyingTradingSessionSubID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID
 
 
 let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionSubID) : int = 
@@ -23239,10 +21387,7 @@ let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:U
 
 
 let ReadTradeLegRefID (pos:int) (bs:byte[]) : (int*TradeLegRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TradeLegRefID.TradeLegRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeLegRefID.TradeLegRefID
 
 
 let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : int = 
@@ -23257,10 +21402,7 @@ let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : 
 
 
 let ReadExchangeRule (pos:int) (bs:byte[]) : (int*ExchangeRule) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ExchangeRule.ExchangeRule tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExchangeRule.ExchangeRule
 
 
 let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : int = 
@@ -23423,10 +21565,7 @@ let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
 
 
 let ReadTrdSubType (pos:int) (bs:byte[]) : (int*TrdSubType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TrdSubType.TrdSubType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TrdSubType.TrdSubType
 
 
 let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int = 
@@ -23441,10 +21580,7 @@ let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int =
 
 
 let ReadTransferReason (pos:int) (bs:byte[]) : (int*TransferReason) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TransferReason.TransferReason tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransferReason.TransferReason
 
 
 let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) : int = 
@@ -23459,10 +21595,7 @@ let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) 
 
 
 let ReadAsgnReqID (pos:int) (bs:byte[]) : (int*AsgnReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AsgnReqID.AsgnReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AsgnReqID.AsgnReqID
 
 
 let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int = 
@@ -23477,10 +21610,7 @@ let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int =
 
 
 let ReadTotNumAssignmentReports (pos:int) (bs:byte[]) : (int*TotNumAssignmentReports) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNumAssignmentReports.TotNumAssignmentReports tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumAssignmentReports.TotNumAssignmentReports
 
 
 let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumAssignmentReports) : int = 
@@ -23495,10 +21625,7 @@ let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumA
 
 
 let ReadAsgnRptID (pos:int) (bs:byte[]) : (int*AsgnRptID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AsgnRptID.AsgnRptID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AsgnRptID.AsgnRptID
 
 
 let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int = 
@@ -23513,10 +21640,7 @@ let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int =
 
 
 let ReadThresholdAmount (pos:int) (bs:byte[]) : (int*ThresholdAmount) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ThresholdAmount.ThresholdAmount tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ThresholdAmount.ThresholdAmount
 
 
 let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount) : int = 
@@ -23656,10 +21780,7 @@ let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDir
 
 
 let ReadPeggedPrice (pos:int) (bs:byte[]) : (int*PeggedPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PeggedPrice.PeggedPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PeggedPrice.PeggedPrice
 
 
 let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int = 
@@ -23839,10 +21960,7 @@ let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:Disc
 
 
 let ReadDiscretionPrice (pos:int) (bs:byte[]) : (int*DiscretionPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = DiscretionPrice.DiscretionPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DiscretionPrice.DiscretionPrice
 
 
 let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice) : int = 
@@ -23897,10 +22015,7 @@ let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionSco
 
 
 let ReadTargetStrategy (pos:int) (bs:byte[]) : (int*TargetStrategy) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TargetStrategy.TargetStrategy tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TargetStrategy.TargetStrategy
 
 
 let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) : int = 
@@ -23915,10 +22030,7 @@ let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) 
 
 
 let ReadTargetStrategyParameters (pos:int) (bs:byte[]) : (int*TargetStrategyParameters) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TargetStrategyParameters.TargetStrategyParameters tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetStrategyParameters.TargetStrategyParameters
 
 
 let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyParameters) : int = 
@@ -23933,10 +22045,7 @@ let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:Target
 
 
 let ReadParticipationRate (pos:int) (bs:byte[]) : (int*ParticipationRate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ParticipationRate.ParticipationRate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ParticipationRate.ParticipationRate
 
 
 let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:ParticipationRate) : int = 
@@ -23951,10 +22060,7 @@ let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:Participation
 
 
 let ReadTargetStrategyPerformance (pos:int) (bs:byte[]) : (int*TargetStrategyPerformance) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = TargetStrategyPerformance.TargetStrategyPerformance tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) TargetStrategyPerformance.TargetStrategyPerformance
 
 
 let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyPerformance) : int = 
@@ -24002,10 +22108,7 @@ let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidit
 
 
 let ReadPublishTrdIndicator (pos:int) (bs:byte[]) : (int*PublishTrdIndicator) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = PublishTrdIndicator.PublishTrdIndicator tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PublishTrdIndicator.PublishTrdIndicator
 
 
 let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdIndicator) : int = 
@@ -24100,10 +22203,7 @@ let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
 
 
 let ReadSecondaryTrdType (pos:int) (bs:byte[]) : (int*SecondaryTrdType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SecondaryTrdType.SecondaryTrdType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SecondaryTrdType.SecondaryTrdType
 
 
 let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdType) : int = 
@@ -24212,10 +22312,7 @@ let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrde
 
 
 let ReadSharedCommission (pos:int) (bs:byte[]) : (int*SharedCommission) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = SharedCommission.SharedCommission tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SharedCommission.SharedCommission
 
 
 let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommission) : int = 
@@ -24230,10 +22327,7 @@ let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommissi
 
 
 let ReadConfirmReqID (pos:int) (bs:byte[]) : (int*ConfirmReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = ConfirmReqID.ConfirmReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmReqID.ConfirmReqID
 
 
 let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : int = 
@@ -24248,10 +22342,7 @@ let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : in
 
 
 let ReadAvgParPx (pos:int) (bs:byte[]) : (int*AvgParPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = AvgParPx.AvgParPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AvgParPx.AvgParPx
 
 
 let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int = 
@@ -24266,10 +22357,7 @@ let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int =
 
 
 let ReadReportedPx (pos:int) (bs:byte[]) : (int*ReportedPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = ReportedPx.ReportedPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ReportedPx.ReportedPx
 
 
 let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int = 
@@ -24284,10 +22372,7 @@ let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int =
 
 
 let ReadNoCapacities (pos:int) (bs:byte[]) : (int*NoCapacities) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoCapacities.NoCapacities tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCapacities.NoCapacities
 
 
 let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : int = 
@@ -24302,10 +22387,7 @@ let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : in
 
 
 let ReadOrderCapacityQty (pos:int) (bs:byte[]) : (int*OrderCapacityQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = OrderCapacityQty.OrderCapacityQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderCapacityQty.OrderCapacityQty
 
 
 let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQty) : int = 
@@ -24320,10 +22402,7 @@ let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQ
 
 
 let ReadNoEvents (pos:int) (bs:byte[]) : (int*NoEvents) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoEvents.NoEvents tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoEvents.NoEvents
 
 
 let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int = 
@@ -24385,10 +22464,7 @@ let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
 
 
 let ReadEventDate (pos:int) (bs:byte[]) : (int*EventDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = EventDate.EventDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EventDate.EventDate
 
 
 let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int = 
@@ -24403,10 +22479,7 @@ let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int =
 
 
 let ReadEventPx (pos:int) (bs:byte[]) : (int*EventPx) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = EventPx.EventPx tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) EventPx.EventPx
 
 
 let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int = 
@@ -24421,10 +22494,7 @@ let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int =
 
 
 let ReadEventText (pos:int) (bs:byte[]) : (int*EventText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = EventText.EventText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EventText.EventText
 
 
 let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int = 
@@ -24439,10 +22509,7 @@ let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int =
 
 
 let ReadPctAtRisk (pos:int) (bs:byte[]) : (int*PctAtRisk) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = PctAtRisk.PctAtRisk tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PctAtRisk.PctAtRisk
 
 
 let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int = 
@@ -24457,10 +22524,7 @@ let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int =
 
 
 let ReadNoInstrAttrib (pos:int) (bs:byte[]) : (int*NoInstrAttrib) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoInstrAttrib.NoInstrAttrib tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoInstrAttrib.NoInstrAttrib
 
 
 let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : int = 
@@ -24648,10 +22712,7 @@ let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribTy
 
 
 let ReadInstrAttribValue (pos:int) (bs:byte[]) : (int*InstrAttribValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = InstrAttribValue.InstrAttribValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InstrAttribValue.InstrAttribValue
 
 
 let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribValue) : int = 
@@ -24666,10 +22727,7 @@ let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribVal
 
 
 let ReadDatedDate (pos:int) (bs:byte[]) : (int*DatedDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = DatedDate.DatedDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DatedDate.DatedDate
 
 
 let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int = 
@@ -24684,10 +22742,7 @@ let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int =
 
 
 let ReadInterestAccrualDate (pos:int) (bs:byte[]) : (int*InterestAccrualDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = InterestAccrualDate.InterestAccrualDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InterestAccrualDate.InterestAccrualDate
 
 
 let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAccrualDate) : int = 
@@ -24702,10 +22757,7 @@ let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAcc
 
 
 let ReadCPProgram (pos:int) (bs:byte[]) : (int*CPProgram) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = CPProgram.CPProgram tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) CPProgram.CPProgram
 
 
 let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int = 
@@ -24720,10 +22772,7 @@ let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int =
 
 
 let ReadCPRegType (pos:int) (bs:byte[]) : (int*CPRegType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CPRegType.CPRegType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CPRegType.CPRegType
 
 
 let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int = 
@@ -24738,10 +22787,7 @@ let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int =
 
 
 let ReadUnderlyingCPProgram (pos:int) (bs:byte[]) : (int*UnderlyingCPProgram) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCPProgram.UnderlyingCPProgram tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCPProgram.UnderlyingCPProgram
 
 
 let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPProgram) : int = 
@@ -24756,10 +22802,7 @@ let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
 
 
 let ReadUnderlyingCPRegType (pos:int) (bs:byte[]) : (int*UnderlyingCPRegType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingCPRegType.UnderlyingCPRegType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCPRegType.UnderlyingCPRegType
 
 
 let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPRegType) : int = 
@@ -24774,10 +22817,7 @@ let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
 
 
 let ReadUnderlyingQty (pos:int) (bs:byte[]) : (int*UnderlyingQty) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingQty.UnderlyingQty tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingQty.UnderlyingQty
 
 
 let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : int = 
@@ -24792,10 +22832,7 @@ let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : 
 
 
 let ReadTrdMatchID (pos:int) (bs:byte[]) : (int*TrdMatchID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TrdMatchID.TrdMatchID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdMatchID.TrdMatchID
 
 
 let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int = 
@@ -24810,10 +22847,7 @@ let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int =
 
 
 let ReadSecondaryTradeReportRefID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = SecondaryTradeReportRefID.SecondaryTradeReportRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryTradeReportRefID.SecondaryTradeReportRefID
 
 
 let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportRefID) : int = 
@@ -24828,10 +22862,7 @@ let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:Secon
 
 
 let ReadUnderlyingDirtyPrice (pos:int) (bs:byte[]) : (int*UnderlyingDirtyPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingDirtyPrice.UnderlyingDirtyPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingDirtyPrice.UnderlyingDirtyPrice
 
 
 let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingDirtyPrice) : int = 
@@ -24846,10 +22877,7 @@ let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
 
 
 let ReadUnderlyingEndPrice (pos:int) (bs:byte[]) : (int*UnderlyingEndPrice) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = UnderlyingEndPrice.UnderlyingEndPrice tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingEndPrice.UnderlyingEndPrice
 
 
 let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndPrice) : int = 
@@ -24864,10 +22892,7 @@ let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
 
 
 let ReadUnderlyingStartValue (pos:int) (bs:byte[]) : (int*UnderlyingStartValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingStartValue.UnderlyingStartValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingStartValue.UnderlyingStartValue
 
 
 let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStartValue) : int = 
@@ -24882,10 +22907,7 @@ let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
 
 
 let ReadUnderlyingCurrentValue (pos:int) (bs:byte[]) : (int*UnderlyingCurrentValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingCurrentValue.UnderlyingCurrentValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingCurrentValue.UnderlyingCurrentValue
 
 
 let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrentValue) : int = 
@@ -24900,10 +22922,7 @@ let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
 
 
 let ReadUnderlyingEndValue (pos:int) (bs:byte[]) : (int*UnderlyingEndValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = UnderlyingEndValue.UnderlyingEndValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingEndValue.UnderlyingEndValue
 
 
 let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndValue) : int = 
@@ -24918,10 +22937,7 @@ let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
 
 
 let ReadNoUnderlyingStips (pos:int) (bs:byte[]) : (int*NoUnderlyingStips) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoUnderlyingStips.NoUnderlyingStips tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyingStips.NoUnderlyingStips
 
 
 let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingStips) : int = 
@@ -24936,10 +22952,7 @@ let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingS
 
 
 let ReadUnderlyingStipType (pos:int) (bs:byte[]) : (int*UnderlyingStipType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingStipType.UnderlyingStipType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStipType.UnderlyingStipType
 
 
 let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipType) : int = 
@@ -24954,10 +22967,7 @@ let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSt
 
 
 let ReadUnderlyingStipValue (pos:int) (bs:byte[]) : (int*UnderlyingStipValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingStipValue.UnderlyingStipValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStipValue.UnderlyingStipValue
 
 
 let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipValue) : int = 
@@ -24972,10 +22982,7 @@ let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
 
 
 let ReadMaturityNetMoney (pos:int) (bs:byte[]) : (int*MaturityNetMoney) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MaturityNetMoney.MaturityNetMoney tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MaturityNetMoney.MaturityNetMoney
 
 
 let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMoney) : int = 
@@ -25023,10 +23030,7 @@ let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : 
 
 
 let ReadTotNoAllocs (pos:int) (bs:byte[]) : (int*TotNoAllocs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNoAllocs.TotNoAllocs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoAllocs.TotNoAllocs
 
 
 let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int = 
@@ -25041,10 +23045,7 @@ let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int 
 
 
 let ReadLastFragment (pos:int) (bs:byte[]) : (int*LastFragment) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = LastFragment.LastFragment tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LastFragment.LastFragment
 
 
 let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : int = 
@@ -25059,10 +23060,7 @@ let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : in
 
 
 let ReadCollReqID (pos:int) (bs:byte[]) : (int*CollReqID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollReqID.CollReqID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollReqID.CollReqID
 
 
 let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int = 
@@ -25213,10 +23211,7 @@ let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInqu
 
 
 let ReadNoTrades (pos:int) (bs:byte[]) : (int*NoTrades) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoTrades.NoTrades tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTrades.NoTrades
 
 
 let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int = 
@@ -25231,10 +23226,7 @@ let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int =
 
 
 let ReadMarginRatio (pos:int) (bs:byte[]) : (int*MarginRatio) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToDecimal valIn
-    let fld = MarginRatio.MarginRatio tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MarginRatio.MarginRatio
 
 
 let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int = 
@@ -25249,10 +23241,7 @@ let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int 
 
 
 let ReadMarginExcess (pos:int) (bs:byte[]) : (int*MarginExcess) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = MarginExcess.MarginExcess tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MarginExcess.MarginExcess
 
 
 let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : int = 
@@ -25267,10 +23256,7 @@ let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : in
 
 
 let ReadTotalNetValue (pos:int) (bs:byte[]) : (int*TotalNetValue) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotalNetValue.TotalNetValue tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalNetValue.TotalNetValue
 
 
 let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : int = 
@@ -25285,10 +23271,7 @@ let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : 
 
 
 let ReadCashOutstanding (pos:int) (bs:byte[]) : (int*CashOutstanding) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = CashOutstanding.CashOutstanding tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) CashOutstanding.CashOutstanding
 
 
 let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding) : int = 
@@ -25303,10 +23286,7 @@ let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding
 
 
 let ReadCollAsgnID (pos:int) (bs:byte[]) : (int*CollAsgnID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollAsgnID.CollAsgnID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollAsgnID.CollAsgnID
 
 
 let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int = 
@@ -25368,10 +23348,7 @@ let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTra
 
 
 let ReadCollRespID (pos:int) (bs:byte[]) : (int*CollRespID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollRespID.CollRespID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollRespID.CollRespID
 
 
 let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int = 
@@ -25487,10 +23464,7 @@ let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgn
 
 
 let ReadCollAsgnRefID (pos:int) (bs:byte[]) : (int*CollAsgnRefID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollAsgnRefID.CollAsgnRefID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollAsgnRefID.CollAsgnRefID
 
 
 let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : int = 
@@ -25505,10 +23479,7 @@ let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : 
 
 
 let ReadCollRptID (pos:int) (bs:byte[]) : (int*CollRptID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollRptID.CollRptID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollRptID.CollRptID
 
 
 let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int = 
@@ -25523,10 +23494,7 @@ let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int =
 
 
 let ReadCollInquiryID (pos:int) (bs:byte[]) : (int*CollInquiryID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = CollInquiryID.CollInquiryID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollInquiryID.CollInquiryID
 
 
 let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : int = 
@@ -25588,10 +23556,7 @@ let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int 
 
 
 let ReadTotNumReports (pos:int) (bs:byte[]) : (int*TotNumReports) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = TotNumReports.TotNumReports tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumReports.TotNumReports
 
 
 let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : int = 
@@ -25606,10 +23571,7 @@ let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : 
 
 
 let ReadLastRptRequested (pos:int) (bs:byte[]) : (int*LastRptRequested) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToBool valIn
-    let fld = LastRptRequested.LastRptRequested tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LastRptRequested.LastRptRequested
 
 
 let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequested) : int = 
@@ -25624,10 +23586,7 @@ let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequest
 
 
 let ReadAgreementDesc (pos:int) (bs:byte[]) : (int*AgreementDesc) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AgreementDesc.AgreementDesc tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementDesc.AgreementDesc
 
 
 let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : int = 
@@ -25642,10 +23601,7 @@ let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : 
 
 
 let ReadAgreementID (pos:int) (bs:byte[]) : (int*AgreementID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AgreementID.AgreementID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementID.AgreementID
 
 
 let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int = 
@@ -25660,10 +23616,7 @@ let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int 
 
 
 let ReadAgreementDate (pos:int) (bs:byte[]) : (int*AgreementDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AgreementDate.AgreementDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementDate.AgreementDate
 
 
 let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : int = 
@@ -25678,10 +23631,7 @@ let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : 
 
 
 let ReadStartDate (pos:int) (bs:byte[]) : (int*StartDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StartDate.StartDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StartDate.StartDate
 
 
 let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int = 
@@ -25696,10 +23646,7 @@ let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int =
 
 
 let ReadEndDate (pos:int) (bs:byte[]) : (int*EndDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = EndDate.EndDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EndDate.EndDate
 
 
 let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int = 
@@ -25714,10 +23661,7 @@ let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int =
 
 
 let ReadAgreementCurrency (pos:int) (bs:byte[]) : (int*AgreementCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = AgreementCurrency.AgreementCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementCurrency.AgreementCurrency
 
 
 let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurrency) : int = 
@@ -25772,10 +23716,7 @@ let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : 
 
 
 let ReadEndAccruedInterestAmt (pos:int) (bs:byte[]) : (int*EndAccruedInterestAmt) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = EndAccruedInterestAmt.EndAccruedInterestAmt tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndAccruedInterestAmt.EndAccruedInterestAmt
 
 
 let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccruedInterestAmt) : int = 
@@ -25790,10 +23731,7 @@ let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccrue
 
 
 let ReadStartCash (pos:int) (bs:byte[]) : (int*StartCash) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = StartCash.StartCash tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) StartCash.StartCash
 
 
 let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int = 
@@ -25808,10 +23746,7 @@ let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int =
 
 
 let ReadEndCash (pos:int) (bs:byte[]) : (int*EndCash) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = EndCash.EndCash tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndCash.EndCash
 
 
 let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int = 
@@ -25826,10 +23761,7 @@ let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int =
 
 
 let ReadUserRequestID (pos:int) (bs:byte[]) : (int*UserRequestID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UserRequestID.UserRequestID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UserRequestID.UserRequestID
 
 
 let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : int = 
@@ -25884,10 +23816,7 @@ let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestTy
 
 
 let ReadNewPassword (pos:int) (bs:byte[]) : (int*NewPassword) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = NewPassword.NewPassword tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NewPassword.NewPassword
 
 
 let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int = 
@@ -25956,10 +23885,7 @@ let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int 
 
 
 let ReadUserStatusText (pos:int) (bs:byte[]) : (int*UserStatusText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UserStatusText.UserStatusText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UserStatusText.UserStatusText
 
 
 let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) : int = 
@@ -26014,10 +23940,7 @@ let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : in
 
 
 let ReadStatusText (pos:int) (bs:byte[]) : (int*StatusText) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StatusText.StatusText tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StatusText.StatusText
 
 
 let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int = 
@@ -26032,10 +23955,7 @@ let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int =
 
 
 let ReadRefCompID (pos:int) (bs:byte[]) : (int*RefCompID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RefCompID.RefCompID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefCompID.RefCompID
 
 
 let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int = 
@@ -26050,10 +23970,7 @@ let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int =
 
 
 let ReadRefSubID (pos:int) (bs:byte[]) : (int*RefSubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = RefSubID.RefSubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefSubID.RefSubID
 
 
 let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int = 
@@ -26068,10 +23985,7 @@ let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int =
 
 
 let ReadNetworkResponseID (pos:int) (bs:byte[]) : (int*NetworkResponseID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = NetworkResponseID.NetworkResponseID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NetworkResponseID.NetworkResponseID
 
 
 let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkResponseID) : int = 
@@ -26086,10 +24000,7 @@ let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRespon
 
 
 let ReadNetworkRequestID (pos:int) (bs:byte[]) : (int*NetworkRequestID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = NetworkRequestID.NetworkRequestID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NetworkRequestID.NetworkRequestID
 
 
 let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequestID) : int = 
@@ -26104,10 +24015,7 @@ let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequest
 
 
 let ReadLastNetworkResponseID (pos:int) (bs:byte[]) : (int*LastNetworkResponseID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LastNetworkResponseID.LastNetworkResponseID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastNetworkResponseID.LastNetworkResponseID
 
 
 let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetworkResponseID) : int = 
@@ -26162,10 +24070,7 @@ let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkReq
 
 
 let ReadNoCompIDs (pos:int) (bs:byte[]) : (int*NoCompIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoCompIDs.NoCompIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCompIDs.NoCompIDs
 
 
 let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int = 
@@ -26206,10 +24111,7 @@ let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Net
 
 
 let ReadNoCollInquiryQualifier (pos:int) (bs:byte[]) : (int*NoCollInquiryQualifier) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoCollInquiryQualifier.NoCollInquiryQualifier tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCollInquiryQualifier.NoCollInquiryQualifier
 
 
 let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollInquiryQualifier) : int = 
@@ -26283,10 +24185,7 @@ let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : 
 
 
 let ReadUnderlyingStrikeCurrency (pos:int) (bs:byte[]) : (int*UnderlyingStrikeCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = UnderlyingStrikeCurrency.UnderlyingStrikeCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
 
 
 let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikeCurrency) : int = 
@@ -26301,10 +24200,7 @@ let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Underl
 
 
 let ReadLegStrikeCurrency (pos:int) (bs:byte[]) : (int*LegStrikeCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegStrikeCurrency.LegStrikeCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStrikeCurrency.LegStrikeCurrency
 
 
 let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurrency) : int = 
@@ -26319,10 +24215,7 @@ let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurr
 
 
 let ReadTimeBracket (pos:int) (bs:byte[]) : (int*TimeBracket) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = TimeBracket.TimeBracket tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TimeBracket.TimeBracket
 
 
 let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int = 
@@ -26506,10 +24399,7 @@ let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
 
 
 let ReadStrikeCurrency (pos:int) (bs:byte[]) : (int*StrikeCurrency) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = StrikeCurrency.StrikeCurrency tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StrikeCurrency.StrikeCurrency
 
 
 let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) : int = 
@@ -26524,10 +24414,7 @@ let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) 
 
 
 let ReadNoNested3PartyIDs (pos:int) (bs:byte[]) : (int*NoNested3PartyIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNested3PartyIDs.NoNested3PartyIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested3PartyIDs.NoNested3PartyIDs
 
 
 let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartyIDs) : int = 
@@ -26542,10 +24429,7 @@ let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3Part
 
 
 let ReadNested3PartyID (pos:int) (bs:byte[]) : (int*Nested3PartyID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Nested3PartyID.Nested3PartyID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested3PartyID.Nested3PartyID
 
 
 let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) : int = 
@@ -26560,10 +24444,7 @@ let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) 
 
 
 let ReadNested3PartyIDSource (pos:int) (bs:byte[]) : (int*Nested3PartyIDSource) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested3PartyIDSource.Nested3PartyIDSource tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartyIDSource.Nested3PartyIDSource
 
 
 let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyIDSource) : int = 
@@ -26578,10 +24459,7 @@ let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Par
 
 
 let ReadNested3PartyRole (pos:int) (bs:byte[]) : (int*Nested3PartyRole) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested3PartyRole.Nested3PartyRole tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartyRole.Nested3PartyRole
 
 
 let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRole) : int = 
@@ -26596,10 +24474,7 @@ let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRo
 
 
 let ReadNoNested3PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested3PartySubIDs) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = NoNested3PartySubIDs.NoNested3PartySubIDs tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested3PartySubIDs.NoNested3PartySubIDs
 
 
 let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartySubIDs) : int = 
@@ -26614,10 +24489,7 @@ let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3P
 
 
 let ReadNested3PartySubID (pos:int) (bs:byte[]) : (int*Nested3PartySubID) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = Nested3PartySubID.Nested3PartySubID tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested3PartySubID.Nested3PartySubID
 
 
 let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubID) : int = 
@@ -26632,10 +24504,7 @@ let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyS
 
 
 let ReadNested3PartySubIDType (pos:int) (bs:byte[]) : (int*Nested3PartySubIDType) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToInt32 valIn
-    let fld = Nested3PartySubIDType.Nested3PartySubIDType tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartySubIDType.Nested3PartySubIDType
 
 
 let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubIDType) : int = 
@@ -26650,10 +24519,7 @@ let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Pa
 
 
 let ReadLegContractSettlMonth (pos:int) (bs:byte[]) : (int*LegContractSettlMonth) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegContractSettlMonth.LegContractSettlMonth tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegContractSettlMonth.LegContractSettlMonth
 
 
 let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContractSettlMonth) : int = 
@@ -26668,10 +24534,7 @@ let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
 
 
 let ReadLegInterestAccrualDate (pos:int) (bs:byte[]) : (int*LegInterestAccrualDate) =
-    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs
-    let tmp = ReadWriteFuncs.bytesToStr valIn
-    let fld = LegInterestAccrualDate.LegInterestAccrualDate tmp
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegInterestAccrualDate.LegInterestAccrualDate
 
 
 let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInterestAccrualDate) : int = 

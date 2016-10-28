@@ -46,6 +46,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
     <Compile Include="SocketIOUtils.fs" />
+    <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadWriteFuncs.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
