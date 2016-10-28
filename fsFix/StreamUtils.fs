@@ -12,18 +12,7 @@ type Stream with
     member this.Write bs = this.Write(bs, 0, bs.Length)
 
 // todo: CrapReadUntilDelim needs to be replaced with something less crap, that does not read one byte at a time
-// todo: return byte arrays, or views into a byte array instead of a string
-let CrapReadUntilDelim (strm:Stream) : string =
-    let rec innerRead () : int list =
-        match strm.ReadByte() with    // annoyingly ReadByte returns an int32
-        | -1    ->  failwith "unexpected end of stream"
-        | 1     ->  []
-        | b     ->  b :: innerRead () 
-    let chars = innerRead() |> List.map System.Convert.ToChar |> Array.ofList
-    System.String chars
-
-
-let CrapReadUntilDelim2 (strm:Stream) : byte[] =
+let CrapReadUntilDelim (strm:Stream) : byte[] =
     let rec innerRead () : byte list =
         match strm.ReadByte() with    // annoyingly ReadByte returns an int32
         | -1    ->  failwith "unexpected end of stream"
@@ -59,7 +48,7 @@ let parseTagValue (bs:byte[]) =
     
 
 let rec ReadTagValuesUntilChecksumInner (src:Stream) : TagValue list = 
-    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    let tagVal = CrapReadUntilDelim src |> parseTagValue
     match tagVal.Tag with 
     | "10"B ->  [tagVal]
     | "95"B ->  let lenVal = bytesToInt32 tagVal.Value
@@ -76,13 +65,13 @@ let rec ReadTagValuesUntilChecksumInner (src:Stream) : TagValue list =
 
 
 let rec ReadTagValuesUntilBodyLength (src:Stream) : TagValue list = 
-    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    let tagVal = CrapReadUntilDelim src |> parseTagValue
     match tagVal.Tag with 
     | "9"B ->  [tagVal]
     | _     ->  tagVal :: ReadTagValuesUntilBodyLength src
 
 let rec ReadTagValuesUntilCheckSum (src:Stream) : TagValue list = 
-    let tagVal = CrapReadUntilDelim2 src |> parseTagValue
+    let tagVal = CrapReadUntilDelim src |> parseTagValue
     match tagVal.Tag with 
     | "10"B ->  [tagVal]
     | _     ->  tagVal :: ReadTagValuesUntilCheckSum src
@@ -93,21 +82,6 @@ let ReadTagValuesUntilChecksum (src:System.IO.Stream) : TagValue array =
     let tvs = ReadTagValuesUntilChecksumInner  src
     tvs |> Array.ofList
 
-
-
-// the checksum value is always three digits long, as is the tag
-//let checkSumLen = 6
-//
-//// todo: careful not to confuse rawData with a checksum
-//let findCheckSumPos (pos:int) (bs:byte[]) =
-//    let mutable found = false
-//    let mutable ctr = pos - checkSumLen
-//    while ctr >= 0 && (not found)  do
-//        if bs.[ctr] = 49uy && bs.[ctr+1] = 48uy && bs.[ctr+2] = 61uy then
-//            found <- true
-//        else
-//            ctr <- ctr - 1
-//    ctr // will be -1 if 
 
 
 // todo: deal with partial bytes from previous reads
