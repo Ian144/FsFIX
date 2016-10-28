@@ -1,6 +1,6 @@
-﻿module StreamUtils
+﻿[<RequireQualifiedAccess>]
+module StreamUtils
 
-open System
 open System.IO
 
 open Conversions
@@ -32,7 +32,7 @@ let CrapReadUntilEq (strm:Stream) : byte[] =
 type TagValue = { Tag:byte[]; Value:byte[]}
 
 
-let findIdx (bs:byte []) =
+let private findIdx (bs:byte []) =
     let mutable ctr = 0
     while (bs.[ctr] <> 61uy) && ctr < bs.Length do
         ctr <- ctr + 1

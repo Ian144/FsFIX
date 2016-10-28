@@ -1,7 +1,5 @@
 ﻿module FieldFuncs
 
-open System
-
 
 
 

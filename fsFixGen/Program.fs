@@ -32,7 +32,7 @@ let main _ =
     use swFieldReadWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadWriteFuncs.fs")
     
     printfn "reading and generating FIX field source"
-    let fieldData = FieldGenerator.ParseFieldData2 xpthFields 
+    let fieldData = FieldGenerator.ParseFieldData xpthFields 
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fieldData
     FieldGenerator.Gen mergedFields swFixFields swFieldReadWriteFuncs
 

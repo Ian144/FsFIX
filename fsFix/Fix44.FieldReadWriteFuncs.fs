@@ -4,7 +4,6 @@ module Fix44.FieldReadWriteFuncs
 open System
 open Fix44.Fields
 open Conversions
-open StreamUtils
 open FieldFuncs
 
 

@@ -1,4 +1,5 @@
-﻿module ParsingFuncs
+﻿[<RequireQualifiedAccess>]
+module ParsingFuncs
 
 open System.Xml.Linq
 

@@ -7,9 +7,6 @@ open System.IO
 open System.Xml.Linq
 open System.Xml.XPath
 
-open ParsingFuncs
-
-
 
 
 type FieldDUCase = { Enum:string; Description:string }
@@ -216,18 +213,18 @@ let MergeLenFields (fds:SimpleField list) =
 
 
 
-let ParseFieldData2 (parentXL:XElement) : SimpleField list =
+let ParseFieldData (parentXL:XElement) : SimpleField list =
     let fieldsXL = parentXL.XPathSelectElements "field"
     [   for fieldXL in fieldsXL do
-        let fldNumber = gas fieldXL "number" |> System.Convert.ToInt32
-        let name = gas fieldXL "name"
+        let fldNumber = ParsingFuncs.gas fieldXL "number" |> System.Convert.ToInt32
+        let name = ParsingFuncs.gas fieldXL "name"
         let fldName = name.Trim()
-        let fldType = gas fieldXL "type"
+        let fldType = ParsingFuncs.gas fieldXL "type"
         let valuesXLs = fieldXL.XPathSelectElements "value"
         let values =
             [   for valueXL in valuesXLs do
-                let desc = gas valueXL "description"
-                let eenum = gas valueXL "enum"
+                let desc = ParsingFuncs.gas valueXL "description"
+                let eenum = ParsingFuncs.gas valueXL "enum"
                 let duName = correctDUNames desc
                 yield {Description = duName; Enum  = eenum}  ]
         yield {FixTag = fldNumber; Name = name; Type = fldType; Values = values}
