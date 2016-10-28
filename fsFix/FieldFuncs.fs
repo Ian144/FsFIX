@@ -34,6 +34,12 @@ let ReadSingleCaseDUStrField (pos:int) (bs:byte[]) fldCtor =
     let fld = fldCtor tmp
     pos2 + 1, fld // +1 to advance the position to after the field separator
 
+let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
+    let pos2, bs = ByteArrayUtils.readValAfterTagValSep pos bs
+    let fld = fldCtor bs
+    pos2 + 1, fld // +1 to advance the position to after the field separator
+
+
 
 // todo: microbenchmark inlining this func
 let ReadLengthStringCompoundField (strTagExpected:byte[]) (pos:int) (bs:byte[]) fldCtor =

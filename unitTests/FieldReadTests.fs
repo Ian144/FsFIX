@@ -99,8 +99,17 @@ let ``read compound len+str pair, containing a tag-value seperator in the string
 
 
 [<Fact>]
-let ``read RawDataLength`` () = 
-    test<@ false @>
+let ``AA read RawDataLength`` () = 
+    let input = [| 
+            yield! "95=7"B; yield 1uy       // raw data length
+            yield! "96=aaa=aaa"B; yield 1uy // raw data containing tag-value separator
+            //yield! "10=000"B; yield 1uy     // the checksum field
+        |]
+
+    let pos = 3 // the tag and the the tag value separator have been read
+    let posOut, fld = ReadRawData pos input
+    test<@ (RawData.RawData "aaa=aaa"B) = fld @>
+    test<@ input.Length = posOut @>
 
 
 [<Fact>]

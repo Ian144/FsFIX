@@ -2,6 +2,7 @@ module Fix44.FieldReadWriteFuncs
 
 
 open System
+open System.IO
 open Fix44.Fields
 open Conversions
 open FieldFuncs
@@ -3187,7 +3188,7 @@ let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : 
 
 
 let ReadSignature (pos:int) (bs:byte[]) : (int*Signature) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Signature.Signature
+    ReadSingleCaseDUDataField (pos:int) (bs:byte[]) Signature.Signature
 
 
 let WriteSignature (dest:byte []) (nextFreeIdx:int) (valIn:Signature) : int = 
@@ -3292,7 +3293,7 @@ let WriteRawDataLength (dest:byte []) (nextFreeIdx:int) (valIn:RawDataLength) : 
 
 
 let ReadRawData (pos:int) (bs:byte[]) : (int*RawData) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RawData.RawData
+    ReadSingleCaseDUDataField (pos:int) (bs:byte[]) RawData.RawData
 
 
 let WriteRawData (dest:byte []) (nextFreeIdx:int) (valIn:RawData) : int = 

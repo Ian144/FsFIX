@@ -1,4 +1,5 @@
-﻿module MessageGenerator
+﻿[<RequireQualifiedAccess>]
+module MessageGenerator
 
 open System.IO
 open System.Xml.Linq

@@ -35,7 +35,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
             yield  sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" typeName typeName 
-            yield  sprintf "    let pos2, valIn = ReadWriteFuncs.readValAfterTagValSep pos bs"
+            yield  sprintf "    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs"
             yield  sprintf "    let fld = "
             yield  sprintf "        match valIn with"
             yield! values |> List.map (fun vv -> 
@@ -93,6 +93,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "decimal" -> "ReadSingleCaseDUDecimalField"
     | "bool"    -> "ReadSingleCaseDUBoolField"
     | "string"  -> "ReadSingleCaseDUStrField"
+    | "byte []" -> "ReadSingleCaseDUDataField"
     | _         -> failwith "unknown type name"
 
 
@@ -140,7 +141,7 @@ let private createFieldTypes (fd2:SimpleField) =
     | "CHAR",                   true    -> makeSingleCaseDU typeName fixNumber "int"
     | "COUNTRY",                true    -> makeSingleCaseDU typeName fixNumber "string"
     | "CURRENCY",               true    -> makeSingleCaseDU typeName fixNumber "string"
-    | "DATA",                   true    -> makeSingleCaseDU typeName fixNumber "string"
+    | "DATA",                   true    -> makeSingleCaseDU typeName fixNumber "byte []"
     | "DAYOFMONTH",             true    -> makeSingleCaseDU typeName fixNumber "int"
     | "EXCHANGE",               true    -> makeSingleCaseDU typeName fixNumber "string"
     | "FLOAT",                  true    -> makeSingleCaseDU typeName fixNumber "decimal"
@@ -178,8 +179,8 @@ let private createFieldTypes (fd2:SimpleField) =
 
 // merge len fields and the corresponding string fields into a CmpdField, other fields are in a SngleField
 let MergeLenFields (fds:SimpleField list) =
-    let isLenFieldName (fn:string) =  System.Text.RegularExpressions.Regex.IsMatch(fn, ".*Len\z" )
-    let stripLen (fn:string) = fn.Substring (0, (fn.Length - 3) )
+    let isLenFieldName (fldName:string) =  System.Text.RegularExpressions.Regex.IsMatch(fldName, ".*Len\z" )
+    let stripLen (fieldName:string) = fieldName.Substring (0, (fieldName.Length - 3) )
     let nameToFieldMap = fds |> List.map (fun fd -> fd.Name, fd) |> Map.ofList
 
     let lenFields = fds |> List.filter (fun fd -> isLenFieldName fd.Name)
@@ -311,7 +312,6 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
     swRWFuncs.WriteLine "open System.IO"
     swRWFuncs.WriteLine "open Fix44.Fields"
     swRWFuncs.WriteLine "open Conversions"
-    swRWFuncs.WriteLine "open ReadWriteFuncs"
     swRWFuncs.WriteLine "open FieldFuncs"
     swRWFuncs.WriteLine ""
     swRWFuncs.WriteLine ""

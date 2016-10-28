@@ -653,7 +653,7 @@ type AllocRejCode =
 
 
 type Signature =
-    |Signature of string
+    |Signature of byte []
      member x.Value = let (Signature v) = x in v
 
 
@@ -680,7 +680,7 @@ type RawDataLength =
 
 
 type RawData =
-    |RawData of string
+    |RawData of byte []
      member x.Value = let (RawData v) = x in v
 
 
