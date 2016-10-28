@@ -357,17 +357,17 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
 
 
 
-//    swRWFuncs.WriteLine ""
-//    swRWFuncs.WriteLine ""
-//    swRWFuncs.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-//    swRWFuncs.WriteLine  "let ReadField (curPos:int) (bs:byte[]) : int ="
-//    swRWFuncs.WriteLine  "    let fld =    "
-//    swRWFuncs.WriteLine  "        match tag with"
-//    fieldData |> Seq.iter (fun fd ->
-//            let ss =
-//                match fd with
-//                | SimpleField fd      ->   sprintf "        | \"%d\"B -> Read%s raw |> FIXField.%s" fd.FixTag  fd.Name fd.Name
-//                | CompoundField fd    ->   sprintf "        | \"%d\"B -> Read%s raw strm|> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
-//            swRWFuncs.WriteLine ss )
-//    swRWFuncs.WriteLine "        |  _  -> failwith \"FIXField invalid tag\" "
-//    swRWFuncs.WriteLine "    fld"
+    swRWFuncs.WriteLine ""
+    swRWFuncs.WriteLine ""
+    swRWFuncs.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
+    swRWFuncs.WriteLine  "let ReadField (pos:int) (bs:byte[]) ="
+    swRWFuncs.WriteLine  "    let pos2, tag = ByteArrayUtils.readTag pos bs"
+    swRWFuncs.WriteLine  "    let pos2 = pos2 + 1 // move past the tag-value separator"
+    swRWFuncs.WriteLine  "    match tag with"
+    fieldData |> Seq.iter (fun fd ->
+            let ss =
+                match fd with
+                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s" fd.FixTag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
+            swRWFuncs.WriteLine ss )
+    swRWFuncs.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "

@@ -4,7 +4,9 @@ open System
 
 let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
+
 let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
+
 
 let bytesToBool (bs:byte[]) =
     let ii = bytesToInt32 bs
@@ -13,6 +15,7 @@ let bytesToBool (bs:byte[]) =
     | 1 ->  true
     | _ ->  failwith (sprintf "invalid value for bool field: %d" ii) 
     
+
 let bytesToDecimal (bs:byte[]) = 
     let ss = bs |> bytesToStr
     match Decimal.TryParse(ss) with
@@ -20,10 +23,10 @@ let bytesToDecimal (bs:byte[]) =
     | true, dd  -> dd
 
 
-
 let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
 
-// function overloading in F#
+
+// how function overloading is done in F#
 [<AbstractClass;Sealed>]
 type ToBytes private () =
     static member Convert (str:string) = sToB str
