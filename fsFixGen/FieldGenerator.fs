@@ -137,31 +137,31 @@ let private createFieldTypes (field:SimpleField) =
     match fieldType, (Seq.isEmpty values) with
     | "AMT",                    true    -> makeSingleCaseDU fieldName tag "int"
     | "BOOLEAN",                true    -> makeSingleCaseDU fieldName tag "bool"
-    | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "int"
+    | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "int" // todo, store char as a byte|char
     | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string"
     | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"
     | "DATA",                   true    -> makeSingleCaseDU fieldName tag "byte []"
-    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "int"
+    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store dayofmonth as a uint|ushort
     | "EXCHANGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "FLOAT",                  true    -> makeSingleCaseDU fieldName tag "decimal"
     | "INT",                    true    -> makeSingleCaseDU fieldName tag "int"
     | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
-    | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"
-    | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type
-    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type
+    | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"     //todo: store length as a uint??
+    | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
+    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
-    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"
+    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store numingroup as a uint?
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICE",                  true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICEOFFSET",            true    -> makeSingleCaseDU fieldName tag "decimal"
     | "QTY",                    true    -> makeSingleCaseDU fieldName tag "decimal"
-    | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"
+    | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"     // todo: represent seqnum as a uint?
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
-    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type
-    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type
-    | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCDATEONLY as string, use appropriate type
-    | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMEONLY as string, use appropriate type
-    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMESTAMP as string, use appropriate type
+    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
+    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
+    | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCDATEONLY as string, use appropriate type (use NODA TIME)
+    | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMEONLY as string, use appropriate type (use NODA TIME)
+    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMESTAMP as string, use appropriate type (use NODA TIME)
     | "XMLDATA",                true    -> makeSingleCaseDU fieldName tag "string"
     | "INT",                    false   -> createFieldDUWithValues fieldName tag values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
     | "CHAR",                   false   -> createFieldDUWithValues fieldName tag values
