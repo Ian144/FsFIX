@@ -97,26 +97,40 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | _         -> failwith "unknown type name"
 
 
-let private makeSingleCaseDUWriterFunc (typeName:string) (fixTag:int) =
+
+let private getSingleCaseDUWriteFuncString (fieldType:string) =
+    match fieldType with
+    | "int"     -> "WriteFieldInt"
+    | "decimal" -> "WriteFieldDecimal"
+    | "bool"    -> "WriteFieldBool"
+    | "string"  -> "WriteFieldStr"
+    | "byte []" -> "WriteFieldData"
+    | _         -> failwith "unknown type name"
+
+
+
+let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (fixTag:int) =
+    let writeFunc = getSingleCaseDUWriteFuncString wrappedType
     let lines = [
-            sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (valIn:%s) : int = " typeName typeName
-            sprintf "   let tag = \"%d=\"B" fixTag
-            sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
-            sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
-            sprintf "   let bs = ToBytes.Convert(valIn.Value)"
-            sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
-            sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
-            sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
-            sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
+            sprintf "let Write%s (dest:byte []) (pos:int) (valIn:%s) : int = " fieldName fieldName
+            sprintf "    %s dest pos \"%d=\"B valIn" writeFunc fixTag
+//            sprintf "   let tag = \"%d=\"B" fixTag
+//            sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
+//            sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
+//            sprintf "   let bs = ToBytes.Convert(valIn.Value)"
+//            sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
+//            sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
+//            sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
+//            sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
     ]
     Utils.joinStrs "\n" lines
 
 
 let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
-    let commonReadFunc = getSingleCaseDUReadFuncString wrappedType
+    let readFunc = getSingleCaseDUReadFuncString wrappedType
     let lines = [
             sprintf "let Read%s (pos:int) (bs:byte[]) : (int*%s) =" fieldName fieldName
-            sprintf "    %s (pos:int) (bs:byte[]) %s.%s" commonReadFunc fieldName fieldName
+            sprintf "    %s pos bs %s.%s" readFunc fieldName fieldName
     ]    
     Utils.joinStrs "\n" lines
 
@@ -125,7 +139,7 @@ let private makeSingleCaseDU (fieldName:string) (tag:int) (innerType:string) =
     let fieldDefStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" fieldName fieldName innerType fieldName
     //let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
     let readerFunc = makeSingleCaseDUReaderFunc innerType fieldName
-    let writerFunc = makeSingleCaseDUWriterFunc fieldName tag
+    let writerFunc = makeSingleCaseDUWriterFunc  innerType fieldName tag
     fieldDefStr, readerFunc, writerFunc
 
 
