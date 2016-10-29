@@ -188,9 +188,7 @@ let ``read msg`` () =
     ms.Write (input, 0, input.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
 
-    //let fld = Fix44.FieldReadWriteFuncs.ReadField ms
-
-
+    
     let output = StreamUtils.ReadMsgBytes ms
     test<@ body = output @>
 

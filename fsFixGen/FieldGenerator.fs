@@ -280,7 +280,8 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
 
 
 
-let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
+let Gen (fieldData:FieldData list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swWriteFuncs:StreamWriter) (swFieldDU:StreamWriter) =
+
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
     sw.WriteLine ""
@@ -297,77 +298,103 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swRWFuncs:StreamWriter) =
             sw.WriteLine ""
         )
 
+    
+    // write the field read functions
+    swReadFuncs.WriteLine "module Fix44.FieldReadFuncs"
+    swReadFuncs.WriteLine ""
+    swReadFuncs.WriteLine ""
+    swReadFuncs.WriteLine "open System"
+    swReadFuncs.WriteLine "open System.IO"
+    swReadFuncs.WriteLine "open Fix44.Fields"
+    swReadFuncs.WriteLine "open Conversions"
+    swReadFuncs.WriteLine "open FieldFuncs"
+    swReadFuncs.WriteLine ""
+    swReadFuncs.WriteLine ""
 
-    // write the 'field' DU
-    sw.WriteLine  "type FIXField ="
+    // write the field read functions
+    fieldData |> Seq.iter (fun fd ->
+            let readerFunc =
+                match fd with
+                | SimpleField sfd   ->  let _, rdrFunc, _= createFieldTypes sfd
+                                        rdrFunc
+                | CompoundField cfd ->  createLenDataFieldReadFunction cfd
+            swReadFuncs.WriteLine readerFunc
+            swReadFuncs.WriteLine ""
+            swReadFuncs.WriteLine ""
+        )
+
+
+    // write the field write functions
+    swWriteFuncs.WriteLine "module Fix44.FieldWriteFuncs"
+    swWriteFuncs.WriteLine ""
+    swWriteFuncs.WriteLine ""
+    swWriteFuncs.WriteLine "open System"
+    swWriteFuncs.WriteLine "open System.IO"
+    swWriteFuncs.WriteLine "open Fix44.Fields"
+    swWriteFuncs.WriteLine "open Conversions"
+    swWriteFuncs.WriteLine "open FieldFuncs"
+    swWriteFuncs.WriteLine ""
+    swWriteFuncs.WriteLine ""
+
+    fieldData |> Seq.iter (fun fd ->
+            let writerFunc =
+                match fd with
+                | SimpleField sfd   ->  let _, _, writerFunc = createFieldTypes sfd          // calling createFieldTypes 3 times, cannot determin len-str pairs until all fields have been parsed
+                                        writerFunc
+                | CompoundField cfd -> createLenDataFieldWriteFunction cfd
+            swWriteFuncs.WriteLine writerFunc
+            swWriteFuncs.WriteLine ""
+            swWriteFuncs.WriteLine ""
+        )
+
+
+
+    // write the 'field' DU, and the DU readField and writeField functions in a separate source file to try to reduce source file length
+    swFieldDU.WriteLine "module Fix44.FieldDU"
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine "open Fix44.Fields"
+    swFieldDU.WriteLine "open Fix44.FieldReadFuncs"
+    swFieldDU.WriteLine "open Fix44.FieldWriteFuncs"
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine ""
+
+
+    swFieldDU.WriteLine  "type FIXField ="
     fieldData |> Seq.iter (fun fd ->
             let str =
                 match fd with
                 | SimpleField sfld      ->   sprintf "    | %s of %s" sfld.Name sfld.Name
                 | CompoundField cfld    ->   sprintf "    | %s of %s" cfld.Name cfld.Name
-            sw.WriteLine str
+            swFieldDU.WriteLine str
         )
-
-
-    swRWFuncs.WriteLine "module Fix44.FieldReadWriteFuncs"
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine "open System"
-    swRWFuncs.WriteLine "open System.IO"
-    swRWFuncs.WriteLine "open Fix44.Fields"
-    swRWFuncs.WriteLine "open Conversions"
-    swRWFuncs.WriteLine "open FieldFuncs"
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine ""
-
-
-    fieldData |> Seq.iter (fun fd ->
-            let writerFunc =
-                match fd with
-                | SimpleField sfd   ->  let _, rdrFunc, _ = createFieldTypes sfd          // calling createFieldTypes 3 times, cant determin len-str pairs until all fields have been parsed
-                                        rdrFunc
-
-                | CompoundField cfd -> createLenDataFieldWriteFunction cfd
-            swRWFuncs.WriteLine writerFunc
-            swRWFuncs.WriteLine ""
-            swRWFuncs.WriteLine ""
-            let readerFunc =
-                match fd with
-                | SimpleField sfd   ->  let _, _, writerFunc = createFieldTypes sfd
-                                        writerFunc
-                | CompoundField cfd ->  createLenDataFieldReadFunction cfd
-            swRWFuncs.WriteLine readerFunc
-            swRWFuncs.WriteLine ""
-            swRWFuncs.WriteLine ""
-        )
-
 
     
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine  "let WriteField dest nextFreeIdx fixField ="
-    swRWFuncs.WriteLine  "    match fixField with"
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine  "let WriteField dest nextFreeIdx fixField ="
+    swFieldDU.WriteLine  "    match fixField with"
     fieldData |> Seq.iter (fun fd ->
             let str =
                 match fd with
                 | SimpleField fd      ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField" fd.Name fd.Name
                 | CompoundField fd    ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField // compound field" fd.Name fd.Name
-            swRWFuncs.WriteLine str
+            swFieldDU.WriteLine str
         )
 
 
 
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine ""
-    swRWFuncs.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-    swRWFuncs.WriteLine  "let ReadField (pos:int) (bs:byte[]) ="
-    swRWFuncs.WriteLine  "    let pos2, tag = ByteArrayUtils.readTag pos bs"
-    swRWFuncs.WriteLine  "    let pos2 = pos2 + 1 // move past the tag-value separator"
-    swRWFuncs.WriteLine  "    match tag with"
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
+    swFieldDU.WriteLine  "let ReadField (pos:int) (bs:byte[]) ="
+    swFieldDU.WriteLine  "    let pos2, tag = ByteArrayUtils.readTag pos bs"
+    swFieldDU.WriteLine  "    let pos2 = pos2 + 1 // move past the tag-value separator"
+    swFieldDU.WriteLine  "    match tag with"
     fieldData |> Seq.iter (fun fd ->
             let ss =
                 match fd with
                 | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s" fd.FixTag  fd.Name fd.Name
                 | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
-            swRWFuncs.WriteLine ss )
-    swRWFuncs.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "
+            swFieldDU.WriteLine ss )
+    swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "

@@ -1,10 +1,12 @@
 ﻿module FieldWrite.Test
 
 open Xunit
+open Swensen.Unquote
 
 open Fix44.Fields
-open Fix44.FieldReadWriteFuncs
-open Swensen.Unquote
+open Fix44.FieldReadFuncs
+open Fix44.FieldWriteFuncs
+
 
 
 

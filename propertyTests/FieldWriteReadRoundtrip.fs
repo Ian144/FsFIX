@@ -1,25 +1,13 @@
 ﻿module FieldWriteReadRoundtrip
 
-
-
 open FsCheck
 open FsCheck.Xunit
 
-
-
-//let genNonEmptyBytes = 
-//    gen{
-//        let! arraySize = Gen.choose (1, 32)
-//        let! bs = Gen.arrayOfLength arraySize Arb.generate<byte>
-//        return bs
-//    }    
-//
-//type ArbOverridesAsyncRead() =
-//    static member NonEmptyByteArray() = Arb.fromGenShrink (genNonEmptyBytes, ArraySubSeqs)
-//    static member Ints() = Arb.fromGen (Gen.choose(1, 128*1024))
+open Fix44.FieldDU
 
 
 
+// strings stored in FIX do not contain field terminators, 
 let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
 let genAlphaCharArray = Gen.arrayOf genAlphaChar 
 let genAlphaString = 
@@ -32,7 +20,6 @@ let genAlphaString =
 
 type ArbOverrides() =
     static member String() =
-//            Arb.from<NonNull<string>>
             Arb.fromGen genAlphaString
 
 
@@ -40,18 +27,15 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-//        Replay = Some (Random.StdGen (1338710834,296222476)),
-//        Replay = "(Random.StdGen (310046944,296129814))",
         MaxTest = 10000,
-        Verbose = true,
-        QuietOnSuccess = false)
-
+        Verbose = false,
+        QuietOnSuccess = true)
 
 
 
 [<PropertyTestAttribute>]
-let ``write-read roundtrip`` (fieldIn:Fix44.Fields.FIXField) =
+let ``write-read roundtrip`` (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> 2048
-    Fix44.FieldReadWriteFuncs.WriteField bs 0 fieldIn |> ignore
-    let _, fieldOut = Fix44.FieldReadWriteFuncs.ReadField 0 bs
+    WriteField bs 0 fieldIn |> ignore
+    let _, fieldOut = ReadField 0 bs
     fieldIn = fieldOut

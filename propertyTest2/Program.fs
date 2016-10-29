@@ -1,8 +1,9 @@
 ﻿open FsCheck
-open Fix44.Fields
-open Fix44.FieldReadWriteFuncs
 
-open System.IO
+
+open Fix44.FieldDU
+
+
 
 
 let genAlphaChar = Gen.choose(0,256) |> Gen.map char 
@@ -24,8 +25,8 @@ Arb.register<ArbOverrides>() |> ignore
 
 let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> 2048
-    Fix44.FieldReadWriteFuncs.WriteField bs 0 fieldIn |> ignore
-    let _, fieldOut = Fix44.FieldReadWriteFuncs.ReadField 0 bs
+    WriteField bs 0 fieldIn |> ignore
+    let _, fieldOut = ReadField 0 bs
     fieldIn = fieldOut
 
 

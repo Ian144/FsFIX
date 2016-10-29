@@ -97,7 +97,7 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemWriteFuncs"
     sw.WriteLine ""
     sw.WriteLine "open Fix44.Fields"
-    sw.WriteLine "open Fix44.FieldReadWriteFuncs"
+    sw.WriteLine "open Fix44.FieldWriteFuncs"
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""

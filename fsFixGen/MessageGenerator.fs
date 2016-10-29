@@ -78,7 +78,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
     sw.WriteLine "open OneOrTwo"
     sw.WriteLine "open Fix44.Fields"
-    sw.WriteLine "open Fix44.FieldReadWriteFuncs"
+    sw.WriteLine "open Fix44.FieldWriteFuncs"
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine "open Fix44.CompoundItemWriteFuncs"
     sw.WriteLine "open Fix44.Messages"

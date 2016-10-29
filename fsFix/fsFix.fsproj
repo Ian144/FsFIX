@@ -50,7 +50,9 @@
     <Compile Include="StreamUtils.fs" />
     <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
-    <Compile Include="Fix44.FieldReadWriteFuncs.fs" />
+    <Compile Include="Fix44.FieldReadFuncs.fs" />
+    <Compile Include="Fix44.FieldWriteFuncs.fs" />
+    <Compile Include="Fix44.FieldDU.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
     <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
     <Compile Include="Fix44.Messages.fs" />

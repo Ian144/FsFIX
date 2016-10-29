@@ -29,12 +29,14 @@ let main _ =
 
     let xpthFields = doc.XPathSelectElement "fix/fields"
     use swFixFields = new StreamWriter (MkOutpath "Fix44.Fields.fs")
-    use swFieldReadWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadWriteFuncs.fs")
+    use swFieldReadFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadFuncs.fs")
+    use swFieldWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldWriteFuncs.fs")
+    use swFieldDU = new StreamWriter (MkOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"
     let fieldData = FieldGenerator.ParseFieldData xpthFields 
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fieldData
-    FieldGenerator.Gen mergedFields swFixFields swFieldReadWriteFuncs
+    FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs  swFieldDU
 
     printfn "read header"
     let xpthHrd = doc.XPathSelectElement "fix/header"
@@ -53,6 +55,7 @@ let main _ =
     let cmpNameMap = components 
                         |> List.map (fun cmp -> cmp.CName, cmp)
                         |> Map.ofList
+
 
     printfn "reading messages"
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
@@ -143,9 +146,4 @@ let main _ =
     use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
     MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
 
-
-
-//    printfn "press any key to exit"
-//    stdin.Read() |> ignore
-
-    0 // integer exit code
+    0 // exit code

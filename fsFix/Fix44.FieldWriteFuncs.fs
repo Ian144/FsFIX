@@ -1,4 +1,4 @@
-module Fix44.FieldReadWriteFuncs
+module Fix44.FieldWriteFuncs
 
 
 open System
@@ -6,10 +6,6 @@ open System.IO
 open Fix44.Fields
 open Conversions
 open FieldFuncs
-
-
-let ReadAccount (pos:int) (bs:byte[]) : (int*Account) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Account.Account
 
 
 let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int = 
@@ -23,10 +19,6 @@ let WriteAccount (dest:byte []) (nextFreeIdx:int) (valIn:Account) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdvId (pos:int) (bs:byte[]) : (int*AdvId) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AdvId.AdvId
-
-
 let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int = 
    let tag = "2="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -38,10 +30,6 @@ let WriteAdvId (dest:byte []) (nextFreeIdx:int) (valIn:AdvId) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAdvRefID (pos:int) (bs:byte[]) : (int*AdvRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AdvRefID.AdvRefID
-
-
 let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int = 
    let tag = "3="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -51,18 +39,6 @@ let WriteAdvRefID (dest:byte []) (nextFreeIdx:int) (valIn:AdvRefID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"B"B -> AdvSide.Buy
-        |"S"B -> AdvSide.Sell
-        |"X"B -> AdvSide.Cross
-        |"T"B -> AdvSide.Trade
-        | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
@@ -93,17 +69,6 @@ let WriteAdvSide (dest:byte array) (nextFreeIdx:int) (xxIn:AdvSide) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"N"B -> AdvTransType.New
-        |"C"B -> AdvTransType.Cancel
-        |"R"B -> AdvTransType.Replace
-        | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : int =
     match xxIn with
     | AdvTransType.New ->
@@ -126,10 +91,6 @@ let WriteAdvTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AdvTransType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAvgPx (pos:int) (bs:byte[]) : (int*AvgPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AvgPx.AvgPx
-
-
 let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int = 
    let tag = "6="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -139,10 +100,6 @@ let WriteAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBeginSeqNo (pos:int) (bs:byte[]) : (int*BeginSeqNo) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BeginSeqNo.BeginSeqNo
 
 
 let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int = 
@@ -156,10 +113,6 @@ let WriteBeginSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:BeginSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBeginString (pos:int) (bs:byte[]) : (int*BeginString) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BeginString.BeginString
-
-
 let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int = 
    let tag = "8="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -169,10 +122,6 @@ let WriteBeginString (dest:byte []) (nextFreeIdx:int) (valIn:BeginString) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBodyLength (pos:int) (bs:byte[]) : (int*BodyLength) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BodyLength.BodyLength
 
 
 let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int = 
@@ -186,10 +135,6 @@ let WriteBodyLength (dest:byte []) (nextFreeIdx:int) (valIn:BodyLength) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCheckSum (pos:int) (bs:byte[]) : (int*CheckSum) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CheckSum.CheckSum
-
-
 let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int = 
    let tag = "10="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -199,10 +144,6 @@ let WriteCheckSum (dest:byte []) (nextFreeIdx:int) (valIn:CheckSum) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadClOrdID (pos:int) (bs:byte[]) : (int*ClOrdID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClOrdID.ClOrdID
 
 
 let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int = 
@@ -216,10 +157,6 @@ let WriteClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCommission (pos:int) (bs:byte[]) : (int*Commission) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Commission.Commission
-
-
 let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int = 
    let tag = "12="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -229,20 +166,6 @@ let WriteCommission (dest:byte []) (nextFreeIdx:int) (valIn:Commission) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCommType (pos:int) (bs:byte[]) : (int * CommType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> CommType.PerUnit
-        |"2"B -> CommType.Percentage
-        |"3"B -> CommType.Absolute
-        |"4"B -> CommType.PercentageWaivedCashDiscount
-        |"5"B -> CommType.PercentageWaivedEnhancedUnits
-        |"6"B -> CommType.PointsPerBondOrOrContract
-        | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
@@ -285,10 +208,6 @@ let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCumQty (pos:int) (bs:byte[]) : (int*CumQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CumQty.CumQty
-
-
 let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int = 
    let tag = "14="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -298,10 +217,6 @@ let WriteCumQty (dest:byte []) (nextFreeIdx:int) (valIn:CumQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCurrency (pos:int) (bs:byte[]) : (int*Currency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Currency.Currency
 
 
 let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int = 
@@ -315,10 +230,6 @@ let WriteCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Currency) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndSeqNo (pos:int) (bs:byte[]) : (int*EndSeqNo) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndSeqNo.EndSeqNo
-
-
 let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int = 
    let tag = "16="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -330,10 +241,6 @@ let WriteEndSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:EndSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExecID (pos:int) (bs:byte[]) : (int*ExecID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecID.ExecID
-
-
 let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int = 
    let tag = "17="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -343,55 +250,6 @@ let WriteExecID (dest:byte []) (nextFreeIdx:int) (valIn:ExecID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExecInst (pos:int) (bs:byte[]) : (int * ExecInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ExecInst.NotHeld
-        |"2"B -> ExecInst.Work
-        |"3"B -> ExecInst.GoAlong
-        |"4"B -> ExecInst.OverTheDay
-        |"5"B -> ExecInst.Held
-        |"6"B -> ExecInst.ParticipateDontInitiate
-        |"7"B -> ExecInst.StrictScale
-        |"8"B -> ExecInst.TryToScale
-        |"9"B -> ExecInst.StayOnBidside
-        |"0"B -> ExecInst.StayOnOfferside
-        |"A"B -> ExecInst.NoCross
-        |"B"B -> ExecInst.OkToCross
-        |"C"B -> ExecInst.CallFirst
-        |"D"B -> ExecInst.PercentOfVolume
-        |"E"B -> ExecInst.DoNotIncrease
-        |"F"B -> ExecInst.DoNotReduce
-        |"G"B -> ExecInst.AllOrNone
-        |"H"B -> ExecInst.ReinstateOnSystemFailure
-        |"I"B -> ExecInst.InstitutionsOnly
-        |"J"B -> ExecInst.ReinstateOnTradingHalt
-        |"K"B -> ExecInst.CancelOnTradingHalt
-        |"L"B -> ExecInst.LastPeg
-        |"M"B -> ExecInst.MidPrice
-        |"N"B -> ExecInst.NonNegotiable
-        |"O"B -> ExecInst.OpeningPeg
-        |"P"B -> ExecInst.MarketPeg
-        |"Q"B -> ExecInst.CancelOnSystemFailure
-        |"R"B -> ExecInst.PrimaryPeg
-        |"S"B -> ExecInst.Suspend
-        |"T"B -> ExecInst.FixedPegToLocalBestBidOrOfferAtTimeOfOrder
-        |"U"B -> ExecInst.CustomerDisplayInstruction
-        |"V"B -> ExecInst.Netting
-        |"W"B -> ExecInst.PegToVwap
-        |"X"B -> ExecInst.TradeAlong
-        |"Y"B -> ExecInst.TryToStop
-        |"Z"B -> ExecInst.CancelIfNotBest
-        |"a"B -> ExecInst.TrailingStopPeg
-        |"b"B -> ExecInst.StrictLimit
-        |"c"B -> ExecInst.IgnorePriceValidityChecks
-        |"d"B -> ExecInst.PegToLimitPrice
-        |"e"B -> ExecInst.WorkToTargetStrategy
-        | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
@@ -644,10 +502,6 @@ let WriteExecInst (dest:byte array) (nextFreeIdx:int) (xxIn:ExecInst) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecRefID (pos:int) (bs:byte[]) : (int*ExecRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecRefID.ExecRefID
-
-
 let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int = 
    let tag = "19="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -657,17 +511,6 @@ let WriteExecRefID (dest:byte []) (nextFreeIdx:int) (valIn:ExecRefID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
-        |"2"B -> HandlInst.AutomatedExecutionOrderPublic
-        |"3"B -> HandlInst.ManualOrder
-        | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
@@ -690,33 +533,6 @@ let WriteHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:HandlInst) : int =
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SecurityIDSource.Cusip
-        |"2"B -> SecurityIDSource.Sedol
-        |"3"B -> SecurityIDSource.Quik
-        |"4"B -> SecurityIDSource.IsinNumber
-        |"5"B -> SecurityIDSource.RicCode
-        |"6"B -> SecurityIDSource.IsoCurrencyCode
-        |"7"B -> SecurityIDSource.IsoCountryCode
-        |"8"B -> SecurityIDSource.ExchangeSymbol
-        |"9"B -> SecurityIDSource.ConsolidatedTapeAssociation
-        |"A"B -> SecurityIDSource.BloombergSymbol
-        |"B"B -> SecurityIDSource.Wertpapier
-        |"C"B -> SecurityIDSource.Dutch
-        |"D"B -> SecurityIDSource.Valoren
-        |"E"B -> SecurityIDSource.Sicovam
-        |"F"B -> SecurityIDSource.Belgian
-        |"G"B -> SecurityIDSource.Common
-        |"H"B -> SecurityIDSource.ClearingHouseClearingOrganization
-        |"I"B -> SecurityIDSource.IsdaFpmlProductSpecification
-        |"J"B -> SecurityIDSource.OptionsPriceReportingAuthority
-        | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSource) : int =
@@ -837,10 +653,6 @@ let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIOIid (pos:int) (bs:byte[]) : (int*IOIid) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIid.IOIid
-
-
 let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int = 
    let tag = "23="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -850,17 +662,6 @@ let WriteIOIid (dest:byte []) (nextFreeIdx:int) (valIn:IOIid) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadIOIQltyInd (pos:int) (bs:byte[]) : (int * IOIQltyInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"L"B -> IOIQltyInd.Low
-        |"M"B -> IOIQltyInd.Medium
-        |"H"B -> IOIQltyInd.High
-        | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int =
@@ -885,10 +686,6 @@ let WriteIOIQltyInd (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQltyInd) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIOIRefID (pos:int) (bs:byte[]) : (int*IOIRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIRefID.IOIRefID
-
-
 let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int = 
    let tag = "26="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -900,10 +697,6 @@ let WriteIOIRefID (dest:byte []) (nextFreeIdx:int) (valIn:IOIRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOIQty (pos:int) (bs:byte[]) : (int*IOIQty) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IOIQty.IOIQty
-
-
 let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int = 
    let tag = "27="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -913,17 +706,6 @@ let WriteIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:IOIQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"N"B -> IOITransType.New
-        |"C"B -> IOITransType.Cancel
-        |"R"B -> IOITransType.Replace
-        | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : int =
@@ -946,18 +728,6 @@ let WriteIOITransType (dest:byte array) (nextFreeIdx:int) (xxIn:IOITransType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> LastCapacity.Agent
-        |"2"B -> LastCapacity.CrossAsAgent
-        |"3"B -> LastCapacity.CrossAsPrincipal
-        |"4"B -> LastCapacity.Principal
-        | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : int =
@@ -988,10 +758,6 @@ let WriteLastCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:LastCapacity) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastMkt (pos:int) (bs:byte[]) : (int*LastMkt) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastMkt.LastMkt
-
-
 let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int = 
    let tag = "30="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -1001,10 +767,6 @@ let WriteLastMkt (dest:byte []) (nextFreeIdx:int) (valIn:LastMkt) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLastPx (pos:int) (bs:byte[]) : (int*LastPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastPx.LastPx
 
 
 let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int = 
@@ -1018,10 +780,6 @@ let WriteLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LastPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastQty (pos:int) (bs:byte[]) : (int*LastQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastQty.LastQty
-
-
 let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int = 
    let tag = "32="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -1031,10 +789,6 @@ let WriteLastQty (dest:byte []) (nextFreeIdx:int) (valIn:LastQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLinesOfText (pos:int) (bs:byte[]) : (int*LinesOfText) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LinesOfText.LinesOfText
 
 
 let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int = 
@@ -1048,10 +802,6 @@ let WriteLinesOfText (dest:byte []) (nextFreeIdx:int) (valIn:LinesOfText) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMsgSeqNum (pos:int) (bs:byte[]) : (int*MsgSeqNum) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MsgSeqNum.MsgSeqNum
-
-
 let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int = 
    let tag = "34="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -1061,107 +811,6 @@ let WriteMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:MsgSeqNum) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMsgType (pos:int) (bs:byte[]) : (int * MsgType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MsgType.Heartbeat
-        |"1"B -> MsgType.TestRequest
-        |"2"B -> MsgType.ResendRequest
-        |"3"B -> MsgType.Reject
-        |"4"B -> MsgType.SequenceReset
-        |"5"B -> MsgType.Logout
-        |"6"B -> MsgType.IndicationOfInterest
-        |"7"B -> MsgType.Advertisement
-        |"8"B -> MsgType.ExecutionReport
-        |"9"B -> MsgType.OrderCancelReject
-        |"A"B -> MsgType.Logon
-        |"B"B -> MsgType.News
-        |"C"B -> MsgType.Email
-        |"D"B -> MsgType.OrderSingle
-        |"E"B -> MsgType.OrderList
-        |"F"B -> MsgType.OrderCancelRequest
-        |"G"B -> MsgType.OrderCancelReplaceRequest
-        |"H"B -> MsgType.OrderStatusRequest
-        |"J"B -> MsgType.AllocationInstruction
-        |"K"B -> MsgType.ListCancelRequest
-        |"L"B -> MsgType.ListExecute
-        |"M"B -> MsgType.ListStatusRequest
-        |"N"B -> MsgType.ListStatus
-        |"P"B -> MsgType.AllocationInstructionAck
-        |"Q"B -> MsgType.DontKnowTrade
-        |"R"B -> MsgType.QuoteRequest
-        |"S"B -> MsgType.Quote
-        |"T"B -> MsgType.SettlementInstructions
-        |"V"B -> MsgType.MarketDataRequest
-        |"W"B -> MsgType.MarketDataSnapshotFullRefresh
-        |"X"B -> MsgType.MarketDataIncrementalRefresh
-        |"Y"B -> MsgType.MarketDataRequestReject
-        |"Z"B -> MsgType.QuoteCancel
-        |"a"B -> MsgType.QuoteStatusRequest
-        |"b"B -> MsgType.MassQuoteAcknowledgement
-        |"c"B -> MsgType.SecurityDefinitionRequest
-        |"d"B -> MsgType.SecurityDefinition
-        |"e"B -> MsgType.SecurityStatusRequest
-        |"f"B -> MsgType.SecurityStatus
-        |"g"B -> MsgType.TradingSessionStatusRequest
-        |"h"B -> MsgType.TradingSessionStatus
-        |"i"B -> MsgType.MassQuote
-        |"j"B -> MsgType.BusinessMessageReject
-        |"k"B -> MsgType.BidRequest
-        |"l"B -> MsgType.BidResponse
-        |"m"B -> MsgType.ListStrikePrice
-        |"n"B -> MsgType.XmlMessage
-        |"o"B -> MsgType.RegistrationInstructions
-        |"p"B -> MsgType.RegistrationInstructionsResponse
-        |"q"B -> MsgType.OrderMassCancelRequest
-        |"r"B -> MsgType.OrderMassCancelReport
-        |"s"B -> MsgType.NewOrderCross
-        |"t"B -> MsgType.CrossOrderCancelReplaceRequest
-        |"u"B -> MsgType.CrossOrderCancelRequest
-        |"v"B -> MsgType.SecurityTypeRequest
-        |"w"B -> MsgType.SecurityTypes
-        |"x"B -> MsgType.SecurityListRequest
-        |"y"B -> MsgType.SecurityList
-        |"z"B -> MsgType.DerivativeSecurityListRequest
-        |"AA"B -> MsgType.DerivativeSecurityList
-        |"AB"B -> MsgType.NewOrderMultileg
-        |"AC"B -> MsgType.MultilegOrderCancelReplace
-        |"AD"B -> MsgType.TradeCaptureReportRequest
-        |"AE"B -> MsgType.TradeCaptureReport
-        |"AF"B -> MsgType.OrderMassStatusRequest
-        |"AG"B -> MsgType.QuoteRequestReject
-        |"AH"B -> MsgType.RfqRequest
-        |"AI"B -> MsgType.QuoteStatusReport
-        |"AJ"B -> MsgType.QuoteResponse
-        |"AK"B -> MsgType.Confirmation
-        |"AL"B -> MsgType.PositionMaintenanceRequest
-        |"AM"B -> MsgType.PositionMaintenanceReport
-        |"AN"B -> MsgType.RequestForPositions
-        |"AO"B -> MsgType.RequestForPositionsAck
-        |"AP"B -> MsgType.PositionReport
-        |"AQ"B -> MsgType.TradeCaptureReportRequestAck
-        |"AR"B -> MsgType.TradeCaptureReportAck
-        |"AS"B -> MsgType.AllocationReport
-        |"AT"B -> MsgType.AllocationReportAck
-        |"AU"B -> MsgType.ConfirmationAck
-        |"AV"B -> MsgType.SettlementInstructionRequest
-        |"AW"B -> MsgType.AssignmentReport
-        |"AX"B -> MsgType.CollateralRequest
-        |"AY"B -> MsgType.CollateralAssignment
-        |"AZ"B -> MsgType.CollateralResponse
-        |"BA"B -> MsgType.CollateralReport
-        |"BB"B -> MsgType.CollateralInquiry
-        |"BC"B -> MsgType.NetworkStatusRequest
-        |"BD"B -> MsgType.NetworkStatusResponse
-        |"BE"B -> MsgType.UserRequest
-        |"BF"B -> MsgType.UserResponse
-        |"BG"B -> MsgType.CollateralInquiryAck
-        |"BH"B -> MsgType.ConfirmationRequest
-        | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
@@ -1726,10 +1375,6 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNewSeqNo (pos:int) (bs:byte[]) : (int*NewSeqNo) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NewSeqNo.NewSeqNo
-
-
 let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int = 
    let tag = "36="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -1739,10 +1384,6 @@ let WriteNewSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:NewSeqNo) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrderID (pos:int) (bs:byte[]) : (int*OrderID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrderID.OrderID
 
 
 let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int = 
@@ -1756,10 +1397,6 @@ let WriteOrderID (dest:byte []) (nextFreeIdx:int) (valIn:OrderID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderQty (pos:int) (bs:byte[]) : (int*OrderQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderQty.OrderQty
-
-
 let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int = 
    let tag = "38="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -1769,29 +1406,6 @@ let WriteOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> OrdStatus.New
-        |"1"B -> OrdStatus.PartiallyFilled
-        |"2"B -> OrdStatus.Filled
-        |"3"B -> OrdStatus.DoneForDay
-        |"4"B -> OrdStatus.Canceled
-        |"5"B -> OrdStatus.Replaced
-        |"6"B -> OrdStatus.PendingCancel
-        |"7"B -> OrdStatus.Stopped
-        |"8"B -> OrdStatus.Rejected
-        |"9"B -> OrdStatus.Suspended
-        |"A"B -> OrdStatus.PendingNew
-        |"B"B -> OrdStatus.Calculated
-        |"C"B -> OrdStatus.Expired
-        |"D"B -> OrdStatus.AcceptedForBidding
-        |"E"B -> OrdStatus.PendingReplace
-        | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
@@ -1886,37 +1500,6 @@ let WriteOrdStatus (dest:byte array) (nextFreeIdx:int) (xxIn:OrdStatus) : int =
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> OrdType.Market
-        |"2"B -> OrdType.Limit
-        |"3"B -> OrdType.Stop
-        |"4"B -> OrdType.StopLimit
-        |"5"B -> OrdType.MarketOnClose
-        |"6"B -> OrdType.WithOrWithout
-        |"7"B -> OrdType.LimitOrBetter
-        |"8"B -> OrdType.LimitWithOrWithout
-        |"9"B -> OrdType.OnBasis
-        |"A"B -> OrdType.OnClose
-        |"B"B -> OrdType.LimitOnClose
-        |"C"B -> OrdType.ForexMarket
-        |"D"B -> OrdType.PreviouslyQuoted
-        |"E"B -> OrdType.PreviouslyIndicated
-        |"F"B -> OrdType.ForexLimit
-        |"G"B -> OrdType.ForexSwap
-        |"H"B -> OrdType.ForexPreviouslyQuoted
-        |"I"B -> OrdType.Funari
-        |"J"B -> OrdType.MarketIfTouched
-        |"K"B -> OrdType.MarketWithLeftoverAsLimit
-        |"L"B -> OrdType.PreviousFundValuationPoint
-        |"M"B -> OrdType.NextFundValuationPoint
-        |"P"B -> OrdType.Pegged
-        | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
@@ -2061,10 +1644,6 @@ let WriteOrdType (dest:byte array) (nextFreeIdx:int) (xxIn:OrdType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigClOrdID (pos:int) (bs:byte[]) : (int*OrigClOrdID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigClOrdID.OrigClOrdID
-
-
 let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int = 
    let tag = "41="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2074,10 +1653,6 @@ let WriteOrigClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:OrigClOrdID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrigTime (pos:int) (bs:byte[]) : (int*OrigTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigTime.OrigTime
 
 
 let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int = 
@@ -2091,10 +1666,6 @@ let WriteOrigTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigTime) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPossDupFlag (pos:int) (bs:byte[]) : (int*PossDupFlag) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PossDupFlag.PossDupFlag
-
-
 let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int = 
    let tag = "43="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2104,10 +1675,6 @@ let WritePossDupFlag (dest:byte []) (nextFreeIdx:int) (valIn:PossDupFlag) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPrice (pos:int) (bs:byte[]) : (int*Price) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Price.Price
 
 
 let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int = 
@@ -2121,10 +1688,6 @@ let WritePrice (dest:byte []) (nextFreeIdx:int) (valIn:Price) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefSeqNum (pos:int) (bs:byte[]) : (int*RefSeqNum) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RefSeqNum.RefSeqNum
-
-
 let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int = 
    let tag = "45="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2134,10 +1697,6 @@ let WriteRefSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:RefSeqNum) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityID (pos:int) (bs:byte[]) : (int*SecurityID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityID.SecurityID
 
 
 let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int = 
@@ -2151,10 +1710,6 @@ let WriteSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSenderCompID (pos:int) (bs:byte[]) : (int*SenderCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderCompID.SenderCompID
-
-
 let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : int = 
    let tag = "49="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2164,10 +1719,6 @@ let WriteSenderCompID (dest:byte []) (nextFreeIdx:int) (valIn:SenderCompID) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSenderSubID (pos:int) (bs:byte[]) : (int*SenderSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderSubID.SenderSubID
 
 
 let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int = 
@@ -2181,10 +1732,6 @@ let WriteSenderSubID (dest:byte []) (nextFreeIdx:int) (valIn:SenderSubID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSendingTime (pos:int) (bs:byte[]) : (int*SendingTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SendingTime.SendingTime
-
-
 let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int = 
    let tag = "52="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2196,10 +1743,6 @@ let WriteSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:SendingTime) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuantity (pos:int) (bs:byte[]) : (int*Quantity) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Quantity.Quantity
-
-
 let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int = 
    let tag = "53="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2209,30 +1752,6 @@ let WriteQuantity (dest:byte []) (nextFreeIdx:int) (valIn:Quantity) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSide (pos:int) (bs:byte[]) : (int * Side) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> Side.Buy
-        |"2"B -> Side.Sell
-        |"3"B -> Side.BuyMinus
-        |"4"B -> Side.SellPlus
-        |"5"B -> Side.SellShort
-        |"6"B -> Side.SellShortExempt
-        |"7"B -> Side.Undisclosed
-        |"8"B -> Side.Cross
-        |"9"B -> Side.CrossShort
-        |"A"B -> Side.CrossShortExempt
-        |"B"B -> Side.AsDefined
-        |"C"B -> Side.Opposite
-        |"D"B -> Side.Subscribe
-        |"E"B -> Side.Redeem
-        |"F"B -> Side.Lend
-        |"G"B -> Side.Borrow
-        | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
@@ -2335,10 +1854,6 @@ let WriteSide (dest:byte array) (nextFreeIdx:int) (xxIn:Side) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSymbol (pos:int) (bs:byte[]) : (int*Symbol) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Symbol.Symbol
-
-
 let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int = 
    let tag = "55="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2348,10 +1863,6 @@ let WriteSymbol (dest:byte []) (nextFreeIdx:int) (valIn:Symbol) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTargetCompID (pos:int) (bs:byte[]) : (int*TargetCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetCompID.TargetCompID
 
 
 let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : int = 
@@ -2365,10 +1876,6 @@ let WriteTargetCompID (dest:byte []) (nextFreeIdx:int) (valIn:TargetCompID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetSubID (pos:int) (bs:byte[]) : (int*TargetSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetSubID.TargetSubID
-
-
 let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int = 
    let tag = "57="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2380,10 +1887,6 @@ let WriteTargetSubID (dest:byte []) (nextFreeIdx:int) (valIn:TargetSubID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadText (pos:int) (bs:byte[]) : (int*Text) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Text.Text
-
-
 let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int = 
    let tag = "58="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2393,22 +1896,6 @@ let WriteText (dest:byte []) (nextFreeIdx:int) (valIn:Text) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TimeInForce.Day
-        |"1"B -> TimeInForce.GoodTillCancel
-        |"2"B -> TimeInForce.AtTheOpening
-        |"3"B -> TimeInForce.ImmediateOrCancel
-        |"4"B -> TimeInForce.FillOrKill
-        |"5"B -> TimeInForce.GoodTillCrossing
-        |"6"B -> TimeInForce.GoodTillDate
-        |"7"B -> TimeInForce.AtTheClose
-        | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : int =
@@ -2463,10 +1950,6 @@ let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransactTime.TransactTime
-
-
 let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : int = 
    let tag = "60="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2476,17 +1959,6 @@ let WriteTransactTime (dest:byte []) (nextFreeIdx:int) (valIn:TransactTime) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> Urgency.Normal
-        |"1"B -> Urgency.Flash
-        |"2"B -> Urgency.Background
-        | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
@@ -2511,10 +1983,6 @@ let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ValidUntilTime.ValidUntilTime
-
-
 let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) : int = 
    let tag = "62="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2524,24 +1992,6 @@ let WriteValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:ValidUntilTime) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SettlType.Regular
-        |"1"B -> SettlType.Cash
-        |"2"B -> SettlType.NextDay
-        |"3"B -> SettlType.TPlus2
-        |"4"B -> SettlType.TPlus3
-        |"5"B -> SettlType.TPlus4
-        |"6"B -> SettlType.Future
-        |"7"B -> SettlType.WhenAndIfIssued
-        |"8"B -> SettlType.SellersOption
-        |"9"B -> SettlType.TPlus5
-        | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
@@ -2608,10 +2058,6 @@ let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSettlDate (pos:int) (bs:byte[]) : (int*SettlDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlDate.SettlDate
-
-
 let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int = 
    let tag = "64="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2621,16 +2067,6 @@ let WriteSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSymbolSfx (pos:int) (bs:byte[]) : (int * SymbolSfx) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"WI"B -> SymbolSfx.WhenIssued
-        |"CD"B -> SymbolSfx.AEucpWithLumpSumInterest
-        | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
@@ -2649,10 +2085,6 @@ let WriteSymbolSfx (dest:byte array) (nextFreeIdx:int) (xxIn:SymbolSfx) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadListID (pos:int) (bs:byte[]) : (int*ListID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListID.ListID
-
-
 let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int = 
    let tag = "66="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2662,10 +2094,6 @@ let WriteListID (dest:byte []) (nextFreeIdx:int) (valIn:ListID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListSeqNo (pos:int) (bs:byte[]) : (int*ListSeqNo) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ListSeqNo.ListSeqNo
 
 
 let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int = 
@@ -2679,10 +2107,6 @@ let WriteListSeqNo (dest:byte []) (nextFreeIdx:int) (valIn:ListSeqNo) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoOrders (pos:int) (bs:byte[]) : (int*TotNoOrders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoOrders.TotNoOrders
-
-
 let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int = 
    let tag = "68="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2692,10 +2116,6 @@ let WriteTotNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotNoOrders) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListExecInst (pos:int) (bs:byte[]) : (int*ListExecInst) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListExecInst.ListExecInst
 
 
 let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : int = 
@@ -2709,10 +2129,6 @@ let WriteListExecInst (dest:byte []) (nextFreeIdx:int) (valIn:ListExecInst) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocID (pos:int) (bs:byte[]) : (int*AllocID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocID.AllocID
-
-
 let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int = 
    let tag = "70="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2722,17 +2138,6 @@ let WriteAllocID (dest:byte []) (nextFreeIdx:int) (valIn:AllocID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocTransType (pos:int) (bs:byte[]) : (int * AllocTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocTransType.New
-        |"1"B -> AllocTransType.Replace
-        |"2"B -> AllocTransType.Cancel
-        | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType) : int =
@@ -2757,10 +2162,6 @@ let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRefAllocID (pos:int) (bs:byte[]) : (int*RefAllocID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefAllocID.RefAllocID
-
-
 let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int = 
    let tag = "72="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2770,10 +2171,6 @@ let WriteRefAllocID (dest:byte []) (nextFreeIdx:int) (valIn:RefAllocID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoOrders (pos:int) (bs:byte[]) : (int*NoOrders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoOrders.NoOrders
 
 
 let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int = 
@@ -2787,10 +2184,6 @@ let WriteNoOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoOrders) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAvgPxPrecision (pos:int) (bs:byte[]) : (int*AvgPxPrecision) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AvgPxPrecision.AvgPxPrecision
-
-
 let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) : int = 
    let tag = "74="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2802,10 +2195,6 @@ let WriteAvgPxPrecision (dest:byte []) (nextFreeIdx:int) (valIn:AvgPxPrecision) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeDate (pos:int) (bs:byte[]) : (int*TradeDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeDate.TradeDate
-
-
 let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int = 
    let tag = "75="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2815,18 +2204,6 @@ let WriteTradeDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeDate) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPositionEffect (pos:int) (bs:byte[]) : (int * PositionEffect) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"O"B -> PositionEffect.Open
-        |"C"B -> PositionEffect.Close
-        |"R"B -> PositionEffect.Rolled
-        |"F"B -> PositionEffect.Fifo
-        | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect) : int =
@@ -2857,10 +2234,6 @@ let WritePositionEffect (dest:byte array) (nextFreeIdx:int) (xxIn:PositionEffect
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoAllocs (pos:int) (bs:byte[]) : (int*NoAllocs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAllocs.NoAllocs
-
-
 let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int = 
    let tag = "78="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2870,10 +2243,6 @@ let WriteNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoAllocs) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocAccount (pos:int) (bs:byte[]) : (int*AllocAccount) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocAccount.AllocAccount
 
 
 let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : int = 
@@ -2887,10 +2256,6 @@ let WriteAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccount) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocQty (pos:int) (bs:byte[]) : (int*AllocQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocQty.AllocQty
-
-
 let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int = 
    let tag = "80="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2900,21 +2265,6 @@ let WriteAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:AllocQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadProcessCode (pos:int) (bs:byte[]) : (int * ProcessCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ProcessCode.Regular
-        |"1"B -> ProcessCode.SoftDollar
-        |"2"B -> ProcessCode.StepIn
-        |"3"B -> ProcessCode.StepOut
-        |"4"B -> ProcessCode.SoftDollarStepIn
-        |"5"B -> ProcessCode.SoftDollarStepOut
-        |"6"B -> ProcessCode.PlanSponsor
-        | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : int =
@@ -2963,10 +2313,6 @@ let WriteProcessCode (dest:byte array) (nextFreeIdx:int) (xxIn:ProcessCode) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoRpts (pos:int) (bs:byte[]) : (int*NoRpts) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRpts.NoRpts
-
-
 let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int = 
    let tag = "82="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -2976,10 +2322,6 @@ let WriteNoRpts (dest:byte []) (nextFreeIdx:int) (valIn:NoRpts) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRptSeq (pos:int) (bs:byte[]) : (int*RptSeq) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RptSeq.RptSeq
 
 
 let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int = 
@@ -2993,10 +2335,6 @@ let WriteRptSeq (dest:byte []) (nextFreeIdx:int) (valIn:RptSeq) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCxlQty (pos:int) (bs:byte[]) : (int*CxlQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CxlQty.CxlQty
-
-
 let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int = 
    let tag = "84="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3008,10 +2346,6 @@ let WriteCxlQty (dest:byte []) (nextFreeIdx:int) (valIn:CxlQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDlvyInst (pos:int) (bs:byte[]) : (int*NoDlvyInst) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDlvyInst.NoDlvyInst
-
-
 let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int = 
    let tag = "85="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3021,20 +2355,6 @@ let WriteNoDlvyInst (dest:byte []) (nextFreeIdx:int) (valIn:NoDlvyInst) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocStatus.Accepted
-        |"1"B -> AllocStatus.BlockLevelReject
-        |"2"B -> AllocStatus.AccountLevelReject
-        |"3"B -> AllocStatus.Received
-        |"4"B -> AllocStatus.Incomplete
-        |"5"B -> AllocStatus.RejectedByIntermediary
-        | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : int =
@@ -3075,28 +2395,6 @@ let WriteAllocStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AllocStatus) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocRejCode.UnknownAccount
-        |"1"B -> AllocRejCode.IncorrectQuantity
-        |"2"B -> AllocRejCode.IncorrectAveragePrice
-        |"3"B -> AllocRejCode.UnknownExecutingBrokerMnemonic
-        |"4"B -> AllocRejCode.CommissionDifference
-        |"5"B -> AllocRejCode.UnknownOrderid
-        |"6"B -> AllocRejCode.UnknownListid
-        |"7"B -> AllocRejCode.Other
-        |"8"B -> AllocRejCode.IncorrectAllocatedQuantity
-        |"9"B -> AllocRejCode.CalculationDifference
-        |"10"B -> AllocRejCode.UnknownOrStaleExecId
-        |"11"B -> AllocRejCode.MismatchedDataValue
-        |"12"B -> AllocRejCode.UnknownClordid
-        |"13"B -> AllocRejCode.WarehouseRequestRejected
-        | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : int =
@@ -3209,11 +2507,6 @@ let WriteSignature (dest:byte []) (nextFreeIdx:int) (fld:Signature) : int =
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadSignature (pos:int) (bs:byte[]) : (int * Signature) =
-    ReadLengthDataCompoundField "89"B (pos:int) (bs:byte[]) Signature.Signature
-
-
 // compound write, of a length field and the corresponding string field
 let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
     // write the string length part of the compound msg
@@ -3234,22 +2527,6 @@ let WriteSecureData (dest:byte []) (nextFreeIdx:int) (fld:SecureData) : int =
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadSecureData (pos:int) (bs:byte[]) : (int * SecureData) =
-    ReadLengthDataCompoundField "91"B (pos:int) (bs:byte[]) SecureData.SecureData
-
-
-let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> EmailType.New
-        |"1"B -> EmailType.Reply
-        |"2"B -> EmailType.AdminReply
-        | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
@@ -3296,15 +2573,6 @@ let WriteRawData (dest:byte []) (nextFreeIdx:int) (fld:RawData) : int =
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadRawData (pos:int) (bs:byte[]) : (int * RawData) =
-    ReadLengthDataCompoundField "96"B (pos:int) (bs:byte[]) RawData.RawData
-
-
-let ReadPossResend (pos:int) (bs:byte[]) : (int*PossResend) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PossResend.PossResend
-
-
 let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int = 
    let tag = "97="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3314,21 +2582,6 @@ let WritePossResend (dest:byte []) (nextFreeIdx:int) (valIn:PossResend) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadEncryptMethod (pos:int) (bs:byte[]) : (int * EncryptMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> EncryptMethod.NoneOther
-        |"1"B -> EncryptMethod.Pkcs
-        |"2"B -> EncryptMethod.Des
-        |"3"B -> EncryptMethod.PkcsDes
-        |"4"B -> EncryptMethod.PgpDes
-        |"5"B -> EncryptMethod.PgpDesMd5
-        |"6"B -> EncryptMethod.PemDesMd5
-        | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) : int =
@@ -3377,10 +2630,6 @@ let WriteEncryptMethod (dest:byte array) (nextFreeIdx:int) (xxIn:EncryptMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStopPx (pos:int) (bs:byte[]) : (int*StopPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) StopPx.StopPx
-
-
 let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int = 
    let tag = "99="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3392,10 +2641,6 @@ let WriteStopPx (dest:byte []) (nextFreeIdx:int) (valIn:StopPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExDestination (pos:int) (bs:byte[]) : (int*ExDestination) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExDestination.ExDestination
-
-
 let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : int = 
    let tag = "100="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3405,22 +2650,6 @@ let WriteExDestination (dest:byte []) (nextFreeIdx:int) (valIn:ExDestination) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CxlRejReason.TooLateToCancel
-        |"1"B -> CxlRejReason.UnknownOrder
-        |"2"B -> CxlRejReason.BrokerExchangeOption
-        |"3"B -> CxlRejReason.OrderAlreadyInPendingCancelOrPendingReplaceStatus
-        |"4"B -> CxlRejReason.UnableToProcessOrderMassCancelRequest
-        |"5"B -> CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder
-        |"6"B -> CxlRejReason.DuplicateClordidReceived
-        |"99"B -> CxlRejReason.Other
-        | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : int =
@@ -3473,31 +2702,6 @@ let WriteCxlRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejReason) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> OrdRejReason.BrokerExchangeOption
-        |"1"B -> OrdRejReason.UnknownSymbol
-        |"2"B -> OrdRejReason.ExchangeClosed
-        |"3"B -> OrdRejReason.OrderExceedsLimit
-        |"4"B -> OrdRejReason.TooLateToEnter
-        |"5"B -> OrdRejReason.UnknownOrder
-        |"6"B -> OrdRejReason.DuplicateOrder
-        |"7"B -> OrdRejReason.DuplicateOfAVerballyCommunicatedOrder
-        |"8"B -> OrdRejReason.StaleOrder
-        |"9"B -> OrdRejReason.TradeAlongRequired
-        |"10"B -> OrdRejReason.InvalidInvestorId
-        |"11"B -> OrdRejReason.UnsupportedOrderCharacteristic
-        |"12"B -> OrdRejReason.SurveillenceOption
-        |"13"B -> OrdRejReason.IncorrectQuantity
-        |"14"B -> OrdRejReason.IncorrectAllocatedQuantity
-        |"15"B -> OrdRejReason.UnknownAccount
-        |"99"B -> OrdRejReason.Other
-        | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : int =
@@ -3604,32 +2808,6 @@ let WriteOrdRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:OrdRejReason) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> IOIQualifier.AllOrNone
-        |"B"B -> IOIQualifier.MarketOnClose
-        |"C"B -> IOIQualifier.AtTheClose
-        |"D"B -> IOIQualifier.Vwap
-        |"I"B -> IOIQualifier.InTouchWith
-        |"L"B -> IOIQualifier.Limit
-        |"M"B -> IOIQualifier.MoreBehind
-        |"O"B -> IOIQualifier.AtTheOpen
-        |"P"B -> IOIQualifier.TakingAPosition
-        |"Q"B -> IOIQualifier.AtTheMarket
-        |"R"B -> IOIQualifier.ReadyToTrade
-        |"S"B -> IOIQualifier.PortfolioShown
-        |"T"B -> IOIQualifier.ThroughTheDay
-        |"V"B -> IOIQualifier.Versus
-        |"W"B -> IOIQualifier.IndicationWorkingAway
-        |"X"B -> IOIQualifier.CrossingOpportunity
-        |"Y"B -> IOIQualifier.AtTheMidpoint
-        |"Z"B -> IOIQualifier.PreOpen
-        | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : int =
@@ -3744,10 +2922,6 @@ let WriteIOIQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:IOIQualifier) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWaveNo (pos:int) (bs:byte[]) : (int*WaveNo) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) WaveNo.WaveNo
-
-
 let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int = 
    let tag = "105="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3757,10 +2931,6 @@ let WriteWaveNo (dest:byte []) (nextFreeIdx:int) (valIn:WaveNo) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadIssuer (pos:int) (bs:byte[]) : (int*Issuer) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Issuer.Issuer
 
 
 let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int = 
@@ -3774,10 +2944,6 @@ let WriteIssuer (dest:byte []) (nextFreeIdx:int) (valIn:Issuer) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityDesc (pos:int) (bs:byte[]) : (int*SecurityDesc) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityDesc.SecurityDesc
-
-
 let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : int = 
    let tag = "107="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3787,10 +2953,6 @@ let WriteSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:SecurityDesc) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadHeartBtInt (pos:int) (bs:byte[]) : (int*HeartBtInt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) HeartBtInt.HeartBtInt
 
 
 let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int = 
@@ -3804,10 +2966,6 @@ let WriteHeartBtInt (dest:byte []) (nextFreeIdx:int) (valIn:HeartBtInt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinQty (pos:int) (bs:byte[]) : (int*MinQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinQty.MinQty
-
-
 let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int = 
    let tag = "110="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3817,10 +2975,6 @@ let WriteMinQty (dest:byte []) (nextFreeIdx:int) (valIn:MinQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMaxFloor (pos:int) (bs:byte[]) : (int*MaxFloor) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MaxFloor.MaxFloor
 
 
 let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int = 
@@ -3834,10 +2988,6 @@ let WriteMaxFloor (dest:byte []) (nextFreeIdx:int) (valIn:MaxFloor) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTestReqID (pos:int) (bs:byte[]) : (int*TestReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TestReqID.TestReqID
-
-
 let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int = 
    let tag = "112="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3847,10 +2997,6 @@ let WriteTestReqID (dest:byte []) (nextFreeIdx:int) (valIn:TestReqID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadReportToExch (pos:int) (bs:byte[]) : (int*ReportToExch) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ReportToExch.ReportToExch
 
 
 let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : int = 
@@ -3864,10 +3010,6 @@ let WriteReportToExch (dest:byte []) (nextFreeIdx:int) (valIn:ReportToExch) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLocateReqd (pos:int) (bs:byte[]) : (int*LocateReqd) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LocateReqd.LocateReqd
-
-
 let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int = 
    let tag = "114="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3877,10 +3019,6 @@ let WriteLocateReqd (dest:byte []) (nextFreeIdx:int) (valIn:LocateReqd) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOnBehalfOfCompID (pos:int) (bs:byte[]) : (int*OnBehalfOfCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfCompID.OnBehalfOfCompID
 
 
 let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfCompID) : int = 
@@ -3894,10 +3032,6 @@ let WriteOnBehalfOfCompID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfComp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOnBehalfOfSubID (pos:int) (bs:byte[]) : (int*OnBehalfOfSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfSubID.OnBehalfOfSubID
-
-
 let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID) : int = 
    let tag = "116="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3907,10 +3041,6 @@ let WriteOnBehalfOfSubID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfSubID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteID (pos:int) (bs:byte[]) : (int*QuoteID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteID.QuoteID
 
 
 let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int = 
@@ -3924,10 +3054,6 @@ let WriteQuoteID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetMoney (pos:int) (bs:byte[]) : (int*NetMoney) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NetMoney.NetMoney
-
-
 let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int = 
    let tag = "118="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3937,10 +3063,6 @@ let WriteNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:NetMoney) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlCurrAmt (pos:int) (bs:byte[]) : (int*SettlCurrAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlCurrAmt.SettlCurrAmt
 
 
 let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : int = 
@@ -3954,10 +3076,6 @@ let WriteSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrAmt) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrency (pos:int) (bs:byte[]) : (int*SettlCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlCurrency.SettlCurrency
-
-
 let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : int = 
    let tag = "120="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3967,10 +3085,6 @@ let WriteSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrency) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadForexReq (pos:int) (bs:byte[]) : (int*ForexReq) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ForexReq.ForexReq
 
 
 let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int = 
@@ -3984,10 +3098,6 @@ let WriteForexReq (dest:byte []) (nextFreeIdx:int) (valIn:ForexReq) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrigSendingTime (pos:int) (bs:byte[]) : (int*OrigSendingTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigSendingTime.OrigSendingTime
-
-
 let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime) : int = 
    let tag = "122="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3997,10 +3107,6 @@ let WriteOrigSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigSendingTime
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadGapFillFlag (pos:int) (bs:byte[]) : (int*GapFillFlag) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) GapFillFlag.GapFillFlag
 
 
 let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int = 
@@ -4014,10 +3120,6 @@ let WriteGapFillFlag (dest:byte []) (nextFreeIdx:int) (valIn:GapFillFlag) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoExecs (pos:int) (bs:byte[]) : (int*NoExecs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoExecs.NoExecs
-
-
 let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int = 
    let tag = "124="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4029,10 +3131,6 @@ let WriteNoExecs (dest:byte []) (nextFreeIdx:int) (valIn:NoExecs) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExpireTime (pos:int) (bs:byte[]) : (int*ExpireTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExpireTime.ExpireTime
-
-
 let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int = 
    let tag = "126="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4042,21 +3140,6 @@ let WriteExpireTime (dest:byte []) (nextFreeIdx:int) (valIn:ExpireTime) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> DKReason.UnknownSymbol
-        |"B"B -> DKReason.WrongSide
-        |"C"B -> DKReason.QuantityExceedsOrder
-        |"D"B -> DKReason.NoMatchingOrder
-        |"E"B -> DKReason.PriceExceedsLimit
-        |"F"B -> DKReason.CalculationDifference
-        |"Z"B -> DKReason.Other
-        | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
@@ -4105,10 +3188,6 @@ let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDeliverToCompID (pos:int) (bs:byte[]) : (int*DeliverToCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToCompID.DeliverToCompID
-
-
 let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID) : int = 
    let tag = "128="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4118,10 +3197,6 @@ let WriteDeliverToCompID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToCompID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDeliverToSubID (pos:int) (bs:byte[]) : (int*DeliverToSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToSubID.DeliverToSubID
 
 
 let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) : int = 
@@ -4135,10 +3210,6 @@ let WriteDeliverToSubID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToSubID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIOINaturalFlag (pos:int) (bs:byte[]) : (int*IOINaturalFlag) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) IOINaturalFlag.IOINaturalFlag
-
-
 let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) : int = 
    let tag = "130="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4148,10 +3219,6 @@ let WriteIOINaturalFlag (dest:byte []) (nextFreeIdx:int) (valIn:IOINaturalFlag) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteReqID (pos:int) (bs:byte[]) : (int*QuoteReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteReqID.QuoteReqID
 
 
 let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int = 
@@ -4165,10 +3232,6 @@ let WriteQuoteReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidPx (pos:int) (bs:byte[]) : (int*BidPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidPx.BidPx
-
-
 let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int = 
    let tag = "132="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4178,10 +3241,6 @@ let WriteBidPx (dest:byte []) (nextFreeIdx:int) (valIn:BidPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOfferPx (pos:int) (bs:byte[]) : (int*OfferPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferPx.OfferPx
 
 
 let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int = 
@@ -4195,10 +3254,6 @@ let WriteOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:OfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBidSize (pos:int) (bs:byte[]) : (int*BidSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidSize.BidSize
-
-
 let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int = 
    let tag = "134="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4208,10 +3263,6 @@ let WriteBidSize (dest:byte []) (nextFreeIdx:int) (valIn:BidSize) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOfferSize (pos:int) (bs:byte[]) : (int*OfferSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferSize.OfferSize
 
 
 let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int = 
@@ -4225,10 +3276,6 @@ let WriteOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:OfferSize) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMiscFees (pos:int) (bs:byte[]) : (int*NoMiscFees) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMiscFees.NoMiscFees
-
-
 let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int = 
    let tag = "136="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4238,10 +3285,6 @@ let WriteNoMiscFees (dest:byte []) (nextFreeIdx:int) (valIn:NoMiscFees) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMiscFeeAmt (pos:int) (bs:byte[]) : (int*MiscFeeAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MiscFeeAmt.MiscFeeAmt
 
 
 let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int = 
@@ -4255,10 +3298,6 @@ let WriteMiscFeeAmt (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeAmt) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMiscFeeCurr (pos:int) (bs:byte[]) : (int*MiscFeeCurr) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MiscFeeCurr.MiscFeeCurr
-
-
 let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int = 
    let tag = "138="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4268,26 +3307,6 @@ let WriteMiscFeeCurr (dest:byte []) (nextFreeIdx:int) (valIn:MiscFeeCurr) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMiscFeeType (pos:int) (bs:byte[]) : (int * MiscFeeType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> MiscFeeType.Regulatory
-        |"2"B -> MiscFeeType.Tax
-        |"3"B -> MiscFeeType.LocalCommission
-        |"4"B -> MiscFeeType.ExchangeFees
-        |"5"B -> MiscFeeType.Stamp
-        |"6"B -> MiscFeeType.Levy
-        |"7"B -> MiscFeeType.Other
-        |"8"B -> MiscFeeType.Markup
-        |"9"B -> MiscFeeType.ConsumptionTax
-        |"10"B -> MiscFeeType.PerTransaction
-        |"11"B -> MiscFeeType.Conversion
-        |"12"B -> MiscFeeType.Agent
-        | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : int =
@@ -4366,10 +3385,6 @@ let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPrevClosePx (pos:int) (bs:byte[]) : (int*PrevClosePx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PrevClosePx.PrevClosePx
-
-
 let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int = 
    let tag = "140="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4379,10 +3394,6 @@ let WritePrevClosePx (dest:byte []) (nextFreeIdx:int) (valIn:PrevClosePx) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadResetSeqNumFlag (pos:int) (bs:byte[]) : (int*ResetSeqNumFlag) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ResetSeqNumFlag.ResetSeqNumFlag
 
 
 let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag) : int = 
@@ -4396,10 +3407,6 @@ let WriteResetSeqNumFlag (dest:byte []) (nextFreeIdx:int) (valIn:ResetSeqNumFlag
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSenderLocationID (pos:int) (bs:byte[]) : (int*SenderLocationID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SenderLocationID.SenderLocationID
-
-
 let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocationID) : int = 
    let tag = "142="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4409,10 +3416,6 @@ let WriteSenderLocationID (dest:byte []) (nextFreeIdx:int) (valIn:SenderLocation
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTargetLocationID (pos:int) (bs:byte[]) : (int*TargetLocationID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetLocationID.TargetLocationID
 
 
 let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocationID) : int = 
@@ -4426,10 +3429,6 @@ let WriteTargetLocationID (dest:byte []) (nextFreeIdx:int) (valIn:TargetLocation
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOnBehalfOfLocationID (pos:int) (bs:byte[]) : (int*OnBehalfOfLocationID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OnBehalfOfLocationID.OnBehalfOfLocationID
-
-
 let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOfLocationID) : int = 
    let tag = "144="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4439,10 +3438,6 @@ let WriteOnBehalfOfLocationID (dest:byte []) (nextFreeIdx:int) (valIn:OnBehalfOf
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDeliverToLocationID (pos:int) (bs:byte[]) : (int*DeliverToLocationID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliverToLocationID.DeliverToLocationID
 
 
 let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLocationID) : int = 
@@ -4456,10 +3451,6 @@ let WriteDeliverToLocationID (dest:byte []) (nextFreeIdx:int) (valIn:DeliverToLo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRelatedSym (pos:int) (bs:byte[]) : (int*NoRelatedSym) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRelatedSym.NoRelatedSym
-
-
 let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : int = 
    let tag = "146="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4469,10 +3460,6 @@ let WriteNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:NoRelatedSym) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSubject (pos:int) (bs:byte[]) : (int*Subject) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Subject.Subject
 
 
 let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int = 
@@ -4486,10 +3473,6 @@ let WriteSubject (dest:byte []) (nextFreeIdx:int) (valIn:Subject) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHeadline (pos:int) (bs:byte[]) : (int*Headline) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Headline.Headline
-
-
 let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int = 
    let tag = "148="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4501,10 +3484,6 @@ let WriteHeadline (dest:byte []) (nextFreeIdx:int) (valIn:Headline) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadURLLink (pos:int) (bs:byte[]) : (int*URLLink) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) URLLink.URLLink
-
-
 let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int = 
    let tag = "149="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4514,33 +3493,6 @@ let WriteURLLink (dest:byte []) (nextFreeIdx:int) (valIn:URLLink) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExecType (pos:int) (bs:byte[]) : (int * ExecType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ExecType.New
-        |"1"B -> ExecType.PartialFill
-        |"2"B -> ExecType.Fill
-        |"3"B -> ExecType.DoneForDay
-        |"4"B -> ExecType.Canceled
-        |"5"B -> ExecType.Replace
-        |"6"B -> ExecType.PendingCancel
-        |"7"B -> ExecType.Stopped
-        |"8"B -> ExecType.Rejected
-        |"9"B -> ExecType.Suspended
-        |"A"B -> ExecType.PendingNew
-        |"B"B -> ExecType.Calculated
-        |"C"B -> ExecType.Expired
-        |"D"B -> ExecType.Restated
-        |"E"B -> ExecType.PendingReplace
-        |"F"B -> ExecType.Trade
-        |"G"B -> ExecType.TradeCorrect
-        |"H"B -> ExecType.TradeCancel
-        |"I"B -> ExecType.OrderStatus
-        | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
@@ -4661,10 +3613,6 @@ let WriteExecType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLeavesQty (pos:int) (bs:byte[]) : (int*LeavesQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LeavesQty.LeavesQty
-
-
 let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int = 
    let tag = "151="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4674,10 +3622,6 @@ let WriteLeavesQty (dest:byte []) (nextFreeIdx:int) (valIn:LeavesQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCashOrderQty (pos:int) (bs:byte[]) : (int*CashOrderQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CashOrderQty.CashOrderQty
 
 
 let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : int = 
@@ -4691,10 +3635,6 @@ let WriteCashOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:CashOrderQty) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAvgPx (pos:int) (bs:byte[]) : (int*AllocAvgPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocAvgPx.AllocAvgPx
-
-
 let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int = 
    let tag = "153="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4704,10 +3644,6 @@ let WriteAllocAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:AllocAvgPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocNetMoney (pos:int) (bs:byte[]) : (int*AllocNetMoney) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocNetMoney.AllocNetMoney
 
 
 let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : int = 
@@ -4721,10 +3657,6 @@ let WriteAllocNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:AllocNetMoney) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrFxRate (pos:int) (bs:byte[]) : (int*SettlCurrFxRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrFxRate.SettlCurrFxRate
-
-
 let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate) : int = 
    let tag = "155="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4734,16 +3666,6 @@ let WriteSettlCurrFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrFxRate
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlCurrFxRateCalc (pos:int) (bs:byte[]) : (int * SettlCurrFxRateCalc) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"M"B -> SettlCurrFxRateCalc.Multiply
-        |"D"B -> SettlCurrFxRateCalc.Divide
-        | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurrFxRateCalc) : int =
@@ -4762,10 +3684,6 @@ let WriteSettlCurrFxRateCalc (dest:byte array) (nextFreeIdx:int) (xxIn:SettlCurr
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumDaysInterest (pos:int) (bs:byte[]) : (int*NumDaysInterest) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumDaysInterest.NumDaysInterest
-
-
 let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest) : int = 
    let tag = "157="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4775,10 +3693,6 @@ let WriteNumDaysInterest (dest:byte []) (nextFreeIdx:int) (valIn:NumDaysInterest
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAccruedInterestRate (pos:int) (bs:byte[]) : (int*AccruedInterestRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AccruedInterestRate.AccruedInterestRate
 
 
 let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestRate) : int = 
@@ -4792,10 +3706,6 @@ let WriteAccruedInterestRate (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInte
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AccruedInterestAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AccruedInterestAmt.AccruedInterestAmt
-
-
 let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInterestAmt) : int = 
    let tag = "159="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4805,18 +3715,6 @@ let WriteAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AccruedInter
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlInstMode (pos:int) (bs:byte[]) : (int * SettlInstMode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SettlInstMode.Default
-        |"1"B -> SettlInstMode.StandingInstructionsProvided
-        |"4"B -> SettlInstMode.SpecificOrderForASingleAccount
-        |"5"B -> SettlInstMode.RequestReject
-        | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) : int =
@@ -4847,10 +3745,6 @@ let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocText (pos:int) (bs:byte[]) : (int*AllocText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocText.AllocText
-
-
 let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int = 
    let tag = "161="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4862,10 +3756,6 @@ let WriteAllocText (dest:byte []) (nextFreeIdx:int) (valIn:AllocText) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstID (pos:int) (bs:byte[]) : (int*SettlInstID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstID.SettlInstID
-
-
 let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int = 
    let tag = "162="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4875,18 +3765,6 @@ let WriteSettlInstID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlInstTransType (pos:int) (bs:byte[]) : (int * SettlInstTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"N"B -> SettlInstTransType.New
-        |"C"B -> SettlInstTransType.Cancel
-        |"R"B -> SettlInstTransType.Replace
-        |"T"B -> SettlInstTransType.Restate
-        | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstTransType) : int =
@@ -4917,10 +3795,6 @@ let WriteSettlInstTransType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstT
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEmailThreadID (pos:int) (bs:byte[]) : (int*EmailThreadID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EmailThreadID.EmailThreadID
-
-
 let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : int = 
    let tag = "164="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -4930,17 +3804,6 @@ let WriteEmailThreadID (dest:byte []) (nextFreeIdx:int) (valIn:EmailThreadID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SettlInstSource.BrokersInstructions
-        |"2"B -> SettlInstSource.InstitutionsInstructions
-        |"3"B -> SettlInstSource.Investor
-        | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSource) : int =
@@ -4963,108 +3826,6 @@ let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSour
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
-        |"FAC"B -> SecurityType.FederalAgencyCoupon
-        |"FADN"B -> SecurityType.FederalAgencyDiscountNote
-        |"PEF"B -> SecurityType.PrivateExportFunding
-        |"SUPRA"B -> SecurityType.UsdSupranationalCoupons
-        |"FUT"B -> SecurityType.Future
-        |"OPT"B -> SecurityType.Option
-        |"CORP"B -> SecurityType.CorporateBond
-        |"CPP"B -> SecurityType.CorporatePrivatePlacement
-        |"CB"B -> SecurityType.ConvertibleBond
-        |"DUAL"B -> SecurityType.DualCurrency
-        |"EUCORP"B -> SecurityType.EuroCorporateBond
-        |"XLINKD"B -> SecurityType.IndexedLinked
-        |"STRUCT"B -> SecurityType.StructuredNotes
-        |"YANK"B -> SecurityType.YankeeCorporateBond
-        |"FOR"B -> SecurityType.ForeignExchangeContract
-        |"CS"B -> SecurityType.CommonStock
-        |"PS"B -> SecurityType.PreferredStock
-        |"BRADY"B -> SecurityType.BradyBond
-        |"EUSOV"B -> SecurityType.EuroSovereigns
-        |"TBOND"B -> SecurityType.UsTreasuryBond
-        |"TINT"B -> SecurityType.InterestStripFromAnyBondOrNote
-        |"TIPS"B -> SecurityType.TreasuryInflationProtectedSecurities
-        |"TCAL"B -> SecurityType.PrincipalStripOfACallableBondOrNote
-        |"TPRN"B -> SecurityType.PrincipalStripFromANonCallableBondOrNote
-        |"TNOTE"B -> SecurityType.UsTreasuryNote
-        |"TBILL"B -> SecurityType.UsTreasuryBill
-        |"REPO"B -> SecurityType.Repurchase
-        |"FORWARD"B -> SecurityType.Forward
-        |"BUYSELL"B -> SecurityType.BuySellback
-        |"SECLOAN"B -> SecurityType.SecuritiesLoan
-        |"SECPLEDGE"B -> SecurityType.SecuritiesPledge
-        |"TERM"B -> SecurityType.TermLoan
-        |"RVLV"B -> SecurityType.RevolverLoan
-        |"RVLVTRM"B -> SecurityType.RevolverTermLoan
-        |"BRIDGE"B -> SecurityType.BridgeLoan
-        |"LOFC"B -> SecurityType.LetterOfCredit
-        |"SWING"B -> SecurityType.SwingLineFacility
-        |"DINP"B -> SecurityType.DebtorInPossession
-        |"DEFLTED"B -> SecurityType.Defaulted
-        |"WITHDRN"B -> SecurityType.Withdrawn
-        |"REPLACD"B -> SecurityType.Replaced
-        |"MATURED"B -> SecurityType.Matured
-        |"AMENDED"B -> SecurityType.AmendedAndRestated
-        |"RETIRED"B -> SecurityType.Retired
-        |"BA"B -> SecurityType.BankersAcceptance
-        |"BN"B -> SecurityType.BankNotes
-        |"BOX"B -> SecurityType.BillOfExchanges
-        |"CD"B -> SecurityType.CertificateOfDeposit
-        |"CL"B -> SecurityType.CallLoans
-        |"CP"B -> SecurityType.CommercialPaper
-        |"DN"B -> SecurityType.DepositNotes
-        |"EUCD"B -> SecurityType.EuroCertificateOfDeposit
-        |"EUCP"B -> SecurityType.EuroCommercialPaper
-        |"LQN"B -> SecurityType.LiquidityNote
-        |"MTN"B -> SecurityType.MediumTermNotes
-        |"ONITE"B -> SecurityType.Overnight
-        |"PN"B -> SecurityType.PromissoryNote
-        |"PZFJ"B -> SecurityType.PlazosFijos
-        |"STN"B -> SecurityType.ShortTermLoanNote
-        |"TD"B -> SecurityType.TimeDeposit
-        |"XCN"B -> SecurityType.ExtendedCommNote
-        |"YCD"B -> SecurityType.YankeeCertificateOfDeposit
-        |"ABS"B -> SecurityType.AssetBackedSecurities
-        |"CMBS"B -> SecurityType.CorpMortgageBackedSecurities
-        |"CMO"B -> SecurityType.CollateralizedMortgageObligation
-        |"IET"B -> SecurityType.IoetteMortgage
-        |"MBS"B -> SecurityType.MortgageBackedSecurities
-        |"MIO"B -> SecurityType.MortgageInterestOnly
-        |"MPO"B -> SecurityType.MortgagePrincipalOnly
-        |"MPP"B -> SecurityType.MortgagePrivatePlacement
-        |"MPT"B -> SecurityType.MiscellaneousPassThrough
-        |"PFAND"B -> SecurityType.Pfandbriefe
-        |"TBA"B -> SecurityType.ToBeAnnounced
-        |"AN"B -> SecurityType.OtherAnticipationNotes
-        |"COFO"B -> SecurityType.CertificateOfObligation
-        |"COFP"B -> SecurityType.CertificateOfParticipation
-        |"GO"B -> SecurityType.GeneralObligationBonds
-        |"MT"B -> SecurityType.MandatoryTender
-        |"RAN"B -> SecurityType.RevenueAnticipationNote
-        |"REV"B -> SecurityType.RevenueBonds
-        |"SPCLA"B -> SecurityType.SpecialAssessment
-        |"SPCLO"B -> SecurityType.SpecialObligation
-        |"SPCLT"B -> SecurityType.SpecialTax
-        |"TAN"B -> SecurityType.TaxAnticipationNote
-        |"TAXA"B -> SecurityType.TaxAllocation
-        |"TECP"B -> SecurityType.TaxExemptCommercialPaper
-        |"TRAN"B -> SecurityType.TaxAndRevenueAnticipationNote
-        |"VRDN"B -> SecurityType.VariableRateDemandNote
-        |"WAR"B -> SecurityType.Warrant
-        |"MF"B -> SecurityType.MutualFund
-        |"MLEG"B -> SecurityType.MultiLegInstrument
-        |"NONE"B -> SecurityType.NoSecurityType
-        |"?"B -> SecurityType.Wildcard
-        | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : int =
@@ -5635,10 +4396,6 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EffectiveTime.EffectiveTime
-
-
 let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : int = 
    let tag = "168="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5648,19 +4405,6 @@ let WriteEffectiveTime (dest:byte []) (nextFreeIdx:int) (valIn:EffectiveTime) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> StandInstDbType.Other
-        |"1"B -> StandInstDbType.DtcSid
-        |"2"B -> StandInstDbType.ThomsonAlert
-        |"3"B -> StandInstDbType.AGlobalCustodian
-        |"4"B -> StandInstDbType.Accountnet
-        | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbType) : int =
@@ -5697,10 +4441,6 @@ let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStandInstDbName (pos:int) (bs:byte[]) : (int*StandInstDbName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StandInstDbName.StandInstDbName
-
-
 let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName) : int = 
    let tag = "170="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5712,10 +4452,6 @@ let WriteStandInstDbName (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbName
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStandInstDbID (pos:int) (bs:byte[]) : (int*StandInstDbID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StandInstDbID.StandInstDbID
-
-
 let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : int = 
    let tag = "171="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5725,18 +4461,6 @@ let WriteStandInstDbID (dest:byte []) (nextFreeIdx:int) (valIn:StandInstDbID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlDeliveryType (pos:int) (bs:byte[]) : (int * SettlDeliveryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SettlDeliveryType.VersusPayment
-        |"1"B -> SettlDeliveryType.Free
-        |"2"B -> SettlDeliveryType.TriParty
-        |"3"B -> SettlDeliveryType.HoldInCustody
-        | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDeliveryType) : int =
@@ -5767,10 +4491,6 @@ let WriteSettlDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlDelive
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidSpotRate (pos:int) (bs:byte[]) : (int*BidSpotRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidSpotRate.BidSpotRate
-
-
 let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int = 
    let tag = "188="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5780,10 +4500,6 @@ let WriteBidSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:BidSpotRate) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidForwardPoints (pos:int) (bs:byte[]) : (int*BidForwardPoints) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidForwardPoints.BidForwardPoints
 
 
 let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints) : int = 
@@ -5797,10 +4513,6 @@ let WriteBidForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoin
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferSpotRate (pos:int) (bs:byte[]) : (int*OfferSpotRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferSpotRate.OfferSpotRate
-
-
 let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : int = 
    let tag = "190="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5810,10 +4522,6 @@ let WriteOfferSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:OfferSpotRate) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOfferForwardPoints (pos:int) (bs:byte[]) : (int*OfferForwardPoints) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferForwardPoints.OfferForwardPoints
 
 
 let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints) : int = 
@@ -5827,10 +4535,6 @@ let WriteOfferForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:OfferForward
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderQty2 (pos:int) (bs:byte[]) : (int*OrderQty2) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderQty2.OrderQty2
-
-
 let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int = 
    let tag = "192="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5840,10 +4544,6 @@ let WriteOrderQty2 (dest:byte []) (nextFreeIdx:int) (valIn:OrderQty2) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlDate2 (pos:int) (bs:byte[]) : (int*SettlDate2) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlDate2.SettlDate2
 
 
 let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int = 
@@ -5857,10 +4557,6 @@ let WriteSettlDate2 (dest:byte []) (nextFreeIdx:int) (valIn:SettlDate2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastSpotRate (pos:int) (bs:byte[]) : (int*LastSpotRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastSpotRate.LastSpotRate
-
-
 let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : int = 
    let tag = "194="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5870,10 +4566,6 @@ let WriteLastSpotRate (dest:byte []) (nextFreeIdx:int) (valIn:LastSpotRate) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLastForwardPoints (pos:int) (bs:byte[]) : (int*LastForwardPoints) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastForwardPoints.LastForwardPoints
 
 
 let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints) : int = 
@@ -5887,10 +4579,6 @@ let WriteLastForwardPoints (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocLinkID (pos:int) (bs:byte[]) : (int*AllocLinkID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocLinkID.AllocLinkID
-
-
 let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int = 
    let tag = "196="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5900,16 +4588,6 @@ let WriteAllocLinkID (dest:byte []) (nextFreeIdx:int) (valIn:AllocLinkID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocLinkType (pos:int) (bs:byte[]) : (int * AllocLinkType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocLinkType.FXNetting
-        |"1"B -> AllocLinkType.FXSwap
-        | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) : int =
@@ -5928,10 +4606,6 @@ let WriteAllocLinkType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocLinkType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryOrderID (pos:int) (bs:byte[]) : (int*SecondaryOrderID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryOrderID.SecondaryOrderID
-
-
 let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrderID) : int = 
    let tag = "198="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5941,10 +4615,6 @@ let WriteSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryOrder
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoIOIQualifiers (pos:int) (bs:byte[]) : (int*NoIOIQualifiers) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoIOIQualifiers.NoIOIQualifiers
 
 
 let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers) : int = 
@@ -5958,10 +4628,6 @@ let WriteNoIOIQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoIOIQualifiers
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaturityMonthYear (pos:int) (bs:byte[]) : (int*MaturityMonthYear) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MaturityMonthYear.MaturityMonthYear
-
-
 let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonthYear) : int = 
    let tag = "200="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -5971,16 +4637,6 @@ let WriteMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:MaturityMonth
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPutOrCall (pos:int) (bs:byte[]) : (int * PutOrCall) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PutOrCall.Put
-        |"1"B -> PutOrCall.Call
-        | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
@@ -5999,10 +4655,6 @@ let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikePrice (pos:int) (bs:byte[]) : (int*StrikePrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) StrikePrice.StrikePrice
-
-
 let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int = 
    let tag = "202="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6012,16 +4664,6 @@ let WriteStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:StrikePrice) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCoveredOrUncovered (pos:int) (bs:byte[]) : (int * CoveredOrUncovered) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CoveredOrUncovered.Covered
-        |"1"B -> CoveredOrUncovered.Uncovered
-        | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrUncovered) : int =
@@ -6040,10 +4682,6 @@ let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrU
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOptAttribute (pos:int) (bs:byte[]) : (int*OptAttribute) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OptAttribute.OptAttribute
-
-
 let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : int = 
    let tag = "206="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6053,10 +4691,6 @@ let WriteOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:OptAttribute) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityExchange (pos:int) (bs:byte[]) : (int*SecurityExchange) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityExchange.SecurityExchange
 
 
 let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchange) : int = 
@@ -6070,10 +4704,6 @@ let WriteSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:SecurityExchan
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNotifyBrokerOfCredit (pos:int) (bs:byte[]) : (int*NotifyBrokerOfCredit) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) NotifyBrokerOfCredit.NotifyBrokerOfCredit
-
-
 let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrokerOfCredit) : int = 
    let tag = "208="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6083,17 +4713,6 @@ let WriteNotifyBrokerOfCredit (dest:byte []) (nextFreeIdx:int) (valIn:NotifyBrok
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocHandlInst (pos:int) (bs:byte[]) : (int * AllocHandlInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AllocHandlInst.Match
-        |"2"B -> AllocHandlInst.Forward
-        |"3"B -> AllocHandlInst.ForwardAndMatch
-        | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst) : int =
@@ -6118,10 +4737,6 @@ let WriteAllocHandlInst (dest:byte array) (nextFreeIdx:int) (xxIn:AllocHandlInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMaxShow (pos:int) (bs:byte[]) : (int*MaxShow) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MaxShow.MaxShow
-
-
 let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int = 
    let tag = "210="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6131,10 +4746,6 @@ let WriteMaxShow (dest:byte []) (nextFreeIdx:int) (valIn:MaxShow) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPegOffsetValue (pos:int) (bs:byte[]) : (int*PegOffsetValue) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PegOffsetValue.PegOffsetValue
 
 
 let WritePegOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:PegOffsetValue) : int = 
@@ -6170,15 +4781,6 @@ let WriteXmlData (dest:byte []) (nextFreeIdx:int) (fld:XmlData) : int =
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadXmlData (pos:int) (bs:byte[]) : (int * XmlData) =
-    ReadLengthDataCompoundField "213"B (pos:int) (bs:byte[]) XmlData.XmlData
-
-
-let ReadSettlInstRefID (pos:int) (bs:byte[]) : (int*SettlInstRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstRefID.SettlInstRefID
-
-
 let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) : int = 
    let tag = "214="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6190,10 +4792,6 @@ let WriteSettlInstRefID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstRefID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRoutingIDs (pos:int) (bs:byte[]) : (int*NoRoutingIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRoutingIDs.NoRoutingIDs
-
-
 let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : int = 
    let tag = "215="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6203,18 +4801,6 @@ let WriteNoRoutingIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoRoutingIDs) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRoutingType (pos:int) (bs:byte[]) : (int * RoutingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> RoutingType.TargetFirm
-        |"2"B -> RoutingType.TargetList
-        |"3"B -> RoutingType.BlockFirm
-        |"4"B -> RoutingType.BlockList
-        | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : int =
@@ -6245,10 +4831,6 @@ let WriteRoutingType (dest:byte array) (nextFreeIdx:int) (xxIn:RoutingType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoutingID (pos:int) (bs:byte[]) : (int*RoutingID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RoutingID.RoutingID
-
-
 let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int = 
    let tag = "217="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6258,10 +4840,6 @@ let WriteRoutingID (dest:byte []) (nextFreeIdx:int) (valIn:RoutingID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSpread (pos:int) (bs:byte[]) : (int*Spread) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Spread.Spread
 
 
 let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int = 
@@ -6275,10 +4853,6 @@ let WriteSpread (dest:byte []) (nextFreeIdx:int) (valIn:Spread) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*BenchmarkCurveCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkCurveCurrency.BenchmarkCurveCurrency
-
-
 let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurveCurrency) : int = 
    let tag = "220="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6288,26 +4862,6 @@ let WriteBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Benchmar
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBenchmarkCurveName (pos:int) (bs:byte[]) : (int * BenchmarkCurveName) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"MuniAAA"B -> BenchmarkCurveName.Muniaaa
-        |"FutureSWAP"B -> BenchmarkCurveName.Futureswap
-        |"LIBID"B -> BenchmarkCurveName.Libid
-        |"LIBOR"B -> BenchmarkCurveName.Libor
-        |"OTHER"B -> BenchmarkCurveName.Other
-        |"SWAP"B -> BenchmarkCurveName.Swap
-        |"Treasury"B -> BenchmarkCurveName.Treasury
-        |"Euribor"B -> BenchmarkCurveName.Euribor
-        |"Pfandbriefe"B -> BenchmarkCurveName.Pfandbriefe
-        |"EONIA"B -> BenchmarkCurveName.Eonia
-        |"SONIA"B -> BenchmarkCurveName.Sonia
-        |"EUREPO"B -> BenchmarkCurveName.Eurepo
-        | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkCurveName) : int =
@@ -6386,10 +4940,6 @@ let WriteBenchmarkCurveName (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkC
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*BenchmarkCurvePoint) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkCurvePoint.BenchmarkCurvePoint
-
-
 let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCurvePoint) : int = 
    let tag = "222="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6399,10 +4949,6 @@ let WriteBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkCu
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCouponRate (pos:int) (bs:byte[]) : (int*CouponRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CouponRate.CouponRate
 
 
 let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int = 
@@ -6416,10 +4962,6 @@ let WriteCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:CouponRate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCouponPaymentDate (pos:int) (bs:byte[]) : (int*CouponPaymentDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CouponPaymentDate.CouponPaymentDate
-
-
 let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPaymentDate) : int = 
    let tag = "224="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6429,10 +4971,6 @@ let WriteCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:CouponPayment
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadIssueDate (pos:int) (bs:byte[]) : (int*IssueDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IssueDate.IssueDate
 
 
 let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int = 
@@ -6446,10 +4984,6 @@ let WriteIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:IssueDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRepurchaseTerm (pos:int) (bs:byte[]) : (int*RepurchaseTerm) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RepurchaseTerm.RepurchaseTerm
-
-
 let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) : int = 
    let tag = "226="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6459,10 +4993,6 @@ let WriteRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseTerm) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRepurchaseRate (pos:int) (bs:byte[]) : (int*RepurchaseRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RepurchaseRate.RepurchaseRate
 
 
 let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) : int = 
@@ -6476,10 +5006,6 @@ let WriteRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:RepurchaseRate) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFactor (pos:int) (bs:byte[]) : (int*Factor) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Factor.Factor
-
-
 let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int = 
    let tag = "228="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6489,10 +5015,6 @@ let WriteFactor (dest:byte []) (nextFreeIdx:int) (valIn:Factor) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeOriginationDate (pos:int) (bs:byte[]) : (int*TradeOriginationDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeOriginationDate.TradeOriginationDate
 
 
 let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOriginationDate) : int = 
@@ -6506,10 +5028,6 @@ let WriteTradeOriginationDate (dest:byte []) (nextFreeIdx:int) (valIn:TradeOrigi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExDate (pos:int) (bs:byte[]) : (int*ExDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExDate.ExDate
-
-
 let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int = 
    let tag = "230="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6519,10 +5037,6 @@ let WriteExDate (dest:byte []) (nextFreeIdx:int) (valIn:ExDate) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadContractMultiplier (pos:int) (bs:byte[]) : (int*ContractMultiplier) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContractMultiplier.ContractMultiplier
 
 
 let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMultiplier) : int = 
@@ -6536,10 +5050,6 @@ let WriteContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:ContractMult
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoStipulations (pos:int) (bs:byte[]) : (int*NoStipulations) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoStipulations.NoStipulations
-
-
 let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) : int = 
    let tag = "232="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -6549,73 +5059,6 @@ let WriteNoStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoStipulations) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"AMT"B -> StipulationType.Amt
-        |"AUTOREINV"B -> StipulationType.AutoReinvestmentAtOrBetter
-        |"BANKQUAL"B -> StipulationType.BankQualified
-        |"BGNCON"B -> StipulationType.BargainConditions
-        |"COUPON"B -> StipulationType.CouponRange
-        |"CURRENCY"B -> StipulationType.IsoCurrencyCode
-        |"CUSTOMDATE"B -> StipulationType.CustomStartEndDate
-        |"GEOG"B -> StipulationType.GeographicsAndPercentRange
-        |"HAIRCUT"B -> StipulationType.ValuationDiscount
-        |"INSURED"B -> StipulationType.Insured
-        |"ISSUE"B -> StipulationType.YearOrYearMonthOfIssue
-        |"ISSUER"B -> StipulationType.IssuersTicker
-        |"ISSUESIZE"B -> StipulationType.IssueSizeRange
-        |"LOOKBACK"B -> StipulationType.LookbackDays
-        |"LOT"B -> StipulationType.ExplicitLotIdentifier
-        |"LOTVAR"B -> StipulationType.LotVariance
-        |"MAT"B -> StipulationType.MaturityYearAndMonth
-        |"MATURITY"B -> StipulationType.MaturityRange
-        |"MAXSUBS"B -> StipulationType.MaximumSubstitutions
-        |"MINQTY"B -> StipulationType.MinimumQuantity
-        |"MININCR"B -> StipulationType.MinimumIncrement
-        |"MINDNOM"B -> StipulationType.MinimumDenomination
-        |"PAYFREQ"B -> StipulationType.PaymentFrequencyCalendar
-        |"PIECES"B -> StipulationType.NumberOfPieces
-        |"PMAX"B -> StipulationType.PoolsMaximum
-        |"PPM"B -> StipulationType.PoolsPerMillion
-        |"PPL"B -> StipulationType.PoolsPerLot
-        |"PPT"B -> StipulationType.PoolsPerTrade
-        |"PRICE"B -> StipulationType.PriceRange
-        |"PRICEFREQ"B -> StipulationType.PricingFrequency
-        |"PROD"B -> StipulationType.ProductionYear
-        |"PROTECT"B -> StipulationType.CallProtection
-        |"PURPOSE"B -> StipulationType.Purpose
-        |"PXSOURCE"B -> StipulationType.BenchmarkPriceSource
-        |"RATING"B -> StipulationType.RatingSourceAndRange
-        |"RESTRICTED"B -> StipulationType.Restricted
-        |"SECTOR"B -> StipulationType.MarketSector
-        |"SECTYPE"B -> StipulationType.SecuritytypeIncludedOrExcluded
-        |"STRUCT"B -> StipulationType.Structure
-        |"SUBSFREQ"B -> StipulationType.SubstitutionsFrequency
-        |"SUBSLEFT"B -> StipulationType.SubstitutionsLeft
-        |"TEXT"B -> StipulationType.FreeformText
-        |"TRDVAR"B -> StipulationType.TradeVariance
-        |"WAC"B -> StipulationType.WeightedAverageCoupon
-        |"WAL"B -> StipulationType.WeightedAverageLifeCoupon
-        |"WALA"B -> StipulationType.WeightedAverageLoanAge
-        |"WAM"B -> StipulationType.WeightedAverageMaturity
-        |"WHOLE"B -> StipulationType.WholePool
-        |"YIELD"B -> StipulationType.YieldRange
-        |"SMM"B -> StipulationType.SingleMonthlyMortality
-        |"CPR"B -> StipulationType.ConstantPrepaymentRate
-        |"CPY"B -> StipulationType.ConstantPrepaymentYield
-        |"CPP"B -> StipulationType.ConstantPrepaymentPenalty
-        |"ABS"B -> StipulationType.AbsolutePrepaymentSpeed
-        |"MPR"B -> StipulationType.MonthlyPrepaymentRate
-        |"PSA"B -> StipulationType.PercentOfBmaPrepaymentCurve
-        |"PPC"B -> StipulationType.PercentOfProspectusPrepaymentCurve
-        |"MHP"B -> StipulationType.PercentOfManufacturedHousingPrepaymentCurve
-        |"HEP"B -> StipulationType.FinalCprOfHomeEquityPrepaymentCurve
-        | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationType) : int =
@@ -6976,28 +5419,6 @@ let WriteStipulationType (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"CD"B -> StipulationValue.SpecialCumDividend
-        |"XD"B -> StipulationValue.SpecialExDividend
-        |"CC"B -> StipulationValue.SpecialCumCoupon
-        |"XC"B -> StipulationValue.SpecialExCoupon
-        |"CB"B -> StipulationValue.SpecialCumBonus
-        |"XB"B -> StipulationValue.SpecialExBonus
-        |"CR"B -> StipulationValue.SpecialCumRights
-        |"XR"B -> StipulationValue.SpecialExRights
-        |"CP"B -> StipulationValue.SpecialCumCapitalRepayments
-        |"XP"B -> StipulationValue.SpecialExCapitalRepayments
-        |"CS"B -> StipulationValue.CashSettlement
-        |"SP"B -> StipulationValue.SpecialPrice
-        |"TR"B -> StipulationValue.ReportForEuropeanEquityMarketSecurities
-        |"GD"B -> StipulationValue.GuaranteedDelivery
-        | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationValue) : int =
     match xxIn with
     | StipulationValue.SpecialCumDividend ->
@@ -7084,48 +5505,6 @@ let WriteStipulationValue (dest:byte array) (nextFreeIdx:int) (xxIn:StipulationV
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"AFTERTAX"B -> YieldType.AfterTaxYield
-        |"ANNUAL"B -> YieldType.AnnualYield
-        |"ATISSUE"B -> YieldType.YieldAtIssue
-        |"AVGMATURITY"B -> YieldType.YieldToAverageMaturity
-        |"BOOK"B -> YieldType.BookYield
-        |"CALL"B -> YieldType.YieldToNextCall
-        |"CHANGE"B -> YieldType.YieldChangeSinceClose
-        |"CLOSE"B -> YieldType.ClosingYield
-        |"COMPOUND"B -> YieldType.CompoundYield
-        |"CURRENT"B -> YieldType.CurrentYield
-        |"GROSS"B -> YieldType.TrueGrossYield
-        |"GOVTEQUIV"B -> YieldType.GovernmentEquivalentYield
-        |"INFLATION"B -> YieldType.YieldWithInflationAssumption
-        |"INVERSEFLOATER"B -> YieldType.InverseFloaterBondYield
-        |"LASTCLOSE"B -> YieldType.MostRecentClosingYield
-        |"LASTMONTH"B -> YieldType.ClosingYieldMostRecentMonth
-        |"LASTQUARTER"B -> YieldType.ClosingYieldMostRecentQuarter
-        |"LASTYEAR"B -> YieldType.ClosingYieldMostRecentYear
-        |"LONGAVGLIFE"B -> YieldType.YieldToLongestAverageLife
-        |"MARK"B -> YieldType.MarkToMarketYield
-        |"MATURITY"B -> YieldType.YieldToMaturity
-        |"NEXTREFUND"B -> YieldType.YieldToNextRefund
-        |"OPENAVG"B -> YieldType.OpenAverageYield
-        |"PUT"B -> YieldType.YieldToNextPut
-        |"PREVCLOSE"B -> YieldType.PreviousCloseYield
-        |"PROCEEDS"B -> YieldType.ProceedsYield
-        |"SEMIANNUAL"B -> YieldType.SemiAnnualYield
-        |"SHORTAVGLIFE"B -> YieldType.YieldToShortestAverageLife
-        |"SIMPLE"B -> YieldType.SimpleYield
-        |"TAXEQUIV"B -> YieldType.TaxEquivalentYield
-        |"TENDER"B -> YieldType.YieldToTenderDate
-        |"TRUE"B -> YieldType.TrueYield
-        |"VALUE1_32"B -> YieldType.YieldValueOf132
-        |"WORST"B -> YieldType.YieldToWorst
-        | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
@@ -7336,10 +5715,6 @@ let WriteYieldType (dest:byte array) (nextFreeIdx:int) (xxIn:YieldType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadYield (pos:int) (bs:byte[]) : (int*Yield) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Yield.Yield
-
-
 let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int = 
    let tag = "236="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7349,10 +5724,6 @@ let WriteYield (dest:byte []) (nextFreeIdx:int) (valIn:Yield) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTotalTakedown (pos:int) (bs:byte[]) : (int*TotalTakedown) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalTakedown.TotalTakedown
 
 
 let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : int = 
@@ -7366,10 +5737,6 @@ let WriteTotalTakedown (dest:byte []) (nextFreeIdx:int) (valIn:TotalTakedown) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConcession (pos:int) (bs:byte[]) : (int*Concession) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Concession.Concession
-
-
 let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int = 
    let tag = "238="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7379,10 +5746,6 @@ let WriteConcession (dest:byte []) (nextFreeIdx:int) (valIn:Concession) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*RepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RepoCollateralSecurityType.RepoCollateralSecurityType
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:RepoCollateralSecurityType) : int = 
@@ -7396,10 +5759,6 @@ let WriteRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Repo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRedemptionDate (pos:int) (bs:byte[]) : (int*RedemptionDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RedemptionDate.RedemptionDate
-
-
 let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) : int = 
    let tag = "240="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7409,10 +5768,6 @@ let WriteRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:RedemptionDate) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingCouponPaymentDate (pos:int) (bs:byte[]) : (int*UnderlyingCouponPaymentDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate
 
 
 let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponPaymentDate) : int = 
@@ -7426,10 +5781,6 @@ let WriteUnderlyingCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:Und
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingIssueDate (pos:int) (bs:byte[]) : (int*UnderlyingIssueDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingIssueDate.UnderlyingIssueDate
-
-
 let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssueDate) : int = 
    let tag = "242="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7439,10 +5790,6 @@ let WriteUnderlyingIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingI
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingRepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
 
 
 let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
@@ -7456,10 +5803,6 @@ let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingRepurchaseTerm (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseTerm) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm
-
-
 let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseTerm) : int = 
    let tag = "244="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7469,10 +5812,6 @@ let WriteUnderlyingRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingRepurchaseRate (pos:int) (bs:byte[]) : (int*UnderlyingRepurchaseRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingRepurchaseRate.UnderlyingRepurchaseRate
 
 
 let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRepurchaseRate) : int = 
@@ -7486,10 +5825,6 @@ let WriteUnderlyingRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingFactor (pos:int) (bs:byte[]) : (int*UnderlyingFactor) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingFactor.UnderlyingFactor
-
-
 let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFactor) : int = 
    let tag = "246="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7499,10 +5834,6 @@ let WriteUnderlyingFactor (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingFact
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingRedemptionDate (pos:int) (bs:byte[]) : (int*UnderlyingRedemptionDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingRedemptionDate.UnderlyingRedemptionDate
 
 
 let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingRedemptionDate) : int = 
@@ -7516,10 +5847,6 @@ let WriteUnderlyingRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCouponPaymentDate (pos:int) (bs:byte[]) : (int*LegCouponPaymentDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCouponPaymentDate.LegCouponPaymentDate
-
-
 let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponPaymentDate) : int = 
    let tag = "248="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7529,10 +5856,6 @@ let WriteLegCouponPaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponP
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegIssueDate (pos:int) (bs:byte[]) : (int*LegIssueDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIssueDate.LegIssueDate
 
 
 let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : int = 
@@ -7546,10 +5869,6 @@ let WriteLegIssueDate (dest:byte []) (nextFreeIdx:int) (valIn:LegIssueDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRepoCollateralSecurityType (pos:int) (bs:byte[]) : (int*LegRepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
-
-
 let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegRepoCollateralSecurityType) : int = 
    let tag = "250="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7559,10 +5878,6 @@ let WriteLegRepoCollateralSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:L
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegRepurchaseTerm (pos:int) (bs:byte[]) : (int*LegRepurchaseTerm) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegRepurchaseTerm.LegRepurchaseTerm
 
 
 let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseTerm) : int = 
@@ -7576,10 +5891,6 @@ let WriteLegRepurchaseTerm (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRepurchaseRate (pos:int) (bs:byte[]) : (int*LegRepurchaseRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegRepurchaseRate.LegRepurchaseRate
-
-
 let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchaseRate) : int = 
    let tag = "252="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7589,10 +5900,6 @@ let WriteLegRepurchaseRate (dest:byte []) (nextFreeIdx:int) (valIn:LegRepurchase
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegFactor (pos:int) (bs:byte[]) : (int*LegFactor) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegFactor.LegFactor
 
 
 let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int = 
@@ -7606,10 +5913,6 @@ let WriteLegFactor (dest:byte []) (nextFreeIdx:int) (valIn:LegFactor) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRedemptionDate (pos:int) (bs:byte[]) : (int*LegRedemptionDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegRedemptionDate.LegRedemptionDate
-
-
 let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemptionDate) : int = 
    let tag = "254="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7619,10 +5922,6 @@ let WriteLegRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:LegRedemption
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCreditRating (pos:int) (bs:byte[]) : (int*CreditRating) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CreditRating.CreditRating
 
 
 let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : int = 
@@ -7636,10 +5935,6 @@ let WriteCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:CreditRating) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCreditRating (pos:int) (bs:byte[]) : (int*UnderlyingCreditRating) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCreditRating.UnderlyingCreditRating
-
-
 let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCreditRating) : int = 
    let tag = "256="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7649,10 +5944,6 @@ let WriteUnderlyingCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegCreditRating (pos:int) (bs:byte[]) : (int*LegCreditRating) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCreditRating.LegCreditRating
 
 
 let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating) : int = 
@@ -7666,10 +5957,6 @@ let WriteLegCreditRating (dest:byte []) (nextFreeIdx:int) (valIn:LegCreditRating
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradedFlatSwitch (pos:int) (bs:byte[]) : (int*TradedFlatSwitch) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) TradedFlatSwitch.TradedFlatSwitch
-
-
 let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwitch) : int = 
    let tag = "258="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7679,10 +5966,6 @@ let WriteTradedFlatSwitch (dest:byte []) (nextFreeIdx:int) (valIn:TradedFlatSwit
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBasisFeatureDate (pos:int) (bs:byte[]) : (int*BasisFeatureDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BasisFeatureDate.BasisFeatureDate
 
 
 let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDate) : int = 
@@ -7696,10 +5979,6 @@ let WriteBasisFeatureDate (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureDa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBasisFeaturePrice (pos:int) (bs:byte[]) : (int*BasisFeaturePrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BasisFeaturePrice.BasisFeaturePrice
-
-
 let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeaturePrice) : int = 
    let tag = "260="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7711,10 +5990,6 @@ let WriteBasisFeaturePrice (dest:byte []) (nextFreeIdx:int) (valIn:BasisFeatureP
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDReqID (pos:int) (bs:byte[]) : (int*MDReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDReqID.MDReqID
-
-
 let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int = 
    let tag = "262="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7724,17 +5999,6 @@ let WriteMDReqID (dest:byte []) (nextFreeIdx:int) (valIn:MDReqID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSubscriptionRequestType (pos:int) (bs:byte[]) : (int * SubscriptionRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SubscriptionRequestType.Snapshot
-        |"1"B -> SubscriptionRequestType.SnapshotPlusUpdates
-        |"2"B -> SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest
-        | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SubscriptionRequestType) : int =
@@ -7759,10 +6023,6 @@ let WriteSubscriptionRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Subsc
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMarketDepth (pos:int) (bs:byte[]) : (int*MarketDepth) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MarketDepth.MarketDepth
-
-
 let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int = 
    let tag = "264="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7772,16 +6032,6 @@ let WriteMarketDepth (dest:byte []) (nextFreeIdx:int) (valIn:MarketDepth) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDUpdateType (pos:int) (bs:byte[]) : (int * MDUpdateType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MDUpdateType.FullRefresh
-        |"1"B -> MDUpdateType.IncrementalRefresh
-        | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : int =
@@ -7800,10 +6050,6 @@ let WriteMDUpdateType (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAggregatedBook (pos:int) (bs:byte[]) : (int*AggregatedBook) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) AggregatedBook.AggregatedBook
-
-
 let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) : int = 
    let tag = "266="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7813,10 +6059,6 @@ let WriteAggregatedBook (dest:byte []) (nextFreeIdx:int) (valIn:AggregatedBook) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoMDEntryTypes (pos:int) (bs:byte[]) : (int*NoMDEntryTypes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMDEntryTypes.NoMDEntryTypes
 
 
 let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) : int = 
@@ -7830,10 +6072,6 @@ let WriteNoMDEntryTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntryTypes) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMDEntries (pos:int) (bs:byte[]) : (int*NoMDEntries) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMDEntries.NoMDEntries
-
-
 let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int = 
    let tag = "268="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7843,27 +6081,6 @@ let WriteNoMDEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoMDEntries) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDEntryType (pos:int) (bs:byte[]) : (int * MDEntryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MDEntryType.Bid
-        |"1"B -> MDEntryType.Offer
-        |"2"B -> MDEntryType.Trade
-        |"3"B -> MDEntryType.IndexValue
-        |"4"B -> MDEntryType.OpeningPrice
-        |"5"B -> MDEntryType.ClosingPrice
-        |"6"B -> MDEntryType.SettlementPrice
-        |"7"B -> MDEntryType.TradingSessionHighPrice
-        |"8"B -> MDEntryType.TradingSessionLowPrice
-        |"9"B -> MDEntryType.TradingSessionVwapPrice
-        |"A"B -> MDEntryType.Imbalance
-        |"B"B -> MDEntryType.TradeVolume
-        |"C"B -> MDEntryType.OpenInterest
-        | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : int =
@@ -7948,10 +6165,6 @@ let WriteMDEntryType (dest:byte array) (nextFreeIdx:int) (xxIn:MDEntryType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryPx (pos:int) (bs:byte[]) : (int*MDEntryPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MDEntryPx.MDEntryPx
-
-
 let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int = 
    let tag = "270="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7961,10 +6174,6 @@ let WriteMDEntryPx (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDEntrySize (pos:int) (bs:byte[]) : (int*MDEntrySize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MDEntrySize.MDEntrySize
 
 
 let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int = 
@@ -7978,10 +6187,6 @@ let WriteMDEntrySize (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySize) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryDate (pos:int) (bs:byte[]) : (int*MDEntryDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryDate.MDEntryDate
-
-
 let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int = 
    let tag = "272="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -7993,10 +6198,6 @@ let WriteMDEntryDate (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryTime.MDEntryTime
-
-
 let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int = 
    let tag = "273="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8006,18 +6207,6 @@ let WriteMDEntryTime (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryTime) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TickDirection.PlusTick
-        |"1"B -> TickDirection.ZeroPlusTick
-        |"2"B -> TickDirection.MinusTick
-        |"3"B -> TickDirection.ZeroMinusTick
-        | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) : int =
@@ -8048,10 +6237,6 @@ let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDMkt (pos:int) (bs:byte[]) : (int*MDMkt) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDMkt.MDMkt
-
-
 let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int = 
    let tag = "275="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8061,23 +6246,6 @@ let WriteMDMkt (dest:byte []) (nextFreeIdx:int) (valIn:MDMkt) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> QuoteCondition.OpenActive
-        |"B"B -> QuoteCondition.ClosedInactive
-        |"C"B -> QuoteCondition.ExchangeBest
-        |"D"B -> QuoteCondition.ConsolidatedBest
-        |"E"B -> QuoteCondition.Locked
-        |"F"B -> QuoteCondition.Crossed
-        |"G"B -> QuoteCondition.Depth
-        |"H"B -> QuoteCondition.FastTrading
-        |"I"B -> QuoteCondition.NonFirm
-        | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition) : int =
@@ -8136,31 +6304,6 @@ let WriteQuoteCondition (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCondition
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> TradeCondition.CashMarket
-        |"B"B -> TradeCondition.AveragePriceTrade
-        |"C"B -> TradeCondition.CashTrade
-        |"D"B -> TradeCondition.NextDayMarket
-        |"E"B -> TradeCondition.OpeningReopeningTradeDetail
-        |"F"B -> TradeCondition.IntradayTradeDetail
-        |"G"B -> TradeCondition.Rule127
-        |"H"B -> TradeCondition.Rule155
-        |"I"B -> TradeCondition.SoldLast
-        |"J"B -> TradeCondition.NextDayTrade
-        |"K"B -> TradeCondition.Opened
-        |"L"B -> TradeCondition.Seller
-        |"M"B -> TradeCondition.Sold
-        |"N"B -> TradeCondition.StoppedStock
-        |"P"B -> TradeCondition.ImbalanceMoreBuyers
-        |"Q"B -> TradeCondition.ImbalanceMoreSellers
-        |"R"B -> TradeCondition.OpeningPrice
-        | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition) : int =
@@ -8269,10 +6412,6 @@ let WriteTradeCondition (dest:byte array) (nextFreeIdx:int) (xxIn:TradeCondition
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryID (pos:int) (bs:byte[]) : (int*MDEntryID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryID.MDEntryID
-
-
 let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int = 
    let tag = "278="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8282,17 +6421,6 @@ let WriteMDEntryID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDUpdateAction (pos:int) (bs:byte[]) : (int * MDUpdateAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MDUpdateAction.New
-        |"1"B -> MDUpdateAction.Change
-        |"2"B -> MDUpdateAction.Delete
-        | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction) : int =
@@ -8317,10 +6445,6 @@ let WriteMDUpdateAction (dest:byte array) (nextFreeIdx:int) (xxIn:MDUpdateAction
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryRefID (pos:int) (bs:byte[]) : (int*MDEntryRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryRefID.MDEntryRefID
-
-
 let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : int = 
    let tag = "280="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8330,27 +6454,6 @@ let WriteMDEntryRefID (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryRefID) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDReqRejReason (pos:int) (bs:byte[]) : (int * MDReqRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MDReqRejReason.UnknownSymbol
-        |"1"B -> MDReqRejReason.DuplicateMdreqid
-        |"2"B -> MDReqRejReason.InsufficientBandwidth
-        |"3"B -> MDReqRejReason.InsufficientPermissions
-        |"4"B -> MDReqRejReason.UnsupportedSubscriptionrequesttype
-        |"5"B -> MDReqRejReason.UnsupportedMarketdepth
-        |"6"B -> MDReqRejReason.UnsupportedMdupdatetype
-        |"7"B -> MDReqRejReason.UnsupportedAggregatedbook
-        |"8"B -> MDReqRejReason.UnsupportedMdentrytype
-        |"9"B -> MDReqRejReason.UnsupportedTradingsessionid
-        |"A"B -> MDReqRejReason.UnsupportedScope
-        |"B"B -> MDReqRejReason.UnsupportedOpenclosesettleflag
-        |"C"B -> MDReqRejReason.UnsupportedMdimplicitdelete
-        | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason) : int =
@@ -8435,10 +6538,6 @@ let WriteMDReqRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:MDReqRejReason
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryOriginator (pos:int) (bs:byte[]) : (int*MDEntryOriginator) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryOriginator.MDEntryOriginator
-
-
 let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOriginator) : int = 
    let tag = "282="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8448,10 +6547,6 @@ let WriteMDEntryOriginator (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryOrigin
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLocationID (pos:int) (bs:byte[]) : (int*LocationID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LocationID.LocationID
 
 
 let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int = 
@@ -8465,10 +6560,6 @@ let WriteLocationID (dest:byte []) (nextFreeIdx:int) (valIn:LocationID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeskID (pos:int) (bs:byte[]) : (int*DeskID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeskID.DeskID
-
-
 let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int = 
    let tag = "284="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8478,16 +6569,6 @@ let WriteDeskID (dest:byte []) (nextFreeIdx:int) (valIn:DeskID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DeleteReason.CancelationTradeBust
-        |"1"B -> DeleteReason.Error
-        | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : int =
@@ -8504,20 +6585,6 @@ let WriteDeleteReason (dest:byte array) (nextFreeIdx:int) (xxIn:DeleteReason) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
-        |"1"B -> OpenCloseSettlFlag.SessionOpenCloseSettlementEntry
-        |"2"B -> OpenCloseSettlFlag.DeliverySettlementEntry
-        |"3"B -> OpenCloseSettlFlag.ExpectedEntry
-        |"4"B -> OpenCloseSettlFlag.EntryFromPreviousBusinessDay
-        |"5"B -> OpenCloseSettlFlag.TheoreticalPriceValue
-        | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseSettlFlag) : int =
@@ -8560,10 +6627,6 @@ let WriteOpenCloseSettlFlag (dest:byte array) (nextFreeIdx:int) (xxIn:OpenCloseS
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSellerDays (pos:int) (bs:byte[]) : (int*SellerDays) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SellerDays.SellerDays
-
-
 let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int = 
    let tag = "287="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8573,10 +6636,6 @@ let WriteSellerDays (dest:byte []) (nextFreeIdx:int) (valIn:SellerDays) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMDEntryBuyer (pos:int) (bs:byte[]) : (int*MDEntryBuyer) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntryBuyer.MDEntryBuyer
 
 
 let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : int = 
@@ -8590,10 +6649,6 @@ let WriteMDEntryBuyer (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryBuyer) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntrySeller (pos:int) (bs:byte[]) : (int*MDEntrySeller) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MDEntrySeller.MDEntrySeller
-
-
 let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : int = 
    let tag = "289="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8605,10 +6660,6 @@ let WriteMDEntrySeller (dest:byte []) (nextFreeIdx:int) (valIn:MDEntrySeller) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMDEntryPositionNo (pos:int) (bs:byte[]) : (int*MDEntryPositionNo) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MDEntryPositionNo.MDEntryPositionNo
-
-
 let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositionNo) : int = 
    let tag = "290="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8618,16 +6669,6 @@ let WriteMDEntryPositionNo (dest:byte []) (nextFreeIdx:int) (valIn:MDEntryPositi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> FinancialStatus.Bankrupt
-        |"2"B -> FinancialStatus.PendingDelisting
-        | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStatus) : int =
@@ -8644,19 +6685,6 @@ let WriteFinancialStatus (dest:byte array) (nextFreeIdx:int) (xxIn:FinancialStat
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> CorporateAction.ExDividend
-        |"B"B -> CorporateAction.ExDistribution
-        |"C"B -> CorporateAction.ExRights
-        |"D"B -> CorporateAction.New
-        |"E"B -> CorporateAction.ExInterest
-        | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateAction) : int =
@@ -8693,10 +6721,6 @@ let WriteCorporateAction (dest:byte array) (nextFreeIdx:int) (xxIn:CorporateActi
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDefBidSize (pos:int) (bs:byte[]) : (int*DefBidSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DefBidSize.DefBidSize
-
-
 let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int = 
    let tag = "293="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8706,10 +6730,6 @@ let WriteDefBidSize (dest:byte []) (nextFreeIdx:int) (valIn:DefBidSize) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDefOfferSize (pos:int) (bs:byte[]) : (int*DefOfferSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DefOfferSize.DefOfferSize
 
 
 let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : int = 
@@ -8723,10 +6743,6 @@ let WriteDefOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:DefOfferSize) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoQuoteEntries (pos:int) (bs:byte[]) : (int*NoQuoteEntries) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteEntries.NoQuoteEntries
-
-
 let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) : int = 
    let tag = "295="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8738,10 +6754,6 @@ let WriteNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteEntries) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoQuoteSets (pos:int) (bs:byte[]) : (int*NoQuoteSets) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteSets.NoQuoteSets
-
-
 let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int = 
    let tag = "296="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8751,30 +6763,6 @@ let WriteNoQuoteSets (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteSets) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> QuoteStatus.Accepted
-        |"1"B -> QuoteStatus.CanceledForSymbol
-        |"2"B -> QuoteStatus.CanceledForSecurityType
-        |"3"B -> QuoteStatus.CanceledForUnderlying
-        |"4"B -> QuoteStatus.CanceledAll
-        |"5"B -> QuoteStatus.Rejected
-        |"6"B -> QuoteStatus.RemovedFromMarket
-        |"7"B -> QuoteStatus.Expired
-        |"8"B -> QuoteStatus.Query
-        |"9"B -> QuoteStatus.QuoteNotFound
-        |"10"B -> QuoteStatus.Pending
-        |"11"B -> QuoteStatus.Pass
-        |"12"B -> QuoteStatus.LockedMarketWarning
-        |"13"B -> QuoteStatus.CrossMarketWarning
-        |"14"B -> QuoteStatus.CanceledDueToLockMarket
-        |"15"B -> QuoteStatus.CanceledDueToCrossMarket
-        | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : int =
@@ -8877,18 +6865,6 @@ let WriteQuoteStatus (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteStatus) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteCancelType.CancelForSymbol
-        |"2"B -> QuoteCancelType.CancelForSecurityType
-        |"3"B -> QuoteCancelType.CancelForUnderlyingSymbol
-        |"4"B -> QuoteCancelType.CancelAllQuotes
-        | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelType) : int =
     match xxIn with
     | QuoteCancelType.CancelForSymbol ->
@@ -8917,10 +6893,6 @@ let WriteQuoteCancelType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteCancelTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteEntryID (pos:int) (bs:byte[]) : (int*QuoteEntryID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteEntryID.QuoteEntryID
-
-
 let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : int = 
    let tag = "299="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -8930,24 +6902,6 @@ let WriteQuoteEntryID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteEntryID) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteRejectReason.UnknownSymbol
-        |"2"B -> QuoteRejectReason.ExchangeClosed
-        |"3"B -> QuoteRejectReason.QuoteRequestExceedsLimit
-        |"4"B -> QuoteRejectReason.TooLateToEnter
-        |"5"B -> QuoteRejectReason.UnknownQuote
-        |"6"B -> QuoteRejectReason.DuplicateQuote
-        |"7"B -> QuoteRejectReason.InvalidBidAskSpread
-        |"8"B -> QuoteRejectReason.InvalidPrice
-        |"9"B -> QuoteRejectReason.NotAuthorizedToQuoteSecurity
-        |"99"B -> QuoteRejectReason.Other
-        | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRejectReason) : int =
@@ -9014,17 +6968,6 @@ let WriteQuoteRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteReject
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> QuoteResponseLevel.NoAcknowledgement
-        |"1"B -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
-        |"2"B -> QuoteResponseLevel.AcknowledgeEachQuoteMessages
-        | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteResponseLevel) : int =
     match xxIn with
     | QuoteResponseLevel.NoAcknowledgement ->
@@ -9047,10 +6990,6 @@ let WriteQuoteResponseLevel (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteSetID (pos:int) (bs:byte[]) : (int*QuoteSetID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteSetID.QuoteSetID
-
-
 let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int = 
    let tag = "302="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9060,16 +6999,6 @@ let WriteQuoteSetID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteRequestType (pos:int) (bs:byte[]) : (int * QuoteRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteRequestType.Manual
-        |"2"B -> QuoteRequestType.Automatic
-        | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestType) : int =
@@ -9088,10 +7017,6 @@ let WriteQuoteRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequest
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoQuoteEntries (pos:int) (bs:byte[]) : (int*TotNoQuoteEntries) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoQuoteEntries.TotNoQuoteEntries
-
-
 let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEntries) : int = 
    let tag = "304="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9101,10 +7026,6 @@ let WriteTotNoQuoteEntries (dest:byte []) (nextFreeIdx:int) (valIn:TotNoQuoteEnt
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSecurityIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityIDSource.UnderlyingSecurityIDSource
 
 
 let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityIDSource) : int = 
@@ -9118,10 +7039,6 @@ let WriteUnderlyingSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingIssuer (pos:int) (bs:byte[]) : (int*UnderlyingIssuer) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingIssuer.UnderlyingIssuer
-
-
 let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssuer) : int = 
    let tag = "306="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9131,10 +7048,6 @@ let WriteUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingIssu
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int*UnderlyingSecurityDesc) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityDesc.UnderlyingSecurityDesc
 
 
 let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityDesc) : int = 
@@ -9148,10 +7061,6 @@ let WriteUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityExchange (pos:int) (bs:byte[]) : (int*UnderlyingSecurityExchange) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityExchange.UnderlyingSecurityExchange
-
-
 let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityExchange) : int = 
    let tag = "308="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9161,10 +7070,6 @@ let WriteUnderlyingSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSecurityID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityID.UnderlyingSecurityID
 
 
 let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityID) : int = 
@@ -9178,10 +7083,6 @@ let WriteUnderlyingSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityType (pos:int) (bs:byte[]) : (int*UnderlyingSecurityType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityType.UnderlyingSecurityType
-
-
 let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityType) : int = 
    let tag = "310="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9191,10 +7092,6 @@ let WriteUnderlyingSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSymbol (pos:int) (bs:byte[]) : (int*UnderlyingSymbol) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSymbol.UnderlyingSymbol
 
 
 let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbol) : int = 
@@ -9208,10 +7105,6 @@ let WriteUnderlyingSymbol (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymb
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSymbolSfx (pos:int) (bs:byte[]) : (int*UnderlyingSymbolSfx) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSymbolSfx.UnderlyingSymbolSfx
-
-
 let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSymbolSfx) : int = 
    let tag = "312="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9223,10 +7116,6 @@ let WriteUnderlyingSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingMaturityMonthYear (pos:int) (bs:byte[]) : (int*UnderlyingMaturityMonthYear) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear
-
-
 let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityMonthYear) : int = 
    let tag = "313="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9236,16 +7125,6 @@ let WriteUnderlyingMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:Und
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingPutOrCall (pos:int) (bs:byte[]) : (int * UnderlyingPutOrCall) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> UnderlyingPutOrCall.Put
-        |"1"B -> UnderlyingPutOrCall.Call
-        | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:UnderlyingPutOrCall) : int =
@@ -9264,10 +7143,6 @@ let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:Underlyin
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStrikePrice (pos:int) (bs:byte[]) : (int*UnderlyingStrikePrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingStrikePrice.UnderlyingStrikePrice
-
-
 let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikePrice) : int = 
    let tag = "316="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9277,10 +7152,6 @@ let WriteUnderlyingStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlyin
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingOptAttribute (pos:int) (bs:byte[]) : (int*UnderlyingOptAttribute) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingOptAttribute.UnderlyingOptAttribute
 
 
 let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingOptAttribute) : int = 
@@ -9294,10 +7165,6 @@ let WriteUnderlyingOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCurrency (pos:int) (bs:byte[]) : (int*UnderlyingCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCurrency.UnderlyingCurrency
-
-
 let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrency) : int = 
    let tag = "318="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9309,10 +7176,6 @@ let WriteUnderlyingCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCu
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityReqID (pos:int) (bs:byte[]) : (int*SecurityReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityReqID.SecurityReqID
-
-
 let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : int = 
    let tag = "320="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9322,18 +7185,6 @@ let WriteSecurityReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityReqID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityRequestType (pos:int) (bs:byte[]) : (int * SecurityRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
-        |"1"B -> SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided
-        |"2"B -> SecurityRequestType.RequestListSecurityTypes
-        |"3"B -> SecurityRequestType.RequestListSecurities
-        | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestType) : int =
@@ -9364,10 +7215,6 @@ let WriteSecurityRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityR
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityResponseID (pos:int) (bs:byte[]) : (int*SecurityResponseID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityResponseID.SecurityResponseID
-
-
 let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResponseID) : int = 
    let tag = "322="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9377,20 +7224,6 @@ let WriteSecurityResponseID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityResp
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityResponseType (pos:int) (bs:byte[]) : (int * SecurityResponseType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SecurityResponseType.AcceptSecurityProposalAsIs
-        |"2"B -> SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage
-        |"3"B -> SecurityResponseType.ListOfSecurityTypesReturnedPerRequest
-        |"4"B -> SecurityResponseType.ListOfSecuritiesReturnedPerRequest
-        |"5"B -> SecurityResponseType.RejectSecurityProposal
-        |"6"B -> SecurityResponseType.CanNotMatchSelectionCriteria
-        | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityResponseType) : int =
@@ -9433,10 +7266,6 @@ let WriteSecurityResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Security
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityStatusReqID (pos:int) (bs:byte[]) : (int*SecurityStatusReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityStatusReqID.SecurityStatusReqID
-
-
 let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityStatusReqID) : int = 
    let tag = "324="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9448,10 +7277,6 @@ let WriteSecurityStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySta
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnsolicitedIndicator (pos:int) (bs:byte[]) : (int*UnsolicitedIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) UnsolicitedIndicator.UnsolicitedIndicator
-
-
 let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:UnsolicitedIndicator) : int = 
    let tag = "325="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9461,37 +7286,6 @@ let WriteUnsolicitedIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Unsolicite
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SecurityTradingStatus.OpeningDelay
-        |"2"B -> SecurityTradingStatus.TradingHalt
-        |"3"B -> SecurityTradingStatus.Resume
-        |"4"B -> SecurityTradingStatus.NoOpenNoResume
-        |"5"B -> SecurityTradingStatus.PriceIndication
-        |"6"B -> SecurityTradingStatus.TradingRangeIndication
-        |"7"B -> SecurityTradingStatus.MarketImbalanceBuy
-        |"8"B -> SecurityTradingStatus.MarketImbalanceSell
-        |"9"B -> SecurityTradingStatus.MarketOnCloseImbalanceBuy
-        |"10"B -> SecurityTradingStatus.MarketOnCloseImbalanceSell
-        |"11"B -> SecurityTradingStatus.NotAssigned
-        |"12"B -> SecurityTradingStatus.NoMarketImbalance
-        |"13"B -> SecurityTradingStatus.NoMarketOnCloseImbalance
-        |"14"B -> SecurityTradingStatus.ItsPreOpening
-        |"15"B -> SecurityTradingStatus.NewPriceIndication
-        |"16"B -> SecurityTradingStatus.TradeDisseminationTime
-        |"17"B -> SecurityTradingStatus.ReadyToTradeStartOfSession
-        |"18"B -> SecurityTradingStatus.NotAvailableForTradingEndOfSession
-        |"19"B -> SecurityTradingStatus.NotTradedOnThisMarket
-        |"20"B -> SecurityTradingStatus.UnknownOrInvalid
-        |"21"B -> SecurityTradingStatus.PreOpen
-        |"22"B -> SecurityTradingStatus.OpeningRotation
-        |"23"B -> SecurityTradingStatus.FastMarket
-        | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityTradingStatus) : int =
@@ -9636,20 +7430,6 @@ let WriteSecurityTradingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"I"B -> HaltReason.OrderImbalance
-        |"X"B -> HaltReason.EquipmentChangeover
-        |"P"B -> HaltReason.NewsPending
-        |"D"B -> HaltReason.NewsDissemination
-        |"E"B -> HaltReason.OrderInflux
-        |"M"B -> HaltReason.AdditionalInformation
-        | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int =
     match xxIn with
     | HaltReason.OrderImbalance ->
@@ -9690,10 +7470,6 @@ let WriteHaltReason (dest:byte array) (nextFreeIdx:int) (xxIn:HaltReason) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadInViewOfCommon (pos:int) (bs:byte[]) : (int*InViewOfCommon) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) InViewOfCommon.InViewOfCommon
-
-
 let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) : int = 
    let tag = "328="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9703,10 +7479,6 @@ let WriteInViewOfCommon (dest:byte []) (nextFreeIdx:int) (valIn:InViewOfCommon) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDueToRelated (pos:int) (bs:byte[]) : (int*DueToRelated) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) DueToRelated.DueToRelated
 
 
 let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : int = 
@@ -9720,10 +7492,6 @@ let WriteDueToRelated (dest:byte []) (nextFreeIdx:int) (valIn:DueToRelated) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBuyVolume (pos:int) (bs:byte[]) : (int*BuyVolume) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BuyVolume.BuyVolume
-
-
 let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int = 
    let tag = "330="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9733,10 +7501,6 @@ let WriteBuyVolume (dest:byte []) (nextFreeIdx:int) (valIn:BuyVolume) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSellVolume (pos:int) (bs:byte[]) : (int*SellVolume) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SellVolume.SellVolume
 
 
 let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int = 
@@ -9750,10 +7514,6 @@ let WriteSellVolume (dest:byte []) (nextFreeIdx:int) (valIn:SellVolume) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHighPx (pos:int) (bs:byte[]) : (int*HighPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) HighPx.HighPx
-
-
 let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int = 
    let tag = "332="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9765,10 +7525,6 @@ let WriteHighPx (dest:byte []) (nextFreeIdx:int) (valIn:HighPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLowPx (pos:int) (bs:byte[]) : (int*LowPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LowPx.LowPx
-
-
 let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int = 
    let tag = "333="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9778,17 +7534,6 @@ let WriteLowPx (dest:byte []) (nextFreeIdx:int) (valIn:LowPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAdjustment (pos:int) (bs:byte[]) : (int * Adjustment) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> Adjustment.Cancel
-        |"2"B -> Adjustment.Error
-        |"3"B -> Adjustment.Correction
-        | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int =
@@ -9813,10 +7558,6 @@ let WriteAdjustment (dest:byte array) (nextFreeIdx:int) (xxIn:Adjustment) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesReqID (pos:int) (bs:byte[]) : (int*TradSesReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesReqID.TradSesReqID
-
-
 let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : int = 
    let tag = "335="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9826,10 +7567,6 @@ let WriteTradSesReqID (dest:byte []) (nextFreeIdx:int) (valIn:TradSesReqID) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradingSessionID (pos:int) (bs:byte[]) : (int*TradingSessionID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradingSessionID.TradingSessionID
 
 
 let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionID) : int = 
@@ -9843,10 +7580,6 @@ let WriteTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSession
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraTrader (pos:int) (bs:byte[]) : (int*ContraTrader) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraTrader.ContraTrader
-
-
 let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : int = 
    let tag = "337="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9856,17 +7589,6 @@ let WriteContraTrader (dest:byte []) (nextFreeIdx:int) (valIn:ContraTrader) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> TradSesMethod.Electronic
-        |"2"B -> TradSesMethod.OpenOutcry
-        |"3"B -> TradSesMethod.TwoParty
-        | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) : int =
@@ -9891,17 +7613,6 @@ let WriteTradSesMethod (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> TradSesMode.Testing
-        |"2"B -> TradSesMode.Simulated
-        |"3"B -> TradSesMode.Production
-        | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : int =
     match xxIn with
     | TradSesMode.Testing ->
@@ -9922,21 +7633,6 @@ let WriteTradSesMode (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesMode) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradSesStatus.Unknown
-        |"1"B -> TradSesStatus.Halted
-        |"2"B -> TradSesStatus.Open
-        |"3"B -> TradSesStatus.Closed
-        |"4"B -> TradSesStatus.PreOpen
-        |"5"B -> TradSesStatus.PreClose
-        |"6"B -> TradSesStatus.RequestRejected
-        | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) : int =
@@ -9985,10 +7681,6 @@ let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesStartTime (pos:int) (bs:byte[]) : (int*TradSesStartTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesStartTime.TradSesStartTime
-
-
 let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTime) : int = 
    let tag = "341="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -9998,10 +7690,6 @@ let WriteTradSesStartTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesStartTi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradSesOpenTime (pos:int) (bs:byte[]) : (int*TradSesOpenTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesOpenTime.TradSesOpenTime
 
 
 let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime) : int = 
@@ -10015,10 +7703,6 @@ let WriteTradSesOpenTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesOpenTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesPreCloseTime (pos:int) (bs:byte[]) : (int*TradSesPreCloseTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesPreCloseTime.TradSesPreCloseTime
-
-
 let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreCloseTime) : int = 
    let tag = "343="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10028,10 +7712,6 @@ let WriteTradSesPreCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesPreC
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradSesCloseTime (pos:int) (bs:byte[]) : (int*TradSesCloseTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesCloseTime.TradSesCloseTime
 
 
 let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTime) : int = 
@@ -10045,10 +7725,6 @@ let WriteTradSesCloseTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesCloseTi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradSesEndTime (pos:int) (bs:byte[]) : (int*TradSesEndTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradSesEndTime.TradSesEndTime
-
-
 let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) : int = 
    let tag = "345="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10060,10 +7736,6 @@ let WriteTradSesEndTime (dest:byte []) (nextFreeIdx:int) (valIn:TradSesEndTime) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNumberOfOrders (pos:int) (bs:byte[]) : (int*NumberOfOrders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumberOfOrders.NumberOfOrders
-
-
 let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) : int = 
    let tag = "346="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10073,18 +7745,6 @@ let WriteNumberOfOrders (dest:byte []) (nextFreeIdx:int) (valIn:NumberOfOrders) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMessageEncoding (pos:int) (bs:byte[]) : (int * MessageEncoding) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"ISO-2022-JP"B -> MessageEncoding.Iso2022Jp
-        |"EUC-JP"B -> MessageEncoding.EucJp
-        |"SHIFT_JIS"B -> MessageEncoding.ShiftJis
-        |"UTF-8"B -> MessageEncoding.Utf8
-        | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMessageEncoding (dest:byte array) (nextFreeIdx:int) (xxIn:MessageEncoding) : int =
@@ -10137,11 +7797,6 @@ let WriteEncodedIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedIssuer) : in
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedIssuer (pos:int) (bs:byte[]) : (int * EncodedIssuer) =
-    ReadLengthDataCompoundField "349"B (pos:int) (bs:byte[]) EncodedIssuer.EncodedIssuer
-
-
 // compound write, of a length field and the corresponding string field
 let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecurityDesc) : int =
     // write the string length part of the compound msg
@@ -10162,11 +7817,6 @@ let WriteEncodedSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedSecuri
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadEncodedSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedSecurityDesc) =
-    ReadLengthDataCompoundField "351"B (pos:int) (bs:byte[]) EncodedSecurityDesc.EncodedSecurityDesc
 
 
 // compound write, of a length field and the corresponding string field
@@ -10191,11 +7841,6 @@ let WriteEncodedListExecInst (dest:byte []) (nextFreeIdx:int) (fld:EncodedListEx
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedListExecInst (pos:int) (bs:byte[]) : (int * EncodedListExecInst) =
-    ReadLengthDataCompoundField "353"B (pos:int) (bs:byte[]) EncodedListExecInst.EncodedListExecInst
-
-
 // compound write, of a length field and the corresponding string field
 let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
     // write the string length part of the compound msg
@@ -10216,11 +7861,6 @@ let WriteEncodedText (dest:byte []) (nextFreeIdx:int) (fld:EncodedText) : int =
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadEncodedText (pos:int) (bs:byte[]) : (int * EncodedText) =
-    ReadLengthDataCompoundField "355"B (pos:int) (bs:byte[]) EncodedText.EncodedText
 
 
 // compound write, of a length field and the corresponding string field
@@ -10245,11 +7885,6 @@ let WriteEncodedSubject (dest:byte []) (nextFreeIdx:int) (fld:EncodedSubject) : 
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedSubject (pos:int) (bs:byte[]) : (int * EncodedSubject) =
-    ReadLengthDataCompoundField "357"B (pos:int) (bs:byte[]) EncodedSubject.EncodedSubject
-
-
 // compound write, of a length field and the corresponding string field
 let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) : int =
     // write the string length part of the compound msg
@@ -10270,11 +7905,6 @@ let WriteEncodedHeadline (dest:byte []) (nextFreeIdx:int) (fld:EncodedHeadline) 
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadEncodedHeadline (pos:int) (bs:byte[]) : (int * EncodedHeadline) =
-    ReadLengthDataCompoundField "359"B (pos:int) (bs:byte[]) EncodedHeadline.EncodedHeadline
 
 
 // compound write, of a length field and the corresponding string field
@@ -10299,11 +7929,6 @@ let WriteEncodedAllocText (dest:byte []) (nextFreeIdx:int) (fld:EncodedAllocText
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedAllocText (pos:int) (bs:byte[]) : (int * EncodedAllocText) =
-    ReadLengthDataCompoundField "361"B (pos:int) (bs:byte[]) EncodedAllocText.EncodedAllocText
-
-
 // compound write, of a length field and the corresponding string field
 let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUnderlyingIssuer) : int =
     // write the string length part of the compound msg
@@ -10324,11 +7949,6 @@ let WriteEncodedUnderlyingIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedUn
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadEncodedUnderlyingIssuer (pos:int) (bs:byte[]) : (int * EncodedUnderlyingIssuer) =
-    ReadLengthDataCompoundField "363"B (pos:int) (bs:byte[]) EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
 
 
 // compound write, of a length field and the corresponding string field
@@ -10353,15 +7973,6 @@ let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:Enc
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedUnderlyingSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedUnderlyingSecurityDesc) =
-    ReadLengthDataCompoundField "365"B (pos:int) (bs:byte[]) EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
-
-
-let ReadAllocPrice (pos:int) (bs:byte[]) : (int*AllocPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllocPrice.AllocPrice
-
-
 let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int = 
    let tag = "366="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10373,10 +7984,6 @@ let WriteAllocPrice (dest:byte []) (nextFreeIdx:int) (valIn:AllocPrice) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteSetValidUntilTime (pos:int) (bs:byte[]) : (int*QuoteSetValidUntilTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteSetValidUntilTime.QuoteSetValidUntilTime
-
-
 let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSetValidUntilTime) : int = 
    let tag = "367="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10386,23 +7993,6 @@ let WriteQuoteSetValidUntilTime (dest:byte []) (nextFreeIdx:int) (valIn:QuoteSet
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteEntryRejectReason.UnknownSymbol
-        |"2"B -> QuoteEntryRejectReason.ExchangeClosed
-        |"3"B -> QuoteEntryRejectReason.QuoteExceedsLimit
-        |"4"B -> QuoteEntryRejectReason.TooLateToEnter
-        |"5"B -> QuoteEntryRejectReason.UnknownQuote
-        |"6"B -> QuoteEntryRejectReason.DuplicateQuote
-        |"7"B -> QuoteEntryRejectReason.InvalidBidAskSpread
-        |"8"B -> QuoteEntryRejectReason.InvalidPrice
-        |"9"B -> QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity
-        | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteEntryRejectReason) : int =
@@ -10463,10 +8053,6 @@ let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteE
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastMsgSeqNumProcessed (pos:int) (bs:byte[]) : (int*LastMsgSeqNumProcessed) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
-
-
 let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgSeqNumProcessed) : int = 
    let tag = "369="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10476,10 +8062,6 @@ let WriteLastMsgSeqNumProcessed (dest:byte []) (nextFreeIdx:int) (valIn:LastMsgS
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRefTagID (pos:int) (bs:byte[]) : (int*RefTagID) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) RefTagID.RefTagID
 
 
 let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int = 
@@ -10493,10 +8075,6 @@ let WriteRefTagID (dest:byte []) (nextFreeIdx:int) (valIn:RefTagID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefMsgType (pos:int) (bs:byte[]) : (int*RefMsgType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefMsgType.RefMsgType
-
-
 let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int = 
    let tag = "372="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10506,33 +8084,6 @@ let WriteRefMsgType (dest:byte []) (nextFreeIdx:int) (valIn:RefMsgType) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SessionRejectReason.InvalidTagNumber
-        |"1"B -> SessionRejectReason.RequiredTagMissing
-        |"2"B -> SessionRejectReason.TagNotDefinedForThisMessageType
-        |"3"B -> SessionRejectReason.UndefinedTag
-        |"4"B -> SessionRejectReason.TagSpecifiedWithoutAValue
-        |"5"B -> SessionRejectReason.ValueIsIncorrect
-        |"6"B -> SessionRejectReason.IncorrectDataFormatForValue
-        |"7"B -> SessionRejectReason.DecryptionProblem
-        |"8"B -> SessionRejectReason.SignatureProblem
-        |"9"B -> SessionRejectReason.CompidProblem
-        |"10"B -> SessionRejectReason.SendingtimeAccuracyProblem
-        |"11"B -> SessionRejectReason.InvalidMsgtype
-        |"12"B -> SessionRejectReason.XmlValidationError
-        |"13"B -> SessionRejectReason.TagAppearsMoreThanOnce
-        |"14"B -> SessionRejectReason.TagSpecifiedOutOfRequiredOrder
-        |"15"B -> SessionRejectReason.RepeatingGroupFieldsOutOfOrder
-        |"16"B -> SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup
-        |"17"B -> SessionRejectReason.NonDataValueIncludesFieldDelimiter
-        |"99"B -> SessionRejectReason.Other
-        | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRejectReason) : int =
@@ -10653,16 +8204,6 @@ let WriteSessionRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:SessionRe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"N"B -> BidRequestTransType.New
-        |"C"B -> BidRequestTransType.Cancel
-        | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidRequestTransType) : int =
     match xxIn with
     | BidRequestTransType.New ->
@@ -10679,10 +8220,6 @@ let WriteBidRequestTransType (dest:byte array) (nextFreeIdx:int) (xxIn:BidReques
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContraBroker (pos:int) (bs:byte[]) : (int*ContraBroker) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraBroker.ContraBroker
-
-
 let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : int = 
    let tag = "375="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10692,10 +8229,6 @@ let WriteContraBroker (dest:byte []) (nextFreeIdx:int) (valIn:ContraBroker) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadComplianceID (pos:int) (bs:byte[]) : (int*ComplianceID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ComplianceID.ComplianceID
 
 
 let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : int = 
@@ -10709,10 +8242,6 @@ let WriteComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:ComplianceID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSolicitedFlag (pos:int) (bs:byte[]) : (int*SolicitedFlag) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) SolicitedFlag.SolicitedFlag
-
-
 let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : int = 
    let tag = "377="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10722,24 +8251,6 @@ let WriteSolicitedFlag (dest:byte []) (nextFreeIdx:int) (valIn:SolicitedFlag) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExecRestatementReason (pos:int) (bs:byte[]) : (int * ExecRestatementReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ExecRestatementReason.GtCorporateAction
-        |"1"B -> ExecRestatementReason.GtRenewalRestatement
-        |"2"B -> ExecRestatementReason.VerbalChange
-        |"3"B -> ExecRestatementReason.RepricingOfOrder
-        |"4"B -> ExecRestatementReason.BrokerOption
-        |"5"B -> ExecRestatementReason.PartialDeclineOfOrderqty
-        |"6"B -> ExecRestatementReason.CancelOnTradingHalt
-        |"7"B -> ExecRestatementReason.CancelOnSystemFailure
-        |"8"B -> ExecRestatementReason.MarketOption
-        |"9"B -> ExecRestatementReason.CanceledNotBest
-        | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRestatementReason) : int =
@@ -10806,10 +8317,6 @@ let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRes
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBusinessRejectRefID (pos:int) (bs:byte[]) : (int*BusinessRejectRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BusinessRejectRefID.BusinessRejectRefID
-
-
 let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRejectRefID) : int = 
    let tag = "379="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10819,22 +8326,6 @@ let WriteBusinessRejectRefID (dest:byte []) (nextFreeIdx:int) (valIn:BusinessRej
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBusinessRejectReason (pos:int) (bs:byte[]) : (int * BusinessRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> BusinessRejectReason.Other
-        |"1"B -> BusinessRejectReason.UnkownId
-        |"2"B -> BusinessRejectReason.UnknownSecurity
-        |"3"B -> BusinessRejectReason.UnsupportedMessageType
-        |"4"B -> BusinessRejectReason.ApplicationNotAvailable
-        |"5"B -> BusinessRejectReason.ConditionallyRequiredFieldMissing
-        |"6"B -> BusinessRejectReason.NotAuthorized
-        |"7"B -> BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime
-        | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:BusinessRejectReason) : int =
@@ -10889,10 +8380,6 @@ let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Business
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadGrossTradeAmt (pos:int) (bs:byte[]) : (int*GrossTradeAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) GrossTradeAmt.GrossTradeAmt
-
-
 let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : int = 
    let tag = "381="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10902,10 +8389,6 @@ let WriteGrossTradeAmt (dest:byte []) (nextFreeIdx:int) (valIn:GrossTradeAmt) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoContraBrokers (pos:int) (bs:byte[]) : (int*NoContraBrokers) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoContraBrokers.NoContraBrokers
 
 
 let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers) : int = 
@@ -10919,10 +8402,6 @@ let WriteNoContraBrokers (dest:byte []) (nextFreeIdx:int) (valIn:NoContraBrokers
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaxMessageSize (pos:int) (bs:byte[]) : (int*MaxMessageSize) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MaxMessageSize.MaxMessageSize
-
-
 let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) : int = 
    let tag = "383="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10934,10 +8413,6 @@ let WriteMaxMessageSize (dest:byte []) (nextFreeIdx:int) (valIn:MaxMessageSize) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoMsgTypes (pos:int) (bs:byte[]) : (int*NoMsgTypes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoMsgTypes.NoMsgTypes
-
-
 let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int = 
    let tag = "384="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10947,16 +8422,6 @@ let WriteNoMsgTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoMsgTypes) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMsgDirection (pos:int) (bs:byte[]) : (int * MsgDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"S"B -> MsgDirection.Send
-        |"R"B -> MsgDirection.Receive
-        | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : int =
@@ -10975,10 +8440,6 @@ let WriteMsgDirection (dest:byte array) (nextFreeIdx:int) (xxIn:MsgDirection) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoTradingSessions (pos:int) (bs:byte[]) : (int*NoTradingSessions) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTradingSessions.NoTradingSessions
-
-
 let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSessions) : int = 
    let tag = "386="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -10990,10 +8451,6 @@ let WriteNoTradingSessions (dest:byte []) (nextFreeIdx:int) (valIn:NoTradingSess
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalVolumeTraded (pos:int) (bs:byte[]) : (int*TotalVolumeTraded) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) TotalVolumeTraded.TotalVolumeTraded
-
-
 let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTraded) : int = 
    let tag = "387="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11003,21 +8460,6 @@ let WriteTotalVolumeTraded (dest:byte []) (nextFreeIdx:int) (valIn:TotalVolumeTr
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDiscretionInst (pos:int) (bs:byte[]) : (int * DiscretionInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DiscretionInst.RelatedToDisplayedPrice
-        |"1"B -> DiscretionInst.RelatedToMarketPrice
-        |"2"B -> DiscretionInst.RelatedToPrimaryPrice
-        |"3"B -> DiscretionInst.RelatedToLocalPrimaryPrice
-        |"4"B -> DiscretionInst.RelatedToMidpointPrice
-        |"5"B -> DiscretionInst.RelatedToLastTradePrice
-        |"6"B -> DiscretionInst.RelatedToVwap
-        | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst) : int =
@@ -11066,10 +8508,6 @@ let WriteDiscretionInst (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionOffsetValue (pos:int) (bs:byte[]) : (int*DiscretionOffsetValue) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DiscretionOffsetValue.DiscretionOffsetValue
-
-
 let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionOffsetValue) : int = 
    let tag = "389="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11079,10 +8517,6 @@ let WriteDiscretionOffsetValue (dest:byte []) (nextFreeIdx:int) (valIn:Discretio
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidID (pos:int) (bs:byte[]) : (int*BidID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BidID.BidID
 
 
 let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int = 
@@ -11096,10 +8530,6 @@ let WriteBidID (dest:byte []) (nextFreeIdx:int) (valIn:BidID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClientBidID (pos:int) (bs:byte[]) : (int*ClientBidID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClientBidID.ClientBidID
-
-
 let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int = 
    let tag = "391="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11109,10 +8539,6 @@ let WriteClientBidID (dest:byte []) (nextFreeIdx:int) (valIn:ClientBidID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListName (pos:int) (bs:byte[]) : (int*ListName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListName.ListName
 
 
 let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int = 
@@ -11126,10 +8552,6 @@ let WriteListName (dest:byte []) (nextFreeIdx:int) (valIn:ListName) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoRelatedSym (pos:int) (bs:byte[]) : (int*TotNoRelatedSym) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoRelatedSym.TotNoRelatedSym
-
-
 let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym) : int = 
    let tag = "393="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11139,17 +8561,6 @@ let WriteTotNoRelatedSym (dest:byte []) (nextFreeIdx:int) (valIn:TotNoRelatedSym
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidType (pos:int) (bs:byte[]) : (int * BidType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> BidType.NonDisclosed
-        |"2"B -> BidType.DisclosedStyle
-        |"3"B -> BidType.NoBiddingProcess
-        | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
@@ -11174,10 +8585,6 @@ let WriteBidType (dest:byte array) (nextFreeIdx:int) (xxIn:BidType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumTickets (pos:int) (bs:byte[]) : (int*NumTickets) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumTickets.NumTickets
-
-
 let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int = 
    let tag = "395="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11187,10 +8594,6 @@ let WriteNumTickets (dest:byte []) (nextFreeIdx:int) (valIn:NumTickets) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSideValue1 (pos:int) (bs:byte[]) : (int*SideValue1) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SideValue1.SideValue1
 
 
 let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int = 
@@ -11204,10 +8607,6 @@ let WriteSideValue1 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue1) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSideValue2 (pos:int) (bs:byte[]) : (int*SideValue2) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SideValue2.SideValue2
-
-
 let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int = 
    let tag = "397="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11219,10 +8618,6 @@ let WriteSideValue2 (dest:byte []) (nextFreeIdx:int) (valIn:SideValue2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoBidDescriptors (pos:int) (bs:byte[]) : (int*NoBidDescriptors) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoBidDescriptors.NoBidDescriptors
-
-
 let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescriptors) : int = 
    let tag = "398="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11232,17 +8627,6 @@ let WriteNoBidDescriptors (dest:byte []) (nextFreeIdx:int) (valIn:NoBidDescripto
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidDescriptorType (pos:int) (bs:byte[]) : (int * BidDescriptorType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> BidDescriptorType.Sector
-        |"2"B -> BidDescriptorType.Country
-        |"3"B -> BidDescriptorType.Index
-        | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescriptorType) : int =
@@ -11267,10 +8651,6 @@ let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescript
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBidDescriptor (pos:int) (bs:byte[]) : (int*BidDescriptor) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BidDescriptor.BidDescriptor
-
-
 let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : int = 
    let tag = "400="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11280,16 +8660,6 @@ let WriteBidDescriptor (dest:byte []) (nextFreeIdx:int) (valIn:BidDescriptor) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSideValueInd (pos:int) (bs:byte[]) : (int * SideValueInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SideValueInd.Sidevalue1
-        |"2"B -> SideValueInd.Sidevalue2
-        | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : int =
@@ -11308,10 +8678,6 @@ let WriteSideValueInd (dest:byte array) (nextFreeIdx:int) (xxIn:SideValueInd) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityPctLow (pos:int) (bs:byte[]) : (int*LiquidityPctLow) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LiquidityPctLow.LiquidityPctLow
-
-
 let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow) : int = 
    let tag = "402="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11321,10 +8687,6 @@ let WriteLiquidityPctLow (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctLow
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLiquidityPctHigh (pos:int) (bs:byte[]) : (int*LiquidityPctHigh) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LiquidityPctHigh.LiquidityPctHigh
 
 
 let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHigh) : int = 
@@ -11338,10 +8700,6 @@ let WriteLiquidityPctHigh (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityPctHi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityValue (pos:int) (bs:byte[]) : (int*LiquidityValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LiquidityValue.LiquidityValue
-
-
 let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) : int = 
    let tag = "404="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11351,10 +8709,6 @@ let WriteLiquidityValue (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityValue) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadEFPTrackingError (pos:int) (bs:byte[]) : (int*EFPTrackingError) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) EFPTrackingError.EFPTrackingError
 
 
 let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingError) : int = 
@@ -11368,10 +8722,6 @@ let WriteEFPTrackingError (dest:byte []) (nextFreeIdx:int) (valIn:EFPTrackingErr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadFairValue (pos:int) (bs:byte[]) : (int*FairValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) FairValue.FairValue
-
-
 let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int = 
    let tag = "406="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11381,10 +8731,6 @@ let WriteFairValue (dest:byte []) (nextFreeIdx:int) (valIn:FairValue) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOutsideIndexPct (pos:int) (bs:byte[]) : (int*OutsideIndexPct) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OutsideIndexPct.OutsideIndexPct
 
 
 let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct) : int = 
@@ -11398,10 +8744,6 @@ let WriteOutsideIndexPct (dest:byte []) (nextFreeIdx:int) (valIn:OutsideIndexPct
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadValueOfFutures (pos:int) (bs:byte[]) : (int*ValueOfFutures) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ValueOfFutures.ValueOfFutures
-
-
 let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) : int = 
    let tag = "408="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11411,18 +8753,6 @@ let WriteValueOfFutures (dest:byte []) (nextFreeIdx:int) (valIn:ValueOfFutures) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLiquidityIndType (pos:int) (bs:byte[]) : (int * LiquidityIndType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> LiquidityIndType.FivedayMovingAverage
-        |"2"B -> LiquidityIndType.TwentydayMovingAverage
-        |"3"B -> LiquidityIndType.NormalMarketSize
-        |"4"B -> LiquidityIndType.Other
-        | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityIndType) : int =
@@ -11453,10 +8783,6 @@ let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityInd
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWtAverageLiquidity (pos:int) (bs:byte[]) : (int*WtAverageLiquidity) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) WtAverageLiquidity.WtAverageLiquidity
-
-
 let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiquidity) : int = 
    let tag = "410="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11466,10 +8792,6 @@ let WriteWtAverageLiquidity (dest:byte []) (nextFreeIdx:int) (valIn:WtAverageLiq
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExchangeForPhysical (pos:int) (bs:byte[]) : (int*ExchangeForPhysical) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ExchangeForPhysical.ExchangeForPhysical
 
 
 let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeForPhysical) : int = 
@@ -11483,10 +8805,6 @@ let WriteExchangeForPhysical (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeFor
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOutMainCntryUIndex (pos:int) (bs:byte[]) : (int*OutMainCntryUIndex) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OutMainCntryUIndex.OutMainCntryUIndex
-
-
 let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntryUIndex) : int = 
    let tag = "412="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11498,10 +8816,6 @@ let WriteOutMainCntryUIndex (dest:byte []) (nextFreeIdx:int) (valIn:OutMainCntry
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCrossPercent (pos:int) (bs:byte[]) : (int*CrossPercent) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) CrossPercent.CrossPercent
-
-
 let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : int = 
    let tag = "413="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11511,17 +8825,6 @@ let WriteCrossPercent (dest:byte []) (nextFreeIdx:int) (valIn:CrossPercent) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadProgRptReqs (pos:int) (bs:byte[]) : (int * ProgRptReqs) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
-        |"2"B -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
-        |"3"B -> ProgRptReqs.RealTimeExecutionReports
-        | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : int =
@@ -11546,10 +8849,6 @@ let WriteProgRptReqs (dest:byte array) (nextFreeIdx:int) (xxIn:ProgRptReqs) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadProgPeriodInterval (pos:int) (bs:byte[]) : (int*ProgPeriodInterval) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ProgPeriodInterval.ProgPeriodInterval
-
-
 let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodInterval) : int = 
    let tag = "415="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11559,16 +8858,6 @@ let WriteProgPeriodInterval (dest:byte []) (nextFreeIdx:int) (valIn:ProgPeriodIn
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadIncTaxInd (pos:int) (bs:byte[]) : (int * IncTaxInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> IncTaxInd.Net
-        |"2"B -> IncTaxInd.Gross
-        | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
@@ -11587,10 +8876,6 @@ let WriteIncTaxInd (dest:byte array) (nextFreeIdx:int) (xxIn:IncTaxInd) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNumBidders (pos:int) (bs:byte[]) : (int*NumBidders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NumBidders.NumBidders
-
-
 let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int = 
    let tag = "417="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11600,18 +8885,6 @@ let WriteNumBidders (dest:byte []) (nextFreeIdx:int) (valIn:NumBidders) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"R"B -> BidTradeType.RiskTrade
-        |"G"B -> BidTradeType.VwapGuarantee
-        |"A"B -> BidTradeType.Agency
-        |"J"B -> BidTradeType.GuaranteedClose
-        | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : int =
@@ -11640,27 +8913,6 @@ let WriteBidTradeType (dest:byte array) (nextFreeIdx:int) (xxIn:BidTradeType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"2"B -> BasisPxType.ClosingPriceAtMorningSession
-        |"3"B -> BasisPxType.ClosingPrice
-        |"4"B -> BasisPxType.CurrentPrice
-        |"5"B -> BasisPxType.Sq
-        |"6"B -> BasisPxType.VwapThroughADay
-        |"7"B -> BasisPxType.VwapThroughAMorningSession
-        |"8"B -> BasisPxType.VwapThroughAnAfternoonSession
-        |"9"B -> BasisPxType.VwapThroughADayExceptYori
-        |"A"B -> BasisPxType.VwapThroughAMorningSessionExceptYori
-        |"B"B -> BasisPxType.VwapThroughAnAfternoonSessionExceptYori
-        |"C"B -> BasisPxType.Strike
-        |"D"B -> BasisPxType.Open
-        |"Z"B -> BasisPxType.Others
-        | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : int =
@@ -11745,10 +8997,6 @@ let WriteBasisPxType (dest:byte array) (nextFreeIdx:int) (xxIn:BasisPxType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoBidComponents (pos:int) (bs:byte[]) : (int*NoBidComponents) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoBidComponents.NoBidComponents
-
-
 let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents) : int = 
    let tag = "420="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11758,10 +9006,6 @@ let WriteNoBidComponents (dest:byte []) (nextFreeIdx:int) (valIn:NoBidComponents
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCountry (pos:int) (bs:byte[]) : (int*Country) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Country.Country
 
 
 let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int = 
@@ -11775,10 +9019,6 @@ let WriteCountry (dest:byte []) (nextFreeIdx:int) (valIn:Country) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoStrikes (pos:int) (bs:byte[]) : (int*TotNoStrikes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoStrikes.TotNoStrikes
-
-
 let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : int = 
    let tag = "422="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11788,25 +9028,6 @@ let WriteTotNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoStrikes) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPriceType (pos:int) (bs:byte[]) : (int * PriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PriceType.Percentage
-        |"2"B -> PriceType.PerUnit
-        |"3"B -> PriceType.FixedAmount
-        |"4"B -> PriceType.Discount
-        |"5"B -> PriceType.Premium
-        |"6"B -> PriceType.Spread
-        |"7"B -> PriceType.TedPrice
-        |"8"B -> PriceType.TedYield
-        |"9"B -> PriceType.Yield
-        |"10"B -> PriceType.FixedCabinetTradePrice
-        |"11"B -> PriceType.VariableCabinetTradePrice
-        | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
@@ -11879,10 +9100,6 @@ let WritePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:PriceType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDayOrderQty (pos:int) (bs:byte[]) : (int*DayOrderQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayOrderQty.DayOrderQty
-
-
 let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int = 
    let tag = "424="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11892,10 +9109,6 @@ let WriteDayOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:DayOrderQty) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDayCumQty (pos:int) (bs:byte[]) : (int*DayCumQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayCumQty.DayCumQty
 
 
 let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int = 
@@ -11909,10 +9122,6 @@ let WriteDayCumQty (dest:byte []) (nextFreeIdx:int) (valIn:DayCumQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDayAvgPx (pos:int) (bs:byte[]) : (int*DayAvgPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DayAvgPx.DayAvgPx
-
-
 let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int = 
    let tag = "426="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11922,17 +9131,6 @@ let WriteDayAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:DayAvgPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadGTBookingInst (pos:int) (bs:byte[]) : (int * GTBookingInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
-        |"1"B -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
-        |"2"B -> GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise
-        | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) : int =
@@ -11957,10 +9155,6 @@ let WriteGTBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:GTBookingInst) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoStrikes (pos:int) (bs:byte[]) : (int*NoStrikes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoStrikes.NoStrikes
-
-
 let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int = 
    let tag = "428="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -11970,20 +9164,6 @@ let WriteNoStrikes (dest:byte []) (nextFreeIdx:int) (valIn:NoStrikes) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ListStatusType.Ack
-        |"2"B -> ListStatusType.Response
-        |"3"B -> ListStatusType.Timed
-        |"4"B -> ListStatusType.Execstarted
-        |"5"B -> ListStatusType.Alldone
-        |"6"B -> ListStatusType.Alert
-        | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType) : int =
@@ -12026,16 +9206,6 @@ let WriteListStatusType (dest:byte array) (nextFreeIdx:int) (xxIn:ListStatusType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> NetGrossInd.Net
-        |"2"B -> NetGrossInd.Gross
-        | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : int =
     match xxIn with
     | NetGrossInd.Net ->
@@ -12050,21 +9220,6 @@ let WriteNetGrossInd (dest:byte array) (nextFreeIdx:int) (xxIn:NetGrossInd) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ListOrderStatus.Inbiddingprocess
-        |"2"B -> ListOrderStatus.Receivedforexecution
-        |"3"B -> ListOrderStatus.Executing
-        |"4"B -> ListOrderStatus.Canceling
-        |"5"B -> ListOrderStatus.Alert
-        |"6"B -> ListOrderStatus.AllDone
-        |"7"B -> ListOrderStatus.Reject
-        | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStatus) : int =
@@ -12113,10 +9268,6 @@ let WriteListOrderStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ListOrderStat
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExpireDate (pos:int) (bs:byte[]) : (int*ExpireDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExpireDate.ExpireDate
-
-
 let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int = 
    let tag = "432="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12126,19 +9277,6 @@ let WriteExpireDate (dest:byte []) (nextFreeIdx:int) (valIn:ExpireDate) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ListExecInstType.Immediate
-        |"2"B -> ListExecInstType.WaitForExecuteInstruction
-        |"3"B -> ListExecInstType.ExchangeSwitchCivOrderSellDriven
-        |"4"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp
-        |"5"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw
-        | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInstType) : int =
@@ -12175,16 +9313,6 @@ let WriteListExecInstType (dest:byte array) (nextFreeIdx:int) (xxIn:ListExecInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> CxlRejResponseTo.OrderCancelRequest
-        |"2"B -> CxlRejResponseTo.OrderCancelReplaceRequest
-        | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejResponseTo) : int =
     match xxIn with
     | CxlRejResponseTo.OrderCancelRequest ->
@@ -12201,10 +9329,6 @@ let WriteCxlRejResponseTo (dest:byte array) (nextFreeIdx:int) (xxIn:CxlRejRespon
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCouponRate (pos:int) (bs:byte[]) : (int*UnderlyingCouponRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingCouponRate.UnderlyingCouponRate
-
-
 let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCouponRate) : int = 
    let tag = "435="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12214,10 +9338,6 @@ let WriteUnderlyingCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingContractMultiplier (pos:int) (bs:byte[]) : (int*UnderlyingContractMultiplier) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingContractMultiplier.UnderlyingContractMultiplier
 
 
 let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingContractMultiplier) : int = 
@@ -12231,10 +9351,6 @@ let WriteUnderlyingContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:Un
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContraTradeQty (pos:int) (bs:byte[]) : (int*ContraTradeQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContraTradeQty.ContraTradeQty
-
-
 let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) : int = 
    let tag = "437="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12244,10 +9360,6 @@ let WriteContraTradeQty (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeQty) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadContraTradeTime (pos:int) (bs:byte[]) : (int*ContraTradeTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraTradeTime.ContraTradeTime
 
 
 let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime) : int = 
@@ -12261,10 +9373,6 @@ let WriteContraTradeTime (dest:byte []) (nextFreeIdx:int) (valIn:ContraTradeTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLiquidityNumSecurities (pos:int) (bs:byte[]) : (int*LiquidityNumSecurities) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LiquidityNumSecurities.LiquidityNumSecurities
-
-
 let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:LiquidityNumSecurities) : int = 
    let tag = "441="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12274,17 +9382,6 @@ let WriteLiquidityNumSecurities (dest:byte []) (nextFreeIdx:int) (valIn:Liquidit
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> MultiLegReportingType.SingleSecurity
-        |"2"B -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
-        |"3"B -> MultiLegReportingType.MultiLegSecurity
-        | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegReportingType) : int =
@@ -12309,10 +9406,6 @@ let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikeTime (pos:int) (bs:byte[]) : (int*StrikeTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StrikeTime.StrikeTime
-
-
 let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int = 
    let tag = "443="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12322,10 +9415,6 @@ let WriteStrikeTime (dest:byte []) (nextFreeIdx:int) (valIn:StrikeTime) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadListStatusText (pos:int) (bs:byte[]) : (int*ListStatusText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ListStatusText.ListStatusText
 
 
 let WriteListStatusText (dest:byte []) (nextFreeIdx:int) (valIn:ListStatusText) : int = 
@@ -12359,37 +9448,6 @@ let WriteEncodedListStatusText (dest:byte []) (nextFreeIdx:int) (fld:EncodedList
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to include the delimeter
-
-
-// compound read
-let ReadEncodedListStatusText (pos:int) (bs:byte[]) : (int * EncodedListStatusText) =
-    ReadLengthDataCompoundField "446"B (pos:int) (bs:byte[]) EncodedListStatusText.EncodedListStatusText
-
-
-let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"B"B -> PartyIDSource.Bic
-        |"C"B -> PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier
-        |"D"B -> PartyIDSource.ProprietaryCustomCode
-        |"E"B -> PartyIDSource.IsoCountryCode
-        |"F"B -> PartyIDSource.SettlementEntityLocation
-        |"G"B -> PartyIDSource.Mic
-        |"H"B -> PartyIDSource.CsdParticipantMemberCode
-        |"1"B -> PartyIDSource.KoreanInvestorId
-        |"2"B -> PartyIDSource.TaiwaneseQualifiedForeignInvestorIdQfiiFid
-        |"3"B -> PartyIDSource.TaiwaneseTradingAccount
-        |"4"B -> PartyIDSource.MalaysianCentralDepositoryNumber
-        |"5"B -> PartyIDSource.ChineseBShare
-        |"6"B -> PartyIDSource.UkNationalInsuranceOrPensionNumber
-        |"7"B -> PartyIDSource.UsSocialSecurityNumber
-        |"8"B -> PartyIDSource.UsEmployerIdentificationNumber
-        |"9"B -> PartyIDSource.AustralianBusinessNumber
-        |"A"B -> PartyIDSource.AustralianTaxFileNumber
-        |"I"B -> PartyIDSource.DirectedBroker
-        | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) : int =
@@ -12504,10 +9562,6 @@ let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPartyID (pos:int) (bs:byte[]) : (int*PartyID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PartyID.PartyID
-
-
 let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int = 
    let tag = "448="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12519,10 +9573,6 @@ let WritePartyID (dest:byte []) (nextFreeIdx:int) (valIn:PartyID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetChgPrevDay (pos:int) (bs:byte[]) : (int*NetChgPrevDay) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) NetChgPrevDay.NetChgPrevDay
-
-
 let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : int = 
    let tag = "451="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12532,51 +9582,6 @@ let WriteNetChgPrevDay (dest:byte []) (nextFreeIdx:int) (valIn:NetChgPrevDay) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPartyRole (pos:int) (bs:byte[]) : (int * PartyRole) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PartyRole.ExecutingFirm
-        |"2"B -> PartyRole.BrokerOfCredit
-        |"3"B -> PartyRole.ClientId
-        |"4"B -> PartyRole.ClearingFirm
-        |"5"B -> PartyRole.InvestorId
-        |"6"B -> PartyRole.IntroducingFirm
-        |"7"B -> PartyRole.EnteringFirm
-        |"8"B -> PartyRole.LocateLendingFirm
-        |"9"B -> PartyRole.FundManagerClientId
-        |"10"B -> PartyRole.SettlementLocation
-        |"11"B -> PartyRole.OrderOriginationTrader
-        |"12"B -> PartyRole.ExecutingTrader
-        |"13"B -> PartyRole.OrderOriginationFirm
-        |"14"B -> PartyRole.GiveupClearingFirm
-        |"15"B -> PartyRole.CorrespondantClearingFirm
-        |"16"B -> PartyRole.ExecutingSystem
-        |"17"B -> PartyRole.ContraFirm
-        |"18"B -> PartyRole.ContraClearingFirm
-        |"19"B -> PartyRole.SponsoringFirm
-        |"20"B -> PartyRole.UnderlyingContraFirm
-        |"21"B -> PartyRole.ClearingOrganization
-        |"22"B -> PartyRole.Exchange
-        |"24"B -> PartyRole.CustomerAccount
-        |"25"B -> PartyRole.CorrespondentClearingOrganization
-        |"26"B -> PartyRole.CorrespondentBroker
-        |"27"B -> PartyRole.BuyerSeller
-        |"28"B -> PartyRole.Custodian
-        |"29"B -> PartyRole.Intermediary
-        |"30"B -> PartyRole.Agent
-        |"31"B -> PartyRole.SubCustodian
-        |"32"B -> PartyRole.Beneficiary
-        |"33"B -> PartyRole.InterestedParty
-        |"34"B -> PartyRole.RegulatoryBody
-        |"35"B -> PartyRole.LiquidityProvider
-        |"36"B -> PartyRole.EnteringTrader
-        |"37"B -> PartyRole.ContraTrader
-        |"38"B -> PartyRole.PositionAccount
-        | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
@@ -12805,10 +9810,6 @@ let WritePartyRole (dest:byte array) (nextFreeIdx:int) (xxIn:PartyRole) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoPartyIDs (pos:int) (bs:byte[]) : (int*NoPartyIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPartyIDs.NoPartyIDs
-
-
 let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int = 
    let tag = "453="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12818,10 +9819,6 @@ let WriteNoPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartyIDs) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoSecurityAltID (pos:int) (bs:byte[]) : (int*NoSecurityAltID) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSecurityAltID.NoSecurityAltID
 
 
 let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID) : int = 
@@ -12835,10 +9832,6 @@ let WriteNoSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityAltID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecurityAltID (pos:int) (bs:byte[]) : (int*SecurityAltID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityAltID.SecurityAltID
-
-
 let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : int = 
    let tag = "455="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12848,10 +9841,6 @@ let WriteSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityAltIDSource (pos:int) (bs:byte[]) : (int*SecurityAltIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecurityAltIDSource.SecurityAltIDSource
 
 
 let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAltIDSource) : int = 
@@ -12865,10 +9854,6 @@ let WriteSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SecurityAlt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*NoUnderlyingSecurityAltID) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID
-
-
 let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingSecurityAltID) : int = 
    let tag = "457="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12878,10 +9863,6 @@ let WriteNoUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoUnd
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSecurityAltID (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityAltID.UnderlyingSecurityAltID
 
 
 let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltID) : int = 
@@ -12895,10 +9876,6 @@ let WriteUnderlyingSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecurityAltIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSecurityAltIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource
-
-
 let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecurityAltIDSource) : int = 
    let tag = "459="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -12908,27 +9885,6 @@ let WriteUnderlyingSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:U
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadProduct (pos:int) (bs:byte[]) : (int * Product) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> Product.Agency
-        |"2"B -> Product.Commodity
-        |"3"B -> Product.Corporate
-        |"4"B -> Product.Currency
-        |"5"B -> Product.Equity
-        |"6"B -> Product.Government
-        |"7"B -> Product.Index
-        |"8"B -> Product.Loan
-        |"9"B -> Product.Moneymarket
-        |"10"B -> Product.Mortgage
-        |"11"B -> Product.Municipal
-        |"12"B -> Product.Other
-        |"13"B -> Product.Financing
-        | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
@@ -13013,10 +9969,6 @@ let WriteProduct (dest:byte array) (nextFreeIdx:int) (xxIn:Product) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCFICode (pos:int) (bs:byte[]) : (int*CFICode) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CFICode.CFICode
-
-
 let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int = 
    let tag = "461="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13026,10 +9978,6 @@ let WriteCFICode (dest:byte []) (nextFreeIdx:int) (valIn:CFICode) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingProduct (pos:int) (bs:byte[]) : (int*UnderlyingProduct) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingProduct.UnderlyingProduct
 
 
 let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingProduct) : int = 
@@ -13043,10 +9991,6 @@ let WriteUnderlyingProduct (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPro
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCFICode (pos:int) (bs:byte[]) : (int*UnderlyingCFICode) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCFICode.UnderlyingCFICode
-
-
 let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFICode) : int = 
    let tag = "463="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13058,10 +10002,6 @@ let WriteUnderlyingCFICode (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCFI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTestMessageIndicator (pos:int) (bs:byte[]) : (int*TestMessageIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) TestMessageIndicator.TestMessageIndicator
-
-
 let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessageIndicator) : int = 
    let tag = "464="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13071,22 +10011,6 @@ let WriteTestMessageIndicator (dest:byte []) (nextFreeIdx:int) (valIn:TestMessag
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuantityType (pos:int) (bs:byte[]) : (int * QuantityType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuantityType.Shares
-        |"2"B -> QuantityType.Bonds
-        |"3"B -> QuantityType.Currentface
-        |"4"B -> QuantityType.Originalface
-        |"5"B -> QuantityType.Currency
-        |"6"B -> QuantityType.Contracts
-        |"7"B -> QuantityType.Other
-        |"8"B -> QuantityType.Par
-        | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : int =
@@ -13141,10 +10065,6 @@ let WriteQuantityType (dest:byte array) (nextFreeIdx:int) (xxIn:QuantityType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBookingRefID (pos:int) (bs:byte[]) : (int*BookingRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BookingRefID.BookingRefID
-
-
 let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : int = 
    let tag = "466="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13156,10 +10076,6 @@ let WriteBookingRefID (dest:byte []) (nextFreeIdx:int) (valIn:BookingRefID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadIndividualAllocID (pos:int) (bs:byte[]) : (int*IndividualAllocID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) IndividualAllocID.IndividualAllocID
-
-
 let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocID) : int = 
    let tag = "467="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13169,17 +10085,6 @@ let WriteIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAll
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRoundingDirection (pos:int) (bs:byte[]) : (int * RoundingDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> RoundingDirection.RoundToNearest
-        |"1"B -> RoundingDirection.RoundDown
-        |"2"B -> RoundingDirection.RoundUp
-        | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDirection) : int =
@@ -13204,10 +10109,6 @@ let WriteRoundingDirection (dest:byte array) (nextFreeIdx:int) (xxIn:RoundingDir
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoundingModulus (pos:int) (bs:byte[]) : (int*RoundingModulus) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RoundingModulus.RoundingModulus
-
-
 let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus) : int = 
    let tag = "469="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13217,10 +10118,6 @@ let WriteRoundingModulus (dest:byte []) (nextFreeIdx:int) (valIn:RoundingModulus
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCountryOfIssue (pos:int) (bs:byte[]) : (int*CountryOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CountryOfIssue.CountryOfIssue
 
 
 let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) : int = 
@@ -13234,10 +10131,6 @@ let WriteCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:CountryOfIssue) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*StateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StateOrProvinceOfIssue.StateOrProvinceOfIssue
-
-
 let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrProvinceOfIssue) : int = 
    let tag = "471="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13247,10 +10140,6 @@ let WriteStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:StateOrP
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLocaleOfIssue (pos:int) (bs:byte[]) : (int*LocaleOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LocaleOfIssue.LocaleOfIssue
 
 
 let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : int = 
@@ -13264,10 +10153,6 @@ let WriteLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LocaleOfIssue) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoRegistDtls (pos:int) (bs:byte[]) : (int*NoRegistDtls) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoRegistDtls.NoRegistDtls
-
-
 let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : int = 
    let tag = "473="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13277,10 +10162,6 @@ let WriteNoRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:NoRegistDtls) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMailingDtls (pos:int) (bs:byte[]) : (int*MailingDtls) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MailingDtls.MailingDtls
 
 
 let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int = 
@@ -13294,10 +10175,6 @@ let WriteMailingDtls (dest:byte []) (nextFreeIdx:int) (valIn:MailingDtls) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInvestorCountryOfResidence (pos:int) (bs:byte[]) : (int*InvestorCountryOfResidence) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InvestorCountryOfResidence.InvestorCountryOfResidence
-
-
 let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:InvestorCountryOfResidence) : int = 
    let tag = "475="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13309,10 +10186,6 @@ let WriteInvestorCountryOfResidence (dest:byte []) (nextFreeIdx:int) (valIn:Inve
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentRef (pos:int) (bs:byte[]) : (int*PaymentRef) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentRef.PaymentRef
-
-
 let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int = 
    let tag = "476="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13322,26 +10195,6 @@ let WritePaymentRef (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRef) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDistribPaymentMethod (pos:int) (bs:byte[]) : (int * DistribPaymentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> DistribPaymentMethod.Crest
-        |"2"B -> DistribPaymentMethod.Nscc
-        |"3"B -> DistribPaymentMethod.Euroclear
-        |"4"B -> DistribPaymentMethod.Clearstream
-        |"5"B -> DistribPaymentMethod.Cheque
-        |"6"B -> DistribPaymentMethod.TelegraphicTransfer
-        |"7"B -> DistribPaymentMethod.Fedwire
-        |"8"B -> DistribPaymentMethod.DirectCredit
-        |"9"B -> DistribPaymentMethod.AchCredit
-        |"10"B -> DistribPaymentMethod.Bpay
-        |"11"B -> DistribPaymentMethod.HighValueClearingSystem
-        |"12"B -> DistribPaymentMethod.ReinvestInFund
-        | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribPaymentMethod) : int =
@@ -13420,10 +10273,6 @@ let WriteDistribPaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:DistribP
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribCurr (pos:int) (bs:byte[]) : (int*CashDistribCurr) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribCurr.CashDistribCurr
-
-
 let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr) : int = 
    let tag = "478="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13435,10 +10284,6 @@ let WriteCashDistribCurr (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribCurr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCommCurrency (pos:int) (bs:byte[]) : (int*CommCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CommCurrency.CommCurrency
-
-
 let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : int = 
    let tag = "479="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13448,18 +10293,6 @@ let WriteCommCurrency (dest:byte []) (nextFreeIdx:int) (valIn:CommCurrency) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"Y"B -> CancellationRights.Yes
-        |"N"B -> CancellationRights.NoExecutionOnly
-        |"M"B -> CancellationRights.NoWaiverAgreement
-        |"O"B -> CancellationRights.NoInstitutional
-        | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:CancellationRights) : int =
@@ -13488,19 +10321,6 @@ let WriteCancellationRights (dest:byte array) (nextFreeIdx:int) (xxIn:Cancellati
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"Y"B -> MoneyLaunderingStatus.Passed
-        |"N"B -> MoneyLaunderingStatus.NotChecked
-        |"1"B -> MoneyLaunderingStatus.ExemptBelowTheLimit
-        |"2"B -> MoneyLaunderingStatus.ExemptClientMoneyTypeExemption
-        |"3"B -> MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution
-        | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLaunderingStatus) : int =
@@ -13537,10 +10357,6 @@ let WriteMoneyLaunderingStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MoneyLa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMailingInst (pos:int) (bs:byte[]) : (int*MailingInst) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MailingInst.MailingInst
-
-
 let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int = 
    let tag = "482="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13552,10 +10368,6 @@ let WriteMailingInst (dest:byte []) (nextFreeIdx:int) (valIn:MailingInst) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTransBkdTime (pos:int) (bs:byte[]) : (int*TransBkdTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransBkdTime.TransBkdTime
-
-
 let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : int = 
    let tag = "483="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13565,22 +10377,6 @@ let WriteTransBkdTime (dest:byte []) (nextFreeIdx:int) (valIn:TransBkdTime) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"B"B -> ExecPriceType.BidPrice
-        |"C"B -> ExecPriceType.CreationPrice
-        |"D"B -> ExecPriceType.CreationPricePlusAdjustmentPercent
-        |"E"B -> ExecPriceType.CreationPricePlusAdjustmentAmount
-        |"O"B -> ExecPriceType.OfferPrice
-        |"P"B -> ExecPriceType.OfferPriceMinusAdjustmentPercent
-        |"Q"B -> ExecPriceType.OfferPriceMinusAdjustmentAmount
-        |"S"B -> ExecPriceType.SinglePrice
-        | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) : int =
@@ -13635,10 +10431,6 @@ let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecPriceAdjustment (pos:int) (bs:byte[]) : (int*ExecPriceAdjustment) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ExecPriceAdjustment.ExecPriceAdjustment
-
-
 let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAdjustment) : int = 
    let tag = "485="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13650,10 +10442,6 @@ let WriteExecPriceAdjustment (dest:byte []) (nextFreeIdx:int) (valIn:ExecPriceAd
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDateOfBirth (pos:int) (bs:byte[]) : (int*DateOfBirth) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DateOfBirth.DateOfBirth
-
-
 let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int = 
    let tag = "486="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13663,19 +10451,6 @@ let WriteDateOfBirth (dest:byte []) (nextFreeIdx:int) (valIn:DateOfBirth) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeReportTransType (pos:int) (bs:byte[]) : (int * TradeReportTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeReportTransType.New
-        |"1"B -> TradeReportTransType.Cancel
-        |"2"B -> TradeReportTransType.Replace
-        |"3"B -> TradeReportTransType.Release
-        |"4"B -> TradeReportTransType.Reverse
-        | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTransType) : int =
@@ -13712,10 +10487,6 @@ let WriteTradeReportTransType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRep
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCardHolderName (pos:int) (bs:byte[]) : (int*CardHolderName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardHolderName.CardHolderName
-
-
 let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) : int = 
    let tag = "488="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13725,10 +10496,6 @@ let WriteCardHolderName (dest:byte []) (nextFreeIdx:int) (valIn:CardHolderName) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCardNumber (pos:int) (bs:byte[]) : (int*CardNumber) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardNumber.CardNumber
 
 
 let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int = 
@@ -13742,10 +10509,6 @@ let WriteCardNumber (dest:byte []) (nextFreeIdx:int) (valIn:CardNumber) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardExpDate (pos:int) (bs:byte[]) : (int*CardExpDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardExpDate.CardExpDate
-
-
 let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int = 
    let tag = "490="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13757,10 +10520,6 @@ let WriteCardExpDate (dest:byte []) (nextFreeIdx:int) (valIn:CardExpDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCardIssNum (pos:int) (bs:byte[]) : (int*CardIssNum) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardIssNum.CardIssNum
-
-
 let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int = 
    let tag = "491="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13770,29 +10529,6 @@ let WriteCardIssNum (dest:byte []) (nextFreeIdx:int) (valIn:CardIssNum) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPaymentMethod (pos:int) (bs:byte[]) : (int * PaymentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PaymentMethod.Crest
-        |"2"B -> PaymentMethod.Nscc
-        |"3"B -> PaymentMethod.Euroclear
-        |"4"B -> PaymentMethod.Clearstream
-        |"5"B -> PaymentMethod.Cheque
-        |"6"B -> PaymentMethod.TelegraphicTransfer
-        |"7"B -> PaymentMethod.Fedwire
-        |"8"B -> PaymentMethod.DebitCard
-        |"9"B -> PaymentMethod.DirectDebit
-        |"10"B -> PaymentMethod.DirectCredit
-        |"11"B -> PaymentMethod.CreditCard
-        |"12"B -> PaymentMethod.AchDebit
-        |"13"B -> PaymentMethod.AchCredit
-        |"14"B -> PaymentMethod.Bpay
-        |"15"B -> PaymentMethod.HighValueClearingSystem
-        | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) : int =
@@ -13889,10 +10625,6 @@ let WritePaymentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PaymentMethod) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistAcctType (pos:int) (bs:byte[]) : (int*RegistAcctType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistAcctType.RegistAcctType
-
-
 let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) : int = 
    let tag = "493="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13904,10 +10636,6 @@ let WriteRegistAcctType (dest:byte []) (nextFreeIdx:int) (valIn:RegistAcctType) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDesignation (pos:int) (bs:byte[]) : (int*Designation) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Designation.Designation
-
-
 let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int = 
    let tag = "494="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -13917,25 +10645,6 @@ let WriteDesignation (dest:byte []) (nextFreeIdx:int) (valIn:Designation) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTaxAdvantageType (pos:int) (bs:byte[]) : (int * TaxAdvantageType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TaxAdvantageType.NNone
-        |"1"B -> TaxAdvantageType.MaxiIsa
-        |"2"B -> TaxAdvantageType.Tessa
-        |"3"B -> TaxAdvantageType.MiniCashIsa
-        |"4"B -> TaxAdvantageType.MiniStocksAndSharesIsa
-        |"5"B -> TaxAdvantageType.MiniInsuranceIsa
-        |"6"B -> TaxAdvantageType.CurrentYearPayment
-        |"7"B -> TaxAdvantageType.PriorYearPayment
-        |"8"B -> TaxAdvantageType.AssetTransfer
-        |"9"B -> TaxAdvantageType.EmployeePriorYear
-        |"999"B -> TaxAdvantageType.Other
-        | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantageType) : int =
@@ -14008,10 +10717,6 @@ let WriteTaxAdvantageType (dest:byte array) (nextFreeIdx:int) (xxIn:TaxAdvantage
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistRejReasonText (pos:int) (bs:byte[]) : (int*RegistRejReasonText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistRejReasonText.RegistRejReasonText
-
-
 let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejReasonText) : int = 
    let tag = "496="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14021,16 +10726,6 @@ let WriteRegistRejReasonText (dest:byte []) (nextFreeIdx:int) (valIn:RegistRejRe
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadFundRenewWaiv (pos:int) (bs:byte[]) : (int * FundRenewWaiv) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"Y"B -> FundRenewWaiv.Yes
-        |"N"B -> FundRenewWaiv.No
-        | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) : int =
@@ -14049,10 +10744,6 @@ let WriteFundRenewWaiv (dest:byte array) (nextFreeIdx:int) (xxIn:FundRenewWaiv) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentName (pos:int) (bs:byte[]) : (int*CashDistribAgentName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentName.CashDistribAgentName
-
-
 let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentName) : int = 
    let tag = "498="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14062,10 +10753,6 @@ let WriteCashDistribAgentName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCashDistribAgentCode (pos:int) (bs:byte[]) : (int*CashDistribAgentCode) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentCode.CashDistribAgentCode
 
 
 let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentCode) : int = 
@@ -14079,10 +10766,6 @@ let WriteCashDistribAgentCode (dest:byte []) (nextFreeIdx:int) (valIn:CashDistri
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentAcctNumber (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctNumber) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentAcctNumber.CashDistribAgentAcctNumber
-
-
 let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctNumber) : int = 
    let tag = "500="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14092,10 +10775,6 @@ let WriteCashDistribAgentAcctNumber (dest:byte []) (nextFreeIdx:int) (valIn:Cash
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCashDistribPayRef (pos:int) (bs:byte[]) : (int*CashDistribPayRef) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribPayRef.CashDistribPayRef
 
 
 let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPayRef) : int = 
@@ -14109,10 +10788,6 @@ let WriteCashDistribPayRef (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribPa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashDistribAgentAcctName (pos:int) (bs:byte[]) : (int*CashDistribAgentAcctName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CashDistribAgentAcctName.CashDistribAgentAcctName
-
-
 let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDistribAgentAcctName) : int = 
    let tag = "502="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14122,10 +10797,6 @@ let WriteCashDistribAgentAcctName (dest:byte []) (nextFreeIdx:int) (valIn:CashDi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCardStartDate (pos:int) (bs:byte[]) : (int*CardStartDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CardStartDate.CardStartDate
 
 
 let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : int = 
@@ -14139,10 +10810,6 @@ let WriteCardStartDate (dest:byte []) (nextFreeIdx:int) (valIn:CardStartDate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentDate (pos:int) (bs:byte[]) : (int*PaymentDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentDate.PaymentDate
-
-
 let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int = 
    let tag = "504="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14154,10 +10821,6 @@ let WritePaymentDate (dest:byte []) (nextFreeIdx:int) (valIn:PaymentDate) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPaymentRemitterID (pos:int) (bs:byte[]) : (int*PaymentRemitterID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PaymentRemitterID.PaymentRemitterID
-
-
 let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitterID) : int = 
    let tag = "505="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14167,18 +10830,6 @@ let WritePaymentRemitterID (dest:byte []) (nextFreeIdx:int) (valIn:PaymentRemitt
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> RegistStatus.Accepted
-        |"R"B -> RegistStatus.Rejected
-        |"H"B -> RegistStatus.Held
-        |"N"B -> RegistStatus.Reminder
-        | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : int =
@@ -14207,33 +10858,6 @@ let WriteRegistStatus (dest:byte array) (nextFreeIdx:int) (xxIn:RegistStatus) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> RegistRejReasonCode.InvalidUnacceptableAccountType
-        |"2"B -> RegistRejReasonCode.InvalidUnacceptableTaxExemptType
-        |"3"B -> RegistRejReasonCode.InvalidUnacceptableOwnershipType
-        |"4"B -> RegistRejReasonCode.InvalidUnacceptableNoRegDetls
-        |"5"B -> RegistRejReasonCode.InvalidUnacceptableRegSeqNo
-        |"6"B -> RegistRejReasonCode.InvalidUnacceptableRegDtls
-        |"7"B -> RegistRejReasonCode.InvalidUnacceptableMailingDtls
-        |"8"B -> RegistRejReasonCode.InvalidUnacceptableMailingInst
-        |"9"B -> RegistRejReasonCode.InvalidUnacceptableInvestorId
-        |"10"B -> RegistRejReasonCode.InvalidUnacceptableInvestorIdSource
-        |"11"B -> RegistRejReasonCode.InvalidUnacceptableDateOfBirth
-        |"12"B -> RegistRejReasonCode.InvalidUnacceptableInvestorCountryOfResidence
-        |"13"B -> RegistRejReasonCode.InvalidUnacceptableNodistribinstns
-        |"14"B -> RegistRejReasonCode.InvalidUnacceptableDistribPercentage
-        |"15"B -> RegistRejReasonCode.InvalidUnacceptableDistribPaymentMethod
-        |"16"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctName
-        |"17"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode
-        |"18"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum
-        |"99"B -> RegistRejReasonCode.Other
-        | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRejReasonCode) : int =
@@ -14354,10 +10978,6 @@ let WriteRegistRejReasonCode (dest:byte array) (nextFreeIdx:int) (xxIn:RegistRej
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRegistRefID (pos:int) (bs:byte[]) : (int*RegistRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistRefID.RegistRefID
-
-
 let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int = 
    let tag = "508="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14367,10 +10987,6 @@ let WriteRegistRefID (dest:byte []) (nextFreeIdx:int) (valIn:RegistRefID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRegistDtls (pos:int) (bs:byte[]) : (int*RegistDtls) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistDtls.RegistDtls
 
 
 let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int = 
@@ -14384,10 +11000,6 @@ let WriteRegistDtls (dest:byte []) (nextFreeIdx:int) (valIn:RegistDtls) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDistribInsts (pos:int) (bs:byte[]) : (int*NoDistribInsts) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDistribInsts.NoDistribInsts
-
-
 let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) : int = 
    let tag = "510="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14397,10 +11009,6 @@ let WriteNoDistribInsts (dest:byte []) (nextFreeIdx:int) (valIn:NoDistribInsts) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRegistEmail (pos:int) (bs:byte[]) : (int*RegistEmail) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistEmail.RegistEmail
 
 
 let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int = 
@@ -14414,10 +11022,6 @@ let WriteRegistEmail (dest:byte []) (nextFreeIdx:int) (valIn:RegistEmail) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDistribPercentage (pos:int) (bs:byte[]) : (int*DistribPercentage) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DistribPercentage.DistribPercentage
-
-
 let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercentage) : int = 
    let tag = "512="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14429,10 +11033,6 @@ let WriteDistribPercentage (dest:byte []) (nextFreeIdx:int) (valIn:DistribPercen
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRegistID (pos:int) (bs:byte[]) : (int*RegistID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RegistID.RegistID
-
-
 let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int = 
    let tag = "513="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14442,17 +11042,6 @@ let WriteRegistID (dest:byte []) (nextFreeIdx:int) (valIn:RegistID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> RegistTransType.New
-        |"1"B -> RegistTransType.Replace
-        |"2"B -> RegistTransType.Cancel
-        | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransType) : int =
@@ -14477,10 +11066,6 @@ let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExecValuationPoint (pos:int) (bs:byte[]) : (int*ExecValuationPoint) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExecValuationPoint.ExecValuationPoint
-
-
 let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuationPoint) : int = 
    let tag = "515="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14492,10 +11077,6 @@ let WriteExecValuationPoint (dest:byte []) (nextFreeIdx:int) (valIn:ExecValuatio
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOrderPercent (pos:int) (bs:byte[]) : (int*OrderPercent) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderPercent.OrderPercent
-
-
 let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : int = 
    let tag = "516="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14505,17 +11086,6 @@ let WriteOrderPercent (dest:byte []) (nextFreeIdx:int) (valIn:OrderPercent) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOwnershipType (pos:int) (bs:byte[]) : (int * OwnershipType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"J"B -> OwnershipType.JointInvestors
-        |"T"B -> OwnershipType.TenantsInCommon
-        |"2"B -> OwnershipType.JointTrustees
-        | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) : int =
@@ -14540,10 +11110,6 @@ let WriteOwnershipType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnershipType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoContAmts (pos:int) (bs:byte[]) : (int*NoContAmts) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoContAmts.NoContAmts
-
-
 let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int = 
    let tag = "518="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14553,23 +11119,6 @@ let WriteNoContAmts (dest:byte []) (nextFreeIdx:int) (valIn:NoContAmts) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadContAmtType (pos:int) (bs:byte[]) : (int * ContAmtType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ContAmtType.CommissionAmount
-        |"2"B -> ContAmtType.CommissionPercent
-        |"3"B -> ContAmtType.InitialChargeAmount
-        |"4"B -> ContAmtType.InitialChargePercent
-        |"5"B -> ContAmtType.DiscountAmount
-        |"6"B -> ContAmtType.DiscountPercent
-        |"7"B -> ContAmtType.DilutionLevyAmount
-        |"8"B -> ContAmtType.DilutionLevyPercent
-        |"9"B -> ContAmtType.ExitChargeAmount
-        | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : int =
@@ -14630,10 +11179,6 @@ let WriteContAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:ContAmtType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContAmtValue (pos:int) (bs:byte[]) : (int*ContAmtValue) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ContAmtValue.ContAmtValue
-
-
 let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : int = 
    let tag = "520="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14645,10 +11190,6 @@ let WriteContAmtValue (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtValue) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadContAmtCurr (pos:int) (bs:byte[]) : (int*ContAmtCurr) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContAmtCurr.ContAmtCurr
-
-
 let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int = 
    let tag = "521="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14658,27 +11199,6 @@ let WriteContAmtCurr (dest:byte []) (nextFreeIdx:int) (valIn:ContAmtCurr) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOwnerType (pos:int) (bs:byte[]) : (int * OwnerType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> OwnerType.IndividualInvestor
-        |"2"B -> OwnerType.PublicCompany
-        |"3"B -> OwnerType.PrivateCompany
-        |"4"B -> OwnerType.IndividualTrustee
-        |"5"B -> OwnerType.CompanyTrustee
-        |"6"B -> OwnerType.PensionPlan
-        |"7"B -> OwnerType.CustodianUnderGiftsToMinorsAct
-        |"8"B -> OwnerType.Trusts
-        |"9"B -> OwnerType.Fiduciaries
-        |"10"B -> OwnerType.NetworkingSubAccount
-        |"11"B -> OwnerType.NonProfitOrganization
-        |"12"B -> OwnerType.CorporateBody
-        |"13"B -> OwnerType.Nominee
-        | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
@@ -14763,10 +11283,6 @@ let WriteOwnerType (dest:byte array) (nextFreeIdx:int) (xxIn:OwnerType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPartySubID (pos:int) (bs:byte[]) : (int*PartySubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PartySubID.PartySubID
-
-
 let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int = 
    let tag = "523="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14776,10 +11292,6 @@ let WritePartySubID (dest:byte []) (nextFreeIdx:int) (valIn:PartySubID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNestedPartyID (pos:int) (bs:byte[]) : (int*NestedPartyID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NestedPartyID.NestedPartyID
 
 
 let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : int = 
@@ -14793,10 +11305,6 @@ let WriteNestedPartyID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartyIDSource (pos:int) (bs:byte[]) : (int*NestedPartyIDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartyIDSource.NestedPartyIDSource
-
-
 let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyIDSource) : int = 
    let tag = "525="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14806,10 +11314,6 @@ let WriteNestedPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:NestedParty
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecondaryClOrdID (pos:int) (bs:byte[]) : (int*SecondaryClOrdID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryClOrdID.SecondaryClOrdID
 
 
 let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrdID) : int = 
@@ -14823,10 +11327,6 @@ let WriteSecondaryClOrdID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryClOrd
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryExecID (pos:int) (bs:byte[]) : (int*SecondaryExecID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryExecID.SecondaryExecID
-
-
 let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID) : int = 
    let tag = "527="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -14836,20 +11336,6 @@ let WriteSecondaryExecID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryExecID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> OrderCapacity.Agency
-        |"G"B -> OrderCapacity.Proprietary
-        |"I"B -> OrderCapacity.Individual
-        |"P"B -> OrderCapacity.Principal
-        |"R"B -> OrderCapacity.RisklessPrincipal
-        |"W"B -> OrderCapacity.AgentForOtherMember
-        | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) : int =
@@ -14890,24 +11376,6 @@ let WriteOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:OrderCapacity) 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> OrderRestrictions.ProgramTrade
-        |"2"B -> OrderRestrictions.IndexArbitrage
-        |"3"B -> OrderRestrictions.NonIndexArbitrage
-        |"4"B -> OrderRestrictions.CompetingMarketMaker
-        |"5"B -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheSecurity
-        |"6"B -> OrderRestrictions.ActingAsMarketMakerOrSpecialistInTheUnderlyingSecurityOfADerivativeSecurity
-        |"7"B -> OrderRestrictions.ForeignEntity
-        |"8"B -> OrderRestrictions.ExternalMarketParticipant
-        |"9"B -> OrderRestrictions.ExternalInterConnectedMarketLinkage
-        |"A"B -> OrderRestrictions.RisklessArbitrage
-        | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestrictions) : int =
@@ -14974,21 +11442,6 @@ let WriteOrderRestrictions (dest:byte array) (nextFreeIdx:int) (xxIn:OrderRestri
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> MassCancelRequestType.CancelOrdersForASecurity
-        |"2"B -> MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity
-        |"3"B -> MassCancelRequestType.CancelOrdersForAProduct
-        |"4"B -> MassCancelRequestType.CancelOrdersForACficode
-        |"5"B -> MassCancelRequestType.CancelOrdersForASecuritytype
-        |"6"B -> MassCancelRequestType.CancelOrdersForATradingSession
-        |"7"B -> MassCancelRequestType.CancelAllOrders
-        | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRequestType) : int =
     match xxIn with
     | MassCancelRequestType.CancelOrdersForASecurity ->
@@ -15033,22 +11486,6 @@ let WriteMassCancelRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:MassCan
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MassCancelResponse.CancelRequestRejected
-        |"1"B -> MassCancelResponse.CancelOrdersForASecurity
-        |"2"B -> MassCancelResponse.CancelOrdersForAnUnderlyingSecurity
-        |"3"B -> MassCancelResponse.CancelOrdersForAProduct
-        |"4"B -> MassCancelResponse.CancelOrdersForACficode
-        |"5"B -> MassCancelResponse.CancelOrdersForASecuritytype
-        |"6"B -> MassCancelResponse.CancelOrdersForATradingSession
-        |"7"B -> MassCancelResponse.CancelAllOrders
-        | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelResponse) : int =
@@ -15103,22 +11540,6 @@ let WriteMassCancelResponse (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancel
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MassCancelRejectReason.MassCancelNotSupported
-        |"1"B -> MassCancelRejectReason.InvalidOrUnknownSecurity
-        |"2"B -> MassCancelRejectReason.InvalidOrUnknownUnderlying
-        |"3"B -> MassCancelRejectReason.InvalidOrUnknownProduct
-        |"4"B -> MassCancelRejectReason.InvalidOrUnknownCficode
-        |"5"B -> MassCancelRejectReason.InvalidOrUnknownSecurityType
-        |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
-        |"99"B -> MassCancelRejectReason.Other
-        | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCancelRejectReason) : int =
     match xxIn with
     | MassCancelRejectReason.MassCancelNotSupported ->
@@ -15171,10 +11592,6 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotalAffectedOrders (pos:int) (bs:byte[]) : (int*TotalAffectedOrders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalAffectedOrders.TotalAffectedOrders
-
-
 let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffectedOrders) : int = 
    let tag = "533="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15184,10 +11601,6 @@ let WriteTotalAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:TotalAffect
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoAffectedOrders (pos:int) (bs:byte[]) : (int*NoAffectedOrders) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAffectedOrders.NoAffectedOrders
 
 
 let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrders) : int = 
@@ -15201,10 +11614,6 @@ let WriteNoAffectedOrders (dest:byte []) (nextFreeIdx:int) (valIn:NoAffectedOrde
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAffectedOrderID (pos:int) (bs:byte[]) : (int*AffectedOrderID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AffectedOrderID.AffectedOrderID
-
-
 let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID) : int = 
    let tag = "535="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15216,10 +11625,6 @@ let WriteAffectedOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedOrderID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAffectedSecondaryOrderID (pos:int) (bs:byte[]) : (int*AffectedSecondaryOrderID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AffectedSecondaryOrderID.AffectedSecondaryOrderID
-
-
 let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:AffectedSecondaryOrderID) : int = 
    let tag = "536="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15229,18 +11634,6 @@ let WriteAffectedSecondaryOrderID (dest:byte []) (nextFreeIdx:int) (valIn:Affect
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteType (pos:int) (bs:byte[]) : (int * QuoteType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> QuoteType.Indicative
-        |"1"B -> QuoteType.Tradeable
-        |"2"B -> QuoteType.RestrictedTradeable
-        |"3"B -> QuoteType.Counter
-        | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
@@ -15271,10 +11664,6 @@ let WriteQuoteType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartyRole (pos:int) (bs:byte[]) : (int*NestedPartyRole) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartyRole.NestedPartyRole
-
-
 let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole) : int = 
    let tag = "538="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15284,10 +11673,6 @@ let WriteNestedPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartyRole
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNestedPartyIDs (pos:int) (bs:byte[]) : (int*NoNestedPartyIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNestedPartyIDs.NoNestedPartyIDs
 
 
 let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyIDs) : int = 
@@ -15301,10 +11686,6 @@ let WriteNoNestedPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartyI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalAccruedInterestAmt (pos:int) (bs:byte[]) : (int*TotalAccruedInterestAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalAccruedInterestAmt.TotalAccruedInterestAmt
-
-
 let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAccruedInterestAmt) : int = 
    let tag = "540="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15314,10 +11695,6 @@ let WriteTotalAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:TotalAc
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMaturityDate (pos:int) (bs:byte[]) : (int*MaturityDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MaturityDate.MaturityDate
 
 
 let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : int = 
@@ -15331,10 +11708,6 @@ let WriteMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:MaturityDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingMaturityDate (pos:int) (bs:byte[]) : (int*UnderlyingMaturityDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingMaturityDate.UnderlyingMaturityDate
-
-
 let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingMaturityDate) : int = 
    let tag = "542="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15346,10 +11719,6 @@ let WriteUnderlyingMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInstrRegistry (pos:int) (bs:byte[]) : (int*InstrRegistry) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InstrRegistry.InstrRegistry
-
-
 let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : int = 
    let tag = "543="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15359,17 +11728,6 @@ let WriteInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:InstrRegistry) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCashMargin (pos:int) (bs:byte[]) : (int * CashMargin) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> CashMargin.Cash
-        |"2"B -> CashMargin.MarginOpen
-        |"3"B -> CashMargin.MarginClose
-        | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int =
@@ -15394,10 +11752,6 @@ let WriteCashMargin (dest:byte array) (nextFreeIdx:int) (xxIn:CashMargin) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartySubID (pos:int) (bs:byte[]) : (int*NestedPartySubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NestedPartySubID.NestedPartySubID
-
-
 let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubID) : int = 
    let tag = "545="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15407,17 +11761,6 @@ let WriteNestedPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySub
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadScope (pos:int) (bs:byte[]) : (int * Scope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> Scope.Local
-        |"2"B -> Scope.National
-        |"3"B -> Scope.Global
-        | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
@@ -15442,10 +11785,6 @@ let WriteScope (dest:byte array) (nextFreeIdx:int) (xxIn:Scope) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMDImplicitDelete (pos:int) (bs:byte[]) : (int*MDImplicitDelete) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) MDImplicitDelete.MDImplicitDelete
-
-
 let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDelete) : int = 
    let tag = "547="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15457,10 +11796,6 @@ let WriteMDImplicitDelete (dest:byte []) (nextFreeIdx:int) (valIn:MDImplicitDele
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCrossID (pos:int) (bs:byte[]) : (int*CrossID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CrossID.CrossID
-
-
 let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int = 
    let tag = "548="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15470,18 +11805,6 @@ let WriteCrossID (dest:byte []) (nextFreeIdx:int) (valIn:CrossID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
-        |"2"B -> CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled
-        |"3"B -> CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive
-        |"4"B -> CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice
-        | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
@@ -15512,17 +11835,6 @@ let WriteCrossType (dest:byte array) (nextFreeIdx:int) (xxIn:CrossType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CrossPrioritization.NNone
-        |"1"B -> CrossPrioritization.BuySideIsPrioritized
-        |"2"B -> CrossPrioritization.SellSideIsPrioritized
-        | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrioritization) : int =
     match xxIn with
     | CrossPrioritization.NNone ->
@@ -15545,10 +11857,6 @@ let WriteCrossPrioritization (dest:byte array) (nextFreeIdx:int) (xxIn:CrossPrio
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigCrossID (pos:int) (bs:byte[]) : (int*OrigCrossID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigCrossID.OrigCrossID
-
-
 let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int = 
    let tag = "551="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15558,16 +11866,6 @@ let WriteOrigCrossID (dest:byte []) (nextFreeIdx:int) (valIn:OrigCrossID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoSides (pos:int) (bs:byte[]) : (int * NoSides) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> NoSides.OneSide
-        |"2"B -> NoSides.BothSides
-        | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
@@ -15586,10 +11884,6 @@ let WriteNoSides (dest:byte array) (nextFreeIdx:int) (xxIn:NoSides) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUsername (pos:int) (bs:byte[]) : (int*Username) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Username.Username
-
-
 let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int = 
    let tag = "553="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15599,10 +11893,6 @@ let WriteUsername (dest:byte []) (nextFreeIdx:int) (valIn:Username) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPassword (pos:int) (bs:byte[]) : (int*Password) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Password.Password
 
 
 let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int = 
@@ -15616,10 +11906,6 @@ let WritePassword (dest:byte []) (nextFreeIdx:int) (valIn:Password) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegs (pos:int) (bs:byte[]) : (int*NoLegs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegs.NoLegs
-
-
 let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int = 
    let tag = "555="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15629,10 +11915,6 @@ let WriteNoLegs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegs) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegCurrency (pos:int) (bs:byte[]) : (int*LegCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCurrency.LegCurrency
 
 
 let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int = 
@@ -15646,10 +11928,6 @@ let WriteLegCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegCurrency) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoSecurityTypes (pos:int) (bs:byte[]) : (int*TotNoSecurityTypes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoSecurityTypes.TotNoSecurityTypes
-
-
 let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurityTypes) : int = 
    let tag = "557="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15661,10 +11939,6 @@ let WriteTotNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:TotNoSecurit
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSecurityTypes (pos:int) (bs:byte[]) : (int*NoSecurityTypes) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSecurityTypes.NoSecurityTypes
-
-
 let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes) : int = 
    let tag = "558="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15674,19 +11948,6 @@ let WriteNoSecurityTypes (dest:byte []) (nextFreeIdx:int) (valIn:NoSecurityTypes
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SecurityListRequestType.Symbol
-        |"1"B -> SecurityListRequestType.SecuritytypeAndOrCficode
-        |"2"B -> SecurityListRequestType.Product
-        |"3"B -> SecurityListRequestType.Tradingsessionid
-        |"4"B -> SecurityListRequestType.AllSecurities
-        | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityListRequestType) : int =
@@ -15721,20 +11982,6 @@ let WriteSecurityListRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:Secur
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SecurityRequestResult.ValidRequest
-        |"1"B -> SecurityRequestResult.InvalidOrUnsupportedRequest
-        |"2"B -> SecurityRequestResult.NoInstrumentsFoundThatMatchSelectionCriteria
-        |"3"B -> SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData
-        |"4"B -> SecurityRequestResult.InstrumentDataTemporarilyUnavailable
-        |"5"B -> SecurityRequestResult.RequestForInstrumentDataNotSupported
-        | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityRequestResult) : int =
@@ -15777,10 +12024,6 @@ let WriteSecurityRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:Securit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadRoundLot (pos:int) (bs:byte[]) : (int*RoundLot) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) RoundLot.RoundLot
-
-
 let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int = 
    let tag = "561="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15792,10 +12035,6 @@ let WriteRoundLot (dest:byte []) (nextFreeIdx:int) (valIn:RoundLot) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinTradeVol (pos:int) (bs:byte[]) : (int*MinTradeVol) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinTradeVol.MinTradeVol
-
-
 let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int = 
    let tag = "562="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15805,17 +12044,6 @@ let WriteMinTradeVol (dest:byte []) (nextFreeIdx:int) (valIn:MinTradeVol) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMultiLegRptTypeReq (pos:int) (bs:byte[]) : (int * MultiLegRptTypeReq) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
-        |"1"B -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
-        |"2"B -> MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly
-        | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRptTypeReq) : int =
@@ -15840,10 +12068,6 @@ let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRp
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLegPositionEffect (pos:int) (bs:byte[]) : (int*LegPositionEffect) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegPositionEffect.LegPositionEffect
-
-
 let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEffect) : int = 
    let tag = "564="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15853,10 +12077,6 @@ let WriteLegPositionEffect (dest:byte []) (nextFreeIdx:int) (valIn:LegPositionEf
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegCoveredOrUncovered (pos:int) (bs:byte[]) : (int*LegCoveredOrUncovered) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegCoveredOrUncovered.LegCoveredOrUncovered
 
 
 let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCoveredOrUncovered) : int = 
@@ -15870,10 +12090,6 @@ let WriteLegCoveredOrUncovered (dest:byte []) (nextFreeIdx:int) (valIn:LegCovere
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegPrice (pos:int) (bs:byte[]) : (int*LegPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegPrice.LegPrice
-
-
 let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int = 
    let tag = "566="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15883,15 +12099,6 @@ let WriteLegPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegPrice) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradSesStatusRejReason (pos:int) (bs:byte[]) : (int * TradSesStatusRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
-        | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatusRejReason) : int =
@@ -15904,10 +12111,6 @@ let WriteTradSesStatusRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradSe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestID (pos:int) (bs:byte[]) : (int*TradeRequestID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeRequestID.TradeRequestID
-
-
 let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) : int = 
    let tag = "568="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15917,19 +12120,6 @@ let WriteTradeRequestID (dest:byte []) (nextFreeIdx:int) (valIn:TradeRequestID) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeRequestType (pos:int) (bs:byte[]) : (int * TradeRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeRequestType.AllTrades
-        |"1"B -> TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest
-        |"2"B -> TradeRequestType.UnmatchedTradesThatMatchCriteria
-        |"3"B -> TradeRequestType.UnreportedTradesThatMatchCriteria
-        |"4"B -> TradeRequestType.AdvisoriesThatMatchCriteria
-        | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestType) : int =
@@ -15966,10 +12156,6 @@ let WriteTradeRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequest
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPreviouslyReported (pos:int) (bs:byte[]) : (int*PreviouslyReported) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PreviouslyReported.PreviouslyReported
-
-
 let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyReported) : int = 
    let tag = "570="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -15979,10 +12165,6 @@ let WritePreviouslyReported (dest:byte []) (nextFreeIdx:int) (valIn:PreviouslyRe
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeReportID (pos:int) (bs:byte[]) : (int*TradeReportID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeReportID.TradeReportID
 
 
 let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : int = 
@@ -15996,10 +12178,6 @@ let WriteTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeReportRefID (pos:int) (bs:byte[]) : (int*TradeReportRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeReportRefID.TradeReportRefID
-
-
 let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRefID) : int = 
    let tag = "572="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16009,17 +12187,6 @@ let WriteTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeReportRef
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMatchStatus (pos:int) (bs:byte[]) : (int * MatchStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
-        |"1"B -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
-        |"2"B -> MatchStatus.AdvisoryOrAlert
-        | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : int =
@@ -16044,10 +12211,6 @@ let WriteMatchStatus (dest:byte array) (nextFreeIdx:int) (xxIn:MatchStatus) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadMatchType (pos:int) (bs:byte[]) : (int*MatchType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MatchType.MatchType
-
-
 let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int = 
    let tag = "574="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16057,10 +12220,6 @@ let WriteMatchType (dest:byte []) (nextFreeIdx:int) (valIn:MatchType) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOddLot (pos:int) (bs:byte[]) : (int*OddLot) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) OddLot.OddLot
 
 
 let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int = 
@@ -16074,10 +12233,6 @@ let WriteOddLot (dest:byte []) (nextFreeIdx:int) (valIn:OddLot) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoClearingInstructions (pos:int) (bs:byte[]) : (int*NoClearingInstructions) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoClearingInstructions.NoClearingInstructions
-
-
 let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoClearingInstructions) : int = 
    let tag = "576="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16087,28 +12242,6 @@ let WriteNoClearingInstructions (dest:byte []) (nextFreeIdx:int) (valIn:NoCleari
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadClearingInstruction (pos:int) (bs:byte[]) : (int * ClearingInstruction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ClearingInstruction.ProcessNormally
-        |"1"B -> ClearingInstruction.ExcludeFromAllNetting
-        |"2"B -> ClearingInstruction.BilateralNettingOnly
-        |"3"B -> ClearingInstruction.ExClearing
-        |"4"B -> ClearingInstruction.SpecialTrade
-        |"5"B -> ClearingInstruction.MultilateralNetting
-        |"6"B -> ClearingInstruction.ClearAgainstCentralCounterparty
-        |"7"B -> ClearingInstruction.ExcludeFromCentralCounterparty
-        |"8"B -> ClearingInstruction.ManualMode
-        |"9"B -> ClearingInstruction.AutomaticPostingMode
-        |"10"B -> ClearingInstruction.AutomaticGiveUpMode
-        |"11"B -> ClearingInstruction.QualifiedServiceRepresentative
-        |"12"B -> ClearingInstruction.CustomerTrade
-        |"13"B -> ClearingInstruction.SelfClearing
-        | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingInstruction) : int =
@@ -16199,10 +12332,6 @@ let WriteClearingInstruction (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingI
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeInputSource (pos:int) (bs:byte[]) : (int*TradeInputSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeInputSource.TradeInputSource
-
-
 let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSource) : int = 
    let tag = "578="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16212,10 +12341,6 @@ let WriteTradeInputSource (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputSour
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeInputDevice (pos:int) (bs:byte[]) : (int*TradeInputDevice) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeInputDevice.TradeInputDevice
 
 
 let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevice) : int = 
@@ -16229,10 +12354,6 @@ let WriteTradeInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:TradeInputDevi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoDates (pos:int) (bs:byte[]) : (int*NoDates) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoDates.NoDates
-
-
 let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int = 
    let tag = "580="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16242,21 +12363,6 @@ let WriteNoDates (dest:byte []) (nextFreeIdx:int) (valIn:NoDates) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
-        |"2"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooks
-        |"3"B -> AccountType.HouseTrader
-        |"4"B -> AccountType.FloorTrader
-        |"6"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
-        |"7"B -> AccountType.AccountIsHouseTraderAndIsCrossMargined
-        |"8"B -> AccountType.JointBackofficeAccount
-        | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : int =
@@ -16305,18 +12411,6 @@ let WriteAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AccountType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> CustOrderCapacity.MemberTradingForTheirOwnAccount
-        |"2"B -> CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount
-        |"3"B -> CustOrderCapacity.MemberTradingForAnotherMember
-        |"4"B -> CustOrderCapacity.AllOther
-        | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCapacity) : int =
     match xxIn with
     | CustOrderCapacity.MemberTradingForTheirOwnAccount ->
@@ -16345,10 +12439,6 @@ let WriteCustOrderCapacity (dest:byte array) (nextFreeIdx:int) (xxIn:CustOrderCa
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadClOrdLinkID (pos:int) (bs:byte[]) : (int*ClOrdLinkID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClOrdLinkID.ClOrdLinkID
-
-
 let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int = 
    let tag = "583="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16360,10 +12450,6 @@ let WriteClOrdLinkID (dest:byte []) (nextFreeIdx:int) (valIn:ClOrdLinkID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMassStatusReqID (pos:int) (bs:byte[]) : (int*MassStatusReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) MassStatusReqID.MassStatusReqID
-
-
 let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID) : int = 
    let tag = "584="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16373,22 +12459,6 @@ let WriteMassStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:MassStatusReqID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> MassStatusReqType.StatusForOrdersForASecurity
-        |"2"B -> MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity
-        |"3"B -> MassStatusReqType.StatusForOrdersForAProduct
-        |"4"B -> MassStatusReqType.StatusForOrdersForACficode
-        |"5"B -> MassStatusReqType.StatusForOrdersForASecuritytype
-        |"6"B -> MassStatusReqType.StatusForOrdersForATradingSession
-        |"7"B -> MassStatusReqType.StatusForAllOrders
-        |"8"B -> MassStatusReqType.StatusForOrdersForAPartyid
-        | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusReqType) : int =
@@ -16443,10 +12513,6 @@ let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusR
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigOrdModTime (pos:int) (bs:byte[]) : (int*OrigOrdModTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigOrdModTime.OrigOrdModTime
-
-
 let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) : int = 
    let tag = "586="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16456,10 +12522,6 @@ let WriteOrigOrdModTime (dest:byte []) (nextFreeIdx:int) (valIn:OrigOrdModTime) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSettlType (pos:int) (bs:byte[]) : (int*LegSettlType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegSettlType.LegSettlType
 
 
 let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : int = 
@@ -16473,10 +12535,6 @@ let WriteLegSettlType (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlType) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSettlDate (pos:int) (bs:byte[]) : (int*LegSettlDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSettlDate.LegSettlDate
-
-
 let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : int = 
    let tag = "588="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16486,17 +12544,6 @@ let WriteLegSettlDate (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlDate) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
-        |"1"B -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
-        |"2"B -> DayBookingInst.Accumulate
-        | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst) : int =
@@ -16521,17 +12568,6 @@ let WriteDayBookingInst (dest:byte array) (nextFreeIdx:int) (xxIn:DayBookingInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
-        |"1"B -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
-        |"2"B -> BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate
-        | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : int =
     match xxIn with
     | BookingUnit.EachPartialExecutionIsABookableUnit ->
@@ -16554,16 +12590,6 @@ let WriteBookingUnit (dest:byte array) (nextFreeIdx:int) (xxIn:BookingUnit) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PreallocMethod.ProRata
-        |"1"B -> PreallocMethod.DoNotProRata
-        | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod) : int =
     match xxIn with
     | PreallocMethod.ProRata ->
@@ -16580,10 +12606,6 @@ let WritePreallocMethod (dest:byte array) (nextFreeIdx:int) (xxIn:PreallocMethod
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCountryOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingCountryOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCountryOfIssue.UnderlyingCountryOfIssue
-
-
 let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCountryOfIssue) : int = 
    let tag = "592="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16593,10 +12615,6 @@ let WriteUnderlyingCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingStateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue
 
 
 let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStateOrProvinceOfIssue) : int = 
@@ -16610,10 +12628,6 @@ let WriteUnderlyingStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingLocaleOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingLocaleOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue
-
-
 let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLocaleOfIssue) : int = 
    let tag = "594="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16623,10 +12637,6 @@ let WriteUnderlyingLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingInstrRegistry (pos:int) (bs:byte[]) : (int*UnderlyingInstrRegistry) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingInstrRegistry.UnderlyingInstrRegistry
 
 
 let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingInstrRegistry) : int = 
@@ -16640,10 +12650,6 @@ let WriteUnderlyingInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:Underly
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCountryOfIssue (pos:int) (bs:byte[]) : (int*LegCountryOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCountryOfIssue.LegCountryOfIssue
-
-
 let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfIssue) : int = 
    let tag = "596="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16653,10 +12659,6 @@ let WriteLegCountryOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegCountryOfI
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegStateOrProvinceOfIssue (pos:int) (bs:byte[]) : (int*LegStateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue
 
 
 let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegStateOrProvinceOfIssue) : int = 
@@ -16670,10 +12672,6 @@ let WriteLegStateOrProvinceOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegSt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegLocaleOfIssue (pos:int) (bs:byte[]) : (int*LegLocaleOfIssue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegLocaleOfIssue.LegLocaleOfIssue
-
-
 let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIssue) : int = 
    let tag = "598="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16683,10 +12681,6 @@ let WriteLegLocaleOfIssue (dest:byte []) (nextFreeIdx:int) (valIn:LegLocaleOfIss
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegInstrRegistry (pos:int) (bs:byte[]) : (int*LegInstrRegistry) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegInstrRegistry.LegInstrRegistry
 
 
 let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegistry) : int = 
@@ -16700,10 +12694,6 @@ let WriteLegInstrRegistry (dest:byte []) (nextFreeIdx:int) (valIn:LegInstrRegist
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSymbol (pos:int) (bs:byte[]) : (int*LegSymbol) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSymbol.LegSymbol
-
-
 let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int = 
    let tag = "600="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16713,10 +12703,6 @@ let WriteLegSymbol (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbol) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSymbolSfx (pos:int) (bs:byte[]) : (int*LegSymbolSfx) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSymbolSfx.LegSymbolSfx
 
 
 let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : int = 
@@ -16730,10 +12716,6 @@ let WriteLegSymbolSfx (dest:byte []) (nextFreeIdx:int) (valIn:LegSymbolSfx) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityID (pos:int) (bs:byte[]) : (int*LegSecurityID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityID.LegSecurityID
-
-
 let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : int = 
    let tag = "602="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16743,10 +12725,6 @@ let WriteLegSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSecurityIDSource (pos:int) (bs:byte[]) : (int*LegSecurityIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityIDSource.LegSecurityIDSource
 
 
 let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityIDSource) : int = 
@@ -16760,10 +12738,6 @@ let WriteLegSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegSecurityAltID (pos:int) (bs:byte[]) : (int*NoLegSecurityAltID) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegSecurityAltID.NoLegSecurityAltID
-
-
 let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurityAltID) : int = 
    let tag = "604="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16773,10 +12747,6 @@ let WriteNoLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:NoLegSecurit
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSecurityAltID (pos:int) (bs:byte[]) : (int*LegSecurityAltID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityAltID.LegSecurityAltID
 
 
 let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltID) : int = 
@@ -16790,10 +12760,6 @@ let WriteLegSecurityAltID (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAlt
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityAltIDSource (pos:int) (bs:byte[]) : (int*LegSecurityAltIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityAltIDSource.LegSecurityAltIDSource
-
-
 let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityAltIDSource) : int = 
    let tag = "606="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16803,10 +12769,6 @@ let WriteLegSecurityAltIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegSecur
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegProduct (pos:int) (bs:byte[]) : (int*LegProduct) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegProduct.LegProduct
 
 
 let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int = 
@@ -16820,10 +12782,6 @@ let WriteLegProduct (dest:byte []) (nextFreeIdx:int) (valIn:LegProduct) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegCFICode (pos:int) (bs:byte[]) : (int*LegCFICode) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegCFICode.LegCFICode
-
-
 let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int = 
    let tag = "608="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16833,10 +12791,6 @@ let WriteLegCFICode (dest:byte []) (nextFreeIdx:int) (valIn:LegCFICode) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSecurityType (pos:int) (bs:byte[]) : (int*LegSecurityType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityType.LegSecurityType
 
 
 let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType) : int = 
@@ -16850,10 +12804,6 @@ let WriteLegSecurityType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityType
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegMaturityMonthYear (pos:int) (bs:byte[]) : (int*LegMaturityMonthYear) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegMaturityMonthYear.LegMaturityMonthYear
-
-
 let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityMonthYear) : int = 
    let tag = "610="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16863,10 +12813,6 @@ let WriteLegMaturityMonthYear (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturit
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegMaturityDate (pos:int) (bs:byte[]) : (int*LegMaturityDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegMaturityDate.LegMaturityDate
 
 
 let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate) : int = 
@@ -16880,10 +12826,6 @@ let WriteLegMaturityDate (dest:byte []) (nextFreeIdx:int) (valIn:LegMaturityDate
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStrikePrice (pos:int) (bs:byte[]) : (int*LegStrikePrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegStrikePrice.LegStrikePrice
-
-
 let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) : int = 
    let tag = "612="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16893,10 +12835,6 @@ let WriteLegStrikePrice (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikePrice) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegOptAttribute (pos:int) (bs:byte[]) : (int*LegOptAttribute) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegOptAttribute.LegOptAttribute
 
 
 let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute) : int = 
@@ -16910,10 +12848,6 @@ let WriteLegOptAttribute (dest:byte []) (nextFreeIdx:int) (valIn:LegOptAttribute
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegContractMultiplier (pos:int) (bs:byte[]) : (int*LegContractMultiplier) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegContractMultiplier.LegContractMultiplier
-
-
 let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContractMultiplier) : int = 
    let tag = "614="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16923,10 +12857,6 @@ let WriteLegContractMultiplier (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegCouponRate (pos:int) (bs:byte[]) : (int*LegCouponRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegCouponRate.LegCouponRate
 
 
 let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : int = 
@@ -16940,10 +12870,6 @@ let WriteLegCouponRate (dest:byte []) (nextFreeIdx:int) (valIn:LegCouponRate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSecurityExchange (pos:int) (bs:byte[]) : (int*LegSecurityExchange) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityExchange.LegSecurityExchange
-
-
 let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityExchange) : int = 
    let tag = "616="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -16953,10 +12879,6 @@ let WriteLegSecurityExchange (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurity
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegIssuer (pos:int) (bs:byte[]) : (int*LegIssuer) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIssuer.LegIssuer
 
 
 let WriteLegIssuer (dest:byte []) (nextFreeIdx:int) (valIn:LegIssuer) : int = 
@@ -16992,15 +12914,6 @@ let WriteEncodedLegIssuer (dest:byte []) (nextFreeIdx:int) (fld:EncodedLegIssuer
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedLegIssuer (pos:int) (bs:byte[]) : (int * EncodedLegIssuer) =
-    ReadLengthDataCompoundField "619"B (pos:int) (bs:byte[]) EncodedLegIssuer.EncodedLegIssuer
-
-
-let ReadLegSecurityDesc (pos:int) (bs:byte[]) : (int*LegSecurityDesc) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecurityDesc.LegSecurityDesc
-
-
 let WriteLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityDesc) : int = 
    let tag = "620="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17034,15 +12947,6 @@ let WriteEncodedLegSecurityDesc (dest:byte []) (nextFreeIdx:int) (fld:EncodedLeg
     nextFreeIdx6 + 1 // +1 to include the delimeter
 
 
-// compound read
-let ReadEncodedLegSecurityDesc (pos:int) (bs:byte[]) : (int * EncodedLegSecurityDesc) =
-    ReadLengthDataCompoundField "622"B (pos:int) (bs:byte[]) EncodedLegSecurityDesc.EncodedLegSecurityDesc
-
-
-let ReadLegRatioQty (pos:int) (bs:byte[]) : (int*LegRatioQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegRatioQty.LegRatioQty
-
-
 let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int = 
    let tag = "623="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17052,10 +12956,6 @@ let WriteLegRatioQty (dest:byte []) (nextFreeIdx:int) (valIn:LegRatioQty) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSide (pos:int) (bs:byte[]) : (int*LegSide) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegSide.LegSide
 
 
 let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int = 
@@ -17069,10 +12969,6 @@ let WriteLegSide (dest:byte []) (nextFreeIdx:int) (valIn:LegSide) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradingSessionSubID (pos:int) (bs:byte[]) : (int*TradingSessionSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradingSessionSubID.TradingSessionSubID
-
-
 let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSessionSubID) : int = 
    let tag = "625="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17082,19 +12978,6 @@ let WriteTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:TradingSess
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocType (pos:int) (bs:byte[]) : (int * AllocType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AllocType.Calculated
-        |"2"B -> AllocType.Preliminary
-        |"5"B -> AllocType.ReadyToBookSingleOrder
-        |"7"B -> AllocType.WarehouseInstruction
-        |"8"B -> AllocType.RequestToIntermediary
-        | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
@@ -17131,10 +13014,6 @@ let WriteAllocType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoHops (pos:int) (bs:byte[]) : (int*NoHops) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoHops.NoHops
-
-
 let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int = 
    let tag = "627="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17144,10 +13023,6 @@ let WriteNoHops (dest:byte []) (nextFreeIdx:int) (valIn:NoHops) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadHopCompID (pos:int) (bs:byte[]) : (int*HopCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) HopCompID.HopCompID
 
 
 let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int = 
@@ -17161,10 +13036,6 @@ let WriteHopCompID (dest:byte []) (nextFreeIdx:int) (valIn:HopCompID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadHopSendingTime (pos:int) (bs:byte[]) : (int*HopSendingTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) HopSendingTime.HopSendingTime
-
-
 let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) : int = 
    let tag = "629="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17174,10 +13045,6 @@ let WriteHopSendingTime (dest:byte []) (nextFreeIdx:int) (valIn:HopSendingTime) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadHopRefID (pos:int) (bs:byte[]) : (int*HopRefID) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) HopRefID.HopRefID
 
 
 let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int = 
@@ -17191,10 +13058,6 @@ let WriteHopRefID (dest:byte []) (nextFreeIdx:int) (valIn:HopRefID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMidPx (pos:int) (bs:byte[]) : (int*MidPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MidPx.MidPx
-
-
 let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int = 
    let tag = "631="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17204,10 +13067,6 @@ let WriteMidPx (dest:byte []) (nextFreeIdx:int) (valIn:MidPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidYield (pos:int) (bs:byte[]) : (int*BidYield) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidYield.BidYield
 
 
 let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int = 
@@ -17221,10 +13080,6 @@ let WriteBidYield (dest:byte []) (nextFreeIdx:int) (valIn:BidYield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMidYield (pos:int) (bs:byte[]) : (int*MidYield) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MidYield.MidYield
-
-
 let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int = 
    let tag = "633="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17236,10 +13091,6 @@ let WriteMidYield (dest:byte []) (nextFreeIdx:int) (valIn:MidYield) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferYield (pos:int) (bs:byte[]) : (int*OfferYield) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferYield.OfferYield
-
-
 let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int = 
    let tag = "634="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17249,22 +13100,6 @@ let WriteOfferYield (dest:byte []) (nextFreeIdx:int) (valIn:OfferYield) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadClearingFeeIndicator (pos:int) (bs:byte[]) : (int * ClearingFeeIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"B"B -> ClearingFeeIndicator.CboeMember
-        |"C"B -> ClearingFeeIndicator.NonMemberAndCustomer
-        |"E"B -> ClearingFeeIndicator.EquityMemberAndClearingMember
-        |"F"B -> ClearingFeeIndicator.FullAndAssociateMemberTradingForOwnAccountAndAsFloorBrokers
-        |"H"B -> ClearingFeeIndicator.Firms106hAnd106j
-        |"I"B -> ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders
-        |"L"B -> ClearingFeeIndicator.LesseeAnd106fEmployees
-        |"M"B -> ClearingFeeIndicator.AllOtherOwnershipTypes
-        | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:ClearingFeeIndicator) : int =
@@ -17319,10 +13154,6 @@ let WriteClearingFeeIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:Clearing
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadWorkingIndicator (pos:int) (bs:byte[]) : (int*WorkingIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) WorkingIndicator.WorkingIndicator
-
-
 let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicator) : int = 
    let tag = "636="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17334,10 +13165,6 @@ let WriteWorkingIndicator (dest:byte []) (nextFreeIdx:int) (valIn:WorkingIndicat
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegLastPx (pos:int) (bs:byte[]) : (int*LegLastPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegLastPx.LegLastPx
-
-
 let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int = 
    let tag = "637="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17347,16 +13174,6 @@ let WriteLegLastPx (dest:byte []) (nextFreeIdx:int) (valIn:LegLastPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPriorityIndicator (pos:int) (bs:byte[]) : (int * PriorityIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PriorityIndicator.PriorityUnchanged
-        |"1"B -> PriorityIndicator.LostPriorityAsResultOfOrderChange
-        | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityIndicator) : int =
@@ -17375,10 +13192,6 @@ let WritePriorityIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:PriorityInd
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPriceImprovement (pos:int) (bs:byte[]) : (int*PriceImprovement) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriceImprovement.PriceImprovement
-
-
 let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImprovement) : int = 
    let tag = "639="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17388,10 +13201,6 @@ let WritePriceImprovement (dest:byte []) (nextFreeIdx:int) (valIn:PriceImproveme
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPrice2 (pos:int) (bs:byte[]) : (int*Price2) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) Price2.Price2
 
 
 let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int = 
@@ -17405,10 +13214,6 @@ let WritePrice2 (dest:byte []) (nextFreeIdx:int) (valIn:Price2) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastForwardPoints2 (pos:int) (bs:byte[]) : (int*LastForwardPoints2) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastForwardPoints2.LastForwardPoints2
-
-
 let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardPoints2) : int = 
    let tag = "641="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17418,10 +13223,6 @@ let WriteLastForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:LastForwardP
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBidForwardPoints2 (pos:int) (bs:byte[]) : (int*BidForwardPoints2) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BidForwardPoints2.BidForwardPoints2
 
 
 let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoints2) : int = 
@@ -17435,10 +13236,6 @@ let WriteBidForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:BidForwardPoi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOfferForwardPoints2 (pos:int) (bs:byte[]) : (int*OfferForwardPoints2) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OfferForwardPoints2.OfferForwardPoints2
-
-
 let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwardPoints2) : int = 
    let tag = "643="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17448,10 +13245,6 @@ let WriteOfferForwardPoints2 (dest:byte []) (nextFreeIdx:int) (valIn:OfferForwar
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRFQReqID (pos:int) (bs:byte[]) : (int*RFQReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RFQReqID.RFQReqID
 
 
 let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int = 
@@ -17465,10 +13258,6 @@ let WriteRFQReqID (dest:byte []) (nextFreeIdx:int) (valIn:RFQReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMktBidPx (pos:int) (bs:byte[]) : (int*MktBidPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MktBidPx.MktBidPx
-
-
 let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int = 
    let tag = "645="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17478,10 +13267,6 @@ let WriteMktBidPx (dest:byte []) (nextFreeIdx:int) (valIn:MktBidPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMktOfferPx (pos:int) (bs:byte[]) : (int*MktOfferPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MktOfferPx.MktOfferPx
 
 
 let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int = 
@@ -17495,10 +13280,6 @@ let WriteMktOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:MktOfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMinBidSize (pos:int) (bs:byte[]) : (int*MinBidSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinBidSize.MinBidSize
-
-
 let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int = 
    let tag = "647="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17508,10 +13289,6 @@ let WriteMinBidSize (dest:byte []) (nextFreeIdx:int) (valIn:MinBidSize) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMinOfferSize (pos:int) (bs:byte[]) : (int*MinOfferSize) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MinOfferSize.MinOfferSize
 
 
 let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : int = 
@@ -17525,10 +13302,6 @@ let WriteMinOfferSize (dest:byte []) (nextFreeIdx:int) (valIn:MinOfferSize) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteStatusReqID (pos:int) (bs:byte[]) : (int*QuoteStatusReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteStatusReqID.QuoteStatusReqID
-
-
 let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReqID) : int = 
    let tag = "649="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17538,10 +13311,6 @@ let WriteQuoteStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteStatusReq
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegalConfirm (pos:int) (bs:byte[]) : (int*LegalConfirm) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LegalConfirm.LegalConfirm
 
 
 let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : int = 
@@ -17555,10 +13324,6 @@ let WriteLegalConfirm (dest:byte []) (nextFreeIdx:int) (valIn:LegalConfirm) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingLastPx (pos:int) (bs:byte[]) : (int*UnderlyingLastPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingLastPx.UnderlyingLastPx
-
-
 let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastPx) : int = 
    let tag = "651="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17568,10 +13333,6 @@ let WriteUnderlyingLastPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLast
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingLastQty (pos:int) (bs:byte[]) : (int*UnderlyingLastQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingLastQty.UnderlyingLastQty
 
 
 let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLastQty) : int = 
@@ -17585,10 +13346,6 @@ let WriteUnderlyingLastQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingLas
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegRefID (pos:int) (bs:byte[]) : (int*LegRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegRefID.LegRefID
-
-
 let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int = 
    let tag = "654="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17598,10 +13355,6 @@ let WriteLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:LegRefID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadContraLegRefID (pos:int) (bs:byte[]) : (int*ContraLegRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContraLegRefID.ContraLegRefID
 
 
 let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) : int = 
@@ -17615,10 +13368,6 @@ let WriteContraLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:ContraLegRefID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrBidFxRate (pos:int) (bs:byte[]) : (int*SettlCurrBidFxRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrBidFxRate.SettlCurrBidFxRate
-
-
 let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBidFxRate) : int = 
    let tag = "656="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17630,10 +13379,6 @@ let WriteSettlCurrBidFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrBid
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlCurrOfferFxRate (pos:int) (bs:byte[]) : (int*SettlCurrOfferFxRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlCurrOfferFxRate.SettlCurrOfferFxRate
-
-
 let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrOfferFxRate) : int = 
    let tag = "657="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17643,25 +13388,6 @@ let WriteSettlCurrOfferFxRate (dest:byte []) (nextFreeIdx:int) (valIn:SettlCurrO
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteRequestRejectReason (pos:int) (bs:byte[]) : (int * QuoteRequestRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteRequestRejectReason.UnknownSymbol
-        |"2"B -> QuoteRequestRejectReason.ExchangeClosed
-        |"3"B -> QuoteRequestRejectReason.QuoteRequestExceedsLimit
-        |"4"B -> QuoteRequestRejectReason.TooLateToEnter
-        |"5"B -> QuoteRequestRejectReason.InvalidPrice
-        |"6"B -> QuoteRequestRejectReason.NotAuthorizedToRequestQuote
-        |"7"B -> QuoteRequestRejectReason.NoMatchForInquiry
-        |"8"B -> QuoteRequestRejectReason.NoMarketForInstrument
-        |"9"B -> QuoteRequestRejectReason.NoInventory
-        |"10"B -> QuoteRequestRejectReason.Pass
-        |"99"B -> QuoteRequestRejectReason.Other
-        | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRequestRejectReason) : int =
@@ -17734,10 +13460,6 @@ let WriteQuoteRequestRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Quot
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSideComplianceID (pos:int) (bs:byte[]) : (int*SideComplianceID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SideComplianceID.SideComplianceID
-
-
 let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideComplianceID) : int = 
    let tag = "659="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17747,20 +13469,6 @@ let WriteSideComplianceID (dest:byte []) (nextFreeIdx:int) (valIn:SideCompliance
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAcctIDSource (pos:int) (bs:byte[]) : (int * AcctIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AcctIDSource.Bic
-        |"2"B -> AcctIDSource.SidCode
-        |"3"B -> AcctIDSource.Tfm
-        |"4"B -> AcctIDSource.Omgeo
-        |"5"B -> AcctIDSource.DtccCode
-        |"99"B -> AcctIDSource.Other
-        | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : int =
@@ -17803,10 +13511,6 @@ let WriteAcctIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:AcctIDSource) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAcctIDSource (pos:int) (bs:byte[]) : (int*AllocAcctIDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocAcctIDSource.AllocAcctIDSource
-
-
 let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSource) : int = 
    let tag = "661="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17816,10 +13520,6 @@ let WriteAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:AllocAcctIDSo
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadBenchmarkPrice (pos:int) (bs:byte[]) : (int*BenchmarkPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) BenchmarkPrice.BenchmarkPrice
 
 
 let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) : int = 
@@ -17833,10 +13533,6 @@ let WriteBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPrice) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkPriceType (pos:int) (bs:byte[]) : (int*BenchmarkPriceType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) BenchmarkPriceType.BenchmarkPriceType
-
-
 let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPriceType) : int = 
    let tag = "663="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17848,10 +13544,6 @@ let WriteBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkPri
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmID (pos:int) (bs:byte[]) : (int*ConfirmID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmID.ConfirmID
-
-
 let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int = 
    let tag = "664="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17861,19 +13553,6 @@ let WriteConfirmID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ConfirmStatus.Received
-        |"2"B -> ConfirmStatus.MismatchedAccount
-        |"3"B -> ConfirmStatus.MissingSettlementInstructions
-        |"4"B -> ConfirmStatus.Confirmed
-        |"5"B -> ConfirmStatus.RequestRejected
-        | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) : int =
@@ -17910,17 +13589,6 @@ let WriteConfirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmStatus) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ConfirmTransType.New
-        |"1"B -> ConfirmTransType.Replace
-        |"2"B -> ConfirmTransType.Cancel
-        | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTransType) : int =
     match xxIn with
     | ConfirmTransType.New ->
@@ -17943,10 +13611,6 @@ let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTrans
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContractSettlMonth (pos:int) (bs:byte[]) : (int*ContractSettlMonth) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ContractSettlMonth.ContractSettlMonth
-
-
 let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSettlMonth) : int = 
    let tag = "667="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17956,16 +13620,6 @@ let WriteContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:ContractSett
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDeliveryForm (pos:int) (bs:byte[]) : (int * DeliveryForm) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> DeliveryForm.Bookentry
-        |"2"B -> DeliveryForm.Bearer
-        | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : int =
@@ -17984,10 +13638,6 @@ let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLastParPx (pos:int) (bs:byte[]) : (int*LastParPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LastParPx.LastParPx
-
-
 let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int = 
    let tag = "669="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -17997,10 +13647,6 @@ let WriteLastParPx (dest:byte []) (nextFreeIdx:int) (valIn:LastParPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoLegAllocs (pos:int) (bs:byte[]) : (int*NoLegAllocs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegAllocs.NoLegAllocs
 
 
 let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int = 
@@ -18014,10 +13660,6 @@ let WriteNoLegAllocs (dest:byte []) (nextFreeIdx:int) (valIn:NoLegAllocs) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegAllocAccount (pos:int) (bs:byte[]) : (int*LegAllocAccount) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegAllocAccount.LegAllocAccount
-
-
 let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount) : int = 
    let tag = "671="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18027,10 +13669,6 @@ let WriteLegAllocAccount (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAccount
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegIndividualAllocID (pos:int) (bs:byte[]) : (int*LegIndividualAllocID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIndividualAllocID.LegIndividualAllocID
 
 
 let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndividualAllocID) : int = 
@@ -18044,10 +13682,6 @@ let WriteLegIndividualAllocID (dest:byte []) (nextFreeIdx:int) (valIn:LegIndivid
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegAllocQty (pos:int) (bs:byte[]) : (int*LegAllocQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegAllocQty.LegAllocQty
-
-
 let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int = 
    let tag = "673="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18057,10 +13691,6 @@ let WriteLegAllocQty (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocQty) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegAllocAcctIDSource (pos:int) (bs:byte[]) : (int*LegAllocAcctIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegAllocAcctIDSource.LegAllocAcctIDSource
 
 
 let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAcctIDSource) : int = 
@@ -18074,10 +13704,6 @@ let WriteLegAllocAcctIDSource (dest:byte []) (nextFreeIdx:int) (valIn:LegAllocAc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegSettlCurrency (pos:int) (bs:byte[]) : (int*LegSettlCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSettlCurrency.LegSettlCurrency
-
-
 let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurrency) : int = 
    let tag = "675="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18087,10 +13713,6 @@ let WriteLegSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegSettlCurren
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency
 
 
 let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveCurrency) : int = 
@@ -18104,10 +13726,6 @@ let WriteLegBenchmarkCurveCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegBe
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkCurveName (pos:int) (bs:byte[]) : (int*LegBenchmarkCurveName) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurveName.LegBenchmarkCurveName
-
-
 let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurveName) : int = 
    let tag = "677="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18117,10 +13735,6 @@ let WriteLegBenchmarkCurveName (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*LegBenchmarkCurvePoint) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegBenchmarkCurvePoint.LegBenchmarkCurvePoint
 
 
 let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkCurvePoint) : int = 
@@ -18134,10 +13748,6 @@ let WriteLegBenchmarkCurvePoint (dest:byte []) (nextFreeIdx:int) (valIn:LegBench
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBenchmarkPrice (pos:int) (bs:byte[]) : (int*LegBenchmarkPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegBenchmarkPrice.LegBenchmarkPrice
-
-
 let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPrice) : int = 
    let tag = "679="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18147,10 +13757,6 @@ let WriteLegBenchmarkPrice (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkP
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegBenchmarkPriceType (pos:int) (bs:byte[]) : (int*LegBenchmarkPriceType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegBenchmarkPriceType.LegBenchmarkPriceType
 
 
 let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchmarkPriceType) : int = 
@@ -18164,10 +13770,6 @@ let WriteLegBenchmarkPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegBenchm
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegBidPx (pos:int) (bs:byte[]) : (int*LegBidPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegBidPx.LegBidPx
-
-
 let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int = 
    let tag = "681="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18177,10 +13779,6 @@ let WriteLegBidPx (dest:byte []) (nextFreeIdx:int) (valIn:LegBidPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegIOIQty (pos:int) (bs:byte[]) : (int*LegIOIQty) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegIOIQty.LegIOIQty
 
 
 let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int = 
@@ -18194,10 +13792,6 @@ let WriteLegIOIQty (dest:byte []) (nextFreeIdx:int) (valIn:LegIOIQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoLegStipulations (pos:int) (bs:byte[]) : (int*NoLegStipulations) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoLegStipulations.NoLegStipulations
-
-
 let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulations) : int = 
    let tag = "683="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18207,10 +13801,6 @@ let WriteNoLegStipulations (dest:byte []) (nextFreeIdx:int) (valIn:NoLegStipulat
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegOfferPx (pos:int) (bs:byte[]) : (int*LegOfferPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegOfferPx.LegOfferPx
 
 
 let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int = 
@@ -18224,10 +13814,6 @@ let WriteLegOfferPx (dest:byte []) (nextFreeIdx:int) (valIn:LegOfferPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegOrderQty (pos:int) (bs:byte[]) : (int*LegOrderQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegOrderQty.LegOrderQty
-
-
 let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int = 
    let tag = "685="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18237,10 +13823,6 @@ let WriteLegOrderQty (dest:byte []) (nextFreeIdx:int) (valIn:LegOrderQty) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegPriceType (pos:int) (bs:byte[]) : (int*LegPriceType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) LegPriceType.LegPriceType
 
 
 let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : int = 
@@ -18254,10 +13836,6 @@ let WriteLegPriceType (dest:byte []) (nextFreeIdx:int) (valIn:LegPriceType) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegQty (pos:int) (bs:byte[]) : (int*LegQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LegQty.LegQty
-
-
 let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int = 
    let tag = "687="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18267,10 +13845,6 @@ let WriteLegQty (dest:byte []) (nextFreeIdx:int) (valIn:LegQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegStipulationType (pos:int) (bs:byte[]) : (int*LegStipulationType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStipulationType.LegStipulationType
 
 
 let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationType) : int = 
@@ -18284,10 +13858,6 @@ let WriteLegStipulationType (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulati
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegStipulationValue (pos:int) (bs:byte[]) : (int*LegStipulationValue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStipulationValue.LegStipulationValue
-
-
 let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulationValue) : int = 
    let tag = "689="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18297,18 +13867,6 @@ let WriteLegStipulationValue (dest:byte []) (nextFreeIdx:int) (valIn:LegStipulat
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSwapType (pos:int) (bs:byte[]) : (int * LegSwapType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> LegSwapType.ParForPar
-        |"2"B -> LegSwapType.ModifiedDuration
-        |"4"B -> LegSwapType.Risk
-        |"5"B -> LegSwapType.Proceeds
-        | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : int =
@@ -18339,10 +13897,6 @@ let WriteLegSwapType (dest:byte array) (nextFreeIdx:int) (xxIn:LegSwapType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPool (pos:int) (bs:byte[]) : (int*Pool) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Pool.Pool
-
-
 let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int = 
    let tag = "691="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18352,24 +13906,6 @@ let WritePool (dest:byte []) (nextFreeIdx:int) (valIn:Pool) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuotePriceType (pos:int) (bs:byte[]) : (int * QuotePriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuotePriceType.Percent
-        |"2"B -> QuotePriceType.PerShare
-        |"3"B -> QuotePriceType.FixedAmount
-        |"4"B -> QuotePriceType.Discount
-        |"5"B -> QuotePriceType.Premium
-        |"6"B -> QuotePriceType.BasisPointsRelativeToBenchmark
-        |"7"B -> QuotePriceType.TedPrice
-        |"8"B -> QuotePriceType.TedYield
-        |"9"B -> QuotePriceType.YieldSpread
-        |"10"B -> QuotePriceType.Yield
-        | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType) : int =
@@ -18436,10 +13972,6 @@ let WriteQuotePriceType (dest:byte array) (nextFreeIdx:int) (xxIn:QuotePriceType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteRespID (pos:int) (bs:byte[]) : (int*QuoteRespID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) QuoteRespID.QuoteRespID
-
-
 let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int = 
    let tag = "693="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18449,20 +13981,6 @@ let WriteQuoteRespID (dest:byte []) (nextFreeIdx:int) (valIn:QuoteRespID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadQuoteRespType (pos:int) (bs:byte[]) : (int * QuoteRespType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> QuoteRespType.HitLift
-        |"2"B -> QuoteRespType.Counter
-        |"3"B -> QuoteRespType.Expired
-        |"4"B -> QuoteRespType.Cover
-        |"5"B -> QuoteRespType.DoneAway
-        |"6"B -> QuoteRespType.Pass
-        | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) : int =
@@ -18505,10 +14023,6 @@ let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQuoteQualifier (pos:int) (bs:byte[]) : (int*QuoteQualifier) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) QuoteQualifier.QuoteQualifier
-
-
 let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) : int = 
    let tag = "695="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18518,10 +14032,6 @@ let WriteQuoteQualifier (dest:byte []) (nextFreeIdx:int) (valIn:QuoteQualifier) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadYieldRedemptionDate (pos:int) (bs:byte[]) : (int*YieldRedemptionDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) YieldRedemptionDate.YieldRedemptionDate
 
 
 let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionDate) : int = 
@@ -18535,10 +14045,6 @@ let WriteYieldRedemptionDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemp
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldRedemptionPrice (pos:int) (bs:byte[]) : (int*YieldRedemptionPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) YieldRedemptionPrice.YieldRedemptionPrice
-
-
 let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPrice) : int = 
    let tag = "697="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18548,10 +14054,6 @@ let WriteYieldRedemptionPrice (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedem
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadYieldRedemptionPriceType (pos:int) (bs:byte[]) : (int*YieldRedemptionPriceType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) YieldRedemptionPriceType.YieldRedemptionPriceType
 
 
 let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldRedemptionPriceType) : int = 
@@ -18565,10 +14067,6 @@ let WriteYieldRedemptionPriceType (dest:byte []) (nextFreeIdx:int) (valIn:YieldR
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkSecurityID (pos:int) (bs:byte[]) : (int*BenchmarkSecurityID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkSecurityID.BenchmarkSecurityID
-
-
 let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityID) : int = 
    let tag = "699="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18578,10 +14076,6 @@ let WriteBenchmarkSecurityID (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSe
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadReversalIndicator (pos:int) (bs:byte[]) : (int*ReversalIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ReversalIndicator.ReversalIndicator
 
 
 let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndicator) : int = 
@@ -18595,10 +14089,6 @@ let WriteReversalIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ReversalIndic
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadYieldCalcDate (pos:int) (bs:byte[]) : (int*YieldCalcDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) YieldCalcDate.YieldCalcDate
-
-
 let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : int = 
    let tag = "701="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18610,10 +14100,6 @@ let WriteYieldCalcDate (dest:byte []) (nextFreeIdx:int) (valIn:YieldCalcDate) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoPositions (pos:int) (bs:byte[]) : (int*NoPositions) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPositions.NoPositions
-
-
 let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int = 
    let tag = "702="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18623,33 +14109,6 @@ let WriteNoPositions (dest:byte []) (nextFreeIdx:int) (valIn:NoPositions) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosType (pos:int) (bs:byte[]) : (int * PosType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"TQ"B -> PosType.TransactionQuantity
-        |"IAS"B -> PosType.IntraSpreadQty
-        |"IES"B -> PosType.InterSpreadQty
-        |"FIN"B -> PosType.EndOfDayQty
-        |"SOD"B -> PosType.StartOfDayQty
-        |"EX"B -> PosType.OptionExerciseQty
-        |"AS"B -> PosType.OptionAssignment
-        |"TX"B -> PosType.TransactionFromExercise
-        |"TA"B -> PosType.TransactionFromAssignment
-        |"PIT"B -> PosType.PitTradeQty
-        |"TRF"B -> PosType.TransferTradeQty
-        |"ETR"B -> PosType.ElectronicTradeQty
-        |"ALC"B -> PosType.AllocationTradeQty
-        |"PA"B -> PosType.AdjustmentQty
-        |"ASF"B -> PosType.AsOfTradeQty
-        |"DLV"B -> PosType.DeliveryQty
-        |"TOT"B -> PosType.TotalTransactionQty
-        |"XM"B -> PosType.CrossMarginQty
-        |"SPL"B -> PosType.IntegralSplit
-        | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
@@ -18770,10 +14229,6 @@ let WritePosType (dest:byte array) (nextFreeIdx:int) (xxIn:PosType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadLongQty (pos:int) (bs:byte[]) : (int*LongQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) LongQty.LongQty
-
-
 let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int = 
    let tag = "704="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18785,10 +14240,6 @@ let WriteLongQty (dest:byte []) (nextFreeIdx:int) (valIn:LongQty) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadShortQty (pos:int) (bs:byte[]) : (int*ShortQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ShortQty.ShortQty
-
-
 let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int = 
    let tag = "705="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18798,17 +14249,6 @@ let WriteShortQty (dest:byte []) (nextFreeIdx:int) (valIn:ShortQty) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosQtyStatus.Submitted
-        |"1"B -> PosQtyStatus.Accepted
-        |"2"B -> PosQtyStatus.Rejected
-        | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : int =
@@ -18831,22 +14271,6 @@ let WritePosQtyStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosQtyStatus) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"FMTM"B -> PosAmtType.FinalMarkToMarketAmount
-        |"IMTM"B -> PosAmtType.IncrementalMarkToMarketAmount
-        |"TVAR"B -> PosAmtType.TradeVariationAmount
-        |"SMTM"B -> PosAmtType.StartOfDayMarkToMarketAmount
-        |"PREM"B -> PosAmtType.PremiumAmount
-        |"CRES"B -> PosAmtType.CashResidualAmount
-        |"CASH"B -> PosAmtType.CashAmount
-        |"VADJ"B -> PosAmtType.ValueAdjustedAmount
-        | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int =
@@ -18901,10 +14325,6 @@ let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosAmt (pos:int) (bs:byte[]) : (int*PosAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) PosAmt.PosAmt
-
-
 let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int = 
    let tag = "708="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18914,19 +14334,6 @@ let WritePosAmt (dest:byte []) (nextFreeIdx:int) (valIn:PosAmt) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosTransType (pos:int) (bs:byte[]) : (int * PosTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PosTransType.Exercise
-        |"2"B -> PosTransType.DoNotExercise
-        |"3"B -> PosTransType.PositionAdjustment
-        |"4"B -> PosTransType.PositionChangeSubmissionMarginDisposition
-        |"5"B -> PosTransType.Pledge
-        | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : int =
@@ -18963,10 +14370,6 @@ let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqID (pos:int) (bs:byte[]) : (int*PosReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosReqID.PosReqID
-
-
 let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int = 
    let tag = "710="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18978,10 +14381,6 @@ let WritePosReqID (dest:byte []) (nextFreeIdx:int) (valIn:PosReqID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoUnderlyings (pos:int) (bs:byte[]) : (int*NoUnderlyings) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyings.NoUnderlyings
-
-
 let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : int = 
    let tag = "711="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -18991,17 +14390,6 @@ let WriteNoUnderlyings (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyings) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosMaintAction (pos:int) (bs:byte[]) : (int * PosMaintAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PosMaintAction.New
-        |"2"B -> PosMaintAction.Replace
-        |"3"B -> PosMaintAction.Cancel
-        | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction) : int =
@@ -19026,10 +14414,6 @@ let WritePosMaintAction (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintAction
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrigPosReqRefID (pos:int) (bs:byte[]) : (int*OrigPosReqRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrigPosReqRefID.OrigPosReqRefID
-
-
 let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID) : int = 
    let tag = "713="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19039,10 +14423,6 @@ let WriteOrigPosReqRefID (dest:byte []) (nextFreeIdx:int) (valIn:OrigPosReqRefID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosMaintRptRefID (pos:int) (bs:byte[]) : (int*PosMaintRptRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosMaintRptRefID.PosMaintRptRefID
 
 
 let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRefID) : int = 
@@ -19056,10 +14436,6 @@ let WritePosMaintRptRefID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptRef
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadClearingBusinessDate (pos:int) (bs:byte[]) : (int*ClearingBusinessDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ClearingBusinessDate.ClearingBusinessDate
-
-
 let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBusinessDate) : int = 
    let tag = "715="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19069,10 +14445,6 @@ let WriteClearingBusinessDate (dest:byte []) (nextFreeIdx:int) (valIn:ClearingBu
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlSessID (pos:int) (bs:byte[]) : (int*SettlSessID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlSessID.SettlSessID
 
 
 let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int = 
@@ -19086,10 +14458,6 @@ let WriteSettlSessID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlSessSubID (pos:int) (bs:byte[]) : (int*SettlSessSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlSessSubID.SettlSessSubID
-
-
 let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) : int = 
    let tag = "717="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19099,18 +14467,6 @@ let WriteSettlSessSubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlSessSubID) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAdjustmentType (pos:int) (bs:byte[]) : (int * AdjustmentType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AdjustmentType.ProcessRequestAsMarginDisposition
-        |"1"B -> AdjustmentType.DeltaPlus
-        |"2"B -> AdjustmentType.DeltaMinus
-        |"3"B -> AdjustmentType.Final
-        | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType) : int =
@@ -19141,10 +14497,6 @@ let WriteAdjustmentType (dest:byte array) (nextFreeIdx:int) (xxIn:AdjustmentType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadContraryInstructionIndicator (pos:int) (bs:byte[]) : (int*ContraryInstructionIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) ContraryInstructionIndicator.ContraryInstructionIndicator
-
-
 let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:ContraryInstructionIndicator) : int = 
    let tag = "719="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19154,10 +14506,6 @@ let WriteContraryInstructionIndicator (dest:byte []) (nextFreeIdx:int) (valIn:Co
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPriorSpreadIndicator (pos:int) (bs:byte[]) : (int*PriorSpreadIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PriorSpreadIndicator.PriorSpreadIndicator
 
 
 let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSpreadIndicator) : int = 
@@ -19171,10 +14519,6 @@ let WritePriorSpreadIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PriorSprea
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintRptID (pos:int) (bs:byte[]) : (int*PosMaintRptID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) PosMaintRptID.PosMaintRptID
-
-
 let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : int = 
    let tag = "721="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19184,19 +14528,6 @@ let WritePosMaintRptID (dest:byte []) (nextFreeIdx:int) (valIn:PosMaintRptID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosMaintStatus.Accepted
-        |"1"B -> PosMaintStatus.AcceptedWithWarnings
-        |"2"B -> PosMaintStatus.Rejected
-        |"3"B -> PosMaintStatus.Completed
-        |"4"B -> PosMaintStatus.CompletedWithWarnings
-        | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus) : int =
@@ -19233,17 +14564,6 @@ let WritePosMaintStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintStatus
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
-        |"1"B -> PosMaintResult.Rejected
-        |"99"B -> PosMaintResult.Other
-        | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult) : int =
     match xxIn with
     | PosMaintResult.SuccessfulCompletionNoWarningsOrErrors ->
@@ -19264,18 +14584,6 @@ let WritePosMaintResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosMaintResult
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosReqType.Positions
-        |"1"B -> PosReqType.Trades
-        |"2"B -> PosReqType.Exercises
-        |"3"B -> PosReqType.Assignments
-        | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int =
@@ -19306,16 +14614,6 @@ let WritePosReqType (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqType) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ResponseTransportType.Inband
-        |"1"B -> ResponseTransportType.OutOfBand
-        | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:ResponseTransportType) : int =
     match xxIn with
     | ResponseTransportType.Inband ->
@@ -19332,10 +14630,6 @@ let WriteResponseTransportType (dest:byte array) (nextFreeIdx:int) (xxIn:Respons
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadResponseDestination (pos:int) (bs:byte[]) : (int*ResponseDestination) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ResponseDestination.ResponseDestination
-
-
 let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDestination) : int = 
    let tag = "726="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19347,10 +14641,6 @@ let WriteResponseDestination (dest:byte []) (nextFreeIdx:int) (valIn:ResponseDes
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTotalNumPosReports (pos:int) (bs:byte[]) : (int*TotalNumPosReports) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalNumPosReports.TotalNumPosReports
-
-
 let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosReports) : int = 
    let tag = "727="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19360,20 +14650,6 @@ let WriteTotalNumPosReports (dest:byte []) (nextFreeIdx:int) (valIn:TotalNumPosR
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosReqResult.ValidRequest
-        |"1"B -> PosReqResult.InvalidOrUnsupportedRequest
-        |"2"B -> PosReqResult.NoPositionsFoundThatMatchCriteria
-        |"3"B -> PosReqResult.NotAuthorizedToRequestPositions
-        |"4"B -> PosReqResult.RequestForPositionNotSupported
-        |"99"B -> PosReqResult.Other
-        | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : int =
@@ -19416,17 +14692,6 @@ let WritePosReqResult (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqResult) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PosReqStatus.Completed
-        |"1"B -> PosReqStatus.CompletedWithWarnings
-        |"2"B -> PosReqStatus.Rejected
-        | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : int =
     match xxIn with
     | PosReqStatus.Completed ->
@@ -19449,10 +14714,6 @@ let WritePosReqStatus (dest:byte array) (nextFreeIdx:int) (xxIn:PosReqStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPrice (pos:int) (bs:byte[]) : (int*SettlPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) SettlPrice.SettlPrice
-
-
 let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int = 
    let tag = "730="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19462,16 +14723,6 @@ let WriteSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:SettlPrice) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlPriceType (pos:int) (bs:byte[]) : (int * SettlPriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SettlPriceType.Final
-        |"2"B -> SettlPriceType.Theoretical
-        | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType) : int =
@@ -19490,10 +14741,6 @@ let WriteSettlPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlPriceType
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSettlPrice (pos:int) (bs:byte[]) : (int*UnderlyingSettlPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingSettlPrice.UnderlyingSettlPrice
-
-
 let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPrice) : int = 
    let tag = "732="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19503,10 +14750,6 @@ let WriteUnderlyingSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingSettlPriceType (pos:int) (bs:byte[]) : (int*UnderlyingSettlPriceType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingSettlPriceType.UnderlyingSettlPriceType
 
 
 let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSettlPriceType) : int = 
@@ -19520,10 +14763,6 @@ let WriteUnderlyingSettlPriceType (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPriorSettlPrice (pos:int) (bs:byte[]) : (int*PriorSettlPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriorSettlPrice.PriorSettlPrice
-
-
 let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice) : int = 
    let tag = "734="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19533,10 +14772,6 @@ let WritePriorSettlPrice (dest:byte []) (nextFreeIdx:int) (valIn:PriorSettlPrice
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoQuoteQualifiers (pos:int) (bs:byte[]) : (int*NoQuoteQualifiers) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoQuoteQualifiers.NoQuoteQualifiers
 
 
 let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualifiers) : int = 
@@ -19550,10 +14785,6 @@ let WriteNoQuoteQualifiers (dest:byte []) (nextFreeIdx:int) (valIn:NoQuoteQualif
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocSettlCurrency (pos:int) (bs:byte[]) : (int*AllocSettlCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocSettlCurrency.AllocSettlCurrency
-
-
 let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrency) : int = 
    let tag = "736="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19563,10 +14794,6 @@ let WriteAllocSettlCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCu
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocSettlCurrAmt (pos:int) (bs:byte[]) : (int*AllocSettlCurrAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocSettlCurrAmt.AllocSettlCurrAmt
 
 
 let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCurrAmt) : int = 
@@ -19580,10 +14807,6 @@ let WriteAllocSettlCurrAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocSettlCur
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInterestAtMaturity (pos:int) (bs:byte[]) : (int*InterestAtMaturity) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) InterestAtMaturity.InterestAtMaturity
-
-
 let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMaturity) : int = 
    let tag = "738="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19593,10 +14816,6 @@ let WriteInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:InterestAtMa
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegDatedDate (pos:int) (bs:byte[]) : (int*LegDatedDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegDatedDate.LegDatedDate
 
 
 let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : int = 
@@ -19610,10 +14829,6 @@ let WriteLegDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:LegDatedDate) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegPool (pos:int) (bs:byte[]) : (int*LegPool) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegPool.LegPool
-
-
 let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int = 
    let tag = "740="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19623,10 +14838,6 @@ let WriteLegPool (dest:byte []) (nextFreeIdx:int) (valIn:LegPool) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocInterestAtMaturity (pos:int) (bs:byte[]) : (int*AllocInterestAtMaturity) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocInterestAtMaturity.AllocInterestAtMaturity
 
 
 let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocInterestAtMaturity) : int = 
@@ -19640,10 +14851,6 @@ let WriteAllocInterestAtMaturity (dest:byte []) (nextFreeIdx:int) (valIn:AllocIn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AllocAccruedInterestAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllocAccruedInterestAmt.AllocAccruedInterestAmt
-
-
 let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAccruedInterestAmt) : int = 
    let tag = "742="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19655,10 +14862,6 @@ let WriteAllocAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:AllocAc
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadDeliveryDate (pos:int) (bs:byte[]) : (int*DeliveryDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DeliveryDate.DeliveryDate
-
-
 let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : int = 
    let tag = "743="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19668,16 +14871,6 @@ let WriteDeliveryDate (dest:byte []) (nextFreeIdx:int) (valIn:DeliveryDate) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAssignmentMethod (pos:int) (bs:byte[]) : (int * AssignmentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"R"B -> AssignmentMethod.Random
-        |"P"B -> AssignmentMethod.Prorata
-        | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMethod) : int =
@@ -19696,10 +14889,6 @@ let WriteAssignmentMethod (dest:byte array) (nextFreeIdx:int) (xxIn:AssignmentMe
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAssignmentUnit (pos:int) (bs:byte[]) : (int*AssignmentUnit) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AssignmentUnit.AssignmentUnit
-
-
 let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) : int = 
    let tag = "745="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19711,10 +14900,6 @@ let WriteAssignmentUnit (dest:byte []) (nextFreeIdx:int) (valIn:AssignmentUnit) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadOpenInterest (pos:int) (bs:byte[]) : (int*OpenInterest) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) OpenInterest.OpenInterest
-
-
 let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : int = 
    let tag = "746="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19724,16 +14909,6 @@ let WriteOpenInterest (dest:byte []) (nextFreeIdx:int) (valIn:OpenInterest) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadExerciseMethod (pos:int) (bs:byte[]) : (int * ExerciseMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"A"B -> ExerciseMethod.Automatic
-        |"M"B -> ExerciseMethod.Manual
-        | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod) : int =
@@ -19752,10 +14927,6 @@ let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNumTradeReports (pos:int) (bs:byte[]) : (int*TotNumTradeReports) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumTradeReports.TotNumTradeReports
-
-
 let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeReports) : int = 
    let tag = "748="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19765,23 +14936,6 @@ let WriteTotNumTradeReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumTradeR
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeRequestResult.Successful
-        |"1"B -> TradeRequestResult.InvalidOrUnknownInstrument
-        |"2"B -> TradeRequestResult.InvalidTypeOfTradeRequested
-        |"3"B -> TradeRequestResult.InvalidParties
-        |"4"B -> TradeRequestResult.InvalidTransportTypeRequested
-        |"5"B -> TradeRequestResult.InvalidDestinationRequested
-        |"8"B -> TradeRequestResult.TraderequesttypeNotSupported
-        |"9"B -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
-        |"10"B -> TradeRequestResult.Yield
-        | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestResult) : int =
@@ -19842,17 +14996,6 @@ let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeRequestStatus.Accepted
-        |"1"B -> TradeRequestStatus.Completed
-        |"2"B -> TradeRequestStatus.Rejected
-        | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeRequestStatus) : int =
     match xxIn with
     | TradeRequestStatus.Accepted ->
@@ -19873,20 +15016,6 @@ let WriteTradeRequestStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeReportRejectReason.Successful
-        |"1"B -> TradeReportRejectReason.InvalidPartyInformation
-        |"2"B -> TradeReportRejectReason.UnknownInstrument
-        |"3"B -> TradeReportRejectReason.UnauthorizedToReportTrades
-        |"4"B -> TradeReportRejectReason.InvalidTradeType
-        |"10"B -> TradeReportRejectReason.Yield
-        | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportRejectReason) : int =
@@ -19929,17 +15058,6 @@ let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Trade
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegReportingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> SideMultiLegReportingType.SingleSecurity
-        |"2"B -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
-        |"3"B -> SideMultiLegReportingType.MultiLegSecurity
-        | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:SideMultiLegReportingType) : int =
     match xxIn with
     | SideMultiLegReportingType.SingleSecurity ->
@@ -19962,10 +15080,6 @@ let WriteSideMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:Sid
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoPosAmt (pos:int) (bs:byte[]) : (int*NoPosAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPosAmt.NoPosAmt
-
-
 let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int = 
    let tag = "753="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -19975,10 +15089,6 @@ let WriteNoPosAmt (dest:byte []) (nextFreeIdx:int) (valIn:NoPosAmt) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAutoAcceptIndicator (pos:int) (bs:byte[]) : (int*AutoAcceptIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) AutoAcceptIndicator.AutoAcceptIndicator
 
 
 let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptIndicator) : int = 
@@ -19992,10 +15102,6 @@ let WriteAutoAcceptIndicator (dest:byte []) (nextFreeIdx:int) (valIn:AutoAcceptI
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllocReportID (pos:int) (bs:byte[]) : (int*AllocReportID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocReportID.AllocReportID
-
-
 let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : int = 
    let tag = "755="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20005,10 +15111,6 @@ let WriteAllocReportID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNested2PartyIDs (pos:int) (bs:byte[]) : (int*NoNested2PartyIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested2PartyIDs.NoNested2PartyIDs
 
 
 let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartyIDs) : int = 
@@ -20022,10 +15124,6 @@ let WriteNoNested2PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2Part
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartyID (pos:int) (bs:byte[]) : (int*Nested2PartyID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested2PartyID.Nested2PartyID
-
-
 let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) : int = 
    let tag = "757="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20035,10 +15133,6 @@ let WriteNested2PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyID) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNested2PartyIDSource (pos:int) (bs:byte[]) : (int*Nested2PartyIDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartyIDSource.Nested2PartyIDSource
 
 
 let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyIDSource) : int = 
@@ -20052,10 +15146,6 @@ let WriteNested2PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Par
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartyRole (pos:int) (bs:byte[]) : (int*Nested2PartyRole) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartyRole.Nested2PartyRole
-
-
 let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRole) : int = 
    let tag = "759="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20065,10 +15155,6 @@ let WriteNested2PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyRo
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNested2PartySubID (pos:int) (bs:byte[]) : (int*Nested2PartySubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested2PartySubID.Nested2PartySubID
 
 
 let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubID) : int = 
@@ -20082,10 +15168,6 @@ let WriteNested2PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartyS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadBenchmarkSecurityIDSource (pos:int) (bs:byte[]) : (int*BenchmarkSecurityIDSource) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
-
-
 let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:BenchmarkSecurityIDSource) : int = 
    let tag = "761="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20095,10 +15177,6 @@ let WriteBenchmarkSecurityIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Bench
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecuritySubType (pos:int) (bs:byte[]) : (int*SecuritySubType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecuritySubType.SecuritySubType
 
 
 let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType) : int = 
@@ -20112,10 +15190,6 @@ let WriteSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:SecuritySubType
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingSecuritySubType (pos:int) (bs:byte[]) : (int*UnderlyingSecuritySubType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingSecuritySubType.UnderlyingSecuritySubType
-
-
 let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSecuritySubType) : int = 
    let tag = "763="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20125,10 +15199,6 @@ let WriteUnderlyingSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:Under
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegSecuritySubType (pos:int) (bs:byte[]) : (int*LegSecuritySubType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegSecuritySubType.LegSecuritySubType
 
 
 let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecuritySubType) : int = 
@@ -20142,10 +15212,6 @@ let WriteLegSecuritySubType (dest:byte []) (nextFreeIdx:int) (valIn:LegSecurityS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllowableOneSidednessPct (pos:int) (bs:byte[]) : (int*AllowableOneSidednessPct) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AllowableOneSidednessPct.AllowableOneSidednessPct
-
-
 let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessPct) : int = 
    let tag = "765="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20155,10 +15221,6 @@ let WriteAllowableOneSidednessPct (dest:byte []) (nextFreeIdx:int) (valIn:Allowa
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllowableOneSidednessValue (pos:int) (bs:byte[]) : (int*AllowableOneSidednessValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) AllowableOneSidednessValue.AllowableOneSidednessValue
 
 
 let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessValue) : int = 
@@ -20172,10 +15234,6 @@ let WriteAllowableOneSidednessValue (dest:byte []) (nextFreeIdx:int) (valIn:Allo
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAllowableOneSidednessCurr (pos:int) (bs:byte[]) : (int*AllowableOneSidednessCurr) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllowableOneSidednessCurr.AllowableOneSidednessCurr
-
-
 let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:AllowableOneSidednessCurr) : int = 
    let tag = "767="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20185,10 +15243,6 @@ let WriteAllowableOneSidednessCurr (dest:byte []) (nextFreeIdx:int) (valIn:Allow
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoTrdRegTimestamps (pos:int) (bs:byte[]) : (int*NoTrdRegTimestamps) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTrdRegTimestamps.NoTrdRegTimestamps
 
 
 let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTimestamps) : int = 
@@ -20202,10 +15256,6 @@ let WriteNoTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (valIn:NoTrdRegTime
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRegTimestamp (pos:int) (bs:byte[]) : (int*TrdRegTimestamp) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdRegTimestamp.TrdRegTimestamp
-
-
 let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp) : int = 
    let tag = "769="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20215,19 +15265,6 @@ let WriteTrdRegTimestamp (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestamp
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> TrdRegTimestampType.ExecutionTime
-        |"2"B -> TrdRegTimestampType.TimeIn
-        |"3"B -> TrdRegTimestampType.TimeOut
-        |"4"B -> TrdRegTimestampType.BrokerReceipt
-        |"5"B -> TrdRegTimestampType.BrokerExecution
-        | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTimestampType) : int =
@@ -20264,10 +15301,6 @@ let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTim
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTrdRegTimestampOrigin (pos:int) (bs:byte[]) : (int*TrdRegTimestampOrigin) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdRegTimestampOrigin.TrdRegTimestampOrigin
-
-
 let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTimestampOrigin) : int = 
    let tag = "771="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20279,10 +15312,6 @@ let WriteTrdRegTimestampOrigin (dest:byte []) (nextFreeIdx:int) (valIn:TrdRegTim
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmRefID (pos:int) (bs:byte[]) : (int*ConfirmRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmRefID.ConfirmRefID
-
-
 let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : int = 
    let tag = "772="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20292,17 +15321,6 @@ let WriteConfirmRefID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmRefID) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ConfirmType.Status
-        |"2"B -> ConfirmType.Confirmation
-        |"3"B -> ConfirmType.ConfirmationRequestRejected
-        | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : int =
@@ -20327,17 +15345,6 @@ let WriteConfirmType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> ConfirmRejReason.MismatchedAccount
-        |"2"B -> ConfirmRejReason.MissingSettlementInstructions
-        |"99"B -> ConfirmRejReason.Other
-        | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejReason) : int =
     match xxIn with
     | ConfirmRejReason.MismatchedAccount ->
@@ -20358,17 +15365,6 @@ let WriteConfirmRejReason (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmRejRe
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> BookingType.RegularBooking
-        |"1"B -> BookingType.Cfd
-        |"2"B -> BookingType.TotalReturnSwap
-        | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : int =
@@ -20393,10 +15389,6 @@ let WriteBookingType (dest:byte array) (nextFreeIdx:int) (xxIn:BookingType) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadIndividualAllocRejCode (pos:int) (bs:byte[]) : (int*IndividualAllocRejCode) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) IndividualAllocRejCode.IndividualAllocRejCode
-
-
 let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:IndividualAllocRejCode) : int = 
    let tag = "776="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20406,10 +15398,6 @@ let WriteIndividualAllocRejCode (dest:byte []) (nextFreeIdx:int) (valIn:Individu
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlInstMsgID (pos:int) (bs:byte[]) : (int*SettlInstMsgID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstMsgID.SettlInstMsgID
 
 
 let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) : int = 
@@ -20423,10 +15411,6 @@ let WriteSettlInstMsgID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstMsgID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlInst (pos:int) (bs:byte[]) : (int*NoSettlInst) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlInst.NoSettlInst
-
-
 let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int = 
    let tag = "778="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20438,10 +15422,6 @@ let WriteNoSettlInst (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlInst) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastUpdateTime (pos:int) (bs:byte[]) : (int*LastUpdateTime) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastUpdateTime.LastUpdateTime
-
-
 let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) : int = 
    let tag = "779="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20451,19 +15431,6 @@ let WriteLastUpdateTime (dest:byte []) (nextFreeIdx:int) (valIn:LastUpdateTime) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocSettlInstType.UseDefaultInstructions
-        |"1"B -> AllocSettlInstType.DeriveFromParametersProvided
-        |"2"B -> AllocSettlInstType.FullDetailsProvided
-        |"3"B -> AllocSettlInstType.SsiDbIdsProvided
-        |"4"B -> AllocSettlInstType.PhoneForInstructions
-        | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettlInstType) : int =
@@ -20500,10 +15467,6 @@ let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettl
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlPartyIDs (pos:int) (bs:byte[]) : (int*NoSettlPartyIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlPartyIDs.NoSettlPartyIDs
-
-
 let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs) : int = 
    let tag = "781="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20513,10 +15476,6 @@ let WriteNoSettlPartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartyIDs
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlPartyID (pos:int) (bs:byte[]) : (int*SettlPartyID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlPartyID.SettlPartyID
 
 
 let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : int = 
@@ -20530,10 +15489,6 @@ let WriteSettlPartyID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartyIDSource (pos:int) (bs:byte[]) : (int*SettlPartyIDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartyIDSource.SettlPartyIDSource
-
-
 let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyIDSource) : int = 
    let tag = "783="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20543,10 +15498,6 @@ let WriteSettlPartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyID
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlPartyRole (pos:int) (bs:byte[]) : (int*SettlPartyRole) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartyRole.SettlPartyRole
 
 
 let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) : int = 
@@ -20560,10 +15511,6 @@ let WriteSettlPartyRole (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyRole) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartySubID (pos:int) (bs:byte[]) : (int*SettlPartySubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlPartySubID.SettlPartySubID
-
-
 let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID) : int = 
    let tag = "785="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20575,10 +15522,6 @@ let WriteSettlPartySubID (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubID
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlPartySubIDType (pos:int) (bs:byte[]) : (int*SettlPartySubIDType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SettlPartySubIDType.SettlPartySubIDType
-
-
 let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartySubIDType) : int = 
    let tag = "786="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20588,16 +15531,6 @@ let WriteSettlPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:SettlPartyS
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"S"B -> DlvyInstType.Securities
-        |"C"B -> DlvyInstType.Cash
-        | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : int =
@@ -20614,18 +15547,6 @@ let WriteDlvyInstType (dest:byte array) (nextFreeIdx:int) (xxIn:DlvyInstType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> TerminationType.Overnight
-        |"2"B -> TerminationType.Term
-        |"3"B -> TerminationType.Flexible
-        |"4"B -> TerminationType.Open
-        | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationType) : int =
@@ -20656,10 +15577,6 @@ let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNextExpectedMsgSeqNum (pos:int) (bs:byte[]) : (int*NextExpectedMsgSeqNum) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
-
-
 let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpectedMsgSeqNum) : int = 
    let tag = "789="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20669,10 +15586,6 @@ let WriteNextExpectedMsgSeqNum (dest:byte []) (nextFreeIdx:int) (valIn:NextExpec
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrdStatusReqID (pos:int) (bs:byte[]) : (int*OrdStatusReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrdStatusReqID.OrdStatusReqID
 
 
 let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) : int = 
@@ -20686,10 +15599,6 @@ let WriteOrdStatusReqID (dest:byte []) (nextFreeIdx:int) (valIn:OrdStatusReqID) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSettlInstReqID (pos:int) (bs:byte[]) : (int*SettlInstReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SettlInstReqID.SettlInstReqID
-
-
 let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) : int = 
    let tag = "791="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20699,18 +15608,6 @@ let WriteSettlInstReqID (dest:byte []) (nextFreeIdx:int) (valIn:SettlInstReqID) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSettlInstReqRejCode (pos:int) (bs:byte[]) : (int * SettlInstReqRejCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> SettlInstReqRejCode.UnableToProcessRequest
-        |"1"B -> SettlInstReqRejCode.UnknownAccount
-        |"2"B -> SettlInstReqRejCode.NoMatchingSettlementInstructionsFound
-        |"99"B -> SettlInstReqRejCode.Other
-        | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstReqRejCode) : int =
@@ -20741,10 +15638,6 @@ let WriteSettlInstReqRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInst
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryAllocID (pos:int) (bs:byte[]) : (int*SecondaryAllocID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryAllocID.SecondaryAllocID
-
-
 let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAllocID) : int = 
    let tag = "793="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20754,18 +15647,6 @@ let WriteSecondaryAllocID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryAlloc
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocReportType (pos:int) (bs:byte[]) : (int * AllocReportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"3"B -> AllocReportType.SellsideCalculatedUsingPreliminary
-        |"4"B -> AllocReportType.SellsideCalculatedWithoutPreliminary
-        |"5"B -> AllocReportType.WarehouseRecap
-        |"8"B -> AllocReportType.RequestToIntermediary
-        | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportType) : int =
@@ -20796,10 +15677,6 @@ let WriteAllocReportType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocReportTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocReportRefID (pos:int) (bs:byte[]) : (int*AllocReportRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AllocReportRefID.AllocReportRefID
-
-
 let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRefID) : int = 
    let tag = "795="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20809,16 +15686,6 @@ let WriteAllocReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:AllocReportRef
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocCancReplaceReason (pos:int) (bs:byte[]) : (int * AllocCancReplaceReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
-        |"2"B -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
-        | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocCancReplaceReason) : int =
@@ -20837,10 +15704,6 @@ let WriteAllocCancReplaceReason (dest:byte array) (nextFreeIdx:int) (xxIn:AllocC
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCopyMsgIndicator (pos:int) (bs:byte[]) : (int*CopyMsgIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) CopyMsgIndicator.CopyMsgIndicator
-
-
 let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicator) : int = 
    let tag = "797="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20850,21 +15713,6 @@ let WriteCopyMsgIndicator (dest:byte []) (nextFreeIdx:int) (valIn:CopyMsgIndicat
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocAccountType (pos:int) (bs:byte[]) : (int * AllocAccountType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
-        |"2"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks
-        |"3"B -> AllocAccountType.HouseTrader
-        |"4"B -> AllocAccountType.FloorTrader
-        |"6"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
-        |"7"B -> AllocAccountType.AccountIsHouseTraderAndIsCrossMargined
-        |"8"B -> AllocAccountType.JointBackofficeAccount
-        | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccountType) : int =
@@ -20913,10 +15761,6 @@ let WriteAllocAccountType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocAccount
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadOrderAvgPx (pos:int) (bs:byte[]) : (int*OrderAvgPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderAvgPx.OrderAvgPx
-
-
 let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int = 
    let tag = "799="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20926,10 +15770,6 @@ let WriteOrderAvgPx (dest:byte []) (nextFreeIdx:int) (valIn:OrderAvgPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrderBookingQty (pos:int) (bs:byte[]) : (int*OrderBookingQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderBookingQty.OrderBookingQty
 
 
 let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty) : int = 
@@ -20943,10 +15783,6 @@ let WriteOrderBookingQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderBookingQty
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoSettlPartySubIDs (pos:int) (bs:byte[]) : (int*NoSettlPartySubIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoSettlPartySubIDs.NoSettlPartySubIDs
-
-
 let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlPartySubIDs) : int = 
    let tag = "801="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20956,10 +15792,6 @@ let WriteNoSettlPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoSettlParty
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoPartySubIDs (pos:int) (bs:byte[]) : (int*NoPartySubIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoPartySubIDs.NoPartySubIDs
 
 
 let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : int = 
@@ -20973,10 +15805,6 @@ let WriteNoPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoPartySubIDs) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadPartySubIDType (pos:int) (bs:byte[]) : (int*PartySubIDType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) PartySubIDType.PartySubIDType
-
-
 let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) : int = 
    let tag = "803="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -20986,10 +15814,6 @@ let WritePartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:PartySubIDType) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNestedPartySubIDs (pos:int) (bs:byte[]) : (int*NoNestedPartySubIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNestedPartySubIDs.NoNestedPartySubIDs
 
 
 let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPartySubIDs) : int = 
@@ -21003,10 +15827,6 @@ let WriteNoNestedPartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNestedPar
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNestedPartySubIDType (pos:int) (bs:byte[]) : (int*NestedPartySubIDType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NestedPartySubIDType.NestedPartySubIDType
-
-
 let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPartySubIDType) : int = 
    let tag = "805="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21016,10 +15836,6 @@ let WriteNestedPartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:NestedPart
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNested2PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested2PartySubIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested2PartySubIDs.NoNested2PartySubIDs
 
 
 let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2PartySubIDs) : int = 
@@ -21033,10 +15849,6 @@ let WriteNoNested2PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested2P
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested2PartySubIDType (pos:int) (bs:byte[]) : (int*Nested2PartySubIDType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested2PartySubIDType.Nested2PartySubIDType
-
-
 let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2PartySubIDType) : int = 
    let tag = "807="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21046,20 +15858,6 @@ let WriteNested2PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested2Pa
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAllocIntermedReqType (pos:int) (bs:byte[]) : (int * AllocIntermedReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AllocIntermedReqType.PendingAccept
-        |"2"B -> AllocIntermedReqType.PendingRelease
-        |"3"B -> AllocIntermedReqType.PendingReversal
-        |"4"B -> AllocIntermedReqType.Accept
-        |"5"B -> AllocIntermedReqType.BlockLevelReject
-        |"6"B -> AllocIntermedReqType.AccountLevelReject
-        | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocIntermedReqType) : int =
@@ -21102,10 +15900,6 @@ let WriteAllocIntermedReqType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocInt
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingPx (pos:int) (bs:byte[]) : (int*UnderlyingPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingPx.UnderlyingPx
-
-
 let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : int = 
    let tag = "810="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21115,10 +15909,6 @@ let WriteUnderlyingPx (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingPx) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPriceDelta (pos:int) (bs:byte[]) : (int*PriceDelta) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PriceDelta.PriceDelta
 
 
 let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int = 
@@ -21132,10 +15922,6 @@ let WritePriceDelta (dest:byte []) (nextFreeIdx:int) (valIn:PriceDelta) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueMax (pos:int) (bs:byte[]) : (int*ApplQueueMax) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ApplQueueMax.ApplQueueMax
-
-
 let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : int = 
    let tag = "812="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21147,10 +15933,6 @@ let WriteApplQueueMax (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueMax) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueDepth (pos:int) (bs:byte[]) : (int*ApplQueueDepth) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) ApplQueueDepth.ApplQueueDepth
-
-
 let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) : int = 
    let tag = "813="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21160,18 +15942,6 @@ let WriteApplQueueDepth (dest:byte []) (nextFreeIdx:int) (valIn:ApplQueueDepth) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ApplQueueResolution.NoActionTaken
-        |"1"B -> ApplQueueResolution.QueueFlushed
-        |"2"B -> ApplQueueResolution.OverlayLast
-        |"3"B -> ApplQueueResolution.EndSession
-        | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueResolution) : int =
@@ -21202,18 +15972,6 @@ let WriteApplQueueResolution (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueue
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ApplQueueAction.NoActionTaken
-        |"1"B -> ApplQueueAction.QueueFlushed
-        |"2"B -> ApplQueueAction.OverlayLast
-        |"3"B -> ApplQueueAction.EndSession
-        | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueAction) : int =
     match xxIn with
     | ApplQueueAction.NoActionTaken ->
@@ -21242,10 +16000,6 @@ let WriteApplQueueAction (dest:byte array) (nextFreeIdx:int) (xxIn:ApplQueueActi
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoAltMDSource (pos:int) (bs:byte[]) : (int*NoAltMDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoAltMDSource.NoAltMDSource
-
-
 let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : int = 
    let tag = "816="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21255,10 +16009,6 @@ let WriteNoAltMDSource (dest:byte []) (nextFreeIdx:int) (valIn:NoAltMDSource) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAltMDSourceID (pos:int) (bs:byte[]) : (int*AltMDSourceID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AltMDSourceID.AltMDSourceID
 
 
 let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : int = 
@@ -21272,10 +16022,6 @@ let WriteAltMDSourceID (dest:byte []) (nextFreeIdx:int) (valIn:AltMDSourceID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryTradeReportID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryTradeReportID.SecondaryTradeReportID
-
-
 let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportID) : int = 
    let tag = "818="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21285,17 +16031,6 @@ let WriteSecondaryTradeReportID (dest:byte []) (nextFreeIdx:int) (valIn:Secondar
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAvgPxIndicator (pos:int) (bs:byte[]) : (int * AvgPxIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AvgPxIndicator.NoAveragePricing
-        |"1"B -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
-        |"2"B -> AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid
-        | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator) : int =
@@ -21320,10 +16055,6 @@ let WriteAvgPxIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:AvgPxIndicator
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTradeLinkID (pos:int) (bs:byte[]) : (int*TradeLinkID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeLinkID.TradeLinkID
-
-
 let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int = 
    let tag = "820="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21333,10 +16064,6 @@ let WriteTradeLinkID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLinkID) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrderInputDevice (pos:int) (bs:byte[]) : (int*OrderInputDevice) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) OrderInputDevice.OrderInputDevice
 
 
 let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevice) : int = 
@@ -21350,10 +16077,6 @@ let WriteOrderInputDevice (dest:byte []) (nextFreeIdx:int) (valIn:OrderInputDevi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingTradingSessionID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingTradingSessionID.UnderlyingTradingSessionID
-
-
 let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionID) : int = 
    let tag = "822="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21363,10 +16086,6 @@ let WriteUnderlyingTradingSessionID (dest:byte []) (nextFreeIdx:int) (valIn:Unde
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingTradingSessionSubID (pos:int) (bs:byte[]) : (int*UnderlyingTradingSessionSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID
 
 
 let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingTradingSessionSubID) : int = 
@@ -21380,10 +16099,6 @@ let WriteUnderlyingTradingSessionSubID (dest:byte []) (nextFreeIdx:int) (valIn:U
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTradeLegRefID (pos:int) (bs:byte[]) : (int*TradeLegRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TradeLegRefID.TradeLegRefID
-
-
 let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : int = 
    let tag = "824="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21395,10 +16110,6 @@ let WriteTradeLegRefID (dest:byte []) (nextFreeIdx:int) (valIn:TradeLegRefID) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadExchangeRule (pos:int) (bs:byte[]) : (int*ExchangeRule) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ExchangeRule.ExchangeRule
-
-
 let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : int = 
    let tag = "825="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21408,17 +16119,6 @@ let WriteExchangeRule (dest:byte []) (nextFreeIdx:int) (valIn:ExchangeRule) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeAllocIndicator.AllocationNotRequired
-        |"1"B -> TradeAllocIndicator.AllocationRequired
-        |"2"B -> TradeAllocIndicator.UseAllocationProvidedWithTheTrade
-        | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllocIndicator) : int =
@@ -21443,16 +16143,6 @@ let WriteTradeAllocIndicator (dest:byte array) (nextFreeIdx:int) (xxIn:TradeAllo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
-        |"1"B -> ExpirationCycle.ExpireOnTradingSessionOpen
-        | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCycle) : int =
     match xxIn with
     | ExpirationCycle.ExpireOnTradingSessionClose ->
@@ -21467,25 +16157,6 @@ let WriteExpirationCycle (dest:byte array) (nextFreeIdx:int) (xxIn:ExpirationCyc
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TrdType.RegularTrade
-        |"1"B -> TrdType.BlockTrade
-        |"2"B -> TrdType.Efp
-        |"3"B -> TrdType.Transfer
-        |"4"B -> TrdType.LateTrade
-        |"5"B -> TrdType.TTrade
-        |"6"B -> TrdType.WeightedAveragePriceTrade
-        |"7"B -> TrdType.BunchedTrade
-        |"8"B -> TrdType.LateBunchedTrade
-        |"9"B -> TrdType.PriorReferencePriceTrade
-        |"10"B -> TrdType.AfterHoursTrade
-        | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
@@ -21558,10 +16229,6 @@ let WriteTrdType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTrdSubType (pos:int) (bs:byte[]) : (int*TrdSubType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TrdSubType.TrdSubType
-
-
 let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int = 
    let tag = "829="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21571,10 +16238,6 @@ let WriteTrdSubType (dest:byte []) (nextFreeIdx:int) (valIn:TrdSubType) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTransferReason (pos:int) (bs:byte[]) : (int*TransferReason) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TransferReason.TransferReason
 
 
 let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) : int = 
@@ -21588,10 +16251,6 @@ let WriteTransferReason (dest:byte []) (nextFreeIdx:int) (valIn:TransferReason) 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAsgnReqID (pos:int) (bs:byte[]) : (int*AsgnReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AsgnReqID.AsgnReqID
-
-
 let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int = 
    let tag = "831="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21601,10 +16260,6 @@ let WriteAsgnReqID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnReqID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTotNumAssignmentReports (pos:int) (bs:byte[]) : (int*TotNumAssignmentReports) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumAssignmentReports.TotNumAssignmentReports
 
 
 let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumAssignmentReports) : int = 
@@ -21618,10 +16273,6 @@ let WriteTotNumAssignmentReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumA
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAsgnRptID (pos:int) (bs:byte[]) : (int*AsgnRptID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AsgnRptID.AsgnRptID
-
-
 let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int = 
    let tag = "833="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21633,10 +16284,6 @@ let WriteAsgnRptID (dest:byte []) (nextFreeIdx:int) (valIn:AsgnRptID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadThresholdAmount (pos:int) (bs:byte[]) : (int*ThresholdAmount) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ThresholdAmount.ThresholdAmount
-
-
 let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount) : int = 
    let tag = "834="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21646,16 +16293,6 @@ let WriteThresholdAmount (dest:byte []) (nextFreeIdx:int) (valIn:ThresholdAmount
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PegMoveType.Floating
-        |"1"B -> PegMoveType.Fixed
-        | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : int =
@@ -21672,18 +16309,6 @@ let WritePegMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:PegMoveType) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PegOffsetType.Price
-        |"1"B -> PegOffsetType.BasisPoints
-        |"2"B -> PegOffsetType.Ticks
-        |"3"B -> PegOffsetType.PriceTierLevel
-        | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) : int =
@@ -21714,17 +16339,6 @@ let WritePegOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:PegOffsetType) 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> PegLimitType.OrBetter
-        |"1"B -> PegLimitType.Strict
-        |"2"B -> PegLimitType.OrWorse
-        | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : int =
     match xxIn with
     | PegLimitType.OrBetter ->
@@ -21747,16 +16361,6 @@ let WritePegLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:PegLimitType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PegRoundDirection.MoreAggressive
-        |"2"B -> PegRoundDirection.MorePassive
-        | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDirection) : int =
     match xxIn with
     | PegRoundDirection.MoreAggressive ->
@@ -21773,10 +16377,6 @@ let WritePegRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:PegRoundDir
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPeggedPrice (pos:int) (bs:byte[]) : (int*PeggedPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PeggedPrice.PeggedPrice
-
-
 let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int = 
    let tag = "839="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21786,18 +16386,6 @@ let WritePeggedPrice (dest:byte []) (nextFreeIdx:int) (valIn:PeggedPrice) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> PegScope.Local
-        |"2"B -> PegScope.National
-        |"3"B -> PegScope.Global
-        |"4"B -> PegScope.NationalExcludingLocal
-        | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
@@ -21828,16 +16416,6 @@ let WritePegScope (dest:byte array) (nextFreeIdx:int) (xxIn:PegScope) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DiscretionMoveType.Floating
-        |"1"B -> DiscretionMoveType.Fixed
-        | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionMoveType) : int =
     match xxIn with
     | DiscretionMoveType.Floating ->
@@ -21852,18 +16430,6 @@ let WriteDiscretionMoveType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretion
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DiscretionOffsetType.Price
-        |"1"B -> DiscretionOffsetType.BasisPoints
-        |"2"B -> DiscretionOffsetType.Ticks
-        |"3"B -> DiscretionOffsetType.PriceTierLevel
-        | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionOffsetType) : int =
@@ -21894,17 +16460,6 @@ let WriteDiscretionOffsetType (dest:byte array) (nextFreeIdx:int) (xxIn:Discreti
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DiscretionLimitType.OrBetter
-        |"1"B -> DiscretionLimitType.Strict
-        |"2"B -> DiscretionLimitType.OrWorse
-        | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionLimitType) : int =
     match xxIn with
     | DiscretionLimitType.OrBetter ->
@@ -21927,16 +16482,6 @@ let WriteDiscretionLimitType (dest:byte array) (nextFreeIdx:int) (xxIn:Discretio
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> DiscretionRoundDirection.MoreAggressive
-        |"2"B -> DiscretionRoundDirection.MorePassive
-        | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionRoundDirection) : int =
     match xxIn with
     | DiscretionRoundDirection.MoreAggressive ->
@@ -21953,10 +16498,6 @@ let WriteDiscretionRoundDirection (dest:byte array) (nextFreeIdx:int) (xxIn:Disc
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadDiscretionPrice (pos:int) (bs:byte[]) : (int*DiscretionPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) DiscretionPrice.DiscretionPrice
-
-
 let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice) : int = 
    let tag = "845="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -21966,18 +16507,6 @@ let WriteDiscretionPrice (dest:byte []) (nextFreeIdx:int) (valIn:DiscretionPrice
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDiscretionScope (pos:int) (bs:byte[]) : (int * DiscretionScope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> DiscretionScope.Local
-        |"2"B -> DiscretionScope.National
-        |"3"B -> DiscretionScope.Global
-        |"4"B -> DiscretionScope.NationalExcludingLocal
-        | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionScope) : int =
@@ -22008,10 +16537,6 @@ let WriteDiscretionScope (dest:byte array) (nextFreeIdx:int) (xxIn:DiscretionSco
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTargetStrategy (pos:int) (bs:byte[]) : (int*TargetStrategy) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TargetStrategy.TargetStrategy
-
-
 let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) : int = 
    let tag = "847="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22021,10 +16546,6 @@ let WriteTargetStrategy (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategy) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTargetStrategyParameters (pos:int) (bs:byte[]) : (int*TargetStrategyParameters) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TargetStrategyParameters.TargetStrategyParameters
 
 
 let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyParameters) : int = 
@@ -22038,10 +16559,6 @@ let WriteTargetStrategyParameters (dest:byte []) (nextFreeIdx:int) (valIn:Target
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadParticipationRate (pos:int) (bs:byte[]) : (int*ParticipationRate) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ParticipationRate.ParticipationRate
-
-
 let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:ParticipationRate) : int = 
    let tag = "849="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22053,10 +16570,6 @@ let WriteParticipationRate (dest:byte []) (nextFreeIdx:int) (valIn:Participation
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTargetStrategyPerformance (pos:int) (bs:byte[]) : (int*TargetStrategyPerformance) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) TargetStrategyPerformance.TargetStrategyPerformance
-
-
 let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:TargetStrategyPerformance) : int = 
    let tag = "850="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22066,17 +16579,6 @@ let WriteTargetStrategyPerformance (dest:byte []) (nextFreeIdx:int) (valIn:Targe
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLastLiquidityInd (pos:int) (bs:byte[]) : (int * LastLiquidityInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> LastLiquidityInd.AddedLiquidity
-        |"2"B -> LastLiquidityInd.RemovedLiquidity
-        |"3"B -> LastLiquidityInd.LiquidityRoutedOut
-        | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidityInd) : int =
@@ -22101,10 +16603,6 @@ let WriteLastLiquidityInd (dest:byte array) (nextFreeIdx:int) (xxIn:LastLiquidit
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadPublishTrdIndicator (pos:int) (bs:byte[]) : (int*PublishTrdIndicator) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) PublishTrdIndicator.PublishTrdIndicator
-
-
 let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdIndicator) : int = 
    let tag = "852="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22114,20 +16612,6 @@ let WritePublishTrdIndicator (dest:byte []) (nextFreeIdx:int) (valIn:PublishTrdI
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> ShortSaleReason.DealerSoldShort
-        |"1"B -> ShortSaleReason.DealerSoldShortExempt
-        |"2"B -> ShortSaleReason.SellingCustomerSoldShort
-        |"3"B -> ShortSaleReason.SellingCustomerSoldShortExempt
-        |"4"B -> ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort
-        |"5"B -> ShortSaleReason.QsrOrAguContraSideSoldShortExempt
-        | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReason) : int =
@@ -22170,16 +16654,6 @@ let WriteShortSaleReason (dest:byte array) (nextFreeIdx:int) (xxIn:ShortSaleReas
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> QtyType.Units
-        |"1"B -> QtyType.Contracts
-        | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
     match xxIn with
     | QtyType.Units ->
@@ -22196,10 +16670,6 @@ let WriteQtyType (dest:byte array) (nextFreeIdx:int) (xxIn:QtyType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSecondaryTrdType (pos:int) (bs:byte[]) : (int*SecondaryTrdType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SecondaryTrdType.SecondaryTrdType
-
-
 let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdType) : int = 
    let tag = "855="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22209,22 +16679,6 @@ let WriteSecondaryTrdType (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTrdTy
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TradeReportType.Submit
-        |"1"B -> TradeReportType.Alleged
-        |"2"B -> TradeReportType.Accept
-        |"3"B -> TradeReportType.Decline
-        |"4"B -> TradeReportType.Addendum
-        |"5"B -> TradeReportType.NoWas
-        |"6"B -> TradeReportType.TradeReportCancel
-        |"7"B -> TradeReportType.LockedInTradeBreak
-        | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportType) : int =
@@ -22279,16 +16733,6 @@ let WriteTradeReportType (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReportTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> AllocNoOrdersType.NotSpecified
-        |"1"B -> AllocNoOrdersType.ExplicitListProvided
-        | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrdersType) : int =
     match xxIn with
     | AllocNoOrdersType.NotSpecified ->
@@ -22305,10 +16749,6 @@ let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrde
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadSharedCommission (pos:int) (bs:byte[]) : (int*SharedCommission) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) SharedCommission.SharedCommission
-
-
 let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommission) : int = 
    let tag = "858="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22318,10 +16758,6 @@ let WriteSharedCommission (dest:byte []) (nextFreeIdx:int) (valIn:SharedCommissi
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadConfirmReqID (pos:int) (bs:byte[]) : (int*ConfirmReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) ConfirmReqID.ConfirmReqID
 
 
 let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : int = 
@@ -22335,10 +16771,6 @@ let WriteConfirmReqID (dest:byte []) (nextFreeIdx:int) (valIn:ConfirmReqID) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAvgParPx (pos:int) (bs:byte[]) : (int*AvgParPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) AvgParPx.AvgParPx
-
-
 let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int = 
    let tag = "860="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22348,10 +16780,6 @@ let WriteAvgParPx (dest:byte []) (nextFreeIdx:int) (valIn:AvgParPx) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadReportedPx (pos:int) (bs:byte[]) : (int*ReportedPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) ReportedPx.ReportedPx
 
 
 let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int = 
@@ -22365,10 +16793,6 @@ let WriteReportedPx (dest:byte []) (nextFreeIdx:int) (valIn:ReportedPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoCapacities (pos:int) (bs:byte[]) : (int*NoCapacities) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCapacities.NoCapacities
-
-
 let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : int = 
    let tag = "862="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22378,10 +16802,6 @@ let WriteNoCapacities (dest:byte []) (nextFreeIdx:int) (valIn:NoCapacities) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadOrderCapacityQty (pos:int) (bs:byte[]) : (int*OrderCapacityQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) OrderCapacityQty.OrderCapacityQty
 
 
 let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQty) : int = 
@@ -22395,10 +16815,6 @@ let WriteOrderCapacityQty (dest:byte []) (nextFreeIdx:int) (valIn:OrderCapacityQ
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoEvents (pos:int) (bs:byte[]) : (int*NoEvents) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoEvents.NoEvents
-
-
 let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int = 
    let tag = "864="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22408,19 +16824,6 @@ let WriteNoEvents (dest:byte []) (nextFreeIdx:int) (valIn:NoEvents) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadEventType (pos:int) (bs:byte[]) : (int * EventType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> EventType.Put
-        |"2"B -> EventType.Call
-        |"3"B -> EventType.Tender
-        |"4"B -> EventType.SinkingFundCall
-        |"99"B -> EventType.Other
-        | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
@@ -22457,10 +16860,6 @@ let WriteEventType (dest:byte array) (nextFreeIdx:int) (xxIn:EventType) : int =
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEventDate (pos:int) (bs:byte[]) : (int*EventDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EventDate.EventDate
-
-
 let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int = 
    let tag = "866="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22470,10 +16869,6 @@ let WriteEventDate (dest:byte []) (nextFreeIdx:int) (valIn:EventDate) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadEventPx (pos:int) (bs:byte[]) : (int*EventPx) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) EventPx.EventPx
 
 
 let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int = 
@@ -22487,10 +16882,6 @@ let WriteEventPx (dest:byte []) (nextFreeIdx:int) (valIn:EventPx) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEventText (pos:int) (bs:byte[]) : (int*EventText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EventText.EventText
-
-
 let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int = 
    let tag = "868="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22500,10 +16891,6 @@ let WriteEventText (dest:byte []) (nextFreeIdx:int) (valIn:EventText) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadPctAtRisk (pos:int) (bs:byte[]) : (int*PctAtRisk) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) PctAtRisk.PctAtRisk
 
 
 let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int = 
@@ -22517,10 +16904,6 @@ let WritePctAtRisk (dest:byte []) (nextFreeIdx:int) (valIn:PctAtRisk) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNoInstrAttrib (pos:int) (bs:byte[]) : (int*NoInstrAttrib) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoInstrAttrib.NoInstrAttrib
-
-
 let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : int = 
    let tag = "870="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22530,37 +16913,6 @@ let WriteNoInstrAttrib (dest:byte []) (nextFreeIdx:int) (valIn:NoInstrAttrib) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadInstrAttribType (pos:int) (bs:byte[]) : (int * InstrAttribType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> InstrAttribType.Flat
-        |"2"B -> InstrAttribType.ZeroCoupon
-        |"3"B -> InstrAttribType.InterestBearing
-        |"4"B -> InstrAttribType.NoPeriodicPayments
-        |"5"B -> InstrAttribType.VariableRate
-        |"6"B -> InstrAttribType.LessFeeForPut
-        |"7"B -> InstrAttribType.SteppedCoupon
-        |"8"B -> InstrAttribType.CouponPeriod
-        |"9"B -> InstrAttribType.WhenAndIfIssued
-        |"10"B -> InstrAttribType.OriginalIssueDiscount
-        |"11"B -> InstrAttribType.CallablePuttable
-        |"12"B -> InstrAttribType.EscrowedToMaturity
-        |"13"B -> InstrAttribType.EscrowedToRedemptionDate
-        |"14"B -> InstrAttribType.PreRefunded
-        |"15"B -> InstrAttribType.InDefault
-        |"16"B -> InstrAttribType.Unrated
-        |"17"B -> InstrAttribType.Taxable
-        |"18"B -> InstrAttribType.Indexed
-        |"19"B -> InstrAttribType.SubjectToAlternativeMinimumTax
-        |"20"B -> InstrAttribType.OriginalIssueDiscountPrice
-        |"21"B -> InstrAttribType.CallableBelowMaturityValue
-        |"22"B -> InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered
-        |"99"B -> InstrAttribType.Text
-        | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribType) : int =
@@ -22705,10 +17057,6 @@ let WriteInstrAttribType (dest:byte array) (nextFreeIdx:int) (xxIn:InstrAttribTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadInstrAttribValue (pos:int) (bs:byte[]) : (int*InstrAttribValue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InstrAttribValue.InstrAttribValue
-
-
 let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribValue) : int = 
    let tag = "872="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22718,10 +17066,6 @@ let WriteInstrAttribValue (dest:byte []) (nextFreeIdx:int) (valIn:InstrAttribVal
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDatedDate (pos:int) (bs:byte[]) : (int*DatedDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) DatedDate.DatedDate
 
 
 let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int = 
@@ -22735,10 +17079,6 @@ let WriteDatedDate (dest:byte []) (nextFreeIdx:int) (valIn:DatedDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadInterestAccrualDate (pos:int) (bs:byte[]) : (int*InterestAccrualDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) InterestAccrualDate.InterestAccrualDate
-
-
 let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAccrualDate) : int = 
    let tag = "874="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22748,10 +17088,6 @@ let WriteInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:InterestAcc
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCPProgram (pos:int) (bs:byte[]) : (int*CPProgram) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) CPProgram.CPProgram
 
 
 let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int = 
@@ -22765,10 +17101,6 @@ let WriteCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:CPProgram) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCPRegType (pos:int) (bs:byte[]) : (int*CPRegType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CPRegType.CPRegType
-
-
 let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int = 
    let tag = "876="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22778,10 +17110,6 @@ let WriteCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:CPRegType) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingCPProgram (pos:int) (bs:byte[]) : (int*UnderlyingCPProgram) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCPProgram.UnderlyingCPProgram
 
 
 let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPProgram) : int = 
@@ -22795,10 +17123,6 @@ let WriteUnderlyingCPProgram (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingCPRegType (pos:int) (bs:byte[]) : (int*UnderlyingCPRegType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingCPRegType.UnderlyingCPRegType
-
-
 let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCPRegType) : int = 
    let tag = "878="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22808,10 +17132,6 @@ let WriteUnderlyingCPRegType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingC
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingQty (pos:int) (bs:byte[]) : (int*UnderlyingQty) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingQty.UnderlyingQty
 
 
 let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : int = 
@@ -22825,10 +17145,6 @@ let WriteUnderlyingQty (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingQty) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTrdMatchID (pos:int) (bs:byte[]) : (int*TrdMatchID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TrdMatchID.TrdMatchID
-
-
 let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int = 
    let tag = "880="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22838,10 +17154,6 @@ let WriteTrdMatchID (dest:byte []) (nextFreeIdx:int) (valIn:TrdMatchID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadSecondaryTradeReportRefID (pos:int) (bs:byte[]) : (int*SecondaryTradeReportRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) SecondaryTradeReportRefID.SecondaryTradeReportRefID
 
 
 let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:SecondaryTradeReportRefID) : int = 
@@ -22855,10 +17167,6 @@ let WriteSecondaryTradeReportRefID (dest:byte []) (nextFreeIdx:int) (valIn:Secon
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingDirtyPrice (pos:int) (bs:byte[]) : (int*UnderlyingDirtyPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingDirtyPrice.UnderlyingDirtyPrice
-
-
 let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingDirtyPrice) : int = 
    let tag = "882="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22868,10 +17176,6 @@ let WriteUnderlyingDirtyPrice (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingEndPrice (pos:int) (bs:byte[]) : (int*UnderlyingEndPrice) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) UnderlyingEndPrice.UnderlyingEndPrice
 
 
 let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndPrice) : int = 
@@ -22885,10 +17189,6 @@ let WriteUnderlyingEndPrice (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStartValue (pos:int) (bs:byte[]) : (int*UnderlyingStartValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingStartValue.UnderlyingStartValue
-
-
 let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStartValue) : int = 
    let tag = "884="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22898,10 +17198,6 @@ let WriteUnderlyingStartValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlying
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingCurrentValue (pos:int) (bs:byte[]) : (int*UnderlyingCurrentValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingCurrentValue.UnderlyingCurrentValue
 
 
 let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingCurrentValue) : int = 
@@ -22915,10 +17211,6 @@ let WriteUnderlyingCurrentValue (dest:byte []) (nextFreeIdx:int) (valIn:Underlyi
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingEndValue (pos:int) (bs:byte[]) : (int*UnderlyingEndValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) UnderlyingEndValue.UnderlyingEndValue
-
-
 let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEndValue) : int = 
    let tag = "886="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22928,10 +17220,6 @@ let WriteUnderlyingEndValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingEn
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoUnderlyingStips (pos:int) (bs:byte[]) : (int*NoUnderlyingStips) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoUnderlyingStips.NoUnderlyingStips
 
 
 let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingStips) : int = 
@@ -22945,10 +17233,6 @@ let WriteNoUnderlyingStips (dest:byte []) (nextFreeIdx:int) (valIn:NoUnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStipType (pos:int) (bs:byte[]) : (int*UnderlyingStipType) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStipType.UnderlyingStipType
-
-
 let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipType) : int = 
    let tag = "888="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22958,10 +17242,6 @@ let WriteUnderlyingStipType (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingSt
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUnderlyingStipValue (pos:int) (bs:byte[]) : (int*UnderlyingStipValue) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStipValue.UnderlyingStipValue
 
 
 let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStipValue) : int = 
@@ -22975,10 +17255,6 @@ let WriteUnderlyingStipValue (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingS
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMaturityNetMoney (pos:int) (bs:byte[]) : (int*MaturityNetMoney) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MaturityNetMoney.MaturityNetMoney
-
-
 let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMoney) : int = 
    let tag = "890="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -22988,17 +17264,6 @@ let WriteMaturityNetMoney (dest:byte []) (nextFreeIdx:int) (valIn:MaturityNetMon
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMiscFeeBasis (pos:int) (bs:byte[]) : (int * MiscFeeBasis) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> MiscFeeBasis.Absolute
-        |"1"B -> MiscFeeBasis.PerUnit
-        |"2"B -> MiscFeeBasis.Percentage
-        | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : int =
@@ -23023,10 +17288,6 @@ let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNoAllocs (pos:int) (bs:byte[]) : (int*TotNoAllocs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNoAllocs.TotNoAllocs
-
-
 let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int = 
    let tag = "892="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23036,10 +17297,6 @@ let WriteTotNoAllocs (dest:byte []) (nextFreeIdx:int) (valIn:TotNoAllocs) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLastFragment (pos:int) (bs:byte[]) : (int*LastFragment) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LastFragment.LastFragment
 
 
 let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : int = 
@@ -23053,10 +17310,6 @@ let WriteLastFragment (dest:byte []) (nextFreeIdx:int) (valIn:LastFragment) : in
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollReqID (pos:int) (bs:byte[]) : (int*CollReqID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollReqID.CollReqID
-
-
 let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int = 
    let tag = "894="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23066,22 +17319,6 @@ let WriteCollReqID (dest:byte []) (nextFreeIdx:int) (valIn:CollReqID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollAsgnReason.Initial
-        |"1"B -> CollAsgnReason.Scheduled
-        |"2"B -> CollAsgnReason.TimeWarning
-        |"3"B -> CollAsgnReason.MarginDeficiency
-        |"4"B -> CollAsgnReason.MarginExcess
-        |"5"B -> CollAsgnReason.ForwardCollateralDemand
-        |"6"B -> CollAsgnReason.EventOfDefault
-        |"7"B -> CollAsgnReason.AdverseTaxEvent
-        | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason) : int =
@@ -23136,22 +17373,6 @@ let WriteCollAsgnReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnReason
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollInquiryQualifier.Tradedate
-        |"1"B -> CollInquiryQualifier.GcInstrument
-        |"2"B -> CollInquiryQualifier.Collateralinstrument
-        |"3"B -> CollInquiryQualifier.SubstitutionEligible
-        |"4"B -> CollInquiryQualifier.NotAssigned
-        |"5"B -> CollInquiryQualifier.PartiallyAssigned
-        |"6"B -> CollInquiryQualifier.FullyAssigned
-        |"7"B -> CollInquiryQualifier.OutstandingTrades
-        | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
-
-
 let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryQualifier) : int =
     match xxIn with
     | CollInquiryQualifier.Tradedate ->
@@ -23204,10 +17425,6 @@ let WriteCollInquiryQualifier (dest:byte array) (nextFreeIdx:int) (xxIn:CollInqu
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoTrades (pos:int) (bs:byte[]) : (int*NoTrades) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoTrades.NoTrades
-
-
 let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int = 
    let tag = "897="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23217,10 +17434,6 @@ let WriteNoTrades (dest:byte []) (nextFreeIdx:int) (valIn:NoTrades) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadMarginRatio (pos:int) (bs:byte[]) : (int*MarginRatio) =
-    ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) MarginRatio.MarginRatio
 
 
 let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int = 
@@ -23234,10 +17447,6 @@ let WriteMarginRatio (dest:byte []) (nextFreeIdx:int) (valIn:MarginRatio) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadMarginExcess (pos:int) (bs:byte[]) : (int*MarginExcess) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) MarginExcess.MarginExcess
-
-
 let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : int = 
    let tag = "899="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23247,10 +17456,6 @@ let WriteMarginExcess (dest:byte []) (nextFreeIdx:int) (valIn:MarginExcess) : in
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTotalNetValue (pos:int) (bs:byte[]) : (int*TotalNetValue) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotalNetValue.TotalNetValue
 
 
 let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : int = 
@@ -23264,10 +17469,6 @@ let WriteTotalNetValue (dest:byte []) (nextFreeIdx:int) (valIn:TotalNetValue) : 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCashOutstanding (pos:int) (bs:byte[]) : (int*CashOutstanding) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) CashOutstanding.CashOutstanding
-
-
 let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding) : int = 
    let tag = "901="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23279,10 +17480,6 @@ let WriteCashOutstanding (dest:byte []) (nextFreeIdx:int) (valIn:CashOutstanding
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnID (pos:int) (bs:byte[]) : (int*CollAsgnID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollAsgnID.CollAsgnID
-
-
 let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int = 
    let tag = "902="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23292,19 +17489,6 @@ let WriteCollAsgnID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollAsgnTransType (pos:int) (bs:byte[]) : (int * CollAsgnTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollAsgnTransType.New
-        |"1"B -> CollAsgnTransType.Replace
-        |"2"B -> CollAsgnTransType.Cancel
-        |"3"B -> CollAsgnTransType.Release
-        |"4"B -> CollAsgnTransType.Reverse
-        | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTransType) : int =
@@ -23341,10 +17525,6 @@ let WriteCollAsgnTransType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnTra
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollRespID (pos:int) (bs:byte[]) : (int*CollRespID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollRespID.CollRespID
-
-
 let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int = 
    let tag = "904="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23354,18 +17534,6 @@ let WriteCollRespID (dest:byte []) (nextFreeIdx:int) (valIn:CollRespID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollAsgnRespType.Received
-        |"1"B -> CollAsgnRespType.Accepted
-        |"2"B -> CollAsgnRespType.Declined
-        |"3"B -> CollAsgnRespType.Rejected
-        | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRespType) : int =
@@ -23394,21 +17562,6 @@ let WriteCollAsgnRespType (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnResp
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollAsgnRejectReason.UnknownDeal
-        |"1"B -> CollAsgnRejectReason.UnknownOrInvalidInstrument
-        |"2"B -> CollAsgnRejectReason.UnauthorizedTransaction
-        |"3"B -> CollAsgnRejectReason.InsufficientCollateral
-        |"4"B -> CollAsgnRejectReason.InvalidTypeOfCollateral
-        |"5"B -> CollAsgnRejectReason.ExcessiveSubstitution
-        |"99"B -> CollAsgnRejectReason.Other
-        | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgnRejectReason) : int =
@@ -23457,10 +17610,6 @@ let WriteCollAsgnRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:CollAsgn
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadCollAsgnRefID (pos:int) (bs:byte[]) : (int*CollAsgnRefID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollAsgnRefID.CollAsgnRefID
-
-
 let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : int = 
    let tag = "907="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23470,10 +17619,6 @@ let WriteCollAsgnRefID (dest:byte []) (nextFreeIdx:int) (valIn:CollAsgnRefID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollRptID (pos:int) (bs:byte[]) : (int*CollRptID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollRptID.CollRptID
 
 
 let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int = 
@@ -23487,10 +17632,6 @@ let WriteCollRptID (dest:byte []) (nextFreeIdx:int) (valIn:CollRptID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadCollInquiryID (pos:int) (bs:byte[]) : (int*CollInquiryID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) CollInquiryID.CollInquiryID
-
-
 let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : int = 
    let tag = "909="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23500,19 +17641,6 @@ let WriteCollInquiryID (dest:byte []) (nextFreeIdx:int) (valIn:CollInquiryID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollStatus (pos:int) (bs:byte[]) : (int * CollStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollStatus.Unassigned
-        |"1"B -> CollStatus.PartiallyAssigned
-        |"2"B -> CollStatus.AssignmentProposed
-        |"3"B -> CollStatus.Assigned
-        |"4"B -> CollStatus.Challenged
-        | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int =
@@ -23549,10 +17677,6 @@ let WriteCollStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollStatus) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadTotNumReports (pos:int) (bs:byte[]) : (int*TotNumReports) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) TotNumReports.TotNumReports
-
-
 let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : int = 
    let tag = "911="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23562,10 +17686,6 @@ let WriteTotNumReports (dest:byte []) (nextFreeIdx:int) (valIn:TotNumReports) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLastRptRequested (pos:int) (bs:byte[]) : (int*LastRptRequested) =
-    ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) LastRptRequested.LastRptRequested
 
 
 let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequested) : int = 
@@ -23579,10 +17699,6 @@ let WriteLastRptRequested (dest:byte []) (nextFreeIdx:int) (valIn:LastRptRequest
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementDesc (pos:int) (bs:byte[]) : (int*AgreementDesc) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementDesc.AgreementDesc
-
-
 let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : int = 
    let tag = "913="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23592,10 +17708,6 @@ let WriteAgreementDesc (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDesc) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadAgreementID (pos:int) (bs:byte[]) : (int*AgreementID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementID.AgreementID
 
 
 let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int = 
@@ -23609,10 +17721,6 @@ let WriteAgreementID (dest:byte []) (nextFreeIdx:int) (valIn:AgreementID) : int 
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementDate (pos:int) (bs:byte[]) : (int*AgreementDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementDate.AgreementDate
-
-
 let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : int = 
    let tag = "915="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23622,10 +17730,6 @@ let WriteAgreementDate (dest:byte []) (nextFreeIdx:int) (valIn:AgreementDate) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadStartDate (pos:int) (bs:byte[]) : (int*StartDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StartDate.StartDate
 
 
 let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int = 
@@ -23639,10 +17743,6 @@ let WriteStartDate (dest:byte []) (nextFreeIdx:int) (valIn:StartDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndDate (pos:int) (bs:byte[]) : (int*EndDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) EndDate.EndDate
-
-
 let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int = 
    let tag = "917="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23654,10 +17754,6 @@ let WriteEndDate (dest:byte []) (nextFreeIdx:int) (valIn:EndDate) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadAgreementCurrency (pos:int) (bs:byte[]) : (int*AgreementCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) AgreementCurrency.AgreementCurrency
-
-
 let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurrency) : int = 
    let tag = "918="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23667,18 +17763,6 @@ let WriteAgreementCurrency (dest:byte []) (nextFreeIdx:int) (valIn:AgreementCurr
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadDeliveryType (pos:int) (bs:byte[]) : (int * DeliveryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> DeliveryType.VersusPayment
-        |"1"B -> DeliveryType.Free
-        |"2"B -> DeliveryType.TriParty
-        |"3"B -> DeliveryType.HoldInCustody
-        | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : int =
@@ -23709,10 +17793,6 @@ let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadEndAccruedInterestAmt (pos:int) (bs:byte[]) : (int*EndAccruedInterestAmt) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndAccruedInterestAmt.EndAccruedInterestAmt
-
-
 let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccruedInterestAmt) : int = 
    let tag = "920="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23722,10 +17802,6 @@ let WriteEndAccruedInterestAmt (dest:byte []) (nextFreeIdx:int) (valIn:EndAccrue
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadStartCash (pos:int) (bs:byte[]) : (int*StartCash) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) StartCash.StartCash
 
 
 let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int = 
@@ -23739,10 +17815,6 @@ let WriteStartCash (dest:byte []) (nextFreeIdx:int) (valIn:StartCash) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadEndCash (pos:int) (bs:byte[]) : (int*EndCash) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) EndCash.EndCash
-
-
 let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int = 
    let tag = "922="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23754,10 +17826,6 @@ let WriteEndCash (dest:byte []) (nextFreeIdx:int) (valIn:EndCash) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadUserRequestID (pos:int) (bs:byte[]) : (int*UserRequestID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UserRequestID.UserRequestID
-
-
 let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : int = 
    let tag = "923="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23767,18 +17835,6 @@ let WriteUserRequestID (dest:byte []) (nextFreeIdx:int) (valIn:UserRequestID) : 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUserRequestType (pos:int) (bs:byte[]) : (int * UserRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> UserRequestType.Logonuser
-        |"2"B -> UserRequestType.Logoffuser
-        |"3"B -> UserRequestType.Changepasswordforuser
-        |"4"B -> UserRequestType.RequestIndividualUserStatus
-        | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestType) : int =
@@ -23809,10 +17865,6 @@ let WriteUserRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:UserRequestTy
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNewPassword (pos:int) (bs:byte[]) : (int*NewPassword) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NewPassword.NewPassword
-
-
 let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int = 
    let tag = "925="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23822,20 +17874,6 @@ let WriteNewPassword (dest:byte []) (nextFreeIdx:int) (valIn:NewPassword) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadUserStatus (pos:int) (bs:byte[]) : (int * UserStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> UserStatus.LoggedIn
-        |"2"B -> UserStatus.NotLoggedIn
-        |"3"B -> UserStatus.UserNotRecognised
-        |"4"B -> UserStatus.PasswordIncorrect
-        |"5"B -> UserStatus.PasswordChanged
-        |"6"B -> UserStatus.Other
-        | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int =
@@ -23878,10 +17916,6 @@ let WriteUserStatus (dest:byte array) (nextFreeIdx:int) (xxIn:UserStatus) : int 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUserStatusText (pos:int) (bs:byte[]) : (int*UserStatusText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UserStatusText.UserStatusText
-
-
 let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) : int = 
    let tag = "927="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23891,18 +17925,6 @@ let WriteUserStatusText (dest:byte []) (nextFreeIdx:int) (valIn:UserStatusText) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadStatusValue (pos:int) (bs:byte[]) : (int * StatusValue) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> StatusValue.Connected
-        |"2"B -> StatusValue.NotConnectedDownExpectedUp
-        |"3"B -> StatusValue.NotConnectedDownExpectedDown
-        |"4"B -> StatusValue.InProcess
-        | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : int =
@@ -23933,10 +17955,6 @@ let WriteStatusValue (dest:byte array) (nextFreeIdx:int) (xxIn:StatusValue) : in
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStatusText (pos:int) (bs:byte[]) : (int*StatusText) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StatusText.StatusText
-
-
 let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int = 
    let tag = "929="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23946,10 +17964,6 @@ let WriteStatusText (dest:byte []) (nextFreeIdx:int) (valIn:StatusText) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadRefCompID (pos:int) (bs:byte[]) : (int*RefCompID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefCompID.RefCompID
 
 
 let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int = 
@@ -23963,10 +17977,6 @@ let WriteRefCompID (dest:byte []) (nextFreeIdx:int) (valIn:RefCompID) : int =
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadRefSubID (pos:int) (bs:byte[]) : (int*RefSubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) RefSubID.RefSubID
-
-
 let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int = 
    let tag = "931="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -23976,10 +17986,6 @@ let WriteRefSubID (dest:byte []) (nextFreeIdx:int) (valIn:RefSubID) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNetworkResponseID (pos:int) (bs:byte[]) : (int*NetworkResponseID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NetworkResponseID.NetworkResponseID
 
 
 let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkResponseID) : int = 
@@ -23993,10 +17999,6 @@ let WriteNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRespon
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNetworkRequestID (pos:int) (bs:byte[]) : (int*NetworkRequestID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) NetworkRequestID.NetworkRequestID
-
-
 let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequestID) : int = 
    let tag = "933="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24008,10 +18010,6 @@ let WriteNetworkRequestID (dest:byte []) (nextFreeIdx:int) (valIn:NetworkRequest
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLastNetworkResponseID (pos:int) (bs:byte[]) : (int*LastNetworkResponseID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LastNetworkResponseID.LastNetworkResponseID
-
-
 let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetworkResponseID) : int = 
    let tag = "934="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24021,18 +18019,6 @@ let WriteLastNetworkResponseID (dest:byte []) (nextFreeIdx:int) (valIn:LastNetwo
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNetworkRequestType (pos:int) (bs:byte[]) : (int * NetworkRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> NetworkRequestType.Snapshot
-        |"2"B -> NetworkRequestType.Subscribe
-        |"4"B -> NetworkRequestType.StopSubscribing
-        |"8"B -> NetworkRequestType.LevelOfDetail
-        | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkRequestType) : int =
@@ -24063,10 +18049,6 @@ let WriteNetworkRequestType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkReq
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoCompIDs (pos:int) (bs:byte[]) : (int*NoCompIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCompIDs.NoCompIDs
-
-
 let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int = 
    let tag = "936="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24076,16 +18058,6 @@ let WriteNoCompIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoCompIDs) : int =
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNetworkStatusResponseType (pos:int) (bs:byte[]) : (int * NetworkStatusResponseType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> NetworkStatusResponseType.Full
-        |"2"B -> NetworkStatusResponseType.IncrementalUpdate
-        | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:NetworkStatusResponseType) : int =
@@ -24104,10 +18076,6 @@ let WriteNetworkStatusResponseType (dest:byte array) (nextFreeIdx:int) (xxIn:Net
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadNoCollInquiryQualifier (pos:int) (bs:byte[]) : (int*NoCollInquiryQualifier) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoCollInquiryQualifier.NoCollInquiryQualifier
-
-
 let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollInquiryQualifier) : int = 
    let tag = "938="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24117,16 +18085,6 @@ let WriteNoCollInquiryQualifier (dest:byte []) (nextFreeIdx:int) (valIn:NoCollIn
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> TrdRptStatus.Accepted
-        |"1"B -> TrdRptStatus.Rejected
-        | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : int =
@@ -24143,17 +18101,6 @@ let WriteTrdRptStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRptStatus) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"1"B -> AffirmStatus.Received
-        |"2"B -> AffirmStatus.ConfirmRejected
-        |"3"B -> AffirmStatus.Affirmed
-        | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : int =
@@ -24178,10 +18125,6 @@ let WriteAffirmStatus (dest:byte array) (nextFreeIdx:int) (xxIn:AffirmStatus) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadUnderlyingStrikeCurrency (pos:int) (bs:byte[]) : (int*UnderlyingStrikeCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
-
-
 let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:UnderlyingStrikeCurrency) : int = 
    let tag = "941="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24191,10 +18134,6 @@ let WriteUnderlyingStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:Underl
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegStrikeCurrency (pos:int) (bs:byte[]) : (int*LegStrikeCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegStrikeCurrency.LegStrikeCurrency
 
 
 let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurrency) : int = 
@@ -24208,10 +18147,6 @@ let WriteLegStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:LegStrikeCurr
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadTimeBracket (pos:int) (bs:byte[]) : (int*TimeBracket) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) TimeBracket.TimeBracket
-
-
 let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int = 
    let tag = "943="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24221,17 +18156,6 @@ let WriteTimeBracket (dest:byte []) (nextFreeIdx:int) (valIn:TimeBracket) : int 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollAction.Retain
-        |"1"B -> CollAction.Add
-        |"2"B -> CollAction.Remove
-        | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int =
@@ -24254,19 +18178,6 @@ let WriteCollAction (dest:byte array) (nextFreeIdx:int) (xxIn:CollAction) : int 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollInquiryStatus.Accepted
-        |"1"B -> CollInquiryStatus.AcceptedWithWarnings
-        |"2"B -> CollInquiryStatus.Completed
-        |"3"B -> CollInquiryStatus.CompletedWithWarnings
-        |"4"B -> CollInquiryStatus.Rejected
-        | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryStatus) : int =
@@ -24301,25 +18212,6 @@ let WriteCollInquiryStatus (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-
-
-let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
-    let fld = 
-        match valIn with
-        |"0"B -> CollInquiryResult.Successful
-        |"1"B -> CollInquiryResult.InvalidOrUnknownInstrument
-        |"2"B -> CollInquiryResult.InvalidOrUnknownCollateralType
-        |"3"B -> CollInquiryResult.InvalidParties
-        |"4"B -> CollInquiryResult.InvalidTransportTypeRequested
-        |"5"B -> CollInquiryResult.InvalidDestinationRequested
-        |"6"B -> CollInquiryResult.NoCollateralFoundForTheTradeSpecified
-        |"7"B -> CollInquiryResult.NoCollateralFoundForTheOrderSpecified
-        |"8"B -> CollInquiryResult.CollateralInquiryTypeNotSupported
-        |"9"B -> CollInquiryResult.UnauthorizedForCollateralInquiry
-        |"99"B -> CollInquiryResult.Other
-        | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
 
 
 let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiryResult) : int =
@@ -24392,10 +18284,6 @@ let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let ReadStrikeCurrency (pos:int) (bs:byte[]) : (int*StrikeCurrency) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) StrikeCurrency.StrikeCurrency
-
-
 let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) : int = 
    let tag = "947="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24405,10 +18293,6 @@ let WriteStrikeCurrency (dest:byte []) (nextFreeIdx:int) (valIn:StrikeCurrency) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNested3PartyIDs (pos:int) (bs:byte[]) : (int*NoNested3PartyIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested3PartyIDs.NoNested3PartyIDs
 
 
 let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartyIDs) : int = 
@@ -24422,10 +18306,6 @@ let WriteNoNested3PartyIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3Part
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartyID (pos:int) (bs:byte[]) : (int*Nested3PartyID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested3PartyID.Nested3PartyID
-
-
 let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) : int = 
    let tag = "949="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24435,10 +18315,6 @@ let WriteNested3PartyID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyID) 
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNested3PartyIDSource (pos:int) (bs:byte[]) : (int*Nested3PartyIDSource) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartyIDSource.Nested3PartyIDSource
 
 
 let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyIDSource) : int = 
@@ -24452,10 +18328,6 @@ let WriteNested3PartyIDSource (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Par
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartyRole (pos:int) (bs:byte[]) : (int*Nested3PartyRole) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartyRole.Nested3PartyRole
-
-
 let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRole) : int = 
    let tag = "951="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24465,10 +18337,6 @@ let WriteNested3PartyRole (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyRo
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNoNested3PartySubIDs (pos:int) (bs:byte[]) : (int*NoNested3PartySubIDs) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) NoNested3PartySubIDs.NoNested3PartySubIDs
 
 
 let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3PartySubIDs) : int = 
@@ -24482,10 +18350,6 @@ let WriteNoNested3PartySubIDs (dest:byte []) (nextFreeIdx:int) (valIn:NoNested3P
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadNested3PartySubID (pos:int) (bs:byte[]) : (int*Nested3PartySubID) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) Nested3PartySubID.Nested3PartySubID
-
-
 let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubID) : int = 
    let tag = "953="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24495,10 +18359,6 @@ let WriteNested3PartySubID (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartyS
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadNested3PartySubIDType (pos:int) (bs:byte[]) : (int*Nested3PartySubIDType) =
-    ReadSingleCaseDUIntField (pos:int) (bs:byte[]) Nested3PartySubIDType.Nested3PartySubIDType
 
 
 let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3PartySubIDType) : int = 
@@ -24512,10 +18372,6 @@ let WriteNested3PartySubIDType (dest:byte []) (nextFreeIdx:int) (valIn:Nested3Pa
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-let ReadLegContractSettlMonth (pos:int) (bs:byte[]) : (int*LegContractSettlMonth) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegContractSettlMonth.LegContractSettlMonth
-
-
 let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContractSettlMonth) : int = 
    let tag = "955="B
    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -24525,10 +18381,6 @@ let WriteLegContractSettlMonth (dest:byte []) (nextFreeIdx:int) (valIn:LegContra
    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
    nextFreeIdx3 + 1 // +1 to include the delimeter
-
-
-let ReadLegInterestAccrualDate (pos:int) (bs:byte[]) : (int*LegInterestAccrualDate) =
-    ReadSingleCaseDUStrField (pos:int) (bs:byte[]) LegInterestAccrualDate.LegInterestAccrualDate
 
 
 let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInterestAccrualDate) : int = 
@@ -24542,6332 +18394,3 @@ let WriteLegInterestAccrualDate (dest:byte []) (nextFreeIdx:int) (valIn:LegInter
    nextFreeIdx3 + 1 // +1 to include the delimeter
 
 
-
-
-let WriteField dest nextFreeIdx fixField =
-    match fixField with
-    | Account fixField -> WriteAccount dest nextFreeIdx fixField
-    | AdvId fixField -> WriteAdvId dest nextFreeIdx fixField
-    | AdvRefID fixField -> WriteAdvRefID dest nextFreeIdx fixField
-    | AdvSide fixField -> WriteAdvSide dest nextFreeIdx fixField
-    | AdvTransType fixField -> WriteAdvTransType dest nextFreeIdx fixField
-    | AvgPx fixField -> WriteAvgPx dest nextFreeIdx fixField
-    | BeginSeqNo fixField -> WriteBeginSeqNo dest nextFreeIdx fixField
-    | BeginString fixField -> WriteBeginString dest nextFreeIdx fixField
-    | BodyLength fixField -> WriteBodyLength dest nextFreeIdx fixField
-    | CheckSum fixField -> WriteCheckSum dest nextFreeIdx fixField
-    | ClOrdID fixField -> WriteClOrdID dest nextFreeIdx fixField
-    | Commission fixField -> WriteCommission dest nextFreeIdx fixField
-    | CommType fixField -> WriteCommType dest nextFreeIdx fixField
-    | CumQty fixField -> WriteCumQty dest nextFreeIdx fixField
-    | Currency fixField -> WriteCurrency dest nextFreeIdx fixField
-    | EndSeqNo fixField -> WriteEndSeqNo dest nextFreeIdx fixField
-    | ExecID fixField -> WriteExecID dest nextFreeIdx fixField
-    | ExecInst fixField -> WriteExecInst dest nextFreeIdx fixField
-    | ExecRefID fixField -> WriteExecRefID dest nextFreeIdx fixField
-    | HandlInst fixField -> WriteHandlInst dest nextFreeIdx fixField
-    | SecurityIDSource fixField -> WriteSecurityIDSource dest nextFreeIdx fixField
-    | IOIid fixField -> WriteIOIid dest nextFreeIdx fixField
-    | IOIQltyInd fixField -> WriteIOIQltyInd dest nextFreeIdx fixField
-    | IOIRefID fixField -> WriteIOIRefID dest nextFreeIdx fixField
-    | IOIQty fixField -> WriteIOIQty dest nextFreeIdx fixField
-    | IOITransType fixField -> WriteIOITransType dest nextFreeIdx fixField
-    | LastCapacity fixField -> WriteLastCapacity dest nextFreeIdx fixField
-    | LastMkt fixField -> WriteLastMkt dest nextFreeIdx fixField
-    | LastPx fixField -> WriteLastPx dest nextFreeIdx fixField
-    | LastQty fixField -> WriteLastQty dest nextFreeIdx fixField
-    | LinesOfText fixField -> WriteLinesOfText dest nextFreeIdx fixField
-    | MsgSeqNum fixField -> WriteMsgSeqNum dest nextFreeIdx fixField
-    | MsgType fixField -> WriteMsgType dest nextFreeIdx fixField
-    | NewSeqNo fixField -> WriteNewSeqNo dest nextFreeIdx fixField
-    | OrderID fixField -> WriteOrderID dest nextFreeIdx fixField
-    | OrderQty fixField -> WriteOrderQty dest nextFreeIdx fixField
-    | OrdStatus fixField -> WriteOrdStatus dest nextFreeIdx fixField
-    | OrdType fixField -> WriteOrdType dest nextFreeIdx fixField
-    | OrigClOrdID fixField -> WriteOrigClOrdID dest nextFreeIdx fixField
-    | OrigTime fixField -> WriteOrigTime dest nextFreeIdx fixField
-    | PossDupFlag fixField -> WritePossDupFlag dest nextFreeIdx fixField
-    | Price fixField -> WritePrice dest nextFreeIdx fixField
-    | RefSeqNum fixField -> WriteRefSeqNum dest nextFreeIdx fixField
-    | SecurityID fixField -> WriteSecurityID dest nextFreeIdx fixField
-    | SenderCompID fixField -> WriteSenderCompID dest nextFreeIdx fixField
-    | SenderSubID fixField -> WriteSenderSubID dest nextFreeIdx fixField
-    | SendingTime fixField -> WriteSendingTime dest nextFreeIdx fixField
-    | Quantity fixField -> WriteQuantity dest nextFreeIdx fixField
-    | Side fixField -> WriteSide dest nextFreeIdx fixField
-    | Symbol fixField -> WriteSymbol dest nextFreeIdx fixField
-    | TargetCompID fixField -> WriteTargetCompID dest nextFreeIdx fixField
-    | TargetSubID fixField -> WriteTargetSubID dest nextFreeIdx fixField
-    | Text fixField -> WriteText dest nextFreeIdx fixField
-    | TimeInForce fixField -> WriteTimeInForce dest nextFreeIdx fixField
-    | TransactTime fixField -> WriteTransactTime dest nextFreeIdx fixField
-    | Urgency fixField -> WriteUrgency dest nextFreeIdx fixField
-    | ValidUntilTime fixField -> WriteValidUntilTime dest nextFreeIdx fixField
-    | SettlType fixField -> WriteSettlType dest nextFreeIdx fixField
-    | SettlDate fixField -> WriteSettlDate dest nextFreeIdx fixField
-    | SymbolSfx fixField -> WriteSymbolSfx dest nextFreeIdx fixField
-    | ListID fixField -> WriteListID dest nextFreeIdx fixField
-    | ListSeqNo fixField -> WriteListSeqNo dest nextFreeIdx fixField
-    | TotNoOrders fixField -> WriteTotNoOrders dest nextFreeIdx fixField
-    | ListExecInst fixField -> WriteListExecInst dest nextFreeIdx fixField
-    | AllocID fixField -> WriteAllocID dest nextFreeIdx fixField
-    | AllocTransType fixField -> WriteAllocTransType dest nextFreeIdx fixField
-    | RefAllocID fixField -> WriteRefAllocID dest nextFreeIdx fixField
-    | NoOrders fixField -> WriteNoOrders dest nextFreeIdx fixField
-    | AvgPxPrecision fixField -> WriteAvgPxPrecision dest nextFreeIdx fixField
-    | TradeDate fixField -> WriteTradeDate dest nextFreeIdx fixField
-    | PositionEffect fixField -> WritePositionEffect dest nextFreeIdx fixField
-    | NoAllocs fixField -> WriteNoAllocs dest nextFreeIdx fixField
-    | AllocAccount fixField -> WriteAllocAccount dest nextFreeIdx fixField
-    | AllocQty fixField -> WriteAllocQty dest nextFreeIdx fixField
-    | ProcessCode fixField -> WriteProcessCode dest nextFreeIdx fixField
-    | NoRpts fixField -> WriteNoRpts dest nextFreeIdx fixField
-    | RptSeq fixField -> WriteRptSeq dest nextFreeIdx fixField
-    | CxlQty fixField -> WriteCxlQty dest nextFreeIdx fixField
-    | NoDlvyInst fixField -> WriteNoDlvyInst dest nextFreeIdx fixField
-    | AllocStatus fixField -> WriteAllocStatus dest nextFreeIdx fixField
-    | AllocRejCode fixField -> WriteAllocRejCode dest nextFreeIdx fixField
-    | Signature fixField -> WriteSignature dest nextFreeIdx fixField // compound field
-    | SecureData fixField -> WriteSecureData dest nextFreeIdx fixField // compound field
-    | EmailType fixField -> WriteEmailType dest nextFreeIdx fixField
-    | RawData fixField -> WriteRawData dest nextFreeIdx fixField // compound field
-    | PossResend fixField -> WritePossResend dest nextFreeIdx fixField
-    | EncryptMethod fixField -> WriteEncryptMethod dest nextFreeIdx fixField
-    | StopPx fixField -> WriteStopPx dest nextFreeIdx fixField
-    | ExDestination fixField -> WriteExDestination dest nextFreeIdx fixField
-    | CxlRejReason fixField -> WriteCxlRejReason dest nextFreeIdx fixField
-    | OrdRejReason fixField -> WriteOrdRejReason dest nextFreeIdx fixField
-    | IOIQualifier fixField -> WriteIOIQualifier dest nextFreeIdx fixField
-    | WaveNo fixField -> WriteWaveNo dest nextFreeIdx fixField
-    | Issuer fixField -> WriteIssuer dest nextFreeIdx fixField
-    | SecurityDesc fixField -> WriteSecurityDesc dest nextFreeIdx fixField
-    | HeartBtInt fixField -> WriteHeartBtInt dest nextFreeIdx fixField
-    | MinQty fixField -> WriteMinQty dest nextFreeIdx fixField
-    | MaxFloor fixField -> WriteMaxFloor dest nextFreeIdx fixField
-    | TestReqID fixField -> WriteTestReqID dest nextFreeIdx fixField
-    | ReportToExch fixField -> WriteReportToExch dest nextFreeIdx fixField
-    | LocateReqd fixField -> WriteLocateReqd dest nextFreeIdx fixField
-    | OnBehalfOfCompID fixField -> WriteOnBehalfOfCompID dest nextFreeIdx fixField
-    | OnBehalfOfSubID fixField -> WriteOnBehalfOfSubID dest nextFreeIdx fixField
-    | QuoteID fixField -> WriteQuoteID dest nextFreeIdx fixField
-    | NetMoney fixField -> WriteNetMoney dest nextFreeIdx fixField
-    | SettlCurrAmt fixField -> WriteSettlCurrAmt dest nextFreeIdx fixField
-    | SettlCurrency fixField -> WriteSettlCurrency dest nextFreeIdx fixField
-    | ForexReq fixField -> WriteForexReq dest nextFreeIdx fixField
-    | OrigSendingTime fixField -> WriteOrigSendingTime dest nextFreeIdx fixField
-    | GapFillFlag fixField -> WriteGapFillFlag dest nextFreeIdx fixField
-    | NoExecs fixField -> WriteNoExecs dest nextFreeIdx fixField
-    | ExpireTime fixField -> WriteExpireTime dest nextFreeIdx fixField
-    | DKReason fixField -> WriteDKReason dest nextFreeIdx fixField
-    | DeliverToCompID fixField -> WriteDeliverToCompID dest nextFreeIdx fixField
-    | DeliverToSubID fixField -> WriteDeliverToSubID dest nextFreeIdx fixField
-    | IOINaturalFlag fixField -> WriteIOINaturalFlag dest nextFreeIdx fixField
-    | QuoteReqID fixField -> WriteQuoteReqID dest nextFreeIdx fixField
-    | BidPx fixField -> WriteBidPx dest nextFreeIdx fixField
-    | OfferPx fixField -> WriteOfferPx dest nextFreeIdx fixField
-    | BidSize fixField -> WriteBidSize dest nextFreeIdx fixField
-    | OfferSize fixField -> WriteOfferSize dest nextFreeIdx fixField
-    | NoMiscFees fixField -> WriteNoMiscFees dest nextFreeIdx fixField
-    | MiscFeeAmt fixField -> WriteMiscFeeAmt dest nextFreeIdx fixField
-    | MiscFeeCurr fixField -> WriteMiscFeeCurr dest nextFreeIdx fixField
-    | MiscFeeType fixField -> WriteMiscFeeType dest nextFreeIdx fixField
-    | PrevClosePx fixField -> WritePrevClosePx dest nextFreeIdx fixField
-    | ResetSeqNumFlag fixField -> WriteResetSeqNumFlag dest nextFreeIdx fixField
-    | SenderLocationID fixField -> WriteSenderLocationID dest nextFreeIdx fixField
-    | TargetLocationID fixField -> WriteTargetLocationID dest nextFreeIdx fixField
-    | OnBehalfOfLocationID fixField -> WriteOnBehalfOfLocationID dest nextFreeIdx fixField
-    | DeliverToLocationID fixField -> WriteDeliverToLocationID dest nextFreeIdx fixField
-    | NoRelatedSym fixField -> WriteNoRelatedSym dest nextFreeIdx fixField
-    | Subject fixField -> WriteSubject dest nextFreeIdx fixField
-    | Headline fixField -> WriteHeadline dest nextFreeIdx fixField
-    | URLLink fixField -> WriteURLLink dest nextFreeIdx fixField
-    | ExecType fixField -> WriteExecType dest nextFreeIdx fixField
-    | LeavesQty fixField -> WriteLeavesQty dest nextFreeIdx fixField
-    | CashOrderQty fixField -> WriteCashOrderQty dest nextFreeIdx fixField
-    | AllocAvgPx fixField -> WriteAllocAvgPx dest nextFreeIdx fixField
-    | AllocNetMoney fixField -> WriteAllocNetMoney dest nextFreeIdx fixField
-    | SettlCurrFxRate fixField -> WriteSettlCurrFxRate dest nextFreeIdx fixField
-    | SettlCurrFxRateCalc fixField -> WriteSettlCurrFxRateCalc dest nextFreeIdx fixField
-    | NumDaysInterest fixField -> WriteNumDaysInterest dest nextFreeIdx fixField
-    | AccruedInterestRate fixField -> WriteAccruedInterestRate dest nextFreeIdx fixField
-    | AccruedInterestAmt fixField -> WriteAccruedInterestAmt dest nextFreeIdx fixField
-    | SettlInstMode fixField -> WriteSettlInstMode dest nextFreeIdx fixField
-    | AllocText fixField -> WriteAllocText dest nextFreeIdx fixField
-    | SettlInstID fixField -> WriteSettlInstID dest nextFreeIdx fixField
-    | SettlInstTransType fixField -> WriteSettlInstTransType dest nextFreeIdx fixField
-    | EmailThreadID fixField -> WriteEmailThreadID dest nextFreeIdx fixField
-    | SettlInstSource fixField -> WriteSettlInstSource dest nextFreeIdx fixField
-    | SecurityType fixField -> WriteSecurityType dest nextFreeIdx fixField
-    | EffectiveTime fixField -> WriteEffectiveTime dest nextFreeIdx fixField
-    | StandInstDbType fixField -> WriteStandInstDbType dest nextFreeIdx fixField
-    | StandInstDbName fixField -> WriteStandInstDbName dest nextFreeIdx fixField
-    | StandInstDbID fixField -> WriteStandInstDbID dest nextFreeIdx fixField
-    | SettlDeliveryType fixField -> WriteSettlDeliveryType dest nextFreeIdx fixField
-    | BidSpotRate fixField -> WriteBidSpotRate dest nextFreeIdx fixField
-    | BidForwardPoints fixField -> WriteBidForwardPoints dest nextFreeIdx fixField
-    | OfferSpotRate fixField -> WriteOfferSpotRate dest nextFreeIdx fixField
-    | OfferForwardPoints fixField -> WriteOfferForwardPoints dest nextFreeIdx fixField
-    | OrderQty2 fixField -> WriteOrderQty2 dest nextFreeIdx fixField
-    | SettlDate2 fixField -> WriteSettlDate2 dest nextFreeIdx fixField
-    | LastSpotRate fixField -> WriteLastSpotRate dest nextFreeIdx fixField
-    | LastForwardPoints fixField -> WriteLastForwardPoints dest nextFreeIdx fixField
-    | AllocLinkID fixField -> WriteAllocLinkID dest nextFreeIdx fixField
-    | AllocLinkType fixField -> WriteAllocLinkType dest nextFreeIdx fixField
-    | SecondaryOrderID fixField -> WriteSecondaryOrderID dest nextFreeIdx fixField
-    | NoIOIQualifiers fixField -> WriteNoIOIQualifiers dest nextFreeIdx fixField
-    | MaturityMonthYear fixField -> WriteMaturityMonthYear dest nextFreeIdx fixField
-    | PutOrCall fixField -> WritePutOrCall dest nextFreeIdx fixField
-    | StrikePrice fixField -> WriteStrikePrice dest nextFreeIdx fixField
-    | CoveredOrUncovered fixField -> WriteCoveredOrUncovered dest nextFreeIdx fixField
-    | OptAttribute fixField -> WriteOptAttribute dest nextFreeIdx fixField
-    | SecurityExchange fixField -> WriteSecurityExchange dest nextFreeIdx fixField
-    | NotifyBrokerOfCredit fixField -> WriteNotifyBrokerOfCredit dest nextFreeIdx fixField
-    | AllocHandlInst fixField -> WriteAllocHandlInst dest nextFreeIdx fixField
-    | MaxShow fixField -> WriteMaxShow dest nextFreeIdx fixField
-    | PegOffsetValue fixField -> WritePegOffsetValue dest nextFreeIdx fixField
-    | XmlData fixField -> WriteXmlData dest nextFreeIdx fixField // compound field
-    | SettlInstRefID fixField -> WriteSettlInstRefID dest nextFreeIdx fixField
-    | NoRoutingIDs fixField -> WriteNoRoutingIDs dest nextFreeIdx fixField
-    | RoutingType fixField -> WriteRoutingType dest nextFreeIdx fixField
-    | RoutingID fixField -> WriteRoutingID dest nextFreeIdx fixField
-    | Spread fixField -> WriteSpread dest nextFreeIdx fixField
-    | BenchmarkCurveCurrency fixField -> WriteBenchmarkCurveCurrency dest nextFreeIdx fixField
-    | BenchmarkCurveName fixField -> WriteBenchmarkCurveName dest nextFreeIdx fixField
-    | BenchmarkCurvePoint fixField -> WriteBenchmarkCurvePoint dest nextFreeIdx fixField
-    | CouponRate fixField -> WriteCouponRate dest nextFreeIdx fixField
-    | CouponPaymentDate fixField -> WriteCouponPaymentDate dest nextFreeIdx fixField
-    | IssueDate fixField -> WriteIssueDate dest nextFreeIdx fixField
-    | RepurchaseTerm fixField -> WriteRepurchaseTerm dest nextFreeIdx fixField
-    | RepurchaseRate fixField -> WriteRepurchaseRate dest nextFreeIdx fixField
-    | Factor fixField -> WriteFactor dest nextFreeIdx fixField
-    | TradeOriginationDate fixField -> WriteTradeOriginationDate dest nextFreeIdx fixField
-    | ExDate fixField -> WriteExDate dest nextFreeIdx fixField
-    | ContractMultiplier fixField -> WriteContractMultiplier dest nextFreeIdx fixField
-    | NoStipulations fixField -> WriteNoStipulations dest nextFreeIdx fixField
-    | StipulationType fixField -> WriteStipulationType dest nextFreeIdx fixField
-    | StipulationValue fixField -> WriteStipulationValue dest nextFreeIdx fixField
-    | YieldType fixField -> WriteYieldType dest nextFreeIdx fixField
-    | Yield fixField -> WriteYield dest nextFreeIdx fixField
-    | TotalTakedown fixField -> WriteTotalTakedown dest nextFreeIdx fixField
-    | Concession fixField -> WriteConcession dest nextFreeIdx fixField
-    | RepoCollateralSecurityType fixField -> WriteRepoCollateralSecurityType dest nextFreeIdx fixField
-    | RedemptionDate fixField -> WriteRedemptionDate dest nextFreeIdx fixField
-    | UnderlyingCouponPaymentDate fixField -> WriteUnderlyingCouponPaymentDate dest nextFreeIdx fixField
-    | UnderlyingIssueDate fixField -> WriteUnderlyingIssueDate dest nextFreeIdx fixField
-    | UnderlyingRepoCollateralSecurityType fixField -> WriteUnderlyingRepoCollateralSecurityType dest nextFreeIdx fixField
-    | UnderlyingRepurchaseTerm fixField -> WriteUnderlyingRepurchaseTerm dest nextFreeIdx fixField
-    | UnderlyingRepurchaseRate fixField -> WriteUnderlyingRepurchaseRate dest nextFreeIdx fixField
-    | UnderlyingFactor fixField -> WriteUnderlyingFactor dest nextFreeIdx fixField
-    | UnderlyingRedemptionDate fixField -> WriteUnderlyingRedemptionDate dest nextFreeIdx fixField
-    | LegCouponPaymentDate fixField -> WriteLegCouponPaymentDate dest nextFreeIdx fixField
-    | LegIssueDate fixField -> WriteLegIssueDate dest nextFreeIdx fixField
-    | LegRepoCollateralSecurityType fixField -> WriteLegRepoCollateralSecurityType dest nextFreeIdx fixField
-    | LegRepurchaseTerm fixField -> WriteLegRepurchaseTerm dest nextFreeIdx fixField
-    | LegRepurchaseRate fixField -> WriteLegRepurchaseRate dest nextFreeIdx fixField
-    | LegFactor fixField -> WriteLegFactor dest nextFreeIdx fixField
-    | LegRedemptionDate fixField -> WriteLegRedemptionDate dest nextFreeIdx fixField
-    | CreditRating fixField -> WriteCreditRating dest nextFreeIdx fixField
-    | UnderlyingCreditRating fixField -> WriteUnderlyingCreditRating dest nextFreeIdx fixField
-    | LegCreditRating fixField -> WriteLegCreditRating dest nextFreeIdx fixField
-    | TradedFlatSwitch fixField -> WriteTradedFlatSwitch dest nextFreeIdx fixField
-    | BasisFeatureDate fixField -> WriteBasisFeatureDate dest nextFreeIdx fixField
-    | BasisFeaturePrice fixField -> WriteBasisFeaturePrice dest nextFreeIdx fixField
-    | MDReqID fixField -> WriteMDReqID dest nextFreeIdx fixField
-    | SubscriptionRequestType fixField -> WriteSubscriptionRequestType dest nextFreeIdx fixField
-    | MarketDepth fixField -> WriteMarketDepth dest nextFreeIdx fixField
-    | MDUpdateType fixField -> WriteMDUpdateType dest nextFreeIdx fixField
-    | AggregatedBook fixField -> WriteAggregatedBook dest nextFreeIdx fixField
-    | NoMDEntryTypes fixField -> WriteNoMDEntryTypes dest nextFreeIdx fixField
-    | NoMDEntries fixField -> WriteNoMDEntries dest nextFreeIdx fixField
-    | MDEntryType fixField -> WriteMDEntryType dest nextFreeIdx fixField
-    | MDEntryPx fixField -> WriteMDEntryPx dest nextFreeIdx fixField
-    | MDEntrySize fixField -> WriteMDEntrySize dest nextFreeIdx fixField
-    | MDEntryDate fixField -> WriteMDEntryDate dest nextFreeIdx fixField
-    | MDEntryTime fixField -> WriteMDEntryTime dest nextFreeIdx fixField
-    | TickDirection fixField -> WriteTickDirection dest nextFreeIdx fixField
-    | MDMkt fixField -> WriteMDMkt dest nextFreeIdx fixField
-    | QuoteCondition fixField -> WriteQuoteCondition dest nextFreeIdx fixField
-    | TradeCondition fixField -> WriteTradeCondition dest nextFreeIdx fixField
-    | MDEntryID fixField -> WriteMDEntryID dest nextFreeIdx fixField
-    | MDUpdateAction fixField -> WriteMDUpdateAction dest nextFreeIdx fixField
-    | MDEntryRefID fixField -> WriteMDEntryRefID dest nextFreeIdx fixField
-    | MDReqRejReason fixField -> WriteMDReqRejReason dest nextFreeIdx fixField
-    | MDEntryOriginator fixField -> WriteMDEntryOriginator dest nextFreeIdx fixField
-    | LocationID fixField -> WriteLocationID dest nextFreeIdx fixField
-    | DeskID fixField -> WriteDeskID dest nextFreeIdx fixField
-    | DeleteReason fixField -> WriteDeleteReason dest nextFreeIdx fixField
-    | OpenCloseSettlFlag fixField -> WriteOpenCloseSettlFlag dest nextFreeIdx fixField
-    | SellerDays fixField -> WriteSellerDays dest nextFreeIdx fixField
-    | MDEntryBuyer fixField -> WriteMDEntryBuyer dest nextFreeIdx fixField
-    | MDEntrySeller fixField -> WriteMDEntrySeller dest nextFreeIdx fixField
-    | MDEntryPositionNo fixField -> WriteMDEntryPositionNo dest nextFreeIdx fixField
-    | FinancialStatus fixField -> WriteFinancialStatus dest nextFreeIdx fixField
-    | CorporateAction fixField -> WriteCorporateAction dest nextFreeIdx fixField
-    | DefBidSize fixField -> WriteDefBidSize dest nextFreeIdx fixField
-    | DefOfferSize fixField -> WriteDefOfferSize dest nextFreeIdx fixField
-    | NoQuoteEntries fixField -> WriteNoQuoteEntries dest nextFreeIdx fixField
-    | NoQuoteSets fixField -> WriteNoQuoteSets dest nextFreeIdx fixField
-    | QuoteStatus fixField -> WriteQuoteStatus dest nextFreeIdx fixField
-    | QuoteCancelType fixField -> WriteQuoteCancelType dest nextFreeIdx fixField
-    | QuoteEntryID fixField -> WriteQuoteEntryID dest nextFreeIdx fixField
-    | QuoteRejectReason fixField -> WriteQuoteRejectReason dest nextFreeIdx fixField
-    | QuoteResponseLevel fixField -> WriteQuoteResponseLevel dest nextFreeIdx fixField
-    | QuoteSetID fixField -> WriteQuoteSetID dest nextFreeIdx fixField
-    | QuoteRequestType fixField -> WriteQuoteRequestType dest nextFreeIdx fixField
-    | TotNoQuoteEntries fixField -> WriteTotNoQuoteEntries dest nextFreeIdx fixField
-    | UnderlyingSecurityIDSource fixField -> WriteUnderlyingSecurityIDSource dest nextFreeIdx fixField
-    | UnderlyingIssuer fixField -> WriteUnderlyingIssuer dest nextFreeIdx fixField
-    | UnderlyingSecurityDesc fixField -> WriteUnderlyingSecurityDesc dest nextFreeIdx fixField
-    | UnderlyingSecurityExchange fixField -> WriteUnderlyingSecurityExchange dest nextFreeIdx fixField
-    | UnderlyingSecurityID fixField -> WriteUnderlyingSecurityID dest nextFreeIdx fixField
-    | UnderlyingSecurityType fixField -> WriteUnderlyingSecurityType dest nextFreeIdx fixField
-    | UnderlyingSymbol fixField -> WriteUnderlyingSymbol dest nextFreeIdx fixField
-    | UnderlyingSymbolSfx fixField -> WriteUnderlyingSymbolSfx dest nextFreeIdx fixField
-    | UnderlyingMaturityMonthYear fixField -> WriteUnderlyingMaturityMonthYear dest nextFreeIdx fixField
-    | UnderlyingPutOrCall fixField -> WriteUnderlyingPutOrCall dest nextFreeIdx fixField
-    | UnderlyingStrikePrice fixField -> WriteUnderlyingStrikePrice dest nextFreeIdx fixField
-    | UnderlyingOptAttribute fixField -> WriteUnderlyingOptAttribute dest nextFreeIdx fixField
-    | UnderlyingCurrency fixField -> WriteUnderlyingCurrency dest nextFreeIdx fixField
-    | SecurityReqID fixField -> WriteSecurityReqID dest nextFreeIdx fixField
-    | SecurityRequestType fixField -> WriteSecurityRequestType dest nextFreeIdx fixField
-    | SecurityResponseID fixField -> WriteSecurityResponseID dest nextFreeIdx fixField
-    | SecurityResponseType fixField -> WriteSecurityResponseType dest nextFreeIdx fixField
-    | SecurityStatusReqID fixField -> WriteSecurityStatusReqID dest nextFreeIdx fixField
-    | UnsolicitedIndicator fixField -> WriteUnsolicitedIndicator dest nextFreeIdx fixField
-    | SecurityTradingStatus fixField -> WriteSecurityTradingStatus dest nextFreeIdx fixField
-    | HaltReason fixField -> WriteHaltReason dest nextFreeIdx fixField
-    | InViewOfCommon fixField -> WriteInViewOfCommon dest nextFreeIdx fixField
-    | DueToRelated fixField -> WriteDueToRelated dest nextFreeIdx fixField
-    | BuyVolume fixField -> WriteBuyVolume dest nextFreeIdx fixField
-    | SellVolume fixField -> WriteSellVolume dest nextFreeIdx fixField
-    | HighPx fixField -> WriteHighPx dest nextFreeIdx fixField
-    | LowPx fixField -> WriteLowPx dest nextFreeIdx fixField
-    | Adjustment fixField -> WriteAdjustment dest nextFreeIdx fixField
-    | TradSesReqID fixField -> WriteTradSesReqID dest nextFreeIdx fixField
-    | TradingSessionID fixField -> WriteTradingSessionID dest nextFreeIdx fixField
-    | ContraTrader fixField -> WriteContraTrader dest nextFreeIdx fixField
-    | TradSesMethod fixField -> WriteTradSesMethod dest nextFreeIdx fixField
-    | TradSesMode fixField -> WriteTradSesMode dest nextFreeIdx fixField
-    | TradSesStatus fixField -> WriteTradSesStatus dest nextFreeIdx fixField
-    | TradSesStartTime fixField -> WriteTradSesStartTime dest nextFreeIdx fixField
-    | TradSesOpenTime fixField -> WriteTradSesOpenTime dest nextFreeIdx fixField
-    | TradSesPreCloseTime fixField -> WriteTradSesPreCloseTime dest nextFreeIdx fixField
-    | TradSesCloseTime fixField -> WriteTradSesCloseTime dest nextFreeIdx fixField
-    | TradSesEndTime fixField -> WriteTradSesEndTime dest nextFreeIdx fixField
-    | NumberOfOrders fixField -> WriteNumberOfOrders dest nextFreeIdx fixField
-    | MessageEncoding fixField -> WriteMessageEncoding dest nextFreeIdx fixField
-    | EncodedIssuer fixField -> WriteEncodedIssuer dest nextFreeIdx fixField // compound field
-    | EncodedSecurityDesc fixField -> WriteEncodedSecurityDesc dest nextFreeIdx fixField // compound field
-    | EncodedListExecInst fixField -> WriteEncodedListExecInst dest nextFreeIdx fixField // compound field
-    | EncodedText fixField -> WriteEncodedText dest nextFreeIdx fixField // compound field
-    | EncodedSubject fixField -> WriteEncodedSubject dest nextFreeIdx fixField // compound field
-    | EncodedHeadline fixField -> WriteEncodedHeadline dest nextFreeIdx fixField // compound field
-    | EncodedAllocText fixField -> WriteEncodedAllocText dest nextFreeIdx fixField // compound field
-    | EncodedUnderlyingIssuer fixField -> WriteEncodedUnderlyingIssuer dest nextFreeIdx fixField // compound field
-    | EncodedUnderlyingSecurityDesc fixField -> WriteEncodedUnderlyingSecurityDesc dest nextFreeIdx fixField // compound field
-    | AllocPrice fixField -> WriteAllocPrice dest nextFreeIdx fixField
-    | QuoteSetValidUntilTime fixField -> WriteQuoteSetValidUntilTime dest nextFreeIdx fixField
-    | QuoteEntryRejectReason fixField -> WriteQuoteEntryRejectReason dest nextFreeIdx fixField
-    | LastMsgSeqNumProcessed fixField -> WriteLastMsgSeqNumProcessed dest nextFreeIdx fixField
-    | RefTagID fixField -> WriteRefTagID dest nextFreeIdx fixField
-    | RefMsgType fixField -> WriteRefMsgType dest nextFreeIdx fixField
-    | SessionRejectReason fixField -> WriteSessionRejectReason dest nextFreeIdx fixField
-    | BidRequestTransType fixField -> WriteBidRequestTransType dest nextFreeIdx fixField
-    | ContraBroker fixField -> WriteContraBroker dest nextFreeIdx fixField
-    | ComplianceID fixField -> WriteComplianceID dest nextFreeIdx fixField
-    | SolicitedFlag fixField -> WriteSolicitedFlag dest nextFreeIdx fixField
-    | ExecRestatementReason fixField -> WriteExecRestatementReason dest nextFreeIdx fixField
-    | BusinessRejectRefID fixField -> WriteBusinessRejectRefID dest nextFreeIdx fixField
-    | BusinessRejectReason fixField -> WriteBusinessRejectReason dest nextFreeIdx fixField
-    | GrossTradeAmt fixField -> WriteGrossTradeAmt dest nextFreeIdx fixField
-    | NoContraBrokers fixField -> WriteNoContraBrokers dest nextFreeIdx fixField
-    | MaxMessageSize fixField -> WriteMaxMessageSize dest nextFreeIdx fixField
-    | NoMsgTypes fixField -> WriteNoMsgTypes dest nextFreeIdx fixField
-    | MsgDirection fixField -> WriteMsgDirection dest nextFreeIdx fixField
-    | NoTradingSessions fixField -> WriteNoTradingSessions dest nextFreeIdx fixField
-    | TotalVolumeTraded fixField -> WriteTotalVolumeTraded dest nextFreeIdx fixField
-    | DiscretionInst fixField -> WriteDiscretionInst dest nextFreeIdx fixField
-    | DiscretionOffsetValue fixField -> WriteDiscretionOffsetValue dest nextFreeIdx fixField
-    | BidID fixField -> WriteBidID dest nextFreeIdx fixField
-    | ClientBidID fixField -> WriteClientBidID dest nextFreeIdx fixField
-    | ListName fixField -> WriteListName dest nextFreeIdx fixField
-    | TotNoRelatedSym fixField -> WriteTotNoRelatedSym dest nextFreeIdx fixField
-    | BidType fixField -> WriteBidType dest nextFreeIdx fixField
-    | NumTickets fixField -> WriteNumTickets dest nextFreeIdx fixField
-    | SideValue1 fixField -> WriteSideValue1 dest nextFreeIdx fixField
-    | SideValue2 fixField -> WriteSideValue2 dest nextFreeIdx fixField
-    | NoBidDescriptors fixField -> WriteNoBidDescriptors dest nextFreeIdx fixField
-    | BidDescriptorType fixField -> WriteBidDescriptorType dest nextFreeIdx fixField
-    | BidDescriptor fixField -> WriteBidDescriptor dest nextFreeIdx fixField
-    | SideValueInd fixField -> WriteSideValueInd dest nextFreeIdx fixField
-    | LiquidityPctLow fixField -> WriteLiquidityPctLow dest nextFreeIdx fixField
-    | LiquidityPctHigh fixField -> WriteLiquidityPctHigh dest nextFreeIdx fixField
-    | LiquidityValue fixField -> WriteLiquidityValue dest nextFreeIdx fixField
-    | EFPTrackingError fixField -> WriteEFPTrackingError dest nextFreeIdx fixField
-    | FairValue fixField -> WriteFairValue dest nextFreeIdx fixField
-    | OutsideIndexPct fixField -> WriteOutsideIndexPct dest nextFreeIdx fixField
-    | ValueOfFutures fixField -> WriteValueOfFutures dest nextFreeIdx fixField
-    | LiquidityIndType fixField -> WriteLiquidityIndType dest nextFreeIdx fixField
-    | WtAverageLiquidity fixField -> WriteWtAverageLiquidity dest nextFreeIdx fixField
-    | ExchangeForPhysical fixField -> WriteExchangeForPhysical dest nextFreeIdx fixField
-    | OutMainCntryUIndex fixField -> WriteOutMainCntryUIndex dest nextFreeIdx fixField
-    | CrossPercent fixField -> WriteCrossPercent dest nextFreeIdx fixField
-    | ProgRptReqs fixField -> WriteProgRptReqs dest nextFreeIdx fixField
-    | ProgPeriodInterval fixField -> WriteProgPeriodInterval dest nextFreeIdx fixField
-    | IncTaxInd fixField -> WriteIncTaxInd dest nextFreeIdx fixField
-    | NumBidders fixField -> WriteNumBidders dest nextFreeIdx fixField
-    | BidTradeType fixField -> WriteBidTradeType dest nextFreeIdx fixField
-    | BasisPxType fixField -> WriteBasisPxType dest nextFreeIdx fixField
-    | NoBidComponents fixField -> WriteNoBidComponents dest nextFreeIdx fixField
-    | Country fixField -> WriteCountry dest nextFreeIdx fixField
-    | TotNoStrikes fixField -> WriteTotNoStrikes dest nextFreeIdx fixField
-    | PriceType fixField -> WritePriceType dest nextFreeIdx fixField
-    | DayOrderQty fixField -> WriteDayOrderQty dest nextFreeIdx fixField
-    | DayCumQty fixField -> WriteDayCumQty dest nextFreeIdx fixField
-    | DayAvgPx fixField -> WriteDayAvgPx dest nextFreeIdx fixField
-    | GTBookingInst fixField -> WriteGTBookingInst dest nextFreeIdx fixField
-    | NoStrikes fixField -> WriteNoStrikes dest nextFreeIdx fixField
-    | ListStatusType fixField -> WriteListStatusType dest nextFreeIdx fixField
-    | NetGrossInd fixField -> WriteNetGrossInd dest nextFreeIdx fixField
-    | ListOrderStatus fixField -> WriteListOrderStatus dest nextFreeIdx fixField
-    | ExpireDate fixField -> WriteExpireDate dest nextFreeIdx fixField
-    | ListExecInstType fixField -> WriteListExecInstType dest nextFreeIdx fixField
-    | CxlRejResponseTo fixField -> WriteCxlRejResponseTo dest nextFreeIdx fixField
-    | UnderlyingCouponRate fixField -> WriteUnderlyingCouponRate dest nextFreeIdx fixField
-    | UnderlyingContractMultiplier fixField -> WriteUnderlyingContractMultiplier dest nextFreeIdx fixField
-    | ContraTradeQty fixField -> WriteContraTradeQty dest nextFreeIdx fixField
-    | ContraTradeTime fixField -> WriteContraTradeTime dest nextFreeIdx fixField
-    | LiquidityNumSecurities fixField -> WriteLiquidityNumSecurities dest nextFreeIdx fixField
-    | MultiLegReportingType fixField -> WriteMultiLegReportingType dest nextFreeIdx fixField
-    | StrikeTime fixField -> WriteStrikeTime dest nextFreeIdx fixField
-    | ListStatusText fixField -> WriteListStatusText dest nextFreeIdx fixField
-    | EncodedListStatusText fixField -> WriteEncodedListStatusText dest nextFreeIdx fixField // compound field
-    | PartyIDSource fixField -> WritePartyIDSource dest nextFreeIdx fixField
-    | PartyID fixField -> WritePartyID dest nextFreeIdx fixField
-    | NetChgPrevDay fixField -> WriteNetChgPrevDay dest nextFreeIdx fixField
-    | PartyRole fixField -> WritePartyRole dest nextFreeIdx fixField
-    | NoPartyIDs fixField -> WriteNoPartyIDs dest nextFreeIdx fixField
-    | NoSecurityAltID fixField -> WriteNoSecurityAltID dest nextFreeIdx fixField
-    | SecurityAltID fixField -> WriteSecurityAltID dest nextFreeIdx fixField
-    | SecurityAltIDSource fixField -> WriteSecurityAltIDSource dest nextFreeIdx fixField
-    | NoUnderlyingSecurityAltID fixField -> WriteNoUnderlyingSecurityAltID dest nextFreeIdx fixField
-    | UnderlyingSecurityAltID fixField -> WriteUnderlyingSecurityAltID dest nextFreeIdx fixField
-    | UnderlyingSecurityAltIDSource fixField -> WriteUnderlyingSecurityAltIDSource dest nextFreeIdx fixField
-    | Product fixField -> WriteProduct dest nextFreeIdx fixField
-    | CFICode fixField -> WriteCFICode dest nextFreeIdx fixField
-    | UnderlyingProduct fixField -> WriteUnderlyingProduct dest nextFreeIdx fixField
-    | UnderlyingCFICode fixField -> WriteUnderlyingCFICode dest nextFreeIdx fixField
-    | TestMessageIndicator fixField -> WriteTestMessageIndicator dest nextFreeIdx fixField
-    | QuantityType fixField -> WriteQuantityType dest nextFreeIdx fixField
-    | BookingRefID fixField -> WriteBookingRefID dest nextFreeIdx fixField
-    | IndividualAllocID fixField -> WriteIndividualAllocID dest nextFreeIdx fixField
-    | RoundingDirection fixField -> WriteRoundingDirection dest nextFreeIdx fixField
-    | RoundingModulus fixField -> WriteRoundingModulus dest nextFreeIdx fixField
-    | CountryOfIssue fixField -> WriteCountryOfIssue dest nextFreeIdx fixField
-    | StateOrProvinceOfIssue fixField -> WriteStateOrProvinceOfIssue dest nextFreeIdx fixField
-    | LocaleOfIssue fixField -> WriteLocaleOfIssue dest nextFreeIdx fixField
-    | NoRegistDtls fixField -> WriteNoRegistDtls dest nextFreeIdx fixField
-    | MailingDtls fixField -> WriteMailingDtls dest nextFreeIdx fixField
-    | InvestorCountryOfResidence fixField -> WriteInvestorCountryOfResidence dest nextFreeIdx fixField
-    | PaymentRef fixField -> WritePaymentRef dest nextFreeIdx fixField
-    | DistribPaymentMethod fixField -> WriteDistribPaymentMethod dest nextFreeIdx fixField
-    | CashDistribCurr fixField -> WriteCashDistribCurr dest nextFreeIdx fixField
-    | CommCurrency fixField -> WriteCommCurrency dest nextFreeIdx fixField
-    | CancellationRights fixField -> WriteCancellationRights dest nextFreeIdx fixField
-    | MoneyLaunderingStatus fixField -> WriteMoneyLaunderingStatus dest nextFreeIdx fixField
-    | MailingInst fixField -> WriteMailingInst dest nextFreeIdx fixField
-    | TransBkdTime fixField -> WriteTransBkdTime dest nextFreeIdx fixField
-    | ExecPriceType fixField -> WriteExecPriceType dest nextFreeIdx fixField
-    | ExecPriceAdjustment fixField -> WriteExecPriceAdjustment dest nextFreeIdx fixField
-    | DateOfBirth fixField -> WriteDateOfBirth dest nextFreeIdx fixField
-    | TradeReportTransType fixField -> WriteTradeReportTransType dest nextFreeIdx fixField
-    | CardHolderName fixField -> WriteCardHolderName dest nextFreeIdx fixField
-    | CardNumber fixField -> WriteCardNumber dest nextFreeIdx fixField
-    | CardExpDate fixField -> WriteCardExpDate dest nextFreeIdx fixField
-    | CardIssNum fixField -> WriteCardIssNum dest nextFreeIdx fixField
-    | PaymentMethod fixField -> WritePaymentMethod dest nextFreeIdx fixField
-    | RegistAcctType fixField -> WriteRegistAcctType dest nextFreeIdx fixField
-    | Designation fixField -> WriteDesignation dest nextFreeIdx fixField
-    | TaxAdvantageType fixField -> WriteTaxAdvantageType dest nextFreeIdx fixField
-    | RegistRejReasonText fixField -> WriteRegistRejReasonText dest nextFreeIdx fixField
-    | FundRenewWaiv fixField -> WriteFundRenewWaiv dest nextFreeIdx fixField
-    | CashDistribAgentName fixField -> WriteCashDistribAgentName dest nextFreeIdx fixField
-    | CashDistribAgentCode fixField -> WriteCashDistribAgentCode dest nextFreeIdx fixField
-    | CashDistribAgentAcctNumber fixField -> WriteCashDistribAgentAcctNumber dest nextFreeIdx fixField
-    | CashDistribPayRef fixField -> WriteCashDistribPayRef dest nextFreeIdx fixField
-    | CashDistribAgentAcctName fixField -> WriteCashDistribAgentAcctName dest nextFreeIdx fixField
-    | CardStartDate fixField -> WriteCardStartDate dest nextFreeIdx fixField
-    | PaymentDate fixField -> WritePaymentDate dest nextFreeIdx fixField
-    | PaymentRemitterID fixField -> WritePaymentRemitterID dest nextFreeIdx fixField
-    | RegistStatus fixField -> WriteRegistStatus dest nextFreeIdx fixField
-    | RegistRejReasonCode fixField -> WriteRegistRejReasonCode dest nextFreeIdx fixField
-    | RegistRefID fixField -> WriteRegistRefID dest nextFreeIdx fixField
-    | RegistDtls fixField -> WriteRegistDtls dest nextFreeIdx fixField
-    | NoDistribInsts fixField -> WriteNoDistribInsts dest nextFreeIdx fixField
-    | RegistEmail fixField -> WriteRegistEmail dest nextFreeIdx fixField
-    | DistribPercentage fixField -> WriteDistribPercentage dest nextFreeIdx fixField
-    | RegistID fixField -> WriteRegistID dest nextFreeIdx fixField
-    | RegistTransType fixField -> WriteRegistTransType dest nextFreeIdx fixField
-    | ExecValuationPoint fixField -> WriteExecValuationPoint dest nextFreeIdx fixField
-    | OrderPercent fixField -> WriteOrderPercent dest nextFreeIdx fixField
-    | OwnershipType fixField -> WriteOwnershipType dest nextFreeIdx fixField
-    | NoContAmts fixField -> WriteNoContAmts dest nextFreeIdx fixField
-    | ContAmtType fixField -> WriteContAmtType dest nextFreeIdx fixField
-    | ContAmtValue fixField -> WriteContAmtValue dest nextFreeIdx fixField
-    | ContAmtCurr fixField -> WriteContAmtCurr dest nextFreeIdx fixField
-    | OwnerType fixField -> WriteOwnerType dest nextFreeIdx fixField
-    | PartySubID fixField -> WritePartySubID dest nextFreeIdx fixField
-    | NestedPartyID fixField -> WriteNestedPartyID dest nextFreeIdx fixField
-    | NestedPartyIDSource fixField -> WriteNestedPartyIDSource dest nextFreeIdx fixField
-    | SecondaryClOrdID fixField -> WriteSecondaryClOrdID dest nextFreeIdx fixField
-    | SecondaryExecID fixField -> WriteSecondaryExecID dest nextFreeIdx fixField
-    | OrderCapacity fixField -> WriteOrderCapacity dest nextFreeIdx fixField
-    | OrderRestrictions fixField -> WriteOrderRestrictions dest nextFreeIdx fixField
-    | MassCancelRequestType fixField -> WriteMassCancelRequestType dest nextFreeIdx fixField
-    | MassCancelResponse fixField -> WriteMassCancelResponse dest nextFreeIdx fixField
-    | MassCancelRejectReason fixField -> WriteMassCancelRejectReason dest nextFreeIdx fixField
-    | TotalAffectedOrders fixField -> WriteTotalAffectedOrders dest nextFreeIdx fixField
-    | NoAffectedOrders fixField -> WriteNoAffectedOrders dest nextFreeIdx fixField
-    | AffectedOrderID fixField -> WriteAffectedOrderID dest nextFreeIdx fixField
-    | AffectedSecondaryOrderID fixField -> WriteAffectedSecondaryOrderID dest nextFreeIdx fixField
-    | QuoteType fixField -> WriteQuoteType dest nextFreeIdx fixField
-    | NestedPartyRole fixField -> WriteNestedPartyRole dest nextFreeIdx fixField
-    | NoNestedPartyIDs fixField -> WriteNoNestedPartyIDs dest nextFreeIdx fixField
-    | TotalAccruedInterestAmt fixField -> WriteTotalAccruedInterestAmt dest nextFreeIdx fixField
-    | MaturityDate fixField -> WriteMaturityDate dest nextFreeIdx fixField
-    | UnderlyingMaturityDate fixField -> WriteUnderlyingMaturityDate dest nextFreeIdx fixField
-    | InstrRegistry fixField -> WriteInstrRegistry dest nextFreeIdx fixField
-    | CashMargin fixField -> WriteCashMargin dest nextFreeIdx fixField
-    | NestedPartySubID fixField -> WriteNestedPartySubID dest nextFreeIdx fixField
-    | Scope fixField -> WriteScope dest nextFreeIdx fixField
-    | MDImplicitDelete fixField -> WriteMDImplicitDelete dest nextFreeIdx fixField
-    | CrossID fixField -> WriteCrossID dest nextFreeIdx fixField
-    | CrossType fixField -> WriteCrossType dest nextFreeIdx fixField
-    | CrossPrioritization fixField -> WriteCrossPrioritization dest nextFreeIdx fixField
-    | OrigCrossID fixField -> WriteOrigCrossID dest nextFreeIdx fixField
-    | NoSides fixField -> WriteNoSides dest nextFreeIdx fixField
-    | Username fixField -> WriteUsername dest nextFreeIdx fixField
-    | Password fixField -> WritePassword dest nextFreeIdx fixField
-    | NoLegs fixField -> WriteNoLegs dest nextFreeIdx fixField
-    | LegCurrency fixField -> WriteLegCurrency dest nextFreeIdx fixField
-    | TotNoSecurityTypes fixField -> WriteTotNoSecurityTypes dest nextFreeIdx fixField
-    | NoSecurityTypes fixField -> WriteNoSecurityTypes dest nextFreeIdx fixField
-    | SecurityListRequestType fixField -> WriteSecurityListRequestType dest nextFreeIdx fixField
-    | SecurityRequestResult fixField -> WriteSecurityRequestResult dest nextFreeIdx fixField
-    | RoundLot fixField -> WriteRoundLot dest nextFreeIdx fixField
-    | MinTradeVol fixField -> WriteMinTradeVol dest nextFreeIdx fixField
-    | MultiLegRptTypeReq fixField -> WriteMultiLegRptTypeReq dest nextFreeIdx fixField
-    | LegPositionEffect fixField -> WriteLegPositionEffect dest nextFreeIdx fixField
-    | LegCoveredOrUncovered fixField -> WriteLegCoveredOrUncovered dest nextFreeIdx fixField
-    | LegPrice fixField -> WriteLegPrice dest nextFreeIdx fixField
-    | TradSesStatusRejReason fixField -> WriteTradSesStatusRejReason dest nextFreeIdx fixField
-    | TradeRequestID fixField -> WriteTradeRequestID dest nextFreeIdx fixField
-    | TradeRequestType fixField -> WriteTradeRequestType dest nextFreeIdx fixField
-    | PreviouslyReported fixField -> WritePreviouslyReported dest nextFreeIdx fixField
-    | TradeReportID fixField -> WriteTradeReportID dest nextFreeIdx fixField
-    | TradeReportRefID fixField -> WriteTradeReportRefID dest nextFreeIdx fixField
-    | MatchStatus fixField -> WriteMatchStatus dest nextFreeIdx fixField
-    | MatchType fixField -> WriteMatchType dest nextFreeIdx fixField
-    | OddLot fixField -> WriteOddLot dest nextFreeIdx fixField
-    | NoClearingInstructions fixField -> WriteNoClearingInstructions dest nextFreeIdx fixField
-    | ClearingInstruction fixField -> WriteClearingInstruction dest nextFreeIdx fixField
-    | TradeInputSource fixField -> WriteTradeInputSource dest nextFreeIdx fixField
-    | TradeInputDevice fixField -> WriteTradeInputDevice dest nextFreeIdx fixField
-    | NoDates fixField -> WriteNoDates dest nextFreeIdx fixField
-    | AccountType fixField -> WriteAccountType dest nextFreeIdx fixField
-    | CustOrderCapacity fixField -> WriteCustOrderCapacity dest nextFreeIdx fixField
-    | ClOrdLinkID fixField -> WriteClOrdLinkID dest nextFreeIdx fixField
-    | MassStatusReqID fixField -> WriteMassStatusReqID dest nextFreeIdx fixField
-    | MassStatusReqType fixField -> WriteMassStatusReqType dest nextFreeIdx fixField
-    | OrigOrdModTime fixField -> WriteOrigOrdModTime dest nextFreeIdx fixField
-    | LegSettlType fixField -> WriteLegSettlType dest nextFreeIdx fixField
-    | LegSettlDate fixField -> WriteLegSettlDate dest nextFreeIdx fixField
-    | DayBookingInst fixField -> WriteDayBookingInst dest nextFreeIdx fixField
-    | BookingUnit fixField -> WriteBookingUnit dest nextFreeIdx fixField
-    | PreallocMethod fixField -> WritePreallocMethod dest nextFreeIdx fixField
-    | UnderlyingCountryOfIssue fixField -> WriteUnderlyingCountryOfIssue dest nextFreeIdx fixField
-    | UnderlyingStateOrProvinceOfIssue fixField -> WriteUnderlyingStateOrProvinceOfIssue dest nextFreeIdx fixField
-    | UnderlyingLocaleOfIssue fixField -> WriteUnderlyingLocaleOfIssue dest nextFreeIdx fixField
-    | UnderlyingInstrRegistry fixField -> WriteUnderlyingInstrRegistry dest nextFreeIdx fixField
-    | LegCountryOfIssue fixField -> WriteLegCountryOfIssue dest nextFreeIdx fixField
-    | LegStateOrProvinceOfIssue fixField -> WriteLegStateOrProvinceOfIssue dest nextFreeIdx fixField
-    | LegLocaleOfIssue fixField -> WriteLegLocaleOfIssue dest nextFreeIdx fixField
-    | LegInstrRegistry fixField -> WriteLegInstrRegistry dest nextFreeIdx fixField
-    | LegSymbol fixField -> WriteLegSymbol dest nextFreeIdx fixField
-    | LegSymbolSfx fixField -> WriteLegSymbolSfx dest nextFreeIdx fixField
-    | LegSecurityID fixField -> WriteLegSecurityID dest nextFreeIdx fixField
-    | LegSecurityIDSource fixField -> WriteLegSecurityIDSource dest nextFreeIdx fixField
-    | NoLegSecurityAltID fixField -> WriteNoLegSecurityAltID dest nextFreeIdx fixField
-    | LegSecurityAltID fixField -> WriteLegSecurityAltID dest nextFreeIdx fixField
-    | LegSecurityAltIDSource fixField -> WriteLegSecurityAltIDSource dest nextFreeIdx fixField
-    | LegProduct fixField -> WriteLegProduct dest nextFreeIdx fixField
-    | LegCFICode fixField -> WriteLegCFICode dest nextFreeIdx fixField
-    | LegSecurityType fixField -> WriteLegSecurityType dest nextFreeIdx fixField
-    | LegMaturityMonthYear fixField -> WriteLegMaturityMonthYear dest nextFreeIdx fixField
-    | LegMaturityDate fixField -> WriteLegMaturityDate dest nextFreeIdx fixField
-    | LegStrikePrice fixField -> WriteLegStrikePrice dest nextFreeIdx fixField
-    | LegOptAttribute fixField -> WriteLegOptAttribute dest nextFreeIdx fixField
-    | LegContractMultiplier fixField -> WriteLegContractMultiplier dest nextFreeIdx fixField
-    | LegCouponRate fixField -> WriteLegCouponRate dest nextFreeIdx fixField
-    | LegSecurityExchange fixField -> WriteLegSecurityExchange dest nextFreeIdx fixField
-    | LegIssuer fixField -> WriteLegIssuer dest nextFreeIdx fixField
-    | EncodedLegIssuer fixField -> WriteEncodedLegIssuer dest nextFreeIdx fixField // compound field
-    | LegSecurityDesc fixField -> WriteLegSecurityDesc dest nextFreeIdx fixField
-    | EncodedLegSecurityDesc fixField -> WriteEncodedLegSecurityDesc dest nextFreeIdx fixField // compound field
-    | LegRatioQty fixField -> WriteLegRatioQty dest nextFreeIdx fixField
-    | LegSide fixField -> WriteLegSide dest nextFreeIdx fixField
-    | TradingSessionSubID fixField -> WriteTradingSessionSubID dest nextFreeIdx fixField
-    | AllocType fixField -> WriteAllocType dest nextFreeIdx fixField
-    | NoHops fixField -> WriteNoHops dest nextFreeIdx fixField
-    | HopCompID fixField -> WriteHopCompID dest nextFreeIdx fixField
-    | HopSendingTime fixField -> WriteHopSendingTime dest nextFreeIdx fixField
-    | HopRefID fixField -> WriteHopRefID dest nextFreeIdx fixField
-    | MidPx fixField -> WriteMidPx dest nextFreeIdx fixField
-    | BidYield fixField -> WriteBidYield dest nextFreeIdx fixField
-    | MidYield fixField -> WriteMidYield dest nextFreeIdx fixField
-    | OfferYield fixField -> WriteOfferYield dest nextFreeIdx fixField
-    | ClearingFeeIndicator fixField -> WriteClearingFeeIndicator dest nextFreeIdx fixField
-    | WorkingIndicator fixField -> WriteWorkingIndicator dest nextFreeIdx fixField
-    | LegLastPx fixField -> WriteLegLastPx dest nextFreeIdx fixField
-    | PriorityIndicator fixField -> WritePriorityIndicator dest nextFreeIdx fixField
-    | PriceImprovement fixField -> WritePriceImprovement dest nextFreeIdx fixField
-    | Price2 fixField -> WritePrice2 dest nextFreeIdx fixField
-    | LastForwardPoints2 fixField -> WriteLastForwardPoints2 dest nextFreeIdx fixField
-    | BidForwardPoints2 fixField -> WriteBidForwardPoints2 dest nextFreeIdx fixField
-    | OfferForwardPoints2 fixField -> WriteOfferForwardPoints2 dest nextFreeIdx fixField
-    | RFQReqID fixField -> WriteRFQReqID dest nextFreeIdx fixField
-    | MktBidPx fixField -> WriteMktBidPx dest nextFreeIdx fixField
-    | MktOfferPx fixField -> WriteMktOfferPx dest nextFreeIdx fixField
-    | MinBidSize fixField -> WriteMinBidSize dest nextFreeIdx fixField
-    | MinOfferSize fixField -> WriteMinOfferSize dest nextFreeIdx fixField
-    | QuoteStatusReqID fixField -> WriteQuoteStatusReqID dest nextFreeIdx fixField
-    | LegalConfirm fixField -> WriteLegalConfirm dest nextFreeIdx fixField
-    | UnderlyingLastPx fixField -> WriteUnderlyingLastPx dest nextFreeIdx fixField
-    | UnderlyingLastQty fixField -> WriteUnderlyingLastQty dest nextFreeIdx fixField
-    | LegRefID fixField -> WriteLegRefID dest nextFreeIdx fixField
-    | ContraLegRefID fixField -> WriteContraLegRefID dest nextFreeIdx fixField
-    | SettlCurrBidFxRate fixField -> WriteSettlCurrBidFxRate dest nextFreeIdx fixField
-    | SettlCurrOfferFxRate fixField -> WriteSettlCurrOfferFxRate dest nextFreeIdx fixField
-    | QuoteRequestRejectReason fixField -> WriteQuoteRequestRejectReason dest nextFreeIdx fixField
-    | SideComplianceID fixField -> WriteSideComplianceID dest nextFreeIdx fixField
-    | AcctIDSource fixField -> WriteAcctIDSource dest nextFreeIdx fixField
-    | AllocAcctIDSource fixField -> WriteAllocAcctIDSource dest nextFreeIdx fixField
-    | BenchmarkPrice fixField -> WriteBenchmarkPrice dest nextFreeIdx fixField
-    | BenchmarkPriceType fixField -> WriteBenchmarkPriceType dest nextFreeIdx fixField
-    | ConfirmID fixField -> WriteConfirmID dest nextFreeIdx fixField
-    | ConfirmStatus fixField -> WriteConfirmStatus dest nextFreeIdx fixField
-    | ConfirmTransType fixField -> WriteConfirmTransType dest nextFreeIdx fixField
-    | ContractSettlMonth fixField -> WriteContractSettlMonth dest nextFreeIdx fixField
-    | DeliveryForm fixField -> WriteDeliveryForm dest nextFreeIdx fixField
-    | LastParPx fixField -> WriteLastParPx dest nextFreeIdx fixField
-    | NoLegAllocs fixField -> WriteNoLegAllocs dest nextFreeIdx fixField
-    | LegAllocAccount fixField -> WriteLegAllocAccount dest nextFreeIdx fixField
-    | LegIndividualAllocID fixField -> WriteLegIndividualAllocID dest nextFreeIdx fixField
-    | LegAllocQty fixField -> WriteLegAllocQty dest nextFreeIdx fixField
-    | LegAllocAcctIDSource fixField -> WriteLegAllocAcctIDSource dest nextFreeIdx fixField
-    | LegSettlCurrency fixField -> WriteLegSettlCurrency dest nextFreeIdx fixField
-    | LegBenchmarkCurveCurrency fixField -> WriteLegBenchmarkCurveCurrency dest nextFreeIdx fixField
-    | LegBenchmarkCurveName fixField -> WriteLegBenchmarkCurveName dest nextFreeIdx fixField
-    | LegBenchmarkCurvePoint fixField -> WriteLegBenchmarkCurvePoint dest nextFreeIdx fixField
-    | LegBenchmarkPrice fixField -> WriteLegBenchmarkPrice dest nextFreeIdx fixField
-    | LegBenchmarkPriceType fixField -> WriteLegBenchmarkPriceType dest nextFreeIdx fixField
-    | LegBidPx fixField -> WriteLegBidPx dest nextFreeIdx fixField
-    | LegIOIQty fixField -> WriteLegIOIQty dest nextFreeIdx fixField
-    | NoLegStipulations fixField -> WriteNoLegStipulations dest nextFreeIdx fixField
-    | LegOfferPx fixField -> WriteLegOfferPx dest nextFreeIdx fixField
-    | LegOrderQty fixField -> WriteLegOrderQty dest nextFreeIdx fixField
-    | LegPriceType fixField -> WriteLegPriceType dest nextFreeIdx fixField
-    | LegQty fixField -> WriteLegQty dest nextFreeIdx fixField
-    | LegStipulationType fixField -> WriteLegStipulationType dest nextFreeIdx fixField
-    | LegStipulationValue fixField -> WriteLegStipulationValue dest nextFreeIdx fixField
-    | LegSwapType fixField -> WriteLegSwapType dest nextFreeIdx fixField
-    | Pool fixField -> WritePool dest nextFreeIdx fixField
-    | QuotePriceType fixField -> WriteQuotePriceType dest nextFreeIdx fixField
-    | QuoteRespID fixField -> WriteQuoteRespID dest nextFreeIdx fixField
-    | QuoteRespType fixField -> WriteQuoteRespType dest nextFreeIdx fixField
-    | QuoteQualifier fixField -> WriteQuoteQualifier dest nextFreeIdx fixField
-    | YieldRedemptionDate fixField -> WriteYieldRedemptionDate dest nextFreeIdx fixField
-    | YieldRedemptionPrice fixField -> WriteYieldRedemptionPrice dest nextFreeIdx fixField
-    | YieldRedemptionPriceType fixField -> WriteYieldRedemptionPriceType dest nextFreeIdx fixField
-    | BenchmarkSecurityID fixField -> WriteBenchmarkSecurityID dest nextFreeIdx fixField
-    | ReversalIndicator fixField -> WriteReversalIndicator dest nextFreeIdx fixField
-    | YieldCalcDate fixField -> WriteYieldCalcDate dest nextFreeIdx fixField
-    | NoPositions fixField -> WriteNoPositions dest nextFreeIdx fixField
-    | PosType fixField -> WritePosType dest nextFreeIdx fixField
-    | LongQty fixField -> WriteLongQty dest nextFreeIdx fixField
-    | ShortQty fixField -> WriteShortQty dest nextFreeIdx fixField
-    | PosQtyStatus fixField -> WritePosQtyStatus dest nextFreeIdx fixField
-    | PosAmtType fixField -> WritePosAmtType dest nextFreeIdx fixField
-    | PosAmt fixField -> WritePosAmt dest nextFreeIdx fixField
-    | PosTransType fixField -> WritePosTransType dest nextFreeIdx fixField
-    | PosReqID fixField -> WritePosReqID dest nextFreeIdx fixField
-    | NoUnderlyings fixField -> WriteNoUnderlyings dest nextFreeIdx fixField
-    | PosMaintAction fixField -> WritePosMaintAction dest nextFreeIdx fixField
-    | OrigPosReqRefID fixField -> WriteOrigPosReqRefID dest nextFreeIdx fixField
-    | PosMaintRptRefID fixField -> WritePosMaintRptRefID dest nextFreeIdx fixField
-    | ClearingBusinessDate fixField -> WriteClearingBusinessDate dest nextFreeIdx fixField
-    | SettlSessID fixField -> WriteSettlSessID dest nextFreeIdx fixField
-    | SettlSessSubID fixField -> WriteSettlSessSubID dest nextFreeIdx fixField
-    | AdjustmentType fixField -> WriteAdjustmentType dest nextFreeIdx fixField
-    | ContraryInstructionIndicator fixField -> WriteContraryInstructionIndicator dest nextFreeIdx fixField
-    | PriorSpreadIndicator fixField -> WritePriorSpreadIndicator dest nextFreeIdx fixField
-    | PosMaintRptID fixField -> WritePosMaintRptID dest nextFreeIdx fixField
-    | PosMaintStatus fixField -> WritePosMaintStatus dest nextFreeIdx fixField
-    | PosMaintResult fixField -> WritePosMaintResult dest nextFreeIdx fixField
-    | PosReqType fixField -> WritePosReqType dest nextFreeIdx fixField
-    | ResponseTransportType fixField -> WriteResponseTransportType dest nextFreeIdx fixField
-    | ResponseDestination fixField -> WriteResponseDestination dest nextFreeIdx fixField
-    | TotalNumPosReports fixField -> WriteTotalNumPosReports dest nextFreeIdx fixField
-    | PosReqResult fixField -> WritePosReqResult dest nextFreeIdx fixField
-    | PosReqStatus fixField -> WritePosReqStatus dest nextFreeIdx fixField
-    | SettlPrice fixField -> WriteSettlPrice dest nextFreeIdx fixField
-    | SettlPriceType fixField -> WriteSettlPriceType dest nextFreeIdx fixField
-    | UnderlyingSettlPrice fixField -> WriteUnderlyingSettlPrice dest nextFreeIdx fixField
-    | UnderlyingSettlPriceType fixField -> WriteUnderlyingSettlPriceType dest nextFreeIdx fixField
-    | PriorSettlPrice fixField -> WritePriorSettlPrice dest nextFreeIdx fixField
-    | NoQuoteQualifiers fixField -> WriteNoQuoteQualifiers dest nextFreeIdx fixField
-    | AllocSettlCurrency fixField -> WriteAllocSettlCurrency dest nextFreeIdx fixField
-    | AllocSettlCurrAmt fixField -> WriteAllocSettlCurrAmt dest nextFreeIdx fixField
-    | InterestAtMaturity fixField -> WriteInterestAtMaturity dest nextFreeIdx fixField
-    | LegDatedDate fixField -> WriteLegDatedDate dest nextFreeIdx fixField
-    | LegPool fixField -> WriteLegPool dest nextFreeIdx fixField
-    | AllocInterestAtMaturity fixField -> WriteAllocInterestAtMaturity dest nextFreeIdx fixField
-    | AllocAccruedInterestAmt fixField -> WriteAllocAccruedInterestAmt dest nextFreeIdx fixField
-    | DeliveryDate fixField -> WriteDeliveryDate dest nextFreeIdx fixField
-    | AssignmentMethod fixField -> WriteAssignmentMethod dest nextFreeIdx fixField
-    | AssignmentUnit fixField -> WriteAssignmentUnit dest nextFreeIdx fixField
-    | OpenInterest fixField -> WriteOpenInterest dest nextFreeIdx fixField
-    | ExerciseMethod fixField -> WriteExerciseMethod dest nextFreeIdx fixField
-    | TotNumTradeReports fixField -> WriteTotNumTradeReports dest nextFreeIdx fixField
-    | TradeRequestResult fixField -> WriteTradeRequestResult dest nextFreeIdx fixField
-    | TradeRequestStatus fixField -> WriteTradeRequestStatus dest nextFreeIdx fixField
-    | TradeReportRejectReason fixField -> WriteTradeReportRejectReason dest nextFreeIdx fixField
-    | SideMultiLegReportingType fixField -> WriteSideMultiLegReportingType dest nextFreeIdx fixField
-    | NoPosAmt fixField -> WriteNoPosAmt dest nextFreeIdx fixField
-    | AutoAcceptIndicator fixField -> WriteAutoAcceptIndicator dest nextFreeIdx fixField
-    | AllocReportID fixField -> WriteAllocReportID dest nextFreeIdx fixField
-    | NoNested2PartyIDs fixField -> WriteNoNested2PartyIDs dest nextFreeIdx fixField
-    | Nested2PartyID fixField -> WriteNested2PartyID dest nextFreeIdx fixField
-    | Nested2PartyIDSource fixField -> WriteNested2PartyIDSource dest nextFreeIdx fixField
-    | Nested2PartyRole fixField -> WriteNested2PartyRole dest nextFreeIdx fixField
-    | Nested2PartySubID fixField -> WriteNested2PartySubID dest nextFreeIdx fixField
-    | BenchmarkSecurityIDSource fixField -> WriteBenchmarkSecurityIDSource dest nextFreeIdx fixField
-    | SecuritySubType fixField -> WriteSecuritySubType dest nextFreeIdx fixField
-    | UnderlyingSecuritySubType fixField -> WriteUnderlyingSecuritySubType dest nextFreeIdx fixField
-    | LegSecuritySubType fixField -> WriteLegSecuritySubType dest nextFreeIdx fixField
-    | AllowableOneSidednessPct fixField -> WriteAllowableOneSidednessPct dest nextFreeIdx fixField
-    | AllowableOneSidednessValue fixField -> WriteAllowableOneSidednessValue dest nextFreeIdx fixField
-    | AllowableOneSidednessCurr fixField -> WriteAllowableOneSidednessCurr dest nextFreeIdx fixField
-    | NoTrdRegTimestamps fixField -> WriteNoTrdRegTimestamps dest nextFreeIdx fixField
-    | TrdRegTimestamp fixField -> WriteTrdRegTimestamp dest nextFreeIdx fixField
-    | TrdRegTimestampType fixField -> WriteTrdRegTimestampType dest nextFreeIdx fixField
-    | TrdRegTimestampOrigin fixField -> WriteTrdRegTimestampOrigin dest nextFreeIdx fixField
-    | ConfirmRefID fixField -> WriteConfirmRefID dest nextFreeIdx fixField
-    | ConfirmType fixField -> WriteConfirmType dest nextFreeIdx fixField
-    | ConfirmRejReason fixField -> WriteConfirmRejReason dest nextFreeIdx fixField
-    | BookingType fixField -> WriteBookingType dest nextFreeIdx fixField
-    | IndividualAllocRejCode fixField -> WriteIndividualAllocRejCode dest nextFreeIdx fixField
-    | SettlInstMsgID fixField -> WriteSettlInstMsgID dest nextFreeIdx fixField
-    | NoSettlInst fixField -> WriteNoSettlInst dest nextFreeIdx fixField
-    | LastUpdateTime fixField -> WriteLastUpdateTime dest nextFreeIdx fixField
-    | AllocSettlInstType fixField -> WriteAllocSettlInstType dest nextFreeIdx fixField
-    | NoSettlPartyIDs fixField -> WriteNoSettlPartyIDs dest nextFreeIdx fixField
-    | SettlPartyID fixField -> WriteSettlPartyID dest nextFreeIdx fixField
-    | SettlPartyIDSource fixField -> WriteSettlPartyIDSource dest nextFreeIdx fixField
-    | SettlPartyRole fixField -> WriteSettlPartyRole dest nextFreeIdx fixField
-    | SettlPartySubID fixField -> WriteSettlPartySubID dest nextFreeIdx fixField
-    | SettlPartySubIDType fixField -> WriteSettlPartySubIDType dest nextFreeIdx fixField
-    | DlvyInstType fixField -> WriteDlvyInstType dest nextFreeIdx fixField
-    | TerminationType fixField -> WriteTerminationType dest nextFreeIdx fixField
-    | NextExpectedMsgSeqNum fixField -> WriteNextExpectedMsgSeqNum dest nextFreeIdx fixField
-    | OrdStatusReqID fixField -> WriteOrdStatusReqID dest nextFreeIdx fixField
-    | SettlInstReqID fixField -> WriteSettlInstReqID dest nextFreeIdx fixField
-    | SettlInstReqRejCode fixField -> WriteSettlInstReqRejCode dest nextFreeIdx fixField
-    | SecondaryAllocID fixField -> WriteSecondaryAllocID dest nextFreeIdx fixField
-    | AllocReportType fixField -> WriteAllocReportType dest nextFreeIdx fixField
-    | AllocReportRefID fixField -> WriteAllocReportRefID dest nextFreeIdx fixField
-    | AllocCancReplaceReason fixField -> WriteAllocCancReplaceReason dest nextFreeIdx fixField
-    | CopyMsgIndicator fixField -> WriteCopyMsgIndicator dest nextFreeIdx fixField
-    | AllocAccountType fixField -> WriteAllocAccountType dest nextFreeIdx fixField
-    | OrderAvgPx fixField -> WriteOrderAvgPx dest nextFreeIdx fixField
-    | OrderBookingQty fixField -> WriteOrderBookingQty dest nextFreeIdx fixField
-    | NoSettlPartySubIDs fixField -> WriteNoSettlPartySubIDs dest nextFreeIdx fixField
-    | NoPartySubIDs fixField -> WriteNoPartySubIDs dest nextFreeIdx fixField
-    | PartySubIDType fixField -> WritePartySubIDType dest nextFreeIdx fixField
-    | NoNestedPartySubIDs fixField -> WriteNoNestedPartySubIDs dest nextFreeIdx fixField
-    | NestedPartySubIDType fixField -> WriteNestedPartySubIDType dest nextFreeIdx fixField
-    | NoNested2PartySubIDs fixField -> WriteNoNested2PartySubIDs dest nextFreeIdx fixField
-    | Nested2PartySubIDType fixField -> WriteNested2PartySubIDType dest nextFreeIdx fixField
-    | AllocIntermedReqType fixField -> WriteAllocIntermedReqType dest nextFreeIdx fixField
-    | UnderlyingPx fixField -> WriteUnderlyingPx dest nextFreeIdx fixField
-    | PriceDelta fixField -> WritePriceDelta dest nextFreeIdx fixField
-    | ApplQueueMax fixField -> WriteApplQueueMax dest nextFreeIdx fixField
-    | ApplQueueDepth fixField -> WriteApplQueueDepth dest nextFreeIdx fixField
-    | ApplQueueResolution fixField -> WriteApplQueueResolution dest nextFreeIdx fixField
-    | ApplQueueAction fixField -> WriteApplQueueAction dest nextFreeIdx fixField
-    | NoAltMDSource fixField -> WriteNoAltMDSource dest nextFreeIdx fixField
-    | AltMDSourceID fixField -> WriteAltMDSourceID dest nextFreeIdx fixField
-    | SecondaryTradeReportID fixField -> WriteSecondaryTradeReportID dest nextFreeIdx fixField
-    | AvgPxIndicator fixField -> WriteAvgPxIndicator dest nextFreeIdx fixField
-    | TradeLinkID fixField -> WriteTradeLinkID dest nextFreeIdx fixField
-    | OrderInputDevice fixField -> WriteOrderInputDevice dest nextFreeIdx fixField
-    | UnderlyingTradingSessionID fixField -> WriteUnderlyingTradingSessionID dest nextFreeIdx fixField
-    | UnderlyingTradingSessionSubID fixField -> WriteUnderlyingTradingSessionSubID dest nextFreeIdx fixField
-    | TradeLegRefID fixField -> WriteTradeLegRefID dest nextFreeIdx fixField
-    | ExchangeRule fixField -> WriteExchangeRule dest nextFreeIdx fixField
-    | TradeAllocIndicator fixField -> WriteTradeAllocIndicator dest nextFreeIdx fixField
-    | ExpirationCycle fixField -> WriteExpirationCycle dest nextFreeIdx fixField
-    | TrdType fixField -> WriteTrdType dest nextFreeIdx fixField
-    | TrdSubType fixField -> WriteTrdSubType dest nextFreeIdx fixField
-    | TransferReason fixField -> WriteTransferReason dest nextFreeIdx fixField
-    | AsgnReqID fixField -> WriteAsgnReqID dest nextFreeIdx fixField
-    | TotNumAssignmentReports fixField -> WriteTotNumAssignmentReports dest nextFreeIdx fixField
-    | AsgnRptID fixField -> WriteAsgnRptID dest nextFreeIdx fixField
-    | ThresholdAmount fixField -> WriteThresholdAmount dest nextFreeIdx fixField
-    | PegMoveType fixField -> WritePegMoveType dest nextFreeIdx fixField
-    | PegOffsetType fixField -> WritePegOffsetType dest nextFreeIdx fixField
-    | PegLimitType fixField -> WritePegLimitType dest nextFreeIdx fixField
-    | PegRoundDirection fixField -> WritePegRoundDirection dest nextFreeIdx fixField
-    | PeggedPrice fixField -> WritePeggedPrice dest nextFreeIdx fixField
-    | PegScope fixField -> WritePegScope dest nextFreeIdx fixField
-    | DiscretionMoveType fixField -> WriteDiscretionMoveType dest nextFreeIdx fixField
-    | DiscretionOffsetType fixField -> WriteDiscretionOffsetType dest nextFreeIdx fixField
-    | DiscretionLimitType fixField -> WriteDiscretionLimitType dest nextFreeIdx fixField
-    | DiscretionRoundDirection fixField -> WriteDiscretionRoundDirection dest nextFreeIdx fixField
-    | DiscretionPrice fixField -> WriteDiscretionPrice dest nextFreeIdx fixField
-    | DiscretionScope fixField -> WriteDiscretionScope dest nextFreeIdx fixField
-    | TargetStrategy fixField -> WriteTargetStrategy dest nextFreeIdx fixField
-    | TargetStrategyParameters fixField -> WriteTargetStrategyParameters dest nextFreeIdx fixField
-    | ParticipationRate fixField -> WriteParticipationRate dest nextFreeIdx fixField
-    | TargetStrategyPerformance fixField -> WriteTargetStrategyPerformance dest nextFreeIdx fixField
-    | LastLiquidityInd fixField -> WriteLastLiquidityInd dest nextFreeIdx fixField
-    | PublishTrdIndicator fixField -> WritePublishTrdIndicator dest nextFreeIdx fixField
-    | ShortSaleReason fixField -> WriteShortSaleReason dest nextFreeIdx fixField
-    | QtyType fixField -> WriteQtyType dest nextFreeIdx fixField
-    | SecondaryTrdType fixField -> WriteSecondaryTrdType dest nextFreeIdx fixField
-    | TradeReportType fixField -> WriteTradeReportType dest nextFreeIdx fixField
-    | AllocNoOrdersType fixField -> WriteAllocNoOrdersType dest nextFreeIdx fixField
-    | SharedCommission fixField -> WriteSharedCommission dest nextFreeIdx fixField
-    | ConfirmReqID fixField -> WriteConfirmReqID dest nextFreeIdx fixField
-    | AvgParPx fixField -> WriteAvgParPx dest nextFreeIdx fixField
-    | ReportedPx fixField -> WriteReportedPx dest nextFreeIdx fixField
-    | NoCapacities fixField -> WriteNoCapacities dest nextFreeIdx fixField
-    | OrderCapacityQty fixField -> WriteOrderCapacityQty dest nextFreeIdx fixField
-    | NoEvents fixField -> WriteNoEvents dest nextFreeIdx fixField
-    | EventType fixField -> WriteEventType dest nextFreeIdx fixField
-    | EventDate fixField -> WriteEventDate dest nextFreeIdx fixField
-    | EventPx fixField -> WriteEventPx dest nextFreeIdx fixField
-    | EventText fixField -> WriteEventText dest nextFreeIdx fixField
-    | PctAtRisk fixField -> WritePctAtRisk dest nextFreeIdx fixField
-    | NoInstrAttrib fixField -> WriteNoInstrAttrib dest nextFreeIdx fixField
-    | InstrAttribType fixField -> WriteInstrAttribType dest nextFreeIdx fixField
-    | InstrAttribValue fixField -> WriteInstrAttribValue dest nextFreeIdx fixField
-    | DatedDate fixField -> WriteDatedDate dest nextFreeIdx fixField
-    | InterestAccrualDate fixField -> WriteInterestAccrualDate dest nextFreeIdx fixField
-    | CPProgram fixField -> WriteCPProgram dest nextFreeIdx fixField
-    | CPRegType fixField -> WriteCPRegType dest nextFreeIdx fixField
-    | UnderlyingCPProgram fixField -> WriteUnderlyingCPProgram dest nextFreeIdx fixField
-    | UnderlyingCPRegType fixField -> WriteUnderlyingCPRegType dest nextFreeIdx fixField
-    | UnderlyingQty fixField -> WriteUnderlyingQty dest nextFreeIdx fixField
-    | TrdMatchID fixField -> WriteTrdMatchID dest nextFreeIdx fixField
-    | SecondaryTradeReportRefID fixField -> WriteSecondaryTradeReportRefID dest nextFreeIdx fixField
-    | UnderlyingDirtyPrice fixField -> WriteUnderlyingDirtyPrice dest nextFreeIdx fixField
-    | UnderlyingEndPrice fixField -> WriteUnderlyingEndPrice dest nextFreeIdx fixField
-    | UnderlyingStartValue fixField -> WriteUnderlyingStartValue dest nextFreeIdx fixField
-    | UnderlyingCurrentValue fixField -> WriteUnderlyingCurrentValue dest nextFreeIdx fixField
-    | UnderlyingEndValue fixField -> WriteUnderlyingEndValue dest nextFreeIdx fixField
-    | NoUnderlyingStips fixField -> WriteNoUnderlyingStips dest nextFreeIdx fixField
-    | UnderlyingStipType fixField -> WriteUnderlyingStipType dest nextFreeIdx fixField
-    | UnderlyingStipValue fixField -> WriteUnderlyingStipValue dest nextFreeIdx fixField
-    | MaturityNetMoney fixField -> WriteMaturityNetMoney dest nextFreeIdx fixField
-    | MiscFeeBasis fixField -> WriteMiscFeeBasis dest nextFreeIdx fixField
-    | TotNoAllocs fixField -> WriteTotNoAllocs dest nextFreeIdx fixField
-    | LastFragment fixField -> WriteLastFragment dest nextFreeIdx fixField
-    | CollReqID fixField -> WriteCollReqID dest nextFreeIdx fixField
-    | CollAsgnReason fixField -> WriteCollAsgnReason dest nextFreeIdx fixField
-    | CollInquiryQualifier fixField -> WriteCollInquiryQualifier dest nextFreeIdx fixField
-    | NoTrades fixField -> WriteNoTrades dest nextFreeIdx fixField
-    | MarginRatio fixField -> WriteMarginRatio dest nextFreeIdx fixField
-    | MarginExcess fixField -> WriteMarginExcess dest nextFreeIdx fixField
-    | TotalNetValue fixField -> WriteTotalNetValue dest nextFreeIdx fixField
-    | CashOutstanding fixField -> WriteCashOutstanding dest nextFreeIdx fixField
-    | CollAsgnID fixField -> WriteCollAsgnID dest nextFreeIdx fixField
-    | CollAsgnTransType fixField -> WriteCollAsgnTransType dest nextFreeIdx fixField
-    | CollRespID fixField -> WriteCollRespID dest nextFreeIdx fixField
-    | CollAsgnRespType fixField -> WriteCollAsgnRespType dest nextFreeIdx fixField
-    | CollAsgnRejectReason fixField -> WriteCollAsgnRejectReason dest nextFreeIdx fixField
-    | CollAsgnRefID fixField -> WriteCollAsgnRefID dest nextFreeIdx fixField
-    | CollRptID fixField -> WriteCollRptID dest nextFreeIdx fixField
-    | CollInquiryID fixField -> WriteCollInquiryID dest nextFreeIdx fixField
-    | CollStatus fixField -> WriteCollStatus dest nextFreeIdx fixField
-    | TotNumReports fixField -> WriteTotNumReports dest nextFreeIdx fixField
-    | LastRptRequested fixField -> WriteLastRptRequested dest nextFreeIdx fixField
-    | AgreementDesc fixField -> WriteAgreementDesc dest nextFreeIdx fixField
-    | AgreementID fixField -> WriteAgreementID dest nextFreeIdx fixField
-    | AgreementDate fixField -> WriteAgreementDate dest nextFreeIdx fixField
-    | StartDate fixField -> WriteStartDate dest nextFreeIdx fixField
-    | EndDate fixField -> WriteEndDate dest nextFreeIdx fixField
-    | AgreementCurrency fixField -> WriteAgreementCurrency dest nextFreeIdx fixField
-    | DeliveryType fixField -> WriteDeliveryType dest nextFreeIdx fixField
-    | EndAccruedInterestAmt fixField -> WriteEndAccruedInterestAmt dest nextFreeIdx fixField
-    | StartCash fixField -> WriteStartCash dest nextFreeIdx fixField
-    | EndCash fixField -> WriteEndCash dest nextFreeIdx fixField
-    | UserRequestID fixField -> WriteUserRequestID dest nextFreeIdx fixField
-    | UserRequestType fixField -> WriteUserRequestType dest nextFreeIdx fixField
-    | NewPassword fixField -> WriteNewPassword dest nextFreeIdx fixField
-    | UserStatus fixField -> WriteUserStatus dest nextFreeIdx fixField
-    | UserStatusText fixField -> WriteUserStatusText dest nextFreeIdx fixField
-    | StatusValue fixField -> WriteStatusValue dest nextFreeIdx fixField
-    | StatusText fixField -> WriteStatusText dest nextFreeIdx fixField
-    | RefCompID fixField -> WriteRefCompID dest nextFreeIdx fixField
-    | RefSubID fixField -> WriteRefSubID dest nextFreeIdx fixField
-    | NetworkResponseID fixField -> WriteNetworkResponseID dest nextFreeIdx fixField
-    | NetworkRequestID fixField -> WriteNetworkRequestID dest nextFreeIdx fixField
-    | LastNetworkResponseID fixField -> WriteLastNetworkResponseID dest nextFreeIdx fixField
-    | NetworkRequestType fixField -> WriteNetworkRequestType dest nextFreeIdx fixField
-    | NoCompIDs fixField -> WriteNoCompIDs dest nextFreeIdx fixField
-    | NetworkStatusResponseType fixField -> WriteNetworkStatusResponseType dest nextFreeIdx fixField
-    | NoCollInquiryQualifier fixField -> WriteNoCollInquiryQualifier dest nextFreeIdx fixField
-    | TrdRptStatus fixField -> WriteTrdRptStatus dest nextFreeIdx fixField
-    | AffirmStatus fixField -> WriteAffirmStatus dest nextFreeIdx fixField
-    | UnderlyingStrikeCurrency fixField -> WriteUnderlyingStrikeCurrency dest nextFreeIdx fixField
-    | LegStrikeCurrency fixField -> WriteLegStrikeCurrency dest nextFreeIdx fixField
-    | TimeBracket fixField -> WriteTimeBracket dest nextFreeIdx fixField
-    | CollAction fixField -> WriteCollAction dest nextFreeIdx fixField
-    | CollInquiryStatus fixField -> WriteCollInquiryStatus dest nextFreeIdx fixField
-    | CollInquiryResult fixField -> WriteCollInquiryResult dest nextFreeIdx fixField
-    | StrikeCurrency fixField -> WriteStrikeCurrency dest nextFreeIdx fixField
-    | NoNested3PartyIDs fixField -> WriteNoNested3PartyIDs dest nextFreeIdx fixField
-    | Nested3PartyID fixField -> WriteNested3PartyID dest nextFreeIdx fixField
-    | Nested3PartyIDSource fixField -> WriteNested3PartyIDSource dest nextFreeIdx fixField
-    | Nested3PartyRole fixField -> WriteNested3PartyRole dest nextFreeIdx fixField
-    | NoNested3PartySubIDs fixField -> WriteNoNested3PartySubIDs dest nextFreeIdx fixField
-    | Nested3PartySubID fixField -> WriteNested3PartySubID dest nextFreeIdx fixField
-    | Nested3PartySubIDType fixField -> WriteNested3PartySubIDType dest nextFreeIdx fixField
-    | LegContractSettlMonth fixField -> WriteLegContractSettlMonth dest nextFreeIdx fixField
-    | LegInterestAccrualDate fixField -> WriteLegInterestAccrualDate dest nextFreeIdx fixField
-
-
-// todo consider replacing ReadFields match statement with lookup in a map
-let ReadField (pos:int) (bs:byte[])  =
-    let pos2, tag = ByteArrayUtils.readTag pos bs
-    let pos2 = pos2 + 1
-    match tag with
-    | "1"B ->
-        let pos3, fld = ReadAccount pos2 bs
-        pos3, (fld |> FIXField.Account)
-    | "2"B ->
-        let pos3, fld = ReadAdvId pos2 bs
-        pos3, fld |> FIXField.AdvId
-    | "3"B ->
-        let pos3, fld = ReadAdvRefID pos2 bs
-        pos3, fld |> FIXField.AdvRefID
-    | "4"B ->
-        let pos3, fld = ReadAdvSide pos2 bs
-        pos3, fld |> FIXField.AdvSide
-    | "5"B ->
-        let pos3, fld = ReadAdvTransType pos2 bs
-        pos3, fld |> FIXField.AdvTransType
-    | "6"B ->
-        let pos3, fld = ReadAvgPx pos2 bs
-        pos3, fld |> FIXField.AvgPx
-    | "7"B ->
-        let pos3, fld = ReadBeginSeqNo pos2 bs
-        pos3, fld |> FIXField.BeginSeqNo
-    | "8"B ->
-        let pos3, fld = ReadBeginString pos2 bs
-        pos3, fld |> FIXField.BeginString
-    | "9"B ->
-        let pos3, fld = ReadBodyLength pos2 bs
-        pos3, fld |> FIXField.BodyLength
-    | "10"B ->
-        let pos3, fld = ReadCheckSum pos2 bs
-        pos3, fld |> FIXField.CheckSum
-    | "11"B ->
-        let pos3, fld = ReadClOrdID pos2 bs
-        pos3, fld |> FIXField.ClOrdID
-    | "12"B ->
-        let pos3, fld = ReadCommission pos2 bs
-        pos3, fld |> FIXField.Commission
-    | "13"B ->
-        let pos3, fld = ReadCommType pos2 bs
-        pos3, fld |> FIXField.CommType
-    | "14"B ->
-        let pos3, fld = ReadCumQty pos2 bs
-        pos3, fld |> FIXField.CumQty
-    | "15"B ->
-        let pos3, fld = ReadCurrency pos2 bs
-        pos3, fld |> FIXField.Currency
-    | "16"B ->
-        let pos3, fld = ReadEndSeqNo pos2 bs
-        pos3, fld |> FIXField.EndSeqNo
-    | "17"B ->
-        let pos3, fld = ReadExecID pos2 bs
-        pos3, fld |> FIXField.ExecID
-    | "18"B ->
-        let pos3, fld = ReadExecInst pos2 bs
-        pos3, fld |> FIXField.ExecInst
-    | "19"B ->
-        let pos3, fld = ReadExecRefID pos2 bs
-        pos3, fld |> FIXField.ExecRefID
-    | "21"B ->
-        let pos3, fld = ReadHandlInst pos2 bs
-        pos3, fld |> FIXField.HandlInst
-    | "22"B ->
-        let pos3, fld = ReadSecurityIDSource pos2 bs
-        pos3, fld |> FIXField.SecurityIDSource
-    | "23"B ->
-        let pos3, fld = ReadIOIid pos2 bs
-        pos3, fld |> FIXField.IOIid
-    | "25"B ->
-        let pos3, fld = ReadIOIQltyInd pos2 bs
-        pos3, fld |> FIXField.IOIQltyInd
-    | "26"B ->
-        let pos3, fld = ReadIOIRefID pos2 bs
-        pos3, fld |> FIXField.IOIRefID
-    | "27"B ->
-        let pos3, fld = ReadIOIQty pos2 bs
-        pos3, fld |> FIXField.IOIQty
-    | "28"B ->
-        let pos3, fld = ReadIOITransType pos2 bs
-        pos3, fld |> FIXField.IOITransType
-    | "29"B ->
-        let pos3, fld = ReadLastCapacity pos2 bs
-        pos3, fld |> FIXField.LastCapacity
-    | "30"B ->
-        let pos3, fld = ReadLastMkt pos2 bs
-        pos3, fld |> FIXField.LastMkt
-    | "31"B ->
-        let pos3, fld = ReadLastPx pos2 bs
-        pos3, fld |> FIXField.LastPx
-    | "32"B ->
-        let pos3, fld = ReadLastQty pos2 bs
-        pos3, fld |> FIXField.LastQty
-    | "33"B ->
-        let pos3, fld = ReadLinesOfText pos2 bs
-        pos3, fld |> FIXField.LinesOfText
-    | "34"B ->
-        let pos3, fld = ReadMsgSeqNum pos2 bs
-        pos3, fld |> FIXField.MsgSeqNum
-    | "35"B ->
-        let pos3, fld = ReadMsgType pos2 bs
-        pos3, fld |> FIXField.MsgType
-    | "36"B ->
-        let pos3, fld = ReadNewSeqNo pos2 bs
-        pos3, fld |> FIXField.NewSeqNo
-    | "37"B ->
-        let pos3, fld = ReadOrderID pos2 bs
-        pos3, fld |> FIXField.OrderID
-    | "38"B ->
-        let pos3, fld = ReadOrderQty pos2 bs
-        pos3, fld |> FIXField.OrderQty
-    | "39"B ->
-        let pos3, fld = ReadOrdStatus pos2 bs
-        pos3, fld |> FIXField.OrdStatus
-    | "40"B ->
-        let pos3, fld = ReadOrdType pos2 bs
-        pos3, fld |> FIXField.OrdType
-    | "41"B ->
-        let pos3, fld = ReadOrigClOrdID pos2 bs
-        pos3, fld |> FIXField.OrigClOrdID
-    | "42"B ->
-        let pos3, fld = ReadOrigTime pos2 bs
-        pos3, fld |> FIXField.OrigTime
-    | "43"B ->
-        let pos3, fld = ReadPossDupFlag pos2 bs
-        pos3, fld |> FIXField.PossDupFlag
-    | "44"B ->
-        let pos3, fld = ReadPrice pos2 bs
-        pos3, fld |> FIXField.Price
-    | "45"B ->
-        let pos3, fld = ReadRefSeqNum pos2 bs
-        pos3, fld |> FIXField.RefSeqNum
-    | "48"B ->
-        let pos3, fld = ReadSecurityID pos2 bs
-        pos3, fld |> FIXField.SecurityID
-    | "49"B ->
-        let pos3, fld = ReadSenderCompID pos2 bs
-        pos3, fld |> FIXField.SenderCompID
-    | "50"B ->
-        let pos3, fld = ReadSenderSubID pos2 bs
-        pos3, fld |> FIXField.SenderSubID
-    | "52"B ->
-        let pos3, fld = ReadSendingTime pos2 bs
-        pos3, fld |> FIXField.SendingTime
-    | "53"B ->
-        let pos3, fld = ReadQuantity pos2 bs
-        pos3, fld |> FIXField.Quantity
-    | "54"B ->
-        let pos3, fld = ReadSide pos2 bs
-        pos3, fld |> FIXField.Side
-    | "55"B ->
-        let pos3, fld = ReadSymbol pos2 bs
-        pos3, fld |> FIXField.Symbol
-    | "56"B ->
-        let pos3, fld = ReadTargetCompID pos2 bs
-        pos3, fld |> FIXField.TargetCompID
-    | "57"B ->
-        let pos3, fld = ReadTargetSubID pos2 bs
-        pos3, fld |> FIXField.TargetSubID
-    | "58"B ->
-        let pos3, fld = ReadText pos2 bs
-        pos3, fld |> FIXField.Text
-    | "59"B ->
-        let pos3, fld = ReadTimeInForce pos2 bs
-        pos3, fld |> FIXField.TimeInForce
-    | "60"B ->
-        let pos3, fld = ReadTransactTime pos2 bs
-        pos3, fld |> FIXField.TransactTime
-    | "61"B ->
-        let pos3, fld = ReadUrgency pos2 bs
-        pos3, fld |> FIXField.Urgency
-    | "62"B ->
-        let pos3, fld = ReadValidUntilTime pos2 bs
-        pos3, fld |> FIXField.ValidUntilTime
-    | "63"B ->
-        let pos3, fld = ReadSettlType pos2 bs
-        pos3, fld |> FIXField.SettlType
-    | "64"B ->
-        let pos3, fld = ReadSettlDate pos2 bs
-        pos3, fld |> FIXField.SettlDate
-    | "65"B ->
-        let pos3, fld = ReadSymbolSfx pos2 bs
-        pos3, fld |> FIXField.SymbolSfx
-    | "66"B ->
-        let pos3, fld = ReadListID pos2 bs
-        pos3, fld |> FIXField.ListID
-    | "67"B ->
-        let pos3, fld = ReadListSeqNo pos2 bs
-        pos3, fld |> FIXField.ListSeqNo
-    | "68"B ->
-        let pos3, fld = ReadTotNoOrders pos2 bs
-        pos3, fld |> FIXField.TotNoOrders
-    | "69"B ->
-        let pos3, fld = ReadListExecInst pos2 bs
-        pos3, fld |> FIXField.ListExecInst
-    | "70"B ->
-        let pos3, fld = ReadAllocID pos2 bs
-        pos3, fld |> FIXField.AllocID
-    | "71"B ->
-        let pos3, fld = ReadAllocTransType pos2 bs
-        pos3, fld |> FIXField.AllocTransType
-    | "72"B ->
-        let pos3, fld = ReadRefAllocID pos2 bs
-        pos3, fld |> FIXField.RefAllocID
-    | "73"B ->
-        let pos3, fld = ReadNoOrders pos2 bs
-        pos3, fld |> FIXField.NoOrders
-    | "74"B ->
-        let pos3, fld = ReadAvgPxPrecision pos2 bs
-        pos3, fld |> FIXField.AvgPxPrecision
-    | "75"B ->
-        let pos3, fld = ReadTradeDate pos2 bs
-        pos3, fld |> FIXField.TradeDate
-    | "77"B ->
-        let pos3, fld = ReadPositionEffect pos2 bs
-        pos3, fld |> FIXField.PositionEffect
-    | "78"B ->
-        let pos3, fld = ReadNoAllocs pos2 bs
-        pos3, fld |> FIXField.NoAllocs
-    | "79"B ->
-        let pos3, fld = ReadAllocAccount pos2 bs
-        pos3, fld |> FIXField.AllocAccount
-    | "80"B ->
-        let pos3, fld = ReadAllocQty pos2 bs
-        pos3, fld |> FIXField.AllocQty
-    | "81"B ->
-        let pos3, fld = ReadProcessCode pos2 bs
-        pos3, fld |> FIXField.ProcessCode
-    | "82"B ->
-        let pos3, fld = ReadNoRpts pos2 bs
-        pos3, fld |> FIXField.NoRpts
-    | "83"B ->
-        let pos3, fld = ReadRptSeq pos2 bs
-        pos3, fld |> FIXField.RptSeq
-    | "84"B ->
-        let pos3, fld = ReadCxlQty pos2 bs
-        pos3, fld |> FIXField.CxlQty
-    | "85"B ->
-        let pos3, fld = ReadNoDlvyInst pos2 bs
-        pos3, fld |> FIXField.NoDlvyInst
-    | "87"B ->
-        let pos3, fld = ReadAllocStatus pos2 bs
-        pos3, fld |> FIXField.AllocStatus
-    | "88"B ->
-        let pos3, fld = ReadAllocRejCode pos2 bs
-        pos3, fld |> FIXField.AllocRejCode
-    | "93"B ->
-        let pos3, fld = ReadSignature pos2 bs
-        pos3, fld |> FIXField.Signature // len->string compound field
-    | "90"B ->
-        let pos3, fld = ReadSecureData pos2 bs
-        pos3, fld |> FIXField.SecureData // len->string compound field
-    | "94"B ->
-        let pos3, fld = ReadEmailType pos2 bs
-        pos3, fld |> FIXField.EmailType
-    | "95"B ->
-        let pos3, fld = ReadRawData pos2 bs
-        pos3, fld |> FIXField.RawData // len->string compound field
-    | "97"B ->
-        let pos3, fld = ReadPossResend pos2 bs
-        pos3, fld |> FIXField.PossResend
-    | "98"B ->
-        let pos3, fld = ReadEncryptMethod pos2 bs
-        pos3, fld |> FIXField.EncryptMethod
-    | "99"B ->
-        let pos3, fld = ReadStopPx pos2 bs
-        pos3, fld |> FIXField.StopPx
-    | "100"B ->
-        let pos3, fld = ReadExDestination pos2 bs
-        pos3, fld |> FIXField.ExDestination
-    | "102"B ->
-        let pos3, fld = ReadCxlRejReason pos2 bs
-        pos3, fld |> FIXField.CxlRejReason
-    | "103"B ->
-        let pos3, fld = ReadOrdRejReason pos2 bs
-        pos3, fld |> FIXField.OrdRejReason
-    | "104"B ->
-        let pos3, fld = ReadIOIQualifier pos2 bs
-        pos3, fld |> FIXField.IOIQualifier
-    | "105"B ->
-        let pos3, fld = ReadWaveNo pos2 bs
-        pos3, fld |> FIXField.WaveNo
-    | "106"B ->
-        let pos3, fld = ReadIssuer pos2 bs
-        pos3, fld |> FIXField.Issuer
-    | "107"B ->
-        let pos3, fld = ReadSecurityDesc pos2 bs
-        pos3, fld |> FIXField.SecurityDesc
-    | "108"B ->
-        let pos3, fld = ReadHeartBtInt pos2 bs
-        pos3, fld |> FIXField.HeartBtInt
-    | "110"B ->
-        let pos3, fld = ReadMinQty pos2 bs
-        pos3, fld |> FIXField.MinQty
-    | "111"B ->
-        let pos3, fld = ReadMaxFloor pos2 bs
-        pos3, fld |> FIXField.MaxFloor
-    | "112"B ->
-        let pos3, fld = ReadTestReqID pos2 bs
-        pos3, fld |> FIXField.TestReqID
-    | "113"B ->
-        let pos3, fld = ReadReportToExch pos2 bs
-        pos3, fld |> FIXField.ReportToExch
-    | "114"B ->
-        let pos3, fld = ReadLocateReqd pos2 bs
-        pos3, fld |> FIXField.LocateReqd
-    | "115"B ->
-        let pos3, fld = ReadOnBehalfOfCompID pos2 bs
-        pos3, fld |> FIXField.OnBehalfOfCompID
-    | "116"B ->
-        let pos3, fld = ReadOnBehalfOfSubID pos2 bs
-        pos3, fld |> FIXField.OnBehalfOfSubID
-    | "117"B ->
-        let pos3, fld = ReadQuoteID pos2 bs
-        pos3, fld |> FIXField.QuoteID
-    | "118"B ->
-        let pos3, fld = ReadNetMoney pos2 bs
-        pos3, fld |> FIXField.NetMoney
-    | "119"B ->
-        let pos3, fld = ReadSettlCurrAmt pos2 bs
-        pos3, fld |> FIXField.SettlCurrAmt
-    | "120"B ->
-        let pos3, fld = ReadSettlCurrency pos2 bs
-        pos3, fld |> FIXField.SettlCurrency
-    | "121"B ->
-        let pos3, fld = ReadForexReq pos2 bs
-        pos3, fld |> FIXField.ForexReq
-    | "122"B ->
-        let pos3, fld = ReadOrigSendingTime pos2 bs
-        pos3, fld |> FIXField.OrigSendingTime
-    | "123"B ->
-        let pos3, fld = ReadGapFillFlag pos2 bs
-        pos3, fld |> FIXField.GapFillFlag
-    | "124"B ->
-        let pos3, fld = ReadNoExecs pos2 bs
-        pos3, fld |> FIXField.NoExecs
-    | "126"B ->
-        let pos3, fld = ReadExpireTime pos2 bs
-        pos3, fld |> FIXField.ExpireTime
-    | "127"B ->
-        let pos3, fld = ReadDKReason pos2 bs
-        pos3, fld |> FIXField.DKReason
-    | "128"B ->
-        let pos3, fld = ReadDeliverToCompID pos2 bs
-        pos3, fld |> FIXField.DeliverToCompID
-    | "129"B ->
-        let pos3, fld = ReadDeliverToSubID pos2 bs
-        pos3, fld |> FIXField.DeliverToSubID
-    | "130"B ->
-        let pos3, fld = ReadIOINaturalFlag pos2 bs
-        pos3, fld |> FIXField.IOINaturalFlag
-    | "131"B ->
-        let pos3, fld = ReadQuoteReqID pos2 bs
-        pos3, fld |> FIXField.QuoteReqID
-    | "132"B ->
-        let pos3, fld = ReadBidPx pos2 bs
-        pos3, fld |> FIXField.BidPx
-    | "133"B ->
-        let pos3, fld = ReadOfferPx pos2 bs
-        pos3, fld |> FIXField.OfferPx
-    | "134"B ->
-        let pos3, fld = ReadBidSize pos2 bs
-        pos3, fld |> FIXField.BidSize
-    | "135"B ->
-        let pos3, fld = ReadOfferSize pos2 bs
-        pos3, fld |> FIXField.OfferSize
-    | "136"B ->
-        let pos3, fld = ReadNoMiscFees pos2 bs
-        pos3, fld |> FIXField.NoMiscFees
-    | "137"B ->
-        let pos3, fld = ReadMiscFeeAmt pos2 bs
-        pos3, fld |> FIXField.MiscFeeAmt
-    | "138"B ->
-        let pos3, fld = ReadMiscFeeCurr pos2 bs
-        pos3, fld |> FIXField.MiscFeeCurr
-    | "139"B ->
-        let pos3, fld = ReadMiscFeeType pos2 bs
-        pos3, fld |> FIXField.MiscFeeType
-    | "140"B ->
-        let pos3, fld = ReadPrevClosePx pos2 bs
-        pos3, fld |> FIXField.PrevClosePx
-    | "141"B ->
-        let pos3, fld = ReadResetSeqNumFlag pos2 bs
-        pos3, fld |> FIXField.ResetSeqNumFlag
-    | "142"B ->
-        let pos3, fld = ReadSenderLocationID pos2 bs
-        pos3, fld |> FIXField.SenderLocationID
-    | "143"B ->
-        let pos3, fld = ReadTargetLocationID pos2 bs
-        pos3, fld |> FIXField.TargetLocationID
-    | "144"B ->
-        let pos3, fld = ReadOnBehalfOfLocationID pos2 bs
-        pos3, fld |> FIXField.OnBehalfOfLocationID
-    | "145"B ->
-        let pos3, fld = ReadDeliverToLocationID pos2 bs
-        pos3, fld |> FIXField.DeliverToLocationID
-    | "146"B ->
-        let pos3, fld = ReadNoRelatedSym pos2 bs
-        pos3, fld |> FIXField.NoRelatedSym
-    | "147"B ->
-        let pos3, fld = ReadSubject pos2 bs
-        pos3, fld |> FIXField.Subject
-    | "148"B ->
-        let pos3, fld = ReadHeadline pos2 bs
-        pos3, fld |> FIXField.Headline
-    | "149"B ->
-        let pos3, fld = ReadURLLink pos2 bs
-        pos3, fld |> FIXField.URLLink
-    | "150"B ->
-        let pos3, fld = ReadExecType pos2 bs
-        pos3, fld |> FIXField.ExecType
-    | "151"B ->
-        let pos3, fld = ReadLeavesQty pos2 bs
-        pos3, fld |> FIXField.LeavesQty
-    | "152"B ->
-        let pos3, fld = ReadCashOrderQty pos2 bs
-        pos3, fld |> FIXField.CashOrderQty
-    | "153"B ->
-        let pos3, fld = ReadAllocAvgPx pos2 bs
-        pos3, fld |> FIXField.AllocAvgPx
-    | "154"B ->
-        let pos3, fld = ReadAllocNetMoney pos2 bs
-        pos3, fld |> FIXField.AllocNetMoney
-    | "155"B ->
-        let pos3, fld = ReadSettlCurrFxRate pos2 bs
-        pos3, fld |> FIXField.SettlCurrFxRate
-    | "156"B ->
-        let pos3, fld = ReadSettlCurrFxRateCalc pos2 bs
-        pos3, fld |> FIXField.SettlCurrFxRateCalc
-    | "157"B ->
-        let pos3, fld = ReadNumDaysInterest pos2 bs
-        pos3, fld |> FIXField.NumDaysInterest
-    | "158"B ->
-        let pos3, fld = ReadAccruedInterestRate pos2 bs
-        pos3, fld |> FIXField.AccruedInterestRate
-    | "159"B ->
-        let pos3, fld = ReadAccruedInterestAmt pos2 bs
-        pos3, fld |> FIXField.AccruedInterestAmt
-    | "160"B ->
-        let pos3, fld = ReadSettlInstMode pos2 bs
-        pos3, fld |> FIXField.SettlInstMode
-    | "161"B ->
-        let pos3, fld = ReadAllocText pos2 bs
-        pos3, fld |> FIXField.AllocText
-    | "162"B ->
-        let pos3, fld = ReadSettlInstID pos2 bs
-        pos3, fld |> FIXField.SettlInstID
-    | "163"B ->
-        let pos3, fld = ReadSettlInstTransType pos2 bs
-        pos3, fld |> FIXField.SettlInstTransType
-    | "164"B ->
-        let pos3, fld = ReadEmailThreadID pos2 bs
-        pos3, fld |> FIXField.EmailThreadID
-    | "165"B ->
-        let pos3, fld = ReadSettlInstSource pos2 bs
-        pos3, fld |> FIXField.SettlInstSource
-    | "167"B ->
-        let pos3, fld = ReadSecurityType pos2 bs
-        pos3, fld |> FIXField.SecurityType
-    | "168"B ->
-        let pos3, fld = ReadEffectiveTime pos2 bs
-        pos3, fld |> FIXField.EffectiveTime
-    | "169"B ->
-        let pos3, fld = ReadStandInstDbType pos2 bs
-        pos3, fld |> FIXField.StandInstDbType
-    | "170"B ->
-        let pos3, fld = ReadStandInstDbName pos2 bs
-        pos3, fld |> FIXField.StandInstDbName
-    | "171"B ->
-        let pos3, fld = ReadStandInstDbID pos2 bs
-        pos3, fld |> FIXField.StandInstDbID
-    | "172"B ->
-        let pos3, fld = ReadSettlDeliveryType pos2 bs
-        pos3, fld |> FIXField.SettlDeliveryType
-    | "188"B ->
-        let pos3, fld = ReadBidSpotRate pos2 bs
-        pos3, fld |> FIXField.BidSpotRate
-    | "189"B ->
-        let pos3, fld = ReadBidForwardPoints pos2 bs
-        pos3, fld |> FIXField.BidForwardPoints
-    | "190"B ->
-        let pos3, fld = ReadOfferSpotRate pos2 bs
-        pos3, fld |> FIXField.OfferSpotRate
-    | "191"B ->
-        let pos3, fld = ReadOfferForwardPoints pos2 bs
-        pos3, fld |> FIXField.OfferForwardPoints
-    | "192"B ->
-        let pos3, fld = ReadOrderQty2 pos2 bs
-        pos3, fld |> FIXField.OrderQty2
-    | "193"B ->
-        let pos3, fld = ReadSettlDate2 pos2 bs
-        pos3, fld |> FIXField.SettlDate2
-    | "194"B ->
-        let pos3, fld = ReadLastSpotRate pos2 bs
-        pos3, fld |> FIXField.LastSpotRate
-    | "195"B ->
-        let pos3, fld = ReadLastForwardPoints pos2 bs
-        pos3, fld |> FIXField.LastForwardPoints
-    | "196"B ->
-        let pos3, fld = ReadAllocLinkID pos2 bs
-        pos3, fld |> FIXField.AllocLinkID
-    | "197"B ->
-        let pos3, fld = ReadAllocLinkType pos2 bs
-        pos3, fld |> FIXField.AllocLinkType
-    | "198"B ->
-        let pos3, fld = ReadSecondaryOrderID pos2 bs
-        pos3, fld |> FIXField.SecondaryOrderID
-    | "199"B ->
-        let pos3, fld = ReadNoIOIQualifiers pos2 bs
-        pos3, fld |> FIXField.NoIOIQualifiers
-    | "200"B ->
-        let pos3, fld = ReadMaturityMonthYear pos2 bs
-        pos3, fld |> FIXField.MaturityMonthYear
-    | "201"B ->
-        let pos3, fld = ReadPutOrCall pos2 bs
-        pos3, fld |> FIXField.PutOrCall
-    | "202"B ->
-        let pos3, fld = ReadStrikePrice pos2 bs
-        pos3, fld |> FIXField.StrikePrice
-    | "203"B ->
-        let pos3, fld = ReadCoveredOrUncovered pos2 bs
-        pos3, fld |> FIXField.CoveredOrUncovered
-    | "206"B ->
-        let pos3, fld = ReadOptAttribute pos2 bs
-        pos3, fld |> FIXField.OptAttribute
-    | "207"B ->
-        let pos3, fld = ReadSecurityExchange pos2 bs
-        pos3, fld |> FIXField.SecurityExchange
-    | "208"B ->
-        let pos3, fld = ReadNotifyBrokerOfCredit pos2 bs
-        pos3, fld |> FIXField.NotifyBrokerOfCredit
-    | "209"B ->
-        let pos3, fld = ReadAllocHandlInst pos2 bs
-        pos3, fld |> FIXField.AllocHandlInst
-    | "210"B ->
-        let pos3, fld = ReadMaxShow pos2 bs
-        pos3, fld |> FIXField.MaxShow
-    | "211"B ->
-        let pos3, fld = ReadPegOffsetValue pos2 bs
-        pos3, fld |> FIXField.PegOffsetValue
-    | "212"B ->
-        let pos3, fld = ReadXmlData pos2 bs
-        pos3, fld |> FIXField.XmlData // len->string compound field
-    | "214"B ->
-        let pos3, fld = ReadSettlInstRefID pos2 bs
-        pos3, fld |> FIXField.SettlInstRefID
-    | "215"B ->
-        let pos3, fld = ReadNoRoutingIDs pos2 bs
-        pos3, fld |> FIXField.NoRoutingIDs
-    | "216"B ->
-        let pos3, fld = ReadRoutingType pos2 bs
-        pos3, fld |> FIXField.RoutingType
-    | "217"B ->
-        let pos3, fld = ReadRoutingID pos2 bs
-        pos3, fld |> FIXField.RoutingID
-    | "218"B ->
-        let pos3, fld = ReadSpread pos2 bs
-        pos3, fld |> FIXField.Spread
-    | "220"B ->
-        let pos3, fld = ReadBenchmarkCurveCurrency pos2 bs
-        pos3, fld |> FIXField.BenchmarkCurveCurrency
-    | "221"B ->
-        let pos3, fld = ReadBenchmarkCurveName pos2 bs
-        pos3, fld |> FIXField.BenchmarkCurveName
-    | "222"B ->
-        let pos3, fld = ReadBenchmarkCurvePoint pos2 bs
-        pos3, fld |> FIXField.BenchmarkCurvePoint
-    | "223"B ->
-        let pos3, fld = ReadCouponRate pos2 bs
-        pos3, fld |> FIXField.CouponRate
-    | "224"B ->
-        let pos3, fld = ReadCouponPaymentDate pos2 bs
-        pos3, fld |> FIXField.CouponPaymentDate
-    | "225"B ->
-        let pos3, fld = ReadIssueDate pos2 bs
-        pos3, fld |> FIXField.IssueDate
-    | "226"B ->
-        let pos3, fld = ReadRepurchaseTerm pos2 bs
-        pos3, fld |> FIXField.RepurchaseTerm
-    | "227"B ->
-        let pos3, fld = ReadRepurchaseRate pos2 bs
-        pos3, fld |> FIXField.RepurchaseRate
-    | "228"B ->
-        let pos3, fld = ReadFactor pos2 bs
-        pos3, fld |> FIXField.Factor
-    | "229"B ->
-        let pos3, fld = ReadTradeOriginationDate pos2 bs
-        pos3, fld |> FIXField.TradeOriginationDate
-    | "230"B ->
-        let pos3, fld = ReadExDate pos2 bs
-        pos3, fld |> FIXField.ExDate
-    | "231"B ->
-        let pos3, fld = ReadContractMultiplier pos2 bs
-        pos3, fld |> FIXField.ContractMultiplier
-    | "232"B ->
-        let pos3, fld = ReadNoStipulations pos2 bs
-        pos3, fld |> FIXField.NoStipulations
-    | "233"B ->
-        let pos3, fld = ReadStipulationType pos2 bs
-        pos3, fld |> FIXField.StipulationType
-    | "234"B ->
-        let pos3, fld = ReadStipulationValue pos2 bs
-        pos3, fld |> FIXField.StipulationValue
-    | "235"B ->
-        let pos3, fld = ReadYieldType pos2 bs
-        pos3, fld |> FIXField.YieldType
-    | "236"B ->
-        let pos3, fld = ReadYield pos2 bs
-        pos3, fld |> FIXField.Yield
-    | "237"B ->
-        let pos3, fld = ReadTotalTakedown pos2 bs
-        pos3, fld |> FIXField.TotalTakedown
-    | "238"B ->
-        let pos3, fld = ReadConcession pos2 bs
-        pos3, fld |> FIXField.Concession
-    | "239"B ->
-        let pos3, fld = ReadRepoCollateralSecurityType pos2 bs
-        pos3, fld |> FIXField.RepoCollateralSecurityType
-    | "240"B ->
-        let pos3, fld = ReadRedemptionDate pos2 bs
-        pos3, fld |> FIXField.RedemptionDate
-    | "241"B ->
-        let pos3, fld = ReadUnderlyingCouponPaymentDate pos2 bs
-        pos3, fld |> FIXField.UnderlyingCouponPaymentDate
-    | "242"B ->
-        let pos3, fld = ReadUnderlyingIssueDate pos2 bs
-        pos3, fld |> FIXField.UnderlyingIssueDate
-    | "243"B ->
-        let pos3, fld = ReadUnderlyingRepoCollateralSecurityType pos2 bs
-        pos3, fld |> FIXField.UnderlyingRepoCollateralSecurityType
-    | "244"B ->
-        let pos3, fld = ReadUnderlyingRepurchaseTerm pos2 bs
-        pos3, fld |> FIXField.UnderlyingRepurchaseTerm
-    | "245"B ->
-        let pos3, fld = ReadUnderlyingRepurchaseRate pos2 bs
-        pos3, fld |> FIXField.UnderlyingRepurchaseRate
-    | "246"B ->
-        let pos3, fld = ReadUnderlyingFactor pos2 bs
-        pos3, fld |> FIXField.UnderlyingFactor
-    | "247"B ->
-        let pos3, fld = ReadUnderlyingRedemptionDate pos2 bs
-        pos3, fld |> FIXField.UnderlyingRedemptionDate
-    | "248"B ->
-        let pos3, fld = ReadLegCouponPaymentDate pos2 bs
-        pos3, fld |> FIXField.LegCouponPaymentDate
-    | "249"B ->
-        let pos3, fld = ReadLegIssueDate pos2 bs
-        pos3, fld |> FIXField.LegIssueDate
-    | "250"B ->
-        let pos3, fld = ReadLegRepoCollateralSecurityType pos2 bs
-        pos3, fld |> FIXField.LegRepoCollateralSecurityType
-    | "251"B ->
-        let pos3, fld = ReadLegRepurchaseTerm pos2 bs
-        pos3, fld |> FIXField.LegRepurchaseTerm
-    | "252"B ->
-        let pos3, fld = ReadLegRepurchaseRate pos2 bs
-        pos3, fld |> FIXField.LegRepurchaseRate
-    | "253"B ->
-        let pos3, fld = ReadLegFactor pos2 bs
-        pos3, fld |> FIXField.LegFactor
-    | "254"B ->
-        let pos3, fld = ReadLegRedemptionDate pos2 bs
-        pos3, fld |> FIXField.LegRedemptionDate
-    | "255"B ->
-        let pos3, fld = ReadCreditRating pos2 bs
-        pos3, fld |> FIXField.CreditRating
-    | "256"B ->
-        let pos3, fld = ReadUnderlyingCreditRating pos2 bs
-        pos3, fld |> FIXField.UnderlyingCreditRating
-    | "257"B ->
-        let pos3, fld = ReadLegCreditRating pos2 bs
-        pos3, fld |> FIXField.LegCreditRating
-    | "258"B ->
-        let pos3, fld = ReadTradedFlatSwitch pos2 bs
-        pos3, fld |> FIXField.TradedFlatSwitch
-    | "259"B ->
-        let pos3, fld = ReadBasisFeatureDate pos2 bs
-        pos3, fld |> FIXField.BasisFeatureDate
-    | "260"B ->
-        let pos3, fld = ReadBasisFeaturePrice pos2 bs
-        pos3, fld |> FIXField.BasisFeaturePrice
-    | "262"B ->
-        let pos3, fld = ReadMDReqID pos2 bs
-        pos3, fld |> FIXField.MDReqID
-    | "263"B ->
-        let pos3, fld = ReadSubscriptionRequestType pos2 bs
-        pos3, fld |> FIXField.SubscriptionRequestType
-    | "264"B ->
-        let pos3, fld = ReadMarketDepth pos2 bs
-        pos3, fld |> FIXField.MarketDepth
-    | "265"B ->
-        let pos3, fld = ReadMDUpdateType pos2 bs
-        pos3, fld |> FIXField.MDUpdateType
-    | "266"B ->
-        let pos3, fld = ReadAggregatedBook pos2 bs
-        pos3, fld |> FIXField.AggregatedBook
-    | "267"B ->
-        let pos3, fld = ReadNoMDEntryTypes pos2 bs
-        pos3, fld |> FIXField.NoMDEntryTypes
-    | "268"B ->
-        let pos3, fld = ReadNoMDEntries pos2 bs
-        pos3, fld |> FIXField.NoMDEntries
-    | "269"B ->
-        let pos3, fld = ReadMDEntryType pos2 bs
-        pos3, fld |> FIXField.MDEntryType
-    | "270"B ->
-        let pos3, fld = ReadMDEntryPx pos2 bs
-        pos3, fld |> FIXField.MDEntryPx
-    | "271"B ->
-        let pos3, fld = ReadMDEntrySize pos2 bs
-        pos3, fld |> FIXField.MDEntrySize
-    | "272"B ->
-        let pos3, fld = ReadMDEntryDate pos2 bs
-        pos3, fld |> FIXField.MDEntryDate
-    | "273"B ->
-        let pos3, fld = ReadMDEntryTime pos2 bs
-        pos3, fld |> FIXField.MDEntryTime
-    | "274"B ->
-        let pos3, fld = ReadTickDirection pos2 bs
-        pos3, fld |> FIXField.TickDirection
-    | "275"B ->
-        let pos3, fld = ReadMDMkt pos2 bs
-        pos3, fld |> FIXField.MDMkt
-    | "276"B ->
-        let pos3, fld = ReadQuoteCondition pos2 bs
-        pos3, fld |> FIXField.QuoteCondition
-    | "277"B ->
-        let pos3, fld = ReadTradeCondition pos2 bs
-        pos3, fld |> FIXField.TradeCondition
-    | "278"B ->
-        let pos3, fld = ReadMDEntryID pos2 bs
-        pos3, fld |> FIXField.MDEntryID
-    | "279"B ->
-        let pos3, fld = ReadMDUpdateAction pos2 bs
-        pos3, fld |> FIXField.MDUpdateAction
-    | "280"B ->
-        let pos3, fld = ReadMDEntryRefID pos2 bs
-        pos3, fld |> FIXField.MDEntryRefID
-    | "281"B ->
-        let pos3, fld = ReadMDReqRejReason pos2 bs
-        pos3, fld |> FIXField.MDReqRejReason
-    | "282"B ->
-        let pos3, fld = ReadMDEntryOriginator pos2 bs
-        pos3, fld |> FIXField.MDEntryOriginator
-    | "283"B ->
-        let pos3, fld = ReadLocationID pos2 bs
-        pos3, fld |> FIXField.LocationID
-    | "284"B ->
-        let pos3, fld = ReadDeskID pos2 bs
-        pos3, fld |> FIXField.DeskID
-    | "285"B ->
-        let pos3, fld = ReadDeleteReason pos2 bs
-        pos3, fld |> FIXField.DeleteReason
-    | "286"B ->
-        let pos3, fld = ReadOpenCloseSettlFlag pos2 bs
-        pos3, fld |> FIXField.OpenCloseSettlFlag
-    | "287"B ->
-        let pos3, fld = ReadSellerDays pos2 bs
-        pos3, fld |> FIXField.SellerDays
-    | "288"B ->
-        let pos3, fld = ReadMDEntryBuyer pos2 bs
-        pos3, fld |> FIXField.MDEntryBuyer
-    | "289"B ->
-        let pos3, fld = ReadMDEntrySeller pos2 bs
-        pos3, fld |> FIXField.MDEntrySeller
-    | "290"B ->
-        let pos3, fld = ReadMDEntryPositionNo pos2 bs
-        pos3, fld |> FIXField.MDEntryPositionNo
-    | "291"B ->
-        let pos3, fld = ReadFinancialStatus pos2 bs
-        pos3, fld |> FIXField.FinancialStatus
-    | "292"B ->
-        let pos3, fld = ReadCorporateAction pos2 bs
-        pos3, fld |> FIXField.CorporateAction
-    | "293"B ->
-        let pos3, fld = ReadDefBidSize pos2 bs
-        pos3, fld |> FIXField.DefBidSize
-    | "294"B ->
-        let pos3, fld = ReadDefOfferSize pos2 bs
-        pos3, fld |> FIXField.DefOfferSize
-    | "295"B ->
-        let pos3, fld = ReadNoQuoteEntries pos2 bs
-        pos3, fld |> FIXField.NoQuoteEntries
-    | "296"B ->
-        let pos3, fld = ReadNoQuoteSets pos2 bs
-        pos3, fld |> FIXField.NoQuoteSets
-    | "297"B ->
-        let pos3, fld = ReadQuoteStatus pos2 bs
-        pos3, fld |> FIXField.QuoteStatus
-    | "298"B ->
-        let pos3, fld = ReadQuoteCancelType pos2 bs
-        pos3, fld |> FIXField.QuoteCancelType
-    | "299"B ->
-        let pos3, fld = ReadQuoteEntryID pos2 bs
-        pos3, fld |> FIXField.QuoteEntryID
-    | "300"B ->
-        let pos3, fld = ReadQuoteRejectReason pos2 bs
-        pos3, fld |> FIXField.QuoteRejectReason
-    | "301"B ->
-        let pos3, fld = ReadQuoteResponseLevel pos2 bs
-        pos3, fld |> FIXField.QuoteResponseLevel
-    | "302"B ->
-        let pos3, fld = ReadQuoteSetID pos2 bs
-        pos3, fld |> FIXField.QuoteSetID
-    | "303"B ->
-        let pos3, fld = ReadQuoteRequestType pos2 bs
-        pos3, fld |> FIXField.QuoteRequestType
-    | "304"B ->
-        let pos3, fld = ReadTotNoQuoteEntries pos2 bs
-        pos3, fld |> FIXField.TotNoQuoteEntries
-    | "305"B ->
-        let pos3, fld = ReadUnderlyingSecurityIDSource pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityIDSource
-    | "306"B ->
-        let pos3, fld = ReadUnderlyingIssuer pos2 bs
-        pos3, fld |> FIXField.UnderlyingIssuer
-    | "307"B ->
-        let pos3, fld = ReadUnderlyingSecurityDesc pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityDesc
-    | "308"B ->
-        let pos3, fld = ReadUnderlyingSecurityExchange pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityExchange
-    | "309"B ->
-        let pos3, fld = ReadUnderlyingSecurityID pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityID
-    | "310"B ->
-        let pos3, fld = ReadUnderlyingSecurityType pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityType
-    | "311"B ->
-        let pos3, fld = ReadUnderlyingSymbol pos2 bs
-        pos3, fld |> FIXField.UnderlyingSymbol
-    | "312"B ->
-        let pos3, fld = ReadUnderlyingSymbolSfx pos2 bs
-        pos3, fld |> FIXField.UnderlyingSymbolSfx
-    | "313"B ->
-        let pos3, fld = ReadUnderlyingMaturityMonthYear pos2 bs
-        pos3, fld |> FIXField.UnderlyingMaturityMonthYear
-    | "315"B ->
-        let pos3, fld = ReadUnderlyingPutOrCall pos2 bs
-        pos3, fld |> FIXField.UnderlyingPutOrCall
-    | "316"B ->
-        let pos3, fld = ReadUnderlyingStrikePrice pos2 bs
-        pos3, fld |> FIXField.UnderlyingStrikePrice
-    | "317"B ->
-        let pos3, fld = ReadUnderlyingOptAttribute pos2 bs
-        pos3, fld |> FIXField.UnderlyingOptAttribute
-    | "318"B ->
-        let pos3, fld = ReadUnderlyingCurrency pos2 bs
-        pos3, fld |> FIXField.UnderlyingCurrency
-    | "320"B ->
-        let pos3, fld = ReadSecurityReqID pos2 bs
-        pos3, fld |> FIXField.SecurityReqID
-    | "321"B ->
-        let pos3, fld = ReadSecurityRequestType pos2 bs
-        pos3, fld |> FIXField.SecurityRequestType
-    | "322"B ->
-        let pos3, fld = ReadSecurityResponseID pos2 bs
-        pos3, fld |> FIXField.SecurityResponseID
-    | "323"B ->
-        let pos3, fld = ReadSecurityResponseType pos2 bs
-        pos3, fld |> FIXField.SecurityResponseType
-    | "324"B ->
-        let pos3, fld = ReadSecurityStatusReqID pos2 bs
-        pos3, fld |> FIXField.SecurityStatusReqID
-    | "325"B ->
-        let pos3, fld = ReadUnsolicitedIndicator pos2 bs
-        pos3, fld |> FIXField.UnsolicitedIndicator
-    | "326"B ->
-        let pos3, fld = ReadSecurityTradingStatus pos2 bs
-        pos3, fld |> FIXField.SecurityTradingStatus
-    | "327"B ->
-        let pos3, fld = ReadHaltReason pos2 bs
-        pos3, fld |> FIXField.HaltReason
-    | "328"B ->
-        let pos3, fld = ReadInViewOfCommon pos2 bs
-        pos3, fld |> FIXField.InViewOfCommon
-    | "329"B ->
-        let pos3, fld = ReadDueToRelated pos2 bs
-        pos3, fld |> FIXField.DueToRelated
-    | "330"B ->
-        let pos3, fld = ReadBuyVolume pos2 bs
-        pos3, fld |> FIXField.BuyVolume
-    | "331"B ->
-        let pos3, fld = ReadSellVolume pos2 bs
-        pos3, fld |> FIXField.SellVolume
-    | "332"B ->
-        let pos3, fld = ReadHighPx pos2 bs
-        pos3, fld |> FIXField.HighPx
-    | "333"B ->
-        let pos3, fld = ReadLowPx pos2 bs
-        pos3, fld |> FIXField.LowPx
-    | "334"B ->
-        let pos3, fld = ReadAdjustment pos2 bs
-        pos3, fld |> FIXField.Adjustment
-    | "335"B ->
-        let pos3, fld = ReadTradSesReqID pos2 bs
-        pos3, fld |> FIXField.TradSesReqID
-    | "336"B ->
-        let pos3, fld = ReadTradingSessionID pos2 bs
-        pos3, fld |> FIXField.TradingSessionID
-    | "337"B ->
-        let pos3, fld = ReadContraTrader pos2 bs
-        pos3, fld |> FIXField.ContraTrader
-    | "338"B ->
-        let pos3, fld = ReadTradSesMethod pos2 bs
-        pos3, fld |> FIXField.TradSesMethod
-    | "339"B ->
-        let pos3, fld = ReadTradSesMode pos2 bs
-        pos3, fld |> FIXField.TradSesMode
-    | "340"B ->
-        let pos3, fld = ReadTradSesStatus pos2 bs
-        pos3, fld |> FIXField.TradSesStatus
-    | "341"B ->
-        let pos3, fld = ReadTradSesStartTime pos2 bs
-        pos3, fld |> FIXField.TradSesStartTime
-    | "342"B ->
-        let pos3, fld = ReadTradSesOpenTime pos2 bs
-        pos3, fld |> FIXField.TradSesOpenTime
-    | "343"B ->
-        let pos3, fld = ReadTradSesPreCloseTime pos2 bs
-        pos3, fld |> FIXField.TradSesPreCloseTime
-    | "344"B ->
-        let pos3, fld = ReadTradSesCloseTime pos2 bs
-        pos3, fld |> FIXField.TradSesCloseTime
-    | "345"B ->
-        let pos3, fld = ReadTradSesEndTime pos2 bs
-        pos3, fld |> FIXField.TradSesEndTime
-    | "346"B ->
-        let pos3, fld = ReadNumberOfOrders pos2 bs
-        pos3, fld |> FIXField.NumberOfOrders
-    | "347"B ->
-        let pos3, fld = ReadMessageEncoding pos2 bs
-        pos3, fld |> FIXField.MessageEncoding
-    | "348"B ->
-        let pos3, fld = ReadEncodedIssuer pos2 bs
-        pos3, fld |> FIXField.EncodedIssuer // len->string compound field
-    | "350"B ->
-        let pos3, fld = ReadEncodedSecurityDesc pos2 bs
-        pos3, fld |> FIXField.EncodedSecurityDesc // len->string compound field
-    | "352"B ->
-        let pos3, fld = ReadEncodedListExecInst pos2 bs
-        pos3, fld |> FIXField.EncodedListExecInst // len->string compound field
-    | "354"B ->
-        let pos3, fld = ReadEncodedText pos2 bs
-        pos3, fld |> FIXField.EncodedText // len->string compound field
-    | "356"B ->
-        let pos3, fld = ReadEncodedSubject pos2 bs
-        pos3, fld |> FIXField.EncodedSubject // len->string compound field
-    | "358"B ->
-        let pos3, fld = ReadEncodedHeadline pos2 bs
-        pos3, fld |> FIXField.EncodedHeadline // len->string compound field
-    | "360"B ->
-        let pos3, fld = ReadEncodedAllocText pos2 bs
-        pos3, fld |> FIXField.EncodedAllocText // len->string compound field
-    | "362"B ->
-        let pos3, fld = ReadEncodedUnderlyingIssuer pos2 bs
-        pos3, fld |> FIXField.EncodedUnderlyingIssuer // len->string compound field
-    | "364"B ->
-        let pos3, fld = ReadEncodedUnderlyingSecurityDesc pos2 bs
-        pos3, fld |> FIXField.EncodedUnderlyingSecurityDesc // len->string compound field
-    | "366"B ->
-        let pos3, fld = ReadAllocPrice pos2 bs
-        pos3, fld |> FIXField.AllocPrice
-    | "367"B ->
-        let pos3, fld = ReadQuoteSetValidUntilTime pos2 bs
-        pos3, fld |> FIXField.QuoteSetValidUntilTime
-    | "368"B ->
-        let pos3, fld = ReadQuoteEntryRejectReason pos2 bs
-        pos3, fld |> FIXField.QuoteEntryRejectReason
-    | "369"B ->
-        let pos3, fld = ReadLastMsgSeqNumProcessed pos2 bs
-        pos3, fld |> FIXField.LastMsgSeqNumProcessed
-    | "371"B ->
-        let pos3, fld = ReadRefTagID pos2 bs
-        pos3, fld |> FIXField.RefTagID
-    | "372"B ->
-        let pos3, fld = ReadRefMsgType pos2 bs
-        pos3, fld |> FIXField.RefMsgType
-    | "373"B ->
-        let pos3, fld = ReadSessionRejectReason pos2 bs
-        pos3, fld |> FIXField.SessionRejectReason
-    | "374"B ->
-        let pos3, fld = ReadBidRequestTransType pos2 bs
-        pos3, fld |> FIXField.BidRequestTransType
-    | "375"B ->
-        let pos3, fld = ReadContraBroker pos2 bs
-        pos3, fld |> FIXField.ContraBroker
-    | "376"B ->
-        let pos3, fld = ReadComplianceID pos2 bs
-        pos3, fld |> FIXField.ComplianceID
-    | "377"B ->
-        let pos3, fld = ReadSolicitedFlag pos2 bs
-        pos3, fld |> FIXField.SolicitedFlag
-    | "378"B ->
-        let pos3, fld = ReadExecRestatementReason pos2 bs
-        pos3, fld |> FIXField.ExecRestatementReason
-    | "379"B ->
-        let pos3, fld = ReadBusinessRejectRefID pos2 bs
-        pos3, fld |> FIXField.BusinessRejectRefID
-    | "380"B ->
-        let pos3, fld = ReadBusinessRejectReason pos2 bs
-        pos3, fld |> FIXField.BusinessRejectReason
-    | "381"B ->
-        let pos3, fld = ReadGrossTradeAmt pos2 bs
-        pos3, fld |> FIXField.GrossTradeAmt
-    | "382"B ->
-        let pos3, fld = ReadNoContraBrokers pos2 bs
-        pos3, fld |> FIXField.NoContraBrokers
-    | "383"B ->
-        let pos3, fld = ReadMaxMessageSize pos2 bs
-        pos3, fld |> FIXField.MaxMessageSize
-    | "384"B ->
-        let pos3, fld = ReadNoMsgTypes pos2 bs
-        pos3, fld |> FIXField.NoMsgTypes
-    | "385"B ->
-        let pos3, fld = ReadMsgDirection pos2 bs
-        pos3, fld |> FIXField.MsgDirection
-    | "386"B ->
-        let pos3, fld = ReadNoTradingSessions pos2 bs
-        pos3, fld |> FIXField.NoTradingSessions
-    | "387"B ->
-        let pos3, fld = ReadTotalVolumeTraded pos2 bs
-        pos3, fld |> FIXField.TotalVolumeTraded
-    | "388"B ->
-        let pos3, fld = ReadDiscretionInst pos2 bs
-        pos3, fld |> FIXField.DiscretionInst
-    | "389"B ->
-        let pos3, fld = ReadDiscretionOffsetValue pos2 bs
-        pos3, fld |> FIXField.DiscretionOffsetValue
-    | "390"B ->
-        let pos3, fld = ReadBidID pos2 bs
-        pos3, fld |> FIXField.BidID
-    | "391"B ->
-        let pos3, fld = ReadClientBidID pos2 bs
-        pos3, fld |> FIXField.ClientBidID
-    | "392"B ->
-        let pos3, fld = ReadListName pos2 bs
-        pos3, fld |> FIXField.ListName
-    | "393"B ->
-        let pos3, fld = ReadTotNoRelatedSym pos2 bs
-        pos3, fld |> FIXField.TotNoRelatedSym
-    | "394"B ->
-        let pos3, fld = ReadBidType pos2 bs
-        pos3, fld |> FIXField.BidType
-    | "395"B ->
-        let pos3, fld = ReadNumTickets pos2 bs
-        pos3, fld |> FIXField.NumTickets
-    | "396"B ->
-        let pos3, fld = ReadSideValue1 pos2 bs
-        pos3, fld |> FIXField.SideValue1
-    | "397"B ->
-        let pos3, fld = ReadSideValue2 pos2 bs
-        pos3, fld |> FIXField.SideValue2
-    | "398"B ->
-        let pos3, fld = ReadNoBidDescriptors pos2 bs
-        pos3, fld |> FIXField.NoBidDescriptors
-    | "399"B ->
-        let pos3, fld = ReadBidDescriptorType pos2 bs
-        pos3, fld |> FIXField.BidDescriptorType
-    | "400"B ->
-        let pos3, fld = ReadBidDescriptor pos2 bs
-        pos3, fld |> FIXField.BidDescriptor
-    | "401"B ->
-        let pos3, fld = ReadSideValueInd pos2 bs
-        pos3, fld |> FIXField.SideValueInd
-    | "402"B ->
-        let pos3, fld = ReadLiquidityPctLow pos2 bs
-        pos3, fld |> FIXField.LiquidityPctLow
-    | "403"B ->
-        let pos3, fld = ReadLiquidityPctHigh pos2 bs
-        pos3, fld |> FIXField.LiquidityPctHigh
-    | "404"B ->
-        let pos3, fld = ReadLiquidityValue pos2 bs
-        pos3, fld |> FIXField.LiquidityValue
-    | "405"B ->
-        let pos3, fld = ReadEFPTrackingError pos2 bs
-        pos3, fld |> FIXField.EFPTrackingError
-    | "406"B ->
-        let pos3, fld = ReadFairValue pos2 bs
-        pos3, fld |> FIXField.FairValue
-    | "407"B ->
-        let pos3, fld = ReadOutsideIndexPct pos2 bs
-        pos3, fld |> FIXField.OutsideIndexPct
-    | "408"B ->
-        let pos3, fld = ReadValueOfFutures pos2 bs
-        pos3, fld |> FIXField.ValueOfFutures
-    | "409"B ->
-        let pos3, fld = ReadLiquidityIndType pos2 bs
-        pos3, fld |> FIXField.LiquidityIndType
-    | "410"B ->
-        let pos3, fld = ReadWtAverageLiquidity pos2 bs
-        pos3, fld |> FIXField.WtAverageLiquidity
-    | "411"B ->
-        let pos3, fld = ReadExchangeForPhysical pos2 bs
-        pos3, fld |> FIXField.ExchangeForPhysical
-    | "412"B ->
-        let pos3, fld = ReadOutMainCntryUIndex pos2 bs
-        pos3, fld |> FIXField.OutMainCntryUIndex
-    | "413"B ->
-        let pos3, fld = ReadCrossPercent pos2 bs
-        pos3, fld |> FIXField.CrossPercent
-    | "414"B ->
-        let pos3, fld = ReadProgRptReqs pos2 bs
-        pos3, fld |> FIXField.ProgRptReqs
-    | "415"B ->
-        let pos3, fld = ReadProgPeriodInterval pos2 bs
-        pos3, fld |> FIXField.ProgPeriodInterval
-    | "416"B ->
-        let pos3, fld = ReadIncTaxInd pos2 bs
-        pos3, fld |> FIXField.IncTaxInd
-    | "417"B ->
-        let pos3, fld = ReadNumBidders pos2 bs
-        pos3, fld |> FIXField.NumBidders
-    | "418"B ->
-        let pos3, fld = ReadBidTradeType pos2 bs
-        pos3, fld |> FIXField.BidTradeType
-    | "419"B ->
-        let pos3, fld = ReadBasisPxType pos2 bs
-        pos3, fld |> FIXField.BasisPxType
-    | "420"B ->
-        let pos3, fld = ReadNoBidComponents pos2 bs
-        pos3, fld |> FIXField.NoBidComponents
-    | "421"B ->
-        let pos3, fld = ReadCountry pos2 bs
-        pos3, fld |> FIXField.Country
-    | "422"B ->
-        let pos3, fld = ReadTotNoStrikes pos2 bs
-        pos3, fld |> FIXField.TotNoStrikes
-    | "423"B ->
-        let pos3, fld = ReadPriceType pos2 bs
-        pos3, fld |> FIXField.PriceType
-    | "424"B ->
-        let pos3, fld = ReadDayOrderQty pos2 bs
-        pos3, fld |> FIXField.DayOrderQty
-    | "425"B ->
-        let pos3, fld = ReadDayCumQty pos2 bs
-        pos3, fld |> FIXField.DayCumQty
-    | "426"B ->
-        let pos3, fld = ReadDayAvgPx pos2 bs
-        pos3, fld |> FIXField.DayAvgPx
-    | "427"B ->
-        let pos3, fld = ReadGTBookingInst pos2 bs
-        pos3, fld |> FIXField.GTBookingInst
-    | "428"B ->
-        let pos3, fld = ReadNoStrikes pos2 bs
-        pos3, fld |> FIXField.NoStrikes
-    | "429"B ->
-        let pos3, fld = ReadListStatusType pos2 bs
-        pos3, fld |> FIXField.ListStatusType
-    | "430"B ->
-        let pos3, fld = ReadNetGrossInd pos2 bs
-        pos3, fld |> FIXField.NetGrossInd
-    | "431"B ->
-        let pos3, fld = ReadListOrderStatus pos2 bs
-        pos3, fld |> FIXField.ListOrderStatus
-    | "432"B ->
-        let pos3, fld = ReadExpireDate pos2 bs
-        pos3, fld |> FIXField.ExpireDate
-    | "433"B ->
-        let pos3, fld = ReadListExecInstType pos2 bs
-        pos3, fld |> FIXField.ListExecInstType
-    | "434"B ->
-        let pos3, fld = ReadCxlRejResponseTo pos2 bs
-        pos3, fld |> FIXField.CxlRejResponseTo
-    | "435"B ->
-        let pos3, fld = ReadUnderlyingCouponRate pos2 bs
-        pos3, fld |> FIXField.UnderlyingCouponRate
-    | "436"B ->
-        let pos3, fld = ReadUnderlyingContractMultiplier pos2 bs
-        pos3, fld |> FIXField.UnderlyingContractMultiplier
-    | "437"B ->
-        let pos3, fld = ReadContraTradeQty pos2 bs
-        pos3, fld |> FIXField.ContraTradeQty
-    | "438"B ->
-        let pos3, fld = ReadContraTradeTime pos2 bs
-        pos3, fld |> FIXField.ContraTradeTime
-    | "441"B ->
-        let pos3, fld = ReadLiquidityNumSecurities pos2 bs
-        pos3, fld |> FIXField.LiquidityNumSecurities
-    | "442"B ->
-        let pos3, fld = ReadMultiLegReportingType pos2 bs
-        pos3, fld |> FIXField.MultiLegReportingType
-    | "443"B ->
-        let pos3, fld = ReadStrikeTime pos2 bs
-        pos3, fld |> FIXField.StrikeTime
-    | "444"B ->
-        let pos3, fld = ReadListStatusText pos2 bs
-        pos3, fld |> FIXField.ListStatusText
-    | "445"B ->
-        let pos3, fld = ReadEncodedListStatusText pos2 bs
-        pos3, fld |> FIXField.EncodedListStatusText // len->string compound field
-    | "447"B ->
-        let pos3, fld = ReadPartyIDSource pos2 bs
-        pos3, fld |> FIXField.PartyIDSource
-    | "448"B ->
-        let pos3, fld = ReadPartyID pos2 bs
-        pos3, fld |> FIXField.PartyID
-    | "451"B ->
-        let pos3, fld = ReadNetChgPrevDay pos2 bs
-        pos3, fld |> FIXField.NetChgPrevDay
-    | "452"B ->
-        let pos3, fld = ReadPartyRole pos2 bs
-        pos3, fld |> FIXField.PartyRole
-    | "453"B ->
-        let pos3, fld = ReadNoPartyIDs pos2 bs
-        pos3, fld |> FIXField.NoPartyIDs
-    | "454"B ->
-        let pos3, fld = ReadNoSecurityAltID pos2 bs
-        pos3, fld |> FIXField.NoSecurityAltID
-    | "455"B ->
-        let pos3, fld = ReadSecurityAltID pos2 bs
-        pos3, fld |> FIXField.SecurityAltID
-    | "456"B ->
-        let pos3, fld = ReadSecurityAltIDSource pos2 bs
-        pos3, fld |> FIXField.SecurityAltIDSource
-    | "457"B ->
-        let pos3, fld = ReadNoUnderlyingSecurityAltID pos2 bs
-        pos3, fld |> FIXField.NoUnderlyingSecurityAltID
-    | "458"B ->
-        let pos3, fld = ReadUnderlyingSecurityAltID pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityAltID
-    | "459"B ->
-        let pos3, fld = ReadUnderlyingSecurityAltIDSource pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecurityAltIDSource
-    | "460"B ->
-        let pos3, fld = ReadProduct pos2 bs
-        pos3, fld |> FIXField.Product
-    | "461"B ->
-        let pos3, fld = ReadCFICode pos2 bs
-        pos3, fld |> FIXField.CFICode
-    | "462"B ->
-        let pos3, fld = ReadUnderlyingProduct pos2 bs
-        pos3, fld |> FIXField.UnderlyingProduct
-    | "463"B ->
-        let pos3, fld = ReadUnderlyingCFICode pos2 bs
-        pos3, fld |> FIXField.UnderlyingCFICode
-    | "464"B ->
-        let pos3, fld = ReadTestMessageIndicator pos2 bs
-        pos3, fld |> FIXField.TestMessageIndicator
-    | "465"B ->
-        let pos3, fld = ReadQuantityType pos2 bs
-        pos3, fld |> FIXField.QuantityType
-    | "466"B ->
-        let pos3, fld = ReadBookingRefID pos2 bs
-        pos3, fld |> FIXField.BookingRefID
-    | "467"B ->
-        let pos3, fld = ReadIndividualAllocID pos2 bs
-        pos3, fld |> FIXField.IndividualAllocID
-    | "468"B ->
-        let pos3, fld = ReadRoundingDirection pos2 bs
-        pos3, fld |> FIXField.RoundingDirection
-    | "469"B ->
-        let pos3, fld = ReadRoundingModulus pos2 bs
-        pos3, fld |> FIXField.RoundingModulus
-    | "470"B ->
-        let pos3, fld = ReadCountryOfIssue pos2 bs
-        pos3, fld |> FIXField.CountryOfIssue
-    | "471"B ->
-        let pos3, fld = ReadStateOrProvinceOfIssue pos2 bs
-        pos3, fld |> FIXField.StateOrProvinceOfIssue
-    | "472"B ->
-        let pos3, fld = ReadLocaleOfIssue pos2 bs
-        pos3, fld |> FIXField.LocaleOfIssue
-    | "473"B ->
-        let pos3, fld = ReadNoRegistDtls pos2 bs
-        pos3, fld |> FIXField.NoRegistDtls
-    | "474"B ->
-        let pos3, fld = ReadMailingDtls pos2 bs
-        pos3, fld |> FIXField.MailingDtls
-    | "475"B ->
-        let pos3, fld = ReadInvestorCountryOfResidence pos2 bs
-        pos3, fld |> FIXField.InvestorCountryOfResidence
-    | "476"B ->
-        let pos3, fld = ReadPaymentRef pos2 bs
-        pos3, fld |> FIXField.PaymentRef
-    | "477"B ->
-        let pos3, fld = ReadDistribPaymentMethod pos2 bs
-        pos3, fld |> FIXField.DistribPaymentMethod
-    | "478"B ->
-        let pos3, fld = ReadCashDistribCurr pos2 bs
-        pos3, fld |> FIXField.CashDistribCurr
-    | "479"B ->
-        let pos3, fld = ReadCommCurrency pos2 bs
-        pos3, fld |> FIXField.CommCurrency
-    | "480"B ->
-        let pos3, fld = ReadCancellationRights pos2 bs
-        pos3, fld |> FIXField.CancellationRights
-    | "481"B ->
-        let pos3, fld = ReadMoneyLaunderingStatus pos2 bs
-        pos3, fld |> FIXField.MoneyLaunderingStatus
-    | "482"B ->
-        let pos3, fld = ReadMailingInst pos2 bs
-        pos3, fld |> FIXField.MailingInst
-    | "483"B ->
-        let pos3, fld = ReadTransBkdTime pos2 bs
-        pos3, fld |> FIXField.TransBkdTime
-    | "484"B ->
-        let pos3, fld = ReadExecPriceType pos2 bs
-        pos3, fld |> FIXField.ExecPriceType
-    | "485"B ->
-        let pos3, fld = ReadExecPriceAdjustment pos2 bs
-        pos3, fld |> FIXField.ExecPriceAdjustment
-    | "486"B ->
-        let pos3, fld = ReadDateOfBirth pos2 bs
-        pos3, fld |> FIXField.DateOfBirth
-    | "487"B ->
-        let pos3, fld = ReadTradeReportTransType pos2 bs
-        pos3, fld |> FIXField.TradeReportTransType
-    | "488"B ->
-        let pos3, fld = ReadCardHolderName pos2 bs
-        pos3, fld |> FIXField.CardHolderName
-    | "489"B ->
-        let pos3, fld = ReadCardNumber pos2 bs
-        pos3, fld |> FIXField.CardNumber
-    | "490"B ->
-        let pos3, fld = ReadCardExpDate pos2 bs
-        pos3, fld |> FIXField.CardExpDate
-    | "491"B ->
-        let pos3, fld = ReadCardIssNum pos2 bs
-        pos3, fld |> FIXField.CardIssNum
-    | "492"B ->
-        let pos3, fld = ReadPaymentMethod pos2 bs
-        pos3, fld |> FIXField.PaymentMethod
-    | "493"B ->
-        let pos3, fld = ReadRegistAcctType pos2 bs
-        pos3, fld |> FIXField.RegistAcctType
-    | "494"B ->
-        let pos3, fld = ReadDesignation pos2 bs
-        pos3, fld |> FIXField.Designation
-    | "495"B ->
-        let pos3, fld = ReadTaxAdvantageType pos2 bs
-        pos3, fld |> FIXField.TaxAdvantageType
-    | "496"B ->
-        let pos3, fld = ReadRegistRejReasonText pos2 bs
-        pos3, fld |> FIXField.RegistRejReasonText
-    | "497"B ->
-        let pos3, fld = ReadFundRenewWaiv pos2 bs
-        pos3, fld |> FIXField.FundRenewWaiv
-    | "498"B ->
-        let pos3, fld = ReadCashDistribAgentName pos2 bs
-        pos3, fld |> FIXField.CashDistribAgentName
-    | "499"B ->
-        let pos3, fld = ReadCashDistribAgentCode pos2 bs
-        pos3, fld |> FIXField.CashDistribAgentCode
-    | "500"B ->
-        let pos3, fld = ReadCashDistribAgentAcctNumber pos2 bs
-        pos3, fld |> FIXField.CashDistribAgentAcctNumber
-    | "501"B ->
-        let pos3, fld = ReadCashDistribPayRef pos2 bs
-        pos3, fld |> FIXField.CashDistribPayRef
-    | "502"B ->
-        let pos3, fld = ReadCashDistribAgentAcctName pos2 bs
-        pos3, fld |> FIXField.CashDistribAgentAcctName
-    | "503"B ->
-        let pos3, fld = ReadCardStartDate pos2 bs
-        pos3, fld |> FIXField.CardStartDate
-    | "504"B ->
-        let pos3, fld = ReadPaymentDate pos2 bs
-        pos3, fld |> FIXField.PaymentDate
-    | "505"B ->
-        let pos3, fld = ReadPaymentRemitterID pos2 bs
-        pos3, fld |> FIXField.PaymentRemitterID
-    | "506"B ->
-        let pos3, fld = ReadRegistStatus pos2 bs
-        pos3, fld |> FIXField.RegistStatus
-    | "507"B ->
-        let pos3, fld = ReadRegistRejReasonCode pos2 bs
-        pos3, fld |> FIXField.RegistRejReasonCode
-    | "508"B ->
-        let pos3, fld = ReadRegistRefID pos2 bs
-        pos3, fld |> FIXField.RegistRefID
-    | "509"B ->
-        let pos3, fld = ReadRegistDtls pos2 bs
-        pos3, fld |> FIXField.RegistDtls
-    | "510"B ->
-        let pos3, fld = ReadNoDistribInsts pos2 bs
-        pos3, fld |> FIXField.NoDistribInsts
-    | "511"B ->
-        let pos3, fld = ReadRegistEmail pos2 bs
-        pos3, fld |> FIXField.RegistEmail
-    | "512"B ->
-        let pos3, fld = ReadDistribPercentage pos2 bs
-        pos3, fld |> FIXField.DistribPercentage
-    | "513"B ->
-        let pos3, fld = ReadRegistID pos2 bs
-        pos3, fld |> FIXField.RegistID
-    | "514"B ->
-        let pos3, fld = ReadRegistTransType pos2 bs
-        pos3, fld |> FIXField.RegistTransType
-    | "515"B ->
-        let pos3, fld = ReadExecValuationPoint pos2 bs
-        pos3, fld |> FIXField.ExecValuationPoint
-    | "516"B ->
-        let pos3, fld = ReadOrderPercent pos2 bs
-        pos3, fld |> FIXField.OrderPercent
-    | "517"B ->
-        let pos3, fld = ReadOwnershipType pos2 bs
-        pos3, fld |> FIXField.OwnershipType
-    | "518"B ->
-        let pos3, fld = ReadNoContAmts pos2 bs
-        pos3, fld |> FIXField.NoContAmts
-    | "519"B ->
-        let pos3, fld = ReadContAmtType pos2 bs
-        pos3, fld |> FIXField.ContAmtType
-    | "520"B ->
-        let pos3, fld = ReadContAmtValue pos2 bs
-        pos3, fld |> FIXField.ContAmtValue
-    | "521"B ->
-        let pos3, fld = ReadContAmtCurr pos2 bs
-        pos3, fld |> FIXField.ContAmtCurr
-    | "522"B ->
-        let pos3, fld = ReadOwnerType pos2 bs
-        pos3, fld |> FIXField.OwnerType
-    | "523"B ->
-        let pos3, fld = ReadPartySubID pos2 bs
-        pos3, fld |> FIXField.PartySubID
-    | "524"B ->
-        let pos3, fld = ReadNestedPartyID pos2 bs
-        pos3, fld |> FIXField.NestedPartyID
-    | "525"B ->
-        let pos3, fld = ReadNestedPartyIDSource pos2 bs
-        pos3, fld |> FIXField.NestedPartyIDSource
-    | "526"B ->
-        let pos3, fld = ReadSecondaryClOrdID pos2 bs
-        pos3, fld |> FIXField.SecondaryClOrdID
-    | "527"B ->
-        let pos3, fld = ReadSecondaryExecID pos2 bs
-        pos3, fld |> FIXField.SecondaryExecID
-    | "528"B ->
-        let pos3, fld = ReadOrderCapacity pos2 bs
-        pos3, fld |> FIXField.OrderCapacity
-    | "529"B ->
-        let pos3, fld = ReadOrderRestrictions pos2 bs
-        pos3, fld |> FIXField.OrderRestrictions
-    | "530"B ->
-        let pos3, fld = ReadMassCancelRequestType pos2 bs
-        pos3, fld |> FIXField.MassCancelRequestType
-    | "531"B ->
-        let pos3, fld = ReadMassCancelResponse pos2 bs
-        pos3, fld |> FIXField.MassCancelResponse
-    | "532"B ->
-        let pos3, fld = ReadMassCancelRejectReason pos2 bs
-        pos3, fld |> FIXField.MassCancelRejectReason
-    | "533"B ->
-        let pos3, fld = ReadTotalAffectedOrders pos2 bs
-        pos3, fld |> FIXField.TotalAffectedOrders
-    | "534"B ->
-        let pos3, fld = ReadNoAffectedOrders pos2 bs
-        pos3, fld |> FIXField.NoAffectedOrders
-    | "535"B ->
-        let pos3, fld = ReadAffectedOrderID pos2 bs
-        pos3, fld |> FIXField.AffectedOrderID
-    | "536"B ->
-        let pos3, fld = ReadAffectedSecondaryOrderID pos2 bs
-        pos3, fld |> FIXField.AffectedSecondaryOrderID
-    | "537"B ->
-        let pos3, fld = ReadQuoteType pos2 bs
-        pos3, fld |> FIXField.QuoteType
-    | "538"B ->
-        let pos3, fld = ReadNestedPartyRole pos2 bs
-        pos3, fld |> FIXField.NestedPartyRole
-    | "539"B ->
-        let pos3, fld = ReadNoNestedPartyIDs pos2 bs
-        pos3, fld |> FIXField.NoNestedPartyIDs
-    | "540"B ->
-        let pos3, fld = ReadTotalAccruedInterestAmt pos2 bs
-        pos3, fld |> FIXField.TotalAccruedInterestAmt
-    | "541"B ->
-        let pos3, fld = ReadMaturityDate pos2 bs
-        pos3, fld |> FIXField.MaturityDate
-    | "542"B ->
-        let pos3, fld = ReadUnderlyingMaturityDate pos2 bs
-        pos3, fld |> FIXField.UnderlyingMaturityDate
-    | "543"B ->
-        let pos3, fld = ReadInstrRegistry pos2 bs
-        pos3, fld |> FIXField.InstrRegistry
-    | "544"B ->
-        let pos3, fld = ReadCashMargin pos2 bs
-        pos3, fld |> FIXField.CashMargin
-    | "545"B ->
-        let pos3, fld = ReadNestedPartySubID pos2 bs
-        pos3, fld |> FIXField.NestedPartySubID
-    | "546"B ->
-        let pos3, fld = ReadScope pos2 bs
-        pos3, fld |> FIXField.Scope
-    | "547"B ->
-        let pos3, fld = ReadMDImplicitDelete pos2 bs
-        pos3, fld |> FIXField.MDImplicitDelete
-    | "548"B ->
-        let pos3, fld = ReadCrossID pos2 bs
-        pos3, fld |> FIXField.CrossID
-    | "549"B ->
-        let pos3, fld = ReadCrossType pos2 bs
-        pos3, fld |> FIXField.CrossType
-    | "550"B ->
-        let pos3, fld = ReadCrossPrioritization pos2 bs
-        pos3, fld |> FIXField.CrossPrioritization
-    | "551"B ->
-        let pos3, fld = ReadOrigCrossID pos2 bs
-        pos3, fld |> FIXField.OrigCrossID
-    | "552"B ->
-        let pos3, fld = ReadNoSides pos2 bs
-        pos3, fld |> FIXField.NoSides
-    | "553"B ->
-        let pos3, fld = ReadUsername pos2 bs
-        pos3, fld |> FIXField.Username
-    | "554"B ->
-        let pos3, fld = ReadPassword pos2 bs
-        pos3, fld |> FIXField.Password
-    | "555"B ->
-        let pos3, fld = ReadNoLegs pos2 bs
-        pos3, fld |> FIXField.NoLegs
-    | "556"B ->
-        let pos3, fld = ReadLegCurrency pos2 bs
-        pos3, fld |> FIXField.LegCurrency
-    | "557"B ->
-        let pos3, fld = ReadTotNoSecurityTypes pos2 bs
-        pos3, fld |> FIXField.TotNoSecurityTypes
-    | "558"B ->
-        let pos3, fld = ReadNoSecurityTypes pos2 bs
-        pos3, fld |> FIXField.NoSecurityTypes
-    | "559"B ->
-        let pos3, fld = ReadSecurityListRequestType pos2 bs
-        pos3, fld |> FIXField.SecurityListRequestType
-    | "560"B ->
-        let pos3, fld = ReadSecurityRequestResult pos2 bs
-        pos3, fld |> FIXField.SecurityRequestResult
-    | "561"B ->
-        let pos3, fld = ReadRoundLot pos2 bs
-        pos3, fld |> FIXField.RoundLot
-    | "562"B ->
-        let pos3, fld = ReadMinTradeVol pos2 bs
-        pos3, fld |> FIXField.MinTradeVol
-    | "563"B ->
-        let pos3, fld = ReadMultiLegRptTypeReq pos2 bs
-        pos3, fld |> FIXField.MultiLegRptTypeReq
-    | "564"B ->
-        let pos3, fld = ReadLegPositionEffect pos2 bs
-        pos3, fld |> FIXField.LegPositionEffect
-    | "565"B ->
-        let pos3, fld = ReadLegCoveredOrUncovered pos2 bs
-        pos3, fld |> FIXField.LegCoveredOrUncovered
-    | "566"B ->
-        let pos3, fld = ReadLegPrice pos2 bs
-        pos3, fld |> FIXField.LegPrice
-    | "567"B ->
-        let pos3, fld = ReadTradSesStatusRejReason pos2 bs
-        pos3, fld |> FIXField.TradSesStatusRejReason
-    | "568"B ->
-        let pos3, fld = ReadTradeRequestID pos2 bs
-        pos3, fld |> FIXField.TradeRequestID
-    | "569"B ->
-        let pos3, fld = ReadTradeRequestType pos2 bs
-        pos3, fld |> FIXField.TradeRequestType
-    | "570"B ->
-        let pos3, fld = ReadPreviouslyReported pos2 bs
-        pos3, fld |> FIXField.PreviouslyReported
-    | "571"B ->
-        let pos3, fld = ReadTradeReportID pos2 bs
-        pos3, fld |> FIXField.TradeReportID
-    | "572"B ->
-        let pos3, fld = ReadTradeReportRefID pos2 bs
-        pos3, fld |> FIXField.TradeReportRefID
-    | "573"B ->
-        let pos3, fld = ReadMatchStatus pos2 bs
-        pos3, fld |> FIXField.MatchStatus
-    | "574"B ->
-        let pos3, fld = ReadMatchType pos2 bs
-        pos3, fld |> FIXField.MatchType
-    | "575"B ->
-        let pos3, fld = ReadOddLot pos2 bs
-        pos3, fld |> FIXField.OddLot
-    | "576"B ->
-        let pos3, fld = ReadNoClearingInstructions pos2 bs
-        pos3, fld |> FIXField.NoClearingInstructions
-    | "577"B ->
-        let pos3, fld = ReadClearingInstruction pos2 bs
-        pos3, fld |> FIXField.ClearingInstruction
-    | "578"B ->
-        let pos3, fld = ReadTradeInputSource pos2 bs
-        pos3, fld |> FIXField.TradeInputSource
-    | "579"B ->
-        let pos3, fld = ReadTradeInputDevice pos2 bs
-        pos3, fld |> FIXField.TradeInputDevice
-    | "580"B ->
-        let pos3, fld = ReadNoDates pos2 bs
-        pos3, fld |> FIXField.NoDates
-    | "581"B ->
-        let pos3, fld = ReadAccountType pos2 bs
-        pos3, fld |> FIXField.AccountType
-    | "582"B ->
-        let pos3, fld = ReadCustOrderCapacity pos2 bs
-        pos3, fld |> FIXField.CustOrderCapacity
-    | "583"B ->
-        let pos3, fld = ReadClOrdLinkID pos2 bs
-        pos3, fld |> FIXField.ClOrdLinkID
-    | "584"B ->
-        let pos3, fld = ReadMassStatusReqID pos2 bs
-        pos3, fld |> FIXField.MassStatusReqID
-    | "585"B ->
-        let pos3, fld = ReadMassStatusReqType pos2 bs
-        pos3, fld |> FIXField.MassStatusReqType
-    | "586"B ->
-        let pos3, fld = ReadOrigOrdModTime pos2 bs
-        pos3, fld |> FIXField.OrigOrdModTime
-    | "587"B ->
-        let pos3, fld = ReadLegSettlType pos2 bs
-        pos3, fld |> FIXField.LegSettlType
-    | "588"B ->
-        let pos3, fld = ReadLegSettlDate pos2 bs
-        pos3, fld |> FIXField.LegSettlDate
-    | "589"B ->
-        let pos3, fld = ReadDayBookingInst pos2 bs
-        pos3, fld |> FIXField.DayBookingInst
-    | "590"B ->
-        let pos3, fld = ReadBookingUnit pos2 bs
-        pos3, fld |> FIXField.BookingUnit
-    | "591"B ->
-        let pos3, fld = ReadPreallocMethod pos2 bs
-        pos3, fld |> FIXField.PreallocMethod
-    | "592"B ->
-        let pos3, fld = ReadUnderlyingCountryOfIssue pos2 bs
-        pos3, fld |> FIXField.UnderlyingCountryOfIssue
-    | "593"B ->
-        let pos3, fld = ReadUnderlyingStateOrProvinceOfIssue pos2 bs
-        pos3, fld |> FIXField.UnderlyingStateOrProvinceOfIssue
-    | "594"B ->
-        let pos3, fld = ReadUnderlyingLocaleOfIssue pos2 bs
-        pos3, fld |> FIXField.UnderlyingLocaleOfIssue
-    | "595"B ->
-        let pos3, fld = ReadUnderlyingInstrRegistry pos2 bs
-        pos3, fld |> FIXField.UnderlyingInstrRegistry
-    | "596"B ->
-        let pos3, fld = ReadLegCountryOfIssue pos2 bs
-        pos3, fld |> FIXField.LegCountryOfIssue
-    | "597"B ->
-        let pos3, fld = ReadLegStateOrProvinceOfIssue pos2 bs
-        pos3, fld |> FIXField.LegStateOrProvinceOfIssue
-    | "598"B ->
-        let pos3, fld = ReadLegLocaleOfIssue pos2 bs
-        pos3, fld |> FIXField.LegLocaleOfIssue
-    | "599"B ->
-        let pos3, fld = ReadLegInstrRegistry pos2 bs
-        pos3, fld |> FIXField.LegInstrRegistry
-    | "600"B ->
-        let pos3, fld = ReadLegSymbol pos2 bs
-        pos3, fld |> FIXField.LegSymbol
-    | "601"B ->
-        let pos3, fld = ReadLegSymbolSfx pos2 bs
-        pos3, fld |> FIXField.LegSymbolSfx
-    | "602"B ->
-        let pos3, fld = ReadLegSecurityID pos2 bs
-        pos3, fld |> FIXField.LegSecurityID
-    | "603"B ->
-        let pos3, fld = ReadLegSecurityIDSource pos2 bs
-        pos3, fld |> FIXField.LegSecurityIDSource
-    | "604"B ->
-        let pos3, fld = ReadNoLegSecurityAltID pos2 bs
-        pos3, fld |> FIXField.NoLegSecurityAltID
-    | "605"B ->
-        let pos3, fld = ReadLegSecurityAltID pos2 bs
-        pos3, fld |> FIXField.LegSecurityAltID
-    | "606"B ->
-        let pos3, fld = ReadLegSecurityAltIDSource pos2 bs
-        pos3, fld |> FIXField.LegSecurityAltIDSource
-    | "607"B ->
-        let pos3, fld = ReadLegProduct pos2 bs
-        pos3, fld |> FIXField.LegProduct
-    | "608"B ->
-        let pos3, fld = ReadLegCFICode pos2 bs
-        pos3, fld |> FIXField.LegCFICode
-    | "609"B ->
-        let pos3, fld = ReadLegSecurityType pos2 bs
-        pos3, fld |> FIXField.LegSecurityType
-    | "610"B ->
-        let pos3, fld = ReadLegMaturityMonthYear pos2 bs
-        pos3, fld |> FIXField.LegMaturityMonthYear
-    | "611"B ->
-        let pos3, fld = ReadLegMaturityDate pos2 bs
-        pos3, fld |> FIXField.LegMaturityDate
-    | "612"B ->
-        let pos3, fld = ReadLegStrikePrice pos2 bs
-        pos3, fld |> FIXField.LegStrikePrice
-    | "613"B ->
-        let pos3, fld = ReadLegOptAttribute pos2 bs
-        pos3, fld |> FIXField.LegOptAttribute
-    | "614"B ->
-        let pos3, fld = ReadLegContractMultiplier pos2 bs
-        pos3, fld |> FIXField.LegContractMultiplier
-    | "615"B ->
-        let pos3, fld = ReadLegCouponRate pos2 bs
-        pos3, fld |> FIXField.LegCouponRate
-    | "616"B ->
-        let pos3, fld = ReadLegSecurityExchange pos2 bs
-        pos3, fld |> FIXField.LegSecurityExchange
-    | "617"B ->
-        let pos3, fld = ReadLegIssuer pos2 bs
-        pos3, fld |> FIXField.LegIssuer
-    | "618"B ->
-        let pos3, fld = ReadEncodedLegIssuer pos2 bs
-        pos3, fld |> FIXField.EncodedLegIssuer // len->string compound field
-    | "620"B ->
-        let pos3, fld = ReadLegSecurityDesc pos2 bs
-        pos3, fld |> FIXField.LegSecurityDesc
-    | "621"B ->
-        let pos3, fld = ReadEncodedLegSecurityDesc pos2 bs
-        pos3, fld |> FIXField.EncodedLegSecurityDesc // len->string compound field
-    | "623"B ->
-        let pos3, fld = ReadLegRatioQty pos2 bs
-        pos3, fld |> FIXField.LegRatioQty
-    | "624"B ->
-        let pos3, fld = ReadLegSide pos2 bs
-        pos3, fld |> FIXField.LegSide
-    | "625"B ->
-        let pos3, fld = ReadTradingSessionSubID pos2 bs
-        pos3, fld |> FIXField.TradingSessionSubID
-    | "626"B ->
-        let pos3, fld = ReadAllocType pos2 bs
-        pos3, fld |> FIXField.AllocType
-    | "627"B ->
-        let pos3, fld = ReadNoHops pos2 bs
-        pos3, fld |> FIXField.NoHops
-    | "628"B ->
-        let pos3, fld = ReadHopCompID pos2 bs
-        pos3, fld |> FIXField.HopCompID
-    | "629"B ->
-        let pos3, fld = ReadHopSendingTime pos2 bs
-        pos3, fld |> FIXField.HopSendingTime
-    | "630"B ->
-        let pos3, fld = ReadHopRefID pos2 bs
-        pos3, fld |> FIXField.HopRefID
-    | "631"B ->
-        let pos3, fld = ReadMidPx pos2 bs
-        pos3, fld |> FIXField.MidPx
-    | "632"B ->
-        let pos3, fld = ReadBidYield pos2 bs
-        pos3, fld |> FIXField.BidYield
-    | "633"B ->
-        let pos3, fld = ReadMidYield pos2 bs
-        pos3, fld |> FIXField.MidYield
-    | "634"B ->
-        let pos3, fld = ReadOfferYield pos2 bs
-        pos3, fld |> FIXField.OfferYield
-    | "635"B ->
-        let pos3, fld = ReadClearingFeeIndicator pos2 bs
-        pos3, fld |> FIXField.ClearingFeeIndicator
-    | "636"B ->
-        let pos3, fld = ReadWorkingIndicator pos2 bs
-        pos3, fld |> FIXField.WorkingIndicator
-    | "637"B ->
-        let pos3, fld = ReadLegLastPx pos2 bs
-        pos3, fld |> FIXField.LegLastPx
-    | "638"B ->
-        let pos3, fld = ReadPriorityIndicator pos2 bs
-        pos3, fld |> FIXField.PriorityIndicator
-    | "639"B ->
-        let pos3, fld = ReadPriceImprovement pos2 bs
-        pos3, fld |> FIXField.PriceImprovement
-    | "640"B ->
-        let pos3, fld = ReadPrice2 pos2 bs
-        pos3, fld |> FIXField.Price2
-    | "641"B ->
-        let pos3, fld = ReadLastForwardPoints2 pos2 bs
-        pos3, fld |> FIXField.LastForwardPoints2
-    | "642"B ->
-        let pos3, fld = ReadBidForwardPoints2 pos2 bs
-        pos3, fld |> FIXField.BidForwardPoints2
-    | "643"B ->
-        let pos3, fld = ReadOfferForwardPoints2 pos2 bs
-        pos3, fld |> FIXField.OfferForwardPoints2
-    | "644"B ->
-        let pos3, fld = ReadRFQReqID pos2 bs
-        pos3, fld |> FIXField.RFQReqID
-    | "645"B ->
-        let pos3, fld = ReadMktBidPx pos2 bs
-        pos3, fld |> FIXField.MktBidPx
-    | "646"B ->
-        let pos3, fld = ReadMktOfferPx pos2 bs
-        pos3, fld |> FIXField.MktOfferPx
-    | "647"B ->
-        let pos3, fld = ReadMinBidSize pos2 bs
-        pos3, fld |> FIXField.MinBidSize
-    | "648"B ->
-        let pos3, fld = ReadMinOfferSize pos2 bs
-        pos3, fld |> FIXField.MinOfferSize
-    | "649"B ->
-        let pos3, fld = ReadQuoteStatusReqID pos2 bs
-        pos3, fld |> FIXField.QuoteStatusReqID
-    | "650"B ->
-        let pos3, fld = ReadLegalConfirm pos2 bs
-        pos3, fld |> FIXField.LegalConfirm
-    | "651"B ->
-        let pos3, fld = ReadUnderlyingLastPx pos2 bs
-        pos3, fld |> FIXField.UnderlyingLastPx
-    | "652"B ->
-        let pos3, fld = ReadUnderlyingLastQty pos2 bs
-        pos3, fld |> FIXField.UnderlyingLastQty
-    | "654"B ->
-        let pos3, fld = ReadLegRefID pos2 bs
-        pos3, fld |> FIXField.LegRefID
-    | "655"B ->
-        let pos3, fld = ReadContraLegRefID pos2 bs
-        pos3, fld |> FIXField.ContraLegRefID
-    | "656"B ->
-        let pos3, fld = ReadSettlCurrBidFxRate pos2 bs
-        pos3, fld |> FIXField.SettlCurrBidFxRate
-    | "657"B ->
-        let pos3, fld = ReadSettlCurrOfferFxRate pos2 bs
-        pos3, fld |> FIXField.SettlCurrOfferFxRate
-    | "658"B ->
-        let pos3, fld = ReadQuoteRequestRejectReason pos2 bs
-        pos3, fld |> FIXField.QuoteRequestRejectReason
-    | "659"B ->
-        let pos3, fld = ReadSideComplianceID pos2 bs
-        pos3, fld |> FIXField.SideComplianceID
-    | "660"B ->
-        let pos3, fld = ReadAcctIDSource pos2 bs
-        pos3, fld |> FIXField.AcctIDSource
-    | "661"B ->
-        let pos3, fld = ReadAllocAcctIDSource pos2 bs
-        pos3, fld |> FIXField.AllocAcctIDSource
-    | "662"B ->
-        let pos3, fld = ReadBenchmarkPrice pos2 bs
-        pos3, fld |> FIXField.BenchmarkPrice
-    | "663"B ->
-        let pos3, fld = ReadBenchmarkPriceType pos2 bs
-        pos3, fld |> FIXField.BenchmarkPriceType
-    | "664"B ->
-        let pos3, fld = ReadConfirmID pos2 bs
-        pos3, fld |> FIXField.ConfirmID
-    | "665"B ->
-        let pos3, fld = ReadConfirmStatus pos2 bs
-        pos3, fld |> FIXField.ConfirmStatus
-    | "666"B ->
-        let pos3, fld = ReadConfirmTransType pos2 bs
-        pos3, fld |> FIXField.ConfirmTransType
-    | "667"B ->
-        let pos3, fld = ReadContractSettlMonth pos2 bs
-        pos3, fld |> FIXField.ContractSettlMonth
-    | "668"B ->
-        let pos3, fld = ReadDeliveryForm pos2 bs
-        pos3, fld |> FIXField.DeliveryForm
-    | "669"B ->
-        let pos3, fld = ReadLastParPx pos2 bs
-        pos3, fld |> FIXField.LastParPx
-    | "670"B ->
-        let pos3, fld = ReadNoLegAllocs pos2 bs
-        pos3, fld |> FIXField.NoLegAllocs
-    | "671"B ->
-        let pos3, fld = ReadLegAllocAccount pos2 bs
-        pos3, fld |> FIXField.LegAllocAccount
-    | "672"B ->
-        let pos3, fld = ReadLegIndividualAllocID pos2 bs
-        pos3, fld |> FIXField.LegIndividualAllocID
-    | "673"B ->
-        let pos3, fld = ReadLegAllocQty pos2 bs
-        pos3, fld |> FIXField.LegAllocQty
-    | "674"B ->
-        let pos3, fld = ReadLegAllocAcctIDSource pos2 bs
-        pos3, fld |> FIXField.LegAllocAcctIDSource
-    | "675"B ->
-        let pos3, fld = ReadLegSettlCurrency pos2 bs
-        pos3, fld |> FIXField.LegSettlCurrency
-    | "676"B ->
-        let pos3, fld = ReadLegBenchmarkCurveCurrency pos2 bs
-        pos3, fld |> FIXField.LegBenchmarkCurveCurrency
-    | "677"B ->
-        let pos3, fld = ReadLegBenchmarkCurveName pos2 bs
-        pos3, fld |> FIXField.LegBenchmarkCurveName
-    | "678"B ->
-        let pos3, fld = ReadLegBenchmarkCurvePoint pos2 bs
-        pos3, fld |> FIXField.LegBenchmarkCurvePoint
-    | "679"B ->
-        let pos3, fld = ReadLegBenchmarkPrice pos2 bs
-        pos3, fld |> FIXField.LegBenchmarkPrice
-    | "680"B ->
-        let pos3, fld = ReadLegBenchmarkPriceType pos2 bs
-        pos3, fld |> FIXField.LegBenchmarkPriceType
-    | "681"B ->
-        let pos3, fld = ReadLegBidPx pos2 bs
-        pos3, fld |> FIXField.LegBidPx
-    | "682"B ->
-        let pos3, fld = ReadLegIOIQty pos2 bs
-        pos3, fld |> FIXField.LegIOIQty
-    | "683"B ->
-        let pos3, fld = ReadNoLegStipulations pos2 bs
-        pos3, fld |> FIXField.NoLegStipulations
-    | "684"B ->
-        let pos3, fld = ReadLegOfferPx pos2 bs
-        pos3, fld |> FIXField.LegOfferPx
-    | "685"B ->
-        let pos3, fld = ReadLegOrderQty pos2 bs
-        pos3, fld |> FIXField.LegOrderQty
-    | "686"B ->
-        let pos3, fld = ReadLegPriceType pos2 bs
-        pos3, fld |> FIXField.LegPriceType
-    | "687"B ->
-        let pos3, fld = ReadLegQty pos2 bs
-        pos3, fld |> FIXField.LegQty
-    | "688"B ->
-        let pos3, fld = ReadLegStipulationType pos2 bs
-        pos3, fld |> FIXField.LegStipulationType
-    | "689"B ->
-        let pos3, fld = ReadLegStipulationValue pos2 bs
-        pos3, fld |> FIXField.LegStipulationValue
-    | "690"B ->
-        let pos3, fld = ReadLegSwapType pos2 bs
-        pos3, fld |> FIXField.LegSwapType
-    | "691"B ->
-        let pos3, fld = ReadPool pos2 bs
-        pos3, fld |> FIXField.Pool
-    | "692"B ->
-        let pos3, fld = ReadQuotePriceType pos2 bs
-        pos3, fld |> FIXField.QuotePriceType
-    | "693"B ->
-        let pos3, fld = ReadQuoteRespID pos2 bs
-        pos3, fld |> FIXField.QuoteRespID
-    | "694"B ->
-        let pos3, fld = ReadQuoteRespType pos2 bs
-        pos3, fld |> FIXField.QuoteRespType
-    | "695"B ->
-        let pos3, fld = ReadQuoteQualifier pos2 bs
-        pos3, fld |> FIXField.QuoteQualifier
-    | "696"B ->
-        let pos3, fld = ReadYieldRedemptionDate pos2 bs
-        pos3, fld |> FIXField.YieldRedemptionDate
-    | "697"B ->
-        let pos3, fld = ReadYieldRedemptionPrice pos2 bs
-        pos3, fld |> FIXField.YieldRedemptionPrice
-    | "698"B ->
-        let pos3, fld = ReadYieldRedemptionPriceType pos2 bs
-        pos3, fld |> FIXField.YieldRedemptionPriceType
-    | "699"B ->
-        let pos3, fld = ReadBenchmarkSecurityID pos2 bs
-        pos3, fld |> FIXField.BenchmarkSecurityID
-    | "700"B ->
-        let pos3, fld = ReadReversalIndicator pos2 bs
-        pos3, fld |> FIXField.ReversalIndicator
-    | "701"B ->
-        let pos3, fld = ReadYieldCalcDate pos2 bs
-        pos3, fld |> FIXField.YieldCalcDate
-    | "702"B ->
-        let pos3, fld = ReadNoPositions pos2 bs
-        pos3, fld |> FIXField.NoPositions
-    | "703"B ->
-        let pos3, fld = ReadPosType pos2 bs
-        pos3, fld |> FIXField.PosType
-    | "704"B ->
-        let pos3, fld = ReadLongQty pos2 bs
-        pos3, fld |> FIXField.LongQty
-    | "705"B ->
-        let pos3, fld = ReadShortQty pos2 bs
-        pos3, fld |> FIXField.ShortQty
-    | "706"B ->
-        let pos3, fld = ReadPosQtyStatus pos2 bs
-        pos3, fld |> FIXField.PosQtyStatus
-    | "707"B ->
-        let pos3, fld = ReadPosAmtType pos2 bs
-        pos3, fld |> FIXField.PosAmtType
-    | "708"B ->
-        let pos3, fld = ReadPosAmt pos2 bs
-        pos3, fld |> FIXField.PosAmt
-    | "709"B ->
-        let pos3, fld = ReadPosTransType pos2 bs
-        pos3, fld |> FIXField.PosTransType
-    | "710"B ->
-        let pos3, fld = ReadPosReqID pos2 bs
-        pos3, fld |> FIXField.PosReqID
-    | "711"B ->
-        let pos3, fld = ReadNoUnderlyings pos2 bs
-        pos3, fld |> FIXField.NoUnderlyings
-    | "712"B ->
-        let pos3, fld = ReadPosMaintAction pos2 bs
-        pos3, fld |> FIXField.PosMaintAction
-    | "713"B ->
-        let pos3, fld = ReadOrigPosReqRefID pos2 bs
-        pos3, fld |> FIXField.OrigPosReqRefID
-    | "714"B ->
-        let pos3, fld = ReadPosMaintRptRefID pos2 bs
-        pos3, fld |> FIXField.PosMaintRptRefID
-    | "715"B ->
-        let pos3, fld = ReadClearingBusinessDate pos2 bs
-        pos3, fld |> FIXField.ClearingBusinessDate
-    | "716"B ->
-        let pos3, fld = ReadSettlSessID pos2 bs
-        pos3, fld |> FIXField.SettlSessID
-    | "717"B ->
-        let pos3, fld = ReadSettlSessSubID pos2 bs
-        pos3, fld |> FIXField.SettlSessSubID
-    | "718"B ->
-        let pos3, fld = ReadAdjustmentType pos2 bs
-        pos3, fld |> FIXField.AdjustmentType
-    | "719"B ->
-        let pos3, fld = ReadContraryInstructionIndicator pos2 bs
-        pos3, fld |> FIXField.ContraryInstructionIndicator
-    | "720"B ->
-        let pos3, fld = ReadPriorSpreadIndicator pos2 bs
-        pos3, fld |> FIXField.PriorSpreadIndicator
-    | "721"B ->
-        let pos3, fld = ReadPosMaintRptID pos2 bs
-        pos3, fld |> FIXField.PosMaintRptID
-    | "722"B ->
-        let pos3, fld = ReadPosMaintStatus pos2 bs
-        pos3, fld |> FIXField.PosMaintStatus
-    | "723"B ->
-        let pos3, fld = ReadPosMaintResult pos2 bs
-        pos3, fld |> FIXField.PosMaintResult
-    | "724"B ->
-        let pos3, fld = ReadPosReqType pos2 bs
-        pos3, fld |> FIXField.PosReqType
-    | "725"B ->
-        let pos3, fld = ReadResponseTransportType pos2 bs
-        pos3, fld |> FIXField.ResponseTransportType
-    | "726"B ->
-        let pos3, fld = ReadResponseDestination pos2 bs
-        pos3, fld |> FIXField.ResponseDestination
-    | "727"B ->
-        let pos3, fld = ReadTotalNumPosReports pos2 bs
-        pos3, fld |> FIXField.TotalNumPosReports
-    | "728"B ->
-        let pos3, fld = ReadPosReqResult pos2 bs
-        pos3, fld |> FIXField.PosReqResult
-    | "729"B ->
-        let pos3, fld = ReadPosReqStatus pos2 bs
-        pos3, fld |> FIXField.PosReqStatus
-    | "730"B ->
-        let pos3, fld = ReadSettlPrice pos2 bs
-        pos3, fld |> FIXField.SettlPrice
-    | "731"B ->
-        let pos3, fld = ReadSettlPriceType pos2 bs
-        pos3, fld |> FIXField.SettlPriceType
-    | "732"B ->
-        let pos3, fld = ReadUnderlyingSettlPrice pos2 bs
-        pos3, fld |> FIXField.UnderlyingSettlPrice
-    | "733"B ->
-        let pos3, fld = ReadUnderlyingSettlPriceType pos2 bs
-        pos3, fld |> FIXField.UnderlyingSettlPriceType
-    | "734"B ->
-        let pos3, fld = ReadPriorSettlPrice pos2 bs
-        pos3, fld |> FIXField.PriorSettlPrice
-    | "735"B ->
-        let pos3, fld = ReadNoQuoteQualifiers pos2 bs
-        pos3, fld |> FIXField.NoQuoteQualifiers
-    | "736"B ->
-        let pos3, fld = ReadAllocSettlCurrency pos2 bs
-        pos3, fld |> FIXField.AllocSettlCurrency
-    | "737"B ->
-        let pos3, fld = ReadAllocSettlCurrAmt pos2 bs
-        pos3, fld |> FIXField.AllocSettlCurrAmt
-    | "738"B ->
-        let pos3, fld = ReadInterestAtMaturity pos2 bs
-        pos3, fld |> FIXField.InterestAtMaturity
-    | "739"B ->
-        let pos3, fld = ReadLegDatedDate pos2 bs
-        pos3, fld |> FIXField.LegDatedDate
-    | "740"B ->
-        let pos3, fld = ReadLegPool pos2 bs
-        pos3, fld |> FIXField.LegPool
-    | "741"B ->
-        let pos3, fld = ReadAllocInterestAtMaturity pos2 bs
-        pos3, fld |> FIXField.AllocInterestAtMaturity
-    | "742"B ->
-        let pos3, fld = ReadAllocAccruedInterestAmt pos2 bs
-        pos3, fld |> FIXField.AllocAccruedInterestAmt
-    | "743"B ->
-        let pos3, fld = ReadDeliveryDate pos2 bs
-        pos3, fld |> FIXField.DeliveryDate
-    | "744"B ->
-        let pos3, fld = ReadAssignmentMethod pos2 bs
-        pos3, fld |> FIXField.AssignmentMethod
-    | "745"B ->
-        let pos3, fld = ReadAssignmentUnit pos2 bs
-        pos3, fld |> FIXField.AssignmentUnit
-    | "746"B ->
-        let pos3, fld = ReadOpenInterest pos2 bs
-        pos3, fld |> FIXField.OpenInterest
-    | "747"B ->
-        let pos3, fld = ReadExerciseMethod pos2 bs
-        pos3, fld |> FIXField.ExerciseMethod
-    | "748"B ->
-        let pos3, fld = ReadTotNumTradeReports pos2 bs
-        pos3, fld |> FIXField.TotNumTradeReports
-    | "749"B ->
-        let pos3, fld = ReadTradeRequestResult pos2 bs
-        pos3, fld |> FIXField.TradeRequestResult
-    | "750"B ->
-        let pos3, fld = ReadTradeRequestStatus pos2 bs
-        pos3, fld |> FIXField.TradeRequestStatus
-    | "751"B ->
-        let pos3, fld = ReadTradeReportRejectReason pos2 bs
-        pos3, fld |> FIXField.TradeReportRejectReason
-    | "752"B ->
-        let pos3, fld = ReadSideMultiLegReportingType pos2 bs
-        pos3, fld |> FIXField.SideMultiLegReportingType
-    | "753"B ->
-        let pos3, fld = ReadNoPosAmt pos2 bs
-        pos3, fld |> FIXField.NoPosAmt
-    | "754"B ->
-        let pos3, fld = ReadAutoAcceptIndicator pos2 bs
-        pos3, fld |> FIXField.AutoAcceptIndicator
-    | "755"B ->
-        let pos3, fld = ReadAllocReportID pos2 bs
-        pos3, fld |> FIXField.AllocReportID
-    | "756"B ->
-        let pos3, fld = ReadNoNested2PartyIDs pos2 bs
-        pos3, fld |> FIXField.NoNested2PartyIDs
-    | "757"B ->
-        let pos3, fld = ReadNested2PartyID pos2 bs
-        pos3, fld |> FIXField.Nested2PartyID
-    | "758"B ->
-        let pos3, fld = ReadNested2PartyIDSource pos2 bs
-        pos3, fld |> FIXField.Nested2PartyIDSource
-    | "759"B ->
-        let pos3, fld = ReadNested2PartyRole pos2 bs
-        pos3, fld |> FIXField.Nested2PartyRole
-    | "760"B ->
-        let pos3, fld = ReadNested2PartySubID pos2 bs
-        pos3, fld |> FIXField.Nested2PartySubID
-    | "761"B ->
-        let pos3, fld = ReadBenchmarkSecurityIDSource pos2 bs
-        pos3, fld |> FIXField.BenchmarkSecurityIDSource
-    | "762"B ->
-        let pos3, fld = ReadSecuritySubType pos2 bs
-        pos3, fld |> FIXField.SecuritySubType
-    | "763"B ->
-        let pos3, fld = ReadUnderlyingSecuritySubType pos2 bs
-        pos3, fld |> FIXField.UnderlyingSecuritySubType
-    | "764"B ->
-        let pos3, fld = ReadLegSecuritySubType pos2 bs
-        pos3, fld |> FIXField.LegSecuritySubType
-    | "765"B ->
-        let pos3, fld = ReadAllowableOneSidednessPct pos2 bs
-        pos3, fld |> FIXField.AllowableOneSidednessPct
-    | "766"B ->
-        let pos3, fld = ReadAllowableOneSidednessValue pos2 bs
-        pos3, fld |> FIXField.AllowableOneSidednessValue
-    | "767"B ->
-        let pos3, fld = ReadAllowableOneSidednessCurr pos2 bs
-        pos3, fld |> FIXField.AllowableOneSidednessCurr
-    | "768"B ->
-        let pos3, fld = ReadNoTrdRegTimestamps pos2 bs
-        pos3, fld |> FIXField.NoTrdRegTimestamps
-    | "769"B ->
-        let pos3, fld = ReadTrdRegTimestamp pos2 bs
-        pos3, fld |> FIXField.TrdRegTimestamp
-    | "770"B ->
-        let pos3, fld = ReadTrdRegTimestampType pos2 bs
-        pos3, fld |> FIXField.TrdRegTimestampType
-    | "771"B ->
-        let pos3, fld = ReadTrdRegTimestampOrigin pos2 bs
-        pos3, fld |> FIXField.TrdRegTimestampOrigin
-    | "772"B ->
-        let pos3, fld = ReadConfirmRefID pos2 bs
-        pos3, fld |> FIXField.ConfirmRefID
-    | "773"B ->
-        let pos3, fld = ReadConfirmType pos2 bs
-        pos3, fld |> FIXField.ConfirmType
-    | "774"B ->
-        let pos3, fld = ReadConfirmRejReason pos2 bs
-        pos3, fld |> FIXField.ConfirmRejReason
-    | "775"B ->
-        let pos3, fld = ReadBookingType pos2 bs
-        pos3, fld |> FIXField.BookingType
-    | "776"B ->
-        let pos3, fld = ReadIndividualAllocRejCode pos2 bs
-        pos3, fld |> FIXField.IndividualAllocRejCode
-    | "777"B ->
-        let pos3, fld = ReadSettlInstMsgID pos2 bs
-        pos3, fld |> FIXField.SettlInstMsgID
-    | "778"B ->
-        let pos3, fld = ReadNoSettlInst pos2 bs
-        pos3, fld |> FIXField.NoSettlInst
-    | "779"B ->
-        let pos3, fld = ReadLastUpdateTime pos2 bs
-        pos3, fld |> FIXField.LastUpdateTime
-    | "780"B ->
-        let pos3, fld = ReadAllocSettlInstType pos2 bs
-        pos3, fld |> FIXField.AllocSettlInstType
-    | "781"B ->
-        let pos3, fld = ReadNoSettlPartyIDs pos2 bs
-        pos3, fld |> FIXField.NoSettlPartyIDs
-    | "782"B ->
-        let pos3, fld = ReadSettlPartyID pos2 bs
-        pos3, fld |> FIXField.SettlPartyID
-    | "783"B ->
-        let pos3, fld = ReadSettlPartyIDSource pos2 bs
-        pos3, fld |> FIXField.SettlPartyIDSource
-    | "784"B ->
-        let pos3, fld = ReadSettlPartyRole pos2 bs
-        pos3, fld |> FIXField.SettlPartyRole
-    | "785"B ->
-        let pos3, fld = ReadSettlPartySubID pos2 bs
-        pos3, fld |> FIXField.SettlPartySubID
-    | "786"B ->
-        let pos3, fld = ReadSettlPartySubIDType pos2 bs
-        pos3, fld |> FIXField.SettlPartySubIDType
-    | "787"B ->
-        let pos3, fld = ReadDlvyInstType pos2 bs
-        pos3, fld |> FIXField.DlvyInstType
-    | "788"B ->
-        let pos3, fld = ReadTerminationType pos2 bs
-        pos3, fld |> FIXField.TerminationType
-    | "789"B ->
-        let pos3, fld = ReadNextExpectedMsgSeqNum pos2 bs
-        pos3, fld |> FIXField.NextExpectedMsgSeqNum
-    | "790"B ->
-        let pos3, fld = ReadOrdStatusReqID pos2 bs
-        pos3, fld |> FIXField.OrdStatusReqID
-    | "791"B ->
-        let pos3, fld = ReadSettlInstReqID pos2 bs
-        pos3, fld |> FIXField.SettlInstReqID
-    | "792"B ->
-        let pos3, fld = ReadSettlInstReqRejCode pos2 bs
-        pos3, fld |> FIXField.SettlInstReqRejCode
-    | "793"B ->
-        let pos3, fld = ReadSecondaryAllocID pos2 bs
-        pos3, fld |> FIXField.SecondaryAllocID
-    | "794"B ->
-        let pos3, fld = ReadAllocReportType pos2 bs
-        pos3, fld |> FIXField.AllocReportType
-    | "795"B ->
-        let pos3, fld = ReadAllocReportRefID pos2 bs
-        pos3, fld |> FIXField.AllocReportRefID
-    | "796"B ->
-        let pos3, fld = ReadAllocCancReplaceReason pos2 bs
-        pos3, fld |> FIXField.AllocCancReplaceReason
-    | "797"B ->
-        let pos3, fld = ReadCopyMsgIndicator pos2 bs
-        pos3, fld |> FIXField.CopyMsgIndicator
-    | "798"B ->
-        let pos3, fld = ReadAllocAccountType pos2 bs
-        pos3, fld |> FIXField.AllocAccountType
-    | "799"B ->
-        let pos3, fld = ReadOrderAvgPx pos2 bs
-        pos3, fld |> FIXField.OrderAvgPx
-    | "800"B ->
-        let pos3, fld = ReadOrderBookingQty pos2 bs
-        pos3, fld |> FIXField.OrderBookingQty
-    | "801"B ->
-        let pos3, fld = ReadNoSettlPartySubIDs pos2 bs
-        pos3, fld |> FIXField.NoSettlPartySubIDs
-    | "802"B ->
-        let pos3, fld = ReadNoPartySubIDs pos2 bs
-        pos3, fld |> FIXField.NoPartySubIDs
-    | "803"B ->
-        let pos3, fld = ReadPartySubIDType pos2 bs
-        pos3, fld |> FIXField.PartySubIDType
-    | "804"B ->
-        let pos3, fld = ReadNoNestedPartySubIDs pos2 bs
-        pos3, fld |> FIXField.NoNestedPartySubIDs
-    | "805"B ->
-        let pos3, fld = ReadNestedPartySubIDType pos2 bs
-        pos3, fld |> FIXField.NestedPartySubIDType
-    | "806"B ->
-        let pos3, fld = ReadNoNested2PartySubIDs pos2 bs
-        pos3, fld |> FIXField.NoNested2PartySubIDs
-    | "807"B ->
-        let pos3, fld = ReadNested2PartySubIDType pos2 bs
-        pos3, fld |> FIXField.Nested2PartySubIDType
-    | "808"B ->
-        let pos3, fld = ReadAllocIntermedReqType pos2 bs
-        pos3, fld |> FIXField.AllocIntermedReqType
-    | "810"B ->
-        let pos3, fld = ReadUnderlyingPx pos2 bs
-        pos3, fld |> FIXField.UnderlyingPx
-    | "811"B ->
-        let pos3, fld = ReadPriceDelta pos2 bs
-        pos3, fld |> FIXField.PriceDelta
-    | "812"B ->
-        let pos3, fld = ReadApplQueueMax pos2 bs
-        pos3, fld |> FIXField.ApplQueueMax
-    | "813"B ->
-        let pos3, fld = ReadApplQueueDepth pos2 bs
-        pos3, fld |> FIXField.ApplQueueDepth
-    | "814"B ->
-        let pos3, fld = ReadApplQueueResolution pos2 bs
-        pos3, fld |> FIXField.ApplQueueResolution
-    | "815"B ->
-        let pos3, fld = ReadApplQueueAction pos2 bs
-        pos3, fld |> FIXField.ApplQueueAction
-    | "816"B ->
-        let pos3, fld = ReadNoAltMDSource pos2 bs
-        pos3, fld |> FIXField.NoAltMDSource
-    | "817"B ->
-        let pos3, fld = ReadAltMDSourceID pos2 bs
-        pos3, fld |> FIXField.AltMDSourceID
-    | "818"B ->
-        let pos3, fld = ReadSecondaryTradeReportID pos2 bs
-        pos3, fld |> FIXField.SecondaryTradeReportID
-    | "819"B ->
-        let pos3, fld = ReadAvgPxIndicator pos2 bs
-        pos3, fld |> FIXField.AvgPxIndicator
-    | "820"B ->
-        let pos3, fld = ReadTradeLinkID pos2 bs
-        pos3, fld |> FIXField.TradeLinkID
-    | "821"B ->
-        let pos3, fld = ReadOrderInputDevice pos2 bs
-        pos3, fld |> FIXField.OrderInputDevice
-    | "822"B ->
-        let pos3, fld = ReadUnderlyingTradingSessionID pos2 bs
-        pos3, fld |> FIXField.UnderlyingTradingSessionID
-    | "823"B ->
-        let pos3, fld = ReadUnderlyingTradingSessionSubID pos2 bs
-        pos3, fld |> FIXField.UnderlyingTradingSessionSubID
-    | "824"B ->
-        let pos3, fld = ReadTradeLegRefID pos2 bs
-        pos3, fld |> FIXField.TradeLegRefID
-    | "825"B ->
-        let pos3, fld = ReadExchangeRule pos2 bs
-        pos3, fld |> FIXField.ExchangeRule
-    | "826"B ->
-        let pos3, fld = ReadTradeAllocIndicator pos2 bs
-        pos3, fld |> FIXField.TradeAllocIndicator
-    | "827"B ->
-        let pos3, fld = ReadExpirationCycle pos2 bs
-        pos3, fld |> FIXField.ExpirationCycle
-    | "828"B ->
-        let pos3, fld = ReadTrdType pos2 bs
-        pos3, fld |> FIXField.TrdType
-    | "829"B ->
-        let pos3, fld = ReadTrdSubType pos2 bs
-        pos3, fld |> FIXField.TrdSubType
-    | "830"B ->
-        let pos3, fld = ReadTransferReason pos2 bs
-        pos3, fld |> FIXField.TransferReason
-    | "831"B ->
-        let pos3, fld = ReadAsgnReqID pos2 bs
-        pos3, fld |> FIXField.AsgnReqID
-    | "832"B ->
-        let pos3, fld = ReadTotNumAssignmentReports pos2 bs
-        pos3, fld |> FIXField.TotNumAssignmentReports
-    | "833"B ->
-        let pos3, fld = ReadAsgnRptID pos2 bs
-        pos3, fld |> FIXField.AsgnRptID
-    | "834"B ->
-        let pos3, fld = ReadThresholdAmount pos2 bs
-        pos3, fld |> FIXField.ThresholdAmount
-    | "835"B ->
-        let pos3, fld = ReadPegMoveType pos2 bs
-        pos3, fld |> FIXField.PegMoveType
-    | "836"B ->
-        let pos3, fld = ReadPegOffsetType pos2 bs
-        pos3, fld |> FIXField.PegOffsetType
-    | "837"B ->
-        let pos3, fld = ReadPegLimitType pos2 bs
-        pos3, fld |> FIXField.PegLimitType
-    | "838"B ->
-        let pos3, fld = ReadPegRoundDirection pos2 bs
-        pos3, fld |> FIXField.PegRoundDirection
-    | "839"B ->
-        let pos3, fld = ReadPeggedPrice pos2 bs
-        pos3, fld |> FIXField.PeggedPrice
-    | "840"B ->
-        let pos3, fld = ReadPegScope pos2 bs
-        pos3, fld |> FIXField.PegScope
-    | "841"B ->
-        let pos3, fld = ReadDiscretionMoveType pos2 bs
-        pos3, fld |> FIXField.DiscretionMoveType
-    | "842"B ->
-        let pos3, fld = ReadDiscretionOffsetType pos2 bs
-        pos3, fld |> FIXField.DiscretionOffsetType
-    | "843"B ->
-        let pos3, fld = ReadDiscretionLimitType pos2 bs
-        pos3, fld |> FIXField.DiscretionLimitType
-    | "844"B ->
-        let pos3, fld = ReadDiscretionRoundDirection pos2 bs
-        pos3, fld |> FIXField.DiscretionRoundDirection
-    | "845"B ->
-        let pos3, fld = ReadDiscretionPrice pos2 bs
-        pos3, fld |> FIXField.DiscretionPrice
-    | "846"B ->
-        let pos3, fld = ReadDiscretionScope pos2 bs
-        pos3, fld |> FIXField.DiscretionScope
-    | "847"B ->
-        let pos3, fld = ReadTargetStrategy pos2 bs
-        pos3, fld |> FIXField.TargetStrategy
-    | "848"B ->
-        let pos3, fld = ReadTargetStrategyParameters pos2 bs
-        pos3, fld |> FIXField.TargetStrategyParameters
-    | "849"B ->
-        let pos3, fld = ReadParticipationRate pos2 bs
-        pos3, fld |> FIXField.ParticipationRate
-    | "850"B ->
-        let pos3, fld = ReadTargetStrategyPerformance pos2 bs
-        pos3, fld |> FIXField.TargetStrategyPerformance
-    | "851"B ->
-        let pos3, fld = ReadLastLiquidityInd pos2 bs
-        pos3, fld |> FIXField.LastLiquidityInd
-    | "852"B ->
-        let pos3, fld = ReadPublishTrdIndicator pos2 bs
-        pos3, fld |> FIXField.PublishTrdIndicator
-    | "853"B ->
-        let pos3, fld = ReadShortSaleReason pos2 bs
-        pos3, fld |> FIXField.ShortSaleReason
-    | "854"B ->
-        let pos3, fld = ReadQtyType pos2 bs
-        pos3, fld |> FIXField.QtyType
-    | "855"B ->
-        let pos3, fld = ReadSecondaryTrdType pos2 bs
-        pos3, fld |> FIXField.SecondaryTrdType
-    | "856"B ->
-        let pos3, fld = ReadTradeReportType pos2 bs
-        pos3, fld |> FIXField.TradeReportType
-    | "857"B ->
-        let pos3, fld = ReadAllocNoOrdersType pos2 bs
-        pos3, fld |> FIXField.AllocNoOrdersType
-    | "858"B ->
-        let pos3, fld = ReadSharedCommission pos2 bs
-        pos3, fld |> FIXField.SharedCommission
-    | "859"B ->
-        let pos3, fld = ReadConfirmReqID pos2 bs
-        pos3, fld |> FIXField.ConfirmReqID
-    | "860"B ->
-        let pos3, fld = ReadAvgParPx pos2 bs
-        pos3, fld |> FIXField.AvgParPx
-    | "861"B ->
-        let pos3, fld = ReadReportedPx pos2 bs
-        pos3, fld |> FIXField.ReportedPx
-    | "862"B ->
-        let pos3, fld = ReadNoCapacities pos2 bs
-        pos3, fld |> FIXField.NoCapacities
-    | "863"B ->
-        let pos3, fld = ReadOrderCapacityQty pos2 bs
-        pos3, fld |> FIXField.OrderCapacityQty
-    | "864"B ->
-        let pos3, fld = ReadNoEvents pos2 bs
-        pos3, fld |> FIXField.NoEvents
-    | "865"B ->
-        let pos3, fld = ReadEventType pos2 bs
-        pos3, fld |> FIXField.EventType
-    | "866"B ->
-        let pos3, fld = ReadEventDate pos2 bs
-        pos3, fld |> FIXField.EventDate
-    | "867"B ->
-        let pos3, fld = ReadEventPx pos2 bs
-        pos3, fld |> FIXField.EventPx
-    | "868"B ->
-        let pos3, fld = ReadEventText pos2 bs
-        pos3, fld |> FIXField.EventText
-    | "869"B ->
-        let pos3, fld = ReadPctAtRisk pos2 bs
-        pos3, fld |> FIXField.PctAtRisk
-    | "870"B ->
-        let pos3, fld = ReadNoInstrAttrib pos2 bs
-        pos3, fld |> FIXField.NoInstrAttrib
-    | "871"B ->
-        let pos3, fld = ReadInstrAttribType pos2 bs
-        pos3, fld |> FIXField.InstrAttribType
-    | "872"B ->
-        let pos3, fld = ReadInstrAttribValue pos2 bs
-        pos3, fld |> FIXField.InstrAttribValue
-    | "873"B ->
-        let pos3, fld = ReadDatedDate pos2 bs
-        pos3, fld |> FIXField.DatedDate
-    | "874"B ->
-        let pos3, fld = ReadInterestAccrualDate pos2 bs
-        pos3, fld |> FIXField.InterestAccrualDate
-    | "875"B ->
-        let pos3, fld = ReadCPProgram pos2 bs
-        pos3, fld |> FIXField.CPProgram
-    | "876"B ->
-        let pos3, fld = ReadCPRegType pos2 bs
-        pos3, fld |> FIXField.CPRegType
-    | "877"B ->
-        let pos3, fld = ReadUnderlyingCPProgram pos2 bs
-        pos3, fld |> FIXField.UnderlyingCPProgram
-    | "878"B ->
-        let pos3, fld = ReadUnderlyingCPRegType pos2 bs
-        pos3, fld |> FIXField.UnderlyingCPRegType
-    | "879"B ->
-        let pos3, fld = ReadUnderlyingQty pos2 bs
-        pos3, fld |> FIXField.UnderlyingQty
-    | "880"B ->
-        let pos3, fld = ReadTrdMatchID pos2 bs
-        pos3, fld |> FIXField.TrdMatchID
-    | "881"B ->
-        let pos3, fld = ReadSecondaryTradeReportRefID pos2 bs
-        pos3, fld |> FIXField.SecondaryTradeReportRefID
-    | "882"B ->
-        let pos3, fld = ReadUnderlyingDirtyPrice pos2 bs
-        pos3, fld |> FIXField.UnderlyingDirtyPrice
-    | "883"B ->
-        let pos3, fld = ReadUnderlyingEndPrice pos2 bs
-        pos3, fld |> FIXField.UnderlyingEndPrice
-    | "884"B ->
-        let pos3, fld = ReadUnderlyingStartValue pos2 bs
-        pos3, fld |> FIXField.UnderlyingStartValue
-    | "885"B ->
-        let pos3, fld = ReadUnderlyingCurrentValue pos2 bs
-        pos3, fld |> FIXField.UnderlyingCurrentValue
-    | "886"B ->
-        let pos3, fld = ReadUnderlyingEndValue pos2 bs
-        pos3, fld |> FIXField.UnderlyingEndValue
-    | "887"B ->
-        let pos3, fld = ReadNoUnderlyingStips pos2 bs
-        pos3, fld |> FIXField.NoUnderlyingStips
-    | "888"B ->
-        let pos3, fld = ReadUnderlyingStipType pos2 bs
-        pos3, fld |> FIXField.UnderlyingStipType
-    | "889"B ->
-        let pos3, fld = ReadUnderlyingStipValue pos2 bs
-        pos3, fld |> FIXField.UnderlyingStipValue
-    | "890"B ->
-        let pos3, fld = ReadMaturityNetMoney pos2 bs
-        pos3, fld |> FIXField.MaturityNetMoney
-    | "891"B ->
-        let pos3, fld = ReadMiscFeeBasis pos2 bs
-        pos3, fld |> FIXField.MiscFeeBasis
-    | "892"B ->
-        let pos3, fld = ReadTotNoAllocs pos2 bs
-        pos3, fld |> FIXField.TotNoAllocs
-    | "893"B ->
-        let pos3, fld = ReadLastFragment pos2 bs
-        pos3, fld |> FIXField.LastFragment
-    | "894"B ->
-        let pos3, fld = ReadCollReqID pos2 bs
-        pos3, fld |> FIXField.CollReqID
-    | "895"B ->
-        let pos3, fld = ReadCollAsgnReason pos2 bs
-        pos3, fld |> FIXField.CollAsgnReason
-    | "896"B ->
-        let pos3, fld = ReadCollInquiryQualifier pos2 bs
-        pos3, fld |> FIXField.CollInquiryQualifier
-    | "897"B ->
-        let pos3, fld = ReadNoTrades pos2 bs
-        pos3, fld |> FIXField.NoTrades
-    | "898"B ->
-        let pos3, fld = ReadMarginRatio pos2 bs
-        pos3, fld |> FIXField.MarginRatio
-    | "899"B ->
-        let pos3, fld = ReadMarginExcess pos2 bs
-        pos3, fld |> FIXField.MarginExcess
-    | "900"B ->
-        let pos3, fld = ReadTotalNetValue pos2 bs
-        pos3, fld |> FIXField.TotalNetValue
-    | "901"B ->
-        let pos3, fld = ReadCashOutstanding pos2 bs
-        pos3, fld |> FIXField.CashOutstanding
-    | "902"B ->
-        let pos3, fld = ReadCollAsgnID pos2 bs
-        pos3, fld |> FIXField.CollAsgnID
-    | "903"B ->
-        let pos3, fld = ReadCollAsgnTransType pos2 bs
-        pos3, fld |> FIXField.CollAsgnTransType
-    | "904"B ->
-        let pos3, fld = ReadCollRespID pos2 bs
-        pos3, fld |> FIXField.CollRespID
-    | "905"B ->
-        let pos3, fld = ReadCollAsgnRespType pos2 bs
-        pos3, fld |> FIXField.CollAsgnRespType
-    | "906"B ->
-        let pos3, fld = ReadCollAsgnRejectReason pos2 bs
-        pos3, fld |> FIXField.CollAsgnRejectReason
-    | "907"B ->
-        let pos3, fld = ReadCollAsgnRefID pos2 bs
-        pos3, fld |> FIXField.CollAsgnRefID
-    | "908"B ->
-        let pos3, fld = ReadCollRptID pos2 bs
-        pos3, fld |> FIXField.CollRptID
-    | "909"B ->
-        let pos3, fld = ReadCollInquiryID pos2 bs
-        pos3, fld |> FIXField.CollInquiryID
-    | "910"B ->
-        let pos3, fld = ReadCollStatus pos2 bs
-        pos3, fld |> FIXField.CollStatus
-    | "911"B ->
-        let pos3, fld = ReadTotNumReports pos2 bs
-        pos3, fld |> FIXField.TotNumReports
-    | "912"B ->
-        let pos3, fld = ReadLastRptRequested pos2 bs
-        pos3, fld |> FIXField.LastRptRequested
-    | "913"B ->
-        let pos3, fld = ReadAgreementDesc pos2 bs
-        pos3, fld |> FIXField.AgreementDesc
-    | "914"B ->
-        let pos3, fld = ReadAgreementID pos2 bs
-        pos3, fld |> FIXField.AgreementID
-    | "915"B ->
-        let pos3, fld = ReadAgreementDate pos2 bs
-        pos3, fld |> FIXField.AgreementDate
-    | "916"B ->
-        let pos3, fld = ReadStartDate pos2 bs
-        pos3, fld |> FIXField.StartDate
-    | "917"B ->
-        let pos3, fld = ReadEndDate pos2 bs
-        pos3, fld |> FIXField.EndDate
-    | "918"B ->
-        let pos3, fld = ReadAgreementCurrency pos2 bs
-        pos3, fld |> FIXField.AgreementCurrency
-    | "919"B ->
-        let pos3, fld = ReadDeliveryType pos2 bs
-        pos3, fld |> FIXField.DeliveryType
-    | "920"B ->
-        let pos3, fld = ReadEndAccruedInterestAmt pos2 bs
-        pos3, fld |> FIXField.EndAccruedInterestAmt
-    | "921"B ->
-        let pos3, fld = ReadStartCash pos2 bs
-        pos3, fld |> FIXField.StartCash
-    | "922"B ->
-        let pos3, fld = ReadEndCash pos2 bs
-        pos3, fld |> FIXField.EndCash
-    | "923"B ->
-        let pos3, fld = ReadUserRequestID pos2 bs
-        pos3, fld |> FIXField.UserRequestID
-    | "924"B ->
-        let pos3, fld = ReadUserRequestType pos2 bs
-        pos3, fld |> FIXField.UserRequestType
-    | "925"B ->
-        let pos3, fld = ReadNewPassword pos2 bs
-        pos3, fld |> FIXField.NewPassword
-    | "926"B ->
-        let pos3, fld = ReadUserStatus pos2 bs
-        pos3, fld |> FIXField.UserStatus
-    | "927"B ->
-        let pos3, fld = ReadUserStatusText pos2 bs
-        pos3, fld |> FIXField.UserStatusText
-    | "928"B ->
-        let pos3, fld = ReadStatusValue pos2 bs
-        pos3, fld |> FIXField.StatusValue
-    | "929"B ->
-        let pos3, fld = ReadStatusText pos2 bs
-        pos3, fld |> FIXField.StatusText
-    | "930"B ->
-        let pos3, fld = ReadRefCompID pos2 bs
-        pos3, fld |> FIXField.RefCompID
-    | "931"B ->
-        let pos3, fld = ReadRefSubID pos2 bs
-        pos3, fld |> FIXField.RefSubID
-    | "932"B ->
-        let pos3, fld = ReadNetworkResponseID pos2 bs
-        pos3, fld |> FIXField.NetworkResponseID
-    | "933"B ->
-        let pos3, fld = ReadNetworkRequestID pos2 bs
-        pos3, fld |> FIXField.NetworkRequestID
-    | "934"B ->
-        let pos3, fld = ReadLastNetworkResponseID pos2 bs
-        pos3, fld |> FIXField.LastNetworkResponseID
-    | "935"B ->
-        let pos3, fld = ReadNetworkRequestType pos2 bs
-        pos3, fld |> FIXField.NetworkRequestType
-    | "936"B ->
-        let pos3, fld = ReadNoCompIDs pos2 bs
-        pos3, fld |> FIXField.NoCompIDs
-    | "937"B ->
-        let pos3, fld = ReadNetworkStatusResponseType pos2 bs
-        pos3, fld |> FIXField.NetworkStatusResponseType
-    | "938"B ->
-        let pos3, fld = ReadNoCollInquiryQualifier pos2 bs
-        pos3, fld |> FIXField.NoCollInquiryQualifier
-    | "939"B ->
-        let pos3, fld = ReadTrdRptStatus pos2 bs
-        pos3, fld |> FIXField.TrdRptStatus
-    | "940"B ->
-        let pos3, fld = ReadAffirmStatus pos2 bs
-        pos3, fld |> FIXField.AffirmStatus
-    | "941"B ->
-        let pos3, fld = ReadUnderlyingStrikeCurrency pos2 bs
-        pos3, fld |> FIXField.UnderlyingStrikeCurrency
-    | "942"B ->
-        let pos3, fld = ReadLegStrikeCurrency pos2 bs
-        pos3, fld |> FIXField.LegStrikeCurrency
-    | "943"B ->
-        let pos3, fld = ReadTimeBracket pos2 bs
-        pos3, fld |> FIXField.TimeBracket
-    | "944"B ->
-        let pos3, fld = ReadCollAction pos2 bs
-        pos3, fld |> FIXField.CollAction
-    | "945"B ->
-        let pos3, fld = ReadCollInquiryStatus pos2 bs
-        pos3, fld |> FIXField.CollInquiryStatus
-    | "946"B ->
-        let pos3, fld = ReadCollInquiryResult pos2 bs
-        pos3, fld |> FIXField.CollInquiryResult
-    | "947"B ->
-        let pos3, fld = ReadStrikeCurrency pos2 bs
-        pos3, fld |> FIXField.StrikeCurrency
-    | "948"B ->
-        let pos3, fld = ReadNoNested3PartyIDs pos2 bs
-        pos3, fld |> FIXField.NoNested3PartyIDs
-    | "949"B ->
-        let pos3, fld = ReadNested3PartyID pos2 bs
-        pos3, fld |> FIXField.Nested3PartyID
-    | "950"B ->
-        let pos3, fld = ReadNested3PartyIDSource pos2 bs
-        pos3, fld |> FIXField.Nested3PartyIDSource
-    | "951"B ->
-        let pos3, fld = ReadNested3PartyRole pos2 bs
-        pos3, fld |> FIXField.Nested3PartyRole
-    | "952"B ->
-        let pos3, fld = ReadNoNested3PartySubIDs pos2 bs
-        pos3, fld |> FIXField.NoNested3PartySubIDs
-    | "953"B ->
-        let pos3, fld = ReadNested3PartySubID pos2 bs
-        pos3, fld |> FIXField.Nested3PartySubID
-    | "954"B ->
-        let pos3, fld = ReadNested3PartySubIDType pos2 bs
-        pos3, fld |> FIXField.Nested3PartySubIDType
-    | "955"B ->
-        let pos3, fld = ReadLegContractSettlMonth pos2 bs
-        pos3, fld |> FIXField.LegContractSettlMonth
-    | "956"B ->
-        let pos3, fld = ReadLegInterestAccrualDate pos2 bs
-        pos3, fld |> FIXField.LegInterestAccrualDate
-    |  _  -> failwith "FIXField invalid tag" 
-
-
-
-//let tagReadFuncs = [|
-//        "1"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAccount pos2 bs
-//            pos3, (fld |> FIXField.Account))
-//        "2"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdvId pos2 bs
-//            pos3, fld |> FIXField.AdvId)
-//        "3"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdvRefID pos2 bs
-//            pos3, fld |> FIXField.AdvRefID)
-//        "4"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdvSide pos2 bs
-//            pos3, fld |> FIXField.AdvSide)
-//        "5"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdvTransType pos2 bs
-//            pos3, fld |> FIXField.AdvTransType)
-//        "6"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAvgPx pos2 bs
-//            pos3, fld |> FIXField.AvgPx)
-//        "7"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBeginSeqNo pos2 bs
-//            pos3, fld |> FIXField.BeginSeqNo)
-//        "8"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBeginString pos2 bs
-//            pos3, fld |> FIXField.BeginString)
-//        "9"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBodyLength pos2 bs
-//            pos3, fld |> FIXField.BodyLength)
-//            |]
-//
-//        "10"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCheckSum pos2 bs
-//            pos3, fld |> FIXField.CheckSum)
-//        "11"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClOrdID pos2 bs
-//            pos3, fld |> FIXField.ClOrdID)
-//        "12"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCommission pos2 bs
-//            pos3, fld |> FIXField.Commission)
-//        "13"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCommType pos2 bs
-//            pos3, fld |> FIXField.CommType)
-//        "14"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCumQty pos2 bs
-//            pos3, fld |> FIXField.CumQty)
-//        "15"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCurrency pos2 bs
-//            pos3, fld |> FIXField.Currency)
-//        "16"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEndSeqNo pos2 bs
-//            pos3, fld |> FIXField.EndSeqNo)
-//        "17"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecID pos2 bs
-//            pos3, fld |> FIXField.ExecID)
-//        "18"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecInst pos2 bs
-//            pos3, fld |> FIXField.ExecInst)
-//        "19"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecRefID pos2 bs
-//            pos3, fld |> FIXField.ExecRefID)
-//        "21"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHandlInst pos2 bs
-//            pos3, fld |> FIXField.HandlInst)
-//        "22"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityIDSource pos2 bs
-//            pos3, fld |> FIXField.SecurityIDSource)
-//        "23"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOIid pos2 bs
-//            pos3, fld |> FIXField.IOIid)
-//        "25"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOIQltyInd pos2 bs
-//            pos3, fld |> FIXField.IOIQltyInd)
-//        "26"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOIRefID pos2 bs
-//            pos3, fld |> FIXField.IOIRefID)
-//        "27"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOIQty pos2 bs
-//            pos3, fld |> FIXField.IOIQty)
-//        "28"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOITransType pos2 bs
-//            pos3, fld |> FIXField.IOITransType)
-//        "29"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastCapacity pos2 bs
-//            pos3, fld |> FIXField.LastCapacity)
-//        "30"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastMkt pos2 bs
-//            pos3, fld |> FIXField.LastMkt)
-//        "31"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastPx pos2 bs
-//            pos3, fld |> FIXField.LastPx)
-//        "32"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastQty pos2 bs
-//            pos3, fld |> FIXField.LastQty)
-//        "33"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLinesOfText pos2 bs
-//            pos3, fld |> FIXField.LinesOfText)
-//        "34"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMsgSeqNum pos2 bs
-//            pos3, fld |> FIXField.MsgSeqNum)
-//        "35"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMsgType pos2 bs
-//            pos3, fld |> FIXField.MsgType)
-//        "36"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNewSeqNo pos2 bs
-//            pos3, fld |> FIXField.NewSeqNo)
-//        "37"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderID pos2 bs
-//            pos3, fld |> FIXField.OrderID)
-//        "38"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderQty pos2 bs
-//            pos3, fld |> FIXField.OrderQty)
-//        "39"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrdStatus pos2 bs
-//            pos3, fld |> FIXField.OrdStatus)
-//        "40"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrdType pos2 bs
-//            pos3, fld |> FIXField.OrdType)
-//        "41"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigClOrdID pos2 bs
-//            pos3, fld |> FIXField.OrigClOrdID)
-//        "42"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigTime pos2 bs
-//            pos3, fld |> FIXField.OrigTime)
-//        "43"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPossDupFlag pos2 bs
-//            pos3, fld |> FIXField.PossDupFlag)
-//        "44"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPrice pos2 bs
-//            pos3, fld |> FIXField.Price)
-//        "45"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefSeqNum pos2 bs
-//            pos3, fld |> FIXField.RefSeqNum)
-//        "48"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityID pos2 bs
-//            pos3, fld |> FIXField.SecurityID)
-//        "49"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSenderCompID pos2 bs
-//            pos3, fld |> FIXField.SenderCompID)
-//        "50"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSenderSubID pos2 bs
-//            pos3, fld |> FIXField.SenderSubID)
-//        "52"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSendingTime pos2 bs
-//            pos3, fld |> FIXField.SendingTime)
-//        "53"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuantity pos2 bs
-//            pos3, fld |> FIXField.Quantity)
-//        "54"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSide pos2 bs
-//            pos3, fld |> FIXField.Side)
-//        "55"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSymbol pos2 bs
-//            pos3, fld |> FIXField.Symbol)
-//        "56"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetCompID pos2 bs
-//            pos3, fld |> FIXField.TargetCompID)
-//        "57"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetSubID pos2 bs
-//            pos3, fld |> FIXField.TargetSubID)
-//        "58"B, (fun pos2 bs ->
-//            let pos3, fld = ReadText pos2 bs
-//            pos3, fld |> FIXField.Text)
-//        "59"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTimeInForce pos2 bs
-//            pos3, fld |> FIXField.TimeInForce)
-//        "60"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTransactTime pos2 bs
-//            pos3, fld |> FIXField.TransactTime)
-//        "61"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUrgency pos2 bs
-//            pos3, fld |> FIXField.Urgency)
-//        "62"B, (fun pos2 bs ->
-//            let pos3, fld = ReadValidUntilTime pos2 bs
-//            pos3, fld |> FIXField.ValidUntilTime)
-//        "63"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlType pos2 bs
-//            pos3, fld |> FIXField.SettlType)
-//        "64"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlDate pos2 bs
-//            pos3, fld |> FIXField.SettlDate)
-//        "65"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSymbolSfx pos2 bs
-//            pos3, fld |> FIXField.SymbolSfx)
-//        "66"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListID pos2 bs
-//            pos3, fld |> FIXField.ListID)
-//        "67"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListSeqNo pos2 bs
-//            pos3, fld |> FIXField.ListSeqNo)
-//        "68"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoOrders pos2 bs
-//            pos3, fld |> FIXField.TotNoOrders)
-//        "69"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListExecInst pos2 bs
-//            pos3, fld |> FIXField.ListExecInst)
-//        "70"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocID pos2 bs
-//            pos3, fld |> FIXField.AllocID)
-//        "71"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocTransType pos2 bs
-//            pos3, fld |> FIXField.AllocTransType)
-//        "72"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefAllocID pos2 bs
-//            pos3, fld |> FIXField.RefAllocID)
-//        "73"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoOrders pos2 bs
-//            pos3, fld |> FIXField.NoOrders)
-//        "74"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAvgPxPrecision pos2 bs
-//            pos3, fld |> FIXField.AvgPxPrecision)
-//        "75"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeDate pos2 bs
-//            pos3, fld |> FIXField.TradeDate)
-//        "77"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPositionEffect pos2 bs
-//            pos3, fld |> FIXField.PositionEffect)
-//        "78"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoAllocs pos2 bs
-//            pos3, fld |> FIXField.NoAllocs)
-//        "79"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocAccount pos2 bs
-//            pos3, fld |> FIXField.AllocAccount)
-//        "80"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocQty pos2 bs
-//            pos3, fld |> FIXField.AllocQty)
-//        "81"B, (fun pos2 bs ->
-//            let pos3, fld = ReadProcessCode pos2 bs
-//            pos3, fld |> FIXField.ProcessCode)
-//        "82"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoRpts pos2 bs
-//            pos3, fld |> FIXField.NoRpts)
-//        "83"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRptSeq pos2 bs
-//            pos3, fld |> FIXField.RptSeq)
-//        "84"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCxlQty pos2 bs
-//            pos3, fld |> FIXField.CxlQty)
-//        "85"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoDlvyInst pos2 bs
-//            pos3, fld |> FIXField.NoDlvyInst)
-//        "87"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocStatus pos2 bs
-//            pos3, fld |> FIXField.AllocStatus)
-//        "88"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocRejCode pos2 bs
-//            pos3, fld |> FIXField.AllocRejCode)
-//        "93"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSignature pos2 bs
-//            pos3, fld |> FIXField.Signature) //,n-> (fun pos2 bsstring compound field ->)
-//        "90"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecureData pos2 bs
-//            pos3, fld |> FIXField.SecureData) //,n-> (fun pos2 bsstring compound field ->)
-//        "94"B, (fun pos2 bs ->
-//                    let pos3, fld = ReadEmailType pos2 bs
-//                    pos3, fld |> FIXField.EmailType)
-//        "95"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRawData pos2 bs
-//            pos3, fld |> FIXField.RawData) //,n-> (fun pos2 bsstring compound field ->)
-//        "97"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPossResend pos2 bs
-//            pos3, fld |> FIXField.PossResend)
-//        "98"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncryptMethod pos2 bs
-//            pos3, fld |> FIXField.EncryptMethod)
-//        "99"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStopPx pos2 bs
-//            pos3, fld |> FIXField.StopPx)
-//        "100"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExDestination pos2 bs
-//            pos3, fld |> FIXField.ExDestination)
-//        "102"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCxlRejReason pos2 bs
-//            pos3, fld |> FIXField.CxlRejReason)
-//        "103"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrdRejReason pos2 bs
-//            pos3, fld |> FIXField.OrdRejReason)
-//        "104"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOIQualifier pos2 bs
-//            pos3, fld |> FIXField.IOIQualifier)
-//        "105"B, (fun pos2 bs ->
-//            let pos3, fld = ReadWaveNo pos2 bs
-//            pos3, fld |> FIXField.WaveNo)
-//        "106"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIssuer pos2 bs
-//            pos3, fld |> FIXField.Issuer)
-//        "107"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.SecurityDesc)
-//        "108"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHeartBtInt pos2 bs
-//            pos3, fld |> FIXField.HeartBtInt)
-//        "110"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMinQty pos2 bs
-//            pos3, fld |> FIXField.MinQty)
-//        "111"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaxFloor pos2 bs
-//            pos3, fld |> FIXField.MaxFloor)
-//        "112"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTestReqID pos2 bs
-//            pos3, fld |> FIXField.TestReqID)
-//        "113"B, (fun pos2 bs ->
-//            let pos3, fld = ReadReportToExch pos2 bs
-//            pos3, fld |> FIXField.ReportToExch)
-//        "114"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLocateReqd pos2 bs
-//            pos3, fld |> FIXField.LocateReqd)
-//        "115"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOnBehalfOfCompID pos2 bs
-//            pos3, fld |> FIXField.OnBehalfOfCompID)
-//        "116"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOnBehalfOfSubID pos2 bs
-//            pos3, fld |> FIXField.OnBehalfOfSubID)
-//        "117"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteID pos2 bs
-//            pos3, fld |> FIXField.QuoteID)
-//        "118"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetMoney pos2 bs
-//            pos3, fld |> FIXField.NetMoney)
-//        "119"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrAmt pos2 bs
-//            pos3, fld |> FIXField.SettlCurrAmt)
-//        "120"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrency pos2 bs
-//            pos3, fld |> FIXField.SettlCurrency)
-//        "121"B, (fun pos2 bs ->
-//            let pos3, fld = ReadForexReq pos2 bs
-//            pos3, fld |> FIXField.ForexReq)
-//        "122"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigSendingTime pos2 bs
-//            pos3, fld |> FIXField.OrigSendingTime)
-//        "123"B, (fun pos2 bs ->
-//            let pos3, fld = ReadGapFillFlag pos2 bs
-//            pos3, fld |> FIXField.GapFillFlag)
-//        "124"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoExecs pos2 bs
-//            pos3, fld |> FIXField.NoExecs)
-//        "126"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExpireTime pos2 bs
-//            pos3, fld |> FIXField.ExpireTime)
-//        "127"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDKReason pos2 bs
-//            pos3, fld |> FIXField.DKReason)
-//        "128"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliverToCompID pos2 bs
-//            pos3, fld |> FIXField.DeliverToCompID)
-//        "129"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliverToSubID pos2 bs
-//            pos3, fld |> FIXField.DeliverToSubID)
-//        "130"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIOINaturalFlag pos2 bs
-//            pos3, fld |> FIXField.IOINaturalFlag)
-//        "131"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteReqID pos2 bs
-//            pos3, fld |> FIXField.QuoteReqID)
-//        "132"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidPx pos2 bs
-//            pos3, fld |> FIXField.BidPx)
-//        "133"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferPx pos2 bs
-//            pos3, fld |> FIXField.OfferPx)
-//        "134"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidSize pos2 bs
-//            pos3, fld |> FIXField.BidSize)
-//        "135"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferSize pos2 bs
-//            pos3, fld |> FIXField.OfferSize)
-//        "136"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoMiscFees pos2 bs
-//            pos3, fld |> FIXField.NoMiscFees)
-//        "137"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMiscFeeAmt pos2 bs
-//            pos3, fld |> FIXField.MiscFeeAmt)
-//        "138"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMiscFeeCurr pos2 bs
-//            pos3, fld |> FIXField.MiscFeeCurr)
-//        "139"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMiscFeeType pos2 bs
-//            pos3, fld |> FIXField.MiscFeeType)
-//        "140"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPrevClosePx pos2 bs
-//            pos3, fld |> FIXField.PrevClosePx)
-//        "141"B, (fun pos2 bs ->
-//            let pos3, fld = ReadResetSeqNumFlag pos2 bs
-//            pos3, fld |> FIXField.ResetSeqNumFlag)
-//        "142"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSenderLocationID pos2 bs
-//            pos3, fld |> FIXField.SenderLocationID)
-//        "143"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetLocationID pos2 bs
-//            pos3, fld |> FIXField.TargetLocationID)
-//        "144"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOnBehalfOfLocationID pos2 bs
-//            pos3, fld |> FIXField.OnBehalfOfLocationID)
-//        "145"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliverToLocationID pos2 bs
-//            pos3, fld |> FIXField.DeliverToLocationID)
-//        "146"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoRelatedSym pos2 bs
-//            pos3, fld |> FIXField.NoRelatedSym)
-//        "147"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSubject pos2 bs
-//            pos3, fld |> FIXField.Subject)
-//        "148"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHeadline pos2 bs
-//            pos3, fld |> FIXField.Headline)
-//        "149"B, (fun pos2 bs ->
-//            let pos3, fld = ReadURLLink pos2 bs
-//            pos3, fld |> FIXField.URLLink)
-//        "150"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecType pos2 bs
-//            pos3, fld |> FIXField.ExecType)
-//        "151"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLeavesQty pos2 bs
-//            pos3, fld |> FIXField.LeavesQty)
-//        "152"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashOrderQty pos2 bs
-//            pos3, fld |> FIXField.CashOrderQty)
-//        "153"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocAvgPx pos2 bs
-//            pos3, fld |> FIXField.AllocAvgPx)
-//        "154"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocNetMoney pos2 bs
-//            pos3, fld |> FIXField.AllocNetMoney)
-//        "155"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrFxRate pos2 bs
-//            pos3, fld |> FIXField.SettlCurrFxRate)
-//        "156"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrFxRateCalc pos2 bs
-//            pos3, fld |> FIXField.SettlCurrFxRateCalc)
-//        "157"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNumDaysInterest pos2 bs
-//            pos3, fld |> FIXField.NumDaysInterest)
-//        "158"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAccruedInterestRate pos2 bs
-//            pos3, fld |> FIXField.AccruedInterestRate)
-//        "159"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAccruedInterestAmt pos2 bs
-//            pos3, fld |> FIXField.AccruedInterestAmt)
-//        "160"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstMode pos2 bs
-//            pos3, fld |> FIXField.SettlInstMode)
-//        "161"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocText pos2 bs
-//            pos3, fld |> FIXField.AllocText)
-//        "162"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstID pos2 bs
-//            pos3, fld |> FIXField.SettlInstID)
-//        "163"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstTransType pos2 bs
-//            pos3, fld |> FIXField.SettlInstTransType)
-//        "164"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEmailThreadID pos2 bs
-//            pos3, fld |> FIXField.EmailThreadID)
-//        "165"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstSource pos2 bs
-//            pos3, fld |> FIXField.SettlInstSource)
-//        "167"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityType pos2 bs
-//            pos3, fld |> FIXField.SecurityType)
-//        "168"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEffectiveTime pos2 bs
-//            pos3, fld |> FIXField.EffectiveTime)
-//        "169"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStandInstDbType pos2 bs
-//            pos3, fld |> FIXField.StandInstDbType)
-//        "170"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStandInstDbName pos2 bs
-//            pos3, fld |> FIXField.StandInstDbName)
-//        "171"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStandInstDbID pos2 bs
-//            pos3, fld |> FIXField.StandInstDbID)
-//        "172"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlDeliveryType pos2 bs
-//            pos3, fld |> FIXField.SettlDeliveryType)
-//        "188"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidSpotRate pos2 bs
-//            pos3, fld |> FIXField.BidSpotRate)
-//        "189"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidForwardPoints pos2 bs
-//            pos3, fld |> FIXField.BidForwardPoints)
-//        "190"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferSpotRate pos2 bs
-//            pos3, fld |> FIXField.OfferSpotRate)
-//        "191"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferForwardPoints pos2 bs
-//            pos3, fld |> FIXField.OfferForwardPoints)
-//        "192"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderQty2 pos2 bs
-//            pos3, fld |> FIXField.OrderQty2)
-//        "193"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlDate2 pos2 bs
-//            pos3, fld |> FIXField.SettlDate2)
-//        "194"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastSpotRate pos2 bs
-//            pos3, fld |> FIXField.LastSpotRate)
-//        "195"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastForwardPoints pos2 bs
-//            pos3, fld |> FIXField.LastForwardPoints)
-//        "196"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocLinkID pos2 bs
-//            pos3, fld |> FIXField.AllocLinkID)
-//        "197"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocLinkType pos2 bs
-//            pos3, fld |> FIXField.AllocLinkType)
-//        "198"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryOrderID pos2 bs
-//            pos3, fld |> FIXField.SecondaryOrderID)
-//        "199"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoIOIQualifiers pos2 bs
-//            pos3, fld |> FIXField.NoIOIQualifiers)
-//        "200"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaturityMonthYear pos2 bs
-//            pos3, fld |> FIXField.MaturityMonthYear)
-//        "201"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPutOrCall pos2 bs
-//            pos3, fld |> FIXField.PutOrCall)
-//        "202"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStrikePrice pos2 bs
-//            pos3, fld |> FIXField.StrikePrice)
-//        "203"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCoveredOrUncovered pos2 bs
-//            pos3, fld |> FIXField.CoveredOrUncovered)
-//        "206"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOptAttribute pos2 bs
-//            pos3, fld |> FIXField.OptAttribute)
-//        "207"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityExchange pos2 bs
-//            pos3, fld |> FIXField.SecurityExchange)
-//        "208"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNotifyBrokerOfCredit pos2 bs
-//            pos3, fld |> FIXField.NotifyBrokerOfCredit)
-//        "209"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocHandlInst pos2 bs
-//            pos3, fld |> FIXField.AllocHandlInst)
-//        "210"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaxShow pos2 bs
-//            pos3, fld |> FIXField.MaxShow)
-//        "211"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegOffsetValue pos2 bs
-//            pos3, fld |> FIXField.PegOffsetValue)
-//        "212"B, (fun pos2 bs ->
-//            let pos3, fld = ReadXmlData pos2 bs
-//            pos3, fld |> FIXField.XmlData) //,n-> (fun pos2 bsstring compound field ->)
-//        "214"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstRefID pos2 bs
-//            pos3, fld |> FIXField.SettlInstRefID)
-//        "215"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoRoutingIDs pos2 bs
-//            pos3, fld |> FIXField.NoRoutingIDs)
-//        "216"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRoutingType pos2 bs
-//            pos3, fld |> FIXField.RoutingType)
-//        "217"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRoutingID pos2 bs
-//            pos3, fld |> FIXField.RoutingID)
-//        "218"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSpread pos2 bs
-//            pos3, fld |> FIXField.Spread)
-//        "220"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkCurveCurrency pos2 bs
-//            pos3, fld |> FIXField.BenchmarkCurveCurrency)
-//        "221"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkCurveName pos2 bs
-//            pos3, fld |> FIXField.BenchmarkCurveName)
-//        "222"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkCurvePoint pos2 bs
-//            pos3, fld |> FIXField.BenchmarkCurvePoint)
-//        "223"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCouponRate pos2 bs
-//            pos3, fld |> FIXField.CouponRate)
-//        "224"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCouponPaymentDate pos2 bs
-//            pos3, fld |> FIXField.CouponPaymentDate)
-//        "225"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIssueDate pos2 bs
-//            pos3, fld |> FIXField.IssueDate)
-//        "226"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRepurchaseTerm pos2 bs
-//            pos3, fld |> FIXField.RepurchaseTerm)
-//        "227"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRepurchaseRate pos2 bs
-//            pos3, fld |> FIXField.RepurchaseRate)
-//        "228"B, (fun pos2 bs ->
-//            let pos3, fld = ReadFactor pos2 bs
-//            pos3, fld |> FIXField.Factor)
-//        "229"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeOriginationDate pos2 bs
-//            pos3, fld |> FIXField.TradeOriginationDate)
-//        "230"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExDate pos2 bs
-//            pos3, fld |> FIXField.ExDate)
-//        "231"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContractMultiplier pos2 bs
-//            pos3, fld |> FIXField.ContractMultiplier)
-//        "232"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoStipulations pos2 bs
-//            pos3, fld |> FIXField.NoStipulations)
-//        "233"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStipulationType pos2 bs
-//            pos3, fld |> FIXField.StipulationType)
-//        "234"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStipulationValue pos2 bs
-//            pos3, fld |> FIXField.StipulationValue)
-//        "235"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYieldType pos2 bs
-//            pos3, fld |> FIXField.YieldType)
-//        "236"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYield pos2 bs
-//            pos3, fld |> FIXField.Yield)
-//        "237"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalTakedown pos2 bs
-//            pos3, fld |> FIXField.TotalTakedown)
-//        "238"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConcession pos2 bs
-//            pos3, fld |> FIXField.Concession)
-//        "239"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRepoCollateralSecurityType pos2 bs
-//            pos3, fld |> FIXField.RepoCollateralSecurityType)
-//        "240"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRedemptionDate pos2 bs
-//            pos3, fld |> FIXField.RedemptionDate)
-//        "241"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCouponPaymentDate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCouponPaymentDate)
-//        "242"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingIssueDate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingIssueDate)
-//        "243"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingRepoCollateralSecurityType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingRepoCollateralSecurityType)
-//        "244"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingRepurchaseTerm pos2 bs
-//            pos3, fld |> FIXField.UnderlyingRepurchaseTerm)
-//        "245"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingRepurchaseRate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingRepurchaseRate)
-//        "246"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingFactor pos2 bs
-//            pos3, fld |> FIXField.UnderlyingFactor)
-//        "247"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingRedemptionDate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingRedemptionDate)
-//        "248"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCouponPaymentDate pos2 bs
-//            pos3, fld |> FIXField.LegCouponPaymentDate)
-//        "249"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegIssueDate pos2 bs
-//            pos3, fld |> FIXField.LegIssueDate)
-//        "250"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRepoCollateralSecurityType pos2 bs
-//            pos3, fld |> FIXField.LegRepoCollateralSecurityType)
-//        "251"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRepurchaseTerm pos2 bs
-//            pos3, fld |> FIXField.LegRepurchaseTerm)
-//        "252"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRepurchaseRate pos2 bs
-//            pos3, fld |> FIXField.LegRepurchaseRate)
-//        "253"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegFactor pos2 bs
-//            pos3, fld |> FIXField.LegFactor)
-//        "254"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRedemptionDate pos2 bs
-//            pos3, fld |> FIXField.LegRedemptionDate)
-//        "255"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCreditRating pos2 bs
-//            pos3, fld |> FIXField.CreditRating)
-//        "256"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCreditRating pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCreditRating)
-//        "257"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCreditRating pos2 bs
-//            pos3, fld |> FIXField.LegCreditRating)
-//        "258"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradedFlatSwitch pos2 bs
-//            pos3, fld |> FIXField.TradedFlatSwitch)
-//        "259"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBasisFeatureDate pos2 bs
-//            pos3, fld |> FIXField.BasisFeatureDate)
-//        "260"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBasisFeaturePrice pos2 bs
-//            pos3, fld |> FIXField.BasisFeaturePrice)
-//        "262"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDReqID pos2 bs
-//            pos3, fld |> FIXField.MDReqID)
-//        "263"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSubscriptionRequestType pos2 bs
-//            pos3, fld |> FIXField.SubscriptionRequestType)
-//        "264"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMarketDepth pos2 bs
-//            pos3, fld |> FIXField.MarketDepth)
-//        "265"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDUpdateType pos2 bs
-//            pos3, fld |> FIXField.MDUpdateType)
-//        "266"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAggregatedBook pos2 bs
-//            pos3, fld |> FIXField.AggregatedBook)
-//        "267"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoMDEntryTypes pos2 bs
-//            pos3, fld |> FIXField.NoMDEntryTypes)
-//        "268"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoMDEntries pos2 bs
-//            pos3, fld |> FIXField.NoMDEntries)
-//        "269"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryType pos2 bs
-//            pos3, fld |> FIXField.MDEntryType)
-//        "270"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryPx pos2 bs
-//            pos3, fld |> FIXField.MDEntryPx)
-//        "271"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntrySize pos2 bs
-//            pos3, fld |> FIXField.MDEntrySize)
-//        "272"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryDate pos2 bs
-//            pos3, fld |> FIXField.MDEntryDate)
-//        "273"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryTime pos2 bs
-//            pos3, fld |> FIXField.MDEntryTime)
-//        "274"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTickDirection pos2 bs
-//            pos3, fld |> FIXField.TickDirection)
-//        "275"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDMkt pos2 bs
-//            pos3, fld |> FIXField.MDMkt)
-//        "276"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteCondition pos2 bs
-//            pos3, fld |> FIXField.QuoteCondition)
-//        "277"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeCondition pos2 bs
-//            pos3, fld |> FIXField.TradeCondition)
-//        "278"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryID pos2 bs
-//            pos3, fld |> FIXField.MDEntryID)
-//        "279"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDUpdateAction pos2 bs
-//            pos3, fld |> FIXField.MDUpdateAction)
-//        "280"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryRefID pos2 bs
-//            pos3, fld |> FIXField.MDEntryRefID)
-//        "281"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDReqRejReason pos2 bs
-//            pos3, fld |> FIXField.MDReqRejReason)
-//        "282"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryOriginator pos2 bs
-//            pos3, fld |> FIXField.MDEntryOriginator)
-//        "283"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLocationID pos2 bs
-//            pos3, fld |> FIXField.LocationID)
-//        "284"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeskID pos2 bs
-//            pos3, fld |> FIXField.DeskID)
-//        "285"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeleteReason pos2 bs
-//            pos3, fld |> FIXField.DeleteReason)
-//        "286"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOpenCloseSettlFlag pos2 bs
-//            pos3, fld |> FIXField.OpenCloseSettlFlag)
-//        "287"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSellerDays pos2 bs
-//            pos3, fld |> FIXField.SellerDays)
-//        "288"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryBuyer pos2 bs
-//            pos3, fld |> FIXField.MDEntryBuyer)
-//        "289"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntrySeller pos2 bs
-//            pos3, fld |> FIXField.MDEntrySeller)
-//        "290"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDEntryPositionNo pos2 bs
-//            pos3, fld |> FIXField.MDEntryPositionNo)
-//        "291"B, (fun pos2 bs ->
-//            let pos3, fld = ReadFinancialStatus pos2 bs
-//            pos3, fld |> FIXField.FinancialStatus)
-//        "292"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCorporateAction pos2 bs
-//            pos3, fld |> FIXField.CorporateAction)
-//        "293"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDefBidSize pos2 bs
-//            pos3, fld |> FIXField.DefBidSize)
-//        "294"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDefOfferSize pos2 bs
-//            pos3, fld |> FIXField.DefOfferSize)
-//        "295"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoQuoteEntries pos2 bs
-//            pos3, fld |> FIXField.NoQuoteEntries)
-//        "296"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoQuoteSets pos2 bs
-//            pos3, fld |> FIXField.NoQuoteSets)
-//        "297"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteStatus pos2 bs
-//            pos3, fld |> FIXField.QuoteStatus)
-//        "298"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteCancelType pos2 bs
-//            pos3, fld |> FIXField.QuoteCancelType)
-//        "299"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteEntryID pos2 bs
-//            pos3, fld |> FIXField.QuoteEntryID)
-//        "300"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteRejectReason pos2 bs
-//            pos3, fld |> FIXField.QuoteRejectReason)
-//        "301"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteResponseLevel pos2 bs
-//            pos3, fld |> FIXField.QuoteResponseLevel)
-//        "302"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteSetID pos2 bs
-//            pos3, fld |> FIXField.QuoteSetID)
-//        "303"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteRequestType pos2 bs
-//            pos3, fld |> FIXField.QuoteRequestType)
-//        "304"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoQuoteEntries pos2 bs
-//            pos3, fld |> FIXField.TotNoQuoteEntries)
-//        "305"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityIDSource pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityIDSource)
-//        "306"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingIssuer pos2 bs
-//            pos3, fld |> FIXField.UnderlyingIssuer)
-//        "307"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityDesc)
-//        "308"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityExchange pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityExchange)
-//        "309"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityID pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityID)
-//        "310"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityType)
-//        "311"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSymbol pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSymbol)
-//        "312"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSymbolSfx pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSymbolSfx)
-//        "313"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingMaturityMonthYear pos2 bs
-//            pos3, fld |> FIXField.UnderlyingMaturityMonthYear)
-//        "315"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingPutOrCall pos2 bs
-//            pos3, fld |> FIXField.UnderlyingPutOrCall)
-//        "316"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStrikePrice pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStrikePrice)
-//        "317"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingOptAttribute pos2 bs
-//            pos3, fld |> FIXField.UnderlyingOptAttribute)
-//        "318"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCurrency pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCurrency)
-//        "320"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityReqID pos2 bs
-//            pos3, fld |> FIXField.SecurityReqID)
-//        "321"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityRequestType pos2 bs
-//            pos3, fld |> FIXField.SecurityRequestType)
-//        "322"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityResponseID pos2 bs
-//            pos3, fld |> FIXField.SecurityResponseID)
-//        "323"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityResponseType pos2 bs
-//            pos3, fld |> FIXField.SecurityResponseType)
-//        "324"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityStatusReqID pos2 bs
-//            pos3, fld |> FIXField.SecurityStatusReqID)
-//        "325"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnsolicitedIndicator pos2 bs
-//            pos3, fld |> FIXField.UnsolicitedIndicator)
-//        "326"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityTradingStatus pos2 bs
-//            pos3, fld |> FIXField.SecurityTradingStatus)
-//        "327"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHaltReason pos2 bs
-//            pos3, fld |> FIXField.HaltReason)
-//        "328"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInViewOfCommon pos2 bs
-//            pos3, fld |> FIXField.InViewOfCommon)
-//        "329"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDueToRelated pos2 bs
-//            pos3, fld |> FIXField.DueToRelated)
-//        "330"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBuyVolume pos2 bs
-//            pos3, fld |> FIXField.BuyVolume)
-//        "331"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSellVolume pos2 bs
-//            pos3, fld |> FIXField.SellVolume)
-//        "332"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHighPx pos2 bs
-//            pos3, fld |> FIXField.HighPx)
-//        "333"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLowPx pos2 bs
-//            pos3, fld |> FIXField.LowPx)
-//        "334"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdjustment pos2 bs
-//            pos3, fld |> FIXField.Adjustment)
-//        "335"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesReqID pos2 bs
-//            pos3, fld |> FIXField.TradSesReqID)
-//        "336"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradingSessionID pos2 bs
-//            pos3, fld |> FIXField.TradingSessionID)
-//        "337"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraTrader pos2 bs
-//            pos3, fld |> FIXField.ContraTrader)
-//        "338"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesMethod pos2 bs
-//            pos3, fld |> FIXField.TradSesMethod)
-//        "339"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesMode pos2 bs
-//            pos3, fld |> FIXField.TradSesMode)
-//        "340"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesStatus pos2 bs
-//            pos3, fld |> FIXField.TradSesStatus)
-//        "341"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesStartTime pos2 bs
-//            pos3, fld |> FIXField.TradSesStartTime)
-//        "342"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesOpenTime pos2 bs
-//            pos3, fld |> FIXField.TradSesOpenTime)
-//        "343"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesPreCloseTime pos2 bs
-//            pos3, fld |> FIXField.TradSesPreCloseTime)
-//        "344"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesCloseTime pos2 bs
-//            pos3, fld |> FIXField.TradSesCloseTime)
-//        "345"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesEndTime pos2 bs
-//            pos3, fld |> FIXField.TradSesEndTime)
-//        "346"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNumberOfOrders pos2 bs
-//            pos3, fld |> FIXField.NumberOfOrders)
-//        "347"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMessageEncoding pos2 bs
-//            pos3, fld |> FIXField.MessageEncoding)
-//        "348"B, (fun pos2 bs ->
-//                let pos3, fld = ReadEncodedIssuer pos2 bs
-//                pos3, fld |> FIXField.EncodedIssuer) //,n-> (fun pos2 bsstring compound field ->)
-//        "350"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.EncodedSecurityDesc) //,n-> (fun pos2 bsstring compound field ->)
-//        "352"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedListExecInst pos2 bs
-//            pos3, fld |> FIXField.EncodedListExecInst) //,n-> (fun pos2 bsstring compound field ->)
-//        "354"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedText pos2 bs
-//            pos3, fld |> FIXField.EncodedText) //,n-> (fun pos2 bsstring compound field ->)
-//        "356"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedSubject pos2 bs
-//            pos3, fld |> FIXField.EncodedSubject) //,n-> (fun pos2 bsstring compound field ->)
-//        "358"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedHeadline pos2 bs
-//            pos3, fld |> FIXField.EncodedHeadline) //,n-> (fun pos2 bsstring compound field ->)
-//        "360"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedAllocText pos2 bs
-//            pos3, fld |> FIXField.EncodedAllocText ) //,n-> (fun pos2 bsstring compound field ->)
-//        "362"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedUnderlyingIssuer pos2 bs
-//            pos3, fld |> FIXField.EncodedUnderlyingIssuer) //,n-> (fun pos2 bsstring compound field ->)
-//        "364"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedUnderlyingSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.EncodedUnderlyingSecurityDesc) //,n-> (fun pos2 bsstring compound field ->)
-//        "366"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocPrice pos2 bs
-//            pos3, fld |> FIXField.AllocPrice)
-//        "367"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteSetValidUntilTime pos2 bs
-//            pos3, fld |> FIXField.QuoteSetValidUntilTime)
-//        "368"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteEntryRejectReason pos2 bs
-//            pos3, fld |> FIXField.QuoteEntryRejectReason)
-//        "369"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastMsgSeqNumProcessed pos2 bs
-//            pos3, fld |> FIXField.LastMsgSeqNumProcessed)
-//        "371"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefTagID pos2 bs
-//            pos3, fld |> FIXField.RefTagID)
-//        "372"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefMsgType pos2 bs
-//            pos3, fld |> FIXField.RefMsgType)
-//        "373"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSessionRejectReason pos2 bs
-//            pos3, fld |> FIXField.SessionRejectReason)
-//        "374"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidRequestTransType pos2 bs
-//            pos3, fld |> FIXField.BidRequestTransType)
-//        "375"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraBroker pos2 bs
-//            pos3, fld |> FIXField.ContraBroker)
-//        "376"B, (fun pos2 bs ->
-//            let pos3, fld = ReadComplianceID pos2 bs
-//            pos3, fld |> FIXField.ComplianceID)
-//        "377"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSolicitedFlag pos2 bs
-//            pos3, fld |> FIXField.SolicitedFlag)
-//        "378"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecRestatementReason pos2 bs
-//            pos3, fld |> FIXField.ExecRestatementReason)
-//        "379"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBusinessRejectRefID pos2 bs
-//            pos3, fld |> FIXField.BusinessRejectRefID)
-//        "380"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBusinessRejectReason pos2 bs
-//            pos3, fld |> FIXField.BusinessRejectReason)
-//        "381"B, (fun pos2 bs ->
-//            let pos3, fld = ReadGrossTradeAmt pos2 bs
-//            pos3, fld |> FIXField.GrossTradeAmt)
-//        "382"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoContraBrokers pos2 bs
-//            pos3, fld |> FIXField.NoContraBrokers)
-//        "383"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaxMessageSize pos2 bs
-//            pos3, fld |> FIXField.MaxMessageSize)
-//        "384"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoMsgTypes pos2 bs
-//            pos3, fld |> FIXField.NoMsgTypes)
-//        "385"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMsgDirection pos2 bs
-//            pos3, fld |> FIXField.MsgDirection)
-//        "386"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoTradingSessions pos2 bs
-//            pos3, fld |> FIXField.NoTradingSessions)
-//        "387"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalVolumeTraded pos2 bs
-//            pos3, fld |> FIXField.TotalVolumeTraded)
-//        "388"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionInst pos2 bs
-//            pos3, fld |> FIXField.DiscretionInst)
-//        "389"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionOffsetValue pos2 bs
-//            pos3, fld |> FIXField.DiscretionOffsetValue)
-//        "390"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidID pos2 bs
-//            pos3, fld |> FIXField.BidID)
-//        "391"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClientBidID pos2 bs
-//            pos3, fld |> FIXField.ClientBidID)
-//        "392"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListName pos2 bs
-//            pos3, fld |> FIXField.ListName)
-//        "393"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoRelatedSym pos2 bs
-//            pos3, fld |> FIXField.TotNoRelatedSym)
-//        "394"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidType pos2 bs
-//            pos3, fld |> FIXField.BidType)
-//        "395"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNumTickets pos2 bs
-//            pos3, fld |> FIXField.NumTickets)
-//        "396"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSideValue1 pos2 bs
-//            pos3, fld |> FIXField.SideValue1)
-//        "397"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSideValue2 pos2 bs
-//            pos3, fld |> FIXField.SideValue2)
-//        "398"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoBidDescriptors pos2 bs
-//            pos3, fld |> FIXField.NoBidDescriptors)
-//        "399"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidDescriptorType pos2 bs
-//            pos3, fld |> FIXField.BidDescriptorType)
-//        "400"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidDescriptor pos2 bs
-//            pos3, fld |> FIXField.BidDescriptor)
-//        "401"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSideValueInd pos2 bs
-//            pos3, fld |> FIXField.SideValueInd)
-//        "402"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLiquidityPctLow pos2 bs
-//            pos3, fld |> FIXField.LiquidityPctLow)
-//        "403"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLiquidityPctHigh pos2 bs
-//            pos3, fld |> FIXField.LiquidityPctHigh)
-//        "404"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLiquidityValue pos2 bs
-//            pos3, fld |> FIXField.LiquidityValue)
-//        "405"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEFPTrackingError pos2 bs
-//            pos3, fld |> FIXField.EFPTrackingError)
-//        "406"B, (fun pos2 bs ->
-//            let pos3, fld = ReadFairValue pos2 bs
-//            pos3, fld |> FIXField.FairValue)
-//        "407"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOutsideIndexPct pos2 bs
-//            pos3, fld |> FIXField.OutsideIndexPct)
-//        "408"B, (fun pos2 bs ->
-//            let pos3, fld = ReadValueOfFutures pos2 bs
-//            pos3, fld |> FIXField.ValueOfFutures)
-//        "409"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLiquidityIndType pos2 bs
-//            pos3, fld |> FIXField.LiquidityIndType)
-//        "410"B, (fun pos2 bs ->
-//            let pos3, fld = ReadWtAverageLiquidity pos2 bs
-//            pos3, fld |> FIXField.WtAverageLiquidity)
-//        "411"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExchangeForPhysical pos2 bs
-//            pos3, fld |> FIXField.ExchangeForPhysical)
-//        "412"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOutMainCntryUIndex pos2 bs
-//            pos3, fld |> FIXField.OutMainCntryUIndex)
-//        "413"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCrossPercent pos2 bs
-//            pos3, fld |> FIXField.CrossPercent)
-//        "414"B, (fun pos2 bs ->
-//            let pos3, fld = ReadProgRptReqs pos2 bs
-//            pos3, fld |> FIXField.ProgRptReqs)
-//        "415"B, (fun pos2 bs ->
-//            let pos3, fld = ReadProgPeriodInterval pos2 bs
-//            pos3, fld |> FIXField.ProgPeriodInterval)
-//        "416"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIncTaxInd pos2 bs
-//            pos3, fld |> FIXField.IncTaxInd)
-//        "417"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNumBidders pos2 bs
-//            pos3, fld |> FIXField.NumBidders)
-//        "418"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidTradeType pos2 bs
-//            pos3, fld |> FIXField.BidTradeType)
-//        "419"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBasisPxType pos2 bs
-//            pos3, fld |> FIXField.BasisPxType)
-//        "420"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoBidComponents pos2 bs
-//            pos3, fld |> FIXField.NoBidComponents)
-//        "421"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCountry pos2 bs
-//            pos3, fld |> FIXField.Country)
-//        "422"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoStrikes pos2 bs
-//            pos3, fld |> FIXField.TotNoStrikes)
-//        "423"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriceType pos2 bs
-//            pos3, fld |> FIXField.PriceType)
-//        "424"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDayOrderQty pos2 bs
-//            pos3, fld |> FIXField.DayOrderQty)
-//        "425"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDayCumQty pos2 bs
-//            pos3, fld |> FIXField.DayCumQty)
-//        "426"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDayAvgPx pos2 bs
-//            pos3, fld |> FIXField.DayAvgPx)
-//        "427"B, (fun pos2 bs ->
-//            let pos3, fld = ReadGTBookingInst pos2 bs
-//            pos3, fld |> FIXField.GTBookingInst)
-//        "428"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoStrikes pos2 bs
-//            pos3, fld |> FIXField.NoStrikes)
-//        "429"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListStatusType pos2 bs
-//            pos3, fld |> FIXField.ListStatusType)
-//        "430"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetGrossInd pos2 bs
-//            pos3, fld |> FIXField.NetGrossInd)
-//        "431"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListOrderStatus pos2 bs
-//            pos3, fld |> FIXField.ListOrderStatus)
-//        "432"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExpireDate pos2 bs
-//            pos3, fld |> FIXField.ExpireDate)
-//        "433"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListExecInstType pos2 bs
-//            pos3, fld |> FIXField.ListExecInstType)
-//        "434"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCxlRejResponseTo pos2 bs
-//            pos3, fld |> FIXField.CxlRejResponseTo)
-//        "435"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCouponRate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCouponRate)
-//        "436"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingContractMultiplier pos2 bs
-//            pos3, fld |> FIXField.UnderlyingContractMultiplier)
-//        "437"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraTradeQty pos2 bs
-//            pos3, fld |> FIXField.ContraTradeQty)
-//        "438"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraTradeTime pos2 bs
-//            pos3, fld |> FIXField.ContraTradeTime)
-//        "441"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLiquidityNumSecurities pos2 bs
-//            pos3, fld |> FIXField.LiquidityNumSecurities)
-//        "442"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMultiLegReportingType pos2 bs
-//            pos3, fld |> FIXField.MultiLegReportingType)
-//        "443"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStrikeTime pos2 bs
-//            pos3, fld |> FIXField.StrikeTime)
-//        "444"B, (fun pos2 bs ->
-//            let pos3, fld = ReadListStatusText pos2 bs
-//            pos3, fld |> FIXField.ListStatusText)
-//        "445"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedListStatusText pos2 bs
-//            pos3, fld |> FIXField.EncodedListStatusText) //,n-> (fun pos2 bsstring compound field ->)
-//        "447"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPartyIDSource pos2 bs
-//            pos3, fld |> FIXField.PartyIDSource)
-//        "448"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPartyID pos2 bs
-//            pos3, fld |> FIXField.PartyID)
-//        "451"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetChgPrevDay pos2 bs
-//            pos3, fld |> FIXField.NetChgPrevDay)
-//        "452"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPartyRole pos2 bs
-//            pos3, fld |> FIXField.PartyRole)
-//        "453"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoPartyIDs pos2 bs
-//            pos3, fld |> FIXField.NoPartyIDs)
-//        "454"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.NoSecurityAltID)
-//        "455"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.SecurityAltID)
-//        "456"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityAltIDSource pos2 bs
-//            pos3, fld |> FIXField.SecurityAltIDSource)
-//        "457"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoUnderlyingSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.NoUnderlyingSecurityAltID)
-//        "458"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityAltID)
-//        "459"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecurityAltIDSource pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecurityAltIDSource)
-//        "460"B, (fun pos2 bs ->
-//            let pos3, fld = ReadProduct pos2 bs
-//            pos3, fld |> FIXField.Product)
-//        "461"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCFICode pos2 bs
-//            pos3, fld |> FIXField.CFICode)
-//        "462"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingProduct pos2 bs
-//            pos3, fld |> FIXField.UnderlyingProduct)
-//        "463"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCFICode pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCFICode)
-//        "464"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTestMessageIndicator pos2 bs
-//            pos3, fld |> FIXField.TestMessageIndicator)
-//        "465"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuantityType pos2 bs
-//            pos3, fld |> FIXField.QuantityType)
-//        "466"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBookingRefID pos2 bs
-//            pos3, fld |> FIXField.BookingRefID)
-//        "467"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIndividualAllocID pos2 bs
-//            pos3, fld |> FIXField.IndividualAllocID)
-//        "468"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRoundingDirection pos2 bs
-//            pos3, fld |> FIXField.RoundingDirection)
-//        "469"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRoundingModulus pos2 bs
-//            pos3, fld |> FIXField.RoundingModulus)
-//        "470"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCountryOfIssue pos2 bs
-//            pos3, fld |> FIXField.CountryOfIssue)
-//        "471"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStateOrProvinceOfIssue pos2 bs
-//            pos3, fld |> FIXField.StateOrProvinceOfIssue)
-//        "472"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLocaleOfIssue pos2 bs
-//            pos3, fld |> FIXField.LocaleOfIssue)
-//        "473"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoRegistDtls pos2 bs
-//            pos3, fld |> FIXField.NoRegistDtls)
-//        "474"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMailingDtls pos2 bs
-//            pos3, fld |> FIXField.MailingDtls)
-//        "475"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInvestorCountryOfResidence pos2 bs
-//            pos3, fld |> FIXField.InvestorCountryOfResidence)
-//        "476"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPaymentRef pos2 bs
-//            pos3, fld |> FIXField.PaymentRef)
-//        "477"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDistribPaymentMethod pos2 bs
-//            pos3, fld |> FIXField.DistribPaymentMethod)
-//        "478"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribCurr pos2 bs
-//            pos3, fld |> FIXField.CashDistribCurr)
-//        "479"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCommCurrency pos2 bs
-//            pos3, fld |> FIXField.CommCurrency)
-//        "480"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCancellationRights pos2 bs
-//            pos3, fld |> FIXField.CancellationRights)
-//        "481"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMoneyLaunderingStatus pos2 bs
-//            pos3, fld |> FIXField.MoneyLaunderingStatus)
-//        "482"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMailingInst pos2 bs
-//            pos3, fld |> FIXField.MailingInst)
-//        "483"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTransBkdTime pos2 bs
-//            pos3, fld |> FIXField.TransBkdTime)
-//        "484"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecPriceType pos2 bs
-//            pos3, fld |> FIXField.ExecPriceType)
-//        "485"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecPriceAdjustment pos2 bs
-//            pos3, fld |> FIXField.ExecPriceAdjustment)
-//        "486"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDateOfBirth pos2 bs
-//            pos3, fld |> FIXField.DateOfBirth)
-//        "487"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeReportTransType pos2 bs
-//            pos3, fld |> FIXField.TradeReportTransType)
-//        "488"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCardHolderName pos2 bs
-//            pos3, fld |> FIXField.CardHolderName)
-//        "489"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCardNumber pos2 bs
-//            pos3, fld |> FIXField.CardNumber)
-//        "490"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCardExpDate pos2 bs
-//            pos3, fld |> FIXField.CardExpDate)
-//        "491"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCardIssNum pos2 bs
-//            pos3, fld |> FIXField.CardIssNum)
-//        "492"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPaymentMethod pos2 bs
-//            pos3, fld |> FIXField.PaymentMethod)
-//        "493"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistAcctType pos2 bs
-//            pos3, fld |> FIXField.RegistAcctType)
-//        "494"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDesignation pos2 bs
-//            pos3, fld |> FIXField.Designation)
-//        "495"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTaxAdvantageType pos2 bs
-//            pos3, fld |> FIXField.TaxAdvantageType)
-//        "496"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistRejReasonText pos2 bs
-//            pos3, fld |> FIXField.RegistRejReasonText)
-//        "497"B, (fun pos2 bs ->
-//            let pos3, fld = ReadFundRenewWaiv pos2 bs
-//            pos3, fld |> FIXField.FundRenewWaiv)
-//        "498"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribAgentName pos2 bs
-//            pos3, fld |> FIXField.CashDistribAgentName)
-//        "499"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribAgentCode pos2 bs
-//            pos3, fld |> FIXField.CashDistribAgentCode)
-//        "500"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribAgentAcctNumber pos2 bs
-//            pos3, fld |> FIXField.CashDistribAgentAcctNumber)
-//        "501"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribPayRef pos2 bs
-//            pos3, fld |> FIXField.CashDistribPayRef)
-//        "502"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashDistribAgentAcctName pos2 bs
-//            pos3, fld |> FIXField.CashDistribAgentAcctName)
-//        "503"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCardStartDate pos2 bs
-//            pos3, fld |> FIXField.CardStartDate)
-//        "504"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPaymentDate pos2 bs
-//            pos3, fld |> FIXField.PaymentDate)
-//        "505"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPaymentRemitterID pos2 bs
-//            pos3, fld |> FIXField.PaymentRemitterID)
-//        "506"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistStatus pos2 bs
-//            pos3, fld |> FIXField.RegistStatus)
-//        "507"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistRejReasonCode pos2 bs
-//            pos3, fld |> FIXField.RegistRejReasonCode)
-//        "508"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistRefID pos2 bs
-//            pos3, fld |> FIXField.RegistRefID)
-//        "509"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistDtls pos2 bs
-//            pos3, fld |> FIXField.RegistDtls)
-//        "510"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoDistribInsts pos2 bs
-//            pos3, fld |> FIXField.NoDistribInsts)
-//        "511"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistEmail pos2 bs
-//            pos3, fld |> FIXField.RegistEmail)
-//        "512"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDistribPercentage pos2 bs
-//            pos3, fld |> FIXField.DistribPercentage)
-//        "513"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistID pos2 bs
-//            pos3, fld |> FIXField.RegistID)
-//        "514"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRegistTransType pos2 bs
-//            pos3, fld |> FIXField.RegistTransType)
-//        "515"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExecValuationPoint pos2 bs
-//            pos3, fld |> FIXField.ExecValuationPoint)
-//        "516"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderPercent pos2 bs
-//            pos3, fld |> FIXField.OrderPercent)
-//        "517"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOwnershipType pos2 bs
-//            pos3, fld |> FIXField.OwnershipType)
-//        "518"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoContAmts pos2 bs
-//            pos3, fld |> FIXField.NoContAmts)
-//        "519"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContAmtType pos2 bs
-//            pos3, fld |> FIXField.ContAmtType)
-//        "520"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContAmtValue pos2 bs
-//            pos3, fld |> FIXField.ContAmtValue)
-//        "521"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContAmtCurr pos2 bs
-//            pos3, fld |> FIXField.ContAmtCurr)
-//        "522"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOwnerType pos2 bs
-//            pos3, fld |> FIXField.OwnerType)
-//        "523"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPartySubID pos2 bs
-//            pos3, fld |> FIXField.PartySubID)
-//        "524"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNestedPartyID pos2 bs
-//            pos3, fld |> FIXField.NestedPartyID)
-//        "525"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNestedPartyIDSource pos2 bs
-//            pos3, fld |> FIXField.NestedPartyIDSource)
-//        "526"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryClOrdID pos2 bs
-//            pos3, fld |> FIXField.SecondaryClOrdID)
-//        "527"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryExecID pos2 bs
-//            pos3, fld |> FIXField.SecondaryExecID)
-//        "528"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderCapacity pos2 bs
-//            pos3, fld |> FIXField.OrderCapacity)
-//        "529"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderRestrictions pos2 bs
-//            pos3, fld |> FIXField.OrderRestrictions)
-//        "530"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMassCancelRequestType pos2 bs
-//            pos3, fld |> FIXField.MassCancelRequestType)
-//        "531"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMassCancelResponse pos2 bs
-//            pos3, fld |> FIXField.MassCancelResponse)
-//        "532"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMassCancelRejectReason pos2 bs
-//            pos3, fld |> FIXField.MassCancelRejectReason)
-//        "533"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalAffectedOrders pos2 bs
-//            pos3, fld |> FIXField.TotalAffectedOrders)
-//        "534"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoAffectedOrders pos2 bs
-//            pos3, fld |> FIXField.NoAffectedOrders)
-//        "535"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAffectedOrderID pos2 bs
-//            pos3, fld |> FIXField.AffectedOrderID)
-//        "536"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAffectedSecondaryOrderID pos2 bs
-//            pos3, fld |> FIXField.AffectedSecondaryOrderID)
-//        "537"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteType pos2 bs
-//            pos3, fld |> FIXField.QuoteType)
-//        "538"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNestedPartyRole pos2 bs
-//            pos3, fld |> FIXField.NestedPartyRole)
-//        "539"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNestedPartyIDs pos2 bs
-//            pos3, fld |> FIXField.NoNestedPartyIDs)
-//        "540"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalAccruedInterestAmt pos2 bs
-//            pos3, fld |> FIXField.TotalAccruedInterestAmt)
-//        "541"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaturityDate pos2 bs
-//            pos3, fld |> FIXField.MaturityDate)
-//        "542"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingMaturityDate pos2 bs
-//            pos3, fld |> FIXField.UnderlyingMaturityDate)
-//        "543"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInstrRegistry pos2 bs
-//            pos3, fld |> FIXField.InstrRegistry)
-//        "544"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashMargin pos2 bs
-//            pos3, fld |> FIXField.CashMargin)
-//        "545"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNestedPartySubID pos2 bs
-//            pos3, fld |> FIXField.NestedPartySubID)
-//        "546"B, (fun pos2 bs ->
-//            let pos3, fld = ReadScope pos2 bs
-//            pos3, fld |> FIXField.Scope)
-//        "547"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMDImplicitDelete pos2 bs
-//            pos3, fld |> FIXField.MDImplicitDelete)
-//        "548"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCrossID pos2 bs
-//            pos3, fld |> FIXField.CrossID)
-//        "549"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCrossType pos2 bs
-//            pos3, fld |> FIXField.CrossType)
-//        "550"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCrossPrioritization pos2 bs
-//            pos3, fld |> FIXField.CrossPrioritization)
-//        "551"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigCrossID pos2 bs
-//            pos3, fld |> FIXField.OrigCrossID)
-//        "552"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSides pos2 bs
-//            pos3, fld |> FIXField.NoSides)
-//        "553"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUsername pos2 bs
-//            pos3, fld |> FIXField.Username)
-//        "554"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPassword pos2 bs
-//            pos3, fld |> FIXField.Password)
-//        "555"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoLegs pos2 bs
-//            pos3, fld |> FIXField.NoLegs)
-//        "556"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCurrency pos2 bs
-//            pos3, fld |> FIXField.LegCurrency)
-//        "557"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoSecurityTypes pos2 bs
-//            pos3, fld |> FIXField.TotNoSecurityTypes)
-//        "558"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSecurityTypes pos2 bs
-//            pos3, fld |> FIXField.NoSecurityTypes)
-//        "559"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityListRequestType pos2 bs
-//            pos3, fld |> FIXField.SecurityListRequestType)
-//        "560"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecurityRequestResult pos2 bs
-//            pos3, fld |> FIXField.SecurityRequestResult)
-//        "561"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRoundLot pos2 bs
-//            pos3, fld |> FIXField.RoundLot)
-//        "562"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMinTradeVol pos2 bs
-//            pos3, fld |> FIXField.MinTradeVol)
-//        "563"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMultiLegRptTypeReq pos2 bs
-//            pos3, fld |> FIXField.MultiLegRptTypeReq)
-//        "564"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegPositionEffect pos2 bs
-//            pos3, fld |> FIXField.LegPositionEffect)
-//        "565"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCoveredOrUncovered pos2 bs
-//            pos3, fld |> FIXField.LegCoveredOrUncovered)
-//        "566"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegPrice pos2 bs
-//            pos3, fld |> FIXField.LegPrice)
-//        "567"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradSesStatusRejReason pos2 bs
-//            pos3, fld |> FIXField.TradSesStatusRejReason)
-//        "568"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeRequestID pos2 bs
-//            pos3, fld |> FIXField.TradeRequestID)
-//        "569"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeRequestType pos2 bs
-//            pos3, fld |> FIXField.TradeRequestType)
-//        "570"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPreviouslyReported pos2 bs
-//            pos3, fld |> FIXField.PreviouslyReported)
-//        "571"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeReportID pos2 bs
-//            pos3, fld |> FIXField.TradeReportID)
-//        "572"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeReportRefID pos2 bs
-//            pos3, fld |> FIXField.TradeReportRefID)
-//        "573"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMatchStatus pos2 bs
-//            pos3, fld |> FIXField.MatchStatus)
-//        "574"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMatchType pos2 bs
-//            pos3, fld |> FIXField.MatchType)
-//        "575"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOddLot pos2 bs
-//            pos3, fld |> FIXField.OddLot)
-//        "576"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoClearingInstructions pos2 bs
-//            pos3, fld |> FIXField.NoClearingInstructions)
-//        "577"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClearingInstruction pos2 bs
-//            pos3, fld |> FIXField.ClearingInstruction)
-//        "578"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeInputSource pos2 bs
-//            pos3, fld |> FIXField.TradeInputSource)
-//        "579"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeInputDevice pos2 bs
-//            pos3, fld |> FIXField.TradeInputDevice)
-//        "580"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoDates pos2 bs
-//            pos3, fld |> FIXField.NoDates)
-//        "581"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAccountType pos2 bs
-//            pos3, fld |> FIXField.AccountType)
-//        "582"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCustOrderCapacity pos2 bs
-//            pos3, fld |> FIXField.CustOrderCapacity)
-//        "583"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClOrdLinkID pos2 bs
-//            pos3, fld |> FIXField.ClOrdLinkID)
-//        "584"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMassStatusReqID pos2 bs
-//            pos3, fld |> FIXField.MassStatusReqID)
-//        "585"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMassStatusReqType pos2 bs
-//            pos3, fld |> FIXField.MassStatusReqType)
-//        "586"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigOrdModTime pos2 bs
-//            pos3, fld |> FIXField.OrigOrdModTime)
-//        "587"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSettlType pos2 bs
-//            pos3, fld |> FIXField.LegSettlType)
-//        "588"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSettlDate pos2 bs
-//            pos3, fld |> FIXField.LegSettlDate)
-//        "589"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDayBookingInst pos2 bs
-//            pos3, fld |> FIXField.DayBookingInst)
-//        "590"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBookingUnit pos2 bs
-//            pos3, fld |> FIXField.BookingUnit)
-//        "591"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPreallocMethod pos2 bs
-//            pos3, fld |> FIXField.PreallocMethod)
-//        "592"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCountryOfIssue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCountryOfIssue)
-//        "593"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStateOrProvinceOfIssue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStateOrProvinceOfIssue)
-//        "594"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingLocaleOfIssue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingLocaleOfIssue)
-//        "595"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingInstrRegistry pos2 bs
-//            pos3, fld |> FIXField.UnderlyingInstrRegistry)
-//        "596"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCountryOfIssue pos2 bs
-//            pos3, fld |> FIXField.LegCountryOfIssue)
-//        "597"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegStateOrProvinceOfIssue pos2 bs
-//            pos3, fld |> FIXField.LegStateOrProvinceOfIssue)
-//        "598"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegLocaleOfIssue pos2 bs
-//            pos3, fld |> FIXField.LegLocaleOfIssue)
-//        "599"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegInstrRegistry pos2 bs
-//            pos3, fld |> FIXField.LegInstrRegistry)
-//        "600"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSymbol pos2 bs
-//            pos3, fld |> FIXField.LegSymbol)
-//        "601"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSymbolSfx pos2 bs
-//            pos3, fld |> FIXField.LegSymbolSfx)
-//        "602"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityID pos2 bs
-//            pos3, fld |> FIXField.LegSecurityID)
-//        "603"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityIDSource pos2 bs
-//            pos3, fld |> FIXField.LegSecurityIDSource)
-//        "604"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoLegSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.NoLegSecurityAltID)
-//        "605"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityAltID pos2 bs
-//            pos3, fld |> FIXField.LegSecurityAltID)
-//        "606"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityAltIDSource pos2 bs
-//            pos3, fld |> FIXField.LegSecurityAltIDSource)
-//        "607"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegProduct pos2 bs
-//            pos3, fld |> FIXField.LegProduct)
-//        "608"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCFICode pos2 bs
-//            pos3, fld |> FIXField.LegCFICode)
-//        "609"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityType pos2 bs
-//            pos3, fld |> FIXField.LegSecurityType)
-//        "610"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegMaturityMonthYear pos2 bs
-//            pos3, fld |> FIXField.LegMaturityMonthYear)
-//        "611"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegMaturityDate pos2 bs
-//            pos3, fld |> FIXField.LegMaturityDate)
-//        "612"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegStrikePrice pos2 bs
-//            pos3, fld |> FIXField.LegStrikePrice)
-//        "613"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegOptAttribute pos2 bs
-//            pos3, fld |> FIXField.LegOptAttribute)
-//        "614"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegContractMultiplier pos2 bs
-//            pos3, fld |> FIXField.LegContractMultiplier)
-//        "615"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegCouponRate pos2 bs
-//            pos3, fld |> FIXField.LegCouponRate)
-//        "616"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityExchange pos2 bs
-//            pos3, fld |> FIXField.LegSecurityExchange)
-//        "617"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegIssuer pos2 bs
-//            pos3, fld |> FIXField.LegIssuer)
-//        "618"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedLegIssuer pos2 bs
-//            pos3, fld |> FIXField.EncodedLegIssuer) //,n-> (fun pos2 bsstring compound field ->)
-//        "620"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.LegSecurityDesc)
-//        "621"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEncodedLegSecurityDesc pos2 bs
-//            pos3, fld |> FIXField.EncodedLegSecurityDesc) //,n-> (fun pos2 bsstring compound field ->)
-//        "623"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRatioQty pos2 bs
-//            pos3, fld |> FIXField.LegRatioQty)
-//        "624"B, (fun pos2 bs ->
-//                    let pos3, fld = ReadLegSide pos2 bs
-//                    pos3, fld |> FIXField.LegSide)
-//        "625"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradingSessionSubID pos2 bs
-//            pos3, fld |> FIXField.TradingSessionSubID)
-//        "626"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocType pos2 bs
-//            pos3, fld |> FIXField.AllocType)
-//        "627"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoHops pos2 bs
-//            pos3, fld |> FIXField.NoHops)
-//        "628"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHopCompID pos2 bs
-//            pos3, fld |> FIXField.HopCompID)
-//        "629"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHopSendingTime pos2 bs
-//            pos3, fld |> FIXField.HopSendingTime)
-//        "630"B, (fun pos2 bs ->
-//            let pos3, fld = ReadHopRefID pos2 bs
-//            pos3, fld |> FIXField.HopRefID)
-//        "631"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMidPx pos2 bs
-//            pos3, fld |> FIXField.MidPx)
-//        "632"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidYield pos2 bs
-//            pos3, fld |> FIXField.BidYield)
-//        "633"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMidYield pos2 bs
-//            pos3, fld |> FIXField.MidYield)
-//        "634"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferYield pos2 bs
-//            pos3, fld |> FIXField.OfferYield)
-//        "635"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClearingFeeIndicator pos2 bs
-//            pos3, fld |> FIXField.ClearingFeeIndicator)
-//        "636"B, (fun pos2 bs ->
-//            let pos3, fld = ReadWorkingIndicator pos2 bs
-//            pos3, fld |> FIXField.WorkingIndicator)
-//        "637"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegLastPx pos2 bs
-//            pos3, fld |> FIXField.LegLastPx)
-//        "638"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriorityIndicator pos2 bs
-//            pos3, fld |> FIXField.PriorityIndicator)
-//        "639"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriceImprovement pos2 bs
-//            pos3, fld |> FIXField.PriceImprovement)
-//        "640"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPrice2 pos2 bs
-//            pos3, fld |> FIXField.Price2)
-//        "641"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastForwardPoints2 pos2 bs
-//            pos3, fld |> FIXField.LastForwardPoints2)
-//        "642"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBidForwardPoints2 pos2 bs
-//            pos3, fld |> FIXField.BidForwardPoints2)
-//        "643"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOfferForwardPoints2 pos2 bs
-//            pos3, fld |> FIXField.OfferForwardPoints2)
-//        "644"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRFQReqID pos2 bs
-//            pos3, fld |> FIXField.RFQReqID)
-//        "645"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMktBidPx pos2 bs
-//            pos3, fld |> FIXField.MktBidPx)
-//        "646"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMktOfferPx pos2 bs
-//            pos3, fld |> FIXField.MktOfferPx)
-//        "647"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMinBidSize pos2 bs
-//            pos3, fld |> FIXField.MinBidSize)
-//        "648"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMinOfferSize pos2 bs
-//            pos3, fld |> FIXField.MinOfferSize)
-//        "649"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteStatusReqID pos2 bs
-//            pos3, fld |> FIXField.QuoteStatusReqID)
-//        "650"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegalConfirm pos2 bs
-//            pos3, fld |> FIXField.LegalConfirm)
-//        "651"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingLastPx pos2 bs
-//            pos3, fld |> FIXField.UnderlyingLastPx)
-//        "652"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingLastQty pos2 bs
-//            pos3, fld |> FIXField.UnderlyingLastQty)
-//        "654"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegRefID pos2 bs
-//            pos3, fld |> FIXField.LegRefID)
-//        "655"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraLegRefID pos2 bs
-//            pos3, fld |> FIXField.ContraLegRefID)
-//        "656"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrBidFxRate pos2 bs
-//            pos3, fld |> FIXField.SettlCurrBidFxRate)
-//        "657"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlCurrOfferFxRate pos2 bs
-//            pos3, fld |> FIXField.SettlCurrOfferFxRate)
-//        "658"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteRequestRejectReason pos2 bs
-//            pos3, fld |> FIXField.QuoteRequestRejectReason)
-//        "659"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSideComplianceID pos2 bs
-//            pos3, fld |> FIXField.SideComplianceID)
-//        "660"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAcctIDSource pos2 bs
-//            pos3, fld |> FIXField.AcctIDSource)
-//        "661"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocAcctIDSource pos2 bs
-//            pos3, fld |> FIXField.AllocAcctIDSource)
-//        "662"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkPrice pos2 bs
-//            pos3, fld |> FIXField.BenchmarkPrice)
-//        "663"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkPriceType pos2 bs
-//            pos3, fld |> FIXField.BenchmarkPriceType)
-//        "664"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmID pos2 bs
-//            pos3, fld |> FIXField.ConfirmID)
-//        "665"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmStatus pos2 bs
-//            pos3, fld |> FIXField.ConfirmStatus)
-//        "666"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmTransType pos2 bs
-//            pos3, fld |> FIXField.ConfirmTransType)
-//        "667"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContractSettlMonth pos2 bs
-//            pos3, fld |> FIXField.ContractSettlMonth)
-//        "668"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliveryForm pos2 bs
-//            pos3, fld |> FIXField.DeliveryForm)
-//        "669"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastParPx pos2 bs
-//            pos3, fld |> FIXField.LastParPx)
-//        "670"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoLegAllocs pos2 bs
-//            pos3, fld |> FIXField.NoLegAllocs)
-//        "671"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegAllocAccount pos2 bs
-//            pos3, fld |> FIXField.LegAllocAccount)
-//        "672"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegIndividualAllocID pos2 bs
-//            pos3, fld |> FIXField.LegIndividualAllocID)
-//        "673"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegAllocQty pos2 bs
-//            pos3, fld |> FIXField.LegAllocQty)
-//        "674"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegAllocAcctIDSource pos2 bs
-//            pos3, fld |> FIXField.LegAllocAcctIDSource)
-//        "675"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSettlCurrency pos2 bs
-//            pos3, fld |> FIXField.LegSettlCurrency)
-//        "676"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBenchmarkCurveCurrency pos2 bs
-//            pos3, fld |> FIXField.LegBenchmarkCurveCurrency)
-//        "677"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBenchmarkCurveName pos2 bs
-//            pos3, fld |> FIXField.LegBenchmarkCurveName)
-//        "678"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBenchmarkCurvePoint pos2 bs
-//            pos3, fld |> FIXField.LegBenchmarkCurvePoint)
-//        "679"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBenchmarkPrice pos2 bs
-//            pos3, fld |> FIXField.LegBenchmarkPrice)
-//        "680"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBenchmarkPriceType pos2 bs
-//            pos3, fld |> FIXField.LegBenchmarkPriceType)
-//        "681"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegBidPx pos2 bs
-//            pos3, fld |> FIXField.LegBidPx)
-//        "682"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegIOIQty pos2 bs
-//            pos3, fld |> FIXField.LegIOIQty)
-//        "683"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoLegStipulations pos2 bs
-//            pos3, fld |> FIXField.NoLegStipulations)
-//        "684"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegOfferPx pos2 bs
-//            pos3, fld |> FIXField.LegOfferPx)
-//        "685"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegOrderQty pos2 bs
-//            pos3, fld |> FIXField.LegOrderQty)
-//        "686"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegPriceType pos2 bs
-//            pos3, fld |> FIXField.LegPriceType)
-//        "687"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegQty pos2 bs
-//            pos3, fld |> FIXField.LegQty)
-//        "688"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegStipulationType pos2 bs
-//            pos3, fld |> FIXField.LegStipulationType)
-//        "689"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegStipulationValue pos2 bs
-//            pos3, fld |> FIXField.LegStipulationValue)
-//        "690"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSwapType pos2 bs
-//            pos3, fld |> FIXField.LegSwapType)
-//        "691"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPool pos2 bs
-//            pos3, fld |> FIXField.Pool)
-//        "692"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuotePriceType pos2 bs
-//            pos3, fld |> FIXField.QuotePriceType)
-//        "693"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteRespID pos2 bs
-//            pos3, fld |> FIXField.QuoteRespID)
-//        "694"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteRespType pos2 bs
-//            pos3, fld |> FIXField.QuoteRespType)
-//        "695"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQuoteQualifier pos2 bs
-//            pos3, fld |> FIXField.QuoteQualifier)
-//        "696"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYieldRedemptionDate pos2 bs
-//            pos3, fld |> FIXField.YieldRedemptionDate)
-//        "697"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYieldRedemptionPrice pos2 bs
-//            pos3, fld |> FIXField.YieldRedemptionPrice)
-//        "698"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYieldRedemptionPriceType pos2 bs
-//            pos3, fld |> FIXField.YieldRedemptionPriceType)
-//        "699"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkSecurityID pos2 bs
-//            pos3, fld |> FIXField.BenchmarkSecurityID)
-//        "700"B, (fun pos2 bs ->
-//            let pos3, fld = ReadReversalIndicator pos2 bs
-//            pos3, fld |> FIXField.ReversalIndicator)
-//        "701"B, (fun pos2 bs ->
-//            let pos3, fld = ReadYieldCalcDate pos2 bs
-//            pos3, fld |> FIXField.YieldCalcDate)
-//        "702"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoPositions pos2 bs
-//            pos3, fld |> FIXField.NoPositions)
-//        "703"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosType pos2 bs
-//            pos3, fld |> FIXField.PosType)
-//        "704"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLongQty pos2 bs
-//            pos3, fld |> FIXField.LongQty)
-//        "705"B, (fun pos2 bs ->
-//            let pos3, fld = ReadShortQty pos2 bs
-//            pos3, fld |> FIXField.ShortQty)
-//        "706"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosQtyStatus pos2 bs
-//            pos3, fld |> FIXField.PosQtyStatus)
-//        "707"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosAmtType pos2 bs
-//            pos3, fld |> FIXField.PosAmtType)
-//        "708"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosAmt pos2 bs
-//            pos3, fld |> FIXField.PosAmt)
-//        "709"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosTransType pos2 bs
-//            pos3, fld |> FIXField.PosTransType)
-//        "710"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosReqID pos2 bs
-//            pos3, fld |> FIXField.PosReqID)
-//        "711"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoUnderlyings pos2 bs
-//            pos3, fld |> FIXField.NoUnderlyings)
-//        "712"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosMaintAction pos2 bs
-//            pos3, fld |> FIXField.PosMaintAction)
-//        "713"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrigPosReqRefID pos2 bs
-//            pos3, fld |> FIXField.OrigPosReqRefID)
-//        "714"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosMaintRptRefID pos2 bs
-//            pos3, fld |> FIXField.PosMaintRptRefID)
-//        "715"B, (fun pos2 bs ->
-//            let pos3, fld = ReadClearingBusinessDate pos2 bs
-//            pos3, fld |> FIXField.ClearingBusinessDate)
-//        "716"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlSessID pos2 bs
-//            pos3, fld |> FIXField.SettlSessID)
-//        "717"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlSessSubID pos2 bs
-//            pos3, fld |> FIXField.SettlSessSubID)
-//        "718"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAdjustmentType pos2 bs
-//            pos3, fld |> FIXField.AdjustmentType)
-//        "719"B, (fun pos2 bs ->
-//            let pos3, fld = ReadContraryInstructionIndicator pos2 bs
-//            pos3, fld |> FIXField.ContraryInstructionIndicator)
-//        "720"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriorSpreadIndicator pos2 bs
-//            pos3, fld |> FIXField.PriorSpreadIndicator)
-//        "721"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosMaintRptID pos2 bs
-//            pos3, fld |> FIXField.PosMaintRptID)
-//        "722"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosMaintStatus pos2 bs
-//            pos3, fld |> FIXField.PosMaintStatus)
-//        "723"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosMaintResult pos2 bs
-//            pos3, fld |> FIXField.PosMaintResult)
-//        "724"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosReqType pos2 bs
-//            pos3, fld |> FIXField.PosReqType)
-//        "725"B, (fun pos2 bs ->
-//            let pos3, fld = ReadResponseTransportType pos2 bs
-//            pos3, fld |> FIXField.ResponseTransportType)
-//        "726"B, (fun pos2 bs ->
-//            let pos3, fld = ReadResponseDestination pos2 bs
-//            pos3, fld |> FIXField.ResponseDestination)
-//        "727"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalNumPosReports pos2 bs
-//            pos3, fld |> FIXField.TotalNumPosReports)
-//        "728"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosReqResult pos2 bs
-//            pos3, fld |> FIXField.PosReqResult)
-//        "729"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPosReqStatus pos2 bs
-//            pos3, fld |> FIXField.PosReqStatus)
-//        "730"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPrice pos2 bs
-//            pos3, fld |> FIXField.SettlPrice)
-//        "731"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPriceType pos2 bs
-//            pos3, fld |> FIXField.SettlPriceType)
-//        "732"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSettlPrice pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSettlPrice)
-//        "733"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSettlPriceType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSettlPriceType)
-//        "734"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriorSettlPrice pos2 bs
-//            pos3, fld |> FIXField.PriorSettlPrice)
-//        "735"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoQuoteQualifiers pos2 bs
-//            pos3, fld |> FIXField.NoQuoteQualifiers)
-//        "736"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocSettlCurrency pos2 bs
-//            pos3, fld |> FIXField.AllocSettlCurrency)
-//        "737"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocSettlCurrAmt pos2 bs
-//            pos3, fld |> FIXField.AllocSettlCurrAmt)
-//        "738"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInterestAtMaturity pos2 bs
-//            pos3, fld |> FIXField.InterestAtMaturity)
-//        "739"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegDatedDate pos2 bs
-//            pos3, fld |> FIXField.LegDatedDate)
-//        "740"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegPool pos2 bs
-//            pos3, fld |> FIXField.LegPool)
-//        "741"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocInterestAtMaturity pos2 bs
-//            pos3, fld |> FIXField.AllocInterestAtMaturity)
-//        "742"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocAccruedInterestAmt pos2 bs
-//            pos3, fld |> FIXField.AllocAccruedInterestAmt)
-//        "743"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliveryDate pos2 bs
-//            pos3, fld |> FIXField.DeliveryDate)
-//        "744"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAssignmentMethod pos2 bs
-//            pos3, fld |> FIXField.AssignmentMethod)
-//        "745"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAssignmentUnit pos2 bs
-//            pos3, fld |> FIXField.AssignmentUnit)
-//        "746"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOpenInterest pos2 bs
-//            pos3, fld |> FIXField.OpenInterest)
-//        "747"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExerciseMethod pos2 bs
-//            pos3, fld |> FIXField.ExerciseMethod)
-//        "748"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNumTradeReports pos2 bs
-//            pos3, fld |> FIXField.TotNumTradeReports)
-//        "749"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeRequestResult pos2 bs
-//            pos3, fld |> FIXField.TradeRequestResult)
-//        "750"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeRequestStatus pos2 bs
-//            pos3, fld |> FIXField.TradeRequestStatus)
-//        "751"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeReportRejectReason pos2 bs
-//            pos3, fld |> FIXField.TradeReportRejectReason)
-//        "752"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSideMultiLegReportingType pos2 bs
-//            pos3, fld |> FIXField.SideMultiLegReportingType)
-//        "753"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoPosAmt pos2 bs
-//            pos3, fld |> FIXField.NoPosAmt)
-//        "754"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAutoAcceptIndicator pos2 bs
-//            pos3, fld |> FIXField.AutoAcceptIndicator)
-//        "755"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocReportID pos2 bs
-//            pos3, fld |> FIXField.AllocReportID)
-//        "756"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNested2PartyIDs pos2 bs
-//            pos3, fld |> FIXField.NoNested2PartyIDs)
-//        "757"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested2PartyID pos2 bs
-//            pos3, fld |> FIXField.Nested2PartyID)
-//        "758"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested2PartyIDSource pos2 bs
-//            pos3, fld |> FIXField.Nested2PartyIDSource)
-//        "759"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested2PartyRole pos2 bs
-//            pos3, fld |> FIXField.Nested2PartyRole)
-//        "760"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested2PartySubID pos2 bs
-//            pos3, fld |> FIXField.Nested2PartySubID)
-//        "761"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBenchmarkSecurityIDSource pos2 bs
-//            pos3, fld |> FIXField.BenchmarkSecurityIDSource)
-//        "762"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecuritySubType pos2 bs
-//            pos3, fld |> FIXField.SecuritySubType)
-//        "763"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingSecuritySubType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingSecuritySubType)
-//        "764"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegSecuritySubType pos2 bs
-//            pos3, fld |> FIXField.LegSecuritySubType)
-//        "765"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllowableOneSidednessPct pos2 bs
-//            pos3, fld |> FIXField.AllowableOneSidednessPct)
-//        "766"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllowableOneSidednessValue pos2 bs
-//            pos3, fld |> FIXField.AllowableOneSidednessValue)
-//        "767"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllowableOneSidednessCurr pos2 bs
-//            pos3, fld |> FIXField.AllowableOneSidednessCurr)
-//        "768"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoTrdRegTimestamps pos2 bs
-//            pos3, fld |> FIXField.NoTrdRegTimestamps)
-//        "769"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdRegTimestamp pos2 bs
-//            pos3, fld |> FIXField.TrdRegTimestamp)
-//        "770"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdRegTimestampType pos2 bs
-//            pos3, fld |> FIXField.TrdRegTimestampType)
-//        "771"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdRegTimestampOrigin pos2 bs
-//            pos3, fld |> FIXField.TrdRegTimestampOrigin)
-//        "772"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmRefID pos2 bs
-//            pos3, fld |> FIXField.ConfirmRefID)
-//        "773"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmType pos2 bs
-//            pos3, fld |> FIXField.ConfirmType)
-//        "774"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmRejReason pos2 bs
-//            pos3, fld |> FIXField.ConfirmRejReason)
-//        "775"B, (fun pos2 bs ->
-//            let pos3, fld = ReadBookingType pos2 bs
-//            pos3, fld |> FIXField.BookingType)
-//        "776"B, (fun pos2 bs ->
-//            let pos3, fld = ReadIndividualAllocRejCode pos2 bs
-//            pos3, fld |> FIXField.IndividualAllocRejCode)
-//        "777"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstMsgID pos2 bs
-//            pos3, fld |> FIXField.SettlInstMsgID)
-//        "778"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSettlInst pos2 bs
-//            pos3, fld |> FIXField.NoSettlInst)
-//        "779"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastUpdateTime pos2 bs
-//            pos3, fld |> FIXField.LastUpdateTime)
-//        "780"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocSettlInstType pos2 bs
-//            pos3, fld |> FIXField.AllocSettlInstType)
-//        "781"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSettlPartyIDs pos2 bs
-//            pos3, fld |> FIXField.NoSettlPartyIDs)
-//        "782"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPartyID pos2 bs
-//            pos3, fld |> FIXField.SettlPartyID)
-//        "783"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPartyIDSource pos2 bs
-//            pos3, fld |> FIXField.SettlPartyIDSource)
-//        "784"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPartyRole pos2 bs
-//            pos3, fld |> FIXField.SettlPartyRole)
-//        "785"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPartySubID pos2 bs
-//            pos3, fld |> FIXField.SettlPartySubID)
-//        "786"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlPartySubIDType pos2 bs
-//            pos3, fld |> FIXField.SettlPartySubIDType)
-//        "787"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDlvyInstType pos2 bs
-//            pos3, fld |> FIXField.DlvyInstType)
-//        "788"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTerminationType pos2 bs
-//            pos3, fld |> FIXField.TerminationType)
-//        "789"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNextExpectedMsgSeqNum pos2 bs
-//            pos3, fld |> FIXField.NextExpectedMsgSeqNum)
-//        "790"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrdStatusReqID pos2 bs
-//            pos3, fld |> FIXField.OrdStatusReqID)
-//        "791"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstReqID pos2 bs
-//            pos3, fld |> FIXField.SettlInstReqID)
-//        "792"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSettlInstReqRejCode pos2 bs
-//            pos3, fld |> FIXField.SettlInstReqRejCode)
-//        "793"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryAllocID pos2 bs
-//            pos3, fld |> FIXField.SecondaryAllocID)
-//        "794"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocReportType pos2 bs
-//            pos3, fld |> FIXField.AllocReportType)
-//        "795"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocReportRefID pos2 bs
-//            pos3, fld |> FIXField.AllocReportRefID)
-//        "796"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocCancReplaceReason pos2 bs
-//            pos3, fld |> FIXField.AllocCancReplaceReason)
-//        "797"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCopyMsgIndicator pos2 bs
-//            pos3, fld |> FIXField.CopyMsgIndicator)
-//        "798"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocAccountType pos2 bs
-//            pos3, fld |> FIXField.AllocAccountType)
-//        "799"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderAvgPx pos2 bs
-//            pos3, fld |> FIXField.OrderAvgPx)
-//        "800"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderBookingQty pos2 bs
-//            pos3, fld |> FIXField.OrderBookingQty)
-//        "801"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoSettlPartySubIDs pos2 bs
-//            pos3, fld |> FIXField.NoSettlPartySubIDs)
-//        "802"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoPartySubIDs pos2 bs
-//            pos3, fld |> FIXField.NoPartySubIDs)
-//        "803"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPartySubIDType pos2 bs
-//            pos3, fld |> FIXField.PartySubIDType)
-//        "804"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNestedPartySubIDs pos2 bs
-//            pos3, fld |> FIXField.NoNestedPartySubIDs)
-//        "805"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNestedPartySubIDType pos2 bs
-//            pos3, fld |> FIXField.NestedPartySubIDType)
-//        "806"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNested2PartySubIDs pos2 bs
-//            pos3, fld |> FIXField.NoNested2PartySubIDs)
-//        "807"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested2PartySubIDType pos2 bs
-//            pos3, fld |> FIXField.Nested2PartySubIDType)
-//        "808"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocIntermedReqType pos2 bs
-//            pos3, fld |> FIXField.AllocIntermedReqType)
-//        "810"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingPx pos2 bs
-//            pos3, fld |> FIXField.UnderlyingPx)
-//        "811"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPriceDelta pos2 bs
-//            pos3, fld |> FIXField.PriceDelta)
-//        "812"B, (fun pos2 bs ->
-//            let pos3, fld = ReadApplQueueMax pos2 bs
-//            pos3, fld |> FIXField.ApplQueueMax)
-//        "813"B, (fun pos2 bs ->
-//            let pos3, fld = ReadApplQueueDepth pos2 bs
-//            pos3, fld |> FIXField.ApplQueueDepth)
-//        "814"B, (fun pos2 bs ->
-//            let pos3, fld = ReadApplQueueResolution pos2 bs
-//            pos3, fld |> FIXField.ApplQueueResolution)
-//        "815"B, (fun pos2 bs ->
-//            let pos3, fld = ReadApplQueueAction pos2 bs
-//            pos3, fld |> FIXField.ApplQueueAction)
-//        "816"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoAltMDSource pos2 bs
-//            pos3, fld |> FIXField.NoAltMDSource)
-//        "817"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAltMDSourceID pos2 bs
-//            pos3, fld |> FIXField.AltMDSourceID)
-//        "818"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryTradeReportID pos2 bs
-//            pos3, fld |> FIXField.SecondaryTradeReportID)
-//        "819"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAvgPxIndicator pos2 bs
-//            pos3, fld |> FIXField.AvgPxIndicator)
-//        "820"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeLinkID pos2 bs
-//            pos3, fld |> FIXField.TradeLinkID)
-//        "821"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderInputDevice pos2 bs
-//            pos3, fld |> FIXField.OrderInputDevice)
-//        "822"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingTradingSessionID pos2 bs
-//            pos3, fld |> FIXField.UnderlyingTradingSessionID)
-//        "823"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingTradingSessionSubID pos2 bs
-//            pos3, fld |> FIXField.UnderlyingTradingSessionSubID)
-//        "824"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeLegRefID pos2 bs
-//            pos3, fld |> FIXField.TradeLegRefID)
-//        "825"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExchangeRule pos2 bs
-//            pos3, fld |> FIXField.ExchangeRule)
-//        "826"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeAllocIndicator pos2 bs
-//            pos3, fld |> FIXField.TradeAllocIndicator)
-//        "827"B, (fun pos2 bs ->
-//            let pos3, fld = ReadExpirationCycle pos2 bs
-//            pos3, fld |> FIXField.ExpirationCycle)
-//        "828"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdType pos2 bs
-//            pos3, fld |> FIXField.TrdType)
-//        "829"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdSubType pos2 bs
-//            pos3, fld |> FIXField.TrdSubType)
-//        "830"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTransferReason pos2 bs
-//            pos3, fld |> FIXField.TransferReason)
-//        "831"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAsgnReqID pos2 bs
-//            pos3, fld |> FIXField.AsgnReqID)
-//        "832"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNumAssignmentReports pos2 bs
-//            pos3, fld |> FIXField.TotNumAssignmentReports)
-//        "833"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAsgnRptID pos2 bs
-//            pos3, fld |> FIXField.AsgnRptID)
-//        "834"B, (fun pos2 bs ->
-//            let pos3, fld = ReadThresholdAmount pos2 bs
-//            pos3, fld |> FIXField.ThresholdAmount)
-//        "835"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegMoveType pos2 bs
-//            pos3, fld |> FIXField.PegMoveType)
-//        "836"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegOffsetType pos2 bs
-//            pos3, fld |> FIXField.PegOffsetType)
-//        "837"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegLimitType pos2 bs
-//            pos3, fld |> FIXField.PegLimitType)
-//        "838"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegRoundDirection pos2 bs
-//            pos3, fld |> FIXField.PegRoundDirection)
-//        "839"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPeggedPrice pos2 bs
-//            pos3, fld |> FIXField.PeggedPrice)
-//        "840"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPegScope pos2 bs
-//            pos3, fld |> FIXField.PegScope)
-//        "841"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionMoveType pos2 bs
-//            pos3, fld |> FIXField.DiscretionMoveType)
-//        "842"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionOffsetType pos2 bs
-//            pos3, fld |> FIXField.DiscretionOffsetType)
-//        "843"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionLimitType pos2 bs
-//            pos3, fld |> FIXField.DiscretionLimitType)
-//        "844"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionRoundDirection pos2 bs
-//            pos3, fld |> FIXField.DiscretionRoundDirection)
-//        "845"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionPrice pos2 bs
-//            pos3, fld |> FIXField.DiscretionPrice)
-//        "846"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDiscretionScope pos2 bs
-//            pos3, fld |> FIXField.DiscretionScope)
-//        "847"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetStrategy pos2 bs
-//            pos3, fld |> FIXField.TargetStrategy)
-//        "848"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetStrategyParameters pos2 bs
-//            pos3, fld |> FIXField.TargetStrategyParameters)
-//        "849"B, (fun pos2 bs ->
-//            let pos3, fld = ReadParticipationRate pos2 bs
-//            pos3, fld |> FIXField.ParticipationRate)
-//        "850"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTargetStrategyPerformance pos2 bs
-//            pos3, fld |> FIXField.TargetStrategyPerformance)
-//        "851"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastLiquidityInd pos2 bs
-//            pos3, fld |> FIXField.LastLiquidityInd)
-//        "852"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPublishTrdIndicator pos2 bs
-//            pos3, fld |> FIXField.PublishTrdIndicator)
-//        "853"B, (fun pos2 bs ->
-//            let pos3, fld = ReadShortSaleReason pos2 bs
-//            pos3, fld |> FIXField.ShortSaleReason)
-//        "854"B, (fun pos2 bs ->
-//            let pos3, fld = ReadQtyType pos2 bs
-//            pos3, fld |> FIXField.QtyType)
-//        "855"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryTrdType pos2 bs
-//            pos3, fld |> FIXField.SecondaryTrdType)
-//        "856"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTradeReportType pos2 bs
-//            pos3, fld |> FIXField.TradeReportType)
-//        "857"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAllocNoOrdersType pos2 bs
-//            pos3, fld |> FIXField.AllocNoOrdersType)
-//        "858"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSharedCommission pos2 bs
-//            pos3, fld |> FIXField.SharedCommission)
-//        "859"B, (fun pos2 bs ->
-//            let pos3, fld = ReadConfirmReqID pos2 bs
-//            pos3, fld |> FIXField.ConfirmReqID)
-//        "860"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAvgParPx pos2 bs
-//            pos3, fld |> FIXField.AvgParPx)
-//        "861"B, (fun pos2 bs ->
-//            let pos3, fld = ReadReportedPx pos2 bs
-//            pos3, fld |> FIXField.ReportedPx)
-//        "862"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoCapacities pos2 bs
-//            pos3, fld |> FIXField.NoCapacities)
-//        "863"B, (fun pos2 bs ->
-//            let pos3, fld = ReadOrderCapacityQty pos2 bs
-//            pos3, fld |> FIXField.OrderCapacityQty)
-//        "864"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoEvents pos2 bs
-//            pos3, fld |> FIXField.NoEvents)
-//        "865"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEventType pos2 bs
-//            pos3, fld |> FIXField.EventType)
-//        "866"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEventDate pos2 bs
-//            pos3, fld |> FIXField.EventDate)
-//        "867"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEventPx pos2 bs
-//            pos3, fld |> FIXField.EventPx)
-//        "868"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEventText pos2 bs
-//            pos3, fld |> FIXField.EventText)
-//        "869"B, (fun pos2 bs ->
-//            let pos3, fld = ReadPctAtRisk pos2 bs
-//            pos3, fld |> FIXField.PctAtRisk)
-//        "870"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoInstrAttrib pos2 bs
-//            pos3, fld |> FIXField.NoInstrAttrib)
-//        "871"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInstrAttribType pos2 bs
-//            pos3, fld |> FIXField.InstrAttribType)
-//        "872"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInstrAttribValue pos2 bs
-//            pos3, fld |> FIXField.InstrAttribValue)
-//        "873"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDatedDate pos2 bs
-//            pos3, fld |> FIXField.DatedDate)
-//        "874"B, (fun pos2 bs ->
-//            let pos3, fld = ReadInterestAccrualDate pos2 bs
-//            pos3, fld |> FIXField.InterestAccrualDate)
-//        "875"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCPProgram pos2 bs
-//            pos3, fld |> FIXField.CPProgram)
-//        "876"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCPRegType pos2 bs
-//            pos3, fld |> FIXField.CPRegType)
-//        "877"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCPProgram pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCPProgram)
-//        "878"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCPRegType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCPRegType)
-//        "879"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingQty pos2 bs
-//            pos3, fld |> FIXField.UnderlyingQty)
-//        "880"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdMatchID pos2 bs
-//            pos3, fld |> FIXField.TrdMatchID)
-//        "881"B, (fun pos2 bs ->
-//            let pos3, fld = ReadSecondaryTradeReportRefID pos2 bs
-//            pos3, fld |> FIXField.SecondaryTradeReportRefID)
-//        "882"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingDirtyPrice pos2 bs
-//            pos3, fld |> FIXField.UnderlyingDirtyPrice)
-//        "883"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingEndPrice pos2 bs
-//            pos3, fld |> FIXField.UnderlyingEndPrice)
-//        "884"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStartValue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStartValue)
-//        "885"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingCurrentValue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingCurrentValue)
-//        "886"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingEndValue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingEndValue)
-//        "887"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoUnderlyingStips pos2 bs
-//            pos3, fld |> FIXField.NoUnderlyingStips)
-//        "888"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStipType pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStipType)
-//        "889"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStipValue pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStipValue)
-//        "890"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMaturityNetMoney pos2 bs
-//            pos3, fld |> FIXField.MaturityNetMoney)
-//        "891"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMiscFeeBasis pos2 bs
-//            pos3, fld |> FIXField.MiscFeeBasis)
-//        "892"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNoAllocs pos2 bs
-//            pos3, fld |> FIXField.TotNoAllocs)
-//        "893"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastFragment pos2 bs
-//            pos3, fld |> FIXField.LastFragment)
-//        "894"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollReqID pos2 bs
-//            pos3, fld |> FIXField.CollReqID)
-//        "895"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnReason pos2 bs
-//            pos3, fld |> FIXField.CollAsgnReason)
-//        "896"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollInquiryQualifier pos2 bs
-//            pos3, fld |> FIXField.CollInquiryQualifier)
-//        "897"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoTrades pos2 bs
-//            pos3, fld |> FIXField.NoTrades)
-//        "898"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMarginRatio pos2 bs
-//            pos3, fld |> FIXField.MarginRatio)
-//        "899"B, (fun pos2 bs ->
-//            let pos3, fld = ReadMarginExcess pos2 bs
-//            pos3, fld |> FIXField.MarginExcess)
-//        "900"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotalNetValue pos2 bs
-//            pos3, fld |> FIXField.TotalNetValue)
-//        "901"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCashOutstanding pos2 bs
-//            pos3, fld |> FIXField.CashOutstanding)
-//        "902"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnID pos2 bs
-//            pos3, fld |> FIXField.CollAsgnID)
-//        "903"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnTransType pos2 bs
-//            pos3, fld |> FIXField.CollAsgnTransType)
-//        "904"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollRespID pos2 bs
-//            pos3, fld |> FIXField.CollRespID)
-//        "905"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnRespType pos2 bs
-//            pos3, fld |> FIXField.CollAsgnRespType)
-//        "906"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnRejectReason pos2 bs
-//            pos3, fld |> FIXField.CollAsgnRejectReason)
-//        "907"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAsgnRefID pos2 bs
-//            pos3, fld |> FIXField.CollAsgnRefID)
-//        "908"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollRptID pos2 bs
-//            pos3, fld |> FIXField.CollRptID)
-//        "909"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollInquiryID pos2 bs
-//            pos3, fld |> FIXField.CollInquiryID)
-//        "910"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollStatus pos2 bs
-//            pos3, fld |> FIXField.CollStatus)
-//        "911"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTotNumReports pos2 bs
-//            pos3, fld |> FIXField.TotNumReports)
-//        "912"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastRptRequested pos2 bs
-//            pos3, fld |> FIXField.LastRptRequested)
-//        "913"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAgreementDesc pos2 bs
-//            pos3, fld |> FIXField.AgreementDesc)
-//        "914"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAgreementID pos2 bs
-//            pos3, fld |> FIXField.AgreementID)
-//        "915"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAgreementDate pos2 bs
-//            pos3, fld |> FIXField.AgreementDate)
-//        "916"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStartDate pos2 bs
-//            pos3, fld |> FIXField.StartDate)
-//        "917"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEndDate pos2 bs
-//            pos3, fld |> FIXField.EndDate)
-//        "918"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAgreementCurrency pos2 bs
-//            pos3, fld |> FIXField.AgreementCurrency)
-//        "919"B, (fun pos2 bs ->
-//            let pos3, fld = ReadDeliveryType pos2 bs
-//            pos3, fld |> FIXField.DeliveryType)
-//        "920"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEndAccruedInterestAmt pos2 bs
-//            pos3, fld |> FIXField.EndAccruedInterestAmt)
-//        "921"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStartCash pos2 bs
-//            pos3, fld |> FIXField.StartCash)
-//        "922"B, (fun pos2 bs ->
-//            let pos3, fld = ReadEndCash pos2 bs
-//            pos3, fld |> FIXField.EndCash)
-//        "923"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUserRequestID pos2 bs
-//            pos3, fld |> FIXField.UserRequestID)
-//        "924"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUserRequestType pos2 bs
-//            pos3, fld |> FIXField.UserRequestType)
-//        "925"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNewPassword pos2 bs
-//            pos3, fld |> FIXField.NewPassword)
-//        "926"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUserStatus pos2 bs
-//            pos3, fld |> FIXField.UserStatus)
-//        "927"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUserStatusText pos2 bs
-//            pos3, fld |> FIXField.UserStatusText)
-//        "928"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStatusValue pos2 bs
-//            pos3, fld |> FIXField.StatusValue)
-//        "929"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStatusText pos2 bs
-//            pos3, fld |> FIXField.StatusText)
-//        "930"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefCompID pos2 bs
-//            pos3, fld |> FIXField.RefCompID)
-//        "931"B, (fun pos2 bs ->
-//            let pos3, fld = ReadRefSubID pos2 bs
-//            pos3, fld |> FIXField.RefSubID)
-//        "932"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetworkResponseID pos2 bs
-//            pos3, fld |> FIXField.NetworkResponseID)
-//        "933"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetworkRequestID pos2 bs
-//            pos3, fld |> FIXField.NetworkRequestID)
-//        "934"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLastNetworkResponseID pos2 bs
-//            pos3, fld |> FIXField.LastNetworkResponseID)
-//        "935"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetworkRequestType pos2 bs
-//            pos3, fld |> FIXField.NetworkRequestType)
-//        "936"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoCompIDs pos2 bs
-//            pos3, fld |> FIXField.NoCompIDs)
-//        "937"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNetworkStatusResponseType pos2 bs
-//            pos3, fld |> FIXField.NetworkStatusResponseType)
-//        "938"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoCollInquiryQualifier pos2 bs
-//            pos3, fld |> FIXField.NoCollInquiryQualifier)
-//        "939"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTrdRptStatus pos2 bs
-//            pos3, fld |> FIXField.TrdRptStatus)
-//        "940"B, (fun pos2 bs ->
-//            let pos3, fld = ReadAffirmStatus pos2 bs
-//            pos3, fld |> FIXField.AffirmStatus)
-//        "941"B, (fun pos2 bs ->
-//            let pos3, fld = ReadUnderlyingStrikeCurrency pos2 bs
-//            pos3, fld |> FIXField.UnderlyingStrikeCurrency)
-//        "942"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegStrikeCurrency pos2 bs
-//            pos3, fld |> FIXField.LegStrikeCurrency)
-//        "943"B, (fun pos2 bs ->
-//            let pos3, fld = ReadTimeBracket pos2 bs
-//            pos3, fld |> FIXField.TimeBracket)
-//        "944"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollAction pos2 bs
-//            pos3, fld |> FIXField.CollAction)
-//        "945"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollInquiryStatus pos2 bs
-//            pos3, fld |> FIXField.CollInquiryStatus)
-//        "946"B, (fun pos2 bs ->
-//            let pos3, fld = ReadCollInquiryResult pos2 bs
-//            pos3, fld |> FIXField.CollInquiryResult)
-//        "947"B, (fun pos2 bs ->
-//            let pos3, fld = ReadStrikeCurrency pos2 bs
-//            pos3, fld |> FIXField.StrikeCurrency)
-//        "948"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNested3PartyIDs pos2 bs
-//            pos3, fld |> FIXField.NoNested3PartyIDs)
-//        "949"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested3PartyID pos2 bs
-//            pos3, fld |> FIXField.Nested3PartyID)
-//        "950"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested3PartyIDSource pos2 bs
-//            pos3, fld |> FIXField.Nested3PartyIDSource)
-//        "951"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested3PartyRole pos2 bs
-//            pos3, fld |> FIXField.Nested3PartyRole)
-//        "952"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNoNested3PartySubIDs pos2 bs
-//            pos3, fld |> FIXField.NoNested3PartySubIDs)
-//        "953"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested3PartySubID pos2 bs
-//            pos3, fld |> FIXField.Nested3PartySubID)
-//        "954"B, (fun pos2 bs ->
-//            let pos3, fld = ReadNested3PartySubIDType pos2 bs
-//            pos3, fld |> FIXField.Nested3PartySubIDType)
-//        "955"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegContractSettlMonth pos2 bs
-//            pos3, fld |> FIXField.LegContractSettlMonth)
-//        "956"B, (fun pos2 bs ->
-//            let pos3, fld = ReadLegInterestAccrualDate pos2 bs
-//            pos3, fld |> FIXField.LegInterestAccrualDate)
-//    |]
-//
-//
-//let readFuncMap = tagReadFuncs |> Map.ofArray
-//
-//
-//let ReadField2 (pos:int) (bs:byte[])  =
-//    let pos2, tag = ByteArrayUtils.readTag pos bs
-//    let pos2 = pos2 + 1
-//    let func = readFuncMap.[tag]
-//    func pos2 bs
