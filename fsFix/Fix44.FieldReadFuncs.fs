@@ -21,7 +21,7 @@ let ReadAdvRefID (pos:int) (bs:byte[]) : (int*AdvRefID) =
 
 
 let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> AdvSide.Buy
@@ -33,7 +33,7 @@ let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
 
 
 let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> AdvTransType.New
@@ -72,7 +72,7 @@ let ReadCommission (pos:int) (bs:byte[]) : (int*Commission) =
 
 
 let ReadCommType (pos:int) (bs:byte[]) : (int * CommType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CommType.PerUnit
@@ -102,7 +102,7 @@ let ReadExecID (pos:int) (bs:byte[]) : (int*ExecID) =
 
 
 let ReadExecInst (pos:int) (bs:byte[]) : (int * ExecInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ExecInst.NotHeld
@@ -155,7 +155,7 @@ let ReadExecRefID (pos:int) (bs:byte[]) : (int*ExecRefID) =
 
 
 let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
@@ -166,7 +166,7 @@ let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
 
 
 let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityIDSource.Cusip
@@ -197,7 +197,7 @@ let ReadIOIid (pos:int) (bs:byte[]) : (int*IOIid) =
 
 
 let ReadIOIQltyInd (pos:int) (bs:byte[]) : (int * IOIQltyInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"L"B -> IOIQltyInd.Low
@@ -216,7 +216,7 @@ let ReadIOIQty (pos:int) (bs:byte[]) : (int*IOIQty) =
 
 
 let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> IOITransType.New
@@ -227,7 +227,7 @@ let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
 
 
 let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LastCapacity.Agent
@@ -259,7 +259,7 @@ let ReadMsgSeqNum (pos:int) (bs:byte[]) : (int*MsgSeqNum) =
 
 
 let ReadMsgType (pos:int) (bs:byte[]) : (int * MsgType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MsgType.Heartbeat
@@ -372,7 +372,7 @@ let ReadOrderQty (pos:int) (bs:byte[]) : (int*OrderQty) =
 
 
 let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OrdStatus.New
@@ -395,7 +395,7 @@ let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
 
 
 let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OrdType.Market
@@ -466,7 +466,7 @@ let ReadQuantity (pos:int) (bs:byte[]) : (int*Quantity) =
 
 
 let ReadSide (pos:int) (bs:byte[]) : (int * Side) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Side.Buy
@@ -506,7 +506,7 @@ let ReadText (pos:int) (bs:byte[]) : (int*Text) =
 
 
 let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TimeInForce.Day
@@ -526,7 +526,7 @@ let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
 
 
 let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> Urgency.Normal
@@ -541,7 +541,7 @@ let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
 
 
 let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlType.Regular
@@ -563,7 +563,7 @@ let ReadSettlDate (pos:int) (bs:byte[]) : (int*SettlDate) =
 
 
 let ReadSymbolSfx (pos:int) (bs:byte[]) : (int * SymbolSfx) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"WI"B -> SymbolSfx.WhenIssued
@@ -593,7 +593,7 @@ let ReadAllocID (pos:int) (bs:byte[]) : (int*AllocID) =
 
 
 let ReadAllocTransType (pos:int) (bs:byte[]) : (int * AllocTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocTransType.New
@@ -620,7 +620,7 @@ let ReadTradeDate (pos:int) (bs:byte[]) : (int*TradeDate) =
 
 
 let ReadPositionEffect (pos:int) (bs:byte[]) : (int * PositionEffect) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"O"B -> PositionEffect.Open
@@ -644,7 +644,7 @@ let ReadAllocQty (pos:int) (bs:byte[]) : (int*AllocQty) =
 
 
 let ReadProcessCode (pos:int) (bs:byte[]) : (int * ProcessCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ProcessCode.Regular
@@ -675,7 +675,7 @@ let ReadNoDlvyInst (pos:int) (bs:byte[]) : (int*NoDlvyInst) =
 
 
 let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocStatus.Accepted
@@ -689,7 +689,7 @@ let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
 
 
 let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocRejCode.UnknownAccount
@@ -721,7 +721,7 @@ let ReadSecureData (pos:int) (bs:byte[]) : (int * SecureData) =
 
 
 let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> EmailType.New
@@ -741,7 +741,7 @@ let ReadPossResend (pos:int) (bs:byte[]) : (int*PossResend) =
 
 
 let ReadEncryptMethod (pos:int) (bs:byte[]) : (int * EncryptMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> EncryptMethod.NoneOther
@@ -764,7 +764,7 @@ let ReadExDestination (pos:int) (bs:byte[]) : (int*ExDestination) =
 
 
 let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CxlRejReason.TooLateToCancel
@@ -780,7 +780,7 @@ let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
 
 
 let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OrdRejReason.BrokerExchangeOption
@@ -805,7 +805,7 @@ let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
 
 
 let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> IOIQualifier.AllOrNone
@@ -911,7 +911,7 @@ let ReadExpireTime (pos:int) (bs:byte[]) : (int*ExpireTime) =
 
 
 let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> DKReason.UnknownSymbol
@@ -970,7 +970,7 @@ let ReadMiscFeeCurr (pos:int) (bs:byte[]) : (int*MiscFeeCurr) =
 
 
 let ReadMiscFeeType (pos:int) (bs:byte[]) : (int * MiscFeeType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MiscFeeType.Regulatory
@@ -1030,7 +1030,7 @@ let ReadURLLink (pos:int) (bs:byte[]) : (int*URLLink) =
 
 
 let ReadExecType (pos:int) (bs:byte[]) : (int * ExecType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExecType.New
@@ -1077,7 +1077,7 @@ let ReadSettlCurrFxRate (pos:int) (bs:byte[]) : (int*SettlCurrFxRate) =
 
 
 let ReadSettlCurrFxRateCalc (pos:int) (bs:byte[]) : (int * SettlCurrFxRateCalc) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"M"B -> SettlCurrFxRateCalc.Multiply
@@ -1099,7 +1099,7 @@ let ReadAccruedInterestAmt (pos:int) (bs:byte[]) : (int*AccruedInterestAmt) =
 
 
 let ReadSettlInstMode (pos:int) (bs:byte[]) : (int * SettlInstMode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlInstMode.Default
@@ -1119,7 +1119,7 @@ let ReadSettlInstID (pos:int) (bs:byte[]) : (int*SettlInstID) =
 
 
 let ReadSettlInstTransType (pos:int) (bs:byte[]) : (int * SettlInstTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> SettlInstTransType.New
@@ -1135,7 +1135,7 @@ let ReadEmailThreadID (pos:int) (bs:byte[]) : (int*EmailThreadID) =
 
 
 let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SettlInstSource.BrokersInstructions
@@ -1146,7 +1146,7 @@ let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
 
 
 let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
@@ -1252,7 +1252,7 @@ let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
 
 
 let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> StandInstDbType.Other
@@ -1273,7 +1273,7 @@ let ReadStandInstDbID (pos:int) (bs:byte[]) : (int*StandInstDbID) =
 
 
 let ReadSettlDeliveryType (pos:int) (bs:byte[]) : (int * SettlDeliveryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlDeliveryType.VersusPayment
@@ -1321,7 +1321,7 @@ let ReadAllocLinkID (pos:int) (bs:byte[]) : (int*AllocLinkID) =
 
 
 let ReadAllocLinkType (pos:int) (bs:byte[]) : (int * AllocLinkType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocLinkType.FXNetting
@@ -1343,7 +1343,7 @@ let ReadMaturityMonthYear (pos:int) (bs:byte[]) : (int*MaturityMonthYear) =
 
 
 let ReadPutOrCall (pos:int) (bs:byte[]) : (int * PutOrCall) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PutOrCall.Put
@@ -1357,7 +1357,7 @@ let ReadStrikePrice (pos:int) (bs:byte[]) : (int*StrikePrice) =
 
 
 let ReadCoveredOrUncovered (pos:int) (bs:byte[]) : (int * CoveredOrUncovered) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CoveredOrUncovered.Covered
@@ -1379,7 +1379,7 @@ let ReadNotifyBrokerOfCredit (pos:int) (bs:byte[]) : (int*NotifyBrokerOfCredit) 
 
 
 let ReadAllocHandlInst (pos:int) (bs:byte[]) : (int * AllocHandlInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocHandlInst.Match
@@ -1411,7 +1411,7 @@ let ReadNoRoutingIDs (pos:int) (bs:byte[]) : (int*NoRoutingIDs) =
 
 
 let ReadRoutingType (pos:int) (bs:byte[]) : (int * RoutingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> RoutingType.TargetFirm
@@ -1435,7 +1435,7 @@ let ReadBenchmarkCurveCurrency (pos:int) (bs:byte[]) : (int*BenchmarkCurveCurren
 
 
 let ReadBenchmarkCurveName (pos:int) (bs:byte[]) : (int * BenchmarkCurveName) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"MuniAAA"B -> BenchmarkCurveName.Muniaaa
@@ -1499,7 +1499,7 @@ let ReadNoStipulations (pos:int) (bs:byte[]) : (int*NoStipulations) =
 
 
 let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"AMT"B -> StipulationType.Amt
@@ -1566,7 +1566,7 @@ let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
 
 
 let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"CD"B -> StipulationValue.SpecialCumDividend
@@ -1588,7 +1588,7 @@ let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
 
 
 let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"AFTERTAX"B -> YieldType.AfterTaxYield
@@ -1734,7 +1734,7 @@ let ReadMDReqID (pos:int) (bs:byte[]) : (int*MDReqID) =
 
 
 let ReadSubscriptionRequestType (pos:int) (bs:byte[]) : (int * SubscriptionRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SubscriptionRequestType.Snapshot
@@ -1749,7 +1749,7 @@ let ReadMarketDepth (pos:int) (bs:byte[]) : (int*MarketDepth) =
 
 
 let ReadMDUpdateType (pos:int) (bs:byte[]) : (int * MDUpdateType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDUpdateType.FullRefresh
@@ -1771,7 +1771,7 @@ let ReadNoMDEntries (pos:int) (bs:byte[]) : (int*NoMDEntries) =
 
 
 let ReadMDEntryType (pos:int) (bs:byte[]) : (int * MDEntryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDEntryType.Bid
@@ -1808,7 +1808,7 @@ let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =
 
 
 let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TickDirection.PlusTick
@@ -1824,7 +1824,7 @@ let ReadMDMkt (pos:int) (bs:byte[]) : (int*MDMkt) =
 
 
 let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> QuoteCondition.OpenActive
@@ -1841,7 +1841,7 @@ let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
 
 
 let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> TradeCondition.CashMarket
@@ -1870,7 +1870,7 @@ let ReadMDEntryID (pos:int) (bs:byte[]) : (int*MDEntryID) =
 
 
 let ReadMDUpdateAction (pos:int) (bs:byte[]) : (int * MDUpdateAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDUpdateAction.New
@@ -1885,7 +1885,7 @@ let ReadMDEntryRefID (pos:int) (bs:byte[]) : (int*MDEntryRefID) =
 
 
 let ReadMDReqRejReason (pos:int) (bs:byte[]) : (int * MDReqRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MDReqRejReason.UnknownSymbol
@@ -1918,7 +1918,7 @@ let ReadDeskID (pos:int) (bs:byte[]) : (int*DeskID) =
 
 
 let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DeleteReason.CancelationTradeBust
@@ -1928,7 +1928,7 @@ let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
 
 
 let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
@@ -1958,7 +1958,7 @@ let ReadMDEntryPositionNo (pos:int) (bs:byte[]) : (int*MDEntryPositionNo) =
 
 
 let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> FinancialStatus.Bankrupt
@@ -1968,7 +1968,7 @@ let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
 
 
 let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> CorporateAction.ExDividend
@@ -1997,7 +1997,7 @@ let ReadNoQuoteSets (pos:int) (bs:byte[]) : (int*NoQuoteSets) =
 
 
 let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteStatus.Accepted
@@ -2021,7 +2021,7 @@ let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
 
 
 let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteCancelType.CancelForSymbol
@@ -2037,7 +2037,7 @@ let ReadQuoteEntryID (pos:int) (bs:byte[]) : (int*QuoteEntryID) =
 
 
 let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRejectReason.UnknownSymbol
@@ -2055,7 +2055,7 @@ let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
 
 
 let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteResponseLevel.NoAcknowledgement
@@ -2070,7 +2070,7 @@ let ReadQuoteSetID (pos:int) (bs:byte[]) : (int*QuoteSetID) =
 
 
 let ReadQuoteRequestType (pos:int) (bs:byte[]) : (int * QuoteRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRequestType.Manual
@@ -2120,7 +2120,7 @@ let ReadUnderlyingMaturityMonthYear (pos:int) (bs:byte[]) : (int*UnderlyingMatur
 
 
 let ReadUnderlyingPutOrCall (pos:int) (bs:byte[]) : (int * UnderlyingPutOrCall) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> UnderlyingPutOrCall.Put
@@ -2146,7 +2146,7 @@ let ReadSecurityReqID (pos:int) (bs:byte[]) : (int*SecurityReqID) =
 
 
 let ReadSecurityRequestType (pos:int) (bs:byte[]) : (int * SecurityRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
@@ -2162,7 +2162,7 @@ let ReadSecurityResponseID (pos:int) (bs:byte[]) : (int*SecurityResponseID) =
 
 
 let ReadSecurityResponseType (pos:int) (bs:byte[]) : (int * SecurityResponseType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityResponseType.AcceptSecurityProposalAsIs
@@ -2184,7 +2184,7 @@ let ReadUnsolicitedIndicator (pos:int) (bs:byte[]) : (int*UnsolicitedIndicator) 
 
 
 let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SecurityTradingStatus.OpeningDelay
@@ -2215,7 +2215,7 @@ let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStat
 
 
 let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"I"B -> HaltReason.OrderImbalance
@@ -2253,7 +2253,7 @@ let ReadLowPx (pos:int) (bs:byte[]) : (int*LowPx) =
 
 
 let ReadAdjustment (pos:int) (bs:byte[]) : (int * Adjustment) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Adjustment.Cancel
@@ -2276,7 +2276,7 @@ let ReadContraTrader (pos:int) (bs:byte[]) : (int*ContraTrader) =
 
 
 let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesMethod.Electronic
@@ -2287,7 +2287,7 @@ let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
 
 
 let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesMode.Testing
@@ -2298,7 +2298,7 @@ let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
 
 
 let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradSesStatus.Unknown
@@ -2337,7 +2337,7 @@ let ReadNumberOfOrders (pos:int) (bs:byte[]) : (int*NumberOfOrders) =
 
 
 let ReadMessageEncoding (pos:int) (bs:byte[]) : (int * MessageEncoding) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"ISO-2022-JP"B -> MessageEncoding.Iso2022Jp
@@ -2402,7 +2402,7 @@ let ReadQuoteSetValidUntilTime (pos:int) (bs:byte[]) : (int*QuoteSetValidUntilTi
 
 
 let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteEntryRejectReason.UnknownSymbol
@@ -2431,7 +2431,7 @@ let ReadRefMsgType (pos:int) (bs:byte[]) : (int*RefMsgType) =
 
 
 let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SessionRejectReason.InvalidTagNumber
@@ -2458,7 +2458,7 @@ let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) 
 
 
 let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"N"B -> BidRequestTransType.New
@@ -2480,7 +2480,7 @@ let ReadSolicitedFlag (pos:int) (bs:byte[]) : (int*SolicitedFlag) =
 
 
 let ReadExecRestatementReason (pos:int) (bs:byte[]) : (int * ExecRestatementReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExecRestatementReason.GtCorporateAction
@@ -2502,7 +2502,7 @@ let ReadBusinessRejectRefID (pos:int) (bs:byte[]) : (int*BusinessRejectRefID) =
 
 
 let ReadBusinessRejectReason (pos:int) (bs:byte[]) : (int * BusinessRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BusinessRejectReason.Other
@@ -2534,7 +2534,7 @@ let ReadNoMsgTypes (pos:int) (bs:byte[]) : (int*NoMsgTypes) =
 
 
 let ReadMsgDirection (pos:int) (bs:byte[]) : (int * MsgDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"S"B -> MsgDirection.Send
@@ -2552,7 +2552,7 @@ let ReadTotalVolumeTraded (pos:int) (bs:byte[]) : (int*TotalVolumeTraded) =
 
 
 let ReadDiscretionInst (pos:int) (bs:byte[]) : (int * DiscretionInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionInst.RelatedToDisplayedPrice
@@ -2587,7 +2587,7 @@ let ReadTotNoRelatedSym (pos:int) (bs:byte[]) : (int*TotNoRelatedSym) =
 
 
 let ReadBidType (pos:int) (bs:byte[]) : (int * BidType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> BidType.NonDisclosed
@@ -2614,7 +2614,7 @@ let ReadNoBidDescriptors (pos:int) (bs:byte[]) : (int*NoBidDescriptors) =
 
 
 let ReadBidDescriptorType (pos:int) (bs:byte[]) : (int * BidDescriptorType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> BidDescriptorType.Sector
@@ -2629,7 +2629,7 @@ let ReadBidDescriptor (pos:int) (bs:byte[]) : (int*BidDescriptor) =
 
 
 let ReadSideValueInd (pos:int) (bs:byte[]) : (int * SideValueInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SideValueInd.Sidevalue1
@@ -2667,7 +2667,7 @@ let ReadValueOfFutures (pos:int) (bs:byte[]) : (int*ValueOfFutures) =
 
 
 let ReadLiquidityIndType (pos:int) (bs:byte[]) : (int * LiquidityIndType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LiquidityIndType.FivedayMovingAverage
@@ -2695,7 +2695,7 @@ let ReadCrossPercent (pos:int) (bs:byte[]) : (int*CrossPercent) =
 
 
 let ReadProgRptReqs (pos:int) (bs:byte[]) : (int * ProgRptReqs) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
@@ -2710,7 +2710,7 @@ let ReadProgPeriodInterval (pos:int) (bs:byte[]) : (int*ProgPeriodInterval) =
 
 
 let ReadIncTaxInd (pos:int) (bs:byte[]) : (int * IncTaxInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> IncTaxInd.Net
@@ -2724,7 +2724,7 @@ let ReadNumBidders (pos:int) (bs:byte[]) : (int*NumBidders) =
 
 
 let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"R"B -> BidTradeType.RiskTrade
@@ -2736,7 +2736,7 @@ let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
 
 
 let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"2"B -> BasisPxType.ClosingPriceAtMorningSession
@@ -2769,7 +2769,7 @@ let ReadTotNoStrikes (pos:int) (bs:byte[]) : (int*TotNoStrikes) =
 
 
 let ReadPriceType (pos:int) (bs:byte[]) : (int * PriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PriceType.Percentage
@@ -2800,7 +2800,7 @@ let ReadDayAvgPx (pos:int) (bs:byte[]) : (int*DayAvgPx) =
 
 
 let ReadGTBookingInst (pos:int) (bs:byte[]) : (int * GTBookingInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
@@ -2815,7 +2815,7 @@ let ReadNoStrikes (pos:int) (bs:byte[]) : (int*NoStrikes) =
 
 
 let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListStatusType.Ack
@@ -2829,7 +2829,7 @@ let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
 
 
 let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetGrossInd.Net
@@ -2839,7 +2839,7 @@ let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
 
 
 let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListOrderStatus.Inbiddingprocess
@@ -2858,7 +2858,7 @@ let ReadExpireDate (pos:int) (bs:byte[]) : (int*ExpireDate) =
 
 
 let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ListExecInstType.Immediate
@@ -2871,7 +2871,7 @@ let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
 
 
 let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CxlRejResponseTo.OrderCancelRequest
@@ -2901,7 +2901,7 @@ let ReadLiquidityNumSecurities (pos:int) (bs:byte[]) : (int*LiquidityNumSecuriti
 
 
 let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MultiLegReportingType.SingleSecurity
@@ -2925,7 +2925,7 @@ let ReadEncodedListStatusText (pos:int) (bs:byte[]) : (int * EncodedListStatusTe
 
 
 let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> PartyIDSource.Bic
@@ -2959,7 +2959,7 @@ let ReadNetChgPrevDay (pos:int) (bs:byte[]) : (int*NetChgPrevDay) =
 
 
 let ReadPartyRole (pos:int) (bs:byte[]) : (int * PartyRole) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PartyRole.ExecutingFirm
@@ -3032,7 +3032,7 @@ let ReadUnderlyingSecurityAltIDSource (pos:int) (bs:byte[]) : (int*UnderlyingSec
 
 
 let ReadProduct (pos:int) (bs:byte[]) : (int * Product) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Product.Agency
@@ -3069,7 +3069,7 @@ let ReadTestMessageIndicator (pos:int) (bs:byte[]) : (int*TestMessageIndicator) 
 
 
 let ReadQuantityType (pos:int) (bs:byte[]) : (int * QuantityType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuantityType.Shares
@@ -3093,7 +3093,7 @@ let ReadIndividualAllocID (pos:int) (bs:byte[]) : (int*IndividualAllocID) =
 
 
 let ReadRoundingDirection (pos:int) (bs:byte[]) : (int * RoundingDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> RoundingDirection.RoundToNearest
@@ -3136,7 +3136,7 @@ let ReadPaymentRef (pos:int) (bs:byte[]) : (int*PaymentRef) =
 
 
 let ReadDistribPaymentMethod (pos:int) (bs:byte[]) : (int * DistribPaymentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DistribPaymentMethod.Crest
@@ -3164,7 +3164,7 @@ let ReadCommCurrency (pos:int) (bs:byte[]) : (int*CommCurrency) =
 
 
 let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> CancellationRights.Yes
@@ -3176,7 +3176,7 @@ let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
 
 
 let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> MoneyLaunderingStatus.Passed
@@ -3197,7 +3197,7 @@ let ReadTransBkdTime (pos:int) (bs:byte[]) : (int*TransBkdTime) =
 
 
 let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> ExecPriceType.BidPrice
@@ -3221,7 +3221,7 @@ let ReadDateOfBirth (pos:int) (bs:byte[]) : (int*DateOfBirth) =
 
 
 let ReadTradeReportTransType (pos:int) (bs:byte[]) : (int * TradeReportTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportTransType.New
@@ -3250,7 +3250,7 @@ let ReadCardIssNum (pos:int) (bs:byte[]) : (int*CardIssNum) =
 
 
 let ReadPaymentMethod (pos:int) (bs:byte[]) : (int * PaymentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PaymentMethod.Crest
@@ -3281,7 +3281,7 @@ let ReadDesignation (pos:int) (bs:byte[]) : (int*Designation) =
 
 
 let ReadTaxAdvantageType (pos:int) (bs:byte[]) : (int * TaxAdvantageType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TaxAdvantageType.NNone
@@ -3304,7 +3304,7 @@ let ReadRegistRejReasonText (pos:int) (bs:byte[]) : (int*RegistRejReasonText) =
 
 
 let ReadFundRenewWaiv (pos:int) (bs:byte[]) : (int * FundRenewWaiv) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"Y"B -> FundRenewWaiv.Yes
@@ -3346,7 +3346,7 @@ let ReadPaymentRemitterID (pos:int) (bs:byte[]) : (int*PaymentRemitterID) =
 
 
 let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> RegistStatus.Accepted
@@ -3358,7 +3358,7 @@ let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
 
 
 let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> RegistRejReasonCode.InvalidUnacceptableAccountType
@@ -3409,7 +3409,7 @@ let ReadRegistID (pos:int) (bs:byte[]) : (int*RegistID) =
 
 
 let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> RegistTransType.New
@@ -3428,7 +3428,7 @@ let ReadOrderPercent (pos:int) (bs:byte[]) : (int*OrderPercent) =
 
 
 let ReadOwnershipType (pos:int) (bs:byte[]) : (int * OwnershipType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"J"B -> OwnershipType.JointInvestors
@@ -3443,7 +3443,7 @@ let ReadNoContAmts (pos:int) (bs:byte[]) : (int*NoContAmts) =
 
 
 let ReadContAmtType (pos:int) (bs:byte[]) : (int * ContAmtType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ContAmtType.CommissionAmount
@@ -3468,7 +3468,7 @@ let ReadContAmtCurr (pos:int) (bs:byte[]) : (int*ContAmtCurr) =
 
 
 let ReadOwnerType (pos:int) (bs:byte[]) : (int * OwnerType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OwnerType.IndividualInvestor
@@ -3509,7 +3509,7 @@ let ReadSecondaryExecID (pos:int) (bs:byte[]) : (int*SecondaryExecID) =
 
 
 let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> OrderCapacity.Agency
@@ -3523,7 +3523,7 @@ let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
 
 
 let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> OrderRestrictions.ProgramTrade
@@ -3541,7 +3541,7 @@ let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
 
 
 let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MassCancelRequestType.CancelOrdersForASecurity
@@ -3556,7 +3556,7 @@ let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestTy
 
 
 let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MassCancelResponse.CancelRequestRejected
@@ -3572,7 +3572,7 @@ let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
 
 
 let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MassCancelRejectReason.MassCancelNotSupported
@@ -3604,7 +3604,7 @@ let ReadAffectedSecondaryOrderID (pos:int) (bs:byte[]) : (int*AffectedSecondaryO
 
 
 let ReadQuoteType (pos:int) (bs:byte[]) : (int * QuoteType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QuoteType.Indicative
@@ -3640,7 +3640,7 @@ let ReadInstrRegistry (pos:int) (bs:byte[]) : (int*InstrRegistry) =
 
 
 let ReadCashMargin (pos:int) (bs:byte[]) : (int * CashMargin) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CashMargin.Cash
@@ -3655,7 +3655,7 @@ let ReadNestedPartySubID (pos:int) (bs:byte[]) : (int*NestedPartySubID) =
 
 
 let ReadScope (pos:int) (bs:byte[]) : (int * Scope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> Scope.Local
@@ -3674,7 +3674,7 @@ let ReadCrossID (pos:int) (bs:byte[]) : (int*CrossID) =
 
 
 let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
@@ -3686,7 +3686,7 @@ let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
 
 
 let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CrossPrioritization.NNone
@@ -3701,7 +3701,7 @@ let ReadOrigCrossID (pos:int) (bs:byte[]) : (int*OrigCrossID) =
 
 
 let ReadNoSides (pos:int) (bs:byte[]) : (int * NoSides) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NoSides.OneSide
@@ -3735,7 +3735,7 @@ let ReadNoSecurityTypes (pos:int) (bs:byte[]) : (int*NoSecurityTypes) =
 
 
 let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityListRequestType.Symbol
@@ -3748,7 +3748,7 @@ let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListReque
 
 
 let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SecurityRequestResult.ValidRequest
@@ -3770,7 +3770,7 @@ let ReadMinTradeVol (pos:int) (bs:byte[]) : (int*MinTradeVol) =
 
 
 let ReadMultiLegRptTypeReq (pos:int) (bs:byte[]) : (int * MultiLegRptTypeReq) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
@@ -3793,7 +3793,7 @@ let ReadLegPrice (pos:int) (bs:byte[]) : (int*LegPrice) =
 
 
 let ReadTradSesStatusRejReason (pos:int) (bs:byte[]) : (int * TradSesStatusRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
@@ -3806,7 +3806,7 @@ let ReadTradeRequestID (pos:int) (bs:byte[]) : (int*TradeRequestID) =
 
 
 let ReadTradeRequestType (pos:int) (bs:byte[]) : (int * TradeRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestType.AllTrades
@@ -3831,7 +3831,7 @@ let ReadTradeReportRefID (pos:int) (bs:byte[]) : (int*TradeReportRefID) =
 
 
 let ReadMatchStatus (pos:int) (bs:byte[]) : (int * MatchStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
@@ -3854,7 +3854,7 @@ let ReadNoClearingInstructions (pos:int) (bs:byte[]) : (int*NoClearingInstructio
 
 
 let ReadClearingInstruction (pos:int) (bs:byte[]) : (int * ClearingInstruction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ClearingInstruction.ProcessNormally
@@ -3888,7 +3888,7 @@ let ReadNoDates (pos:int) (bs:byte[]) : (int*NoDates) =
 
 
 let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
@@ -3903,7 +3903,7 @@ let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
 
 
 let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> CustOrderCapacity.MemberTradingForTheirOwnAccount
@@ -3923,7 +3923,7 @@ let ReadMassStatusReqID (pos:int) (bs:byte[]) : (int*MassStatusReqID) =
 
 
 let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> MassStatusReqType.StatusForOrdersForASecurity
@@ -3951,7 +3951,7 @@ let ReadLegSettlDate (pos:int) (bs:byte[]) : (int*LegSettlDate) =
 
 
 let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
@@ -3962,7 +3962,7 @@ let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
 
 
 let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
@@ -3973,7 +3973,7 @@ let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
 
 
 let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PreallocMethod.ProRata
@@ -4113,7 +4113,7 @@ let ReadTradingSessionSubID (pos:int) (bs:byte[]) : (int*TradingSessionSubID) =
 
 
 let ReadAllocType (pos:int) (bs:byte[]) : (int * AllocType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocType.Calculated
@@ -4158,7 +4158,7 @@ let ReadOfferYield (pos:int) (bs:byte[]) : (int*OfferYield) =
 
 
 let ReadClearingFeeIndicator (pos:int) (bs:byte[]) : (int * ClearingFeeIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"B"B -> ClearingFeeIndicator.CboeMember
@@ -4182,7 +4182,7 @@ let ReadLegLastPx (pos:int) (bs:byte[]) : (int*LegLastPx) =
 
 
 let ReadPriorityIndicator (pos:int) (bs:byte[]) : (int * PriorityIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PriorityIndicator.PriorityUnchanged
@@ -4264,7 +4264,7 @@ let ReadSettlCurrOfferFxRate (pos:int) (bs:byte[]) : (int*SettlCurrOfferFxRate) 
 
 
 let ReadQuoteRequestRejectReason (pos:int) (bs:byte[]) : (int * QuoteRequestRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRequestRejectReason.UnknownSymbol
@@ -4287,7 +4287,7 @@ let ReadSideComplianceID (pos:int) (bs:byte[]) : (int*SideComplianceID) =
 
 
 let ReadAcctIDSource (pos:int) (bs:byte[]) : (int * AcctIDSource) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AcctIDSource.Bic
@@ -4317,7 +4317,7 @@ let ReadConfirmID (pos:int) (bs:byte[]) : (int*ConfirmID) =
 
 
 let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmStatus.Received
@@ -4330,7 +4330,7 @@ let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
 
 
 let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ConfirmTransType.New
@@ -4345,7 +4345,7 @@ let ReadContractSettlMonth (pos:int) (bs:byte[]) : (int*ContractSettlMonth) =
 
 
 let ReadDeliveryForm (pos:int) (bs:byte[]) : (int * DeliveryForm) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DeliveryForm.Bookentry
@@ -4439,7 +4439,7 @@ let ReadLegStipulationValue (pos:int) (bs:byte[]) : (int*LegStipulationValue) =
 
 
 let ReadLegSwapType (pos:int) (bs:byte[]) : (int * LegSwapType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LegSwapType.ParForPar
@@ -4455,7 +4455,7 @@ let ReadPool (pos:int) (bs:byte[]) : (int*Pool) =
 
 
 let ReadQuotePriceType (pos:int) (bs:byte[]) : (int * QuotePriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuotePriceType.Percent
@@ -4477,7 +4477,7 @@ let ReadQuoteRespID (pos:int) (bs:byte[]) : (int*QuoteRespID) =
 
 
 let ReadQuoteRespType (pos:int) (bs:byte[]) : (int * QuoteRespType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> QuoteRespType.HitLift
@@ -4523,7 +4523,7 @@ let ReadNoPositions (pos:int) (bs:byte[]) : (int*NoPositions) =
 
 
 let ReadPosType (pos:int) (bs:byte[]) : (int * PosType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"TQ"B -> PosType.TransactionQuantity
@@ -4558,7 +4558,7 @@ let ReadShortQty (pos:int) (bs:byte[]) : (int*ShortQty) =
 
 
 let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosQtyStatus.Submitted
@@ -4569,7 +4569,7 @@ let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
 
 
 let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"FMTM"B -> PosAmtType.FinalMarkToMarketAmount
@@ -4589,7 +4589,7 @@ let ReadPosAmt (pos:int) (bs:byte[]) : (int*PosAmt) =
 
 
 let ReadPosTransType (pos:int) (bs:byte[]) : (int * PosTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PosTransType.Exercise
@@ -4610,7 +4610,7 @@ let ReadNoUnderlyings (pos:int) (bs:byte[]) : (int*NoUnderlyings) =
 
 
 let ReadPosMaintAction (pos:int) (bs:byte[]) : (int * PosMaintAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PosMaintAction.New
@@ -4641,7 +4641,7 @@ let ReadSettlSessSubID (pos:int) (bs:byte[]) : (int*SettlSessSubID) =
 
 
 let ReadAdjustmentType (pos:int) (bs:byte[]) : (int * AdjustmentType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AdjustmentType.ProcessRequestAsMarginDisposition
@@ -4665,7 +4665,7 @@ let ReadPosMaintRptID (pos:int) (bs:byte[]) : (int*PosMaintRptID) =
 
 
 let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosMaintStatus.Accepted
@@ -4678,7 +4678,7 @@ let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
 
 
 let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
@@ -4689,7 +4689,7 @@ let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
 
 
 let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqType.Positions
@@ -4701,7 +4701,7 @@ let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
 
 
 let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ResponseTransportType.Inband
@@ -4719,7 +4719,7 @@ let ReadTotalNumPosReports (pos:int) (bs:byte[]) : (int*TotalNumPosReports) =
 
 
 let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqResult.ValidRequest
@@ -4733,7 +4733,7 @@ let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
 
 
 let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PosReqStatus.Completed
@@ -4748,7 +4748,7 @@ let ReadSettlPrice (pos:int) (bs:byte[]) : (int*SettlPrice) =
 
 
 let ReadSettlPriceType (pos:int) (bs:byte[]) : (int * SettlPriceType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SettlPriceType.Final
@@ -4806,7 +4806,7 @@ let ReadDeliveryDate (pos:int) (bs:byte[]) : (int*DeliveryDate) =
 
 
 let ReadAssignmentMethod (pos:int) (bs:byte[]) : (int * AssignmentMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"R"B -> AssignmentMethod.Random
@@ -4824,7 +4824,7 @@ let ReadOpenInterest (pos:int) (bs:byte[]) : (int*OpenInterest) =
 
 
 let ReadExerciseMethod (pos:int) (bs:byte[]) : (int * ExerciseMethod) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"A"B -> ExerciseMethod.Automatic
@@ -4838,7 +4838,7 @@ let ReadTotNumTradeReports (pos:int) (bs:byte[]) : (int*TotNumTradeReports) =
 
 
 let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestResult.Successful
@@ -4855,7 +4855,7 @@ let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
 
 
 let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeRequestStatus.Accepted
@@ -4866,7 +4866,7 @@ let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
 
 
 let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportRejectReason.Successful
@@ -4880,7 +4880,7 @@ let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportReject
 
 
 let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegReportingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> SideMultiLegReportingType.SingleSecurity
@@ -4959,7 +4959,7 @@ let ReadTrdRegTimestamp (pos:int) (bs:byte[]) : (int*TrdRegTimestamp) =
 
 
 let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TrdRegTimestampType.ExecutionTime
@@ -4980,7 +4980,7 @@ let ReadConfirmRefID (pos:int) (bs:byte[]) : (int*ConfirmRefID) =
 
 
 let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmType.Status
@@ -4991,7 +4991,7 @@ let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
 
 
 let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> ConfirmRejReason.MismatchedAccount
@@ -5002,7 +5002,7 @@ let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
 
 
 let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> BookingType.RegularBooking
@@ -5029,7 +5029,7 @@ let ReadLastUpdateTime (pos:int) (bs:byte[]) : (int*LastUpdateTime) =
 
 
 let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocSettlInstType.UseDefaultInstructions
@@ -5066,7 +5066,7 @@ let ReadSettlPartySubIDType (pos:int) (bs:byte[]) : (int*SettlPartySubIDType) =
 
 
 let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"S"B -> DlvyInstType.Securities
@@ -5076,7 +5076,7 @@ let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
 
 
 let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> TerminationType.Overnight
@@ -5100,7 +5100,7 @@ let ReadSettlInstReqID (pos:int) (bs:byte[]) : (int*SettlInstReqID) =
 
 
 let ReadSettlInstReqRejCode (pos:int) (bs:byte[]) : (int * SettlInstReqRejCode) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> SettlInstReqRejCode.UnableToProcessRequest
@@ -5116,7 +5116,7 @@ let ReadSecondaryAllocID (pos:int) (bs:byte[]) : (int*SecondaryAllocID) =
 
 
 let ReadAllocReportType (pos:int) (bs:byte[]) : (int * AllocReportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"3"B -> AllocReportType.SellsideCalculatedUsingPreliminary
@@ -5132,7 +5132,7 @@ let ReadAllocReportRefID (pos:int) (bs:byte[]) : (int*AllocReportRefID) =
 
 
 let ReadAllocCancReplaceReason (pos:int) (bs:byte[]) : (int * AllocCancReplaceReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
@@ -5146,7 +5146,7 @@ let ReadCopyMsgIndicator (pos:int) (bs:byte[]) : (int*CopyMsgIndicator) =
 
 
 let ReadAllocAccountType (pos:int) (bs:byte[]) : (int * AllocAccountType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
@@ -5197,7 +5197,7 @@ let ReadNested2PartySubIDType (pos:int) (bs:byte[]) : (int*Nested2PartySubIDType
 
 
 let ReadAllocIntermedReqType (pos:int) (bs:byte[]) : (int * AllocIntermedReqType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AllocIntermedReqType.PendingAccept
@@ -5227,7 +5227,7 @@ let ReadApplQueueDepth (pos:int) (bs:byte[]) : (int*ApplQueueDepth) =
 
 
 let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ApplQueueResolution.NoActionTaken
@@ -5239,7 +5239,7 @@ let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) 
 
 
 let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ApplQueueAction.NoActionTaken
@@ -5263,7 +5263,7 @@ let ReadSecondaryTradeReportID (pos:int) (bs:byte[]) : (int*SecondaryTradeReport
 
 
 let ReadAvgPxIndicator (pos:int) (bs:byte[]) : (int * AvgPxIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AvgPxIndicator.NoAveragePricing
@@ -5298,7 +5298,7 @@ let ReadExchangeRule (pos:int) (bs:byte[]) : (int*ExchangeRule) =
 
 
 let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeAllocIndicator.AllocationNotRequired
@@ -5309,7 +5309,7 @@ let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) 
 
 
 let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
@@ -5319,7 +5319,7 @@ let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
 
 
 let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TrdType.RegularTrade
@@ -5362,7 +5362,7 @@ let ReadThresholdAmount (pos:int) (bs:byte[]) : (int*ThresholdAmount) =
 
 
 let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegMoveType.Floating
@@ -5372,7 +5372,7 @@ let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
 
 
 let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegOffsetType.Price
@@ -5384,7 +5384,7 @@ let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
 
 
 let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> PegLimitType.OrBetter
@@ -5395,7 +5395,7 @@ let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
 
 
 let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PegRoundDirection.MoreAggressive
@@ -5409,7 +5409,7 @@ let ReadPeggedPrice (pos:int) (bs:byte[]) : (int*PeggedPrice) =
 
 
 let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> PegScope.Local
@@ -5421,7 +5421,7 @@ let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
 
 
 let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionMoveType.Floating
@@ -5431,7 +5431,7 @@ let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
 
 
 let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionOffsetType.Price
@@ -5443,7 +5443,7 @@ let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType
 
 
 let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DiscretionLimitType.OrBetter
@@ -5454,7 +5454,7 @@ let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) 
 
 
 let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundDirection) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DiscretionRoundDirection.MoreAggressive
@@ -5468,7 +5468,7 @@ let ReadDiscretionPrice (pos:int) (bs:byte[]) : (int*DiscretionPrice) =
 
 
 let ReadDiscretionScope (pos:int) (bs:byte[]) : (int * DiscretionScope) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> DiscretionScope.Local
@@ -5496,7 +5496,7 @@ let ReadTargetStrategyPerformance (pos:int) (bs:byte[]) : (int*TargetStrategyPer
 
 
 let ReadLastLiquidityInd (pos:int) (bs:byte[]) : (int * LastLiquidityInd) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> LastLiquidityInd.AddedLiquidity
@@ -5511,7 +5511,7 @@ let ReadPublishTrdIndicator (pos:int) (bs:byte[]) : (int*PublishTrdIndicator) =
 
 
 let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> ShortSaleReason.DealerSoldShort
@@ -5525,7 +5525,7 @@ let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
 
 
 let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> QtyType.Units
@@ -5539,7 +5539,7 @@ let ReadSecondaryTrdType (pos:int) (bs:byte[]) : (int*SecondaryTrdType) =
 
 
 let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TradeReportType.Submit
@@ -5555,7 +5555,7 @@ let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
 
 
 let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> AllocNoOrdersType.NotSpecified
@@ -5593,7 +5593,7 @@ let ReadNoEvents (pos:int) (bs:byte[]) : (int*NoEvents) =
 
 
 let ReadEventType (pos:int) (bs:byte[]) : (int * EventType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> EventType.Put
@@ -5626,7 +5626,7 @@ let ReadNoInstrAttrib (pos:int) (bs:byte[]) : (int*NoInstrAttrib) =
 
 
 let ReadInstrAttribType (pos:int) (bs:byte[]) : (int * InstrAttribType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> InstrAttribType.Flat
@@ -5733,7 +5733,7 @@ let ReadMaturityNetMoney (pos:int) (bs:byte[]) : (int*MaturityNetMoney) =
 
 
 let ReadMiscFeeBasis (pos:int) (bs:byte[]) : (int * MiscFeeBasis) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> MiscFeeBasis.Absolute
@@ -5756,7 +5756,7 @@ let ReadCollReqID (pos:int) (bs:byte[]) : (int*CollReqID) =
 
 
 let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnReason.Initial
@@ -5772,7 +5772,7 @@ let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
 
 
 let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryQualifier.Tradedate
@@ -5812,7 +5812,7 @@ let ReadCollAsgnID (pos:int) (bs:byte[]) : (int*CollAsgnID) =
 
 
 let ReadCollAsgnTransType (pos:int) (bs:byte[]) : (int * CollAsgnTransType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnTransType.New
@@ -5829,7 +5829,7 @@ let ReadCollRespID (pos:int) (bs:byte[]) : (int*CollRespID) =
 
 
 let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnRespType.Received
@@ -5841,7 +5841,7 @@ let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
 
 
 let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAsgnRejectReason.UnknownDeal
@@ -5868,7 +5868,7 @@ let ReadCollInquiryID (pos:int) (bs:byte[]) : (int*CollInquiryID) =
 
 
 let ReadCollStatus (pos:int) (bs:byte[]) : (int * CollStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollStatus.Unassigned
@@ -5913,7 +5913,7 @@ let ReadAgreementCurrency (pos:int) (bs:byte[]) : (int*AgreementCurrency) =
 
 
 let ReadDeliveryType (pos:int) (bs:byte[]) : (int * DeliveryType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> DeliveryType.VersusPayment
@@ -5941,7 +5941,7 @@ let ReadUserRequestID (pos:int) (bs:byte[]) : (int*UserRequestID) =
 
 
 let ReadUserRequestType (pos:int) (bs:byte[]) : (int * UserRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> UserRequestType.Logonuser
@@ -5957,7 +5957,7 @@ let ReadNewPassword (pos:int) (bs:byte[]) : (int*NewPassword) =
 
 
 let ReadUserStatus (pos:int) (bs:byte[]) : (int * UserStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> UserStatus.LoggedIn
@@ -5975,7 +5975,7 @@ let ReadUserStatusText (pos:int) (bs:byte[]) : (int*UserStatusText) =
 
 
 let ReadStatusValue (pos:int) (bs:byte[]) : (int * StatusValue) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> StatusValue.Connected
@@ -6011,7 +6011,7 @@ let ReadLastNetworkResponseID (pos:int) (bs:byte[]) : (int*LastNetworkResponseID
 
 
 let ReadNetworkRequestType (pos:int) (bs:byte[]) : (int * NetworkRequestType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetworkRequestType.Snapshot
@@ -6027,7 +6027,7 @@ let ReadNoCompIDs (pos:int) (bs:byte[]) : (int*NoCompIDs) =
 
 
 let ReadNetworkStatusResponseType (pos:int) (bs:byte[]) : (int * NetworkStatusResponseType) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> NetworkStatusResponseType.Full
@@ -6041,7 +6041,7 @@ let ReadNoCollInquiryQualifier (pos:int) (bs:byte[]) : (int*NoCollInquiryQualifi
 
 
 let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> TrdRptStatus.Accepted
@@ -6051,7 +6051,7 @@ let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
 
 
 let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"1"B -> AffirmStatus.Received
@@ -6074,7 +6074,7 @@ let ReadTimeBracket (pos:int) (bs:byte[]) : (int*TimeBracket) =
 
 
 let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollAction.Retain
@@ -6085,7 +6085,7 @@ let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
 
 
 let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryStatus.Accepted
@@ -6098,7 +6098,7 @@ let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
 
 
 let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
-    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
     let fld = 
         match valIn with
         |"0"B -> CollInquiryResult.Successful

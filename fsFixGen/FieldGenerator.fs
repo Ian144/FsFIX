@@ -35,7 +35,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
             yield  sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" typeName typeName 
-            yield  sprintf "    let pos2, valIn = ByteArrayUtils.readValAfterTagValSep pos bs"
+            yield  sprintf "    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs"
             yield  sprintf "    let fld = "
             yield  sprintf "        match valIn with"
             yield! values |> List.map (fun vv -> 
@@ -70,7 +70,6 @@ let private correctDUCaseNames (strIn:string) =
 // f# cases cannot begin with a number
 let private prefixNumericCaseNames (ss:string) =
     match Char.IsDigit(ss.[0]) with
-    //| true  -> sprintf "``%s``" ss
     | true  -> sprintf "C%s" ss
     | false -> ss
 
@@ -114,14 +113,6 @@ let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (
     let lines = [
             sprintf "let Write%s (dest:byte []) (pos:int) (valIn:%s) : int = " fieldName fieldName
             sprintf "    %s dest pos \"%d=\"B valIn" writeFunc fixTag
-//            sprintf "   let tag = \"%d=\"B" fixTag
-//            sprintf "   Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)"
-//            sprintf "   let nextFreeIdx2 = nextFreeIdx + tag.Length"
-//            sprintf "   let bs = ToBytes.Convert(valIn.Value)"
-//            sprintf "   Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)"
-//            sprintf "   let nextFreeIdx3 = nextFreeIdx2 + bs.Length"
-//            sprintf "   dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
-//            sprintf "   nextFreeIdx3 + 1 // +1 to include the delimeter"
     ]
     Utils.joinStrs "\n" lines
 
@@ -269,25 +260,26 @@ let private createLenDataFieldReadFunction (fld:CompoundField) =
 let private createLenDataFieldWriteFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound write, of a length field and the corresponding string field"
-            sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (fld:%s) : int =" fld.Name fld.Name
-            sprintf "    // write the string length part of the compound msg"
-            sprintf "    let lenTag = \"%d=\"B" fld.LenField.FixTag
-            sprintf "    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)"
-            sprintf "    let nextFreeIdx2 = nextFreeIdx + lenTag.Length"
-            sprintf "    let lenBs = ToBytes.Convert fld.Value.Length"
-            sprintf "    Buffer.BlockCopy (lenBs, 0, dest, nextFreeIdx2, lenBs.Length)"
-            sprintf "    let nextFreeIdx3 = nextFreeIdx2 + lenBs.Length"
-            sprintf "    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
-            sprintf "    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter"
-            sprintf "    // write the string part of the compound msg"
-            sprintf "    let dataTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
-            sprintf "    Buffer.BlockCopy (dataTag, 0, dest, nextFreeIdx4, dataTag.Length)"
-            sprintf "    let nextFreeIdx5 = nextFreeIdx4 + dataTag.Length"
-            sprintf "    let dataBs = fld.Value"
-            sprintf "    Buffer.BlockCopy (dataBs, 0, dest, nextFreeIdx5, dataBs.Length)"
-            sprintf "    let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length"
-            sprintf "    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter"
-            sprintf "    nextFreeIdx6 + 1 // +1 to include the delimeter"
+            sprintf "let Write%s (dest:byte []) (pos:int) (fld:%s) : int =" fld.Name fld.Name
+            sprintf "    WriteFieldLengthData \"%d=\"B \"%d=\"B dest pos fld" fld.LenField.FixTag fld.DataField.FixTag
+//            sprintf "    // write the string length part of the compound msg"
+//            sprintf "    let lenTag = \"%d=\"B" fld.LenField.FixTag
+//            sprintf "    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)"
+//            sprintf "    let nextFreeIdx2 = nextFreeIdx + lenTag.Length"
+//            sprintf "    let lenBs = ToBytes.Convert fld.Value.Length"
+//            sprintf "    Buffer.BlockCopy (lenBs, 0, dest, nextFreeIdx2, lenBs.Length)"
+//            sprintf "    let nextFreeIdx3 = nextFreeIdx2 + lenBs.Length"
+//            sprintf "    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter"
+//            sprintf "    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to include the delimeter"
+//            sprintf "    // write the string part of the compound msg"
+//            sprintf "    let dataTag = \"%d=\"B // i.e. tag for the data field of the compound msg" fld.DataField.FixTag
+//            sprintf "    Buffer.BlockCopy (dataTag, 0, dest, nextFreeIdx4, dataTag.Length)"
+//            sprintf "    let nextFreeIdx5 = nextFreeIdx4 + dataTag.Length"
+//            sprintf "    let dataBs = fld.Value"
+//            sprintf "    Buffer.BlockCopy (dataBs, 0, dest, nextFreeIdx5, dataBs.Length)"
+//            sprintf "    let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length"
+//            sprintf "    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter"
+//            sprintf "    nextFreeIdx6 + 1 // +1 to include the delimeter"
         ]
     Utils.joinStrs "\n" lines
 
@@ -402,7 +394,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swReadFuncs:StreamWriter) 
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
     swFieldDU.WriteLine  "let ReadField (pos:int) (bs:byte[]) ="
-    swFieldDU.WriteLine  "    let pos2, tag = ByteArrayUtils.readTag pos bs"
+    swFieldDU.WriteLine  "    let pos2, tag = FIXBufUtils.readTag pos bs"
     swFieldDU.WriteLine  "    let pos2 = pos2 + 1 // move past the tag-value separator"
     swFieldDU.WriteLine  "    match tag with"
     fieldData |> Seq.iter (fun fd ->

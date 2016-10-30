@@ -1,4 +1,4 @@
-﻿module ByteArrayUtils
+﻿module FIXBufUtils
 
 open System
 

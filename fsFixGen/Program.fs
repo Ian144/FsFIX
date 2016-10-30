@@ -133,7 +133,8 @@ let main _ =
 
     printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
-    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems
+    use swCompoundItemDU = new StreamWriter (MkOutpath "Fix44.CompoundItemDU.fs")
+    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
