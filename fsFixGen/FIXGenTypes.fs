@@ -14,7 +14,7 @@ type Required = Required | NotRequired
 
 
 
-type Field = { FName:string; Required:Required}
+type Field = { FName:string; Required:Required }
 
 
 
