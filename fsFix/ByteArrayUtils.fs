@@ -1,4 +1,4 @@
-﻿module FIXBufUtils
+module ByteArrayUtils
 
 open System
 
@@ -28,8 +28,7 @@ let readValAfterTagValSep (pos:int) (bs:byte[]) =
     Buffer.BlockCopy (bs, pos, bsVal, 0, valLen)
     fldTermPos, bsVal
 
-/// used for reading the data component of length+data paired fields, the data component may contain field deliminators
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
+/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=')
 /// returns the index of first char after the field value and the value itself
 let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
     // byte value of '=' is 61, of field delim is 1
@@ -51,11 +50,11 @@ let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
     tagValSepPos, bsVal
 
 
-// may be the first thing to be read from a byte array, so there will be no initial or prev field deliminator
+// may be the first attempt to read from a byte array, so there will be no initial or prev field deliminator
 let readTag (pos:int) (bs:byte[]) =
     let tagValSepPos = findNextTagValSep pos bs
     if tagValSepPos = -1 then failwith "readTag, could not find next tag-valus separator"
     let tagLen = tagValSepPos - pos
     let bsVal = Array.zeroCreate<byte> tagLen
     Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
-    tagValSepPos+1, bsVal // +1 to advance past the tag value seperator
+    tagValSepPos, bsVal

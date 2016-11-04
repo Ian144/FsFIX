@@ -10,7 +10,7 @@ open Fix44.CompoundItemWriteFuncs
 
 // strings stored in FIX do not contain field terminators, 
 //let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
-let genAlphaChar = Gen.choose(65,127) |> Gen.map char 
+let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
@@ -51,18 +51,36 @@ let MakeNoNested2PartyIDs () = {
     }
 
 
+let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+    let pos2, tag = FIXBufUtils.readTag pos bs
+    if tag <> expectedTag then 
+        let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
+        failwith msg
+    let pos3, fld = readFunc pos2 bs
+    pos3, fld
 
-let ReadTradeCaptureReportNoSidesGrp pos (bs:byte[])  =
-    let pos, tag = FIXBufUtils.readTag pos bs
-    let pos, side = Fix44.FieldReadFuncs.ReadSide (pos+1) bs
-    let pos, tag = FIXBufUtils.readTag pos bs
-    let pos, orderID = Fix44.FieldReadFuncs.ReadOrderID (pos+1) bs
-    //let pos, SecondaryOrderID = OptionalTagLookAhead tagSecOrderID ReadSecondaryOrderID
+// ####
+// how do i get the tag? do readfuncs need to be tupled with thier tags?
+// ReadOptionalField re-reads the tag each time it is called and returns None
+let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+    let pos2, tag = FIXBufUtils.readTag pos bs
+    if tag = expectedTag then 
+        let pos3, fld = readFunc pos2 bs
+        pos3, Some fld
+    else
+        pos, None   // return the original pos, the next readoptional will re-read it
+
+
+
+let ReadTradeCaptureReportNoSidesGrp pos (bs:byte[]) =
+    let pos, side       = ReadField "ReadTradeCaptureReportNoSidesGrp" pos "54"B bs Fix44.FieldReadFuncs.ReadSide 
+    let pos, orderID    = ReadField "ReadTradeCaptureReportNoSidesGrp" pos "37"B bs Fix44.FieldReadFuncs.ReadOrderID
+    let pos, secondaryOrderID = ReadOptionalField pos "198"B bs Fix44.FieldReadFuncs.ReadSecondaryOrderID
     let grp = 
         {
             Side = side
-            OrderID = orderID    //#### state monad to thread thru the updating pos?? 
-            SecondaryOrderID = None // : SecondaryOrderID option
+            OrderID = orderID
+            SecondaryOrderID = secondaryOrderID
             ClOrdID = None // : ClOrdID option
             SecondaryClOrdID = None // : SecondaryClOrdID option
             ListID = None // : ListID option
@@ -131,4 +149,4 @@ let ``TradeCaptureReport_NoSidesGrp write-read roundtrip`` (grp:TradeCaptureRepo
 
     // test<@ endPos = posOut @>
 
-    grp = grp
+    grp = grpOut

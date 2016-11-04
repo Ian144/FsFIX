@@ -23,7 +23,6 @@ let MkOutpath flName =
 
 [<EntryPoint>]
 let main _ = 
-
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)
     let doc = XDocument.Parse fixXml
 
