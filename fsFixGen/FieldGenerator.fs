@@ -7,21 +7,17 @@ open System.IO
 open System.Xml.Linq
 open System.Xml.XPath
 
+open FIXGenTypes
 
 
-type FieldDUCase = { Enum:string; Description:string }
-type SimpleField = { FixTag:int; Name:string; Type:string; Values:FieldDUCase list }
-type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
-type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
-
-let private createFieldDUWriterFunc (fldName:string) (fixTag:int) (values:FieldDUCase list) = 
+let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:FieldDUCase list) = 
     let lines = [
         yield (sprintf "let Write%s (dest:byte array) (nextFreeIdx:int) (xxIn:%s) : int =" fldName fldName)
         yield (sprintf "    match xxIn with")
         for vv in values do
         yield (sprintf "    | %s.%s ->"  fldName vv.Description)
-        yield (sprintf "        let tag = \"%d=%s\"B"  fixTag  vv.Enum)
+        yield (sprintf "        let tag = \"%d=%s\"B"  fixTag  vv.Case)
         yield (sprintf "        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)")
         yield (sprintf "        let nextFreeIdx2 = nextFreeIdx + tag.Length")
         yield (sprintf "        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter")
@@ -39,14 +35,14 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
             yield  sprintf "    let fld = "
             yield  sprintf "        match valIn with"
             yield! values |> List.map (fun vv -> 
-                   sprintf "        |\"%s\"B -> %s.%s" vv.Enum typeName vv.Description )
+                   sprintf "        |\"%s\"B -> %s.%s" vv.Case typeName vv.Description )
             yield          "        | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
             yield  sprintf "    pos2 + 1, fld  // +1 to advance the position to after the field separator" 
     ]    
     Utils.joinStrs "\n" lines
 
 
-let private createFieldDUWithValues (typeName:string) (fixTag:int) (values:FieldDUCase list) =
+let private createFieldDUWithValues (typeName:string) (fixTag:uint32) (values:FieldDUCase list) =
     let typeStr = sprintf "type %s =" typeName
     let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> Utils.joinStrs "\n"
     let typeStr = sprintf "%s\n%s" typeStr caseStr
@@ -108,7 +104,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
 
 
 
-let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (fixTag:int) =
+let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (fixTag:uint32) =
     let writeFunc = getSingleCaseDUWriteFuncString wrappedType
     let lines = [
             sprintf "let Write%s (dest:byte []) (pos:int) (valIn:%s) : int = " fieldName fieldName
@@ -126,7 +122,7 @@ let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
     Utils.joinStrs "\n" lines
 
 
-let private makeSingleCaseDU (fieldName:string) (tag:int) (innerType:string) =
+let private makeSingleCaseDU (fieldName:string) (tag:uint32) (innerType:string) =
     let fieldDefStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" fieldName fieldName innerType fieldName
     //let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
     let readerFunc = makeSingleCaseDUReaderFunc innerType fieldName
@@ -226,7 +222,7 @@ let MergeLenFields (fields:SimpleField list) =
 let ParseFieldData (parentXL:XElement) : SimpleField list =
     let fieldsXL = parentXL.XPathSelectElements "field"
     [   for fieldXL in fieldsXL do
-        let fldNumber = ParsingFuncs.gas fieldXL "number" |> System.Convert.ToInt32
+        let fldNumber = ParsingFuncs.gas fieldXL "number" |> System.Convert.ToUInt32
         let name = ParsingFuncs.gas fieldXL "name"
         let fldName = name.Trim()
         let fldType = ParsingFuncs.gas fieldXL "type"
@@ -236,7 +232,7 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
                 let desc = ParsingFuncs.gas valueXL "description"
                 let eenum = ParsingFuncs.gas valueXL "enum"
                 let duName = correctDUNames desc
-                yield {Description = duName; Enum  = eenum}  ]
+                yield {Description = duName; Case  = eenum}  ]
         yield {FixTag = fldNumber; Name = name; Type = fldType; Values = values}
     ]
 

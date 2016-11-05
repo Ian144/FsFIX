@@ -206,25 +206,6 @@ let ``TradeCaptureReport_NoSidesGrp write-read roundtrip`` (grp:TradeCaptureRepo
 
 
 
-// generate read funcions 
-// NEED THE FIELD TAG?
-//  DOES TAG NEED TO BE IN FIX ITEMS
-//  groups won't work, as they need to read N times
-//  should group read functions be wrapped in an adaptor that applies the read N times
-//      tag lookahead - if the next tag is that of the first field of the group read again
-//      ReadGroup
-//      ReadOptionalGroup
-// fix freemind
-// can have CLIMutable for records, what about DU's
-//  can google protocol buffers cope with inheritance hierarchies
-//  all DU members are records which can be CLIMutable
-//  would 'mutable builder classes' be useful? i think i have avoided them in fsFIX
-//  could try to replicate ocaml.Marshall 
-//      but would this be language agnostic
-// how can reader functions check for extra fields which are not part of the record
-//   is this only an issue with optional funcs
-//  would this be easier outside of the reader func? 
-//  https://github.com/ctaggart/froto
 
 let ReadNoCapacitiesGrp pos (bs:byte[]) =
     let pos, orderCapacity      = ReadField "ReadNoCapacitiesGrp" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity 

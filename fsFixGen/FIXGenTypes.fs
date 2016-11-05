@@ -3,20 +3,21 @@
 
 
 type ComponentName = ComponentName of string
-
-
                                 
 type GroupLongName = GroupLongName of string
 
-
-
 type Required = Required | NotRequired
 
+type FieldDUCase = { Case:string; Description:string }
 
+type SimpleField = { FixTag:uint32; Name:string; Type:string; Values:FieldDUCase list }
 
-type Field = { FName:string; Required:Required }
+type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
 
+type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
+// groups and components refer to fields, but the fields are defined elsewhere
+type FieldRef = { FName:string; Required:Required }
 
 // msgs refer to components, but the component is defined elsewhere, unlike groups which are defined inline.
 // ComponentRefs can be required or not required, whereas Components do not know whether they will  be required 
@@ -24,17 +25,14 @@ type Field = { FName:string; Required:Required }
 type ComponentRef = { CRName:ComponentName; Required:Required }
 
 
-
 // A FIXItem can contain groups containing FIXItems, SO FIXITEMS ARE TREES
 // ComponentRefs refer to a component by name, but do not contain Items directly, 
 // Components are not defined inline in FIX XML, whereas groups are.
-type FIXItem = Field of Field | ComponentRef of ComponentRef | Group of Group
+type FIXItem = Field of FieldRef | ComponentRef of ComponentRef | Group of Group
 and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list }
 
 
-
 type Msg = {MName:string; Tag:string; Cat:string; Items: FIXItem list}
-
 
 
 type Component = {CName:ComponentName; Items: FIXItem list}
@@ -42,7 +40,7 @@ type Component = {CName:ComponentName; Items: FIXItem list}
 
 // Groups can refer to Components, and Components can refer to Groups, need a type 
 // that can hold either when generating groups and components in dependency order.
-// FIXItem cannot do this as it holds a ComponentRef (which contains no dependency information, just a name) not a Component
+// FIXItem cannot do this as it holds a ComponentRef (which contains no dependency information, its just a name) not a Component
 type CompoundItem = Component of Component | Group of Group
 
 
