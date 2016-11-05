@@ -110,6 +110,10 @@ let genItemListWriterStrs (items:FIXItem list) =
         ) // end List.collect
 
 
+let private fixYield (ss:string) =
+    match ss with
+    | "yield"   -> "yyield"
+    | ss        -> ss
 
 let genItemListReaderStrs  (fieldNameMap:Map<string,SimpleField>)  (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
@@ -117,7 +121,7 @@ let genItemListReaderStrs  (fieldNameMap:Map<string,SimpleField>)  (parentName:s
         | FIXItem.Field fld         ->  let name = fld.FName
                                         let simpleField = fieldNameMap.[name] // the program is broken if this does not succeed, so fail fast
                                         let tag = simpleField.Tag
-                                        let lcase1Name = Utils.lCaseFirstChar name
+                                        let lcase1Name = Utils.lCaseFirstChar name |> fixYield
                                         match fld.Required with
                                         | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" lcase1Name parentName tag name ]
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" lcase1Name tag name ]

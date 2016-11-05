@@ -17,7 +17,6 @@ let private writeComponent (cmp:Component) (sw:StreamWriter) =
     sw.WriteLine ""
 
 
-// todo: consider a static class + overloading, dictionary of operations or ^t + member constraints to write a single type generator function for components, groups and messages
 let private writeGroup (grp:Group) (sw:StreamWriter) = 
     sw.WriteLine ""
     sw.WriteLine "// group"
@@ -28,6 +27,7 @@ let private writeGroup (grp:Group) (sw:StreamWriter) =
     grp.Items |> (CommonGenerator.writeFIXItemList sw)
     sw.Write  "    }"
     sw.WriteLine ""
+
 
 
 let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:StreamWriter) =
@@ -45,59 +45,21 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:Str
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
 
-    // write the 'group' DU
-    swCompItemDU.WriteLine "module Fix44.CompoundItemDU"
-    swCompItemDU.WriteLine ""
-    swCompItemDU.WriteLine "open Fix44.CompoundItems"
-    swCompItemDU.WriteLine ""
-    swCompItemDU.WriteLine ""
-    swCompItemDU.WriteLine ""
-
-    let groups = cmpItems |> CompoundItemFuncs.extractGroups
-    swCompItemDU.WriteLine  "type FIXGroup ="
-    groups 
-    |> List.map GroupUtils.makeLongName
-    |> List.sort 
-    |> List.iter (fun grpLngName ->
-            let (GroupLongName strName) = grpLngName
-            let ss  = sprintf "    | %sGrp of %sGrp" strName strName
-            swCompItemDU.WriteLine ss  )
-    swCompItemDU.WriteLine ""
-    swCompItemDU.WriteLine ""
-    swCompItemDU.WriteLine ""
-
-
-
-let private genGroupWriter (sw:StreamWriter) (grp:Group) =
-    sw.WriteLine "// group"
-    let (GroupLongName grpName) = GroupUtils.makeLongName grp
-    let funcSig = sprintf "let Write%sGrp (dest:byte []) (nextFreeIdx:int) (xx:%sGrp) =" grpName grpName
-    sw.WriteLine funcSig
-    let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs grp.Items
-    writeGroupFuncStrs |> List.iter sw.WriteLine
-    sw.WriteLine "    nextFreeIdx"
-    sw.WriteLine ""
-    sw.WriteLine ""
-
-
-
-let private genComponentWriter (sw:StreamWriter) (cmp:Component) =
-    sw.WriteLine "// component"
-    let (ComponentName name) = cmp.CName
-    let funcSig = sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) (xx:%s) =" name name
-    sw.WriteLine funcSig
-    let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs cmp.Items
-    writeGroupFuncStrs |> List.iter sw.WriteLine
-    sw.WriteLine "    nextFreeIdx"
-    sw.WriteLine ""
-    sw.WriteLine ""
-
 
 let private genCompoundItemWriter (sw:StreamWriter) (ci:CompoundItem) =
-    match ci with
-    | CompoundItem.Group grp        -> genGroupWriter sw grp
-    | CompoundItem.Component cmp    -> genComponentWriter sw cmp
-    
+    let name = CompoundItemFuncs.getName ci
+    let suffix = CompoundItemFuncs.getNameSuffix ci
+    let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
+    let items = CompoundItemFuncs.getItems ci
+    sw.WriteLine (sprintf "// %s" compOrGroup)
+    let funcSig = sprintf "let Write%s%s (dest:byte []) (nextFreeIdx:int) (xx:%s%s) =" name suffix name suffix
+    sw.WriteLine funcSig
+    let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs items
+    writeGroupFuncStrs |> List.iter sw.WriteLine
+    sw.WriteLine "    nextFreeIdx"
+    sw.WriteLine ""
+    sw.WriteLine ""
+   
 
 
 let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =

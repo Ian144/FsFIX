@@ -630,7 +630,7 @@ let ReadSpreadOrBenchmarkCurveData (pos:int) (bs:byte []) : int * SpreadOrBenchm
 // component
 let ReadYieldData (pos:int) (bs:byte []) : int * YieldData  =
     let pos, yieldType = ReadOptionalField pos "235"B bs ReadYieldType
-    let pos, yield = ReadOptionalField pos "236"B bs ReadYield
+    let pos, yyield = ReadOptionalField pos "236"B bs ReadYield
     let pos, yieldCalcDate = ReadOptionalField pos "701"B bs ReadYieldCalcDate
     let pos, yieldRedemptionDate = ReadOptionalField pos "696"B bs ReadYieldRedemptionDate
     let pos, yieldRedemptionPrice = ReadOptionalField pos "697"B bs ReadYieldRedemptionPrice
