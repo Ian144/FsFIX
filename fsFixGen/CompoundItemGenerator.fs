@@ -108,8 +108,13 @@ let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:Str
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
     writeGroupFuncStrs |> List.iter sw.WriteLine
-    //todo: apply the fields, subgroups and subcomponents that have been read to create the instance
+    let fieldInitStrs = CommonGenerator.genFieldInitStrs items
+    sw.WriteLine "    //let ci = {"
+    fieldInitStrs |> List.iter sw.WriteLine
+    sw.WriteLine "    //}"
+    sw.WriteLine "    //pos, ci"
     sw.WriteLine "    failwith \"not implemented\""
+    sw.WriteLine ""
     sw.WriteLine ""
 
 

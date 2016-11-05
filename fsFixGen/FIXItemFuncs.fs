@@ -54,6 +54,15 @@ let getName (fi:FIXItem) =
     | FIXItem.Group grp         ->  grp.GName
 
 
+let getNameLN (fi:FIXItem) =
+    match fi with
+    | FIXItem.Field fld         ->  fld.FName
+    | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
+                                    nm
+    | FIXItem.Group grp         ->  let (GroupLongName nm) = GroupUtils.makeLongName grp
+                                    nm
+
+
 
 let getIsRequired (fi:FIXItem) =
     match fi with

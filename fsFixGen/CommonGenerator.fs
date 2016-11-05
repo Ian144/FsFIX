@@ -110,10 +110,12 @@ let genItemListWriterStrs (items:FIXItem list) =
         ) // end List.collect
 
 
+let private fixYield (ss:string) = 
+    match ss with 
+    | "yield"   -> "yyield"
+    | ss        -> ss
 
-
-let genItemListReaderStrs  (fieldNameMap:Map<string,SimpleField>)  (parentName:string) (items:FIXItem list) =
-    let fixYield (ss:string) = match ss with | "yield"   -> "yyield"| ss        -> ss
+let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>)  (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
         match item with
         | FIXItem.Field fld         ->  let name = fld.FName
@@ -132,41 +134,12 @@ let genItemListReaderStrs  (fieldNameMap:Map<string,SimpleField>)  (parentName:s
                                         | Required.NotRequired  ->  [] // genWriteOptionalGroup "xx" grp
         ) // end List.collect
 
-//let genItemListReaderFieldApplicationStrs (parentName:string) (items:FIXItem list) =
-//    items |> List.collect (fun item ->
-//        match item with
-//        | FIXItem.Field fld         ->  let name = fld.FName
-//                                        let lcase1Name = Utils.lCaseFirstChar name
-//                                        match fld.Required with
-//                                        | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"tag\"B bs Fix44.FieldReadFuncs.%s" lcase1Name parentName name ]
-//                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"tag\"B bs Fix44.FieldReadFuncs.%s" lcase1Name name ]
-//        | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
-//                                        match cmp.Required with
-//                                        | Required.Required     ->  [] // [   sprintf "    let pos = Write%s dest pos xx.%s   // component" name name ]
-//                                        | Required.NotRequired  ->  [] // [   sprintf "    let pos = Option.fold (Write%s dest) pos xx.%s    // component option" name name ]
-//        | FIXItem.Group grp         ->  match grp.Required with
-//                                        | Required.Required     ->  [] // genWriteGroup "xx" grp
-//                                        | Required.NotRequired  ->  [] // genWriteOptionalGroup "xx" grp
-//        ) // end List.collect
 
 
-
-//    items
-//        |> List.map (fun item ->
-//                match item with
-//                | FIXItem.Field fld         ->  let name = fld.FName
-//                                                let lcase1Name = Utils.lCaseFirstChar name
-//                                                match fld.Required with
-//                                                | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"tag\"B bs Fix44.FieldReadFuncs.%s" lcase1Name parentName name ]
-//                                                | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"tag\"B bs Fix44.FieldReadFuncs.%s" lcase1Name name ]
-//                | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
-//                                                match cmp.Required with
-//                                                | Required.Required     ->  [] // [   sprintf "    let pos = Write%s dest pos xx.%s   // component" name name ]
-//                                                | Required.NotRequired  ->  [] // [   sprintf "    let pos = Option.fold (Write%s dest) pos xx.%s    // component option" name name ]
-//                | FIXItem.Group grp         ->  match grp.Required with
-//                                                | Required.Required     ->  [] // genWriteGroup "xx" grp
-//                                                | Required.NotRequired  ->  [] // genWriteOptionalGroup "xx" grp
-//                ) // end List.map
-//        |> List.concat // flatten the 'string list list' into a 'string list'
+let genFieldInitStrs (items:FIXItem list) =
+    items |> List.map (fun fi -> 
+        let fieldName = fi |> FIXItem.getNameLN
+        let varName = fieldName |> Utils.lCaseFirstChar |> fixYield
+        sprintf "            //%s = %s" fieldName varName )
 
 
