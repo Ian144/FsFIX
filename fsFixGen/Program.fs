@@ -136,6 +136,11 @@ let main _ =
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
+    
+    printfn "generating group and component reading functions in dependency order"
+    use swGroupReadFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemReadFuncs.fs")
+    do CompoundItemGenerator.GenReadFuncs constrainedCompoundItemsInDepOrder swGroupReadFuncs
+
 
     printfn "generating message F# types"
     use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")

@@ -55,6 +55,7 @@
     <Compile Include="Fix44.FieldDU.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
     <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
+    <Compile Include="Fix44.CompoundItemReadFuncs.fs" />
     <Compile Include="Fix44.CompoundItemDU.fs" />
     <Compile Include="Fix44.Messages.fs" />
     <Compile Include="Fix44.MsgWriteFuncs.fs" />

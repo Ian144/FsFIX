@@ -29,7 +29,7 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
+        MaxTest = 10000,
         Verbose = true,
         QuietOnSuccess = true)
 
@@ -193,14 +193,70 @@ let ReadTradeCaptureReportNoSidesGrp pos (bs:byte[]) =
     pos, grp
 
 
+
 [<PropertyTestAttribute>]
 let ``TradeCaptureReport_NoSidesGrp write-read roundtrip`` (grp:TradeCaptureReport_NoSidesGrp) =
     printfn "%A" grp
     let bs = Array.zeroCreate<byte> (1024 * 16)
     let endPos = WriteTradeCaptureReport_NoSidesGrp  bs 0 grp
-
     let posOut, grpOut = ReadTradeCaptureReportNoSidesGrp 0 bs
-
-    // test<@ endPos = posOut @>
-
+    let allRead = endPos = posOut
+    //test<@ endPos = posOut @>
     grp = grpOut
+
+
+
+// generate read funcions 
+// NEED THE FIELD TAG?
+//  DOES TAG NEED TO BE IN FIX ITEMS
+//  groups won't work, as they need to read N times
+//  should group read functions be wrapped in an adaptor that applies the read N times
+//      tag lookahead - if the next tag is that of the first field of the group read again
+//      ReadGroup
+//      ReadOptionalGroup
+// fix freemind
+// can have CLIMutable for records, what about DU's
+//  can google protocol buffers cope with inheritance hierarchies
+//  all DU members are records which can be CLIMutable
+//  would 'mutable builder classes' be useful? i think i have avoided them in fsFIX
+//  could try to replicate ocaml.Marshall 
+//      but would this be language agnostic
+// how can reader functions check for extra fields which are not part of the record
+//   is this only an issue with optional funcs
+//  would this be easier outside of the reader func? 
+//  https://github.com/ctaggart/froto
+
+let ReadNoCapacitiesGrp pos (bs:byte[]) =
+    let pos, orderCapacity      = ReadField "ReadNoCapacitiesGrp" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity 
+    let pos, orderRestrictions  = ReadOptionalField pos "529"B bs Fix44.FieldReadFuncs.ReadOrderRestrictions
+    let pos, orderCapacityQty   = ReadField "ReadNoCapacitiesGrp" pos "863"B bs Fix44.FieldReadFuncs.ReadOrderCapacityQty
+    let grp = 
+        {
+            OrderCapacity = orderCapacity
+            OrderRestrictions = orderRestrictions
+            OrderCapacityQty = orderCapacityQty
+        }
+    pos, grp
+
+
+
+
+[<PropertyTestAttribute>]
+let ``NoCapacitiesGrp write-read roundtrip`` (grp:NoCapacitiesGrp) =
+    printfn "%A" grp
+    let bs = Array.zeroCreate<byte> (1024 * 16)
+    let endPos = WriteNoCapacitiesGrp  bs 0 grp
+    let posOut, grpOut = ReadNoCapacitiesGrp 0 bs
+    let ok = endPos = posOut
+    // test<@ endPos = posOut @>
+    grp = grpOut
+
+
+
+
+
+
+
+
+
+
