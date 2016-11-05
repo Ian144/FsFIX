@@ -36,6 +36,57 @@ let ReadNoUnderlyingStipsGrp (pos:int) (bs:byte []) : int * NoUnderlyingStipsGrp
     let pos, underlyingStipValue = ReadOptionalField pos "889"B bs ReadUnderlyingStipValue
     failwith "not implemented"
 
+// component
+let ReadUnderlyingStipulations (pos:int) (bs:byte []) : int * UnderlyingStipulations  =
+    failwith "not implemented"
+
+// component
+let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument  =
+    let pos, underlyingSymbol = ReadField "ReadUnderlyingInstrument" pos "311"B bs ReadUnderlyingSymbol
+    let pos, underlyingSymbolSfx = ReadOptionalField pos "312"B bs ReadUnderlyingSymbolSfx
+    let pos, underlyingSecurityID = ReadOptionalField pos "309"B bs ReadUnderlyingSecurityID
+    let pos, underlyingSecurityIDSource = ReadOptionalField pos "305"B bs ReadUnderlyingSecurityIDSource
+    let pos, underlyingProduct = ReadOptionalField pos "462"B bs ReadUnderlyingProduct
+    let pos, underlyingCFICode = ReadOptionalField pos "463"B bs ReadUnderlyingCFICode
+    let pos, underlyingSecurityType = ReadOptionalField pos "310"B bs ReadUnderlyingSecurityType
+    let pos, underlyingSecuritySubType = ReadOptionalField pos "763"B bs ReadUnderlyingSecuritySubType
+    let pos, underlyingMaturityMonthYear = ReadOptionalField pos "313"B bs ReadUnderlyingMaturityMonthYear
+    let pos, underlyingMaturityDate = ReadOptionalField pos "542"B bs ReadUnderlyingMaturityDate
+    let pos, underlyingPutOrCall = ReadOptionalField pos "315"B bs ReadUnderlyingPutOrCall
+    let pos, underlyingCouponPaymentDate = ReadOptionalField pos "241"B bs ReadUnderlyingCouponPaymentDate
+    let pos, underlyingIssueDate = ReadOptionalField pos "242"B bs ReadUnderlyingIssueDate
+    let pos, underlyingRepoCollateralSecurityType = ReadOptionalField pos "243"B bs ReadUnderlyingRepoCollateralSecurityType
+    let pos, underlyingRepurchaseTerm = ReadOptionalField pos "244"B bs ReadUnderlyingRepurchaseTerm
+    let pos, underlyingRepurchaseRate = ReadOptionalField pos "245"B bs ReadUnderlyingRepurchaseRate
+    let pos, underlyingFactor = ReadOptionalField pos "246"B bs ReadUnderlyingFactor
+    let pos, underlyingCreditRating = ReadOptionalField pos "256"B bs ReadUnderlyingCreditRating
+    let pos, underlyingInstrRegistry = ReadOptionalField pos "595"B bs ReadUnderlyingInstrRegistry
+    let pos, underlyingCountryOfIssue = ReadOptionalField pos "592"B bs ReadUnderlyingCountryOfIssue
+    let pos, underlyingStateOrProvinceOfIssue = ReadOptionalField pos "593"B bs ReadUnderlyingStateOrProvinceOfIssue
+    let pos, underlyingLocaleOfIssue = ReadOptionalField pos "594"B bs ReadUnderlyingLocaleOfIssue
+    let pos, underlyingRedemptionDate = ReadOptionalField pos "247"B bs ReadUnderlyingRedemptionDate
+    let pos, underlyingStrikePrice = ReadOptionalField pos "316"B bs ReadUnderlyingStrikePrice
+    let pos, underlyingStrikeCurrency = ReadOptionalField pos "941"B bs ReadUnderlyingStrikeCurrency
+    let pos, underlyingOptAttribute = ReadOptionalField pos "317"B bs ReadUnderlyingOptAttribute
+    let pos, underlyingContractMultiplier = ReadOptionalField pos "436"B bs ReadUnderlyingContractMultiplier
+    let pos, underlyingCouponRate = ReadOptionalField pos "435"B bs ReadUnderlyingCouponRate
+    let pos, underlyingSecurityExchange = ReadOptionalField pos "308"B bs ReadUnderlyingSecurityExchange
+    let pos, underlyingIssuer = ReadOptionalField pos "306"B bs ReadUnderlyingIssuer
+    let pos, encodedUnderlyingIssuer = ReadOptionalField pos "363"B bs ReadEncodedUnderlyingIssuer
+    let pos, underlyingSecurityDesc = ReadOptionalField pos "307"B bs ReadUnderlyingSecurityDesc
+    let pos, encodedUnderlyingSecurityDesc = ReadOptionalField pos "365"B bs ReadEncodedUnderlyingSecurityDesc
+    let pos, underlyingCPProgram = ReadOptionalField pos "877"B bs ReadUnderlyingCPProgram
+    let pos, underlyingCPRegType = ReadOptionalField pos "878"B bs ReadUnderlyingCPRegType
+    let pos, underlyingCurrency = ReadOptionalField pos "318"B bs ReadUnderlyingCurrency
+    let pos, underlyingQty = ReadOptionalField pos "879"B bs ReadUnderlyingQty
+    let pos, underlyingPx = ReadOptionalField pos "810"B bs ReadUnderlyingPx
+    let pos, underlyingDirtyPrice = ReadOptionalField pos "882"B bs ReadUnderlyingDirtyPrice
+    let pos, underlyingEndPrice = ReadOptionalField pos "883"B bs ReadUnderlyingEndPrice
+    let pos, underlyingStartValue = ReadOptionalField pos "884"B bs ReadUnderlyingStartValue
+    let pos, underlyingCurrentValue = ReadOptionalField pos "885"B bs ReadUnderlyingCurrentValue
+    let pos, underlyingEndValue = ReadOptionalField pos "886"B bs ReadUnderlyingEndValue
+    failwith "not implemented"
+
 // group
 let ReadCollateralResponseNoUnderlyingsGrp (pos:int) (bs:byte []) : int * CollateralResponseNoUnderlyingsGrp  =
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
@@ -70,12 +121,20 @@ let ReadNoNestedPartyIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartyIDsGrp  
     let pos, nestedPartyRole = ReadOptionalField pos "538"B bs ReadNestedPartyRole
     failwith "not implemented"
 
+// component
+let ReadNestedParties (pos:int) (bs:byte []) : int * NestedParties  =
+    failwith "not implemented"
+
 // group
 let ReadNoPositionsGrp (pos:int) (bs:byte []) : int * NoPositionsGrp  =
     let pos, posType = ReadOptionalField pos "703"B bs ReadPosType
     let pos, longQty = ReadOptionalField pos "704"B bs ReadLongQty
     let pos, shortQty = ReadOptionalField pos "705"B bs ReadShortQty
     let pos, posQtyStatus = ReadOptionalField pos "706"B bs ReadPosQtyStatus
+    failwith "not implemented"
+
+// component
+let ReadPositionQty (pos:int) (bs:byte []) : int * PositionQty  =
     failwith "not implemented"
 
 // group
@@ -102,6 +161,10 @@ let ReadNoNested2PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartyIDsGrp
     let pos, nested2PartyRole = ReadOptionalField pos "759"B bs ReadNested2PartyRole
     failwith "not implemented"
 
+// component
+let ReadNestedParties2 (pos:int) (bs:byte []) : int * NestedParties2  =
+    failwith "not implemented"
+
 // group
 let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoAllocsGrp  =
     let pos, allocAccount = ReadOptionalField pos "79"B bs ReadAllocAccount
@@ -117,10 +180,57 @@ let ReadNoLegSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoLegSecurityAltIDG
     let pos, legSecurityAltIDSource = ReadOptionalField pos "606"B bs ReadLegSecurityAltIDSource
     failwith "not implemented"
 
+// component
+let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
+    let pos, legSymbol = ReadOptionalField pos "600"B bs ReadLegSymbol
+    let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
+    let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
+    let pos, legSecurityIDSource = ReadOptionalField pos "603"B bs ReadLegSecurityIDSource
+    let pos, legProduct = ReadOptionalField pos "607"B bs ReadLegProduct
+    let pos, legCFICode = ReadOptionalField pos "608"B bs ReadLegCFICode
+    let pos, legSecurityType = ReadOptionalField pos "609"B bs ReadLegSecurityType
+    let pos, legSecuritySubType = ReadOptionalField pos "764"B bs ReadLegSecuritySubType
+    let pos, legMaturityMonthYear = ReadOptionalField pos "610"B bs ReadLegMaturityMonthYear
+    let pos, legMaturityDate = ReadOptionalField pos "611"B bs ReadLegMaturityDate
+    let pos, legCouponPaymentDate = ReadOptionalField pos "248"B bs ReadLegCouponPaymentDate
+    let pos, legIssueDate = ReadOptionalField pos "249"B bs ReadLegIssueDate
+    let pos, legRepoCollateralSecurityType = ReadOptionalField pos "250"B bs ReadLegRepoCollateralSecurityType
+    let pos, legRepurchaseTerm = ReadOptionalField pos "251"B bs ReadLegRepurchaseTerm
+    let pos, legRepurchaseRate = ReadOptionalField pos "252"B bs ReadLegRepurchaseRate
+    let pos, legFactor = ReadOptionalField pos "253"B bs ReadLegFactor
+    let pos, legCreditRating = ReadOptionalField pos "257"B bs ReadLegCreditRating
+    let pos, legInstrRegistry = ReadOptionalField pos "599"B bs ReadLegInstrRegistry
+    let pos, legCountryOfIssue = ReadOptionalField pos "596"B bs ReadLegCountryOfIssue
+    let pos, legStateOrProvinceOfIssue = ReadOptionalField pos "597"B bs ReadLegStateOrProvinceOfIssue
+    let pos, legLocaleOfIssue = ReadOptionalField pos "598"B bs ReadLegLocaleOfIssue
+    let pos, legRedemptionDate = ReadOptionalField pos "254"B bs ReadLegRedemptionDate
+    let pos, legStrikePrice = ReadOptionalField pos "612"B bs ReadLegStrikePrice
+    let pos, legStrikeCurrency = ReadOptionalField pos "942"B bs ReadLegStrikeCurrency
+    let pos, legOptAttribute = ReadOptionalField pos "613"B bs ReadLegOptAttribute
+    let pos, legContractMultiplier = ReadOptionalField pos "614"B bs ReadLegContractMultiplier
+    let pos, legCouponRate = ReadOptionalField pos "615"B bs ReadLegCouponRate
+    let pos, legSecurityExchange = ReadOptionalField pos "616"B bs ReadLegSecurityExchange
+    let pos, legIssuer = ReadOptionalField pos "617"B bs ReadLegIssuer
+    let pos, encodedLegIssuer = ReadOptionalField pos "619"B bs ReadEncodedLegIssuer
+    let pos, legSecurityDesc = ReadOptionalField pos "620"B bs ReadLegSecurityDesc
+    let pos, encodedLegSecurityDesc = ReadOptionalField pos "622"B bs ReadEncodedLegSecurityDesc
+    let pos, legRatioQty = ReadOptionalField pos "623"B bs ReadLegRatioQty
+    let pos, legSide = ReadOptionalField pos "624"B bs ReadLegSide
+    let pos, legCurrency = ReadOptionalField pos "556"B bs ReadLegCurrency
+    let pos, legPool = ReadOptionalField pos "740"B bs ReadLegPool
+    let pos, legDatedDate = ReadOptionalField pos "739"B bs ReadLegDatedDate
+    let pos, legContractSettlMonth = ReadOptionalField pos "955"B bs ReadLegContractSettlMonth
+    let pos, legInterestAccrualDate = ReadOptionalField pos "956"B bs ReadLegInterestAccrualDate
+    failwith "not implemented"
+
 // group
 let ReadNoLegStipulationsGrp (pos:int) (bs:byte []) : int * NoLegStipulationsGrp  =
     let pos, legStipulationType = ReadOptionalField pos "688"B bs ReadLegStipulationType
     let pos, legStipulationValue = ReadOptionalField pos "689"B bs ReadLegStipulationValue
+    failwith "not implemented"
+
+// component
+let ReadLegStipulations (pos:int) (bs:byte []) : int * LegStipulations  =
     failwith "not implemented"
 
 // group
@@ -149,9 +259,21 @@ let ReadNoPartyIDsGrp (pos:int) (bs:byte []) : int * NoPartyIDsGrp  =
     let pos, partyRole = ReadOptionalField pos "452"B bs ReadPartyRole
     failwith "not implemented"
 
+// component
+let ReadParties (pos:int) (bs:byte []) : int * Parties  =
+    failwith "not implemented"
+
 // group
 let ReadNoClearingInstructionsGrp (pos:int) (bs:byte []) : int * NoClearingInstructionsGrp  =
     let pos, clearingInstruction = ReadOptionalField pos "577"B bs ReadClearingInstruction
+    failwith "not implemented"
+
+// component
+let ReadCommissionData (pos:int) (bs:byte []) : int * CommissionData  =
+    let pos, commission = ReadOptionalField pos "12"B bs ReadCommission
+    let pos, commType = ReadOptionalField pos "13"B bs ReadCommType
+    let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
+    let pos, fundRenewWaiv = ReadOptionalField pos "497"B bs ReadFundRenewWaiv
     failwith "not implemented"
 
 // group
@@ -165,6 +287,10 @@ let ReadNoContAmtsGrp (pos:int) (bs:byte []) : int * NoContAmtsGrp  =
 let ReadNoStipulationsGrp (pos:int) (bs:byte []) : int * NoStipulationsGrp  =
     let pos, stipulationType = ReadOptionalField pos "233"B bs ReadStipulationType
     let pos, stipulationValue = ReadOptionalField pos "234"B bs ReadStipulationValue
+    failwith "not implemented"
+
+// component
+let ReadStipulations (pos:int) (bs:byte []) : int * Stipulations  =
     failwith "not implemented"
 
 // group
@@ -249,6 +375,10 @@ let ReadNoPosAmtGrp (pos:int) (bs:byte []) : int * NoPosAmtGrp  =
     let pos, posAmt = ReadField "ReadNoPosAmt" pos "708"B bs ReadPosAmt
     failwith "not implemented"
 
+// component
+let ReadPositionAmountData (pos:int) (bs:byte []) : int * PositionAmountData  =
+    failwith "not implemented"
+
 // group
 let ReadNoSettlPartySubIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartySubIDsGrp  =
     let pos, settlPartySubID = ReadOptionalField pos "785"B bs ReadSettlPartySubID
@@ -262,10 +392,22 @@ let ReadNoSettlPartyIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartyIDsGrp  =
     let pos, settlPartyRole = ReadOptionalField pos "784"B bs ReadSettlPartyRole
     failwith "not implemented"
 
+// component
+let ReadSettlParties (pos:int) (bs:byte []) : int * SettlParties  =
+    failwith "not implemented"
+
 // group
 let ReadNoDlvyInstGrp (pos:int) (bs:byte []) : int * NoDlvyInstGrp  =
     let pos, settlInstSource = ReadOptionalField pos "165"B bs ReadSettlInstSource
     let pos, dlvyInstType = ReadOptionalField pos "787"B bs ReadDlvyInstType
+    failwith "not implemented"
+
+// component
+let ReadSettlInstructionsData (pos:int) (bs:byte []) : int * SettlInstructionsData  =
+    let pos, settlDeliveryType = ReadOptionalField pos "172"B bs ReadSettlDeliveryType
+    let pos, standInstDbType = ReadOptionalField pos "169"B bs ReadStandInstDbType
+    let pos, standInstDbName = ReadOptionalField pos "170"B bs ReadStandInstDbName
+    let pos, standInstDbID = ReadOptionalField pos "171"B bs ReadStandInstDbID
     failwith "not implemented"
 
 // group
@@ -296,6 +438,10 @@ let ReadNoTrdRegTimestampsGrp (pos:int) (bs:byte []) : int * NoTrdRegTimestampsG
     let pos, trdRegTimestamp = ReadOptionalField pos "769"B bs ReadTrdRegTimestamp
     let pos, trdRegTimestampType = ReadOptionalField pos "770"B bs ReadTrdRegTimestampType
     let pos, trdRegTimestampOrigin = ReadOptionalField pos "771"B bs ReadTrdRegTimestampOrigin
+    failwith "not implemented"
+
+// component
+let ReadTrdRegTimestamps (pos:int) (bs:byte []) : int * TrdRegTimestamps  =
     failwith "not implemented"
 
 // group
@@ -394,6 +540,49 @@ let ReadNoEventsGrp (pos:int) (bs:byte []) : int * NoEventsGrp  =
     let pos, eventText = ReadOptionalField pos "868"B bs ReadEventText
     failwith "not implemented"
 
+// component
+let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
+    let pos, symbol = ReadField "ReadInstrument" pos "55"B bs ReadSymbol
+    let pos, symbolSfx = ReadOptionalField pos "65"B bs ReadSymbolSfx
+    let pos, securityID = ReadOptionalField pos "48"B bs ReadSecurityID
+    let pos, securityIDSource = ReadOptionalField pos "22"B bs ReadSecurityIDSource
+    let pos, product = ReadOptionalField pos "460"B bs ReadProduct
+    let pos, cFICode = ReadOptionalField pos "461"B bs ReadCFICode
+    let pos, securityType = ReadOptionalField pos "167"B bs ReadSecurityType
+    let pos, securitySubType = ReadOptionalField pos "762"B bs ReadSecuritySubType
+    let pos, maturityMonthYear = ReadOptionalField pos "200"B bs ReadMaturityMonthYear
+    let pos, maturityDate = ReadOptionalField pos "541"B bs ReadMaturityDate
+    let pos, putOrCall = ReadOptionalField pos "201"B bs ReadPutOrCall
+    let pos, couponPaymentDate = ReadOptionalField pos "224"B bs ReadCouponPaymentDate
+    let pos, issueDate = ReadOptionalField pos "225"B bs ReadIssueDate
+    let pos, repoCollateralSecurityType = ReadOptionalField pos "239"B bs ReadRepoCollateralSecurityType
+    let pos, repurchaseTerm = ReadOptionalField pos "226"B bs ReadRepurchaseTerm
+    let pos, repurchaseRate = ReadOptionalField pos "227"B bs ReadRepurchaseRate
+    let pos, factor = ReadOptionalField pos "228"B bs ReadFactor
+    let pos, creditRating = ReadOptionalField pos "255"B bs ReadCreditRating
+    let pos, instrRegistry = ReadOptionalField pos "543"B bs ReadInstrRegistry
+    let pos, countryOfIssue = ReadOptionalField pos "470"B bs ReadCountryOfIssue
+    let pos, stateOrProvinceOfIssue = ReadOptionalField pos "471"B bs ReadStateOrProvinceOfIssue
+    let pos, localeOfIssue = ReadOptionalField pos "472"B bs ReadLocaleOfIssue
+    let pos, redemptionDate = ReadOptionalField pos "240"B bs ReadRedemptionDate
+    let pos, strikePrice = ReadOptionalField pos "202"B bs ReadStrikePrice
+    let pos, strikeCurrency = ReadOptionalField pos "947"B bs ReadStrikeCurrency
+    let pos, optAttribute = ReadOptionalField pos "206"B bs ReadOptAttribute
+    let pos, contractMultiplier = ReadOptionalField pos "231"B bs ReadContractMultiplier
+    let pos, couponRate = ReadOptionalField pos "223"B bs ReadCouponRate
+    let pos, securityExchange = ReadOptionalField pos "207"B bs ReadSecurityExchange
+    let pos, issuer = ReadOptionalField pos "106"B bs ReadIssuer
+    let pos, encodedIssuer = ReadOptionalField pos "349"B bs ReadEncodedIssuer
+    let pos, securityDesc = ReadOptionalField pos "107"B bs ReadSecurityDesc
+    let pos, encodedSecurityDesc = ReadOptionalField pos "351"B bs ReadEncodedSecurityDesc
+    let pos, pool = ReadOptionalField pos "691"B bs ReadPool
+    let pos, contractSettlMonth = ReadOptionalField pos "667"B bs ReadContractSettlMonth
+    let pos, cPProgram = ReadOptionalField pos "875"B bs ReadCPProgram
+    let pos, cPRegType = ReadOptionalField pos "876"B bs ReadCPRegType
+    let pos, datedDate = ReadOptionalField pos "873"B bs ReadDatedDate
+    let pos, interestAccrualDate = ReadOptionalField pos "874"B bs ReadInterestAccrualDate
+    failwith "not implemented"
+
 // group
 let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
     failwith "not implemented"
@@ -415,6 +604,58 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
 
 // group
 let ReadNoUnderlyingsGrp (pos:int) (bs:byte []) : int * NoUnderlyingsGrp  =
+    failwith "not implemented"
+
+// component
+let ReadOrderQtyData (pos:int) (bs:byte []) : int * OrderQtyData  =
+    let pos, orderQty = ReadOptionalField pos "38"B bs ReadOrderQty
+    let pos, cashOrderQty = ReadOptionalField pos "152"B bs ReadCashOrderQty
+    let pos, orderPercent = ReadOptionalField pos "516"B bs ReadOrderPercent
+    let pos, roundingDirection = ReadOptionalField pos "468"B bs ReadRoundingDirection
+    let pos, roundingModulus = ReadOptionalField pos "469"B bs ReadRoundingModulus
+    failwith "not implemented"
+
+// component
+let ReadSpreadOrBenchmarkCurveData (pos:int) (bs:byte []) : int * SpreadOrBenchmarkCurveData  =
+    let pos, spread = ReadOptionalField pos "218"B bs ReadSpread
+    let pos, benchmarkCurveCurrency = ReadOptionalField pos "220"B bs ReadBenchmarkCurveCurrency
+    let pos, benchmarkCurveName = ReadOptionalField pos "221"B bs ReadBenchmarkCurveName
+    let pos, benchmarkCurvePoint = ReadOptionalField pos "222"B bs ReadBenchmarkCurvePoint
+    let pos, benchmarkPrice = ReadOptionalField pos "662"B bs ReadBenchmarkPrice
+    let pos, benchmarkPriceType = ReadOptionalField pos "663"B bs ReadBenchmarkPriceType
+    let pos, benchmarkSecurityID = ReadOptionalField pos "699"B bs ReadBenchmarkSecurityID
+    let pos, benchmarkSecurityIDSource = ReadOptionalField pos "761"B bs ReadBenchmarkSecurityIDSource
+    failwith "not implemented"
+
+// component
+let ReadYieldData (pos:int) (bs:byte []) : int * YieldData  =
+    let pos, yieldType = ReadOptionalField pos "235"B bs ReadYieldType
+    let pos, yield = ReadOptionalField pos "236"B bs ReadYield
+    let pos, yieldCalcDate = ReadOptionalField pos "701"B bs ReadYieldCalcDate
+    let pos, yieldRedemptionDate = ReadOptionalField pos "696"B bs ReadYieldRedemptionDate
+    let pos, yieldRedemptionPrice = ReadOptionalField pos "697"B bs ReadYieldRedemptionPrice
+    let pos, yieldRedemptionPriceType = ReadOptionalField pos "698"B bs ReadYieldRedemptionPriceType
+    failwith "not implemented"
+
+// component
+let ReadPegInstructions (pos:int) (bs:byte []) : int * PegInstructions  =
+    let pos, pegOffsetValue = ReadOptionalField pos "211"B bs ReadPegOffsetValue
+    let pos, pegMoveType = ReadOptionalField pos "835"B bs ReadPegMoveType
+    let pos, pegOffsetType = ReadOptionalField pos "836"B bs ReadPegOffsetType
+    let pos, pegLimitType = ReadOptionalField pos "837"B bs ReadPegLimitType
+    let pos, pegRoundDirection = ReadOptionalField pos "838"B bs ReadPegRoundDirection
+    let pos, pegScope = ReadOptionalField pos "840"B bs ReadPegScope
+    failwith "not implemented"
+
+// component
+let ReadDiscretionInstructions (pos:int) (bs:byte []) : int * DiscretionInstructions  =
+    let pos, discretionInst = ReadOptionalField pos "388"B bs ReadDiscretionInst
+    let pos, discretionOffsetValue = ReadOptionalField pos "389"B bs ReadDiscretionOffsetValue
+    let pos, discretionMoveType = ReadOptionalField pos "841"B bs ReadDiscretionMoveType
+    let pos, discretionOffsetType = ReadOptionalField pos "842"B bs ReadDiscretionOffsetType
+    let pos, discretionLimitType = ReadOptionalField pos "843"B bs ReadDiscretionLimitType
+    let pos, discretionRoundDirection = ReadOptionalField pos "844"B bs ReadDiscretionRoundDirection
+    let pos, discretionScope = ReadOptionalField pos "846"B bs ReadDiscretionScope
     failwith "not implemented"
 
 // group
@@ -532,6 +773,10 @@ let ReadNoNested3PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartyIDsGrp
     let pos, nested3PartyID = ReadOptionalField pos "949"B bs ReadNested3PartyID
     let pos, nested3PartyIDSource = ReadOptionalField pos "950"B bs ReadNested3PartyIDSource
     let pos, nested3PartyRole = ReadOptionalField pos "951"B bs ReadNested3PartyRole
+    failwith "not implemented"
+
+// component
+let ReadNestedParties3 (pos:int) (bs:byte []) : int * NestedParties3  =
     failwith "not implemented"
 
 // group
@@ -664,6 +909,12 @@ let ReadNoInstrAttribGrp (pos:int) (bs:byte []) : int * NoInstrAttribGrp  =
     let pos, instrAttribValue = ReadOptionalField pos "872"B bs ReadInstrAttribValue
     failwith "not implemented"
 
+// component
+let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  =
+    let pos, deliveryForm = ReadOptionalField pos "668"B bs ReadDeliveryForm
+    let pos, pctAtRisk = ReadOptionalField pos "869"B bs ReadPctAtRisk
+    failwith "not implemented"
+
 // group
 let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
     failwith "not implemented"
@@ -676,6 +927,28 @@ let ReadDerivativeSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * Der
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
+    failwith "not implemented"
+
+// component
+let ReadFinancingDetails (pos:int) (bs:byte []) : int * FinancingDetails  =
+    let pos, agreementDesc = ReadOptionalField pos "913"B bs ReadAgreementDesc
+    let pos, agreementID = ReadOptionalField pos "914"B bs ReadAgreementID
+    let pos, agreementDate = ReadOptionalField pos "915"B bs ReadAgreementDate
+    let pos, agreementCurrency = ReadOptionalField pos "918"B bs ReadAgreementCurrency
+    let pos, terminationType = ReadOptionalField pos "788"B bs ReadTerminationType
+    let pos, startDate = ReadOptionalField pos "916"B bs ReadStartDate
+    let pos, endDate = ReadOptionalField pos "917"B bs ReadEndDate
+    let pos, deliveryType = ReadOptionalField pos "919"B bs ReadDeliveryType
+    let pos, marginRatio = ReadOptionalField pos "898"B bs ReadMarginRatio
+    failwith "not implemented"
+
+// component
+let ReadLegBenchmarkCurveData (pos:int) (bs:byte []) : int * LegBenchmarkCurveData  =
+    let pos, legBenchmarkCurveCurrency = ReadOptionalField pos "676"B bs ReadLegBenchmarkCurveCurrency
+    let pos, legBenchmarkCurveName = ReadOptionalField pos "677"B bs ReadLegBenchmarkCurveName
+    let pos, legBenchmarkCurvePoint = ReadOptionalField pos "678"B bs ReadLegBenchmarkCurvePoint
+    let pos, legBenchmarkPrice = ReadOptionalField pos "679"B bs ReadLegBenchmarkPrice
+    let pos, legBenchmarkPriceType = ReadOptionalField pos "680"B bs ReadLegBenchmarkPriceType
     failwith "not implemented"
 
 // group
@@ -1123,14 +1396,7 @@ let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
     let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs ReadOrderCapacityQty
-    let grp = 
-        {
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            OrderCapacityQty = orderCapacityQty
-        }
-    pos, grp
-
+    failwith "not implemented"
 
 // group
 let ReadNoDatesGrp (pos:int) (bs:byte []) : int * NoDatesGrp  =

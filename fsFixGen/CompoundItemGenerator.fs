@@ -93,7 +93,7 @@ let private genComponentWriter (sw:StreamWriter) (cmp:Component) =
     sw.WriteLine ""
 
 
-let private genWriteCompound (sw:StreamWriter) (ci:CompoundItem) =
+let private genCompoundItemWriter (sw:StreamWriter) (ci:CompoundItem) =
     match ci with
     | CompoundItem.Group grp        -> genGroupWriter sw grp
     | CompoundItem.Component cmp    -> genComponentWriter sw cmp
@@ -108,25 +108,24 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genWriteCompound sw)  
+    groups |> List.iter (genCompoundItemWriter sw)  
 
 
-let private genGroupReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (grp:Group) =
-    sw.WriteLine "// group"
-    let (GroupLongName grpName) = GroupUtils.makeLongName grp
-    let funcSig = sprintf "let Read%sGrp (pos:int) (bs:byte []) : int * %sGrp  =" grpName grpName
+
+let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) = 
+    let name = CompoundItemFuncs.getName ci
+    let suffix = CompoundItemFuncs.getNameSuffix ci
+    let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
+    let items = CompoundItemFuncs.getItems ci
+    sw.WriteLine (sprintf "// %s" compOrGroup)
+    let funcSig = sprintf "let Read%s%s (pos:int) (bs:byte []) : int * %s%s  =" name suffix name suffix
     sw.WriteLine funcSig
-    let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap grpName grp.Items
+    let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
     writeGroupFuncStrs |> List.iter sw.WriteLine
-    //apply the fields that have been read to the group reader
+    //todo: apply the fields, subgroups and subcomponents that have been read to create the instance
     sw.WriteLine "    failwith \"not implemented\""
     sw.WriteLine ""
 
-
-let private genReadCompound (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) =
-    match ci with
-    | CompoundItem.Group grp        -> genGroupReader fieldNameMap sw grp
-    | CompoundItem.Component cmp    -> ()  // genComponentReader sw cmp
 
 let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemReadFuncs"
@@ -136,5 +135,5 @@ let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (groups:CompoundItem lis
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genReadCompound fieldNameMap sw)  
+    groups |> List.iter (genCompoundItemReader fieldNameMap sw)  
 
