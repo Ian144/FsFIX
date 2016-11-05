@@ -47,7 +47,7 @@ and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     let req = MkRequired reqStr
     match itemTypeStr with
     | "field"       ->  let fName =  gas el "name"
-                        FIXItem.Field {FName = fName; Required = req}
+                        FIXItem.FieldRef {FName = fName; Required = req}
     | "component"   ->  let cmpName =  gas el "name" |> ComponentName
                         FIXItem.ComponentRef {CRName=cmpName; Required=req}
     | "group"       ->  let grp = ReadGroup parents el

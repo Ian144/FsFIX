@@ -21,9 +21,6 @@ let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc
         pos3, Some fld
     else
         pos, None   // return the original pos, the next readoptional will re-read it
-
-
-
 // group
 let ReadNoUnderlyingSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoUnderlyingSecurityAltIDGrp  =
     let pos, underlyingSecurityAltID = ReadOptionalField pos "458"B bs ReadUnderlyingSecurityAltID
@@ -1197,6 +1194,7 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
 
 // group
 let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
+    let pos, instrument = ReadInstrument pos bs    // component
     //let ci = {
             //Instrument = instrument
     //}
@@ -1374,12 +1372,14 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, maxFloor = ReadOptionalField pos "111"B bs ReadMaxFloor
     let pos, exDestination = ReadOptionalField pos "100"B bs ReadExDestination
     let pos, processCode = ReadOptionalField pos "81"B bs ReadProcessCode
+    let pos, instrument = ReadInstrument pos bs    // component
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, side = ReadField "ReadNewOrderListNoOrders" pos "54"B bs ReadSide
     let pos, sideValueInd = ReadOptionalField pos "401"B bs ReadSideValueInd
     let pos, locateReqd = ReadOptionalField pos "114"B bs ReadLocateReqd
     let pos, transactTime = ReadOptionalField pos "60"B bs ReadTransactTime
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
+    let pos, orderQtyData = ReadOrderQtyData pos bs    // component
     let pos, ordType = ReadOptionalField pos "40"B bs ReadOrdType
     let pos, priceType = ReadOptionalField pos "423"B bs ReadPriceType
     let pos, price = ReadOptionalField pos "44"B bs ReadPrice
@@ -1494,6 +1494,7 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
 
 // group
 let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponseNoBidComponentsGrp  =
+    let pos, commissionData = ReadCommissionData pos bs    // component
     let pos, listID = ReadOptionalField pos "66"B bs ReadListID
     let pos, country = ReadOptionalField pos "421"B bs ReadCountry
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
@@ -1686,6 +1687,7 @@ let ReadCrossOrderCancelRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOr
     let pos, origOrdModTime = ReadOptionalField pos "586"B bs ReadOrigOrdModTime
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, tradeDate = ReadOptionalField pos "75"B bs ReadTradeDate
+    let pos, orderQtyData = ReadOrderQtyData pos bs    // component
     let pos, complianceID = ReadOptionalField pos "376"B bs ReadComplianceID
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
@@ -1726,6 +1728,7 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * 
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
+    let pos, orderQtyData = ReadOrderQtyData pos bs    // component
     let pos, orderCapacity = ReadOptionalField pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, custOrderCapacity = ReadOptionalField pos "582"B bs ReadCustOrderCapacity
@@ -1796,6 +1799,7 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
+    let pos, orderQtyData = ReadOrderQtyData pos bs    // component
     let pos, orderCapacity = ReadOptionalField pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, custOrderCapacity = ReadOptionalField pos "582"B bs ReadCustOrderCapacity
@@ -2116,6 +2120,7 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int 
 
 // group
 let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDataRequestNoRelatedSymGrp  =
+    let pos, instrument = ReadInstrument pos bs    // component
     //let ci = {
             //Instrument = instrument
             //NoUnderlyings = noUnderlyings
@@ -2336,6 +2341,7 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
 
 // group
 let ReadRFQRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * RFQRequestNoRelatedSymGrp  =
+    let pos, instrument = ReadInstrument pos bs    // component
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -2377,6 +2383,7 @@ let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestR
 
 // group
 let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestRejectNoRelatedSymGrp  =
+    let pos, instrument = ReadInstrument pos bs    // component
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -2479,6 +2486,7 @@ let ReadNoQuoteQualifiersGrp (pos:int) (bs:byte []) : int * NoQuoteQualifiersGrp
 
 // group
 let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestNoRelatedSymGrp  =
+    let pos, instrument = ReadInstrument pos bs    // component
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -2566,6 +2574,7 @@ let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationO
 
 // group
 let ReadAdvertisementNoUnderlyingsGrp (pos:int) (bs:byte []) : int * AdvertisementNoUnderlyingsGrp  =
+    let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     //let ci = {
             //UnderlyingInstrument = underlyingInstrument
     //}

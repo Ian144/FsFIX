@@ -13,7 +13,7 @@ let private extractCompoundItems (componentNameMap:Map<ComponentName,Component>)
         | FIXItem.ComponentRef cmpRef  ->   let componentName = cmpRef.CRName 
                                             let comp = componentNameMap.[componentName] 
                                             Some (CompoundItem.Component comp)
-        | FIXItem.Field _               ->  None
+        | FIXItem.FieldRef _               ->  None
     itms |> List.choose extract 
 
 

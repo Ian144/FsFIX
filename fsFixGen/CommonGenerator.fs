@@ -9,7 +9,7 @@ open FIXGenTypes
 // used for building the FIXItem definition string for messages, groups and components
 let private makeItemStr (item:FIXItem) = 
     match item with
-    | FIXItem.Field fld     ->      match fld.Required with
+    | FIXItem.FieldRef fld     ->      match fld.Required with
                                     | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
                                     | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
     | FIXItem.ComponentRef cmp ->   let (ComponentName nm) = cmp.CRName
@@ -96,7 +96,7 @@ let private genWriteOptionalGroup (parent:string) (grp:Group) =
 let genItemListWriterStrs (items:FIXItem list) =
     items |> List.collect (fun item ->
         match item with
-        | FIXItem.Field fld         ->  let name = fld.FName
+        | FIXItem.FieldRef fld      ->  let name = fld.FName
                                         match fld.Required with
                                         | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" name name ]
                                         | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" name name ]
@@ -110,15 +110,17 @@ let genItemListWriterStrs (items:FIXItem list) =
         ) // end List.collect
 
 
+
 let private fixYield (ss:string) = 
     match ss with 
     | "yield"   -> "yyield"
     | ss        -> ss
 
-let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>)  (parentName:string) (items:FIXItem list) =
+
+let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
         match item with
-        | FIXItem.Field fld         ->  let name = fld.FName
+        | FIXItem.FieldRef fld      ->  let name = fld.FName
                                         let simpleField = fieldNameMap.[name] // the program is broken if this does not succeed, so fail fast
                                         let tag = simpleField.Tag
                                         let lcase1Name = Utils.lCaseFirstChar name |> fixYield
@@ -126,8 +128,9 @@ let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>)  (parentName:st
                                         | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" lcase1Name parentName tag name ]
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" lcase1Name tag name ]
         | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
+                                        let lcase1Name = Utils.lCaseFirstChar name
                                         match cmp.Required with
-                                        | Required.Required     ->  [] // [   sprintf "    let pos = Write%s dest pos xx.%s   // component" name name ]
+                                        | Required.Required     ->  [   sprintf "    let pos, %s = Read%s pos bs    // component" lcase1Name name ]
                                         | Required.NotRequired  ->  [] // [   sprintf "    let pos = Option.fold (Write%s dest) pos xx.%s    // component option" name name ]
         | FIXItem.Group grp         ->  match grp.Required with
                                         | Required.Required     ->  [] // genWriteGroup "xx" grp

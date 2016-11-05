@@ -79,17 +79,25 @@ let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc
 
 
 
-let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
-    let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity
-    let pos, orderRestrictions = ReadOptionalField pos "529"B bs Fix44.FieldReadFuncs.ReadOrderRestrictions
-    let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs Fix44.FieldReadFuncs.ReadOrderCapacityQty
-    let grp = 
-        {
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            OrderCapacityQty = orderCapacityQty
-        }
-    pos, grp
+//let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
+//    let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity
+//    let pos, orderRestrictions = ReadOptionalField pos "529"B bs Fix44.FieldReadFuncs.ReadOrderRestrictions
+//    let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs Fix44.FieldReadFuncs.ReadOrderCapacityQty
+//    let grp = 
+//        {
+//            OrderCapacity = orderCapacity
+//            OrderRestrictions = orderRestrictions
+//            OrderCapacityQty = orderCapacityQty
+//        }
+//    pos, grp
+
+// contains a single required component
+let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
+    let pos, instrument = Fix44.CompoundItemReadFuncs.ReadInstrument pos bs
+    let ci:NoStrikesGrp = {
+            Instrument = instrument
+    }
+    pos, ci
 
 
 
