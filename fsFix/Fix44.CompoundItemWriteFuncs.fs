@@ -88,28 +88,28 @@ let WriteUnderlyingInstrument (dest:byte []) (nextFreeIdx:int) (xx:UnderlyingIns
 
 
 // group
-let WriteCollateralResponse_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralResponse_NoUnderlyingsGrp) =
+let WriteCollateralResponseNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralResponseNoUnderlyingsGrp) =
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WriteCollAction dest) nextFreeIdx xx.CollAction
     nextFreeIdx
 
 
 // group
-let WriteCollateralAssignment_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralAssignment_NoUnderlyingsGrp) =
+let WriteCollateralAssignmentNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralAssignmentNoUnderlyingsGrp) =
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WriteCollAction dest) nextFreeIdx xx.CollAction
     nextFreeIdx
 
 
 // group
-let WriteCollateralRequest_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralRequest_NoUnderlyingsGrp) =
+let WriteCollateralRequestNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:CollateralRequestNoUnderlyingsGrp) =
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WriteCollAction dest) nextFreeIdx xx.CollAction
     nextFreeIdx
 
 
 // group
-let WritePositionReport_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:PositionReport_NoUnderlyingsGrp) =
+let WritePositionReportNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:PositionReportNoUnderlyingsGrp) =
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = WriteUnderlyingSettlPrice dest nextFreeIdx xx.UnderlyingSettlPrice
     let nextFreeIdx = WriteUnderlyingSettlPriceType dest nextFreeIdx xx.UnderlyingSettlPriceType
@@ -216,7 +216,7 @@ let WriteNestedParties2 (dest:byte []) (nextFreeIdx:int) (xx:NestedParties2) =
 
 
 // group
-let WriteTradeCaptureReportAck_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportAck_NoAllocsGrp) =
+let WriteTradeCaptureReportAckNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportAckNoAllocsGrp) =
     let nextFreeIdx = Option.fold (WriteAllocAccount dest) nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteAllocSettlCurrency dest) nextFreeIdx xx.AllocSettlCurrency
@@ -304,7 +304,7 @@ let WriteLegStipulations (dest:byte []) (nextFreeIdx:int) (xx:LegStipulations) =
 
 
 // group
-let WriteTradeCaptureReportAck_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportAck_NoLegsGrp) =
+let WriteTradeCaptureReportAckNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportAckNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -406,7 +406,7 @@ let WriteNoMiscFeesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoMiscFeesGrp) =
 
 
 // group
-let WriteTradeCaptureReport_NoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReport_NoSidesGrp) =
+let WriteTradeCaptureReportNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportNoSidesGrp) =
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
@@ -486,7 +486,7 @@ let WriteTradeCaptureReport_NoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:Trad
 
 
 // group
-let WriteTradeCaptureReport_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReport_NoLegsGrp) =
+let WriteTradeCaptureReportNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -618,7 +618,7 @@ let WriteTrdRegTimestamps (dest:byte []) (nextFreeIdx:int) (xx:TrdRegTimestamps)
 
 
 // group
-let WriteAllocationReport_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReport_NoAllocsGrp) =
+let WriteAllocationReportNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportNoAllocsGrp) =
     let nextFreeIdx = WriteAllocAccount dest nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
@@ -663,7 +663,7 @@ let WriteAllocationReport_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:Alloc
 
 
 // group
-let WriteAllocationInstruction_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstruction_NoAllocsGrp) =
+let WriteAllocationInstructionNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstructionNoAllocsGrp) =
     let nextFreeIdx = WriteAllocAccount dest nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
@@ -719,7 +719,7 @@ let WriteNoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NoOrdersGrp) =
 
 
 // group
-let WriteListStrikePrice_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:ListStrikePrice_NoUnderlyingsGrp) =
+let WriteListStrikePriceNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:ListStrikePriceNoUnderlyingsGrp) =
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WritePrevClosePx dest) nextFreeIdx xx.PrevClosePx
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
@@ -894,7 +894,7 @@ let WriteDiscretionInstructions (dest:byte []) (nextFreeIdx:int) (xx:DiscretionI
 
 
 // group
-let WriteNewOrderList_NoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderList_NoOrdersGrp) =
+let WriteNewOrderListNoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderListNoOrdersGrp) =
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = WriteListSeqNo dest nextFreeIdx xx.ListSeqNo
@@ -991,7 +991,7 @@ let WriteNewOrderList_NoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderL
 
 
 // group
-let WriteBidResponse_NoBidComponentsGrp (dest:byte []) (nextFreeIdx:int) (xx:BidResponse_NoBidComponentsGrp) =
+let WriteBidResponseNoBidComponentsGrp (dest:byte []) (nextFreeIdx:int) (xx:BidResponseNoBidComponentsGrp) =
     let nextFreeIdx = WriteCommissionData dest nextFreeIdx xx.CommissionData   // component
     let nextFreeIdx = Option.fold (WriteListID dest) nextFreeIdx xx.ListID
     let nextFreeIdx = Option.fold (WriteCountry dest) nextFreeIdx xx.Country
@@ -1021,7 +1021,7 @@ let WriteNoLegAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoLegAllocsGrp) =
 
 
 // group
-let WriteMultilegOrderCancelReplaceRequest_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:MultilegOrderCancelReplaceRequest_NoLegsGrp) =
+let WriteMultilegOrderCancelReplaceRequestNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:MultilegOrderCancelReplaceRequestNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1078,7 +1078,7 @@ let WriteNestedParties3 (dest:byte []) (nextFreeIdx:int) (xx:NestedParties3) =
 
 
 // group
-let WriteMultilegOrderCancelReplaceRequest_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:MultilegOrderCancelReplaceRequest_NoAllocsGrp) =
+let WriteMultilegOrderCancelReplaceRequestNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:MultilegOrderCancelReplaceRequestNoAllocsGrp) =
     let nextFreeIdx = Option.fold (WriteAllocAccount dest) nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteAllocSettlCurrency dest) nextFreeIdx xx.AllocSettlCurrency
@@ -1089,7 +1089,7 @@ let WriteMultilegOrderCancelReplaceRequest_NoAllocsGrp (dest:byte []) (nextFreeI
 
 
 // group
-let WriteNewOrderMultileg_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderMultileg_NoLegsGrp) =
+let WriteNewOrderMultilegNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderMultilegNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1112,7 +1112,7 @@ let WriteNewOrderMultileg_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrde
 
 
 // group
-let WriteNewOrderMultileg_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderMultileg_NoAllocsGrp) =
+let WriteNewOrderMultilegNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderMultilegNoAllocsGrp) =
     let nextFreeIdx = Option.fold (WriteAllocAccount dest) nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteAllocSettlCurrency dest) nextFreeIdx xx.AllocSettlCurrency
@@ -1123,7 +1123,7 @@ let WriteNewOrderMultileg_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOr
 
 
 // group
-let WriteCrossOrderCancelRequest_NoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:CrossOrderCancelRequest_NoSidesGrp) =
+let WriteCrossOrderCancelRequestNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:CrossOrderCancelRequestNoSidesGrp) =
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteOrigClOrdID dest nextFreeIdx xx.OrigClOrdID
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
@@ -1141,7 +1141,7 @@ let WriteCrossOrderCancelRequest_NoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx
 
 
 // group
-let WriteCrossOrderCancelReplaceRequest_NoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:CrossOrderCancelReplaceRequest_NoSidesGrp) =
+let WriteCrossOrderCancelReplaceRequestNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:CrossOrderCancelReplaceRequestNoSidesGrp) =
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteOrigClOrdID dest nextFreeIdx xx.OrigClOrdID
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
@@ -1229,7 +1229,7 @@ let WriteNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoSidesGrp) =
 
 
 // group
-let WriteExecutionReport_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:ExecutionReport_NoLegsGrp) =
+let WriteExecutionReportNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:ExecutionReportNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1273,7 +1273,7 @@ let WriteNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoLegsGrp) =
 
 
 // group
-let WriteDerivativeSecurityList_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:DerivativeSecurityList_NoRelatedSymGrp) =
+let WriteDerivativeSecurityListNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:DerivativeSecurityListNoRelatedSymGrp) =
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteExpirationCycle dest) nextFreeIdx xx.ExpirationCycle
@@ -1317,7 +1317,7 @@ let WriteLegBenchmarkCurveData (dest:byte []) (nextFreeIdx:int) (xx:LegBenchmark
 
 
 // group
-let WriteSecurityList_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:SecurityList_NoLegsGrp) =
+let WriteSecurityListNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:SecurityListNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
     let nextFreeIdx = Option.fold (WriteLegSettlType dest) nextFreeIdx xx.LegSettlType
@@ -1327,7 +1327,7 @@ let WriteSecurityList_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:SecurityLis
 
 
 // group
-let WriteSecurityList_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:SecurityList_NoRelatedSymGrp) =
+let WriteSecurityListNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:SecurityListNoRelatedSymGrp) =
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = Option.fold (WriteInstrumentExtension dest) nextFreeIdx xx.InstrumentExtension    // component option
     let nextFreeIdx = Option.fold (WriteFinancingDetails dest) nextFreeIdx xx.FinancingDetails    // component option
@@ -1341,12 +1341,12 @@ let WriteSecurityList_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:Secur
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteStipulations dest) nextFreeIdx xx.Stipulations    // component option
     // group (apologies for this nested fold code, will refactor when I think of something better)
-    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:SecurityList_NoLegsGrp list) ->
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:SecurityListNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
-                                        List.fold (fun accFreeIdx gg -> WriteSecurityList_NoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                        List.fold (fun accFreeIdx gg -> WriteSecurityListNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
-                                  xx.SecurityList_NoLegsGrp  // end Option.fold
+                                  xx.SecurityListNoLegsGrp  // end Option.fold
     let nextFreeIdx = Option.fold (WriteSpreadOrBenchmarkCurveData dest) nextFreeIdx xx.SpreadOrBenchmarkCurveData    // component option
     let nextFreeIdx = Option.fold (WriteYieldData dest) nextFreeIdx xx.YieldData    // component option
     let nextFreeIdx = Option.fold (WriteRoundLot dest) nextFreeIdx xx.RoundLot
@@ -1360,7 +1360,7 @@ let WriteSecurityList_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:Secur
 
 
 // group
-let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MarketDataIncrementalRefresh_NoMDEntriesGrp) =
+let WriteMarketDataIncrementalRefreshNoMDEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MarketDataIncrementalRefreshNoMDEntriesGrp) =
     let nextFreeIdx = WriteMDUpdateAction dest nextFreeIdx xx.MDUpdateAction
     let nextFreeIdx = Option.fold (WriteDeleteReason dest) nextFreeIdx xx.DeleteReason
     let nextFreeIdx = Option.fold (WriteMDEntryType dest) nextFreeIdx xx.MDEntryType
@@ -1419,7 +1419,7 @@ let WriteMarketDataIncrementalRefresh_NoMDEntriesGrp (dest:byte []) (nextFreeIdx
 
 
 // group
-let WriteMarketDataRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:MarketDataRequest_NoRelatedSymGrp) =
+let WriteMarketDataRequestNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:MarketDataRequestNoRelatedSymGrp) =
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
@@ -1439,7 +1439,7 @@ let WriteMarketDataRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:
 
 
 // group
-let WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuoteAcknowledgement_NoQuoteEntriesGrp) =
+let WriteMassQuoteAcknowledgementNoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuoteAcknowledgementNoQuoteEntriesGrp) =
     let nextFreeIdx = Option.fold (WriteQuoteEntryID dest) nextFreeIdx xx.QuoteEntryID
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -1477,23 +1477,23 @@ let WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:
 
 
 // group
-let WriteMassQuoteAcknowledgement_NoQuoteSetsGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuoteAcknowledgement_NoQuoteSetsGrp) =
+let WriteMassQuoteAcknowledgementNoQuoteSetsGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuoteAcknowledgementNoQuoteSetsGrp) =
     let nextFreeIdx = Option.fold (WriteQuoteSetID dest) nextFreeIdx xx.QuoteSetID
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WriteTotNoQuoteEntries dest) nextFreeIdx xx.TotNoQuoteEntries
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
     // group (apologies for this nested fold code, will refactor when I think of something better)
-    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:MassQuoteAcknowledgement_NoQuoteEntriesGrp list) ->
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:MassQuoteAcknowledgementNoQuoteEntriesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteEntries dest innerNextFreeIdx (Fix44.Fields.NoQuoteEntries numGrps) // write the 'num group repeats' field
-                                        List.fold (fun accFreeIdx gg -> WriteMassQuoteAcknowledgement_NoQuoteEntriesGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                        List.fold (fun accFreeIdx gg -> WriteMassQuoteAcknowledgementNoQuoteEntriesGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
-                                  xx.MassQuoteAcknowledgement_NoQuoteEntriesGrp  // end Option.fold
+                                  xx.MassQuoteAcknowledgementNoQuoteEntriesGrp  // end Option.fold
     nextFreeIdx
 
 
 // group
-let WriteMassQuote_NoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuote_NoQuoteEntriesGrp) =
+let WriteMassQuoteNoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:MassQuoteNoQuoteEntriesGrp) =
     let nextFreeIdx = WriteQuoteEntryID dest nextFreeIdx xx.QuoteEntryID
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -1536,14 +1536,14 @@ let WriteNoQuoteSetsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoQuoteSetsGrp) =
     let nextFreeIdx = Option.fold (WriteQuoteSetValidUntilTime dest) nextFreeIdx xx.QuoteSetValidUntilTime
     let nextFreeIdx = WriteTotNoQuoteEntries dest nextFreeIdx xx.TotNoQuoteEntries
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
-    let numGrps = xx.MassQuote_NoQuoteEntriesGrp.Length
+    let numGrps = xx.MassQuoteNoQuoteEntriesGrp.Length
     let nextFreeIdx = WriteNoQuoteEntries dest nextFreeIdx (Fix44.Fields.NoQuoteEntries numGrps) // write the 'num group repeats' field
-    let nextFreeIdx =  xx.MassQuote_NoQuoteEntriesGrp |> List.fold (fun accFreeIdx gg -> WriteMassQuote_NoQuoteEntriesGrp dest accFreeIdx gg) nextFreeIdx
+    let nextFreeIdx =  xx.MassQuoteNoQuoteEntriesGrp |> List.fold (fun accFreeIdx gg -> WriteMassQuoteNoQuoteEntriesGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
 
 // group
-let WriteQuoteStatusReport_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteStatusReport_NoLegsGrp) =
+let WriteQuoteStatusReportNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteStatusReportNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1576,7 +1576,7 @@ let WriteNoQuoteEntriesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoQuoteEntriesGr
 
 
 // group
-let WriteQuote_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:Quote_NoLegsGrp) =
+let WriteQuoteNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1592,7 +1592,7 @@ let WriteQuote_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:Quote_NoLegsGrp) =
 
 
 // group
-let WriteRFQRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:RFQRequest_NoRelatedSymGrp) =
+let WriteRFQRequestNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:RFQRequestNoRelatedSymGrp) =
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
@@ -1617,7 +1617,7 @@ let WriteRFQRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:RFQRequ
 
 
 // group
-let WriteQuoteRequestReject_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestReject_NoLegsGrp) =
+let WriteQuoteRequestRejectNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestRejectNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1630,7 +1630,7 @@ let WriteQuoteRequestReject_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:Quote
 
 
 // group
-let WriteQuoteRequestReject_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestReject_NoRelatedSymGrp) =
+let WriteQuoteRequestRejectNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestRejectNoRelatedSymGrp) =
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteFinancingDetails dest) nextFreeIdx xx.FinancingDetails    // component option
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -1659,17 +1659,17 @@ let WriteQuoteRequestReject_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
     // group (apologies for this nested fold code, will refactor when I think of something better)
-    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteRequestReject_NoLegsGrp list) ->
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteRequestRejectNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
-                                        List.fold (fun accFreeIdx gg -> WriteQuoteRequestReject_NoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                        List.fold (fun accFreeIdx gg -> WriteQuoteRequestRejectNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
-                                  xx.QuoteRequestReject_NoLegsGrp  // end Option.fold
+                                  xx.QuoteRequestRejectNoLegsGrp  // end Option.fold
     nextFreeIdx
 
 
 // group
-let WriteQuoteResponse_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteResponse_NoLegsGrp) =
+let WriteQuoteResponseNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteResponseNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1685,7 +1685,7 @@ let WriteQuoteResponse_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRespo
 
 
 // group
-let WriteQuoteRequest_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequest_NoLegsGrp) =
+let WriteQuoteRequestNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegQty dest) nextFreeIdx xx.LegQty
     let nextFreeIdx = Option.fold (WriteLegSwapType dest) nextFreeIdx xx.LegSwapType
@@ -1704,7 +1704,7 @@ let WriteNoQuoteQualifiersGrp (dest:byte []) (nextFreeIdx:int) (xx:NoQuoteQualif
 
 
 // group
-let WriteQuoteRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequest_NoRelatedSymGrp) =
+let WriteQuoteRequestNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:QuoteRequestNoRelatedSymGrp) =
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteFinancingDetails dest) nextFreeIdx xx.FinancingDetails    // component option
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -1733,12 +1733,12 @@ let WriteQuoteRequest_NoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:Quote
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
     // group (apologies for this nested fold code, will refactor when I think of something better)
-    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteRequest_NoLegsGrp list) ->
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteRequestNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
-                                        List.fold (fun accFreeIdx gg -> WriteQuoteRequest_NoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                        List.fold (fun accFreeIdx gg -> WriteQuoteRequestNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
-                                  xx.QuoteRequest_NoLegsGrp  // end Option.fold
+                                  xx.QuoteRequestNoLegsGrp  // end Option.fold
     // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteQualifiersGrp list) ->
                                         let numGrps = gs.Length
@@ -1767,7 +1767,7 @@ let WriteNoRelatedSymGrp (dest:byte []) (nextFreeIdx:int) (xx:NoRelatedSymGrp) =
 
 
 // group
-let WriteIndicationOfInterest_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:IndicationOfInterest_NoLegsGrp) =
+let WriteIndicationOfInterestNoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:IndicationOfInterestNoLegsGrp) =
     let nextFreeIdx = Option.fold (WriteInstrumentLeg dest) nextFreeIdx xx.InstrumentLeg    // component option
     let nextFreeIdx = Option.fold (WriteLegIOIQty dest) nextFreeIdx xx.LegIOIQty
     let nextFreeIdx = Option.fold (WriteLegStipulations dest) nextFreeIdx xx.LegStipulations    // component option
@@ -1775,7 +1775,7 @@ let WriteIndicationOfInterest_NoLegsGrp (dest:byte []) (nextFreeIdx:int) (xx:Ind
 
 
 // group
-let WriteAdvertisement_NoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:Advertisement_NoUnderlyingsGrp) =
+let WriteAdvertisementNoUnderlyingsGrp (dest:byte []) (nextFreeIdx:int) (xx:AdvertisementNoUnderlyingsGrp) =
     let nextFreeIdx = WriteUnderlyingInstrument dest nextFreeIdx xx.UnderlyingInstrument   // component
     nextFreeIdx
 
@@ -1914,7 +1914,7 @@ let WriteNoBidComponentsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoBidComponents
 
 
 // group
-let WriteListStatus_NoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:ListStatus_NoOrdersGrp) =
+let WriteListStatusNoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:ListStatusNoOrdersGrp) =
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = WriteCumQty dest nextFreeIdx xx.CumQty
@@ -1930,7 +1930,7 @@ let WriteListStatus_NoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:ListStatus_
 
 
 // group
-let WriteAllocationInstruction_NoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstruction_NoExecsGrp) =
+let WriteAllocationInstructionNoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstructionNoExecsGrp) =
     let nextFreeIdx = Option.fold (WriteLastQty dest) nextFreeIdx xx.LastQty
     let nextFreeIdx = Option.fold (WriteExecID dest) nextFreeIdx xx.ExecID
     let nextFreeIdx = Option.fold (WriteSecondaryExecID dest) nextFreeIdx xx.SecondaryExecID
@@ -1941,7 +1941,7 @@ let WriteAllocationInstruction_NoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:A
 
 
 // group
-let WriteAllocationInstructionAck_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstructionAck_NoAllocsGrp) =
+let WriteAllocationInstructionAckNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationInstructionAckNoAllocsGrp) =
     let nextFreeIdx = Option.fold (WriteAllocAccount dest) nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteAllocPrice dest) nextFreeIdx xx.AllocPrice
@@ -1953,7 +1953,7 @@ let WriteAllocationInstructionAck_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (
 
 
 // group
-let WriteAllocationReport_NoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReport_NoExecsGrp) =
+let WriteAllocationReportNoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportNoExecsGrp) =
     let nextFreeIdx = Option.fold (WriteLastQty dest) nextFreeIdx xx.LastQty
     let nextFreeIdx = Option.fold (WriteExecID dest) nextFreeIdx xx.ExecID
     let nextFreeIdx = Option.fold (WriteSecondaryExecID dest) nextFreeIdx xx.SecondaryExecID
@@ -1964,7 +1964,7 @@ let WriteAllocationReport_NoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:Alloca
 
 
 // group
-let WriteAllocationReportAck_NoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportAck_NoAllocsGrp) =
+let WriteAllocationReportAckNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportAckNoAllocsGrp) =
     let nextFreeIdx = Option.fold (WriteAllocAccount dest) nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteAllocPrice dest) nextFreeIdx xx.AllocPrice
@@ -2032,7 +2032,7 @@ let WriteNoCompIDsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoCompIDsGrp) =
 
 
 // group
-let WriteNetworkStatusResponse_NoCompIDsGrp (dest:byte []) (nextFreeIdx:int) (xx:NetworkStatusResponse_NoCompIDsGrp) =
+let WriteNetworkStatusResponseNoCompIDsGrp (dest:byte []) (nextFreeIdx:int) (xx:NetworkStatusResponseNoCompIDsGrp) =
     let nextFreeIdx = Option.fold (WriteRefCompID dest) nextFreeIdx xx.RefCompID
     let nextFreeIdx = Option.fold (WriteRefSubID dest) nextFreeIdx xx.RefSubID
     let nextFreeIdx = Option.fold (WriteLocationID dest) nextFreeIdx xx.LocationID

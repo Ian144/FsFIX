@@ -133,7 +133,7 @@ let private makeSingleCaseDU (fieldName:string) (tag:uint32) (innerType:string) 
 let private createFieldTypes (field:SimpleField) =
     let fieldType = field.Type
     let fieldName = field.Name
-    let tag = field.FixTag
+    let tag = field.Tag
     let values = field.Values
     match fieldType, (Seq.isEmpty values) with
     | "AMT",                    true    -> makeSingleCaseDU fieldName tag "int"
@@ -224,7 +224,6 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
     [   for fieldXL in fieldsXL do
         let fldNumber = ParsingFuncs.gas fieldXL "number" |> System.Convert.ToUInt32
         let name = ParsingFuncs.gas fieldXL "name"
-        let fldName = name.Trim()
         let fldType = ParsingFuncs.gas fieldXL "type"
         let valuesXLs = fieldXL.XPathSelectElements "value"
         let values =
@@ -232,8 +231,8 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
                 let desc = ParsingFuncs.gas valueXL "description"
                 let eenum = ParsingFuncs.gas valueXL "enum"
                 let duName = correctDUNames desc
-                yield {Description = duName; Case  = eenum}  ]
-        yield {FixTag = fldNumber; Name = name; Type = fldType; Values = values}
+                yield {Description = duName; Case = eenum}  ]
+        yield {Tag = fldNumber; Name = name; Type = fldType; Values = values}
     ]
 
 
@@ -248,7 +247,7 @@ let private createLenDataFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
             sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" fld.Name fld.Name
-            sprintf "    ReadLengthDataCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.DataField.FixTag) fld.Name fld.Name 
+            sprintf "    ReadLengthDataCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
     ]
     Utils.joinStrs "\n" lines
 
@@ -257,7 +256,7 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound write, of a length field and the corresponding string field"
             sprintf "let Write%s (dest:byte []) (pos:int) (fld:%s) : int =" fld.Name fld.Name
-            sprintf "    WriteFieldLengthData \"%d=\"B \"%d=\"B dest pos fld" fld.LenField.FixTag fld.DataField.FixTag
+            sprintf "    WriteFieldLengthData \"%d=\"B \"%d=\"B dest pos fld" fld.LenField.Tag fld.DataField.Tag
 //            sprintf "    // write the string length part of the compound msg"
 //            sprintf "    let lenTag = \"%d=\"B" fld.LenField.FixTag
 //            sprintf "    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)"
@@ -396,7 +395,7 @@ let Gen (fieldData:FieldData list) (sw:StreamWriter) (swReadFuncs:StreamWriter) 
     fieldData |> Seq.iter (fun fd ->
             let ss =
                 match fd with
-                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s" fd.FixTag  fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.FixTag fd.Name fd.Name // the length field is always read first
+                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
             swFieldDU.WriteLine ss )
     swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "

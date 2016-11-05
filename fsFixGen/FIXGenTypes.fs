@@ -10,7 +10,7 @@ type Required = Required | NotRequired
 
 type FieldDUCase = { Case:string; Description:string }
 
-type SimpleField = { FixTag:uint32; Name:string; Type:string; Values:FieldDUCase list }
+type SimpleField = { Tag:uint32; Name:string; Type:string; Values:FieldDUCase list }
 
 type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
 
@@ -27,7 +27,7 @@ type ComponentRef = { CRName:ComponentName; Required:Required }
 
 // A FIXItem can contain groups containing FIXItems, SO FIXITEMS ARE TREES
 // ComponentRefs refer to a component by name, but do not contain Items directly, 
-// Components are not defined inline in FIX XML, whereas groups are.
+// Components are not defined inline, whereas groups are.
 type FIXItem = Field of FieldRef | ComponentRef of ComponentRef | Group of Group
 and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list }
 

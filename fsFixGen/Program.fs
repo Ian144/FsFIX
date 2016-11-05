@@ -33,9 +33,16 @@ let main _ =
     use swFieldDU = new StreamWriter (MkOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"
-    let fieldData = FieldGenerator.ParseFieldData xpthFields 
-    let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fieldData
+    let fields = FieldGenerator.ParseFieldData xpthFields 
+    let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fields
     FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs  swFieldDU
+
+    // make a map of field name to field definition
+    // used to connect a field reference in a msg etc, with the field definition
+    let fieldNameMap = fields 
+                        |> List.map (fun fld -> fld.Name, fld )
+                        |> Map.ofList
+
 
     printfn "read header"
     let xpthHrd = doc.XPathSelectElement "fix/header"
@@ -48,6 +55,7 @@ let main _ =
     printfn "reading components"
     let xpthMsgs = doc.XPathSelectElement "fix/components"
     let components = ComponentGenerator.Read xpthMsgs
+
 
     // make a map of component name to component.
     // used for marrying up componentRefs with components.
@@ -136,10 +144,11 @@ let main _ =
     CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
-    
+        // make a map of field name to field definition
+    // used to connect a field reference in a msg etc, with the field definition
     printfn "generating group and component reading functions in dependency order"
     use swGroupReadFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemReadFuncs.fs")
-    do CompoundItemGenerator.GenReadFuncs constrainedCompoundItemsInDepOrder swGroupReadFuncs
+    do CompoundItemGenerator.GenReadFuncs fieldNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 
     printfn "generating message F# types"

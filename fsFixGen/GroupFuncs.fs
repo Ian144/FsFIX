@@ -27,7 +27,7 @@ let makeLongName (grp:Group) : GroupLongName =
     let parents = grp.Parents 
     let groupName = grp.GName
     let subNames = parents @ [groupName] |> List.toArray
-    let tmp = Utils.joinStrs "_" subNames
+    let tmp = Utils.joinStrs "" subNames
     GroupLongName tmp
 
 

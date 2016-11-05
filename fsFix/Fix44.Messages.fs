@@ -82,7 +82,7 @@ type Advertisement = {
     AdvRefID: AdvRefID option
     Instrument: Instrument // component
     NoLegsGrp: NoLegsGrp list option // group
-    Advertisement_NoUnderlyingsGrp: Advertisement_NoUnderlyingsGrp list option // group
+    AdvertisementNoUnderlyingsGrp: AdvertisementNoUnderlyingsGrp list option // group
     AdvSide: AdvSide
     Quantity: Quantity
     QtyType: QtyType option
@@ -111,7 +111,7 @@ type IndicationOfInterest = {
     IOIQty: IOIQty
     Currency: Currency option
     Stipulations: Stipulations option // component
-    IndicationOfInterest_NoLegsGrp: IndicationOfInterest_NoLegsGrp list option // group
+    IndicationOfInterestNoLegsGrp: IndicationOfInterestNoLegsGrp list option // group
     PriceType: PriceType option
     Price: Price option
     ValidUntilTime: ValidUntilTime option
@@ -162,7 +162,7 @@ type QuoteRequest = {
     RFQReqID: RFQReqID option
     ClOrdID: ClOrdID option
     OrderCapacity: OrderCapacity option
-    QuoteRequest_NoRelatedSymGrp: QuoteRequest_NoRelatedSymGrp list // group
+    QuoteRequestNoRelatedSymGrp: QuoteRequestNoRelatedSymGrp list // group
     Text: Text option
     EncodedText: EncodedText option
     }
@@ -193,7 +193,7 @@ type QuoteResponse = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    QuoteResponse_NoLegsGrp: QuoteResponse_NoLegsGrp list option // group
+    QuoteResponseNoLegsGrp: QuoteResponseNoLegsGrp list option // group
     BidPx: BidPx option
     OfferPx: OfferPx option
     MktBidPx: MktBidPx option
@@ -234,7 +234,7 @@ type QuoteRequestReject = {
     QuoteReqID: QuoteReqID
     RFQReqID: RFQReqID option
     QuoteRequestRejectReason: QuoteRequestRejectReason
-    QuoteRequestReject_NoRelatedSymGrp: QuoteRequestReject_NoRelatedSymGrp list // group
+    QuoteRequestRejectNoRelatedSymGrp: QuoteRequestRejectNoRelatedSymGrp list // group
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
     QuotePriceType: QuotePriceType option
     OrdType: OrdType option
@@ -252,7 +252,7 @@ type QuoteRequestReject = {
 
 type RFQRequest = {
     RFQReqID: RFQReqID
-    RFQRequest_NoRelatedSymGrp: RFQRequest_NoRelatedSymGrp list // group
+    RFQRequestNoRelatedSymGrp: RFQRequestNoRelatedSymGrp list // group
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
@@ -280,7 +280,7 @@ type Quote = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    Quote_NoLegsGrp: Quote_NoLegsGrp list option // group
+    QuoteNoLegsGrp: QuoteNoLegsGrp list option // group
     BidPx: BidPx option
     OfferPx: OfferPx option
     MktBidPx: MktBidPx option
@@ -370,7 +370,7 @@ type QuoteStatusReport = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    QuoteStatusReport_NoLegsGrp: QuoteStatusReport_NoLegsGrp list option // group
+    QuoteStatusReportNoLegsGrp: QuoteStatusReportNoLegsGrp list option // group
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
     ExpireTime: ExpireTime option
     Price: Price option
@@ -437,7 +437,7 @@ type MassQuoteAcknowledgement = {
     AccountType: AccountType option
     Text: Text option
     EncodedText: EncodedText option
-    MassQuoteAcknowledgement_NoQuoteSetsGrp: MassQuoteAcknowledgement_NoQuoteSetsGrp list option // group
+    MassQuoteAcknowledgementNoQuoteSetsGrp: MassQuoteAcknowledgementNoQuoteSetsGrp list option // group
     }
 
 type MarketDataRequest = {
@@ -450,7 +450,7 @@ type MarketDataRequest = {
     Scope: Scope option
     MDImplicitDelete: MDImplicitDelete option
     NoMDEntryTypesGrp: NoMDEntryTypesGrp list // group
-    MarketDataRequest_NoRelatedSymGrp: MarketDataRequest_NoRelatedSymGrp list // group
+    MarketDataRequestNoRelatedSymGrp: MarketDataRequestNoRelatedSymGrp list // group
     NoTradingSessionsGrp: NoTradingSessionsGrp list option // group
     ApplQueueAction: ApplQueueAction option
     ApplQueueMax: ApplQueueMax option
@@ -471,7 +471,7 @@ type MarketDataSnapshotFullRefresh = {
 
 type MarketDataIncrementalRefresh = {
     MDReqID: MDReqID option
-    MarketDataIncrementalRefresh_NoMDEntriesGrp: MarketDataIncrementalRefresh_NoMDEntriesGrp list // group
+    MarketDataIncrementalRefreshNoMDEntriesGrp: MarketDataIncrementalRefreshNoMDEntriesGrp list // group
     ApplQueueDepth: ApplQueueDepth option
     ApplQueueResolution: ApplQueueResolution option
     }
@@ -565,7 +565,7 @@ type SecurityList = {
     SecurityRequestResult: SecurityRequestResult
     TotNoRelatedSym: TotNoRelatedSym option
     LastFragment: LastFragment option
-    SecurityList_NoRelatedSymGrp: SecurityList_NoRelatedSymGrp list option // group
+    SecurityListNoRelatedSymGrp: SecurityListNoRelatedSymGrp list option // group
     }
 
 type DerivativeSecurityListRequest = {
@@ -588,7 +588,7 @@ type DerivativeSecurityList = {
     UnderlyingInstrument: UnderlyingInstrument option // component
     TotNoRelatedSym: TotNoRelatedSym option
     LastFragment: LastFragment option
-    DerivativeSecurityList_NoRelatedSymGrp: DerivativeSecurityList_NoRelatedSymGrp list option // group
+    DerivativeSecurityListNoRelatedSymGrp: DerivativeSecurityListNoRelatedSymGrp list option // group
     }
 
 type SecurityStatusRequest = {
@@ -871,7 +871,7 @@ type ExecutionReport = {
     PriceImprovement: PriceImprovement option
     LastLiquidityInd: LastLiquidityInd option
     NoContAmtsGrp: NoContAmtsGrp list option // group
-    ExecutionReport_NoLegsGrp: ExecutionReport_NoLegsGrp list option // group
+    ExecutionReportNoLegsGrp: ExecutionReportNoLegsGrp list option // group
     CopyMsgIndicator: CopyMsgIndicator option
     NoMiscFeesGrp: NoMiscFeesGrp list option // group
     }
@@ -1131,7 +1131,7 @@ type CrossOrderCancelReplaceRequest = {
     OrigCrossID: OrigCrossID
     CrossType: CrossType
     CrossPrioritization: CrossPrioritization
-    CrossOrderCancelReplaceRequest_NoSidesGrp: CrossOrderCancelReplaceRequest_NoSidesGrp OneOrTwo // group
+    CrossOrderCancelReplaceRequestNoSidesGrp: CrossOrderCancelReplaceRequestNoSidesGrp OneOrTwo // group
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
@@ -1181,7 +1181,7 @@ type CrossOrderCancelRequest = {
     OrigCrossID: OrigCrossID
     CrossType: CrossType
     CrossPrioritization: CrossPrioritization
-    CrossOrderCancelRequest_NoSidesGrp: CrossOrderCancelRequest_NoSidesGrp OneOrTwo // group
+    CrossOrderCancelRequestNoSidesGrp: CrossOrderCancelRequestNoSidesGrp OneOrTwo // group
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
@@ -1202,7 +1202,7 @@ type NewOrderMultileg = {
     BookingUnit: BookingUnit option
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
-    NewOrderMultileg_NoAllocsGrp: NewOrderMultileg_NoAllocsGrp list option // group
+    NewOrderMultilegNoAllocsGrp: NewOrderMultilegNoAllocsGrp list option // group
     SettlType: SettlType option
     SettlDate: SettlDate option
     CashMargin: CashMargin option
@@ -1218,7 +1218,7 @@ type NewOrderMultileg = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PrevClosePx: PrevClosePx option
-    NewOrderMultileg_NoLegsGrp: NewOrderMultileg_NoLegsGrp list // group
+    NewOrderMultilegNoLegsGrp: NewOrderMultilegNoLegsGrp list // group
     LocateReqd: LocateReqd option
     TransactTime: TransactTime
     QtyType: QtyType option
@@ -1278,7 +1278,7 @@ type MultilegOrderCancelReplaceRequest = {
     BookingUnit: BookingUnit option
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
-    MultilegOrderCancelReplaceRequest_NoAllocsGrp: MultilegOrderCancelReplaceRequest_NoAllocsGrp list option // group
+    MultilegOrderCancelReplaceRequestNoAllocsGrp: MultilegOrderCancelReplaceRequestNoAllocsGrp list option // group
     SettlType: SettlType option
     SettlDate: SettlDate option
     CashMargin: CashMargin option
@@ -1294,7 +1294,7 @@ type MultilegOrderCancelReplaceRequest = {
     Instrument: Instrument // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PrevClosePx: PrevClosePx option
-    MultilegOrderCancelReplaceRequest_NoLegsGrp: MultilegOrderCancelReplaceRequest_NoLegsGrp list // group
+    MultilegOrderCancelReplaceRequestNoLegsGrp: MultilegOrderCancelReplaceRequestNoLegsGrp list // group
     LocateReqd: LocateReqd option
     TransactTime: TransactTime
     QtyType: QtyType option
@@ -1371,7 +1371,7 @@ type BidRequest = {
 type BidResponse = {
     BidID: BidID option
     ClientBidID: ClientBidID option
-    BidResponse_NoBidComponentsGrp: BidResponse_NoBidComponentsGrp list // group
+    BidResponseNoBidComponentsGrp: BidResponseNoBidComponentsGrp list // group
     }
 
 type NewOrderList = {
@@ -1392,7 +1392,7 @@ type NewOrderList = {
     AllowableOneSidednessCurr: AllowableOneSidednessCurr option
     TotNoOrders: TotNoOrders
     LastFragment: LastFragment option
-    NewOrderList_NoOrdersGrp: NewOrderList_NoOrdersGrp list // group
+    NewOrderListNoOrdersGrp: NewOrderListNoOrdersGrp list // group
     }
 
 type ListStrikePrice = {
@@ -1400,7 +1400,7 @@ type ListStrikePrice = {
     TotNoStrikes: TotNoStrikes
     LastFragment: LastFragment option
     NoStrikesGrp: NoStrikesGrp list // group
-    ListStrikePrice_NoUnderlyingsGrp: ListStrikePrice_NoUnderlyingsGrp list option // group
+    ListStrikePriceNoUnderlyingsGrp: ListStrikePriceNoUnderlyingsGrp list option // group
     }
 
 type ListStatus = {
@@ -1414,7 +1414,7 @@ type ListStatus = {
     TransactTime: TransactTime option
     TotNoOrders: TotNoOrders
     LastFragment: LastFragment option
-    ListStatus_NoOrdersGrp: ListStatus_NoOrdersGrp list // group
+    ListStatusNoOrdersGrp: ListStatusNoOrdersGrp list // group
     }
 
 type ListExecute = {
@@ -1454,7 +1454,7 @@ type AllocationInstruction = {
     BookingRefID: BookingRefID option
     AllocNoOrdersType: AllocNoOrdersType
     NoOrdersGrp: NoOrdersGrp list option // group
-    AllocationInstruction_NoExecsGrp: AllocationInstruction_NoExecsGrp list option // group
+    AllocationInstructionNoExecsGrp: AllocationInstructionNoExecsGrp list option // group
     PreviouslyReported: PreviouslyReported option
     ReversalIndicator: ReversalIndicator option
     MatchType: MatchType option
@@ -1503,7 +1503,7 @@ type AllocationInstruction = {
     YieldData: YieldData option // component
     TotNoAllocs: TotNoAllocs option
     LastFragment: LastFragment option
-    AllocationInstruction_NoAllocsGrp: AllocationInstruction_NoAllocsGrp list option // group
+    AllocationInstructionNoAllocsGrp: AllocationInstructionNoAllocsGrp list option // group
     }
 
 type AllocationInstructionAck = {
@@ -1521,7 +1521,7 @@ type AllocationInstructionAck = {
     SecurityType: SecurityType option
     Text: Text option
     EncodedText: EncodedText option
-    AllocationInstructionAck_NoAllocsGrp: AllocationInstructionAck_NoAllocsGrp list option // group
+    AllocationInstructionAckNoAllocsGrp: AllocationInstructionAckNoAllocsGrp list option // group
     }
 
 type AllocationReport = {
@@ -1541,7 +1541,7 @@ type AllocationReport = {
     BookingRefID: BookingRefID option
     AllocNoOrdersType: AllocNoOrdersType
     NoOrdersGrp: NoOrdersGrp list option // group
-    AllocationReport_NoExecsGrp: AllocationReport_NoExecsGrp list option // group
+    AllocationReportNoExecsGrp: AllocationReportNoExecsGrp list option // group
     PreviouslyReported: PreviouslyReported option
     ReversalIndicator: ReversalIndicator option
     MatchType: MatchType option
@@ -1590,7 +1590,7 @@ type AllocationReport = {
     YieldData: YieldData option // component
     TotNoAllocs: TotNoAllocs option
     LastFragment: LastFragment option
-    AllocationReport_NoAllocsGrp: AllocationReport_NoAllocsGrp list // group
+    AllocationReportNoAllocsGrp: AllocationReportNoAllocsGrp list // group
     }
 
 type AllocationReportAck = {
@@ -1609,7 +1609,7 @@ type AllocationReportAck = {
     SecurityType: SecurityType option
     Text: Text option
     EncodedText: EncodedText option
-    AllocationReportAck_NoAllocsGrp: AllocationReportAck_NoAllocsGrp list option // group
+    AllocationReportAckNoAllocsGrp: AllocationReportAckNoAllocsGrp list option // group
     }
 
 type Confirmation = {
@@ -1838,14 +1838,14 @@ type TradeCaptureReport = {
     PositionAmountData: PositionAmountData option // component
     MultiLegReportingType: MultiLegReportingType option
     TradeLegRefID: TradeLegRefID option
-    TradeCaptureReport_NoLegsGrp: TradeCaptureReport_NoLegsGrp list option // group
+    TradeCaptureReportNoLegsGrp: TradeCaptureReportNoLegsGrp list option // group
     TransactTime: TransactTime
     TrdRegTimestamps: TrdRegTimestamps option // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     MatchStatus: MatchStatus option
     MatchType: MatchType option
-    TradeCaptureReport_NoSidesGrp: TradeCaptureReport_NoSidesGrp OneOrTwo // group
+    TradeCaptureReportNoSidesGrp: TradeCaptureReportNoSidesGrp OneOrTwo // group
     CopyMsgIndicator: CopyMsgIndicator option
     PublishTrdIndicator: PublishTrdIndicator option
     ShortSaleReason: ShortSaleReason option
@@ -1877,7 +1877,7 @@ type TradeCaptureReportAck = {
     ResponseDestination: ResponseDestination option
     Text: Text option
     EncodedText: EncodedText option
-    TradeCaptureReportAck_NoLegsGrp: TradeCaptureReportAck_NoLegsGrp list option // group
+    TradeCaptureReportAckNoLegsGrp: TradeCaptureReportAckNoLegsGrp list option // group
     ClearingFeeIndicator: ClearingFeeIndicator option
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
@@ -1887,7 +1887,7 @@ type TradeCaptureReportAck = {
     AccountType: AccountType option
     PositionEffect: PositionEffect option
     PreallocMethod: PreallocMethod option
-    TradeCaptureReportAck_NoAllocsGrp: TradeCaptureReportAck_NoAllocsGrp list option // group
+    TradeCaptureReportAckNoAllocsGrp: TradeCaptureReportAckNoAllocsGrp list option // group
     }
 
 type RegistrationInstructions = {
@@ -2041,7 +2041,7 @@ type PositionReport = {
     SettlPriceType: SettlPriceType
     PriorSettlPrice: PriorSettlPrice
     NoLegsGrp: NoLegsGrp list option // group
-    PositionReport_NoUnderlyingsGrp: PositionReport_NoUnderlyingsGrp list option // group
+    PositionReportNoUnderlyingsGrp: PositionReportNoUnderlyingsGrp list option // group
     PositionQty: PositionQty // component
     PositionAmountData: PositionAmountData // component
     RegistStatus: RegistStatus option
@@ -2102,7 +2102,7 @@ type CollateralRequest = {
     Currency: Currency option
     NoLegs: NoLegs option
     InstrumentLeg: InstrumentLeg option // component
-    CollateralRequest_NoUnderlyingsGrp: CollateralRequest_NoUnderlyingsGrp list option // group
+    CollateralRequestNoUnderlyingsGrp: CollateralRequestNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
     CashOutstanding: CashOutstanding option
@@ -2151,7 +2151,7 @@ type CollateralAssignment = {
     Currency: Currency option
     NoLegs: NoLegs option
     InstrumentLeg: InstrumentLeg option // component
-    CollateralAssignment_NoUnderlyingsGrp: CollateralAssignment_NoUnderlyingsGrp list option // group
+    CollateralAssignmentNoUnderlyingsGrp: CollateralAssignmentNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
     CashOutstanding: CashOutstanding option
@@ -2202,7 +2202,7 @@ type CollateralResponse = {
     Currency: Currency option
     NoLegs: NoLegs option
     InstrumentLeg: InstrumentLeg option // component
-    CollateralResponse_NoUnderlyingsGrp: CollateralResponse_NoUnderlyingsGrp list option // group
+    CollateralResponseNoUnderlyingsGrp: CollateralResponseNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
     CashOutstanding: CashOutstanding option
@@ -2327,7 +2327,7 @@ type NetworkStatusResponse = {
     NetworkRequestID: NetworkRequestID option
     NetworkResponseID: NetworkResponseID option
     LastNetworkResponseID: LastNetworkResponseID option
-    NetworkStatusResponse_NoCompIDsGrp: NetworkStatusResponse_NoCompIDsGrp list // group
+    NetworkStatusResponseNoCompIDsGrp: NetworkStatusResponseNoCompIDsGrp list // group
     }
 
 type CollateralInquiryAck = {

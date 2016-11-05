@@ -5,36 +5,36 @@ open Fix44.CompoundItems
 
 
 type FIXGroup =
-    | Advertisement_NoUnderlyingsGrp of Advertisement_NoUnderlyingsGrp
-    | AllocationInstructionAck_NoAllocsGrp of AllocationInstructionAck_NoAllocsGrp
-    | AllocationInstruction_NoAllocsGrp of AllocationInstruction_NoAllocsGrp
-    | AllocationInstruction_NoExecsGrp of AllocationInstruction_NoExecsGrp
-    | AllocationReportAck_NoAllocsGrp of AllocationReportAck_NoAllocsGrp
-    | AllocationReport_NoAllocsGrp of AllocationReport_NoAllocsGrp
-    | AllocationReport_NoExecsGrp of AllocationReport_NoExecsGrp
-    | BidResponse_NoBidComponentsGrp of BidResponse_NoBidComponentsGrp
-    | CollateralAssignment_NoUnderlyingsGrp of CollateralAssignment_NoUnderlyingsGrp
-    | CollateralRequest_NoUnderlyingsGrp of CollateralRequest_NoUnderlyingsGrp
-    | CollateralResponse_NoUnderlyingsGrp of CollateralResponse_NoUnderlyingsGrp
-    | CrossOrderCancelReplaceRequest_NoSidesGrp of CrossOrderCancelReplaceRequest_NoSidesGrp
-    | CrossOrderCancelRequest_NoSidesGrp of CrossOrderCancelRequest_NoSidesGrp
-    | DerivativeSecurityList_NoRelatedSymGrp of DerivativeSecurityList_NoRelatedSymGrp
-    | ExecutionReport_NoLegsGrp of ExecutionReport_NoLegsGrp
-    | IndicationOfInterest_NoLegsGrp of IndicationOfInterest_NoLegsGrp
+    | AdvertisementNoUnderlyingsGrp of AdvertisementNoUnderlyingsGrp
+    | AllocationInstructionAckNoAllocsGrp of AllocationInstructionAckNoAllocsGrp
+    | AllocationInstructionNoAllocsGrp of AllocationInstructionNoAllocsGrp
+    | AllocationInstructionNoExecsGrp of AllocationInstructionNoExecsGrp
+    | AllocationReportAckNoAllocsGrp of AllocationReportAckNoAllocsGrp
+    | AllocationReportNoAllocsGrp of AllocationReportNoAllocsGrp
+    | AllocationReportNoExecsGrp of AllocationReportNoExecsGrp
+    | BidResponseNoBidComponentsGrp of BidResponseNoBidComponentsGrp
+    | CollateralAssignmentNoUnderlyingsGrp of CollateralAssignmentNoUnderlyingsGrp
+    | CollateralRequestNoUnderlyingsGrp of CollateralRequestNoUnderlyingsGrp
+    | CollateralResponseNoUnderlyingsGrp of CollateralResponseNoUnderlyingsGrp
+    | CrossOrderCancelReplaceRequestNoSidesGrp of CrossOrderCancelReplaceRequestNoSidesGrp
+    | CrossOrderCancelRequestNoSidesGrp of CrossOrderCancelRequestNoSidesGrp
+    | DerivativeSecurityListNoRelatedSymGrp of DerivativeSecurityListNoRelatedSymGrp
+    | ExecutionReportNoLegsGrp of ExecutionReportNoLegsGrp
+    | IndicationOfInterestNoLegsGrp of IndicationOfInterestNoLegsGrp
     | LinesOfTextGrp of LinesOfTextGrp
-    | ListStatus_NoOrdersGrp of ListStatus_NoOrdersGrp
-    | ListStrikePrice_NoUnderlyingsGrp of ListStrikePrice_NoUnderlyingsGrp
-    | MarketDataIncrementalRefresh_NoMDEntriesGrp of MarketDataIncrementalRefresh_NoMDEntriesGrp
-    | MarketDataRequest_NoRelatedSymGrp of MarketDataRequest_NoRelatedSymGrp
-    | MassQuoteAcknowledgement_NoQuoteEntriesGrp of MassQuoteAcknowledgement_NoQuoteEntriesGrp
-    | MassQuoteAcknowledgement_NoQuoteSetsGrp of MassQuoteAcknowledgement_NoQuoteSetsGrp
-    | MassQuote_NoQuoteEntriesGrp of MassQuote_NoQuoteEntriesGrp
-    | MultilegOrderCancelReplaceRequest_NoAllocsGrp of MultilegOrderCancelReplaceRequest_NoAllocsGrp
-    | MultilegOrderCancelReplaceRequest_NoLegsGrp of MultilegOrderCancelReplaceRequest_NoLegsGrp
-    | NetworkStatusResponse_NoCompIDsGrp of NetworkStatusResponse_NoCompIDsGrp
-    | NewOrderList_NoOrdersGrp of NewOrderList_NoOrdersGrp
-    | NewOrderMultileg_NoAllocsGrp of NewOrderMultileg_NoAllocsGrp
-    | NewOrderMultileg_NoLegsGrp of NewOrderMultileg_NoLegsGrp
+    | ListStatusNoOrdersGrp of ListStatusNoOrdersGrp
+    | ListStrikePriceNoUnderlyingsGrp of ListStrikePriceNoUnderlyingsGrp
+    | MarketDataIncrementalRefreshNoMDEntriesGrp of MarketDataIncrementalRefreshNoMDEntriesGrp
+    | MarketDataRequestNoRelatedSymGrp of MarketDataRequestNoRelatedSymGrp
+    | MassQuoteAcknowledgementNoQuoteEntriesGrp of MassQuoteAcknowledgementNoQuoteEntriesGrp
+    | MassQuoteAcknowledgementNoQuoteSetsGrp of MassQuoteAcknowledgementNoQuoteSetsGrp
+    | MassQuoteNoQuoteEntriesGrp of MassQuoteNoQuoteEntriesGrp
+    | MultilegOrderCancelReplaceRequestNoAllocsGrp of MultilegOrderCancelReplaceRequestNoAllocsGrp
+    | MultilegOrderCancelReplaceRequestNoLegsGrp of MultilegOrderCancelReplaceRequestNoLegsGrp
+    | NetworkStatusResponseNoCompIDsGrp of NetworkStatusResponseNoCompIDsGrp
+    | NewOrderListNoOrdersGrp of NewOrderListNoOrdersGrp
+    | NewOrderMultilegNoAllocsGrp of NewOrderMultilegNoAllocsGrp
+    | NewOrderMultilegNoLegsGrp of NewOrderMultilegNoLegsGrp
     | NoAffectedOrdersGrp of NoAffectedOrdersGrp
     | NoAllocsGrp of NoAllocsGrp
     | NoAltMDSourceGrp of NoAltMDSourceGrp
@@ -93,21 +93,21 @@ type FIXGroup =
     | NoUnderlyingSecurityAltIDGrp of NoUnderlyingSecurityAltIDGrp
     | NoUnderlyingStipsGrp of NoUnderlyingStipsGrp
     | NoUnderlyingsGrp of NoUnderlyingsGrp
-    | PositionReport_NoUnderlyingsGrp of PositionReport_NoUnderlyingsGrp
-    | QuoteRequestReject_NoLegsGrp of QuoteRequestReject_NoLegsGrp
-    | QuoteRequestReject_NoRelatedSymGrp of QuoteRequestReject_NoRelatedSymGrp
-    | QuoteRequest_NoLegsGrp of QuoteRequest_NoLegsGrp
-    | QuoteRequest_NoRelatedSymGrp of QuoteRequest_NoRelatedSymGrp
-    | QuoteResponse_NoLegsGrp of QuoteResponse_NoLegsGrp
-    | QuoteStatusReport_NoLegsGrp of QuoteStatusReport_NoLegsGrp
-    | Quote_NoLegsGrp of Quote_NoLegsGrp
-    | RFQRequest_NoRelatedSymGrp of RFQRequest_NoRelatedSymGrp
-    | SecurityList_NoLegsGrp of SecurityList_NoLegsGrp
-    | SecurityList_NoRelatedSymGrp of SecurityList_NoRelatedSymGrp
-    | TradeCaptureReportAck_NoAllocsGrp of TradeCaptureReportAck_NoAllocsGrp
-    | TradeCaptureReportAck_NoLegsGrp of TradeCaptureReportAck_NoLegsGrp
-    | TradeCaptureReport_NoLegsGrp of TradeCaptureReport_NoLegsGrp
-    | TradeCaptureReport_NoSidesGrp of TradeCaptureReport_NoSidesGrp
+    | PositionReportNoUnderlyingsGrp of PositionReportNoUnderlyingsGrp
+    | QuoteNoLegsGrp of QuoteNoLegsGrp
+    | QuoteRequestNoLegsGrp of QuoteRequestNoLegsGrp
+    | QuoteRequestNoRelatedSymGrp of QuoteRequestNoRelatedSymGrp
+    | QuoteRequestRejectNoLegsGrp of QuoteRequestRejectNoLegsGrp
+    | QuoteRequestRejectNoRelatedSymGrp of QuoteRequestRejectNoRelatedSymGrp
+    | QuoteResponseNoLegsGrp of QuoteResponseNoLegsGrp
+    | QuoteStatusReportNoLegsGrp of QuoteStatusReportNoLegsGrp
+    | RFQRequestNoRelatedSymGrp of RFQRequestNoRelatedSymGrp
+    | SecurityListNoLegsGrp of SecurityListNoLegsGrp
+    | SecurityListNoRelatedSymGrp of SecurityListNoRelatedSymGrp
+    | TradeCaptureReportAckNoAllocsGrp of TradeCaptureReportAckNoAllocsGrp
+    | TradeCaptureReportAckNoLegsGrp of TradeCaptureReportAckNoLegsGrp
+    | TradeCaptureReportNoLegsGrp of TradeCaptureReportNoLegsGrp
+    | TradeCaptureReportNoSidesGrp of TradeCaptureReportNoSidesGrp
 
 
 

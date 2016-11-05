@@ -68,9 +68,6 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:Str
 
 
 
-
-
-
 let private genGroupWriter (sw:StreamWriter) (grp:Group) =
     sw.WriteLine "// group"
     let (GroupLongName grpName) = GroupUtils.makeLongName grp
@@ -114,25 +111,24 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     groups |> List.iter (genWriteCompound sw)  
 
 
-let private genGroupReader (sw:StreamWriter) (grp:Group) =
+let private genGroupReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (grp:Group) =
     sw.WriteLine "// group"
     let (GroupLongName grpName) = GroupUtils.makeLongName grp
-    let funcSig = sprintf "let Read%sGrp (pos:int) (bs:byte []) : %sGrp  =" grpName grpName
+    let funcSig = sprintf "let Read%sGrp (pos:int) (bs:byte []) : int * %sGrp  =" grpName grpName
     sw.WriteLine funcSig
-    let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs grpName grp.Items
+    let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap grpName grp.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine
-    
     //apply the fields that have been read to the group reader
     sw.WriteLine "    failwith \"not implemented\""
     sw.WriteLine ""
 
 
-let private genReadCompound (sw:StreamWriter) (ci:CompoundItem) =
+let private genReadCompound (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) =
     match ci with
-    | CompoundItem.Group grp        -> genGroupReader sw grp
+    | CompoundItem.Group grp        -> genGroupReader fieldNameMap sw grp
     | CompoundItem.Component cmp    -> ()  // genComponentReader sw cmp
 
-let GenReadFuncs (groups:CompoundItem list) (sw:StreamWriter) =
+let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemReadFuncs"
     sw.WriteLine ""
     sw.WriteLine "open Fix44.Fields"
@@ -140,36 +136,5 @@ let GenReadFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genReadCompound sw)  
-
-
-
-
-//let private genCompItemFieldReader (fld:Field) =
-//    let varName = fld.FName |> Utils.lCaseFirstChar
-//    let tag = 99
-//    let parentFunc = "parentCompItem"
-//    match fld.Required with
-//    | Required.Required     -> sprintf "let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentFunc tag fld.FName
-//    | Required.NotRequired  -> ""
-//
-//
-//
-//let GenReadFuncs (groups:CompoundItem list) (sw:StreamWriter) =
-//    sw.WriteLine "module Fix44.CompoundItemWriteFuncs"
-//    sw.WriteLine ""
-//    sw.WriteLine "open Fix44.Fields"
-//    sw.WriteLine "open Fix44.FieldReadFuncs"
-//    sw.WriteLine "open Fix44.CompoundItems"
-//    sw.WriteLine ""
-//    sw.WriteLine ""
-//    groups |> List.iter (genReadCompound sw)
-
-
-
-
-
-
-
-
+    groups |> List.iter (genReadCompound fieldNameMap sw)  
 
