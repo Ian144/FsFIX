@@ -44,6 +44,30 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:Str
                     | CompoundItem.Component comp   -> writeComponent comp swCompItms    )
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
+    
+    // write the 'group/component' DU
+    swCompItemDU.WriteLine "module Fix44.CompoundItemDU"
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine "open Fix44.CompoundItems"
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
+
+    let groups = cmpItems |> CompoundItemFuncs.extractGroups
+    swCompItemDU.WriteLine  "type FIXGroup ="
+    groups 
+    |> List.map GroupUtils.makeLongName
+    |> List.sort 
+    |> List.iter (fun grpLngName ->
+            let (GroupLongName strName) = grpLngName
+            let ss  = sprintf "    | %sGrp of %sGrp" strName strName
+            swCompItemDU.WriteLine ss  )
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
+
+
+
 
 
 let private genCompoundItemWriter (sw:StreamWriter) (ci:CompoundItem) =

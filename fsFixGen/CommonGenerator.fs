@@ -110,12 +110,10 @@ let genItemListWriterStrs (items:FIXItem list) =
         ) // end List.collect
 
 
-let private fixYield (ss:string) =
-    match ss with
-    | "yield"   -> "yyield"
-    | ss        -> ss
+
 
 let genItemListReaderStrs  (fieldNameMap:Map<string,SimpleField>)  (parentName:string) (items:FIXItem list) =
+    let fixYield (ss:string) = match ss with | "yield"   -> "yyield"| ss        -> ss
     items |> List.collect (fun item ->
         match item with
         | FIXItem.Field fld         ->  let name = fld.FName
