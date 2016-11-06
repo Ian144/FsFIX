@@ -121,17 +121,26 @@ let main _ =
         |> List.distinct 
     
     let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
+    
     let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
     
 
     printfn "ensure groups first item is always required"    
     let allCompItems3 = allCompItems2 |> List.collect CompoundItemRules.ensureGroupFirstItemIsRequired
     
+    printfn "ensure components that are the first item of a group have a first item that is required"
+    let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
+
+    let cmpNameMapAfterGroupRules = allCompItems4 
+                                        |> CompoundItemFuncs.extractComponents 
+                                        |> List.map (fun cmp -> cmp.CName, cmp)
+                                        |> Map.ofList
+
 
     printfn "calculating group and component dependency order"
-    let constrainedCompoundItemsInDepOrder  = allCompItems3
+    let constrainedCompoundItemsInDepOrder  = allCompItems4
                                                 |> List.distinct
-                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
+                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupRules)
     constrainedCompoundItemsInDepOrder
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
@@ -140,7 +149,7 @@ let main _ =
     printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     use swCompoundItemDU = new StreamWriter (MkOutpath "Fix44.CompoundItemDU.fs")
-    CompoundItemGenerator.Gen cmpNameMapAfterGroupMerge constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
+    CompoundItemGenerator.Gen cmpNameMapAfterGroupRules constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
     // make a map of field name to field definition

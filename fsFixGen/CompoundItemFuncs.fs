@@ -85,3 +85,9 @@ let extractGroups (cis:CompoundItem list) : Group list =
 
 
 
+let extractComponents (cis:CompoundItem list) : Component list =
+    let extract ci =
+        match ci with
+        | CompoundItem.Group _          -> None
+        | CompoundItem.Component cmp    -> Some cmp
+    cis |> List.choose extract

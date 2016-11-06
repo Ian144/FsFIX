@@ -5,7 +5,6 @@ open Fix44.FieldReadFuncs
 open Fix44.CompoundItems
 
 
-
 let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
     let pos2, tag = FIXBufUtils.readTag pos bs
     if tag <> expectedTag then 
@@ -22,7 +21,6 @@ let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc
         pos3, Some fld
     else
         pos, None   // return the original pos, the next readoptional will re-read it
-
 
 
 // group
@@ -357,8 +355,8 @@ let ReadNoLegSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoLegSecurityAltIDG
 
 
 // component
-let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
-    let pos, legSymbol = ReadOptionalField pos "600"B bs ReadLegSymbol
+let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
+    let pos, legSymbol = ReadField "ReadInstrumentLegFG" pos "600"B bs ReadLegSymbol
     let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
     let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
     let pos, legSecurityIDSource = ReadOptionalField pos "603"B bs ReadLegSecurityIDSource
@@ -466,7 +464,7 @@ let ReadLegStipulations (pos:int) (bs:byte []) : int * LegStipulations  =
 
 // group
 let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
@@ -477,7 +475,7 @@ let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptu
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegStipulations = legStipulations
@@ -725,7 +723,7 @@ let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCapture
 
 // group
 let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
@@ -736,7 +734,7 @@ let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureR
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegStipulations = legStipulations
@@ -1504,9 +1502,25 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     failwith "not implemented"
 
 
+// component
+let ReadCommissionDataFG (pos:int) (bs:byte []) : int * CommissionDataFG  =
+    let pos, commission = ReadField "ReadCommissionDataFG" pos "12"B bs ReadCommission
+    let pos, commType = ReadOptionalField pos "13"B bs ReadCommType
+    let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
+    let pos, fundRenewWaiv = ReadOptionalField pos "497"B bs ReadFundRenewWaiv
+    //let ci = {
+            //Commission = commission
+            //CommType = commType
+            //CommCurrency = commCurrency
+            //FundRenewWaiv = fundRenewWaiv
+    //}
+    //pos, ci
+    failwith "not implemented"
+
+
 // group
 let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponseNoBidComponentsGrp  =
-    let pos, commissionData = ReadCommissionData pos bs    // component
+    let pos, commissionDataFG = ReadCommissionDataFG pos bs    // component
     let pos, listID = ReadOptionalField pos "66"B bs ReadListID
     let pos, country = ReadOptionalField pos "421"B bs ReadCountry
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
@@ -1521,7 +1535,7 @@ let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponse
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     //let ci = {
-            //CommissionData = commissionData
+            //CommissionDataFG = commissionDataFG
             //ListID = listID
             //Country = country
             //Side = side
@@ -1561,7 +1575,7 @@ let ReadNoLegAllocsGrp (pos:int) (bs:byte []) : int * NoLegAllocsGrp  =
 
 // group
 let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int * MultilegOrderCancelReplaceRequestNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
@@ -1571,7 +1585,7 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int 
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegStipulations = legStipulations
@@ -1645,7 +1659,7 @@ let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (pos:int) (bs:byte []) : in
 
 // group
 let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultilegNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
@@ -1655,7 +1669,7 @@ let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultile
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegStipulations = legStipulations
@@ -1868,7 +1882,7 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
 
 // group
 let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
@@ -1879,7 +1893,7 @@ let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportN
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegStipulations = legStipulations
@@ -1923,9 +1937,9 @@ let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  
 
 // group
 let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
     //}
     //pos, ci
     failwith "not implemented"
@@ -2001,11 +2015,11 @@ let ReadLegBenchmarkCurveData (pos:int) (bs:byte []) : int * LegBenchmarkCurveDa
 
 // group
 let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
             //LegStipulations = legStipulations
@@ -2303,13 +2317,13 @@ let ReadNoQuoteSetsGrp (pos:int) (bs:byte []) : int * NoQuoteSetsGrp  =
 
 // group
 let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusReportNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
@@ -2336,7 +2350,7 @@ let ReadNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * NoQuoteEntriesGrp  =
 
 // group
 let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
@@ -2345,7 +2359,7 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
     let pos, legBidPx = ReadOptionalField pos "681"B bs ReadLegBidPx
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
@@ -2385,13 +2399,13 @@ let ReadRFQRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * RFQRequestNoRel
 
 // group
 let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestRejectNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
@@ -2453,7 +2467,7 @@ let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRe
 
 // group
 let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
@@ -2462,7 +2476,7 @@ let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLeg
     let pos, legBidPx = ReadOptionalField pos "681"B bs ReadLegBidPx
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
@@ -2480,13 +2494,13 @@ let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLeg
 
 // group
 let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegQty = legQty
             //LegSwapType = legSwapType
             //LegSettlType = legSettlType
@@ -2588,10 +2602,10 @@ let ReadNoRelatedSymGrp (pos:int) (bs:byte []) : int * NoRelatedSymGrp  =
 
 // group
 let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationOfInterestNoLegsGrp  =
-    let pos, instrumentLeg = ReadInstrumentLeg pos bs    // component
+    let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legIOIQty = ReadOptionalField pos "682"B bs ReadLegIOIQty
     //let ci = {
-            //InstrumentLeg = instrumentLeg
+            //InstrumentLegFG = instrumentLegFG
             //LegIOIQty = legIOIQty
             //LegStipulations = legStipulations
     //}
@@ -2604,6 +2618,93 @@ let ReadAdvertisementNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Advertiseme
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     //let ci = {
             //UnderlyingInstrument = underlyingInstrument
+    //}
+    //pos, ci
+    failwith "not implemented"
+
+
+// component
+let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
+    let pos, legSymbol = ReadOptionalField pos "600"B bs ReadLegSymbol
+    let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
+    let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
+    let pos, legSecurityIDSource = ReadOptionalField pos "603"B bs ReadLegSecurityIDSource
+    let pos, legProduct = ReadOptionalField pos "607"B bs ReadLegProduct
+    let pos, legCFICode = ReadOptionalField pos "608"B bs ReadLegCFICode
+    let pos, legSecurityType = ReadOptionalField pos "609"B bs ReadLegSecurityType
+    let pos, legSecuritySubType = ReadOptionalField pos "764"B bs ReadLegSecuritySubType
+    let pos, legMaturityMonthYear = ReadOptionalField pos "610"B bs ReadLegMaturityMonthYear
+    let pos, legMaturityDate = ReadOptionalField pos "611"B bs ReadLegMaturityDate
+    let pos, legCouponPaymentDate = ReadOptionalField pos "248"B bs ReadLegCouponPaymentDate
+    let pos, legIssueDate = ReadOptionalField pos "249"B bs ReadLegIssueDate
+    let pos, legRepoCollateralSecurityType = ReadOptionalField pos "250"B bs ReadLegRepoCollateralSecurityType
+    let pos, legRepurchaseTerm = ReadOptionalField pos "251"B bs ReadLegRepurchaseTerm
+    let pos, legRepurchaseRate = ReadOptionalField pos "252"B bs ReadLegRepurchaseRate
+    let pos, legFactor = ReadOptionalField pos "253"B bs ReadLegFactor
+    let pos, legCreditRating = ReadOptionalField pos "257"B bs ReadLegCreditRating
+    let pos, legInstrRegistry = ReadOptionalField pos "599"B bs ReadLegInstrRegistry
+    let pos, legCountryOfIssue = ReadOptionalField pos "596"B bs ReadLegCountryOfIssue
+    let pos, legStateOrProvinceOfIssue = ReadOptionalField pos "597"B bs ReadLegStateOrProvinceOfIssue
+    let pos, legLocaleOfIssue = ReadOptionalField pos "598"B bs ReadLegLocaleOfIssue
+    let pos, legRedemptionDate = ReadOptionalField pos "254"B bs ReadLegRedemptionDate
+    let pos, legStrikePrice = ReadOptionalField pos "612"B bs ReadLegStrikePrice
+    let pos, legStrikeCurrency = ReadOptionalField pos "942"B bs ReadLegStrikeCurrency
+    let pos, legOptAttribute = ReadOptionalField pos "613"B bs ReadLegOptAttribute
+    let pos, legContractMultiplier = ReadOptionalField pos "614"B bs ReadLegContractMultiplier
+    let pos, legCouponRate = ReadOptionalField pos "615"B bs ReadLegCouponRate
+    let pos, legSecurityExchange = ReadOptionalField pos "616"B bs ReadLegSecurityExchange
+    let pos, legIssuer = ReadOptionalField pos "617"B bs ReadLegIssuer
+    let pos, encodedLegIssuer = ReadOptionalField pos "619"B bs ReadEncodedLegIssuer
+    let pos, legSecurityDesc = ReadOptionalField pos "620"B bs ReadLegSecurityDesc
+    let pos, encodedLegSecurityDesc = ReadOptionalField pos "622"B bs ReadEncodedLegSecurityDesc
+    let pos, legRatioQty = ReadOptionalField pos "623"B bs ReadLegRatioQty
+    let pos, legSide = ReadOptionalField pos "624"B bs ReadLegSide
+    let pos, legCurrency = ReadOptionalField pos "556"B bs ReadLegCurrency
+    let pos, legPool = ReadOptionalField pos "740"B bs ReadLegPool
+    let pos, legDatedDate = ReadOptionalField pos "739"B bs ReadLegDatedDate
+    let pos, legContractSettlMonth = ReadOptionalField pos "955"B bs ReadLegContractSettlMonth
+    let pos, legInterestAccrualDate = ReadOptionalField pos "956"B bs ReadLegInterestAccrualDate
+    //let ci = {
+            //LegSymbol = legSymbol
+            //LegSymbolSfx = legSymbolSfx
+            //LegSecurityID = legSecurityID
+            //LegSecurityIDSource = legSecurityIDSource
+            //NoLegSecurityAltID = noLegSecurityAltID
+            //LegProduct = legProduct
+            //LegCFICode = legCFICode
+            //LegSecurityType = legSecurityType
+            //LegSecuritySubType = legSecuritySubType
+            //LegMaturityMonthYear = legMaturityMonthYear
+            //LegMaturityDate = legMaturityDate
+            //LegCouponPaymentDate = legCouponPaymentDate
+            //LegIssueDate = legIssueDate
+            //LegRepoCollateralSecurityType = legRepoCollateralSecurityType
+            //LegRepurchaseTerm = legRepurchaseTerm
+            //LegRepurchaseRate = legRepurchaseRate
+            //LegFactor = legFactor
+            //LegCreditRating = legCreditRating
+            //LegInstrRegistry = legInstrRegistry
+            //LegCountryOfIssue = legCountryOfIssue
+            //LegStateOrProvinceOfIssue = legStateOrProvinceOfIssue
+            //LegLocaleOfIssue = legLocaleOfIssue
+            //LegRedemptionDate = legRedemptionDate
+            //LegStrikePrice = legStrikePrice
+            //LegStrikeCurrency = legStrikeCurrency
+            //LegOptAttribute = legOptAttribute
+            //LegContractMultiplier = legContractMultiplier
+            //LegCouponRate = legCouponRate
+            //LegSecurityExchange = legSecurityExchange
+            //LegIssuer = legIssuer
+            //EncodedLegIssuer = encodedLegIssuer
+            //LegSecurityDesc = legSecurityDesc
+            //EncodedLegSecurityDesc = encodedLegSecurityDesc
+            //LegRatioQty = legRatioQty
+            //LegSide = legSide
+            //LegCurrency = legCurrency
+            //LegPool = legPool
+            //LegDatedDate = legDatedDate
+            //LegContractSettlMonth = legContractSettlMonth
+            //LegInterestAccrualDate = legInterestAccrualDate
     //}
     //pos, ci
     failwith "not implemented"

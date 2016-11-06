@@ -178,8 +178,8 @@ type NoLegSecurityAltIDGrp = {
     }
 
 // component
-type InstrumentLeg = {
-    LegSymbol: LegSymbol option
+type InstrumentLegFG = {
+    LegSymbol: LegSymbol
     LegSymbolSfx: LegSymbolSfx option
     LegSecurityID: LegSecurityID option
     LegSecurityIDSource: LegSecurityIDSource option
@@ -232,9 +232,9 @@ type LegStipulations = {
     NoLegStipulationsGrp: NoLegStipulationsGrp list option // group
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type TradeCaptureReportAckNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -367,9 +367,9 @@ type TradeCaptureReportNoSidesGrp = {
     AllocID: AllocID option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type TradeCaptureReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -774,9 +774,17 @@ type NewOrderListNoOrdersGrp = {
     Designation: Designation option
     }
 
-// group 1st ############# component: required, first: notRequired
+// component
+type CommissionDataFG = {
+    Commission: Commission
+    CommType: CommType option
+    CommCurrency: CommCurrency option
+    FundRenewWaiv: FundRenewWaiv option
+    }
+
+// group
 type BidResponseNoBidComponentsGrp = {
-    CommissionData: CommissionData // component
+    CommissionDataFG: CommissionDataFG // component
     ListID: ListID option
     Country: Country option
     Side: Side option
@@ -802,9 +810,9 @@ type NoLegAllocsGrp = {
     LegSettlCurrency: LegSettlCurrency option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type MultilegOrderCancelReplaceRequestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -847,9 +855,9 @@ type MultilegOrderCancelReplaceRequestNoAllocsGrp = {
     AllocQty: AllocQty option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type NewOrderMultilegNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -964,9 +972,9 @@ type NoSidesGrp = {
     SideComplianceID: SideComplianceID option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type ExecutionReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -993,9 +1001,9 @@ type InstrumentExtension = {
     NoInstrAttribGrp: NoInstrAttribGrp list option // group
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type NoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     }
 
 // group
@@ -1033,9 +1041,9 @@ type LegBenchmarkCurveData = {
     LegBenchmarkPriceType: LegBenchmarkPriceType option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type SecurityListNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
     LegStipulations: LegStipulations option // component
@@ -1195,9 +1203,9 @@ type NoQuoteSetsGrp = {
     MassQuoteNoQuoteEntriesGrp: MassQuoteNoQuoteEntriesGrp list // group
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type QuoteStatusReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1214,9 +1222,9 @@ type NoQuoteEntriesGrp = {
     NoLegsGrp: NoLegsGrp list option // group
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type QuoteNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1241,9 +1249,9 @@ type RFQRequestNoRelatedSymGrp = {
     TradingSessionSubID: TradingSessionSubID option
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type QuoteRequestRejectNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1279,9 +1287,9 @@ type QuoteRequestRejectNoRelatedSymGrp = {
     QuoteRequestRejectNoLegsGrp: QuoteRequestRejectNoLegsGrp list option // group
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type QuoteResponseNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1294,9 +1302,9 @@ type QuoteResponseNoLegsGrp = {
     LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type QuoteRequestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1354,9 +1362,9 @@ type NoRelatedSymGrp = {
     Instrument: Instrument // component
     }
 
-// group 1st ############# component: required, first: notRequired
+// group
 type IndicationOfInterestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg // component
+    InstrumentLegFG: InstrumentLegFG // component
     LegIOIQty: LegIOIQty option
     LegStipulations: LegStipulations option // component
     }
@@ -1364,6 +1372,50 @@ type IndicationOfInterestNoLegsGrp = {
 // group
 type AdvertisementNoUnderlyingsGrp = {
     UnderlyingInstrument: UnderlyingInstrument // component
+    }
+
+// component
+type InstrumentLeg = {
+    LegSymbol: LegSymbol option
+    LegSymbolSfx: LegSymbolSfx option
+    LegSecurityID: LegSecurityID option
+    LegSecurityIDSource: LegSecurityIDSource option
+    NoLegSecurityAltIDGrp: NoLegSecurityAltIDGrp list option // group
+    LegProduct: LegProduct option
+    LegCFICode: LegCFICode option
+    LegSecurityType: LegSecurityType option
+    LegSecuritySubType: LegSecuritySubType option
+    LegMaturityMonthYear: LegMaturityMonthYear option
+    LegMaturityDate: LegMaturityDate option
+    LegCouponPaymentDate: LegCouponPaymentDate option
+    LegIssueDate: LegIssueDate option
+    LegRepoCollateralSecurityType: LegRepoCollateralSecurityType option
+    LegRepurchaseTerm: LegRepurchaseTerm option
+    LegRepurchaseRate: LegRepurchaseRate option
+    LegFactor: LegFactor option
+    LegCreditRating: LegCreditRating option
+    LegInstrRegistry: LegInstrRegistry option
+    LegCountryOfIssue: LegCountryOfIssue option
+    LegStateOrProvinceOfIssue: LegStateOrProvinceOfIssue option
+    LegLocaleOfIssue: LegLocaleOfIssue option
+    LegRedemptionDate: LegRedemptionDate option
+    LegStrikePrice: LegStrikePrice option
+    LegStrikeCurrency: LegStrikeCurrency option
+    LegOptAttribute: LegOptAttribute option
+    LegContractMultiplier: LegContractMultiplier option
+    LegCouponRate: LegCouponRate option
+    LegSecurityExchange: LegSecurityExchange option
+    LegIssuer: LegIssuer option
+    EncodedLegIssuer: EncodedLegIssuer option
+    LegSecurityDesc: LegSecurityDesc option
+    EncodedLegSecurityDesc: EncodedLegSecurityDesc option
+    LegRatioQty: LegRatioQty option
+    LegSide: LegSide option
+    LegCurrency: LegCurrency option
+    LegPool: LegPool option
+    LegDatedDate: LegDatedDate option
+    LegContractSettlMonth: LegContractSettlMonth option
+    LegInterestAccrualDate: LegInterestAccrualDate option
     }
 
 // group
