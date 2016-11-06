@@ -1860,7 +1860,6 @@ type TradeCaptureReportAck = {
     SecondaryTrdType: SecondaryTrdType option
     TransferReason: TransferReason option
     ExecType: ExecType
-    
     TradeReportRefID: TradeReportRefID option
     SecondaryTradeReportRefID: SecondaryTradeReportRefID option
     TrdRptStatus: TrdRptStatus option
@@ -1871,11 +1870,8 @@ type TradeCaptureReportAck = {
     TrdMatchID: TrdMatchID option
     ExecID: ExecID option
     SecondaryExecID: SecondaryExecID option
-    
     Instrument: Instrument // component
-    
     TransactTime: TransactTime option
-    
     TrdRegTimestamps: TrdRegTimestamps option // component
     ResponseTransportType: ResponseTransportType option
     ResponseDestination: ResponseDestination option

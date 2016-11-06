@@ -108,7 +108,6 @@ let main _ =
     HeaderTrailerGenerator.genHeader swHdrTrlr hdrAfterGroupMerge trl
 
     printfn "updating messages to use merged groups"  
-
     let msgsAfterGroupMerge =
             [   for msg in msgs do
                 let items2 =  msg.Items 
@@ -133,7 +132,7 @@ let main _ =
                                                 |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
 
-    printfn "generating group and component F# types in dependency order"
+    printfn "calculating group and component dependency order"
     constrainedCompoundItemsInDepOrder
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
@@ -141,7 +140,7 @@ let main _ =
     printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
     use swCompoundItemDU = new StreamWriter (MkOutpath "Fix44.CompoundItemDU.fs")
-    CompoundItemGenerator.Gen constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
+    CompoundItemGenerator.Gen cmpNameMapAfterGroupMerge constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
         // make a map of field name to field definition

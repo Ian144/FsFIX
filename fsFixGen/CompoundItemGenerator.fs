@@ -17,20 +17,39 @@ let private writeComponent (cmp:Component) (sw:StreamWriter) =
     sw.WriteLine ""
 
 
-let private writeGroup (grp:Group) (sw:StreamWriter) = 
+let private getGroupComment (cmpNameMap:Map<ComponentName,Component>) (grp:Group) = 
+    let itm = grp.Items.Head
+    match itm with
+    | FIXItem.ComponentRef cr   ->  let cmp = cmpNameMap.[cr.CRName] 
+                                    let fstInnerItem = cmp.Items.Head
+                                    match cr.Required,  FIXItem.getIsRequired fstInnerItem with
+                                    | Required, true        -> "// group"
+                                    | Required, false       -> "// group 1st ############# component: required, first: notRequired"
+                                    | NotRequired, true     -> "// group"// 1st ############# component: notRequired, first: required"
+                                    | NotRequired, false    -> "// group ############# component: notRequired, first: notRequired"
+    | FIXItem.FieldRef  fr      ->  match fr.Required with
+                                    | Required.Required     -> "// group"
+                                    | Required.NotRequired  -> "// group ############# first field not required"
+    | FIXItem.Group     gg      ->  let hd = gg.Items.Head
+                                    match FIXItem.getIsRequired hd with
+                                    | true  -> "// group"
+                                    | false -> "// group 1st is group @@@@@@@@@@@ first item is not required"
+
+
+let private writeGroup (cmpNameMap:Map<ComponentName,Component>) (grp:Group) (sw:StreamWriter) = 
     sw.WriteLine ""
-    sw.WriteLine "// group"
+    let comment = getGroupComment cmpNameMap grp
+    sw.WriteLine comment
     let (GroupLongName grpName) = GroupUtils.makeLongName grp // merged groups have an empty parent list, so the long name is correct
     let ss = sprintf "type %sGrp = {" grpName
-    sw.Write ss
-    sw.WriteLine ""
+    sw.WriteLine ss
     grp.Items |> (CommonGenerator.writeFIXItemList sw)
     sw.Write  "    }"
     sw.WriteLine ""
 
 
 
-let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:StreamWriter) =
+let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:StreamWriter) =
     swCompItms.WriteLine "module Fix44.CompoundItems"
     swCompItms.WriteLine ""
     swCompItms.WriteLine "open Fix44.Fields"
@@ -40,7 +59,7 @@ let Gen (cmpItems:CompoundItem list) (swCompItms:StreamWriter) (swCompItemDU:Str
     swCompItms.WriteLine ""
     cmpItems |> List.iter (fun ci ->
                     match ci with
-                    | CompoundItem.Group    grp     -> writeGroup grp swCompItms
+                    | CompoundItem.Group    grp     -> writeGroup cmpNameMap grp swCompItms
                     | CompoundItem.Component comp   -> writeComponent comp swCompItms    )
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
