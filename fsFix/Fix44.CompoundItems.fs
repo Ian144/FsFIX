@@ -6,15 +6,15 @@ open Fix44.Fields
 
 
 
-// group ############# first field not required
+// group
 type NoUnderlyingSecurityAltIDGrp = {
-    UnderlyingSecurityAltID: UnderlyingSecurityAltID option
+    UnderlyingSecurityAltID: UnderlyingSecurityAltID
     UnderlyingSecurityAltIDSource: UnderlyingSecurityAltIDSource option
     }
 
-// group ############# first field not required
+// group
 type NoUnderlyingStipsGrp = {
-    UnderlyingStipType: UnderlyingStipType option
+    UnderlyingStipType: UnderlyingStipType
     UnderlyingStipValue: UnderlyingStipValue option
     }
 
@@ -74,38 +74,38 @@ type UnderlyingInstrument = {
 
 // group
 type CollateralResponseNoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     CollAction: CollAction option
     }
 
 // group
 type CollateralAssignmentNoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     CollAction: CollAction option
     }
 
 // group
 type CollateralRequestNoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     CollAction: CollAction option
     }
 
 // group
 type PositionReportNoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     UnderlyingSettlPrice: UnderlyingSettlPrice
     UnderlyingSettlPriceType: UnderlyingSettlPriceType
     }
 
-// group ############# first field not required
+// group
 type NoNestedPartySubIDsGrp = {
-    NestedPartySubID: NestedPartySubID option
+    NestedPartySubID: NestedPartySubID
     NestedPartySubIDType: NestedPartySubIDType option
     }
 
-// group ############# first field not required
+// group
 type NoNestedPartyIDsGrp = {
-    NestedPartyID: NestedPartyID option
+    NestedPartyID: NestedPartyID
     NestedPartyIDSource: NestedPartyIDSource option
     NestedPartyRole: NestedPartyRole option
     NoNestedPartySubIDsGrp: NoNestedPartySubIDsGrp list option // group
@@ -116,9 +116,9 @@ type NestedParties = {
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type NoPositionsGrp = {
-    PosType: PosType option
+    PosType: PosType
     LongQty: LongQty option
     ShortQty: ShortQty option
     PosQtyStatus: PosQtyStatus option
@@ -130,9 +130,9 @@ type PositionQty = {
     NoPositionsGrp: NoPositionsGrp list // group
     }
 
-// group ############# first field not required
+// group
 type NoRegistDtlsGrp = {
-    RegistDtls: RegistDtls option
+    RegistDtls: RegistDtls
     RegistEmail: RegistEmail option
     MailingDtls: MailingDtls option
     MailingInst: MailingInst option
@@ -142,15 +142,15 @@ type NoRegistDtlsGrp = {
     InvestorCountryOfResidence: InvestorCountryOfResidence option
     }
 
-// group ############# first field not required
+// group
 type NoNested2PartySubIDsGrp = {
-    Nested2PartySubID: Nested2PartySubID option
+    Nested2PartySubID: Nested2PartySubID
     Nested2PartySubIDType: Nested2PartySubIDType option
     }
 
-// group ############# first field not required
+// group
 type NoNested2PartyIDsGrp = {
-    Nested2PartyID: Nested2PartyID option
+    Nested2PartyID: Nested2PartyID
     Nested2PartyIDSource: Nested2PartyIDSource option
     Nested2PartyRole: Nested2PartyRole option
     NoNested2PartySubIDsGrp: NoNested2PartySubIDsGrp list option // group
@@ -161,9 +161,9 @@ type NestedParties2 = {
     NoNested2PartyIDsGrp: NoNested2PartyIDsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type TradeCaptureReportAckNoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
     IndividualAllocID: IndividualAllocID option
@@ -171,9 +171,9 @@ type TradeCaptureReportAckNoAllocsGrp = {
     AllocQty: AllocQty option
     }
 
-// group ############# first field not required
+// group
 type NoLegSecurityAltIDGrp = {
-    LegSecurityAltID: LegSecurityAltID option
+    LegSecurityAltID: LegSecurityAltID
     LegSecurityAltIDSource: LegSecurityAltIDSource option
     }
 
@@ -221,9 +221,9 @@ type InstrumentLeg = {
     LegInterestAccrualDate: LegInterestAccrualDate option
     }
 
-// group ############# first field not required
+// group
 type NoLegStipulationsGrp = {
-    LegStipulationType: LegStipulationType option
+    LegStipulationType: LegStipulationType
     LegStipulationValue: LegStipulationValue option
     }
 
@@ -232,9 +232,9 @@ type LegStipulations = {
     NoLegStipulationsGrp: NoLegStipulationsGrp list option // group
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type TradeCaptureReportAckNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -248,15 +248,15 @@ type TradeCaptureReportAckNoLegsGrp = {
     LegLastPx: LegLastPx option
     }
 
-// group ############# first field not required
+// group
 type NoPartySubIDsGrp = {
-    PartySubID: PartySubID option
+    PartySubID: PartySubID
     PartySubIDType: PartySubIDType option
     }
 
-// group ############# first field not required
+// group
 type NoPartyIDsGrp = {
-    PartyID: PartyID option
+    PartyID: PartyID
     PartyIDSource: PartyIDSource option
     PartyRole: PartyRole option
     NoPartySubIDsGrp: NoPartySubIDsGrp list option // group
@@ -267,9 +267,9 @@ type Parties = {
     NoPartyIDsGrp: NoPartyIDsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type NoClearingInstructionsGrp = {
-    ClearingInstruction: ClearingInstruction option
+    ClearingInstruction: ClearingInstruction
     }
 
 // component
@@ -280,16 +280,16 @@ type CommissionData = {
     FundRenewWaiv: FundRenewWaiv option
     }
 
-// group ############# first field not required
+// group
 type NoContAmtsGrp = {
-    ContAmtType: ContAmtType option
+    ContAmtType: ContAmtType
     ContAmtValue: ContAmtValue option
     ContAmtCurr: ContAmtCurr option
     }
 
-// group ############# first field not required
+// group
 type NoStipulationsGrp = {
-    StipulationType: StipulationType option
+    StipulationType: StipulationType
     StipulationValue: StipulationValue option
     }
 
@@ -298,9 +298,9 @@ type Stipulations = {
     NoStipulationsGrp: NoStipulationsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type NoMiscFeesGrp = {
-    MiscFeeAmt: MiscFeeAmt option
+    MiscFeeAmt: MiscFeeAmt
     MiscFeeCurr: MiscFeeCurr option
     MiscFeeType: MiscFeeType option
     MiscFeeBasis: MiscFeeBasis option
@@ -367,9 +367,9 @@ type TradeCaptureReportNoSidesGrp = {
     AllocID: AllocID option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type TradeCaptureReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -394,15 +394,15 @@ type PositionAmountData = {
     NoPosAmtGrp: NoPosAmtGrp list // group
     }
 
-// group ############# first field not required
+// group
 type NoSettlPartySubIDsGrp = {
-    SettlPartySubID: SettlPartySubID option
+    SettlPartySubID: SettlPartySubID
     SettlPartySubIDType: SettlPartySubIDType option
     }
 
-// group ############# first field not required
+// group
 type NoSettlPartyIDsGrp = {
-    SettlPartyID: SettlPartyID option
+    SettlPartyID: SettlPartyID
     SettlPartyIDSource: SettlPartyIDSource option
     SettlPartyRole: SettlPartyRole option
     NoSettlPartySubIDsGrp: NoSettlPartySubIDsGrp list option // group
@@ -413,9 +413,9 @@ type SettlParties = {
     NoSettlPartyIDsGrp: NoSettlPartyIDsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type NoDlvyInstGrp = {
-    SettlInstSource: SettlInstSource option
+    SettlInstSource: SettlInstSource
     DlvyInstType: DlvyInstType option
     SettlParties: SettlParties option // component
     }
@@ -429,9 +429,9 @@ type SettlInstructionsData = {
     NoDlvyInstGrp: NoDlvyInstGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type NoSettlInstGrp = {
-    SettlInstID: SettlInstID option
+    SettlInstID: SettlInstID
     SettlInstTransType: SettlInstTransType option
     SettlInstRefID: SettlInstRefID option
     Parties: Parties option // component
@@ -454,9 +454,9 @@ type NoSettlInstGrp = {
     PaymentRemitterID: PaymentRemitterID option
     }
 
-// group ############# first field not required
+// group
 type NoTrdRegTimestampsGrp = {
-    TrdRegTimestamp: TrdRegTimestamp option
+    TrdRegTimestamp: TrdRegTimestamp
     TrdRegTimestampType: TrdRegTimestampType option
     TrdRegTimestampOrigin: TrdRegTimestampOrigin option
     }
@@ -533,9 +533,9 @@ type AllocationInstructionNoAllocsGrp = {
     SettlInstructionsData: SettlInstructionsData option // component
     }
 
-// group ############# first field not required
+// group
 type NoOrdersGrp = {
-    ClOrdID: ClOrdID option
+    ClOrdID: ClOrdID
     OrderID: OrderID option
     SecondaryOrderID: SecondaryOrderID option
     SecondaryClOrdID: SecondaryClOrdID option
@@ -548,7 +548,7 @@ type NoOrdersGrp = {
 
 // group
 type ListStrikePriceNoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     PrevClosePx: PrevClosePx option
     ClOrdID: ClOrdID option
     SecondaryClOrdID: SecondaryClOrdID option
@@ -559,15 +559,15 @@ type ListStrikePriceNoUnderlyingsGrp = {
     EncodedText: EncodedText option
     }
 
-// group ############# first field not required
+// group
 type NoSecurityAltIDGrp = {
-    SecurityAltID: SecurityAltID option
+    SecurityAltID: SecurityAltID
     SecurityAltIDSource: SecurityAltIDSource option
     }
 
-// group ############# first field not required
+// group
 type NoEventsGrp = {
-    EventType: EventType option
+    EventType: EventType
     EventDate: EventDate option
     EventPx: EventPx option
     EventText: EventText option
@@ -623,9 +623,9 @@ type NoStrikesGrp = {
     Instrument: Instrument // component
     }
 
-// group ############# first field not required
+// group
 type NoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
     IndividualAllocID: IndividualAllocID option
@@ -633,15 +633,15 @@ type NoAllocsGrp = {
     AllocQty: AllocQty option
     }
 
-// group ############# first field not required
+// group
 type NoTradingSessionsGrp = {
-    TradingSessionID: TradingSessionID option
+    TradingSessionID: TradingSessionID
     TradingSessionSubID: TradingSessionSubID option
     }
 
 // group
 type NoUnderlyingsGrp = {
-    UnderlyingInstrument: UnderlyingInstrument option // component
+    UnderlyingInstrument: UnderlyingInstrument // component
     }
 
 // component
@@ -792,9 +792,9 @@ type BidResponseNoBidComponentsGrp = {
     EncodedText: EncodedText option
     }
 
-// group ############# first field not required
+// group
 type NoLegAllocsGrp = {
-    LegAllocAccount: LegAllocAccount option
+    LegAllocAccount: LegAllocAccount
     LegIndividualAllocID: LegIndividualAllocID option
     NestedParties2: NestedParties2 option // component
     LegAllocQty: LegAllocQty option
@@ -802,9 +802,9 @@ type NoLegAllocsGrp = {
     LegSettlCurrency: LegSettlCurrency option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type MultilegOrderCancelReplaceRequestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -818,15 +818,15 @@ type MultilegOrderCancelReplaceRequestNoLegsGrp = {
     LegSettlDate: LegSettlDate option
     }
 
-// group ############# first field not required
+// group
 type NoNested3PartySubIDsGrp = {
-    Nested3PartySubID: Nested3PartySubID option
+    Nested3PartySubID: Nested3PartySubID
     Nested3PartySubIDType: Nested3PartySubIDType option
     }
 
-// group ############# first field not required
+// group
 type NoNested3PartyIDsGrp = {
-    Nested3PartyID: Nested3PartyID option
+    Nested3PartyID: Nested3PartyID
     Nested3PartyIDSource: Nested3PartyIDSource option
     Nested3PartyRole: Nested3PartyRole option
     NoNested3PartySubIDsGrp: NoNested3PartySubIDsGrp list option // group
@@ -837,9 +837,9 @@ type NestedParties3 = {
     NoNested3PartyIDsGrp: NoNested3PartyIDsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type MultilegOrderCancelReplaceRequestNoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
     IndividualAllocID: IndividualAllocID option
@@ -847,9 +847,9 @@ type MultilegOrderCancelReplaceRequestNoAllocsGrp = {
     AllocQty: AllocQty option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type NewOrderMultilegNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -863,9 +863,9 @@ type NewOrderMultilegNoLegsGrp = {
     LegSettlDate: LegSettlDate option
     }
 
-// group ############# first field not required
+// group
 type NewOrderMultilegNoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocSettlCurrency: AllocSettlCurrency option
     IndividualAllocID: IndividualAllocID option
@@ -964,9 +964,9 @@ type NoSidesGrp = {
     SideComplianceID: SideComplianceID option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type ExecutionReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegStipulations: LegStipulations option // component
@@ -980,9 +980,9 @@ type ExecutionReportNoLegsGrp = {
     LegLastPx: LegLastPx option
     }
 
-// group ############# first field not required
+// group
 type NoInstrAttribGrp = {
-    InstrAttribType: InstrAttribType option
+    InstrAttribType: InstrAttribType
     InstrAttribValue: InstrAttribValue option
     }
 
@@ -993,14 +993,14 @@ type InstrumentExtension = {
     NoInstrAttribGrp: NoInstrAttribGrp list option // group
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type NoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     }
 
 // group
 type DerivativeSecurityListNoRelatedSymGrp = {
-    Instrument: Instrument option // component
+    Instrument: Instrument // component
     Currency: Currency option
     ExpirationCycle: ExpirationCycle option
     InstrumentExtension: InstrumentExtension option // component
@@ -1033,9 +1033,9 @@ type LegBenchmarkCurveData = {
     LegBenchmarkPriceType: LegBenchmarkPriceType option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type SecurityListNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
     LegStipulations: LegStipulations option // component
@@ -1044,7 +1044,7 @@ type SecurityListNoLegsGrp = {
 
 // group
 type SecurityListNoRelatedSymGrp = {
-    Instrument: Instrument option // component
+    Instrument: Instrument // component
     InstrumentExtension: InstrumentExtension option // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
@@ -1115,9 +1115,9 @@ type MarketDataRequestNoRelatedSymGrp = {
     NoLegsGrp: NoLegsGrp list option // group
     }
 
-// group ############# first field not required
+// group
 type MassQuoteAcknowledgementNoQuoteEntriesGrp = {
-    QuoteEntryID: QuoteEntryID option
+    QuoteEntryID: QuoteEntryID
     Instrument: Instrument option // component
     NoLegsGrp: NoLegsGrp list option // group
     BidPx: BidPx option
@@ -1146,9 +1146,9 @@ type MassQuoteAcknowledgementNoQuoteEntriesGrp = {
     QuoteEntryRejectReason: QuoteEntryRejectReason option
     }
 
-// group ############# first field not required
+// group
 type MassQuoteAcknowledgementNoQuoteSetsGrp = {
-    QuoteSetID: QuoteSetID option
+    QuoteSetID: QuoteSetID
     UnderlyingInstrument: UnderlyingInstrument option // component
     TotNoQuoteEntries: TotNoQuoteEntries option
     LastFragment: LastFragment option
@@ -1195,9 +1195,9 @@ type NoQuoteSetsGrp = {
     MassQuoteNoQuoteEntriesGrp: MassQuoteNoQuoteEntriesGrp list // group
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type QuoteStatusReportNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1208,15 +1208,15 @@ type QuoteStatusReportNoLegsGrp = {
 
 // group
 type NoQuoteEntriesGrp = {
-    Instrument: Instrument option // component
+    Instrument: Instrument // component
     FinancingDetails: FinancingDetails option // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type QuoteNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1241,9 +1241,9 @@ type RFQRequestNoRelatedSymGrp = {
     TradingSessionSubID: TradingSessionSubID option
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type QuoteRequestRejectNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1279,9 +1279,9 @@ type QuoteRequestRejectNoRelatedSymGrp = {
     QuoteRequestRejectNoLegsGrp: QuoteRequestRejectNoLegsGrp list option // group
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type QuoteResponseNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1294,9 +1294,9 @@ type QuoteResponseNoLegsGrp = {
     LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type QuoteRequestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegQty: LegQty option
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
@@ -1306,9 +1306,9 @@ type QuoteRequestNoLegsGrp = {
     LegBenchmarkCurveData: LegBenchmarkCurveData option // component
     }
 
-// group ############# first field not required
+// group
 type NoQuoteQualifiersGrp = {
-    QuoteQualifier: QuoteQualifier option
+    QuoteQualifier: QuoteQualifier
     }
 
 // group
@@ -1351,12 +1351,12 @@ type QuoteRequestNoRelatedSymGrp = {
 
 // group
 type NoRelatedSymGrp = {
-    Instrument: Instrument option // component
+    Instrument: Instrument // component
     }
 
-// group ############# component: notRequired, first: notRequired
+// group 1st ############# component: required, first: notRequired
 type IndicationOfInterestNoLegsGrp = {
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     LegIOIQty: LegIOIQty option
     LegStipulations: LegStipulations option // component
     }
@@ -1366,20 +1366,20 @@ type AdvertisementNoUnderlyingsGrp = {
     UnderlyingInstrument: UnderlyingInstrument // component
     }
 
-// group ############# first field not required
+// group
 type NoMsgTypesGrp = {
-    RefMsgType: RefMsgType option
+    RefMsgType: RefMsgType
     MsgDirection: MsgDirection option
     }
 
-// group ############# first field not required
+// group
 type NoIOIQualifiersGrp = {
-    IOIQualifier: IOIQualifier option
+    IOIQualifier: IOIQualifier
     }
 
-// group ############# first field not required
+// group
 type NoRoutingIDsGrp = {
-    RoutingType: RoutingType option
+    RoutingType: RoutingType
     RoutingID: RoutingID option
     }
 
@@ -1430,38 +1430,38 @@ type NoMDEntriesGrp = {
     EncodedText: EncodedText option
     }
 
-// group ############# first field not required
+// group
 type NoAltMDSourceGrp = {
-    AltMDSourceID: AltMDSourceID option
+    AltMDSourceID: AltMDSourceID
     }
 
-// group ############# first field not required
+// group
 type NoSecurityTypesGrp = {
-    SecurityType: SecurityType option
+    SecurityType: SecurityType
     SecuritySubType: SecuritySubType option
     Product: Product option
     CFICode: CFICode option
     }
 
-// group ############# first field not required
+// group
 type NoContraBrokersGrp = {
-    ContraBroker: ContraBroker option
+    ContraBroker: ContraBroker
     ContraTrader: ContraTrader option
     ContraTradeQty: ContraTradeQty option
     ContraTradeTime: ContraTradeTime option
     ContraLegRefID: ContraLegRefID option
     }
 
-// group ############# first field not required
+// group
 type NoAffectedOrdersGrp = {
-    OrigClOrdID: OrigClOrdID option
+    OrigClOrdID: OrigClOrdID
     AffectedOrderID: AffectedOrderID option
     AffectedSecondaryOrderID: AffectedSecondaryOrderID option
     }
 
-// group ############# first field not required
+// group
 type NoBidDescriptorsGrp = {
-    BidDescriptorType: BidDescriptorType option
+    BidDescriptorType: BidDescriptorType
     BidDescriptor: BidDescriptor option
     SideValueInd: SideValueInd option
     LiquidityValue: LiquidityValue option
@@ -1474,9 +1474,9 @@ type NoBidDescriptorsGrp = {
     ValueOfFutures: ValueOfFutures option
     }
 
-// group ############# first field not required
+// group
 type NoBidComponentsGrp = {
-    ListID: ListID option
+    ListID: ListID
     Side: Side option
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
@@ -1502,9 +1502,9 @@ type ListStatusNoOrdersGrp = {
     EncodedText: EncodedText option
     }
 
-// group ############# first field not required
+// group
 type AllocationInstructionNoExecsGrp = {
-    LastQty: LastQty option
+    LastQty: LastQty
     ExecID: ExecID option
     SecondaryExecID: SecondaryExecID option
     LastPx: LastPx option
@@ -1512,9 +1512,9 @@ type AllocationInstructionNoExecsGrp = {
     LastCapacity: LastCapacity option
     }
 
-// group ############# first field not required
+// group
 type AllocationInstructionAckNoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocPrice: AllocPrice option
     IndividualAllocID: IndividualAllocID option
@@ -1523,9 +1523,9 @@ type AllocationInstructionAckNoAllocsGrp = {
     EncodedAllocText: EncodedAllocText option
     }
 
-// group ############# first field not required
+// group
 type AllocationReportNoExecsGrp = {
-    LastQty: LastQty option
+    LastQty: LastQty
     ExecID: ExecID option
     SecondaryExecID: SecondaryExecID option
     LastPx: LastPx option
@@ -1533,9 +1533,9 @@ type AllocationReportNoExecsGrp = {
     LastCapacity: LastCapacity option
     }
 
-// group ############# first field not required
+// group
 type AllocationReportAckNoAllocsGrp = {
-    AllocAccount: AllocAccount option
+    AllocAccount: AllocAccount
     AllocAcctIDSource: AllocAcctIDSource option
     AllocPrice: AllocPrice option
     IndividualAllocID: IndividualAllocID option
@@ -1551,15 +1551,15 @@ type NoCapacitiesGrp = {
     OrderCapacityQty: OrderCapacityQty
     }
 
-// group ############# first field not required
+// group
 type NoDatesGrp = {
-    TradeDate: TradeDate option
+    TradeDate: TradeDate
     TransactTime: TransactTime option
     }
 
-// group ############# first field not required
+// group
 type NoDistribInstsGrp = {
-    DistribPaymentMethod: DistribPaymentMethod option
+    DistribPaymentMethod: DistribPaymentMethod
     DistribPercentage: DistribPercentage option
     CashDistribCurr: CashDistribCurr option
     CashDistribAgentName: CashDistribAgentName option
@@ -1569,33 +1569,33 @@ type NoDistribInstsGrp = {
     CashDistribAgentAcctName: CashDistribAgentAcctName option
     }
 
-// group ############# first field not required
+// group
 type NoExecsGrp = {
-    ExecID: ExecID option
+    ExecID: ExecID
     }
 
-// group ############# first field not required
+// group
 type NoTradesGrp = {
-    TradeReportID: TradeReportID option
+    TradeReportID: TradeReportID
     SecondaryTradeReportID: SecondaryTradeReportID option
     }
 
-// group ############# first field not required
+// group
 type NoCollInquiryQualifierGrp = {
-    CollInquiryQualifier: CollInquiryQualifier option
+    CollInquiryQualifier: CollInquiryQualifier
     }
 
-// group ############# first field not required
+// group
 type NoCompIDsGrp = {
-    RefCompID: RefCompID option
+    RefCompID: RefCompID
     RefSubID: RefSubID option
     LocationID: LocationID option
     DeskID: DeskID option
     }
 
-// group ############# first field not required
+// group
 type NetworkStatusResponseNoCompIDsGrp = {
-    RefCompID: RefCompID option
+    RefCompID: RefCompID
     RefSubID: RefSubID option
     LocationID: LocationID option
     DeskID: DeskID option
@@ -1603,9 +1603,9 @@ type NetworkStatusResponseNoCompIDsGrp = {
     StatusText: StatusText option
     }
 
-// group ############# first field not required
+// group
 type NoHopsGrp = {
-    HopCompID: HopCompID option
+    HopCompID: HopCompID
     HopSendingTime: HopSendingTime option
     HopRefID: HopRefID option
     }

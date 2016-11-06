@@ -37,7 +37,7 @@ let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXI
     | FIXItem.FieldRef _        ->  item
 
 
-
+     
 let excludeFieldsFilter (excludeFieldNames:Set<string>) (item:FIXItem) =
     match item with
     | FIXItem.Group _           ->  true

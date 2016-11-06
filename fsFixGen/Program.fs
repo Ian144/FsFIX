@@ -115,27 +115,27 @@ let main _ =
                                 |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {msg with Items = items2}   ]
 
-
-    printfn "determining dependency order for groups and components"
     let msgCompoundItemsAfterGroupMerge = 
         [   for msg in msgsAfterGroupMerge do
             yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
         |> List.distinct 
     
     let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
-    let allCompoundItemsAfterGroupMerge = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
+    let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
+    
 
-    // extract the components and groups refered to in messages
-    // these will in-turn contain nested components and groups (NOPE, ComponentRefs in msgs do not contain nested components
-    // group definitions are nested, component definitions are not (components are defined in their own xml element, groups are defined in messages and components)
-    let constrainedCompoundItemsInDepOrder  = allCompoundItemsAfterGroupMerge
-                                                |> List.distinct
-                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
+    printfn "ensure groups first item is always required"    
+    let allCompItems3 = allCompItems2 |> List.collect CompoundItemRules.ensureGroupFirstItemIsRequired
+    
 
     printfn "calculating group and component dependency order"
+    let constrainedCompoundItemsInDepOrder  = allCompItems3
+                                                |> List.distinct
+                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupMerge)
     constrainedCompoundItemsInDepOrder
         |> List.map CompoundItemFuncs.getNameAndTypeStr
         |> List.iter (printfn "    %s")
+
 
     printfn "generating group and component writing functions in dependency order"
     use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
@@ -143,7 +143,7 @@ let main _ =
     CompoundItemGenerator.Gen cmpNameMapAfterGroupMerge constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
-        // make a map of field name to field definition
+    // make a map of field name to field definition
     // used to connect a field reference in a msg etc, with the field definition
     printfn "generating group and component reading functions in dependency order"
     use swGroupReadFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemReadFuncs.fs")
