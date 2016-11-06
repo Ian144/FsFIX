@@ -4,7 +4,7 @@ open FsCheck
 open FsCheck.Xunit
 
 open Fix44.FieldDU
-
+open Fix44.FieldReadFuncs
 open Fix44.CompoundItems
 open Fix44.CompoundItemWriteFuncs
 
@@ -79,6 +79,10 @@ let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc
 
 
 
+let inline ReadOptionalComponent (pos:int) (bs:byte[]) readFunc = 
+    let expectedTag = "123"B // get this at compile time
+    ReadOptionalField pos expected bs // contains an optional group with only optional fields
+
 //let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
 //    let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity
 //    let pos, orderRestrictions = ReadOptionalField pos "529"B bs Fix44.FieldReadFuncs.ReadOrderRestrictions
@@ -98,6 +102,26 @@ let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
             Instrument = instrument
     }
     pos, ci
+
+
+// group
+let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoAllocsGrp  =
+    let pos, allocAccount = ReadOptionalField pos "79"B bs ReadAllocAccount
+    let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
+    let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
+    let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
+    let pos, nestedParties2 = 
+    let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
+    //let ci = {
+            //AllocAccount = allocAccount
+            //AllocAcctIDSource = allocAcctIDSource
+            //AllocSettlCurrency = allocSettlCurrency
+            //IndividualAllocID = individualAllocID
+            //NestedParties2 = nestedParties2
+            //AllocQty = allocQty
+    //}
+    //pos, ci
+    failwith "not implemented"
 
 
 
