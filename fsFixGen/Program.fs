@@ -32,8 +32,7 @@ let main _ =
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fields
     FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs  swFieldDU
 
-    // make a map of field name to field definition
-    // used to connect a field reference in a msg etc, with the field definition
+    // Make a map of field name to field definition, used to connect a field reference with the field definition.
     let fieldNameMap = fields |> List.map (fun fld -> fld.Name, fld ) |> Map.ofList
     
     printfn "read header"
@@ -54,23 +53,20 @@ let main _ =
 
     let hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, componentNameMap = CompoundItemProcessor.Process hdr trl components msgs lenFieldNames
 
-    printfn "generating group and component writing functions in dependency order"
+    printfn "generating group and component writing functions"
     use swCompoundItems = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItems.fs")
     use swCompoundItemDU = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemDU.fs")
     CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
     use swGroupWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
-    // make a map of field name to field definition
-    // used to connect a field reference in a msg etc, with the field definition
-    printfn "generating group and component reading functions in dependency order"
+
+    printfn "generating group and component reading functions"
     use swGroupReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemReadFuncs.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
-
-    printfn "generating message F# types"
+    printfn "generating F# message definitions"
     use swMsgs = new StreamWriter (Utils.MkOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
-
 
     printfn "generating message writer funcs"
     use swMsgFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")

@@ -111,7 +111,7 @@ let genItemListWriterStrs (items:FIXItem list) =
 
 
 
-let private fixYield (ss:string) = 
+let fixYield (ss:string) = 
     match ss with 
     | "yield"   -> "yyield"
     | ss        -> ss
@@ -139,10 +139,6 @@ let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:str
 
 
 
-let genFieldInitStrs (items:FIXItem list) =
-    items |> List.map (fun fi -> 
-        let fieldName = fi |> FIXItem.getNameLN
-        let varName = fieldName |> Utils.lCaseFirstChar |> fixYield
-        sprintf "            //%s = %s" fieldName varName )
+
 
 

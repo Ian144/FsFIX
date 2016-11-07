@@ -28,17 +28,15 @@ let genHeader (sw:StreamWriter) (hdr:Header) (trailer:Trailer) : unit =
     sw.WriteLine "open Fix44.CompoundItems"
 
     sw.WriteLine ""
-    sw.Write "type Header = {"
-    sw.WriteLine ""
+    sw.WriteLine "type Header = {"
     hdr.HItems |> (CommonGenerator.writeFIXItemList sw)
-    sw.Write  "    }"
+    sw.WriteLine  "    }"
     sw.WriteLine ""
 
     sw.WriteLine ""
-    sw.Write "type Trailer = {"
-    sw.WriteLine ""
+    sw.WriteLine "type Trailer = {"
     trailer.TItems |> (CommonGenerator.writeFIXItemList sw)
-    sw.Write  "    }"
+    sw.WriteLine  "    }"
     sw.WriteLine ""
 
 

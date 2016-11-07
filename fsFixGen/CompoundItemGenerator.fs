@@ -116,6 +116,11 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     groups |> List.iter (genCompoundItemWriter sw)  
 
 
+let private genFieldInitStrs (items:FIXItem list) =
+    items |> List.map (fun fi -> 
+        let fieldName = fi |> FIXItem.getNameLN
+        let varName = fieldName |> Utils.lCaseFirstChar |> CommonGenerator.fixYield
+        sprintf "        %s = %s" fieldName varName )
 
 let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) = 
     let name = CompoundItemFuncs.getName ci
@@ -127,12 +132,12 @@ let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:Str
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
     writeGroupFuncStrs |> List.iter sw.WriteLine
-    let fieldInitStrs = CommonGenerator.genFieldInitStrs items
-    sw.WriteLine "    //let ci = {"
+    let fieldInitStrs = genFieldInitStrs items
+    sw.WriteLine "    let ci = {"
     fieldInitStrs |> List.iter sw.WriteLine
-    sw.WriteLine "    //}"
-    sw.WriteLine "    //pos, ci"
-    sw.WriteLine "    failwith \"not implemented\""
+    sw.WriteLine "    }"
+    sw.WriteLine "    pos, ci"
+//    sw.WriteLine "    failwith \"not implemented\""
     sw.WriteLine ""
     sw.WriteLine ""
 

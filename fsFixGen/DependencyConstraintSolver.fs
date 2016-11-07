@@ -26,9 +26,9 @@ let private buildDependencyTree (mapIn:Map<string, string list>) (grp,depGrp) =
 
 
 
-// Turns a dependency tree into a string list (the strings are either group or component names)
-// Dependents are after dependees (real word?), the results of this need to be reversed when generating
-// compound items F# code
+// Turns a dependency tree into a string list, the strings are either group or component names.
+// Dependencies are after dependees (real word?), so the results of this func need to be reversed when generating
+// compound item F# definitions, otherwise there will be definition order related compile errors.
 let private traverseDependencyTreeBottomFirst (compoundItemName:string) (mapIn:Map<string, string list>) =
     let rec listifyDependencyTreeInner (grp:string) (mapIn:Map<string, string list>) =
         let getVals (gn:string) (mp:Map<string, string list>) = if mp.ContainsKey gn then mp.[gn] else []
