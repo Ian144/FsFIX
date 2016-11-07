@@ -15,11 +15,6 @@ open FieldGenerator
 let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.xml"""
 
 
-let MkOutpath flName = 
-    sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
-
-
-
 
 [<EntryPoint>]
 let main _ = 
@@ -27,10 +22,10 @@ let main _ =
     let doc = XDocument.Parse fixXml
 
     let xpthFields = doc.XPathSelectElement "fix/fields"
-    use swFixFields = new StreamWriter (MkOutpath "Fix44.Fields.fs")
-    use swFieldReadFuncs = new StreamWriter (MkOutpath "Fix44.FieldReadFuncs.fs")
-    use swFieldWriteFuncs = new StreamWriter (MkOutpath "Fix44.FieldWriteFuncs.fs")
-    use swFieldDU = new StreamWriter (MkOutpath "Fix44.FieldDU.fs")
+    use swFixFields = new StreamWriter (Utils.MkOutpath "Fix44.Fields.fs")
+    use swFieldReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.FieldReadFuncs.fs")
+    use swFieldWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.FieldWriteFuncs.fs")
+    use swFieldDU = new StreamWriter (Utils.MkOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"
     let fields = FieldGenerator.ParseFieldData xpthFields 
@@ -39,11 +34,8 @@ let main _ =
 
     // make a map of field name to field definition
     // used to connect a field reference in a msg etc, with the field definition
-    let fieldNameMap = fields 
-                        |> List.map (fun fld -> fld.Name, fld )
-                        |> Map.ofList
-
-
+    let fieldNameMap = fields |> List.map (fun fld -> fld.Name, fld ) |> Map.ofList
+    
     printfn "read header"
     let xpthHrd = doc.XPathSelectElement "fix/header"
     let hdr = HeaderTrailerGenerator.ReadHeader lenFieldNames xpthHrd
@@ -56,116 +48,32 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/components"
     let components = ComponentGenerator.Read xpthMsgs
 
-
-    // make a map of component name to component.
-    // used for marrying up componentRefs with components.
-    let cmpNameMap = components 
-                        |> List.map (fun cmp -> cmp.CName, cmp)
-                        |> Map.ofList
-
-
     printfn "reading messages"
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
-
-    printfn "merging groups"
-    let headerTrailerCompoundItems = CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap (hdr.HItems @ trl.TItems)
-    let msgCompoundItems = 
-        [   for msg in msgs do
-            yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap msg.Items    ]
-    let allCompoundItems = headerTrailerCompoundItems @ msgCompoundItems
-    let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
-
-
-    // a map of group long name (a compound name based on its parentage) to a merge target
-    let groupMerges = GroupUtils.makeMergeMap allGrps
-    
-    groupMerges 
-        |> List.sortBy (fun (ln,_) -> ln)
-        |> List.iter (fun (GroupLongName ln,grp) -> printfn "    group merge: %s -> %s" ln grp.GName)
-    
-    let groupMergeMap = groupMerges |> Map.ofList
-
-    printfn "updating components to use merged groups"  
-    let componentsAfterGroupMerge = 
-            [   for comp in components do
-                let items2 = comp.Items // FIXItems are trees, groups can contain components and other groups
-                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap) 
-                                |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
-                yield {comp with Items = items2}    ]
-
-    let cmpNameMapAfterGroupMerge = componentsAfterGroupMerge 
-                                        |> List.map (fun cmp -> cmp.CName, cmp)
-                                        |> Map.ofList
-
-    
-    printfn "updating header and trailer to use merged groups"  // there is only one group in the header, none in the trailer. 
-    let hdrItemsAfterGroupMerge = hdr.HItems |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
-    let hdrAfterGroupMerge = {hdr with HItems = hdrItemsAfterGroupMerge}
-    printfn "generating header and trailer F# types"
-    use swHdrTrlr = new StreamWriter (MkOutpath "Fix44.HeaderTrailer.fs")
-    HeaderTrailerGenerator.genHeader swHdrTrlr hdrAfterGroupMerge trl
-
-    printfn "updating messages to use merged groups"  
-    let msgsAfterGroupMerge =
-            [   for msg in msgs do
-                let items2 =  msg.Items 
-                                |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
-                                |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
-                yield {msg with Items = items2}   ]
-
-    let msgCompoundItemsAfterGroupMerge = 
-        [   for msg in msgsAfterGroupMerge do
-            yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
-        |> List.distinct 
-    
-    let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
-    
-    let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
-    
-
-    printfn "ensure groups first item is always required"    
-    let allCompItems3 = allCompItems2 |> List.collect CompoundItemRules.ensureGroupFirstItemIsRequired
-    
-    printfn "ensure components that are the first item of a group have a first item that is required"
-    let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
-
-    let cmpNameMapAfterGroupRules = allCompItems4 
-                                        |> CompoundItemFuncs.extractComponents 
-                                        |> List.map (fun cmp -> cmp.CName, cmp)
-                                        |> Map.ofList
-
-
-    printfn "calculating group and component dependency order"
-    let constrainedCompoundItemsInDepOrder  = allCompItems4
-                                                |> List.distinct
-                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupRules)
-    constrainedCompoundItemsInDepOrder
-        |> List.map CompoundItemFuncs.getNameAndTypeStr
-        |> List.iter (printfn "    %s")
-
+    let hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, componentNameMap = CompoundItemProcessor.Process hdr trl components msgs lenFieldNames
 
     printfn "generating group and component writing functions in dependency order"
-    use swCompoundItems = new StreamWriter (MkOutpath "Fix44.CompoundItems.fs")
-    use swCompoundItemDU = new StreamWriter (MkOutpath "Fix44.CompoundItemDU.fs")
-    CompoundItemGenerator.Gen cmpNameMapAfterGroupRules constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
-    use swGroupWriteFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
+    use swCompoundItems = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItems.fs")
+    use swCompoundItemDU = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemDU.fs")
+    CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
+    use swGroupWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
     // make a map of field name to field definition
     // used to connect a field reference in a msg etc, with the field definition
     printfn "generating group and component reading functions in dependency order"
-    use swGroupReadFuncs = new StreamWriter (MkOutpath "Fix44.CompoundItemReadFuncs.fs")
+    use swGroupReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemReadFuncs.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 
     printfn "generating message F# types"
-    use swMsgs = new StreamWriter (MkOutpath "Fix44.Messages.fs")
+    use swMsgs = new StreamWriter (Utils.MkOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
 
 
     printfn "generating message writer funcs"
-    use swMsgFuncs = new StreamWriter (MkOutpath "Fix44.MsgWriteFuncs.fs")
+    use swMsgFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")
     MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
 
     0 // exit code

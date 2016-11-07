@@ -18,3 +18,4 @@ let lCaseFirstChar (str:string) =
 
 
 
+let MkOutpath flName = sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
