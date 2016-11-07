@@ -5,13 +5,18 @@ open System.IO
 open FIXGenTypes
 
 
+/// extract groups from messages, components and the header
+/// merge identical groups
+/// apply the merges to messages, components and the header
+/// apply rules to groups
+///    ensure groups first item is always required
+///    ensure components that are the first item of a group have a first item that is required
+/// sort the groups and components so that dependents appear before dependee's, so that when they are all written to a source file 
 let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg list) (lenFieldNames:Set<string>) = 
 
-    let cmpNameMap = components 
-                        |> List.map (fun cmp -> cmp.CName, cmp)
-                        |> Map.ofList
+    let cmpNameMap = components |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
-    printfn "merging groups"
+    printfn "collate all groups"
     let headerTrailerCompoundItems = CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap (hdr.HItems @ trl.TItems)
     let msgCompoundItems = 
         [   for msg in msgs do
@@ -19,12 +24,11 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
     let allCompoundItems = headerTrailerCompoundItems @ msgCompoundItems
     let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
 
-    // a map of group long name (a compound name based on its parentage) to a merge target
-    let groupMerges = GroupUtils.makeMergeMap allGrps
+    printfn "merge groups where possible"
+    let groupMerges = GroupUtils.makeMergeMap allGrps     // a map of group long name (a compound name based on its parentage) to a merge target
     
-    groupMerges 
-        |> List.sortBy (fun (ln,_) -> ln)
-        |> List.iter (fun (GroupLongName ln,grp) -> printfn "    group merge: %s -> %s" ln grp.GName)
+    printfn "groups merges found"
+    groupMerges |> List.sortBy (fun (ln,_) -> ln) |> List.iter (fun (GroupLongName ln,grp) -> printfn "    group merge: %s -> %s" ln grp.GName)
     
     let groupMergeMap = groupMerges |> Map.ofList
 
@@ -36,9 +40,7 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
                                 |> FIXItem.filter (FIXItem.excludeFieldsFilter lenFieldNames)
                 yield {comp with Items = items2}    ]
 
-    let cmpNameMapAfterGroupMerge = componentsAfterGroupMerge 
-                                        |> List.map (fun cmp -> cmp.CName, cmp)
-                                        |> Map.ofList
+    let cmpNameMapAfterGroupMerge = componentsAfterGroupMerge |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
     
     printfn "updating header and trailer to use merged groups"  // there is only one group in the header, none in the trailer. 
     let hdrItemsAfterGroupMerge = hdr.HItems |> FIXItem.map (FIXItem.updateItemIfMergeableGroup groupMergeMap)
@@ -65,10 +67,10 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
     
     let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
 
-    printfn "ensure groups first item is always required"    
+    printfn "GROUP RULE: ensure groups first item is always required"    
     let allCompItems3 = allCompItems2 |> List.collect CompoundItemRules.ensureGroupFirstItemIsRequired
     
-    printfn "ensure components that are the first item of a group have a first item that is required"
+    printfn "GROUP RULE: ensure components that are the first item of a group have a first item that is required"
     let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
 
     let cmpNameMapAfterGroupRulesApplied = allCompItems4 
@@ -87,3 +89,28 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
         |> List.iter (printfn "    %s")
 
     hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterGroupRulesApplied
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
