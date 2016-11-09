@@ -131,15 +131,16 @@ let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:str
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" lcase1Name tag name ]
         | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                         let lcase1Name = Utils.lCaseFirstChar name
+                                        let tag = 9999999
                                         match cmp.Required with
-                                        | Required.Required     ->  [   sprintf "    let pos, %s = Read%s pos bs    // component" lcase1Name name ]
-//                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s    // optional component" lcase1Name name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"TAG\"B bs Read%s    // optional component" lcase1Name name ]
+                                        | Required.Required     ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" lcase1Name name tag name ]
+                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" lcase1Name tag name ]
         | FIXItem.Group grp         ->  let name = grp.GName
                                         let lcase1Name = Utils.lCaseFirstChar name
+                                        let tag = 9999999
                                         match grp.Required with
-                                        | Required.Required     ->  [   sprintf "    let pos, %sGrp = Read%sGroup pos bs    // group" lcase1Name name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"TAG\"B bs Read%s    // optional group" lcase1Name name ]
+                                        | Required.Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%s" lcase1Name parentName tag name ]
+                                        | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%s" lcase1Name tag name ]
         ) // end List.collect
 
 

@@ -41,8 +41,8 @@ let private traverseDependencyTreeBottomFirst (compoundItemName:string) (mapIn:M
 
 
 // returns a list of all compoundItems, with items that are depended upon earlier in the list than items that depend on them.   
-let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>) (compoundItemsx:CompoundItem list) = 
-    let compoundItems = compoundItemsx |> List.distinct
+let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
+    let compoundItems = compoundItems |> List.distinct
     let constraints = makeConstraints componentNameMap compoundItems
 
     // a group name is a root if it is not referred to as a dependency

@@ -48,6 +48,7 @@
     <Compile Include="Conversions.fs" />
     <Compile Include="FIXBufUtils.fs" />
     <Compile Include="StreamUtils.fs" />
+    <Compile Include="ReaderUtils.fs" />
     <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReadFuncs.fs" />
