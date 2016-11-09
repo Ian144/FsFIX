@@ -122,6 +122,8 @@ let private genFieldInitStrs (items:FIXItem list) =
         let varName = fieldName |> Utils.lCaseFirstChar |> CommonGenerator.fixYield
         sprintf "        %s = %s" fieldName varName )
 
+
+
 let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) = 
     let name = CompoundItemFuncs.getName ci
     let suffix = CompoundItemFuncs.getNameSuffix ci

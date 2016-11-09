@@ -60,7 +60,7 @@ let getNameLN (fi:FIXItem) =
     | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
                                     nm
     | FIXItem.Group grp         ->  let (GroupLongName nm) = GroupUtils.makeLongName grp
-                                    nm
+                                    sprintf "%sGrp" nm
 
 
 

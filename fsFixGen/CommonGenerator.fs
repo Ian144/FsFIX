@@ -117,6 +117,8 @@ let fixYield (ss:string) =
     | ss        -> ss
 
 
+// group will need to know the tag of its number field
+
 let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
         match item with
@@ -131,10 +133,13 @@ let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:str
                                         let lcase1Name = Utils.lCaseFirstChar name
                                         match cmp.Required with
                                         | Required.Required     ->  [   sprintf "    let pos, %s = Read%s pos bs    // component" lcase1Name name ]
-                                        | Required.NotRequired  ->  [] // [   sprintf "    let pos = Option.fold (Write%s dest) pos xx.%s    // component option" name name ]
-        | FIXItem.Group grp         ->  match grp.Required with
-                                        | Required.Required     ->  [] // genWriteGroup "xx" grp
-                                        | Required.NotRequired  ->  [] // genWriteOptionalGroup "xx" grp
+//                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s    // optional component" lcase1Name name ]
+                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"TAG\"B bs Read%s    // optional component" lcase1Name name ]
+        | FIXItem.Group grp         ->  let name = grp.GName
+                                        let lcase1Name = Utils.lCaseFirstChar name
+                                        match grp.Required with
+                                        | Required.Required     ->  [   sprintf "    let pos, %sGrp = Read%sGroup pos bs    // group" lcase1Name name ]
+                                        | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"TAG\"B bs Read%s    // optional group" lcase1Name name ]
         ) // end List.collect
 
 

@@ -23,13 +23,23 @@ let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc
         pos, None   // return the original pos, the next readoptional will re-read it
 
 
+let inline ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc = 
+    let pos2, tag = FIXBufUtils.readTag pos bs
+    if tag = numFieldTag then 
+//        let pos3, fld = readFunc pos2 bs
+//        pos3, Some fld
+        pos, Some []
+    else
+        pos, None   // return the original pos, the next readoptional will re-read it
+
+
 // group
 let ReadNoUnderlyingSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoUnderlyingSecurityAltIDGrp  =
     let pos, underlyingSecurityAltID = ReadField "ReadNoUnderlyingSecurityAltID" pos "458"B bs ReadUnderlyingSecurityAltID
     let pos, underlyingSecurityAltIDSource = ReadOptionalField pos "459"B bs ReadUnderlyingSecurityAltIDSource
     let ci = {
-            UnderlyingSecurityAltID = underlyingSecurityAltID
-            UnderlyingSecurityAltIDSource = underlyingSecurityAltIDSource
+        UnderlyingSecurityAltID = underlyingSecurityAltID
+        UnderlyingSecurityAltIDSource = underlyingSecurityAltIDSource
     }
     pos, ci
 
@@ -39,16 +49,17 @@ let ReadNoUnderlyingStipsGrp (pos:int) (bs:byte []) : int * NoUnderlyingStipsGrp
     let pos, underlyingStipType = ReadField "ReadNoUnderlyingStips" pos "888"B bs ReadUnderlyingStipType
     let pos, underlyingStipValue = ReadOptionalField pos "889"B bs ReadUnderlyingStipValue
     let ci = {
-            UnderlyingStipType = underlyingStipType
-            UnderlyingStipValue = underlyingStipValue
+        UnderlyingStipType = underlyingStipType
+        UnderlyingStipValue = underlyingStipValue
     }
     pos, ci
 
 
 // component
 let ReadUnderlyingStipulations (pos:int) (bs:byte []) : int * UnderlyingStipulations  =
+    let pos, noUnderlyingStipsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyingStips    // optional group
     let ci = {
-            NoUnderlyingStips = noUnderlyingStips
+        NoUnderlyingStipsGrp = noUnderlyingStipsGrp
     }
     pos, ci
 
@@ -59,6 +70,7 @@ let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument
     let pos, underlyingSymbolSfx = ReadOptionalField pos "312"B bs ReadUnderlyingSymbolSfx
     let pos, underlyingSecurityID = ReadOptionalField pos "309"B bs ReadUnderlyingSecurityID
     let pos, underlyingSecurityIDSource = ReadOptionalField pos "305"B bs ReadUnderlyingSecurityIDSource
+    let pos, noUnderlyingSecurityAltIDGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyingSecurityAltID    // optional group
     let pos, underlyingProduct = ReadOptionalField pos "462"B bs ReadUnderlyingProduct
     let pos, underlyingCFICode = ReadOptionalField pos "463"B bs ReadUnderlyingCFICode
     let pos, underlyingSecurityType = ReadOptionalField pos "310"B bs ReadUnderlyingSecurityType
@@ -98,52 +110,53 @@ let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument
     let pos, underlyingStartValue = ReadOptionalField pos "884"B bs ReadUnderlyingStartValue
     let pos, underlyingCurrentValue = ReadOptionalField pos "885"B bs ReadUnderlyingCurrentValue
     let pos, underlyingEndValue = ReadOptionalField pos "886"B bs ReadUnderlyingEndValue
+    let pos, underlyingStipulations = ReadOptionalField pos "TAG"B bs ReadUnderlyingStipulations    // optional component
     let ci = {
-            UnderlyingSymbol = underlyingSymbol
-            UnderlyingSymbolSfx = underlyingSymbolSfx
-            UnderlyingSecurityID = underlyingSecurityID
-            UnderlyingSecurityIDSource = underlyingSecurityIDSource
-            NoUnderlyingSecurityAltID = noUnderlyingSecurityAltID
-            UnderlyingProduct = underlyingProduct
-            UnderlyingCFICode = underlyingCFICode
-            UnderlyingSecurityType = underlyingSecurityType
-            UnderlyingSecuritySubType = underlyingSecuritySubType
-            UnderlyingMaturityMonthYear = underlyingMaturityMonthYear
-            UnderlyingMaturityDate = underlyingMaturityDate
-            UnderlyingPutOrCall = underlyingPutOrCall
-            UnderlyingCouponPaymentDate = underlyingCouponPaymentDate
-            UnderlyingIssueDate = underlyingIssueDate
-            UnderlyingRepoCollateralSecurityType = underlyingRepoCollateralSecurityType
-            UnderlyingRepurchaseTerm = underlyingRepurchaseTerm
-            UnderlyingRepurchaseRate = underlyingRepurchaseRate
-            UnderlyingFactor = underlyingFactor
-            UnderlyingCreditRating = underlyingCreditRating
-            UnderlyingInstrRegistry = underlyingInstrRegistry
-            UnderlyingCountryOfIssue = underlyingCountryOfIssue
-            UnderlyingStateOrProvinceOfIssue = underlyingStateOrProvinceOfIssue
-            UnderlyingLocaleOfIssue = underlyingLocaleOfIssue
-            UnderlyingRedemptionDate = underlyingRedemptionDate
-            UnderlyingStrikePrice = underlyingStrikePrice
-            UnderlyingStrikeCurrency = underlyingStrikeCurrency
-            UnderlyingOptAttribute = underlyingOptAttribute
-            UnderlyingContractMultiplier = underlyingContractMultiplier
-            UnderlyingCouponRate = underlyingCouponRate
-            UnderlyingSecurityExchange = underlyingSecurityExchange
-            UnderlyingIssuer = underlyingIssuer
-            EncodedUnderlyingIssuer = encodedUnderlyingIssuer
-            UnderlyingSecurityDesc = underlyingSecurityDesc
-            EncodedUnderlyingSecurityDesc = encodedUnderlyingSecurityDesc
-            UnderlyingCPProgram = underlyingCPProgram
-            UnderlyingCPRegType = underlyingCPRegType
-            UnderlyingCurrency = underlyingCurrency
-            UnderlyingQty = underlyingQty
-            UnderlyingPx = underlyingPx
-            UnderlyingDirtyPrice = underlyingDirtyPrice
-            UnderlyingEndPrice = underlyingEndPrice
-            UnderlyingStartValue = underlyingStartValue
-            UnderlyingCurrentValue = underlyingCurrentValue
-            UnderlyingEndValue = underlyingEndValue
-            UnderlyingStipulations = underlyingStipulations
+        UnderlyingSymbol = underlyingSymbol
+        UnderlyingSymbolSfx = underlyingSymbolSfx
+        UnderlyingSecurityID = underlyingSecurityID
+        UnderlyingSecurityIDSource = underlyingSecurityIDSource
+        NoUnderlyingSecurityAltIDGrp = noUnderlyingSecurityAltIDGrp
+        UnderlyingProduct = underlyingProduct
+        UnderlyingCFICode = underlyingCFICode
+        UnderlyingSecurityType = underlyingSecurityType
+        UnderlyingSecuritySubType = underlyingSecuritySubType
+        UnderlyingMaturityMonthYear = underlyingMaturityMonthYear
+        UnderlyingMaturityDate = underlyingMaturityDate
+        UnderlyingPutOrCall = underlyingPutOrCall
+        UnderlyingCouponPaymentDate = underlyingCouponPaymentDate
+        UnderlyingIssueDate = underlyingIssueDate
+        UnderlyingRepoCollateralSecurityType = underlyingRepoCollateralSecurityType
+        UnderlyingRepurchaseTerm = underlyingRepurchaseTerm
+        UnderlyingRepurchaseRate = underlyingRepurchaseRate
+        UnderlyingFactor = underlyingFactor
+        UnderlyingCreditRating = underlyingCreditRating
+        UnderlyingInstrRegistry = underlyingInstrRegistry
+        UnderlyingCountryOfIssue = underlyingCountryOfIssue
+        UnderlyingStateOrProvinceOfIssue = underlyingStateOrProvinceOfIssue
+        UnderlyingLocaleOfIssue = underlyingLocaleOfIssue
+        UnderlyingRedemptionDate = underlyingRedemptionDate
+        UnderlyingStrikePrice = underlyingStrikePrice
+        UnderlyingStrikeCurrency = underlyingStrikeCurrency
+        UnderlyingOptAttribute = underlyingOptAttribute
+        UnderlyingContractMultiplier = underlyingContractMultiplier
+        UnderlyingCouponRate = underlyingCouponRate
+        UnderlyingSecurityExchange = underlyingSecurityExchange
+        UnderlyingIssuer = underlyingIssuer
+        EncodedUnderlyingIssuer = encodedUnderlyingIssuer
+        UnderlyingSecurityDesc = underlyingSecurityDesc
+        EncodedUnderlyingSecurityDesc = encodedUnderlyingSecurityDesc
+        UnderlyingCPProgram = underlyingCPProgram
+        UnderlyingCPRegType = underlyingCPRegType
+        UnderlyingCurrency = underlyingCurrency
+        UnderlyingQty = underlyingQty
+        UnderlyingPx = underlyingPx
+        UnderlyingDirtyPrice = underlyingDirtyPrice
+        UnderlyingEndPrice = underlyingEndPrice
+        UnderlyingStartValue = underlyingStartValue
+        UnderlyingCurrentValue = underlyingCurrentValue
+        UnderlyingEndValue = underlyingEndValue
+        UnderlyingStipulations = underlyingStipulations
     }
     pos, ci
 
@@ -153,8 +166,8 @@ let ReadCollateralResponseNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collat
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
-            CollAction = collAction
+        UnderlyingInstrument = underlyingInstrument
+        CollAction = collAction
     }
     pos, ci
 
@@ -164,8 +177,8 @@ let ReadCollateralAssignmentNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Coll
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
-            CollAction = collAction
+        UnderlyingInstrument = underlyingInstrument
+        CollAction = collAction
     }
     pos, ci
 
@@ -175,8 +188,8 @@ let ReadCollateralRequestNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collate
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
-            CollAction = collAction
+        UnderlyingInstrument = underlyingInstrument
+        CollAction = collAction
     }
     pos, ci
 
@@ -187,9 +200,9 @@ let ReadPositionReportNoUnderlyingsGrp (pos:int) (bs:byte []) : int * PositionRe
     let pos, underlyingSettlPrice = ReadField "ReadPositionReportNoUnderlyings" pos "732"B bs ReadUnderlyingSettlPrice
     let pos, underlyingSettlPriceType = ReadField "ReadPositionReportNoUnderlyings" pos "733"B bs ReadUnderlyingSettlPriceType
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
-            UnderlyingSettlPrice = underlyingSettlPrice
-            UnderlyingSettlPriceType = underlyingSettlPriceType
+        UnderlyingInstrument = underlyingInstrument
+        UnderlyingSettlPrice = underlyingSettlPrice
+        UnderlyingSettlPriceType = underlyingSettlPriceType
     }
     pos, ci
 
@@ -199,8 +212,8 @@ let ReadNoNestedPartySubIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartySubID
     let pos, nestedPartySubID = ReadField "ReadNoNestedPartySubIDs" pos "545"B bs ReadNestedPartySubID
     let pos, nestedPartySubIDType = ReadOptionalField pos "805"B bs ReadNestedPartySubIDType
     let ci = {
-            NestedPartySubID = nestedPartySubID
-            NestedPartySubIDType = nestedPartySubIDType
+        NestedPartySubID = nestedPartySubID
+        NestedPartySubIDType = nestedPartySubIDType
     }
     pos, ci
 
@@ -210,19 +223,21 @@ let ReadNoNestedPartyIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartyIDsGrp  
     let pos, nestedPartyID = ReadField "ReadNoNestedPartyIDs" pos "524"B bs ReadNestedPartyID
     let pos, nestedPartyIDSource = ReadOptionalField pos "525"B bs ReadNestedPartyIDSource
     let pos, nestedPartyRole = ReadOptionalField pos "538"B bs ReadNestedPartyRole
+    let pos, noNestedPartySubIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNestedPartySubIDs    // optional group
     let ci = {
-            NestedPartyID = nestedPartyID
-            NestedPartyIDSource = nestedPartyIDSource
-            NestedPartyRole = nestedPartyRole
-            NoNestedPartySubIDs = noNestedPartySubIDs
+        NestedPartyID = nestedPartyID
+        NestedPartyIDSource = nestedPartyIDSource
+        NestedPartyRole = nestedPartyRole
+        NoNestedPartySubIDsGrp = noNestedPartySubIDsGrp
     }
     pos, ci
 
 
 // component
 let ReadNestedParties (pos:int) (bs:byte []) : int * NestedParties  =
+    let pos, noNestedPartyIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNestedPartyIDs    // optional group
     let ci = {
-            NoNestedPartyIDs = noNestedPartyIDs
+        NoNestedPartyIDsGrp = noNestedPartyIDsGrp
     }
     pos, ci
 
@@ -233,20 +248,22 @@ let ReadNoPositionsGrp (pos:int) (bs:byte []) : int * NoPositionsGrp  =
     let pos, longQty = ReadOptionalField pos "704"B bs ReadLongQty
     let pos, shortQty = ReadOptionalField pos "705"B bs ReadShortQty
     let pos, posQtyStatus = ReadOptionalField pos "706"B bs ReadPosQtyStatus
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let ci = {
-            PosType = posType
-            LongQty = longQty
-            ShortQty = shortQty
-            PosQtyStatus = posQtyStatus
-            NestedParties = nestedParties
+        PosType = posType
+        LongQty = longQty
+        ShortQty = shortQty
+        PosQtyStatus = posQtyStatus
+        NestedParties = nestedParties
     }
     pos, ci
 
 
 // component
 let ReadPositionQty (pos:int) (bs:byte []) : int * PositionQty  =
+    let pos, noPositionsGrp = ReadNoPositions pos bs    // group
     let ci = {
-            NoPositions = noPositions
+        NoPositionsGrp = noPositionsGrp
     }
     pos, ci
 
@@ -257,18 +274,19 @@ let ReadNoRegistDtlsGrp (pos:int) (bs:byte []) : int * NoRegistDtlsGrp  =
     let pos, registEmail = ReadOptionalField pos "511"B bs ReadRegistEmail
     let pos, mailingDtls = ReadOptionalField pos "474"B bs ReadMailingDtls
     let pos, mailingInst = ReadOptionalField pos "482"B bs ReadMailingInst
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, ownerType = ReadOptionalField pos "522"B bs ReadOwnerType
     let pos, dateOfBirth = ReadOptionalField pos "486"B bs ReadDateOfBirth
     let pos, investorCountryOfResidence = ReadOptionalField pos "475"B bs ReadInvestorCountryOfResidence
     let ci = {
-            RegistDtls = registDtls
-            RegistEmail = registEmail
-            MailingDtls = mailingDtls
-            MailingInst = mailingInst
-            NestedParties = nestedParties
-            OwnerType = ownerType
-            DateOfBirth = dateOfBirth
-            InvestorCountryOfResidence = investorCountryOfResidence
+        RegistDtls = registDtls
+        RegistEmail = registEmail
+        MailingDtls = mailingDtls
+        MailingInst = mailingInst
+        NestedParties = nestedParties
+        OwnerType = ownerType
+        DateOfBirth = dateOfBirth
+        InvestorCountryOfResidence = investorCountryOfResidence
     }
     pos, ci
 
@@ -278,8 +296,8 @@ let ReadNoNested2PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartySub
     let pos, nested2PartySubID = ReadField "ReadNoNested2PartySubIDs" pos "760"B bs ReadNested2PartySubID
     let pos, nested2PartySubIDType = ReadOptionalField pos "807"B bs ReadNested2PartySubIDType
     let ci = {
-            Nested2PartySubID = nested2PartySubID
-            Nested2PartySubIDType = nested2PartySubIDType
+        Nested2PartySubID = nested2PartySubID
+        Nested2PartySubIDType = nested2PartySubIDType
     }
     pos, ci
 
@@ -289,19 +307,21 @@ let ReadNoNested2PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartyIDsGrp
     let pos, nested2PartyID = ReadField "ReadNoNested2PartyIDs" pos "757"B bs ReadNested2PartyID
     let pos, nested2PartyIDSource = ReadOptionalField pos "758"B bs ReadNested2PartyIDSource
     let pos, nested2PartyRole = ReadOptionalField pos "759"B bs ReadNested2PartyRole
+    let pos, noNested2PartySubIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNested2PartySubIDs    // optional group
     let ci = {
-            Nested2PartyID = nested2PartyID
-            Nested2PartyIDSource = nested2PartyIDSource
-            Nested2PartyRole = nested2PartyRole
-            NoNested2PartySubIDs = noNested2PartySubIDs
+        Nested2PartyID = nested2PartyID
+        Nested2PartyIDSource = nested2PartyIDSource
+        Nested2PartyRole = nested2PartyRole
+        NoNested2PartySubIDsGrp = noNested2PartySubIDsGrp
     }
     pos, ci
 
 
 // component
 let ReadNestedParties2 (pos:int) (bs:byte []) : int * NestedParties2  =
+    let pos, noNested2PartyIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNested2PartyIDs    // optional group
     let ci = {
-            NoNested2PartyIDs = noNested2PartyIDs
+        NoNested2PartyIDsGrp = noNested2PartyIDsGrp
     }
     pos, ci
 
@@ -312,14 +332,15 @@ let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCap
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
+    let pos, nestedParties2 = ReadOptionalField pos "TAG"B bs ReadNestedParties2    // optional component
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocSettlCurrency = allocSettlCurrency
-            IndividualAllocID = individualAllocID
-            NestedParties2 = nestedParties2
-            AllocQty = allocQty
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocSettlCurrency = allocSettlCurrency
+        IndividualAllocID = individualAllocID
+        NestedParties2 = nestedParties2
+        AllocQty = allocQty
     }
     pos, ci
 
@@ -329,8 +350,8 @@ let ReadNoLegSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoLegSecurityAltIDG
     let pos, legSecurityAltID = ReadField "ReadNoLegSecurityAltID" pos "605"B bs ReadLegSecurityAltID
     let pos, legSecurityAltIDSource = ReadOptionalField pos "606"B bs ReadLegSecurityAltIDSource
     let ci = {
-            LegSecurityAltID = legSecurityAltID
-            LegSecurityAltIDSource = legSecurityAltIDSource
+        LegSecurityAltID = legSecurityAltID
+        LegSecurityAltIDSource = legSecurityAltIDSource
     }
     pos, ci
 
@@ -341,6 +362,7 @@ let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
     let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
     let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
     let pos, legSecurityIDSource = ReadOptionalField pos "603"B bs ReadLegSecurityIDSource
+    let pos, noLegSecurityAltIDGrp = ReadOptionalField pos "TAG"B bs ReadNoLegSecurityAltID    // optional group
     let pos, legProduct = ReadOptionalField pos "607"B bs ReadLegProduct
     let pos, legCFICode = ReadOptionalField pos "608"B bs ReadLegCFICode
     let pos, legSecurityType = ReadOptionalField pos "609"B bs ReadLegSecurityType
@@ -377,46 +399,46 @@ let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
     let pos, legContractSettlMonth = ReadOptionalField pos "955"B bs ReadLegContractSettlMonth
     let pos, legInterestAccrualDate = ReadOptionalField pos "956"B bs ReadLegInterestAccrualDate
     let ci = {
-            LegSymbol = legSymbol
-            LegSymbolSfx = legSymbolSfx
-            LegSecurityID = legSecurityID
-            LegSecurityIDSource = legSecurityIDSource
-            NoLegSecurityAltID = noLegSecurityAltID
-            LegProduct = legProduct
-            LegCFICode = legCFICode
-            LegSecurityType = legSecurityType
-            LegSecuritySubType = legSecuritySubType
-            LegMaturityMonthYear = legMaturityMonthYear
-            LegMaturityDate = legMaturityDate
-            LegCouponPaymentDate = legCouponPaymentDate
-            LegIssueDate = legIssueDate
-            LegRepoCollateralSecurityType = legRepoCollateralSecurityType
-            LegRepurchaseTerm = legRepurchaseTerm
-            LegRepurchaseRate = legRepurchaseRate
-            LegFactor = legFactor
-            LegCreditRating = legCreditRating
-            LegInstrRegistry = legInstrRegistry
-            LegCountryOfIssue = legCountryOfIssue
-            LegStateOrProvinceOfIssue = legStateOrProvinceOfIssue
-            LegLocaleOfIssue = legLocaleOfIssue
-            LegRedemptionDate = legRedemptionDate
-            LegStrikePrice = legStrikePrice
-            LegStrikeCurrency = legStrikeCurrency
-            LegOptAttribute = legOptAttribute
-            LegContractMultiplier = legContractMultiplier
-            LegCouponRate = legCouponRate
-            LegSecurityExchange = legSecurityExchange
-            LegIssuer = legIssuer
-            EncodedLegIssuer = encodedLegIssuer
-            LegSecurityDesc = legSecurityDesc
-            EncodedLegSecurityDesc = encodedLegSecurityDesc
-            LegRatioQty = legRatioQty
-            LegSide = legSide
-            LegCurrency = legCurrency
-            LegPool = legPool
-            LegDatedDate = legDatedDate
-            LegContractSettlMonth = legContractSettlMonth
-            LegInterestAccrualDate = legInterestAccrualDate
+        LegSymbol = legSymbol
+        LegSymbolSfx = legSymbolSfx
+        LegSecurityID = legSecurityID
+        LegSecurityIDSource = legSecurityIDSource
+        NoLegSecurityAltIDGrp = noLegSecurityAltIDGrp
+        LegProduct = legProduct
+        LegCFICode = legCFICode
+        LegSecurityType = legSecurityType
+        LegSecuritySubType = legSecuritySubType
+        LegMaturityMonthYear = legMaturityMonthYear
+        LegMaturityDate = legMaturityDate
+        LegCouponPaymentDate = legCouponPaymentDate
+        LegIssueDate = legIssueDate
+        LegRepoCollateralSecurityType = legRepoCollateralSecurityType
+        LegRepurchaseTerm = legRepurchaseTerm
+        LegRepurchaseRate = legRepurchaseRate
+        LegFactor = legFactor
+        LegCreditRating = legCreditRating
+        LegInstrRegistry = legInstrRegistry
+        LegCountryOfIssue = legCountryOfIssue
+        LegStateOrProvinceOfIssue = legStateOrProvinceOfIssue
+        LegLocaleOfIssue = legLocaleOfIssue
+        LegRedemptionDate = legRedemptionDate
+        LegStrikePrice = legStrikePrice
+        LegStrikeCurrency = legStrikeCurrency
+        LegOptAttribute = legOptAttribute
+        LegContractMultiplier = legContractMultiplier
+        LegCouponRate = legCouponRate
+        LegSecurityExchange = legSecurityExchange
+        LegIssuer = legIssuer
+        EncodedLegIssuer = encodedLegIssuer
+        LegSecurityDesc = legSecurityDesc
+        EncodedLegSecurityDesc = encodedLegSecurityDesc
+        LegRatioQty = legRatioQty
+        LegSide = legSide
+        LegCurrency = legCurrency
+        LegPool = legPool
+        LegDatedDate = legDatedDate
+        LegContractSettlMonth = legContractSettlMonth
+        LegInterestAccrualDate = legInterestAccrualDate
     }
     pos, ci
 
@@ -426,16 +448,17 @@ let ReadNoLegStipulationsGrp (pos:int) (bs:byte []) : int * NoLegStipulationsGrp
     let pos, legStipulationType = ReadField "ReadNoLegStipulations" pos "688"B bs ReadLegStipulationType
     let pos, legStipulationValue = ReadOptionalField pos "689"B bs ReadLegStipulationValue
     let ci = {
-            LegStipulationType = legStipulationType
-            LegStipulationValue = legStipulationValue
+        LegStipulationType = legStipulationType
+        LegStipulationValue = legStipulationValue
     }
     pos, ci
 
 
 // component
 let ReadLegStipulations (pos:int) (bs:byte []) : int * LegStipulations  =
+    let pos, noLegStipulationsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegStipulations    // optional group
     let ci = {
-            NoLegStipulations = noLegStipulations
+        NoLegStipulationsGrp = noLegStipulationsGrp
     }
     pos, ci
 
@@ -445,26 +468,28 @@ let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptu
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
     let pos, legCoveredOrUncovered = ReadOptionalField pos "565"B bs ReadLegCoveredOrUncovered
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legRefID = ReadOptionalField pos "654"B bs ReadLegRefID
     let pos, legPrice = ReadOptionalField pos "566"B bs ReadLegPrice
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegStipulations = legStipulations
-            LegPositionEffect = legPositionEffect
-            LegCoveredOrUncovered = legCoveredOrUncovered
-            NestedParties = nestedParties
-            LegRefID = legRefID
-            LegPrice = legPrice
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegLastPx = legLastPx
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegStipulations = legStipulations
+        LegPositionEffect = legPositionEffect
+        LegCoveredOrUncovered = legCoveredOrUncovered
+        NestedParties = nestedParties
+        LegRefID = legRefID
+        LegPrice = legPrice
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegLastPx = legLastPx
     }
     pos, ci
 
@@ -474,8 +499,8 @@ let ReadNoPartySubIDsGrp (pos:int) (bs:byte []) : int * NoPartySubIDsGrp  =
     let pos, partySubID = ReadField "ReadNoPartySubIDs" pos "523"B bs ReadPartySubID
     let pos, partySubIDType = ReadOptionalField pos "803"B bs ReadPartySubIDType
     let ci = {
-            PartySubID = partySubID
-            PartySubIDType = partySubIDType
+        PartySubID = partySubID
+        PartySubIDType = partySubIDType
     }
     pos, ci
 
@@ -485,19 +510,21 @@ let ReadNoPartyIDsGrp (pos:int) (bs:byte []) : int * NoPartyIDsGrp  =
     let pos, partyID = ReadField "ReadNoPartyIDs" pos "448"B bs ReadPartyID
     let pos, partyIDSource = ReadOptionalField pos "447"B bs ReadPartyIDSource
     let pos, partyRole = ReadOptionalField pos "452"B bs ReadPartyRole
+    let pos, noPartySubIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoPartySubIDs    // optional group
     let ci = {
-            PartyID = partyID
-            PartyIDSource = partyIDSource
-            PartyRole = partyRole
-            NoPartySubIDs = noPartySubIDs
+        PartyID = partyID
+        PartyIDSource = partyIDSource
+        PartyRole = partyRole
+        NoPartySubIDsGrp = noPartySubIDsGrp
     }
     pos, ci
 
 
 // component
 let ReadParties (pos:int) (bs:byte []) : int * Parties  =
+    let pos, noPartyIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoPartyIDs    // optional group
     let ci = {
-            NoPartyIDs = noPartyIDs
+        NoPartyIDsGrp = noPartyIDsGrp
     }
     pos, ci
 
@@ -506,7 +533,7 @@ let ReadParties (pos:int) (bs:byte []) : int * Parties  =
 let ReadNoClearingInstructionsGrp (pos:int) (bs:byte []) : int * NoClearingInstructionsGrp  =
     let pos, clearingInstruction = ReadField "ReadNoClearingInstructions" pos "577"B bs ReadClearingInstruction
     let ci = {
-            ClearingInstruction = clearingInstruction
+        ClearingInstruction = clearingInstruction
     }
     pos, ci
 
@@ -518,10 +545,10 @@ let ReadCommissionData (pos:int) (bs:byte []) : int * CommissionData  =
     let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
     let pos, fundRenewWaiv = ReadOptionalField pos "497"B bs ReadFundRenewWaiv
     let ci = {
-            Commission = commission
-            CommType = commType
-            CommCurrency = commCurrency
-            FundRenewWaiv = fundRenewWaiv
+        Commission = commission
+        CommType = commType
+        CommCurrency = commCurrency
+        FundRenewWaiv = fundRenewWaiv
     }
     pos, ci
 
@@ -532,9 +559,9 @@ let ReadNoContAmtsGrp (pos:int) (bs:byte []) : int * NoContAmtsGrp  =
     let pos, contAmtValue = ReadOptionalField pos "520"B bs ReadContAmtValue
     let pos, contAmtCurr = ReadOptionalField pos "521"B bs ReadContAmtCurr
     let ci = {
-            ContAmtType = contAmtType
-            ContAmtValue = contAmtValue
-            ContAmtCurr = contAmtCurr
+        ContAmtType = contAmtType
+        ContAmtValue = contAmtValue
+        ContAmtCurr = contAmtCurr
     }
     pos, ci
 
@@ -544,16 +571,17 @@ let ReadNoStipulationsGrp (pos:int) (bs:byte []) : int * NoStipulationsGrp  =
     let pos, stipulationType = ReadField "ReadNoStipulations" pos "233"B bs ReadStipulationType
     let pos, stipulationValue = ReadOptionalField pos "234"B bs ReadStipulationValue
     let ci = {
-            StipulationType = stipulationType
-            StipulationValue = stipulationValue
+        StipulationType = stipulationType
+        StipulationValue = stipulationValue
     }
     pos, ci
 
 
 // component
 let ReadStipulations (pos:int) (bs:byte []) : int * Stipulations  =
+    let pos, noStipulationsGrp = ReadOptionalField pos "TAG"B bs ReadNoStipulations    // optional group
     let ci = {
-            NoStipulations = noStipulations
+        NoStipulationsGrp = noStipulationsGrp
     }
     pos, ci
 
@@ -565,10 +593,10 @@ let ReadNoMiscFeesGrp (pos:int) (bs:byte []) : int * NoMiscFeesGrp  =
     let pos, miscFeeType = ReadOptionalField pos "139"B bs ReadMiscFeeType
     let pos, miscFeeBasis = ReadOptionalField pos "891"B bs ReadMiscFeeBasis
     let ci = {
-            MiscFeeAmt = miscFeeAmt
-            MiscFeeCurr = miscFeeCurr
-            MiscFeeType = miscFeeType
-            MiscFeeBasis = miscFeeBasis
+        MiscFeeAmt = miscFeeAmt
+        MiscFeeCurr = miscFeeCurr
+        MiscFeeType = miscFeeType
+        MiscFeeBasis = miscFeeBasis
     }
     pos, ci
 
@@ -581,11 +609,13 @@ let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCapture
     let pos, clOrdID = ReadOptionalField pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, listID = ReadOptionalField pos "66"B bs ReadListID
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
     let pos, acctIDSource = ReadOptionalField pos "660"B bs ReadAcctIDSource
     let pos, accountType = ReadOptionalField pos "581"B bs ReadAccountType
     let pos, processCode = ReadOptionalField pos "81"B bs ReadProcessCode
     let pos, oddLot = ReadOptionalField pos "575"B bs ReadOddLot
+    let pos, noClearingInstructionsGrp = ReadOptionalField pos "TAG"B bs ReadNoClearingInstructions    // optional group
     let pos, clearingFeeIndicator = ReadOptionalField pos "635"B bs ReadClearingFeeIndicator
     let pos, tradeInputSource = ReadOptionalField pos "578"B bs ReadTradeInputSource
     let pos, tradeInputDevice = ReadOptionalField pos "579"B bs ReadTradeInputDevice
@@ -602,6 +632,7 @@ let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCapture
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let pos, timeBracket = ReadOptionalField pos "943"B bs ReadTimeBracket
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, grossTradeAmt = ReadOptionalField pos "381"B bs ReadGrossTradeAmt
     let pos, numDaysInterest = ReadOptionalField pos "157"B bs ReadNumDaysInterest
     let pos, exDate = ReadOptionalField pos "230"B bs ReadExDate
@@ -622,68 +653,71 @@ let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCapture
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let pos, sideMultiLegReportingType = ReadOptionalField pos "752"B bs ReadSideMultiLegReportingType
+    let pos, noContAmtsGrp = ReadOptionalField pos "TAG"B bs ReadNoContAmts    // optional group
+    let pos, stipulations = ReadOptionalField pos "TAG"B bs ReadStipulations    // optional component
+    let pos, noMiscFeesGrp = ReadOptionalField pos "TAG"B bs ReadNoMiscFees    // optional group
     let pos, exchangeRule = ReadOptionalField pos "825"B bs ReadExchangeRule
     let pos, tradeAllocIndicator = ReadOptionalField pos "826"B bs ReadTradeAllocIndicator
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
     let ci = {
-            Side = side
-            OrderID = orderID
-            SecondaryOrderID = secondaryOrderID
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            ListID = listID
-            Parties = parties
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            ProcessCode = processCode
-            OddLot = oddLot
-            NoClearingInstructions = noClearingInstructions
-            ClearingFeeIndicator = clearingFeeIndicator
-            TradeInputSource = tradeInputSource
-            TradeInputDevice = tradeInputDevice
-            OrderInputDevice = orderInputDevice
-            Currency = currency
-            ComplianceID = complianceID
-            SolicitedFlag = solicitedFlag
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            CustOrderCapacity = custOrderCapacity
-            OrdType = ordType
-            ExecInst = execInst
-            TransBkdTime = transBkdTime
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            TimeBracket = timeBracket
-            CommissionData = commissionData
-            GrossTradeAmt = grossTradeAmt
-            NumDaysInterest = numDaysInterest
-            ExDate = exDate
-            AccruedInterestRate = accruedInterestRate
-            AccruedInterestAmt = accruedInterestAmt
-            InterestAtMaturity = interestAtMaturity
-            EndAccruedInterestAmt = endAccruedInterestAmt
-            StartCash = startCash
-            EndCash = endCash
-            Concession = concession
-            TotalTakedown = totalTakedown
-            NetMoney = netMoney
-            SettlCurrAmt = settlCurrAmt
-            SettlCurrency = settlCurrency
-            SettlCurrFxRate = settlCurrFxRate
-            SettlCurrFxRateCalc = settlCurrFxRateCalc
-            PositionEffect = positionEffect
-            Text = text
-            EncodedText = encodedText
-            SideMultiLegReportingType = sideMultiLegReportingType
-            NoContAmts = noContAmts
-            Stipulations = stipulations
-            NoMiscFees = noMiscFees
-            ExchangeRule = exchangeRule
-            TradeAllocIndicator = tradeAllocIndicator
-            PreallocMethod = preallocMethod
-            AllocID = allocID
+        Side = side
+        OrderID = orderID
+        SecondaryOrderID = secondaryOrderID
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        ListID = listID
+        Parties = parties
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        ProcessCode = processCode
+        OddLot = oddLot
+        NoClearingInstructionsGrp = noClearingInstructionsGrp
+        ClearingFeeIndicator = clearingFeeIndicator
+        TradeInputSource = tradeInputSource
+        TradeInputDevice = tradeInputDevice
+        OrderInputDevice = orderInputDevice
+        Currency = currency
+        ComplianceID = complianceID
+        SolicitedFlag = solicitedFlag
+        OrderCapacity = orderCapacity
+        OrderRestrictions = orderRestrictions
+        CustOrderCapacity = custOrderCapacity
+        OrdType = ordType
+        ExecInst = execInst
+        TransBkdTime = transBkdTime
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        TimeBracket = timeBracket
+        CommissionData = commissionData
+        GrossTradeAmt = grossTradeAmt
+        NumDaysInterest = numDaysInterest
+        ExDate = exDate
+        AccruedInterestRate = accruedInterestRate
+        AccruedInterestAmt = accruedInterestAmt
+        InterestAtMaturity = interestAtMaturity
+        EndAccruedInterestAmt = endAccruedInterestAmt
+        StartCash = startCash
+        EndCash = endCash
+        Concession = concession
+        TotalTakedown = totalTakedown
+        NetMoney = netMoney
+        SettlCurrAmt = settlCurrAmt
+        SettlCurrency = settlCurrency
+        SettlCurrFxRate = settlCurrFxRate
+        SettlCurrFxRateCalc = settlCurrFxRateCalc
+        PositionEffect = positionEffect
+        Text = text
+        EncodedText = encodedText
+        SideMultiLegReportingType = sideMultiLegReportingType
+        NoContAmtsGrp = noContAmtsGrp
+        Stipulations = stipulations
+        NoMiscFeesGrp = noMiscFeesGrp
+        ExchangeRule = exchangeRule
+        TradeAllocIndicator = tradeAllocIndicator
+        PreallocMethod = preallocMethod
+        AllocID = allocID
     }
     pos, ci
 
@@ -693,26 +727,28 @@ let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureR
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
     let pos, legCoveredOrUncovered = ReadOptionalField pos "565"B bs ReadLegCoveredOrUncovered
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legRefID = ReadOptionalField pos "654"B bs ReadLegRefID
     let pos, legPrice = ReadOptionalField pos "566"B bs ReadLegPrice
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegStipulations = legStipulations
-            LegPositionEffect = legPositionEffect
-            LegCoveredOrUncovered = legCoveredOrUncovered
-            NestedParties = nestedParties
-            LegRefID = legRefID
-            LegPrice = legPrice
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegLastPx = legLastPx
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegStipulations = legStipulations
+        LegPositionEffect = legPositionEffect
+        LegCoveredOrUncovered = legCoveredOrUncovered
+        NestedParties = nestedParties
+        LegRefID = legRefID
+        LegPrice = legPrice
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegLastPx = legLastPx
     }
     pos, ci
 
@@ -722,16 +758,17 @@ let ReadNoPosAmtGrp (pos:int) (bs:byte []) : int * NoPosAmtGrp  =
     let pos, posAmtType = ReadField "ReadNoPosAmt" pos "707"B bs ReadPosAmtType
     let pos, posAmt = ReadField "ReadNoPosAmt" pos "708"B bs ReadPosAmt
     let ci = {
-            PosAmtType = posAmtType
-            PosAmt = posAmt
+        PosAmtType = posAmtType
+        PosAmt = posAmt
     }
     pos, ci
 
 
 // component
 let ReadPositionAmountData (pos:int) (bs:byte []) : int * PositionAmountData  =
+    let pos, noPosAmtGrp = ReadNoPosAmt pos bs    // group
     let ci = {
-            NoPosAmt = noPosAmt
+        NoPosAmtGrp = noPosAmtGrp
     }
     pos, ci
 
@@ -741,8 +778,8 @@ let ReadNoSettlPartySubIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartySubIDsG
     let pos, settlPartySubID = ReadField "ReadNoSettlPartySubIDs" pos "785"B bs ReadSettlPartySubID
     let pos, settlPartySubIDType = ReadOptionalField pos "786"B bs ReadSettlPartySubIDType
     let ci = {
-            SettlPartySubID = settlPartySubID
-            SettlPartySubIDType = settlPartySubIDType
+        SettlPartySubID = settlPartySubID
+        SettlPartySubIDType = settlPartySubIDType
     }
     pos, ci
 
@@ -752,19 +789,21 @@ let ReadNoSettlPartyIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartyIDsGrp  =
     let pos, settlPartyID = ReadField "ReadNoSettlPartyIDs" pos "782"B bs ReadSettlPartyID
     let pos, settlPartyIDSource = ReadOptionalField pos "783"B bs ReadSettlPartyIDSource
     let pos, settlPartyRole = ReadOptionalField pos "784"B bs ReadSettlPartyRole
+    let pos, noSettlPartySubIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoSettlPartySubIDs    // optional group
     let ci = {
-            SettlPartyID = settlPartyID
-            SettlPartyIDSource = settlPartyIDSource
-            SettlPartyRole = settlPartyRole
-            NoSettlPartySubIDs = noSettlPartySubIDs
+        SettlPartyID = settlPartyID
+        SettlPartyIDSource = settlPartyIDSource
+        SettlPartyRole = settlPartyRole
+        NoSettlPartySubIDsGrp = noSettlPartySubIDsGrp
     }
     pos, ci
 
 
 // component
 let ReadSettlParties (pos:int) (bs:byte []) : int * SettlParties  =
+    let pos, noSettlPartyIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoSettlPartyIDs    // optional group
     let ci = {
-            NoSettlPartyIDs = noSettlPartyIDs
+        NoSettlPartyIDsGrp = noSettlPartyIDsGrp
     }
     pos, ci
 
@@ -773,10 +812,11 @@ let ReadSettlParties (pos:int) (bs:byte []) : int * SettlParties  =
 let ReadNoDlvyInstGrp (pos:int) (bs:byte []) : int * NoDlvyInstGrp  =
     let pos, settlInstSource = ReadField "ReadNoDlvyInst" pos "165"B bs ReadSettlInstSource
     let pos, dlvyInstType = ReadOptionalField pos "787"B bs ReadDlvyInstType
+    let pos, settlParties = ReadOptionalField pos "TAG"B bs ReadSettlParties    // optional component
     let ci = {
-            SettlInstSource = settlInstSource
-            DlvyInstType = dlvyInstType
-            SettlParties = settlParties
+        SettlInstSource = settlInstSource
+        DlvyInstType = dlvyInstType
+        SettlParties = settlParties
     }
     pos, ci
 
@@ -787,12 +827,13 @@ let ReadSettlInstructionsData (pos:int) (bs:byte []) : int * SettlInstructionsDa
     let pos, standInstDbType = ReadOptionalField pos "169"B bs ReadStandInstDbType
     let pos, standInstDbName = ReadOptionalField pos "170"B bs ReadStandInstDbName
     let pos, standInstDbID = ReadOptionalField pos "171"B bs ReadStandInstDbID
+    let pos, noDlvyInstGrp = ReadOptionalField pos "TAG"B bs ReadNoDlvyInst    // optional group
     let ci = {
-            SettlDeliveryType = settlDeliveryType
-            StandInstDbType = standInstDbType
-            StandInstDbName = standInstDbName
-            StandInstDbID = standInstDbID
-            NoDlvyInst = noDlvyInst
+        SettlDeliveryType = settlDeliveryType
+        StandInstDbType = standInstDbType
+        StandInstDbName = standInstDbName
+        StandInstDbID = standInstDbID
+        NoDlvyInstGrp = noDlvyInstGrp
     }
     pos, ci
 
@@ -802,6 +843,7 @@ let ReadNoSettlInstGrp (pos:int) (bs:byte []) : int * NoSettlInstGrp  =
     let pos, settlInstID = ReadField "ReadNoSettlInst" pos "162"B bs ReadSettlInstID
     let pos, settlInstTransType = ReadOptionalField pos "163"B bs ReadSettlInstTransType
     let pos, settlInstRefID = ReadOptionalField pos "214"B bs ReadSettlInstRefID
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
     let pos, product = ReadOptionalField pos "460"B bs ReadProduct
     let pos, securityType = ReadOptionalField pos "167"B bs ReadSecurityType
@@ -809,6 +851,7 @@ let ReadNoSettlInstGrp (pos:int) (bs:byte []) : int * NoSettlInstGrp  =
     let pos, effectiveTime = ReadOptionalField pos "168"B bs ReadEffectiveTime
     let pos, expireTime = ReadOptionalField pos "126"B bs ReadExpireTime
     let pos, lastUpdateTime = ReadOptionalField pos "779"B bs ReadLastUpdateTime
+    let pos, settlInstructionsData = ReadOptionalField pos "TAG"B bs ReadSettlInstructionsData    // optional component
     let pos, paymentMethod = ReadOptionalField pos "492"B bs ReadPaymentMethod
     let pos, paymentRef = ReadOptionalField pos "476"B bs ReadPaymentRef
     let pos, cardHolderName = ReadOptionalField pos "488"B bs ReadCardHolderName
@@ -819,27 +862,27 @@ let ReadNoSettlInstGrp (pos:int) (bs:byte []) : int * NoSettlInstGrp  =
     let pos, paymentDate = ReadOptionalField pos "504"B bs ReadPaymentDate
     let pos, paymentRemitterID = ReadOptionalField pos "505"B bs ReadPaymentRemitterID
     let ci = {
-            SettlInstID = settlInstID
-            SettlInstTransType = settlInstTransType
-            SettlInstRefID = settlInstRefID
-            Parties = parties
-            Side = side
-            Product = product
-            SecurityType = securityType
-            CFICode = cFICode
-            EffectiveTime = effectiveTime
-            ExpireTime = expireTime
-            LastUpdateTime = lastUpdateTime
-            SettlInstructionsData = settlInstructionsData
-            PaymentMethod = paymentMethod
-            PaymentRef = paymentRef
-            CardHolderName = cardHolderName
-            CardNumber = cardNumber
-            CardStartDate = cardStartDate
-            CardExpDate = cardExpDate
-            CardIssNum = cardIssNum
-            PaymentDate = paymentDate
-            PaymentRemitterID = paymentRemitterID
+        SettlInstID = settlInstID
+        SettlInstTransType = settlInstTransType
+        SettlInstRefID = settlInstRefID
+        Parties = parties
+        Side = side
+        Product = product
+        SecurityType = securityType
+        CFICode = cFICode
+        EffectiveTime = effectiveTime
+        ExpireTime = expireTime
+        LastUpdateTime = lastUpdateTime
+        SettlInstructionsData = settlInstructionsData
+        PaymentMethod = paymentMethod
+        PaymentRef = paymentRef
+        CardHolderName = cardHolderName
+        CardNumber = cardNumber
+        CardStartDate = cardStartDate
+        CardExpDate = cardExpDate
+        CardIssNum = cardIssNum
+        PaymentDate = paymentDate
+        PaymentRemitterID = paymentRemitterID
     }
     pos, ci
 
@@ -850,17 +893,18 @@ let ReadNoTrdRegTimestampsGrp (pos:int) (bs:byte []) : int * NoTrdRegTimestampsG
     let pos, trdRegTimestampType = ReadOptionalField pos "770"B bs ReadTrdRegTimestampType
     let pos, trdRegTimestampOrigin = ReadOptionalField pos "771"B bs ReadTrdRegTimestampOrigin
     let ci = {
-            TrdRegTimestamp = trdRegTimestamp
-            TrdRegTimestampType = trdRegTimestampType
-            TrdRegTimestampOrigin = trdRegTimestampOrigin
+        TrdRegTimestamp = trdRegTimestamp
+        TrdRegTimestampType = trdRegTimestampType
+        TrdRegTimestampOrigin = trdRegTimestampOrigin
     }
     pos, ci
 
 
 // component
 let ReadTrdRegTimestamps (pos:int) (bs:byte []) : int * TrdRegTimestamps  =
+    let pos, noTrdRegTimestampsGrp = ReadNoTrdRegTimestamps pos bs    // group
     let ci = {
-            NoTrdRegTimestamps = noTrdRegTimestamps
+        NoTrdRegTimestampsGrp = noTrdRegTimestampsGrp
     }
     pos, ci
 
@@ -874,10 +918,12 @@ let ReadAllocationReportNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationRep
     let pos, allocQty = ReadField "ReadAllocationReportNoAllocs" pos "80"B bs ReadAllocQty
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
     let pos, processCode = ReadOptionalField pos "81"B bs ReadProcessCode
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, notifyBrokerOfCredit = ReadOptionalField pos "208"B bs ReadNotifyBrokerOfCredit
     let pos, allocHandlInst = ReadOptionalField pos "209"B bs ReadAllocHandlInst
     let pos, allocText = ReadOptionalField pos "161"B bs ReadAllocText
     let pos, encodedAllocText = ReadOptionalField pos "361"B bs ReadEncodedAllocText
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, allocAvgPx = ReadOptionalField pos "153"B bs ReadAllocAvgPx
     let pos, allocNetMoney = ReadOptionalField pos "154"B bs ReadAllocNetMoney
     let pos, settlCurrAmt = ReadOptionalField pos "119"B bs ReadSettlCurrAmt
@@ -888,37 +934,40 @@ let ReadAllocationReportNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationRep
     let pos, settlCurrFxRateCalc = ReadOptionalField pos "156"B bs ReadSettlCurrFxRateCalc
     let pos, allocAccruedInterestAmt = ReadOptionalField pos "742"B bs ReadAllocAccruedInterestAmt
     let pos, allocInterestAtMaturity = ReadOptionalField pos "741"B bs ReadAllocInterestAtMaturity
+    let pos, noMiscFeesGrp = ReadOptionalField pos "TAG"B bs ReadNoMiscFees    // optional group
+    let pos, noClearingInstructionsGrp = ReadOptionalField pos "TAG"B bs ReadNoClearingInstructions    // optional group
     let pos, clearingFeeIndicator = ReadOptionalField pos "635"B bs ReadClearingFeeIndicator
     let pos, allocSettlInstType = ReadOptionalField pos "780"B bs ReadAllocSettlInstType
+    let pos, settlInstructionsData = ReadOptionalField pos "TAG"B bs ReadSettlInstructionsData    // optional component
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            MatchStatus = matchStatus
-            AllocPrice = allocPrice
-            AllocQty = allocQty
-            IndividualAllocID = individualAllocID
-            ProcessCode = processCode
-            NestedParties = nestedParties
-            NotifyBrokerOfCredit = notifyBrokerOfCredit
-            AllocHandlInst = allocHandlInst
-            AllocText = allocText
-            EncodedAllocText = encodedAllocText
-            CommissionData = commissionData
-            AllocAvgPx = allocAvgPx
-            AllocNetMoney = allocNetMoney
-            SettlCurrAmt = settlCurrAmt
-            AllocSettlCurrAmt = allocSettlCurrAmt
-            SettlCurrency = settlCurrency
-            AllocSettlCurrency = allocSettlCurrency
-            SettlCurrFxRate = settlCurrFxRate
-            SettlCurrFxRateCalc = settlCurrFxRateCalc
-            AllocAccruedInterestAmt = allocAccruedInterestAmt
-            AllocInterestAtMaturity = allocInterestAtMaturity
-            NoMiscFees = noMiscFees
-            NoClearingInstructions = noClearingInstructions
-            ClearingFeeIndicator = clearingFeeIndicator
-            AllocSettlInstType = allocSettlInstType
-            SettlInstructionsData = settlInstructionsData
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        MatchStatus = matchStatus
+        AllocPrice = allocPrice
+        AllocQty = allocQty
+        IndividualAllocID = individualAllocID
+        ProcessCode = processCode
+        NestedParties = nestedParties
+        NotifyBrokerOfCredit = notifyBrokerOfCredit
+        AllocHandlInst = allocHandlInst
+        AllocText = allocText
+        EncodedAllocText = encodedAllocText
+        CommissionData = commissionData
+        AllocAvgPx = allocAvgPx
+        AllocNetMoney = allocNetMoney
+        SettlCurrAmt = settlCurrAmt
+        AllocSettlCurrAmt = allocSettlCurrAmt
+        SettlCurrency = settlCurrency
+        AllocSettlCurrency = allocSettlCurrency
+        SettlCurrFxRate = settlCurrFxRate
+        SettlCurrFxRateCalc = settlCurrFxRateCalc
+        AllocAccruedInterestAmt = allocAccruedInterestAmt
+        AllocInterestAtMaturity = allocInterestAtMaturity
+        NoMiscFeesGrp = noMiscFeesGrp
+        NoClearingInstructionsGrp = noClearingInstructionsGrp
+        ClearingFeeIndicator = clearingFeeIndicator
+        AllocSettlInstType = allocSettlInstType
+        SettlInstructionsData = settlInstructionsData
     }
     pos, ci
 
@@ -932,10 +981,12 @@ let ReadAllocationInstructionNoAllocsGrp (pos:int) (bs:byte []) : int * Allocati
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
     let pos, processCode = ReadOptionalField pos "81"B bs ReadProcessCode
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, notifyBrokerOfCredit = ReadOptionalField pos "208"B bs ReadNotifyBrokerOfCredit
     let pos, allocHandlInst = ReadOptionalField pos "209"B bs ReadAllocHandlInst
     let pos, allocText = ReadOptionalField pos "161"B bs ReadAllocText
     let pos, encodedAllocText = ReadOptionalField pos "361"B bs ReadEncodedAllocText
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, allocAvgPx = ReadOptionalField pos "153"B bs ReadAllocAvgPx
     let pos, allocNetMoney = ReadOptionalField pos "154"B bs ReadAllocNetMoney
     let pos, settlCurrAmt = ReadOptionalField pos "119"B bs ReadSettlCurrAmt
@@ -948,42 +999,44 @@ let ReadAllocationInstructionNoAllocsGrp (pos:int) (bs:byte []) : int * Allocati
     let pos, allocAccruedInterestAmt = ReadOptionalField pos "742"B bs ReadAllocAccruedInterestAmt
     let pos, allocInterestAtMaturity = ReadOptionalField pos "741"B bs ReadAllocInterestAtMaturity
     let pos, settlInstMode = ReadOptionalField pos "160"B bs ReadSettlInstMode
+    let pos, noMiscFeesGrp = ReadOptionalField pos "TAG"B bs ReadNoMiscFees    // optional group
     let pos, noClearingInstructions = ReadOptionalField pos "576"B bs ReadNoClearingInstructions
     let pos, clearingInstruction = ReadOptionalField pos "577"B bs ReadClearingInstruction
     let pos, clearingFeeIndicator = ReadOptionalField pos "635"B bs ReadClearingFeeIndicator
     let pos, allocSettlInstType = ReadOptionalField pos "780"B bs ReadAllocSettlInstType
+    let pos, settlInstructionsData = ReadOptionalField pos "TAG"B bs ReadSettlInstructionsData    // optional component
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            MatchStatus = matchStatus
-            AllocPrice = allocPrice
-            AllocQty = allocQty
-            IndividualAllocID = individualAllocID
-            ProcessCode = processCode
-            NestedParties = nestedParties
-            NotifyBrokerOfCredit = notifyBrokerOfCredit
-            AllocHandlInst = allocHandlInst
-            AllocText = allocText
-            EncodedAllocText = encodedAllocText
-            CommissionData = commissionData
-            AllocAvgPx = allocAvgPx
-            AllocNetMoney = allocNetMoney
-            SettlCurrAmt = settlCurrAmt
-            AllocSettlCurrAmt = allocSettlCurrAmt
-            SettlCurrency = settlCurrency
-            AllocSettlCurrency = allocSettlCurrency
-            SettlCurrFxRate = settlCurrFxRate
-            SettlCurrFxRateCalc = settlCurrFxRateCalc
-            AccruedInterestAmt = accruedInterestAmt
-            AllocAccruedInterestAmt = allocAccruedInterestAmt
-            AllocInterestAtMaturity = allocInterestAtMaturity
-            SettlInstMode = settlInstMode
-            NoMiscFees = noMiscFees
-            NoClearingInstructions = noClearingInstructions
-            ClearingInstruction = clearingInstruction
-            ClearingFeeIndicator = clearingFeeIndicator
-            AllocSettlInstType = allocSettlInstType
-            SettlInstructionsData = settlInstructionsData
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        MatchStatus = matchStatus
+        AllocPrice = allocPrice
+        AllocQty = allocQty
+        IndividualAllocID = individualAllocID
+        ProcessCode = processCode
+        NestedParties = nestedParties
+        NotifyBrokerOfCredit = notifyBrokerOfCredit
+        AllocHandlInst = allocHandlInst
+        AllocText = allocText
+        EncodedAllocText = encodedAllocText
+        CommissionData = commissionData
+        AllocAvgPx = allocAvgPx
+        AllocNetMoney = allocNetMoney
+        SettlCurrAmt = settlCurrAmt
+        AllocSettlCurrAmt = allocSettlCurrAmt
+        SettlCurrency = settlCurrency
+        AllocSettlCurrency = allocSettlCurrency
+        SettlCurrFxRate = settlCurrFxRate
+        SettlCurrFxRateCalc = settlCurrFxRateCalc
+        AccruedInterestAmt = accruedInterestAmt
+        AllocAccruedInterestAmt = allocAccruedInterestAmt
+        AllocInterestAtMaturity = allocInterestAtMaturity
+        SettlInstMode = settlInstMode
+        NoMiscFeesGrp = noMiscFeesGrp
+        NoClearingInstructions = noClearingInstructions
+        ClearingInstruction = clearingInstruction
+        ClearingFeeIndicator = clearingFeeIndicator
+        AllocSettlInstType = allocSettlInstType
+        SettlInstructionsData = settlInstructionsData
     }
     pos, ci
 
@@ -995,19 +1048,20 @@ let ReadNoOrdersGrp (pos:int) (bs:byte []) : int * NoOrdersGrp  =
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, listID = ReadOptionalField pos "66"B bs ReadListID
+    let pos, nestedParties2 = ReadOptionalField pos "TAG"B bs ReadNestedParties2    // optional component
     let pos, orderQty = ReadOptionalField pos "38"B bs ReadOrderQty
     let pos, orderAvgPx = ReadOptionalField pos "799"B bs ReadOrderAvgPx
     let pos, orderBookingQty = ReadOptionalField pos "800"B bs ReadOrderBookingQty
     let ci = {
-            ClOrdID = clOrdID
-            OrderID = orderID
-            SecondaryOrderID = secondaryOrderID
-            SecondaryClOrdID = secondaryClOrdID
-            ListID = listID
-            NestedParties2 = nestedParties2
-            OrderQty = orderQty
-            OrderAvgPx = orderAvgPx
-            OrderBookingQty = orderBookingQty
+        ClOrdID = clOrdID
+        OrderID = orderID
+        SecondaryOrderID = secondaryOrderID
+        SecondaryClOrdID = secondaryClOrdID
+        ListID = listID
+        NestedParties2 = nestedParties2
+        OrderQty = orderQty
+        OrderAvgPx = orderAvgPx
+        OrderBookingQty = orderBookingQty
     }
     pos, ci
 
@@ -1024,15 +1078,15 @@ let ReadListStrikePriceNoUnderlyingsGrp (pos:int) (bs:byte []) : int * ListStrik
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
-            PrevClosePx = prevClosePx
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            Side = side
-            Price = price
-            Currency = currency
-            Text = text
-            EncodedText = encodedText
+        UnderlyingInstrument = underlyingInstrument
+        PrevClosePx = prevClosePx
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        Side = side
+        Price = price
+        Currency = currency
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -1042,8 +1096,8 @@ let ReadNoSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoSecurityAltIDGrp  =
     let pos, securityAltID = ReadField "ReadNoSecurityAltID" pos "455"B bs ReadSecurityAltID
     let pos, securityAltIDSource = ReadOptionalField pos "456"B bs ReadSecurityAltIDSource
     let ci = {
-            SecurityAltID = securityAltID
-            SecurityAltIDSource = securityAltIDSource
+        SecurityAltID = securityAltID
+        SecurityAltIDSource = securityAltIDSource
     }
     pos, ci
 
@@ -1055,10 +1109,10 @@ let ReadNoEventsGrp (pos:int) (bs:byte []) : int * NoEventsGrp  =
     let pos, eventPx = ReadOptionalField pos "867"B bs ReadEventPx
     let pos, eventText = ReadOptionalField pos "868"B bs ReadEventText
     let ci = {
-            EventType = eventType
-            EventDate = eventDate
-            EventPx = eventPx
-            EventText = eventText
+        EventType = eventType
+        EventDate = eventDate
+        EventPx = eventPx
+        EventText = eventText
     }
     pos, ci
 
@@ -1069,6 +1123,7 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
     let pos, symbolSfx = ReadOptionalField pos "65"B bs ReadSymbolSfx
     let pos, securityID = ReadOptionalField pos "48"B bs ReadSecurityID
     let pos, securityIDSource = ReadOptionalField pos "22"B bs ReadSecurityIDSource
+    let pos, noSecurityAltIDGrp = ReadOptionalField pos "TAG"B bs ReadNoSecurityAltID    // optional group
     let pos, product = ReadOptionalField pos "460"B bs ReadProduct
     let pos, cFICode = ReadOptionalField pos "461"B bs ReadCFICode
     let pos, securityType = ReadOptionalField pos "167"B bs ReadSecurityType
@@ -1102,50 +1157,51 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
     let pos, contractSettlMonth = ReadOptionalField pos "667"B bs ReadContractSettlMonth
     let pos, cPProgram = ReadOptionalField pos "875"B bs ReadCPProgram
     let pos, cPRegType = ReadOptionalField pos "876"B bs ReadCPRegType
+    let pos, noEventsGrp = ReadOptionalField pos "TAG"B bs ReadNoEvents    // optional group
     let pos, datedDate = ReadOptionalField pos "873"B bs ReadDatedDate
     let pos, interestAccrualDate = ReadOptionalField pos "874"B bs ReadInterestAccrualDate
     let ci = {
-            Symbol = symbol
-            SymbolSfx = symbolSfx
-            SecurityID = securityID
-            SecurityIDSource = securityIDSource
-            NoSecurityAltID = noSecurityAltID
-            Product = product
-            CFICode = cFICode
-            SecurityType = securityType
-            SecuritySubType = securitySubType
-            MaturityMonthYear = maturityMonthYear
-            MaturityDate = maturityDate
-            PutOrCall = putOrCall
-            CouponPaymentDate = couponPaymentDate
-            IssueDate = issueDate
-            RepoCollateralSecurityType = repoCollateralSecurityType
-            RepurchaseTerm = repurchaseTerm
-            RepurchaseRate = repurchaseRate
-            Factor = factor
-            CreditRating = creditRating
-            InstrRegistry = instrRegistry
-            CountryOfIssue = countryOfIssue
-            StateOrProvinceOfIssue = stateOrProvinceOfIssue
-            LocaleOfIssue = localeOfIssue
-            RedemptionDate = redemptionDate
-            StrikePrice = strikePrice
-            StrikeCurrency = strikeCurrency
-            OptAttribute = optAttribute
-            ContractMultiplier = contractMultiplier
-            CouponRate = couponRate
-            SecurityExchange = securityExchange
-            Issuer = issuer
-            EncodedIssuer = encodedIssuer
-            SecurityDesc = securityDesc
-            EncodedSecurityDesc = encodedSecurityDesc
-            Pool = pool
-            ContractSettlMonth = contractSettlMonth
-            CPProgram = cPProgram
-            CPRegType = cPRegType
-            NoEvents = noEvents
-            DatedDate = datedDate
-            InterestAccrualDate = interestAccrualDate
+        Symbol = symbol
+        SymbolSfx = symbolSfx
+        SecurityID = securityID
+        SecurityIDSource = securityIDSource
+        NoSecurityAltIDGrp = noSecurityAltIDGrp
+        Product = product
+        CFICode = cFICode
+        SecurityType = securityType
+        SecuritySubType = securitySubType
+        MaturityMonthYear = maturityMonthYear
+        MaturityDate = maturityDate
+        PutOrCall = putOrCall
+        CouponPaymentDate = couponPaymentDate
+        IssueDate = issueDate
+        RepoCollateralSecurityType = repoCollateralSecurityType
+        RepurchaseTerm = repurchaseTerm
+        RepurchaseRate = repurchaseRate
+        Factor = factor
+        CreditRating = creditRating
+        InstrRegistry = instrRegistry
+        CountryOfIssue = countryOfIssue
+        StateOrProvinceOfIssue = stateOrProvinceOfIssue
+        LocaleOfIssue = localeOfIssue
+        RedemptionDate = redemptionDate
+        StrikePrice = strikePrice
+        StrikeCurrency = strikeCurrency
+        OptAttribute = optAttribute
+        ContractMultiplier = contractMultiplier
+        CouponRate = couponRate
+        SecurityExchange = securityExchange
+        Issuer = issuer
+        EncodedIssuer = encodedIssuer
+        SecurityDesc = securityDesc
+        EncodedSecurityDesc = encodedSecurityDesc
+        Pool = pool
+        ContractSettlMonth = contractSettlMonth
+        CPProgram = cPProgram
+        CPRegType = cPRegType
+        NoEventsGrp = noEventsGrp
+        DatedDate = datedDate
+        InterestAccrualDate = interestAccrualDate
     }
     pos, ci
 
@@ -1154,7 +1210,7 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
 let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
     let ci = {
-            Instrument = instrument
+        Instrument = instrument
     }
     pos, ci
 
@@ -1165,14 +1221,15 @@ let ReadNoAllocsGrp (pos:int) (bs:byte []) : int * NoAllocsGrp  =
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocSettlCurrency = allocSettlCurrency
-            IndividualAllocID = individualAllocID
-            NestedParties = nestedParties
-            AllocQty = allocQty
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocSettlCurrency = allocSettlCurrency
+        IndividualAllocID = individualAllocID
+        NestedParties = nestedParties
+        AllocQty = allocQty
     }
     pos, ci
 
@@ -1182,8 +1239,8 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
     let pos, tradingSessionID = ReadField "ReadNoTradingSessions" pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let ci = {
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
     }
     pos, ci
 
@@ -1192,7 +1249,7 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
 let ReadNoUnderlyingsGrp (pos:int) (bs:byte []) : int * NoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
     }
     pos, ci
 
@@ -1205,11 +1262,11 @@ let ReadOrderQtyData (pos:int) (bs:byte []) : int * OrderQtyData  =
     let pos, roundingDirection = ReadOptionalField pos "468"B bs ReadRoundingDirection
     let pos, roundingModulus = ReadOptionalField pos "469"B bs ReadRoundingModulus
     let ci = {
-            OrderQty = orderQty
-            CashOrderQty = cashOrderQty
-            OrderPercent = orderPercent
-            RoundingDirection = roundingDirection
-            RoundingModulus = roundingModulus
+        OrderQty = orderQty
+        CashOrderQty = cashOrderQty
+        OrderPercent = orderPercent
+        RoundingDirection = roundingDirection
+        RoundingModulus = roundingModulus
     }
     pos, ci
 
@@ -1225,14 +1282,14 @@ let ReadSpreadOrBenchmarkCurveData (pos:int) (bs:byte []) : int * SpreadOrBenchm
     let pos, benchmarkSecurityID = ReadOptionalField pos "699"B bs ReadBenchmarkSecurityID
     let pos, benchmarkSecurityIDSource = ReadOptionalField pos "761"B bs ReadBenchmarkSecurityIDSource
     let ci = {
-            Spread = spread
-            BenchmarkCurveCurrency = benchmarkCurveCurrency
-            BenchmarkCurveName = benchmarkCurveName
-            BenchmarkCurvePoint = benchmarkCurvePoint
-            BenchmarkPrice = benchmarkPrice
-            BenchmarkPriceType = benchmarkPriceType
-            BenchmarkSecurityID = benchmarkSecurityID
-            BenchmarkSecurityIDSource = benchmarkSecurityIDSource
+        Spread = spread
+        BenchmarkCurveCurrency = benchmarkCurveCurrency
+        BenchmarkCurveName = benchmarkCurveName
+        BenchmarkCurvePoint = benchmarkCurvePoint
+        BenchmarkPrice = benchmarkPrice
+        BenchmarkPriceType = benchmarkPriceType
+        BenchmarkSecurityID = benchmarkSecurityID
+        BenchmarkSecurityIDSource = benchmarkSecurityIDSource
     }
     pos, ci
 
@@ -1246,12 +1303,12 @@ let ReadYieldData (pos:int) (bs:byte []) : int * YieldData  =
     let pos, yieldRedemptionPrice = ReadOptionalField pos "697"B bs ReadYieldRedemptionPrice
     let pos, yieldRedemptionPriceType = ReadOptionalField pos "698"B bs ReadYieldRedemptionPriceType
     let ci = {
-            YieldType = yieldType
-            Yield = yyield
-            YieldCalcDate = yieldCalcDate
-            YieldRedemptionDate = yieldRedemptionDate
-            YieldRedemptionPrice = yieldRedemptionPrice
-            YieldRedemptionPriceType = yieldRedemptionPriceType
+        YieldType = yieldType
+        Yield = yyield
+        YieldCalcDate = yieldCalcDate
+        YieldRedemptionDate = yieldRedemptionDate
+        YieldRedemptionPrice = yieldRedemptionPrice
+        YieldRedemptionPriceType = yieldRedemptionPriceType
     }
     pos, ci
 
@@ -1265,12 +1322,12 @@ let ReadPegInstructions (pos:int) (bs:byte []) : int * PegInstructions  =
     let pos, pegRoundDirection = ReadOptionalField pos "838"B bs ReadPegRoundDirection
     let pos, pegScope = ReadOptionalField pos "840"B bs ReadPegScope
     let ci = {
-            PegOffsetValue = pegOffsetValue
-            PegMoveType = pegMoveType
-            PegOffsetType = pegOffsetType
-            PegLimitType = pegLimitType
-            PegRoundDirection = pegRoundDirection
-            PegScope = pegScope
+        PegOffsetValue = pegOffsetValue
+        PegMoveType = pegMoveType
+        PegOffsetType = pegOffsetType
+        PegLimitType = pegLimitType
+        PegRoundDirection = pegRoundDirection
+        PegScope = pegScope
     }
     pos, ci
 
@@ -1285,13 +1342,13 @@ let ReadDiscretionInstructions (pos:int) (bs:byte []) : int * DiscretionInstruct
     let pos, discretionRoundDirection = ReadOptionalField pos "844"B bs ReadDiscretionRoundDirection
     let pos, discretionScope = ReadOptionalField pos "846"B bs ReadDiscretionScope
     let ci = {
-            DiscretionInst = discretionInst
-            DiscretionOffsetValue = discretionOffsetValue
-            DiscretionMoveType = discretionMoveType
-            DiscretionOffsetType = discretionOffsetType
-            DiscretionLimitType = discretionLimitType
-            DiscretionRoundDirection = discretionRoundDirection
-            DiscretionScope = discretionScope
+        DiscretionInst = discretionInst
+        DiscretionOffsetValue = discretionOffsetValue
+        DiscretionMoveType = discretionMoveType
+        DiscretionOffsetType = discretionOffsetType
+        DiscretionLimitType = discretionLimitType
+        DiscretionRoundDirection = discretionRoundDirection
+        DiscretionScope = discretionScope
     }
     pos, ci
 
@@ -1303,6 +1360,7 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, listSeqNo = ReadField "ReadNewOrderListNoOrders" pos "67"B bs ReadListSeqNo
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
     let pos, settlInstMode = ReadOptionalField pos "160"B bs ReadSettlInstMode
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, tradeDate = ReadOptionalField pos "75"B bs ReadTradeDate
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
@@ -1312,6 +1370,7 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, bookingUnit = ReadOptionalField pos "590"B bs ReadBookingUnit
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
+    let pos, noAllocsGrp = ReadOptionalField pos "TAG"B bs ReadNoAllocs    // optional group
     let pos, settlType = ReadOptionalField pos "63"B bs ReadSettlType
     let pos, settlDate = ReadOptionalField pos "64"B bs ReadSettlDate
     let pos, cashMargin = ReadOptionalField pos "544"B bs ReadCashMargin
@@ -1321,19 +1380,24 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, minQty = ReadOptionalField pos "110"B bs ReadMinQty
     let pos, maxFloor = ReadOptionalField pos "111"B bs ReadMaxFloor
     let pos, exDestination = ReadOptionalField pos "100"B bs ReadExDestination
+    let pos, noTradingSessionsGrp = ReadOptionalField pos "TAG"B bs ReadNoTradingSessions    // optional group
     let pos, processCode = ReadOptionalField pos "81"B bs ReadProcessCode
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, side = ReadField "ReadNewOrderListNoOrders" pos "54"B bs ReadSide
     let pos, sideValueInd = ReadOptionalField pos "401"B bs ReadSideValueInd
     let pos, locateReqd = ReadOptionalField pos "114"B bs ReadLocateReqd
     let pos, transactTime = ReadOptionalField pos "60"B bs ReadTransactTime
+    let pos, stipulations = ReadOptionalField pos "TAG"B bs ReadStipulations    // optional component
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
     let pos, orderQtyData = ReadOrderQtyData pos bs    // component
     let pos, ordType = ReadOptionalField pos "40"B bs ReadOrdType
     let pos, priceType = ReadOptionalField pos "423"B bs ReadPriceType
     let pos, price = ReadOptionalField pos "44"B bs ReadPrice
     let pos, stopPx = ReadOptionalField pos "99"B bs ReadStopPx
+    let pos, spreadOrBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadSpreadOrBenchmarkCurveData    // optional component
+    let pos, yieldData = ReadOptionalField pos "TAG"B bs ReadYieldData    // optional component
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let pos, complianceID = ReadOptionalField pos "376"B bs ReadComplianceID
     let pos, solicitedFlag = ReadOptionalField pos "377"B bs ReadSolicitedFlag
@@ -1344,6 +1408,7 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, expireDate = ReadOptionalField pos "432"B bs ReadExpireDate
     let pos, expireTime = ReadOptionalField pos "126"B bs ReadExpireTime
     let pos, gTBookingInst = ReadOptionalField pos "427"B bs ReadGTBookingInst
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, orderCapacity = ReadOptionalField pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, custOrderCapacity = ReadOptionalField pos "582"B bs ReadCustOrderCapacity
@@ -1358,85 +1423,87 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
     let pos, positionEffect = ReadOptionalField pos "77"B bs ReadPositionEffect
     let pos, coveredOrUncovered = ReadOptionalField pos "203"B bs ReadCoveredOrUncovered
     let pos, maxShow = ReadOptionalField pos "210"B bs ReadMaxShow
+    let pos, pegInstructions = ReadOptionalField pos "TAG"B bs ReadPegInstructions    // optional component
+    let pos, discretionInstructions = ReadOptionalField pos "TAG"B bs ReadDiscretionInstructions    // optional component
     let pos, targetStrategy = ReadOptionalField pos "847"B bs ReadTargetStrategy
     let pos, targetStrategyParameters = ReadOptionalField pos "848"B bs ReadTargetStrategyParameters
     let pos, participationRate = ReadOptionalField pos "849"B bs ReadParticipationRate
     let pos, designation = ReadOptionalField pos "494"B bs ReadDesignation
     let ci = {
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            ListSeqNo = listSeqNo
-            ClOrdLinkID = clOrdLinkID
-            SettlInstMode = settlInstMode
-            Parties = parties
-            TradeOriginationDate = tradeOriginationDate
-            TradeDate = tradeDate
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            DayBookingInst = dayBookingInst
-            BookingUnit = bookingUnit
-            AllocID = allocID
-            PreallocMethod = preallocMethod
-            NoAllocs = noAllocs
-            SettlType = settlType
-            SettlDate = settlDate
-            CashMargin = cashMargin
-            ClearingFeeIndicator = clearingFeeIndicator
-            HandlInst = handlInst
-            ExecInst = execInst
-            MinQty = minQty
-            MaxFloor = maxFloor
-            ExDestination = exDestination
-            NoTradingSessions = noTradingSessions
-            ProcessCode = processCode
-            Instrument = instrument
-            NoUnderlyings = noUnderlyings
-            PrevClosePx = prevClosePx
-            Side = side
-            SideValueInd = sideValueInd
-            LocateReqd = locateReqd
-            TransactTime = transactTime
-            Stipulations = stipulations
-            QtyType = qtyType
-            OrderQtyData = orderQtyData
-            OrdType = ordType
-            PriceType = priceType
-            Price = price
-            StopPx = stopPx
-            SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
-            YieldData = yieldData
-            Currency = currency
-            ComplianceID = complianceID
-            SolicitedFlag = solicitedFlag
-            IOIid = iOIid
-            QuoteID = quoteID
-            TimeInForce = timeInForce
-            EffectiveTime = effectiveTime
-            ExpireDate = expireDate
-            ExpireTime = expireTime
-            GTBookingInst = gTBookingInst
-            CommissionData = commissionData
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            CustOrderCapacity = custOrderCapacity
-            ForexReq = forexReq
-            SettlCurrency = settlCurrency
-            BookingType = bookingType
-            Text = text
-            EncodedText = encodedText
-            SettlDate2 = settlDate2
-            OrderQty2 = orderQty2
-            Price2 = price2
-            PositionEffect = positionEffect
-            CoveredOrUncovered = coveredOrUncovered
-            MaxShow = maxShow
-            PegInstructions = pegInstructions
-            DiscretionInstructions = discretionInstructions
-            TargetStrategy = targetStrategy
-            TargetStrategyParameters = targetStrategyParameters
-            ParticipationRate = participationRate
-            Designation = designation
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        ListSeqNo = listSeqNo
+        ClOrdLinkID = clOrdLinkID
+        SettlInstMode = settlInstMode
+        Parties = parties
+        TradeOriginationDate = tradeOriginationDate
+        TradeDate = tradeDate
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        DayBookingInst = dayBookingInst
+        BookingUnit = bookingUnit
+        AllocID = allocID
+        PreallocMethod = preallocMethod
+        NoAllocsGrp = noAllocsGrp
+        SettlType = settlType
+        SettlDate = settlDate
+        CashMargin = cashMargin
+        ClearingFeeIndicator = clearingFeeIndicator
+        HandlInst = handlInst
+        ExecInst = execInst
+        MinQty = minQty
+        MaxFloor = maxFloor
+        ExDestination = exDestination
+        NoTradingSessionsGrp = noTradingSessionsGrp
+        ProcessCode = processCode
+        Instrument = instrument
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        PrevClosePx = prevClosePx
+        Side = side
+        SideValueInd = sideValueInd
+        LocateReqd = locateReqd
+        TransactTime = transactTime
+        Stipulations = stipulations
+        QtyType = qtyType
+        OrderQtyData = orderQtyData
+        OrdType = ordType
+        PriceType = priceType
+        Price = price
+        StopPx = stopPx
+        SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
+        YieldData = yieldData
+        Currency = currency
+        ComplianceID = complianceID
+        SolicitedFlag = solicitedFlag
+        IOIid = iOIid
+        QuoteID = quoteID
+        TimeInForce = timeInForce
+        EffectiveTime = effectiveTime
+        ExpireDate = expireDate
+        ExpireTime = expireTime
+        GTBookingInst = gTBookingInst
+        CommissionData = commissionData
+        OrderCapacity = orderCapacity
+        OrderRestrictions = orderRestrictions
+        CustOrderCapacity = custOrderCapacity
+        ForexReq = forexReq
+        SettlCurrency = settlCurrency
+        BookingType = bookingType
+        Text = text
+        EncodedText = encodedText
+        SettlDate2 = settlDate2
+        OrderQty2 = orderQty2
+        Price2 = price2
+        PositionEffect = positionEffect
+        CoveredOrUncovered = coveredOrUncovered
+        MaxShow = maxShow
+        PegInstructions = pegInstructions
+        DiscretionInstructions = discretionInstructions
+        TargetStrategy = targetStrategy
+        TargetStrategyParameters = targetStrategyParameters
+        ParticipationRate = participationRate
+        Designation = designation
     }
     pos, ci
 
@@ -1448,10 +1515,10 @@ let ReadCommissionDataFG (pos:int) (bs:byte []) : int * CommissionDataFG  =
     let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
     let pos, fundRenewWaiv = ReadOptionalField pos "497"B bs ReadFundRenewWaiv
     let ci = {
-            Commission = commission
-            CommType = commType
-            CommCurrency = commCurrency
-            FundRenewWaiv = fundRenewWaiv
+        Commission = commission
+        CommType = commType
+        CommCurrency = commCurrency
+        FundRenewWaiv = fundRenewWaiv
     }
     pos, ci
 
@@ -1473,20 +1540,20 @@ let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponse
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            CommissionDataFG = commissionDataFG
-            ListID = listID
-            Country = country
-            Side = side
-            Price = price
-            PriceType = priceType
-            FairValue = fairValue
-            NetGrossInd = netGrossInd
-            SettlType = settlType
-            SettlDate = settlDate
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            Text = text
-            EncodedText = encodedText
+        CommissionDataFG = commissionDataFG
+        ListID = listID
+        Country = country
+        Side = side
+        Price = price
+        PriceType = priceType
+        FairValue = fairValue
+        NetGrossInd = netGrossInd
+        SettlType = settlType
+        SettlDate = settlDate
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -1495,16 +1562,17 @@ let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponse
 let ReadNoLegAllocsGrp (pos:int) (bs:byte []) : int * NoLegAllocsGrp  =
     let pos, legAllocAccount = ReadField "ReadNoLegAllocs" pos "671"B bs ReadLegAllocAccount
     let pos, legIndividualAllocID = ReadOptionalField pos "672"B bs ReadLegIndividualAllocID
+    let pos, nestedParties2 = ReadOptionalField pos "TAG"B bs ReadNestedParties2    // optional component
     let pos, legAllocQty = ReadOptionalField pos "673"B bs ReadLegAllocQty
     let pos, legAllocAcctIDSource = ReadOptionalField pos "674"B bs ReadLegAllocAcctIDSource
     let pos, legSettlCurrency = ReadOptionalField pos "675"B bs ReadLegSettlCurrency
     let ci = {
-            LegAllocAccount = legAllocAccount
-            LegIndividualAllocID = legIndividualAllocID
-            NestedParties2 = nestedParties2
-            LegAllocQty = legAllocQty
-            LegAllocAcctIDSource = legAllocAcctIDSource
-            LegSettlCurrency = legSettlCurrency
+        LegAllocAccount = legAllocAccount
+        LegIndividualAllocID = legIndividualAllocID
+        NestedParties2 = nestedParties2
+        LegAllocQty = legAllocQty
+        LegAllocAcctIDSource = legAllocAcctIDSource
+        LegSettlCurrency = legSettlCurrency
     }
     pos, ci
 
@@ -1514,25 +1582,28 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int 
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, noLegAllocsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegAllocs    // optional group
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
     let pos, legCoveredOrUncovered = ReadOptionalField pos "565"B bs ReadLegCoveredOrUncovered
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legRefID = ReadOptionalField pos "654"B bs ReadLegRefID
     let pos, legPrice = ReadOptionalField pos "566"B bs ReadLegPrice
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegStipulations = legStipulations
-            NoLegAllocs = noLegAllocs
-            LegPositionEffect = legPositionEffect
-            LegCoveredOrUncovered = legCoveredOrUncovered
-            NestedParties = nestedParties
-            LegRefID = legRefID
-            LegPrice = legPrice
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegStipulations = legStipulations
+        NoLegAllocsGrp = noLegAllocsGrp
+        LegPositionEffect = legPositionEffect
+        LegCoveredOrUncovered = legCoveredOrUncovered
+        NestedParties = nestedParties
+        LegRefID = legRefID
+        LegPrice = legPrice
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
     }
     pos, ci
 
@@ -1542,8 +1613,8 @@ let ReadNoNested3PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartySub
     let pos, nested3PartySubID = ReadField "ReadNoNested3PartySubIDs" pos "953"B bs ReadNested3PartySubID
     let pos, nested3PartySubIDType = ReadOptionalField pos "954"B bs ReadNested3PartySubIDType
     let ci = {
-            Nested3PartySubID = nested3PartySubID
-            Nested3PartySubIDType = nested3PartySubIDType
+        Nested3PartySubID = nested3PartySubID
+        Nested3PartySubIDType = nested3PartySubIDType
     }
     pos, ci
 
@@ -1553,19 +1624,21 @@ let ReadNoNested3PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartyIDsGrp
     let pos, nested3PartyID = ReadField "ReadNoNested3PartyIDs" pos "949"B bs ReadNested3PartyID
     let pos, nested3PartyIDSource = ReadOptionalField pos "950"B bs ReadNested3PartyIDSource
     let pos, nested3PartyRole = ReadOptionalField pos "951"B bs ReadNested3PartyRole
+    let pos, noNested3PartySubIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNested3PartySubIDs    // optional group
     let ci = {
-            Nested3PartyID = nested3PartyID
-            Nested3PartyIDSource = nested3PartyIDSource
-            Nested3PartyRole = nested3PartyRole
-            NoNested3PartySubIDs = noNested3PartySubIDs
+        Nested3PartyID = nested3PartyID
+        Nested3PartyIDSource = nested3PartyIDSource
+        Nested3PartyRole = nested3PartyRole
+        NoNested3PartySubIDsGrp = noNested3PartySubIDsGrp
     }
     pos, ci
 
 
 // component
 let ReadNestedParties3 (pos:int) (bs:byte []) : int * NestedParties3  =
+    let pos, noNested3PartyIDsGrp = ReadOptionalField pos "TAG"B bs ReadNoNested3PartyIDs    // optional group
     let ci = {
-            NoNested3PartyIDs = noNested3PartyIDs
+        NoNested3PartyIDsGrp = noNested3PartyIDsGrp
     }
     pos, ci
 
@@ -1576,14 +1649,15 @@ let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (pos:int) (bs:byte []) : in
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
+    let pos, nestedParties3 = ReadOptionalField pos "TAG"B bs ReadNestedParties3    // optional component
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocSettlCurrency = allocSettlCurrency
-            IndividualAllocID = individualAllocID
-            NestedParties3 = nestedParties3
-            AllocQty = allocQty
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocSettlCurrency = allocSettlCurrency
+        IndividualAllocID = individualAllocID
+        NestedParties3 = nestedParties3
+        AllocQty = allocQty
     }
     pos, ci
 
@@ -1593,25 +1667,28 @@ let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultile
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, noLegAllocsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegAllocs    // optional group
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
     let pos, legCoveredOrUncovered = ReadOptionalField pos "565"B bs ReadLegCoveredOrUncovered
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legRefID = ReadOptionalField pos "654"B bs ReadLegRefID
     let pos, legPrice = ReadOptionalField pos "566"B bs ReadLegPrice
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegStipulations = legStipulations
-            NoLegAllocs = noLegAllocs
-            LegPositionEffect = legPositionEffect
-            LegCoveredOrUncovered = legCoveredOrUncovered
-            NestedParties = nestedParties
-            LegRefID = legRefID
-            LegPrice = legPrice
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegStipulations = legStipulations
+        NoLegAllocsGrp = noLegAllocsGrp
+        LegPositionEffect = legPositionEffect
+        LegCoveredOrUncovered = legCoveredOrUncovered
+        NestedParties = nestedParties
+        LegRefID = legRefID
+        LegPrice = legPrice
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
     }
     pos, ci
 
@@ -1622,14 +1699,15 @@ let ReadNewOrderMultilegNoAllocsGrp (pos:int) (bs:byte []) : int * NewOrderMulti
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
     let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
+    let pos, nestedParties3 = ReadOptionalField pos "TAG"B bs ReadNestedParties3    // optional component
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocSettlCurrency = allocSettlCurrency
-            IndividualAllocID = individualAllocID
-            NestedParties3 = nestedParties3
-            AllocQty = allocQty
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocSettlCurrency = allocSettlCurrency
+        IndividualAllocID = individualAllocID
+        NestedParties3 = nestedParties3
+        AllocQty = allocQty
     }
     pos, ci
 
@@ -1642,6 +1720,7 @@ let ReadCrossOrderCancelRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOr
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
     let pos, origOrdModTime = ReadOptionalField pos "586"B bs ReadOrigOrdModTime
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, tradeDate = ReadOptionalField pos "75"B bs ReadTradeDate
     let pos, orderQtyData = ReadOrderQtyData pos bs    // component
@@ -1649,19 +1728,19 @@ let ReadCrossOrderCancelRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOr
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            Side = side
-            OrigClOrdID = origClOrdID
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            ClOrdLinkID = clOrdLinkID
-            OrigOrdModTime = origOrdModTime
-            Parties = parties
-            TradeOriginationDate = tradeOriginationDate
-            TradeDate = tradeDate
-            OrderQtyData = orderQtyData
-            ComplianceID = complianceID
-            Text = text
-            EncodedText = encodedText
+        Side = side
+        OrigClOrdID = origClOrdID
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        ClOrdLinkID = clOrdLinkID
+        OrigOrdModTime = origOrdModTime
+        Parties = parties
+        TradeOriginationDate = tradeOriginationDate
+        TradeDate = tradeDate
+        OrderQtyData = orderQtyData
+        ComplianceID = complianceID
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -1674,6 +1753,7 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * 
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
     let pos, origOrdModTime = ReadOptionalField pos "586"B bs ReadOrigOrdModTime
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, tradeDate = ReadOptionalField pos "75"B bs ReadTradeDate
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
@@ -1683,8 +1763,10 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * 
     let pos, bookingUnit = ReadOptionalField pos "590"B bs ReadBookingUnit
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
+    let pos, noAllocsGrp = ReadOptionalField pos "TAG"B bs ReadNoAllocs    // optional group
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
     let pos, orderQtyData = ReadOrderQtyData pos bs    // component
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, orderCapacity = ReadOptionalField pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, custOrderCapacity = ReadOptionalField pos "582"B bs ReadCustOrderCapacity
@@ -1700,40 +1782,40 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * 
     let pos, solicitedFlag = ReadOptionalField pos "377"B bs ReadSolicitedFlag
     let pos, sideComplianceID = ReadOptionalField pos "659"B bs ReadSideComplianceID
     let ci = {
-            Side = side
-            OrigClOrdID = origClOrdID
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            ClOrdLinkID = clOrdLinkID
-            OrigOrdModTime = origOrdModTime
-            Parties = parties
-            TradeOriginationDate = tradeOriginationDate
-            TradeDate = tradeDate
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            DayBookingInst = dayBookingInst
-            BookingUnit = bookingUnit
-            PreallocMethod = preallocMethod
-            AllocID = allocID
-            NoAllocs = noAllocs
-            QtyType = qtyType
-            OrderQtyData = orderQtyData
-            CommissionData = commissionData
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            CustOrderCapacity = custOrderCapacity
-            ForexReq = forexReq
-            SettlCurrency = settlCurrency
-            BookingType = bookingType
-            Text = text
-            EncodedText = encodedText
-            PositionEffect = positionEffect
-            CoveredOrUncovered = coveredOrUncovered
-            CashMargin = cashMargin
-            ClearingFeeIndicator = clearingFeeIndicator
-            SolicitedFlag = solicitedFlag
-            SideComplianceID = sideComplianceID
+        Side = side
+        OrigClOrdID = origClOrdID
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        ClOrdLinkID = clOrdLinkID
+        OrigOrdModTime = origOrdModTime
+        Parties = parties
+        TradeOriginationDate = tradeOriginationDate
+        TradeDate = tradeDate
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        DayBookingInst = dayBookingInst
+        BookingUnit = bookingUnit
+        PreallocMethod = preallocMethod
+        AllocID = allocID
+        NoAllocsGrp = noAllocsGrp
+        QtyType = qtyType
+        OrderQtyData = orderQtyData
+        CommissionData = commissionData
+        OrderCapacity = orderCapacity
+        OrderRestrictions = orderRestrictions
+        CustOrderCapacity = custOrderCapacity
+        ForexReq = forexReq
+        SettlCurrency = settlCurrency
+        BookingType = bookingType
+        Text = text
+        EncodedText = encodedText
+        PositionEffect = positionEffect
+        CoveredOrUncovered = coveredOrUncovered
+        CashMargin = cashMargin
+        ClearingFeeIndicator = clearingFeeIndicator
+        SolicitedFlag = solicitedFlag
+        SideComplianceID = sideComplianceID
     }
     pos, ci
 
@@ -1744,6 +1826,7 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
     let pos, clOrdID = ReadField "ReadNoSides" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, tradeDate = ReadOptionalField pos "75"B bs ReadTradeDate
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
@@ -1753,8 +1836,10 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
     let pos, bookingUnit = ReadOptionalField pos "590"B bs ReadBookingUnit
     let pos, preallocMethod = ReadOptionalField pos "591"B bs ReadPreallocMethod
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
+    let pos, noAllocsGrp = ReadOptionalField pos "TAG"B bs ReadNoAllocs    // optional group
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
     let pos, orderQtyData = ReadOrderQtyData pos bs    // component
+    let pos, commissionData = ReadOptionalField pos "TAG"B bs ReadCommissionData    // optional component
     let pos, orderCapacity = ReadOptionalField pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, custOrderCapacity = ReadOptionalField pos "582"B bs ReadCustOrderCapacity
@@ -1770,38 +1855,38 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
     let pos, solicitedFlag = ReadOptionalField pos "377"B bs ReadSolicitedFlag
     let pos, sideComplianceID = ReadOptionalField pos "659"B bs ReadSideComplianceID
     let ci = {
-            Side = side
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            ClOrdLinkID = clOrdLinkID
-            Parties = parties
-            TradeOriginationDate = tradeOriginationDate
-            TradeDate = tradeDate
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            DayBookingInst = dayBookingInst
-            BookingUnit = bookingUnit
-            PreallocMethod = preallocMethod
-            AllocID = allocID
-            NoAllocs = noAllocs
-            QtyType = qtyType
-            OrderQtyData = orderQtyData
-            CommissionData = commissionData
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            CustOrderCapacity = custOrderCapacity
-            ForexReq = forexReq
-            SettlCurrency = settlCurrency
-            BookingType = bookingType
-            Text = text
-            EncodedText = encodedText
-            PositionEffect = positionEffect
-            CoveredOrUncovered = coveredOrUncovered
-            CashMargin = cashMargin
-            ClearingFeeIndicator = clearingFeeIndicator
-            SolicitedFlag = solicitedFlag
-            SideComplianceID = sideComplianceID
+        Side = side
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        ClOrdLinkID = clOrdLinkID
+        Parties = parties
+        TradeOriginationDate = tradeOriginationDate
+        TradeDate = tradeDate
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        DayBookingInst = dayBookingInst
+        BookingUnit = bookingUnit
+        PreallocMethod = preallocMethod
+        AllocID = allocID
+        NoAllocsGrp = noAllocsGrp
+        QtyType = qtyType
+        OrderQtyData = orderQtyData
+        CommissionData = commissionData
+        OrderCapacity = orderCapacity
+        OrderRestrictions = orderRestrictions
+        CustOrderCapacity = custOrderCapacity
+        ForexReq = forexReq
+        SettlCurrency = settlCurrency
+        BookingType = bookingType
+        Text = text
+        EncodedText = encodedText
+        PositionEffect = positionEffect
+        CoveredOrUncovered = coveredOrUncovered
+        CashMargin = cashMargin
+        ClearingFeeIndicator = clearingFeeIndicator
+        SolicitedFlag = solicitedFlag
+        SideComplianceID = sideComplianceID
     }
     pos, ci
 
@@ -1811,26 +1896,28 @@ let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportN
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
     let pos, legPositionEffect = ReadOptionalField pos "564"B bs ReadLegPositionEffect
     let pos, legCoveredOrUncovered = ReadOptionalField pos "565"B bs ReadLegCoveredOrUncovered
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legRefID = ReadOptionalField pos "654"B bs ReadLegRefID
     let pos, legPrice = ReadOptionalField pos "566"B bs ReadLegPrice
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegStipulations = legStipulations
-            LegPositionEffect = legPositionEffect
-            LegCoveredOrUncovered = legCoveredOrUncovered
-            NestedParties = nestedParties
-            LegRefID = legRefID
-            LegPrice = legPrice
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegLastPx = legLastPx
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegStipulations = legStipulations
+        LegPositionEffect = legPositionEffect
+        LegCoveredOrUncovered = legCoveredOrUncovered
+        NestedParties = nestedParties
+        LegRefID = legRefID
+        LegPrice = legPrice
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegLastPx = legLastPx
     }
     pos, ci
 
@@ -1840,8 +1927,8 @@ let ReadNoInstrAttribGrp (pos:int) (bs:byte []) : int * NoInstrAttribGrp  =
     let pos, instrAttribType = ReadField "ReadNoInstrAttrib" pos "871"B bs ReadInstrAttribType
     let pos, instrAttribValue = ReadOptionalField pos "872"B bs ReadInstrAttribValue
     let ci = {
-            InstrAttribType = instrAttribType
-            InstrAttribValue = instrAttribValue
+        InstrAttribType = instrAttribType
+        InstrAttribValue = instrAttribValue
     }
     pos, ci
 
@@ -1850,10 +1937,11 @@ let ReadNoInstrAttribGrp (pos:int) (bs:byte []) : int * NoInstrAttribGrp  =
 let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  =
     let pos, deliveryForm = ReadOptionalField pos "668"B bs ReadDeliveryForm
     let pos, pctAtRisk = ReadOptionalField pos "869"B bs ReadPctAtRisk
+    let pos, noInstrAttribGrp = ReadOptionalField pos "TAG"B bs ReadNoInstrAttrib    // optional group
     let ci = {
-            DeliveryForm = deliveryForm
-            PctAtRisk = pctAtRisk
-            NoInstrAttrib = noInstrAttrib
+        DeliveryForm = deliveryForm
+        PctAtRisk = pctAtRisk
+        NoInstrAttribGrp = noInstrAttribGrp
     }
     pos, ci
 
@@ -1862,7 +1950,7 @@ let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  
 let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
     }
     pos, ci
 
@@ -1872,20 +1960,22 @@ let ReadDerivativeSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * Der
     let pos, instrument = ReadInstrument pos bs    // component
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let pos, expirationCycle = ReadOptionalField pos "827"B bs ReadExpirationCycle
+    let pos, instrumentExtension = ReadOptionalField pos "TAG"B bs ReadInstrumentExtension    // optional component
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            Instrument = instrument
-            Currency = currency
-            ExpirationCycle = expirationCycle
-            InstrumentExtension = instrumentExtension
-            NoLegs = noLegs
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            Text = text
-            EncodedText = encodedText
+        Instrument = instrument
+        Currency = currency
+        ExpirationCycle = expirationCycle
+        InstrumentExtension = instrumentExtension
+        NoLegsGrp = noLegsGrp
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -1902,15 +1992,15 @@ let ReadFinancingDetails (pos:int) (bs:byte []) : int * FinancingDetails  =
     let pos, deliveryType = ReadOptionalField pos "919"B bs ReadDeliveryType
     let pos, marginRatio = ReadOptionalField pos "898"B bs ReadMarginRatio
     let ci = {
-            AgreementDesc = agreementDesc
-            AgreementID = agreementID
-            AgreementDate = agreementDate
-            AgreementCurrency = agreementCurrency
-            TerminationType = terminationType
-            StartDate = startDate
-            EndDate = endDate
-            DeliveryType = deliveryType
-            MarginRatio = marginRatio
+        AgreementDesc = agreementDesc
+        AgreementID = agreementID
+        AgreementDate = agreementDate
+        AgreementCurrency = agreementCurrency
+        TerminationType = terminationType
+        StartDate = startDate
+        EndDate = endDate
+        DeliveryType = deliveryType
+        MarginRatio = marginRatio
     }
     pos, ci
 
@@ -1923,11 +2013,11 @@ let ReadLegBenchmarkCurveData (pos:int) (bs:byte []) : int * LegBenchmarkCurveDa
     let pos, legBenchmarkPrice = ReadOptionalField pos "679"B bs ReadLegBenchmarkPrice
     let pos, legBenchmarkPriceType = ReadOptionalField pos "680"B bs ReadLegBenchmarkPriceType
     let ci = {
-            LegBenchmarkCurveCurrency = legBenchmarkCurveCurrency
-            LegBenchmarkCurveName = legBenchmarkCurveName
-            LegBenchmarkCurvePoint = legBenchmarkCurvePoint
-            LegBenchmarkPrice = legBenchmarkPrice
-            LegBenchmarkPriceType = legBenchmarkPriceType
+        LegBenchmarkCurveCurrency = legBenchmarkCurveCurrency
+        LegBenchmarkCurveName = legBenchmarkCurveName
+        LegBenchmarkCurvePoint = legBenchmarkCurvePoint
+        LegBenchmarkPrice = legBenchmarkPrice
+        LegBenchmarkPriceType = legBenchmarkPriceType
     }
     pos, ci
 
@@ -1937,12 +2027,14 @@ let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsG
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, legBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadLegBenchmarkCurveData    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegStipulations = legStipulations
-            LegBenchmarkCurveData = legBenchmarkCurveData
+        InstrumentLegFG = instrumentLegFG
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegStipulations = legStipulations
+        LegBenchmarkCurveData = legBenchmarkCurveData
     }
     pos, ci
 
@@ -1950,7 +2042,14 @@ let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsG
 // group
 let ReadSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * SecurityListNoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, instrumentExtension = ReadOptionalField pos "TAG"B bs ReadInstrumentExtension    // optional component
+    let pos, financingDetails = ReadOptionalField pos "TAG"B bs ReadFinancingDetails    // optional component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
+    let pos, stipulations = ReadOptionalField pos "TAG"B bs ReadStipulations    // optional component
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
+    let pos, spreadOrBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadSpreadOrBenchmarkCurveData    // optional component
+    let pos, yieldData = ReadOptionalField pos "TAG"B bs ReadYieldData    // optional component
     let pos, roundLot = ReadOptionalField pos "561"B bs ReadRoundLot
     let pos, minTradeVol = ReadOptionalField pos "562"B bs ReadMinTradeVol
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
@@ -1959,22 +2058,22 @@ let ReadSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * SecurityListN
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            Instrument = instrument
-            InstrumentExtension = instrumentExtension
-            FinancingDetails = financingDetails
-            NoUnderlyings = noUnderlyings
-            Currency = currency
-            Stipulations = stipulations
-            SecurityListNoLegs = securityListNoLegs
-            SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
-            YieldData = yieldData
-            RoundLot = roundLot
-            MinTradeVol = minTradeVol
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            ExpirationCycle = expirationCycle
-            Text = text
-            EncodedText = encodedText
+        Instrument = instrument
+        InstrumentExtension = instrumentExtension
+        FinancingDetails = financingDetails
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        Currency = currency
+        Stipulations = stipulations
+        SecurityListNoLegsGrp = securityListNoLegsGrp
+        SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
+        YieldData = yieldData
+        RoundLot = roundLot
+        MinTradeVol = minTradeVol
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        ExpirationCycle = expirationCycle
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -1986,6 +2085,9 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int 
     let pos, mDEntryType = ReadOptionalField pos "269"B bs ReadMDEntryType
     let pos, mDEntryID = ReadOptionalField pos "278"B bs ReadMDEntryID
     let pos, mDEntryRefID = ReadOptionalField pos "280"B bs ReadMDEntryRefID
+    let pos, instrument = ReadOptionalField pos "TAG"B bs ReadInstrument    // optional component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let pos, financialStatus = ReadOptionalField pos "291"B bs ReadFinancialStatus
     let pos, corporateAction = ReadOptionalField pos "292"B bs ReadCorporateAction
     let pos, mDEntryPx = ReadOptionalField pos "270"B bs ReadMDEntryPx
@@ -2021,48 +2123,48 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int 
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            MDUpdateAction = mDUpdateAction
-            DeleteReason = deleteReason
-            MDEntryType = mDEntryType
-            MDEntryID = mDEntryID
-            MDEntryRefID = mDEntryRefID
-            Instrument = instrument
-            NoUnderlyings = noUnderlyings
-            NoLegs = noLegs
-            FinancialStatus = financialStatus
-            CorporateAction = corporateAction
-            MDEntryPx = mDEntryPx
-            Currency = currency
-            MDEntrySize = mDEntrySize
-            MDEntryDate = mDEntryDate
-            MDEntryTime = mDEntryTime
-            TickDirection = tickDirection
-            MDMkt = mDMkt
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            QuoteCondition = quoteCondition
-            TradeCondition = tradeCondition
-            MDEntryOriginator = mDEntryOriginator
-            LocationID = locationID
-            DeskID = deskID
-            OpenCloseSettlFlag = openCloseSettlFlag
-            TimeInForce = timeInForce
-            ExpireDate = expireDate
-            ExpireTime = expireTime
-            MinQty = minQty
-            ExecInst = execInst
-            SellerDays = sellerDays
-            OrderID = orderID
-            QuoteEntryID = quoteEntryID
-            MDEntryBuyer = mDEntryBuyer
-            MDEntrySeller = mDEntrySeller
-            NumberOfOrders = numberOfOrders
-            MDEntryPositionNo = mDEntryPositionNo
-            Scope = scope
-            PriceDelta = priceDelta
-            NetChgPrevDay = netChgPrevDay
-            Text = text
-            EncodedText = encodedText
+        MDUpdateAction = mDUpdateAction
+        DeleteReason = deleteReason
+        MDEntryType = mDEntryType
+        MDEntryID = mDEntryID
+        MDEntryRefID = mDEntryRefID
+        Instrument = instrument
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        NoLegsGrp = noLegsGrp
+        FinancialStatus = financialStatus
+        CorporateAction = corporateAction
+        MDEntryPx = mDEntryPx
+        Currency = currency
+        MDEntrySize = mDEntrySize
+        MDEntryDate = mDEntryDate
+        MDEntryTime = mDEntryTime
+        TickDirection = tickDirection
+        MDMkt = mDMkt
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        QuoteCondition = quoteCondition
+        TradeCondition = tradeCondition
+        MDEntryOriginator = mDEntryOriginator
+        LocationID = locationID
+        DeskID = deskID
+        OpenCloseSettlFlag = openCloseSettlFlag
+        TimeInForce = timeInForce
+        ExpireDate = expireDate
+        ExpireTime = expireTime
+        MinQty = minQty
+        ExecInst = execInst
+        SellerDays = sellerDays
+        OrderID = orderID
+        QuoteEntryID = quoteEntryID
+        MDEntryBuyer = mDEntryBuyer
+        MDEntrySeller = mDEntrySeller
+        NumberOfOrders = numberOfOrders
+        MDEntryPositionNo = mDEntryPositionNo
+        Scope = scope
+        PriceDelta = priceDelta
+        NetChgPrevDay = netChgPrevDay
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -2070,10 +2172,12 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int 
 // group
 let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDataRequestNoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let ci = {
-            Instrument = instrument
-            NoUnderlyings = noUnderlyings
-            NoLegs = noLegs
+        Instrument = instrument
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        NoLegsGrp = noLegsGrp
     }
     pos, ci
 
@@ -2081,6 +2185,8 @@ let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDa
 // group
 let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteAcknowledgementNoQuoteEntriesGrp  =
     let pos, quoteEntryID = ReadField "ReadMassQuoteAcknowledgementNoQuoteEntries" pos "299"B bs ReadQuoteEntryID
+    let pos, instrument = ReadOptionalField pos "TAG"B bs ReadInstrument    // optional component
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let pos, bidPx = ReadOptionalField pos "132"B bs ReadBidPx
     let pos, offerPx = ReadOptionalField pos "133"B bs ReadOfferPx
     let pos, bidSize = ReadOptionalField pos "134"B bs ReadBidSize
@@ -2106,33 +2212,33 @@ let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (pos:int) (bs:byte []) : int *
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let pos, quoteEntryRejectReason = ReadOptionalField pos "368"B bs ReadQuoteEntryRejectReason
     let ci = {
-            QuoteEntryID = quoteEntryID
-            Instrument = instrument
-            NoLegs = noLegs
-            BidPx = bidPx
-            OfferPx = offerPx
-            BidSize = bidSize
-            OfferSize = offerSize
-            ValidUntilTime = validUntilTime
-            BidSpotRate = bidSpotRate
-            OfferSpotRate = offerSpotRate
-            BidForwardPoints = bidForwardPoints
-            OfferForwardPoints = offerForwardPoints
-            MidPx = midPx
-            BidYield = bidYield
-            MidYield = midYield
-            OfferYield = offerYield
-            TransactTime = transactTime
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            SettlDate = settlDate
-            OrdType = ordType
-            SettlDate2 = settlDate2
-            OrderQty2 = orderQty2
-            BidForwardPoints2 = bidForwardPoints2
-            OfferForwardPoints2 = offerForwardPoints2
-            Currency = currency
-            QuoteEntryRejectReason = quoteEntryRejectReason
+        QuoteEntryID = quoteEntryID
+        Instrument = instrument
+        NoLegsGrp = noLegsGrp
+        BidPx = bidPx
+        OfferPx = offerPx
+        BidSize = bidSize
+        OfferSize = offerSize
+        ValidUntilTime = validUntilTime
+        BidSpotRate = bidSpotRate
+        OfferSpotRate = offerSpotRate
+        BidForwardPoints = bidForwardPoints
+        OfferForwardPoints = offerForwardPoints
+        MidPx = midPx
+        BidYield = bidYield
+        MidYield = midYield
+        OfferYield = offerYield
+        TransactTime = transactTime
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        SettlDate = settlDate
+        OrdType = ordType
+        SettlDate2 = settlDate2
+        OrderQty2 = orderQty2
+        BidForwardPoints2 = bidForwardPoints2
+        OfferForwardPoints2 = offerForwardPoints2
+        Currency = currency
+        QuoteEntryRejectReason = quoteEntryRejectReason
     }
     pos, ci
 
@@ -2140,14 +2246,16 @@ let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (pos:int) (bs:byte []) : int *
 // group
 let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (pos:int) (bs:byte []) : int * MassQuoteAcknowledgementNoQuoteSetsGrp  =
     let pos, quoteSetID = ReadField "ReadMassQuoteAcknowledgementNoQuoteSets" pos "302"B bs ReadQuoteSetID
+    let pos, underlyingInstrument = ReadOptionalField pos "TAG"B bs ReadUnderlyingInstrument    // optional component
     let pos, totNoQuoteEntries = ReadOptionalField pos "304"B bs ReadTotNoQuoteEntries
     let pos, lastFragment = ReadOptionalField pos "893"B bs ReadLastFragment
+    let pos, noQuoteEntriesGrp = ReadOptionalField pos "TAG"B bs ReadNoQuoteEntries    // optional group
     let ci = {
-            QuoteSetID = quoteSetID
-            UnderlyingInstrument = underlyingInstrument
-            TotNoQuoteEntries = totNoQuoteEntries
-            LastFragment = lastFragment
-            MassQuoteAcknowledgementNoQuoteEntries = massQuoteAcknowledgementNoQuoteEntries
+        QuoteSetID = quoteSetID
+        UnderlyingInstrument = underlyingInstrument
+        TotNoQuoteEntries = totNoQuoteEntries
+        LastFragment = lastFragment
+        MassQuoteAcknowledgementNoQuoteEntriesGrp = massQuoteAcknowledgementNoQuoteEntriesGrp
     }
     pos, ci
 
@@ -2155,6 +2263,8 @@ let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (pos:int) (bs:byte []) : int * Ma
 // group
 let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuoteEntriesGrp  =
     let pos, quoteEntryID = ReadField "ReadMassQuoteNoQuoteEntries" pos "299"B bs ReadQuoteEntryID
+    let pos, instrument = ReadOptionalField pos "TAG"B bs ReadInstrument    // optional component
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let pos, bidPx = ReadOptionalField pos "132"B bs ReadBidPx
     let pos, offerPx = ReadOptionalField pos "133"B bs ReadOfferPx
     let pos, bidSize = ReadOptionalField pos "134"B bs ReadBidSize
@@ -2179,32 +2289,32 @@ let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuo
     let pos, offerForwardPoints2 = ReadOptionalField pos "643"B bs ReadOfferForwardPoints2
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let ci = {
-            QuoteEntryID = quoteEntryID
-            Instrument = instrument
-            NoLegs = noLegs
-            BidPx = bidPx
-            OfferPx = offerPx
-            BidSize = bidSize
-            OfferSize = offerSize
-            ValidUntilTime = validUntilTime
-            BidSpotRate = bidSpotRate
-            OfferSpotRate = offerSpotRate
-            BidForwardPoints = bidForwardPoints
-            OfferForwardPoints = offerForwardPoints
-            MidPx = midPx
-            BidYield = bidYield
-            MidYield = midYield
-            OfferYield = offerYield
-            TransactTime = transactTime
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            SettlDate = settlDate
-            OrdType = ordType
-            SettlDate2 = settlDate2
-            OrderQty2 = orderQty2
-            BidForwardPoints2 = bidForwardPoints2
-            OfferForwardPoints2 = offerForwardPoints2
-            Currency = currency
+        QuoteEntryID = quoteEntryID
+        Instrument = instrument
+        NoLegsGrp = noLegsGrp
+        BidPx = bidPx
+        OfferPx = offerPx
+        BidSize = bidSize
+        OfferSize = offerSize
+        ValidUntilTime = validUntilTime
+        BidSpotRate = bidSpotRate
+        OfferSpotRate = offerSpotRate
+        BidForwardPoints = bidForwardPoints
+        OfferForwardPoints = offerForwardPoints
+        MidPx = midPx
+        BidYield = bidYield
+        MidYield = midYield
+        OfferYield = offerYield
+        TransactTime = transactTime
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        SettlDate = settlDate
+        OrdType = ordType
+        SettlDate2 = settlDate2
+        OrderQty2 = orderQty2
+        BidForwardPoints2 = bidForwardPoints2
+        OfferForwardPoints2 = offerForwardPoints2
+        Currency = currency
     }
     pos, ci
 
@@ -2212,16 +2322,18 @@ let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuo
 // group
 let ReadNoQuoteSetsGrp (pos:int) (bs:byte []) : int * NoQuoteSetsGrp  =
     let pos, quoteSetID = ReadField "ReadNoQuoteSets" pos "302"B bs ReadQuoteSetID
+    let pos, underlyingInstrument = ReadOptionalField pos "TAG"B bs ReadUnderlyingInstrument    // optional component
     let pos, quoteSetValidUntilTime = ReadOptionalField pos "367"B bs ReadQuoteSetValidUntilTime
     let pos, totNoQuoteEntries = ReadField "ReadNoQuoteSets" pos "304"B bs ReadTotNoQuoteEntries
     let pos, lastFragment = ReadOptionalField pos "893"B bs ReadLastFragment
+    let pos, noQuoteEntriesGrp = ReadNoQuoteEntries pos bs    // group
     let ci = {
-            QuoteSetID = quoteSetID
-            UnderlyingInstrument = underlyingInstrument
-            QuoteSetValidUntilTime = quoteSetValidUntilTime
-            TotNoQuoteEntries = totNoQuoteEntries
-            LastFragment = lastFragment
-            MassQuoteNoQuoteEntries = massQuoteNoQuoteEntries
+        QuoteSetID = quoteSetID
+        UnderlyingInstrument = underlyingInstrument
+        QuoteSetValidUntilTime = quoteSetValidUntilTime
+        TotNoQuoteEntries = totNoQuoteEntries
+        LastFragment = lastFragment
+        MassQuoteNoQuoteEntriesGrp = massQuoteNoQuoteEntriesGrp
     }
     pos, ci
 
@@ -2233,14 +2345,16 @@ let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusRep
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegStipulations = legStipulations
-            NestedParties = nestedParties
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegStipulations = legStipulations
+        NestedParties = nestedParties
     }
     pos, ci
 
@@ -2248,11 +2362,14 @@ let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusRep
 // group
 let ReadNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * NoQuoteEntriesGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, financingDetails = ReadOptionalField pos "TAG"B bs ReadFinancingDetails    // optional component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let ci = {
-            Instrument = instrument
-            FinancingDetails = financingDetails
-            NoUnderlyings = noUnderlyings
-            NoLegs = noLegs
+        Instrument = instrument
+        FinancingDetails = financingDetails
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        NoLegsGrp = noLegsGrp
     }
     pos, ci
 
@@ -2264,21 +2381,24 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legPriceType = ReadOptionalField pos "686"B bs ReadLegPriceType
     let pos, legBidPx = ReadOptionalField pos "681"B bs ReadLegBidPx
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
+    let pos, legBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadLegBenchmarkCurveData    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegStipulations = legStipulations
-            NestedParties = nestedParties
-            LegPriceType = legPriceType
-            LegBidPx = legBidPx
-            LegOfferPx = legOfferPx
-            LegBenchmarkCurveData = legBenchmarkCurveData
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegStipulations = legStipulations
+        NestedParties = nestedParties
+        LegPriceType = legPriceType
+        LegBidPx = legBidPx
+        LegOfferPx = legOfferPx
+        LegBenchmarkCurveData = legBenchmarkCurveData
     }
     pos, ci
 
@@ -2286,20 +2406,22 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
 // group
 let ReadRFQRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * RFQRequestNoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let ci = {
-            Instrument = instrument
-            NoUnderlyings = noUnderlyings
-            NoLegs = noLegs
-            PrevClosePx = prevClosePx
-            QuoteRequestType = quoteRequestType
-            QuoteType = quoteType
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
+        Instrument = instrument
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        NoLegsGrp = noLegsGrp
+        PrevClosePx = prevClosePx
+        QuoteRequestType = quoteRequestType
+        QuoteType = quoteType
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
     }
     pos, ci
 
@@ -2311,15 +2433,18 @@ let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestR
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
+    let pos, legBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadLegBenchmarkCurveData    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegStipulations = legStipulations
-            NestedParties = nestedParties
-            LegBenchmarkCurveData = legBenchmarkCurveData
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegStipulations = legStipulations
+        NestedParties = nestedParties
+        LegBenchmarkCurveData = legBenchmarkCurveData
     }
     pos, ci
 
@@ -2327,6 +2452,8 @@ let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestR
 // group
 let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestRejectNoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, financingDetails = ReadOptionalField pos "TAG"B bs ReadFinancingDetails    // optional component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -2335,37 +2462,40 @@ let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRe
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
+    let pos, orderQtyData = ReadOptionalField pos "TAG"B bs ReadOrderQtyData    // optional component
     let pos, settlType = ReadOptionalField pos "63"B bs ReadSettlType
     let pos, settlDate = ReadOptionalField pos "64"B bs ReadSettlDate
     let pos, settlDate2 = ReadOptionalField pos "193"B bs ReadSettlDate2
     let pos, orderQty2 = ReadOptionalField pos "192"B bs ReadOrderQty2
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
+    let pos, stipulations = ReadOptionalField pos "TAG"B bs ReadStipulations    // optional component
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
     let pos, acctIDSource = ReadOptionalField pos "660"B bs ReadAcctIDSource
     let pos, accountType = ReadOptionalField pos "581"B bs ReadAccountType
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
     let ci = {
-            Instrument = instrument
-            FinancingDetails = financingDetails
-            NoUnderlyings = noUnderlyings
-            PrevClosePx = prevClosePx
-            QuoteRequestType = quoteRequestType
-            QuoteType = quoteType
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            TradeOriginationDate = tradeOriginationDate
-            Side = side
-            QtyType = qtyType
-            OrderQtyData = orderQtyData
-            SettlType = settlType
-            SettlDate = settlDate
-            SettlDate2 = settlDate2
-            OrderQty2 = orderQty2
-            Currency = currency
-            Stipulations = stipulations
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            QuoteRequestRejectNoLegs = quoteRequestRejectNoLegs
+        Instrument = instrument
+        FinancingDetails = financingDetails
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        PrevClosePx = prevClosePx
+        QuoteRequestType = quoteRequestType
+        QuoteType = quoteType
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        TradeOriginationDate = tradeOriginationDate
+        Side = side
+        QtyType = qtyType
+        OrderQtyData = orderQtyData
+        SettlType = settlType
+        SettlDate = settlDate
+        SettlDate2 = settlDate2
+        OrderQty2 = orderQty2
+        Currency = currency
+        Stipulations = stipulations
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        QuoteRequestRejectNoLegsGrp = quoteRequestRejectNoLegsGrp
     }
     pos, ci
 
@@ -2377,21 +2507,24 @@ let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLeg
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
     let pos, legPriceType = ReadOptionalField pos "686"B bs ReadLegPriceType
     let pos, legBidPx = ReadOptionalField pos "681"B bs ReadLegBidPx
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
+    let pos, legBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadLegBenchmarkCurveData    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegStipulations = legStipulations
-            NestedParties = nestedParties
-            LegPriceType = legPriceType
-            LegBidPx = legBidPx
-            LegOfferPx = legOfferPx
-            LegBenchmarkCurveData = legBenchmarkCurveData
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegStipulations = legStipulations
+        NestedParties = nestedParties
+        LegPriceType = legPriceType
+        LegBidPx = legBidPx
+        LegOfferPx = legOfferPx
+        LegBenchmarkCurveData = legBenchmarkCurveData
     }
     pos, ci
 
@@ -2403,15 +2536,18 @@ let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsG
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
+    let pos, nestedParties = ReadOptionalField pos "TAG"B bs ReadNestedParties    // optional component
+    let pos, legBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadLegBenchmarkCurveData    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegQty = legQty
-            LegSwapType = legSwapType
-            LegSettlType = legSettlType
-            LegSettlDate = legSettlDate
-            LegStipulations = legStipulations
-            NestedParties = nestedParties
-            LegBenchmarkCurveData = legBenchmarkCurveData
+        InstrumentLegFG = instrumentLegFG
+        LegQty = legQty
+        LegSwapType = legSwapType
+        LegSettlType = legSettlType
+        LegSettlDate = legSettlDate
+        LegStipulations = legStipulations
+        NestedParties = nestedParties
+        LegBenchmarkCurveData = legBenchmarkCurveData
     }
     pos, ci
 
@@ -2420,7 +2556,7 @@ let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsG
 let ReadNoQuoteQualifiersGrp (pos:int) (bs:byte []) : int * NoQuoteQualifiersGrp  =
     let pos, quoteQualifier = ReadField "ReadNoQuoteQualifiers" pos "695"B bs ReadQuoteQualifier
     let ci = {
-            QuoteQualifier = quoteQualifier
+        QuoteQualifier = quoteQualifier
     }
     pos, ci
 
@@ -2428,6 +2564,8 @@ let ReadNoQuoteQualifiersGrp (pos:int) (bs:byte []) : int * NoQuoteQualifiersGrp
 // group
 let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestNoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
+    let pos, financingDetails = ReadOptionalField pos "TAG"B bs ReadFinancingDetails    // optional component
+    let pos, noUnderlyingsGrp = ReadOptionalField pos "TAG"B bs ReadNoUnderlyings    // optional group
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, quoteRequestType = ReadOptionalField pos "303"B bs ReadQuoteRequestType
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -2436,57 +2574,64 @@ let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestN
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
     let pos, qtyType = ReadOptionalField pos "854"B bs ReadQtyType
+    let pos, orderQtyData = ReadOptionalField pos "TAG"B bs ReadOrderQtyData    // optional component
     let pos, settlType = ReadOptionalField pos "63"B bs ReadSettlType
     let pos, settlDate = ReadOptionalField pos "64"B bs ReadSettlDate
     let pos, settlDate2 = ReadOptionalField pos "193"B bs ReadSettlDate2
     let pos, orderQty2 = ReadOptionalField pos "192"B bs ReadOrderQty2
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
+    let pos, stipulations = ReadOptionalField pos "TAG"B bs ReadStipulations    // optional component
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
     let pos, acctIDSource = ReadOptionalField pos "660"B bs ReadAcctIDSource
     let pos, accountType = ReadOptionalField pos "581"B bs ReadAccountType
+    let pos, noLegsGrp = ReadOptionalField pos "TAG"B bs ReadNoLegs    // optional group
+    let pos, noQuoteQualifiersGrp = ReadOptionalField pos "TAG"B bs ReadNoQuoteQualifiers    // optional group
     let pos, quotePriceType = ReadOptionalField pos "692"B bs ReadQuotePriceType
     let pos, ordType = ReadOptionalField pos "40"B bs ReadOrdType
     let pos, validUntilTime = ReadOptionalField pos "62"B bs ReadValidUntilTime
     let pos, expireTime = ReadOptionalField pos "126"B bs ReadExpireTime
     let pos, transactTime = ReadOptionalField pos "60"B bs ReadTransactTime
+    let pos, spreadOrBenchmarkCurveData = ReadOptionalField pos "TAG"B bs ReadSpreadOrBenchmarkCurveData    // optional component
     let pos, priceType = ReadOptionalField pos "423"B bs ReadPriceType
     let pos, price = ReadOptionalField pos "44"B bs ReadPrice
     let pos, price2 = ReadOptionalField pos "640"B bs ReadPrice2
+    let pos, yieldData = ReadOptionalField pos "TAG"B bs ReadYieldData    // optional component
+    let pos, parties = ReadOptionalField pos "TAG"B bs ReadParties    // optional component
     let ci = {
-            Instrument = instrument
-            FinancingDetails = financingDetails
-            NoUnderlyings = noUnderlyings
-            PrevClosePx = prevClosePx
-            QuoteRequestType = quoteRequestType
-            QuoteType = quoteType
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            TradeOriginationDate = tradeOriginationDate
-            Side = side
-            QtyType = qtyType
-            OrderQtyData = orderQtyData
-            SettlType = settlType
-            SettlDate = settlDate
-            SettlDate2 = settlDate2
-            OrderQty2 = orderQty2
-            Currency = currency
-            Stipulations = stipulations
-            Account = account
-            AcctIDSource = acctIDSource
-            AccountType = accountType
-            QuoteRequestNoLegs = quoteRequestNoLegs
-            NoQuoteQualifiers = noQuoteQualifiers
-            QuotePriceType = quotePriceType
-            OrdType = ordType
-            ValidUntilTime = validUntilTime
-            ExpireTime = expireTime
-            TransactTime = transactTime
-            SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
-            PriceType = priceType
-            Price = price
-            Price2 = price2
-            YieldData = yieldData
-            Parties = parties
+        Instrument = instrument
+        FinancingDetails = financingDetails
+        NoUnderlyingsGrp = noUnderlyingsGrp
+        PrevClosePx = prevClosePx
+        QuoteRequestType = quoteRequestType
+        QuoteType = quoteType
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        TradeOriginationDate = tradeOriginationDate
+        Side = side
+        QtyType = qtyType
+        OrderQtyData = orderQtyData
+        SettlType = settlType
+        SettlDate = settlDate
+        SettlDate2 = settlDate2
+        OrderQty2 = orderQty2
+        Currency = currency
+        Stipulations = stipulations
+        Account = account
+        AcctIDSource = acctIDSource
+        AccountType = accountType
+        QuoteRequestNoLegsGrp = quoteRequestNoLegsGrp
+        NoQuoteQualifiersGrp = noQuoteQualifiersGrp
+        QuotePriceType = quotePriceType
+        OrdType = ordType
+        ValidUntilTime = validUntilTime
+        ExpireTime = expireTime
+        TransactTime = transactTime
+        SpreadOrBenchmarkCurveData = spreadOrBenchmarkCurveData
+        PriceType = priceType
+        Price = price
+        Price2 = price2
+        YieldData = yieldData
+        Parties = parties
     }
     pos, ci
 
@@ -2495,7 +2640,7 @@ let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestN
 let ReadNoRelatedSymGrp (pos:int) (bs:byte []) : int * NoRelatedSymGrp  =
     let pos, instrument = ReadInstrument pos bs    // component
     let ci = {
-            Instrument = instrument
+        Instrument = instrument
     }
     pos, ci
 
@@ -2504,10 +2649,11 @@ let ReadNoRelatedSymGrp (pos:int) (bs:byte []) : int * NoRelatedSymGrp  =
 let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationOfInterestNoLegsGrp  =
     let pos, instrumentLegFG = ReadInstrumentLegFG pos bs    // component
     let pos, legIOIQty = ReadOptionalField pos "682"B bs ReadLegIOIQty
+    let pos, legStipulations = ReadOptionalField pos "TAG"B bs ReadLegStipulations    // optional component
     let ci = {
-            InstrumentLegFG = instrumentLegFG
-            LegIOIQty = legIOIQty
-            LegStipulations = legStipulations
+        InstrumentLegFG = instrumentLegFG
+        LegIOIQty = legIOIQty
+        LegStipulations = legStipulations
     }
     pos, ci
 
@@ -2516,7 +2662,7 @@ let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationO
 let ReadAdvertisementNoUnderlyingsGrp (pos:int) (bs:byte []) : int * AdvertisementNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadUnderlyingInstrument pos bs    // component
     let ci = {
-            UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
     }
     pos, ci
 
@@ -2527,6 +2673,7 @@ let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
     let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
     let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
     let pos, legSecurityIDSource = ReadOptionalField pos "603"B bs ReadLegSecurityIDSource
+    let pos, noLegSecurityAltIDGrp = ReadOptionalField pos "TAG"B bs ReadNoLegSecurityAltID    // optional group
     let pos, legProduct = ReadOptionalField pos "607"B bs ReadLegProduct
     let pos, legCFICode = ReadOptionalField pos "608"B bs ReadLegCFICode
     let pos, legSecurityType = ReadOptionalField pos "609"B bs ReadLegSecurityType
@@ -2563,46 +2710,46 @@ let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
     let pos, legContractSettlMonth = ReadOptionalField pos "955"B bs ReadLegContractSettlMonth
     let pos, legInterestAccrualDate = ReadOptionalField pos "956"B bs ReadLegInterestAccrualDate
     let ci = {
-            LegSymbol = legSymbol
-            LegSymbolSfx = legSymbolSfx
-            LegSecurityID = legSecurityID
-            LegSecurityIDSource = legSecurityIDSource
-            NoLegSecurityAltID = noLegSecurityAltID
-            LegProduct = legProduct
-            LegCFICode = legCFICode
-            LegSecurityType = legSecurityType
-            LegSecuritySubType = legSecuritySubType
-            LegMaturityMonthYear = legMaturityMonthYear
-            LegMaturityDate = legMaturityDate
-            LegCouponPaymentDate = legCouponPaymentDate
-            LegIssueDate = legIssueDate
-            LegRepoCollateralSecurityType = legRepoCollateralSecurityType
-            LegRepurchaseTerm = legRepurchaseTerm
-            LegRepurchaseRate = legRepurchaseRate
-            LegFactor = legFactor
-            LegCreditRating = legCreditRating
-            LegInstrRegistry = legInstrRegistry
-            LegCountryOfIssue = legCountryOfIssue
-            LegStateOrProvinceOfIssue = legStateOrProvinceOfIssue
-            LegLocaleOfIssue = legLocaleOfIssue
-            LegRedemptionDate = legRedemptionDate
-            LegStrikePrice = legStrikePrice
-            LegStrikeCurrency = legStrikeCurrency
-            LegOptAttribute = legOptAttribute
-            LegContractMultiplier = legContractMultiplier
-            LegCouponRate = legCouponRate
-            LegSecurityExchange = legSecurityExchange
-            LegIssuer = legIssuer
-            EncodedLegIssuer = encodedLegIssuer
-            LegSecurityDesc = legSecurityDesc
-            EncodedLegSecurityDesc = encodedLegSecurityDesc
-            LegRatioQty = legRatioQty
-            LegSide = legSide
-            LegCurrency = legCurrency
-            LegPool = legPool
-            LegDatedDate = legDatedDate
-            LegContractSettlMonth = legContractSettlMonth
-            LegInterestAccrualDate = legInterestAccrualDate
+        LegSymbol = legSymbol
+        LegSymbolSfx = legSymbolSfx
+        LegSecurityID = legSecurityID
+        LegSecurityIDSource = legSecurityIDSource
+        NoLegSecurityAltIDGrp = noLegSecurityAltIDGrp
+        LegProduct = legProduct
+        LegCFICode = legCFICode
+        LegSecurityType = legSecurityType
+        LegSecuritySubType = legSecuritySubType
+        LegMaturityMonthYear = legMaturityMonthYear
+        LegMaturityDate = legMaturityDate
+        LegCouponPaymentDate = legCouponPaymentDate
+        LegIssueDate = legIssueDate
+        LegRepoCollateralSecurityType = legRepoCollateralSecurityType
+        LegRepurchaseTerm = legRepurchaseTerm
+        LegRepurchaseRate = legRepurchaseRate
+        LegFactor = legFactor
+        LegCreditRating = legCreditRating
+        LegInstrRegistry = legInstrRegistry
+        LegCountryOfIssue = legCountryOfIssue
+        LegStateOrProvinceOfIssue = legStateOrProvinceOfIssue
+        LegLocaleOfIssue = legLocaleOfIssue
+        LegRedemptionDate = legRedemptionDate
+        LegStrikePrice = legStrikePrice
+        LegStrikeCurrency = legStrikeCurrency
+        LegOptAttribute = legOptAttribute
+        LegContractMultiplier = legContractMultiplier
+        LegCouponRate = legCouponRate
+        LegSecurityExchange = legSecurityExchange
+        LegIssuer = legIssuer
+        EncodedLegIssuer = encodedLegIssuer
+        LegSecurityDesc = legSecurityDesc
+        EncodedLegSecurityDesc = encodedLegSecurityDesc
+        LegRatioQty = legRatioQty
+        LegSide = legSide
+        LegCurrency = legCurrency
+        LegPool = legPool
+        LegDatedDate = legDatedDate
+        LegContractSettlMonth = legContractSettlMonth
+        LegInterestAccrualDate = legInterestAccrualDate
     }
     pos, ci
 
@@ -2612,8 +2759,8 @@ let ReadNoMsgTypesGrp (pos:int) (bs:byte []) : int * NoMsgTypesGrp  =
     let pos, refMsgType = ReadField "ReadNoMsgTypes" pos "372"B bs ReadRefMsgType
     let pos, msgDirection = ReadOptionalField pos "385"B bs ReadMsgDirection
     let ci = {
-            RefMsgType = refMsgType
-            MsgDirection = msgDirection
+        RefMsgType = refMsgType
+        MsgDirection = msgDirection
     }
     pos, ci
 
@@ -2622,7 +2769,7 @@ let ReadNoMsgTypesGrp (pos:int) (bs:byte []) : int * NoMsgTypesGrp  =
 let ReadNoIOIQualifiersGrp (pos:int) (bs:byte []) : int * NoIOIQualifiersGrp  =
     let pos, iOIQualifier = ReadField "ReadNoIOIQualifiers" pos "104"B bs ReadIOIQualifier
     let ci = {
-            IOIQualifier = iOIQualifier
+        IOIQualifier = iOIQualifier
     }
     pos, ci
 
@@ -2632,8 +2779,8 @@ let ReadNoRoutingIDsGrp (pos:int) (bs:byte []) : int * NoRoutingIDsGrp  =
     let pos, routingType = ReadField "ReadNoRoutingIDs" pos "216"B bs ReadRoutingType
     let pos, routingID = ReadOptionalField pos "217"B bs ReadRoutingID
     let ci = {
-            RoutingType = routingType
-            RoutingID = routingID
+        RoutingType = routingType
+        RoutingID = routingID
     }
     pos, ci
 
@@ -2643,8 +2790,8 @@ let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
     let pos, text = ReadField "ReadLinesOfText" pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            Text = text
-            EncodedText = encodedText
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -2653,7 +2800,7 @@ let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
 let ReadNoMDEntryTypesGrp (pos:int) (bs:byte []) : int * NoMDEntryTypesGrp  =
     let pos, mDEntryType = ReadField "ReadNoMDEntryTypes" pos "269"B bs ReadMDEntryType
     let ci = {
-            MDEntryType = mDEntryType
+        MDEntryType = mDEntryType
     }
     pos, ci
 
@@ -2693,38 +2840,38 @@ let ReadNoMDEntriesGrp (pos:int) (bs:byte []) : int * NoMDEntriesGrp  =
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            MDEntryType = mDEntryType
-            MDEntryPx = mDEntryPx
-            Currency = currency
-            MDEntrySize = mDEntrySize
-            MDEntryDate = mDEntryDate
-            MDEntryTime = mDEntryTime
-            TickDirection = tickDirection
-            MDMkt = mDMkt
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            QuoteCondition = quoteCondition
-            TradeCondition = tradeCondition
-            MDEntryOriginator = mDEntryOriginator
-            LocationID = locationID
-            DeskID = deskID
-            OpenCloseSettlFlag = openCloseSettlFlag
-            TimeInForce = timeInForce
-            ExpireDate = expireDate
-            ExpireTime = expireTime
-            MinQty = minQty
-            ExecInst = execInst
-            SellerDays = sellerDays
-            OrderID = orderID
-            QuoteEntryID = quoteEntryID
-            MDEntryBuyer = mDEntryBuyer
-            MDEntrySeller = mDEntrySeller
-            NumberOfOrders = numberOfOrders
-            MDEntryPositionNo = mDEntryPositionNo
-            Scope = scope
-            PriceDelta = priceDelta
-            Text = text
-            EncodedText = encodedText
+        MDEntryType = mDEntryType
+        MDEntryPx = mDEntryPx
+        Currency = currency
+        MDEntrySize = mDEntrySize
+        MDEntryDate = mDEntryDate
+        MDEntryTime = mDEntryTime
+        TickDirection = tickDirection
+        MDMkt = mDMkt
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        QuoteCondition = quoteCondition
+        TradeCondition = tradeCondition
+        MDEntryOriginator = mDEntryOriginator
+        LocationID = locationID
+        DeskID = deskID
+        OpenCloseSettlFlag = openCloseSettlFlag
+        TimeInForce = timeInForce
+        ExpireDate = expireDate
+        ExpireTime = expireTime
+        MinQty = minQty
+        ExecInst = execInst
+        SellerDays = sellerDays
+        OrderID = orderID
+        QuoteEntryID = quoteEntryID
+        MDEntryBuyer = mDEntryBuyer
+        MDEntrySeller = mDEntrySeller
+        NumberOfOrders = numberOfOrders
+        MDEntryPositionNo = mDEntryPositionNo
+        Scope = scope
+        PriceDelta = priceDelta
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -2733,7 +2880,7 @@ let ReadNoMDEntriesGrp (pos:int) (bs:byte []) : int * NoMDEntriesGrp  =
 let ReadNoAltMDSourceGrp (pos:int) (bs:byte []) : int * NoAltMDSourceGrp  =
     let pos, altMDSourceID = ReadField "ReadNoAltMDSource" pos "817"B bs ReadAltMDSourceID
     let ci = {
-            AltMDSourceID = altMDSourceID
+        AltMDSourceID = altMDSourceID
     }
     pos, ci
 
@@ -2745,10 +2892,10 @@ let ReadNoSecurityTypesGrp (pos:int) (bs:byte []) : int * NoSecurityTypesGrp  =
     let pos, product = ReadOptionalField pos "460"B bs ReadProduct
     let pos, cFICode = ReadOptionalField pos "461"B bs ReadCFICode
     let ci = {
-            SecurityType = securityType
-            SecuritySubType = securitySubType
-            Product = product
-            CFICode = cFICode
+        SecurityType = securityType
+        SecuritySubType = securitySubType
+        Product = product
+        CFICode = cFICode
     }
     pos, ci
 
@@ -2761,11 +2908,11 @@ let ReadNoContraBrokersGrp (pos:int) (bs:byte []) : int * NoContraBrokersGrp  =
     let pos, contraTradeTime = ReadOptionalField pos "438"B bs ReadContraTradeTime
     let pos, contraLegRefID = ReadOptionalField pos "655"B bs ReadContraLegRefID
     let ci = {
-            ContraBroker = contraBroker
-            ContraTrader = contraTrader
-            ContraTradeQty = contraTradeQty
-            ContraTradeTime = contraTradeTime
-            ContraLegRefID = contraLegRefID
+        ContraBroker = contraBroker
+        ContraTrader = contraTrader
+        ContraTradeQty = contraTradeQty
+        ContraTradeTime = contraTradeTime
+        ContraLegRefID = contraLegRefID
     }
     pos, ci
 
@@ -2776,9 +2923,9 @@ let ReadNoAffectedOrdersGrp (pos:int) (bs:byte []) : int * NoAffectedOrdersGrp  
     let pos, affectedOrderID = ReadOptionalField pos "535"B bs ReadAffectedOrderID
     let pos, affectedSecondaryOrderID = ReadOptionalField pos "536"B bs ReadAffectedSecondaryOrderID
     let ci = {
-            OrigClOrdID = origClOrdID
-            AffectedOrderID = affectedOrderID
-            AffectedSecondaryOrderID = affectedSecondaryOrderID
+        OrigClOrdID = origClOrdID
+        AffectedOrderID = affectedOrderID
+        AffectedSecondaryOrderID = affectedSecondaryOrderID
     }
     pos, ci
 
@@ -2797,17 +2944,17 @@ let ReadNoBidDescriptorsGrp (pos:int) (bs:byte []) : int * NoBidDescriptorsGrp  
     let pos, outsideIndexPct = ReadOptionalField pos "407"B bs ReadOutsideIndexPct
     let pos, valueOfFutures = ReadOptionalField pos "408"B bs ReadValueOfFutures
     let ci = {
-            BidDescriptorType = bidDescriptorType
-            BidDescriptor = bidDescriptor
-            SideValueInd = sideValueInd
-            LiquidityValue = liquidityValue
-            LiquidityNumSecurities = liquidityNumSecurities
-            LiquidityPctLow = liquidityPctLow
-            LiquidityPctHigh = liquidityPctHigh
-            EFPTrackingError = eFPTrackingError
-            FairValue = fairValue
-            OutsideIndexPct = outsideIndexPct
-            ValueOfFutures = valueOfFutures
+        BidDescriptorType = bidDescriptorType
+        BidDescriptor = bidDescriptor
+        SideValueInd = sideValueInd
+        LiquidityValue = liquidityValue
+        LiquidityNumSecurities = liquidityNumSecurities
+        LiquidityPctLow = liquidityPctLow
+        LiquidityPctHigh = liquidityPctHigh
+        EFPTrackingError = eFPTrackingError
+        FairValue = fairValue
+        OutsideIndexPct = outsideIndexPct
+        ValueOfFutures = valueOfFutures
     }
     pos, ci
 
@@ -2824,15 +2971,15 @@ let ReadNoBidComponentsGrp (pos:int) (bs:byte []) : int * NoBidComponentsGrp  =
     let pos, account = ReadOptionalField pos "1"B bs ReadAccount
     let pos, acctIDSource = ReadOptionalField pos "660"B bs ReadAcctIDSource
     let ci = {
-            ListID = listID
-            Side = side
-            TradingSessionID = tradingSessionID
-            TradingSessionSubID = tradingSessionSubID
-            NetGrossInd = netGrossInd
-            SettlType = settlType
-            SettlDate = settlDate
-            Account = account
-            AcctIDSource = acctIDSource
+        ListID = listID
+        Side = side
+        TradingSessionID = tradingSessionID
+        TradingSessionSubID = tradingSessionSubID
+        NetGrossInd = netGrossInd
+        SettlType = settlType
+        SettlDate = settlDate
+        Account = account
+        AcctIDSource = acctIDSource
     }
     pos, ci
 
@@ -2851,17 +2998,17 @@ let ReadListStatusNoOrdersGrp (pos:int) (bs:byte []) : int * ListStatusNoOrdersG
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-            ClOrdID = clOrdID
-            SecondaryClOrdID = secondaryClOrdID
-            CumQty = cumQty
-            OrdStatus = ordStatus
-            WorkingIndicator = workingIndicator
-            LeavesQty = leavesQty
-            CxlQty = cxlQty
-            AvgPx = avgPx
-            OrdRejReason = ordRejReason
-            Text = text
-            EncodedText = encodedText
+        ClOrdID = clOrdID
+        SecondaryClOrdID = secondaryClOrdID
+        CumQty = cumQty
+        OrdStatus = ordStatus
+        WorkingIndicator = workingIndicator
+        LeavesQty = leavesQty
+        CxlQty = cxlQty
+        AvgPx = avgPx
+        OrdRejReason = ordRejReason
+        Text = text
+        EncodedText = encodedText
     }
     pos, ci
 
@@ -2875,12 +3022,12 @@ let ReadAllocationInstructionNoExecsGrp (pos:int) (bs:byte []) : int * Allocatio
     let pos, lastParPx = ReadOptionalField pos "669"B bs ReadLastParPx
     let pos, lastCapacity = ReadOptionalField pos "29"B bs ReadLastCapacity
     let ci = {
-            LastQty = lastQty
-            ExecID = execID
-            SecondaryExecID = secondaryExecID
-            LastPx = lastPx
-            LastParPx = lastParPx
-            LastCapacity = lastCapacity
+        LastQty = lastQty
+        ExecID = execID
+        SecondaryExecID = secondaryExecID
+        LastPx = lastPx
+        LastParPx = lastParPx
+        LastCapacity = lastCapacity
     }
     pos, ci
 
@@ -2895,13 +3042,13 @@ let ReadAllocationInstructionAckNoAllocsGrp (pos:int) (bs:byte []) : int * Alloc
     let pos, allocText = ReadOptionalField pos "161"B bs ReadAllocText
     let pos, encodedAllocText = ReadOptionalField pos "361"B bs ReadEncodedAllocText
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocPrice = allocPrice
-            IndividualAllocID = individualAllocID
-            IndividualAllocRejCode = individualAllocRejCode
-            AllocText = allocText
-            EncodedAllocText = encodedAllocText
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocPrice = allocPrice
+        IndividualAllocID = individualAllocID
+        IndividualAllocRejCode = individualAllocRejCode
+        AllocText = allocText
+        EncodedAllocText = encodedAllocText
     }
     pos, ci
 
@@ -2915,12 +3062,12 @@ let ReadAllocationReportNoExecsGrp (pos:int) (bs:byte []) : int * AllocationRepo
     let pos, lastParPx = ReadOptionalField pos "669"B bs ReadLastParPx
     let pos, lastCapacity = ReadOptionalField pos "29"B bs ReadLastCapacity
     let ci = {
-            LastQty = lastQty
-            ExecID = execID
-            SecondaryExecID = secondaryExecID
-            LastPx = lastPx
-            LastParPx = lastParPx
-            LastCapacity = lastCapacity
+        LastQty = lastQty
+        ExecID = execID
+        SecondaryExecID = secondaryExecID
+        LastPx = lastPx
+        LastParPx = lastParPx
+        LastCapacity = lastCapacity
     }
     pos, ci
 
@@ -2935,13 +3082,13 @@ let ReadAllocationReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * Allocation
     let pos, allocText = ReadOptionalField pos "161"B bs ReadAllocText
     let pos, encodedAllocText = ReadOptionalField pos "361"B bs ReadEncodedAllocText
     let ci = {
-            AllocAccount = allocAccount
-            AllocAcctIDSource = allocAcctIDSource
-            AllocPrice = allocPrice
-            IndividualAllocID = individualAllocID
-            IndividualAllocRejCode = individualAllocRejCode
-            AllocText = allocText
-            EncodedAllocText = encodedAllocText
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocPrice = allocPrice
+        IndividualAllocID = individualAllocID
+        IndividualAllocRejCode = individualAllocRejCode
+        AllocText = allocText
+        EncodedAllocText = encodedAllocText
     }
     pos, ci
 
@@ -2952,9 +3099,9 @@ let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs ReadOrderCapacityQty
     let ci = {
-            OrderCapacity = orderCapacity
-            OrderRestrictions = orderRestrictions
-            OrderCapacityQty = orderCapacityQty
+        OrderCapacity = orderCapacity
+        OrderRestrictions = orderRestrictions
+        OrderCapacityQty = orderCapacityQty
     }
     pos, ci
 
@@ -2964,8 +3111,8 @@ let ReadNoDatesGrp (pos:int) (bs:byte []) : int * NoDatesGrp  =
     let pos, tradeDate = ReadField "ReadNoDates" pos "75"B bs ReadTradeDate
     let pos, transactTime = ReadOptionalField pos "60"B bs ReadTransactTime
     let ci = {
-            TradeDate = tradeDate
-            TransactTime = transactTime
+        TradeDate = tradeDate
+        TransactTime = transactTime
     }
     pos, ci
 
@@ -2981,14 +3128,14 @@ let ReadNoDistribInstsGrp (pos:int) (bs:byte []) : int * NoDistribInstsGrp  =
     let pos, cashDistribPayRef = ReadOptionalField pos "501"B bs ReadCashDistribPayRef
     let pos, cashDistribAgentAcctName = ReadOptionalField pos "502"B bs ReadCashDistribAgentAcctName
     let ci = {
-            DistribPaymentMethod = distribPaymentMethod
-            DistribPercentage = distribPercentage
-            CashDistribCurr = cashDistribCurr
-            CashDistribAgentName = cashDistribAgentName
-            CashDistribAgentCode = cashDistribAgentCode
-            CashDistribAgentAcctNumber = cashDistribAgentAcctNumber
-            CashDistribPayRef = cashDistribPayRef
-            CashDistribAgentAcctName = cashDistribAgentAcctName
+        DistribPaymentMethod = distribPaymentMethod
+        DistribPercentage = distribPercentage
+        CashDistribCurr = cashDistribCurr
+        CashDistribAgentName = cashDistribAgentName
+        CashDistribAgentCode = cashDistribAgentCode
+        CashDistribAgentAcctNumber = cashDistribAgentAcctNumber
+        CashDistribPayRef = cashDistribPayRef
+        CashDistribAgentAcctName = cashDistribAgentAcctName
     }
     pos, ci
 
@@ -2997,7 +3144,7 @@ let ReadNoDistribInstsGrp (pos:int) (bs:byte []) : int * NoDistribInstsGrp  =
 let ReadNoExecsGrp (pos:int) (bs:byte []) : int * NoExecsGrp  =
     let pos, execID = ReadField "ReadNoExecs" pos "17"B bs ReadExecID
     let ci = {
-            ExecID = execID
+        ExecID = execID
     }
     pos, ci
 
@@ -3007,8 +3154,8 @@ let ReadNoTradesGrp (pos:int) (bs:byte []) : int * NoTradesGrp  =
     let pos, tradeReportID = ReadField "ReadNoTrades" pos "571"B bs ReadTradeReportID
     let pos, secondaryTradeReportID = ReadOptionalField pos "818"B bs ReadSecondaryTradeReportID
     let ci = {
-            TradeReportID = tradeReportID
-            SecondaryTradeReportID = secondaryTradeReportID
+        TradeReportID = tradeReportID
+        SecondaryTradeReportID = secondaryTradeReportID
     }
     pos, ci
 
@@ -3017,7 +3164,7 @@ let ReadNoTradesGrp (pos:int) (bs:byte []) : int * NoTradesGrp  =
 let ReadNoCollInquiryQualifierGrp (pos:int) (bs:byte []) : int * NoCollInquiryQualifierGrp  =
     let pos, collInquiryQualifier = ReadField "ReadNoCollInquiryQualifier" pos "896"B bs ReadCollInquiryQualifier
     let ci = {
-            CollInquiryQualifier = collInquiryQualifier
+        CollInquiryQualifier = collInquiryQualifier
     }
     pos, ci
 
@@ -3029,10 +3176,10 @@ let ReadNoCompIDsGrp (pos:int) (bs:byte []) : int * NoCompIDsGrp  =
     let pos, locationID = ReadOptionalField pos "283"B bs ReadLocationID
     let pos, deskID = ReadOptionalField pos "284"B bs ReadDeskID
     let ci = {
-            RefCompID = refCompID
-            RefSubID = refSubID
-            LocationID = locationID
-            DeskID = deskID
+        RefCompID = refCompID
+        RefSubID = refSubID
+        LocationID = locationID
+        DeskID = deskID
     }
     pos, ci
 
@@ -3046,12 +3193,12 @@ let ReadNetworkStatusResponseNoCompIDsGrp (pos:int) (bs:byte []) : int * Network
     let pos, statusValue = ReadOptionalField pos "928"B bs ReadStatusValue
     let pos, statusText = ReadOptionalField pos "929"B bs ReadStatusText
     let ci = {
-            RefCompID = refCompID
-            RefSubID = refSubID
-            LocationID = locationID
-            DeskID = deskID
-            StatusValue = statusValue
-            StatusText = statusText
+        RefCompID = refCompID
+        RefSubID = refSubID
+        LocationID = locationID
+        DeskID = deskID
+        StatusValue = statusValue
+        StatusText = statusText
     }
     pos, ci
 
@@ -3062,9 +3209,9 @@ let ReadNoHopsGrp (pos:int) (bs:byte []) : int * NoHopsGrp  =
     let pos, hopSendingTime = ReadOptionalField pos "629"B bs ReadHopSendingTime
     let pos, hopRefID = ReadOptionalField pos "630"B bs ReadHopRefID
     let ci = {
-            HopCompID = hopCompID
-            HopSendingTime = hopSendingTime
-            HopRefID = hopRefID
+        HopCompID = hopCompID
+        HopSendingTime = hopSendingTime
+        HopRefID = hopRefID
     }
     pos, ci
 
