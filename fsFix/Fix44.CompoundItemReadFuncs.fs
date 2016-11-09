@@ -31,7 +31,7 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
         failwith msg
 //    let pos3, fld = readFunc pos2 bs
 //    pos3, fld
-      pos2, []
+    pos2, []
 
 
 let inline ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc = 
