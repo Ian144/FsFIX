@@ -20,7 +20,7 @@ type NoUnderlyingStipsGrp = {
 
 // component
 type UnderlyingStipulations = {
-    NoUnderlyingStipsGrp: NoUnderlyingStipsGrp list option // group
+d
     }
 
 // component
