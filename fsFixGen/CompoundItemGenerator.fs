@@ -127,15 +127,16 @@ let private genFieldInitStrs (items:FIXItem list) =
 let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) = 
     let name = CompoundItemFuncs.getName ci
     let suffix = CompoundItemFuncs.getNameSuffix ci
+    let typeName = sprintf "%s%s" name suffix
     let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
     let items = CompoundItemFuncs.getItems ci
     sw.WriteLine (sprintf "// %s" compOrGroup)
-    let funcSig = sprintf "let Read%s%s (pos:int) (bs:byte []) : int * %s%s  =" name suffix name suffix
+    let funcSig = sprintf "let Read%s (pos:int) (bs:byte []) : int * %s  =" typeName typeName
     sw.WriteLine funcSig
-    let writeGroupFuncStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
-    writeGroupFuncStrs |> List.iter sw.WriteLine
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
+    readFIXItemStrs |> List.iter sw.WriteLine
     let fieldInitStrs = genFieldInitStrs items
-    sw.WriteLine "    let ci = {"
+    sw.WriteLine (sprintf "    let ci:%s = {" typeName)
     fieldInitStrs |> List.iter sw.WriteLine
     sw.WriteLine "    }"
     sw.WriteLine "    pos, ci"
