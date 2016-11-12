@@ -139,7 +139,7 @@ let ReadCollateralResponseNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collat
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos "9999999"B bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-        CollateralResponseNoUnderlyingsGrp.UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
     }
     pos, ci
@@ -150,7 +150,7 @@ let ReadCollateralAssignmentNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Coll
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos "9999999"B bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-        CollateralAssignmentNoUnderlyingsGrp.UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
     }
     pos, ci
@@ -161,7 +161,7 @@ let ReadCollateralRequestNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collate
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos "9999999"B bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci = {
-        CollateralRequestNoUnderlyingsGrp.UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
     }
     pos, ci
@@ -372,7 +372,7 @@ let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
     let pos, legContractSettlMonth = ReadOptionalField pos "955"B bs ReadLegContractSettlMonth
     let pos, legInterestAccrualDate = ReadOptionalField pos "956"B bs ReadLegInterestAccrualDate
     let ci = {
-        InstrumentLegFG.LegSymbol = legSymbol
+        LegSymbol = legSymbol
         LegSymbolSfx = legSymbolSfx
         LegSecurityID = legSecurityID
         LegSecurityIDSource = legSecurityIDSource
@@ -451,7 +451,7 @@ let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptu
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-        TradeCaptureReportAckNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegStipulations = legStipulations
@@ -506,7 +506,7 @@ let ReadParties (pos:int) (bs:byte []) : int * Parties  =
 let ReadNoClearingInstructionsGrp (pos:int) (bs:byte []) : int * NoClearingInstructionsGrp  =
     let pos, clearingInstruction = ReadField "ReadNoClearingInstructions" pos "577"B bs ReadClearingInstruction
     let ci = {
-        NoClearingInstructionsGrp.ClearingInstruction = clearingInstruction
+        ClearingInstruction = clearingInstruction
     }
     pos, ci
 
@@ -518,7 +518,7 @@ let ReadCommissionData (pos:int) (bs:byte []) : int * CommissionData  =
     let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
     let pos, fundRenewWaiv = ReadOptionalField pos "497"B bs ReadFundRenewWaiv
     let ci = {
-        CommissionData.Commission = commission
+        Commission = commission
         CommType = commType
         CommCurrency = commCurrency
         FundRenewWaiv = fundRenewWaiv
@@ -710,7 +710,7 @@ let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureR
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-        TradeCaptureReportNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegStipulations = legStipulations
@@ -1183,7 +1183,7 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
 let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos "9999999"B bs ReadInstrument
     let ci = {
-        NoStrikesGrp.Instrument = instrument
+        Instrument = instrument
     }
     pos, ci
 
@@ -1197,7 +1197,7 @@ let ReadNoAllocsGrp (pos:int) (bs:byte []) : int * NoAllocsGrp  =
     let pos, nestedParties = ReadOptionalComponent pos "9999999"B bs ReadNestedParties
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-        NoAllocsGrp.AllocAccount = allocAccount
+        AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
         AllocSettlCurrency = allocSettlCurrency
         IndividualAllocID = individualAllocID
@@ -1212,7 +1212,7 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
     let pos, tradingSessionID = ReadField "ReadNoTradingSessions" pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let ci = {
-        NoTradingSessionsGrp.TradingSessionID = tradingSessionID
+        TradingSessionID = tradingSessionID
         TradingSessionSubID = tradingSessionSubID
     }
     pos, ci
@@ -1222,7 +1222,7 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
 let ReadNoUnderlyingsGrp (pos:int) (bs:byte []) : int * NoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos "9999999"B bs ReadUnderlyingInstrument
     let ci = {
-        NoUnderlyingsGrp.UnderlyingInstrument = underlyingInstrument
+        UnderlyingInstrument = underlyingInstrument
     }
     pos, ci
 
@@ -1565,7 +1565,7 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int 
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let ci = {
-        MultilegOrderCancelReplaceRequestNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegStipulations = legStipulations
@@ -1625,7 +1625,7 @@ let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (pos:int) (bs:byte []) : in
     let pos, nestedParties3 = ReadOptionalComponent pos "9999999"B bs ReadNestedParties3
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-        MultilegOrderCancelReplaceRequestNoAllocsGrp.AllocAccount = allocAccount
+        AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
         AllocSettlCurrency = allocSettlCurrency
         IndividualAllocID = individualAllocID
@@ -1650,7 +1650,7 @@ let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultile
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let ci = {
-        NewOrderMultilegNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegStipulations = legStipulations
@@ -1675,7 +1675,7 @@ let ReadNewOrderMultilegNoAllocsGrp (pos:int) (bs:byte []) : int * NewOrderMulti
     let pos, nestedParties3 = ReadOptionalComponent pos "9999999"B bs ReadNestedParties3
     let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
     let ci = {
-        NewOrderMultilegNoAllocsGrp.AllocAccount = allocAccount
+        AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
         AllocSettlCurrency = allocSettlCurrency
         IndividualAllocID = individualAllocID
@@ -1828,7 +1828,7 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
     let pos, solicitedFlag = ReadOptionalField pos "377"B bs ReadSolicitedFlag
     let pos, sideComplianceID = ReadOptionalField pos "659"B bs ReadSideComplianceID
     let ci = {
-        NoSidesGrp.Side = side
+        Side = side
         ClOrdID = clOrdID
         SecondaryClOrdID = secondaryClOrdID
         ClOrdLinkID = clOrdLinkID
@@ -1879,7 +1879,7 @@ let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportN
     let pos, legSettlDate = ReadOptionalField pos "588"B bs ReadLegSettlDate
     let pos, legLastPx = ReadOptionalField pos "637"B bs ReadLegLastPx
     let ci = {
-        ExecutionReportNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegStipulations = legStipulations
@@ -1923,7 +1923,7 @@ let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  
 let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos "9999999"B bs ReadInstrumentLegFG
     let ci = {
-        NoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
     }
     pos, ci
 
@@ -2003,7 +2003,7 @@ let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsG
     let pos, legStipulations = ReadOptionalComponent pos "9999999"B bs ReadLegStipulations
     let pos, legBenchmarkCurveData = ReadOptionalComponent pos "9999999"B bs ReadLegBenchmarkCurveData
     let ci = {
-        SecurityListNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegSwapType = legSwapType
         LegSettlType = legSettlType
         LegStipulations = legStipulations
@@ -2031,7 +2031,7 @@ let ReadSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * SecurityListN
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-        SecurityListNoRelatedSymGrp.Instrument = instrument
+        Instrument = instrument
         InstrumentExtension = instrumentExtension
         FinancingDetails = financingDetails
         NoUnderlyingsGrp = noUnderlyingsGrp
@@ -2148,7 +2148,7 @@ let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDa
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "9999999"B bs ReadNoUnderlyings
     let pos, noLegsGrp = ReadOptionalGroup pos "9999999"B bs ReadNoLegs
     let ci = {
-        MarketDataRequestNoRelatedSymGrp.Instrument = instrument
+        Instrument = instrument
         NoUnderlyingsGrp = noUnderlyingsGrp
         NoLegsGrp = noLegsGrp
     }
@@ -2262,7 +2262,7 @@ let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuo
     let pos, offerForwardPoints2 = ReadOptionalField pos "643"B bs ReadOfferForwardPoints2
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let ci = {
-        MassQuoteNoQuoteEntriesGrp.QuoteEntryID = quoteEntryID
+        QuoteEntryID = quoteEntryID
         Instrument = instrument
         NoLegsGrp = noLegsGrp
         BidPx = bidPx
@@ -2321,7 +2321,7 @@ let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusRep
     let pos, legStipulations = ReadOptionalComponent pos "9999999"B bs ReadLegStipulations
     let pos, nestedParties = ReadOptionalComponent pos "9999999"B bs ReadNestedParties
     let ci = {
-        QuoteStatusReportNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegSettlType = legSettlType
@@ -2361,7 +2361,7 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
     let pos, legBenchmarkCurveData = ReadOptionalComponent pos "9999999"B bs ReadLegBenchmarkCurveData
     let ci = {
-        QuoteNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegSettlType = legSettlType
@@ -2410,7 +2410,7 @@ let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestR
     let pos, nestedParties = ReadOptionalComponent pos "9999999"B bs ReadNestedParties
     let pos, legBenchmarkCurveData = ReadOptionalComponent pos "9999999"B bs ReadLegBenchmarkCurveData
     let ci = {
-        QuoteRequestRejectNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegSettlType = legSettlType
@@ -2487,7 +2487,7 @@ let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLeg
     let pos, legOfferPx = ReadOptionalField pos "684"B bs ReadLegOfferPx
     let pos, legBenchmarkCurveData = ReadOptionalComponent pos "9999999"B bs ReadLegBenchmarkCurveData
     let ci = {
-        QuoteResponseNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegSettlType = legSettlType
@@ -2513,7 +2513,7 @@ let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsG
     let pos, nestedParties = ReadOptionalComponent pos "9999999"B bs ReadNestedParties
     let pos, legBenchmarkCurveData = ReadOptionalComponent pos "9999999"B bs ReadLegBenchmarkCurveData
     let ci = {
-        QuoteRequestNoLegsGrp.InstrumentLegFG = instrumentLegFG
+        InstrumentLegFG = instrumentLegFG
         LegQty = legQty
         LegSwapType = legSwapType
         LegSettlType = legSettlType
@@ -2763,7 +2763,7 @@ let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
     let pos, text = ReadField "ReadLinesOfText" pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "355"B bs ReadEncodedText
     let ci = {
-        LinesOfTextGrp.Text = text
+        Text = text
         EncodedText = encodedText
     }
     pos, ci
@@ -2773,7 +2773,7 @@ let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
 let ReadNoMDEntryTypesGrp (pos:int) (bs:byte []) : int * NoMDEntryTypesGrp  =
     let pos, mDEntryType = ReadField "ReadNoMDEntryTypes" pos "269"B bs ReadMDEntryType
     let ci = {
-        NoMDEntryTypesGrp.MDEntryType = mDEntryType
+        MDEntryType = mDEntryType
     }
     pos, ci
 
@@ -2995,7 +2995,7 @@ let ReadAllocationInstructionNoExecsGrp (pos:int) (bs:byte []) : int * Allocatio
     let pos, lastParPx = ReadOptionalField pos "669"B bs ReadLastParPx
     let pos, lastCapacity = ReadOptionalField pos "29"B bs ReadLastCapacity
     let ci = {
-        AllocationInstructionNoExecsGrp.LastQty = lastQty
+        LastQty = lastQty
         ExecID = execID
         SecondaryExecID = secondaryExecID
         LastPx = lastPx
@@ -3015,7 +3015,7 @@ let ReadAllocationInstructionAckNoAllocsGrp (pos:int) (bs:byte []) : int * Alloc
     let pos, allocText = ReadOptionalField pos "161"B bs ReadAllocText
     let pos, encodedAllocText = ReadOptionalField pos "361"B bs ReadEncodedAllocText
     let ci = {
-        AllocationInstructionAckNoAllocsGrp.AllocAccount = allocAccount
+        AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
         AllocPrice = allocPrice
         IndividualAllocID = individualAllocID
@@ -3149,7 +3149,7 @@ let ReadNoCompIDsGrp (pos:int) (bs:byte []) : int * NoCompIDsGrp  =
     let pos, locationID = ReadOptionalField pos "283"B bs ReadLocationID
     let pos, deskID = ReadOptionalField pos "284"B bs ReadDeskID
     let ci = {
-        NoCompIDsGrp.RefCompID = refCompID
+        RefCompID = refCompID
         RefSubID = refSubID
         LocationID = locationID
         DeskID = deskID

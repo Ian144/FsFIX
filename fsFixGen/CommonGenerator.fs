@@ -9,7 +9,7 @@ open FIXGenTypes
 // used for building the FIXItem definition string for messages, groups and components
 let private makeItemStr (item:FIXItem) = 
     match item with
-    | FIXItem.FieldRef fld     ->      match fld.Required with
+    | FIXItem.FieldRef fld     ->   match fld.Required with
                                     | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
                                     | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
     | FIXItem.ComponentRef cmp ->   let (ComponentName nm) = cmp.CRName
