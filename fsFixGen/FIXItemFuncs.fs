@@ -62,10 +62,45 @@ let getNameLN (fi:FIXItem) =
     | FIXItem.Group grp         ->  let (GroupLongName nm) = GroupUtils.makeLongName grp
                                     sprintf "%sGrp" nm
 
-
-
 let getIsRequired (fi:FIXItem) =
     match fi with
     | FIXItem.FieldRef fld      ->  fld.Required = Required.Required
     | FIXItem.ComponentRef cmp  ->  cmp.Required = Required.Required
     | FIXItem.Group grp         ->  grp.Required = Required.Required
+
+
+//
+//let getTag (fieldNameMap:Map<string,FieldData>)  (fi:FIXItem) = 
+//    match fi with
+//    | FIXItem.FieldRef fldRef      ->  
+//        let fld = fieldNameMap.[fldRef.FName]
+//        match fld with
+//        | SimpleField sf    -> sf.Tag
+//        | CompoundField cf  -> cf.LenField.Tag // compound fields are length+data pairs, the first field is always the length
+//    | FIXItem.ComponentRef cmp  ->  0u
+//    | FIXItem.Group grp         ->  0u
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

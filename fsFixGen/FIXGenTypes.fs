@@ -16,10 +16,10 @@ type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField 
 
 type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
 
-// groups and components refer to fields, but the fields are defined elsewhere
+// groups and components refer to fields in the fix xml spec, but the fields are defined elsewhere
 type FieldRef = { FName:string; Required:Required }
 
-// msgs refer to components, but the component is defined elsewhere, however groups are defined inline.
+// msgs refer to components in the fix xml spec, components is defined elsewhere, however groups are defined inline.
 // ComponentRefs can be required or not required, whereas Components do not know if they are required or
 // not when being defined in FIX xml, that is specified at the point of use
 type ComponentRef = { CRName:ComponentName; Required:Required }
