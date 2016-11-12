@@ -124,7 +124,7 @@ let private genFieldInitStrs (items:FIXItem list) =
 
 
 
-let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:StreamWriter) (ci:CompoundItem) = 
+let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>)  (sw:StreamWriter) (ci:CompoundItem) = 
     let name = CompoundItemFuncs.getName ci
     let suffix = CompoundItemFuncs.getNameSuffix ci
     let typeName = sprintf "%s%s" name suffix
@@ -133,19 +133,18 @@ let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (sw:Str
     sw.WriteLine (sprintf "// %s" compOrGroup)
     let funcSig = sprintf "let Read%s (pos:int) (bs:byte []) : int * %s  =" typeName typeName
     sw.WriteLine funcSig
-    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap name items
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap name items
     readFIXItemStrs |> List.iter sw.WriteLine
     let fieldInitStrs = genFieldInitStrs items
     sw.WriteLine (sprintf "    let ci:%s = {" typeName)
     fieldInitStrs |> List.iter sw.WriteLine
     sw.WriteLine "    }"
     sw.WriteLine "    pos, ci"
-//    sw.WriteLine "    failwith \"not implemented\""
     sw.WriteLine ""
     sw.WriteLine ""
 
 
-let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (groups:CompoundItem list) (sw:StreamWriter) =
+let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemReadFuncs"
     sw.WriteLine ""
     sw.WriteLine "open ReaderUtils"
@@ -154,5 +153,5 @@ let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (groups:CompoundItem lis
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genCompoundItemReader fieldNameMap sw)  
+    groups |> List.iter (genCompoundItemReader fieldNameMap compNameMap sw)  
 

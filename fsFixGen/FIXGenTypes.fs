@@ -12,6 +12,7 @@ type FieldDUCase = { Case:string; Description:string }
 
 type SimpleField = { Tag:uint32; Name:string; Type:string; Values:FieldDUCase list }
 
+// compound fields are length+data pairs
 type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
 
 type Field = SimpleField of SimpleField | CompoundField of CompoundField
@@ -27,7 +28,7 @@ type ComponentRef = { CRName:ComponentName; Required:Required }
 
 // A FIXItem can contain groups containing FIXItems, SO FIXITEMS ARE TREES
 // ComponentRefs refer to a component by name, but do not contain Items directly, 
-// Components are not defined inline, whereas groups are.
+// Components are not defined inline, groups are inline with their parent type.
 type FIXItem = FieldRef of FieldRef | ComponentRef of ComponentRef | Group of Group
 and Group = { GName:string; Parents:string list; Required:Required; Items: FIXItem list }
 

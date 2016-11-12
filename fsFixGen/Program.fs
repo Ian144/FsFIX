@@ -62,7 +62,7 @@ let main _ =
 
     printfn "generating group and component reading functions"
     use swGroupReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemReadFuncs.fs")
-    do CompoundItemGenerator.GenReadFuncs fieldNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
+    do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
     printfn "generating F# message definitions"
     use swMsgs = new StreamWriter (Utils.MkOutpath "Fix44.Messages.fs")

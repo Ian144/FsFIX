@@ -69,18 +69,20 @@ let getIsRequired (fi:FIXItem) =
     | FIXItem.Group grp         ->  grp.Required = Required.Required
 
 
-//
-//let getTag (fieldNameMap:Map<string,FieldData>)  (fi:FIXItem) = 
-//    match fi with
-//    | FIXItem.FieldRef fldRef      ->  
-//        let fld = fieldNameMap.[fldRef.FName]
-//        match fld with
-//        | SimpleField sf    -> sf.Tag
-//        | CompoundField cf  -> cf.LenField.Tag // compound fields are length+data pairs, the first field is always the length
-//    | FIXItem.ComponentRef cmp  ->  0u
-//    | FIXItem.Group grp         ->  0u
 
-
+let rec getTag (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (fi:FIXItem) = 
+    match fi with
+    | FIXItem.FieldRef fldRef   ->  
+        let fld = fieldNameMap.[fldRef.FName]
+        fld.Tag
+    | FIXItem.ComponentRef cr   ->  
+        let cmp = compNameMap.[cr.CRName]
+        let firstItem = cmp.Items.Head // program is in an errored state if this fails, hence failing fast
+        getTag fieldNameMap compNameMap firstItem
+    | FIXItem.Group grp ->
+        // the groups short name is that of the 'NoGROUPNAME' field, which holds the number of group elements
+        let numFld = fieldNameMap.[grp.GName]
+        numFld.Tag
 
 
 

@@ -118,25 +118,22 @@ let fixYield (ss:string) =
 
 // group will need to know the tag of its number field
 
-let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (parentName:string) (items:FIXItem list) =
+let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
+        let tag = FIXItem.getTag fieldNameMap compNameMap item
         match item with
         | FIXItem.FieldRef fld      ->  let name = fld.FName
-                                        let simpleField = fieldNameMap.[name] // the program is broken if this does not succeed, so fail fast
-                                        let tag = simpleField.Tag
                                         let varName = Utils.lCaseFirstChar name |> fixYield
                                         match fld.Required with
                                         | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentName tag name ]
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" varName tag name ]
         | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                         let varName = Utils.lCaseFirstChar name
-                                        let tag = 9999999
                                         match cmp.Required with
                                         | Required.Required     ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
         | FIXItem.Group grp         ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
                                         let varName = Utils.lCaseFirstChar longName
-                                        let tag = 9999999
                                         match grp.Required with
                                         | Required.Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
                                         | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%sGrp" varName tag longName ]
