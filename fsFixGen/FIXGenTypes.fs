@@ -14,7 +14,7 @@ type SimpleField = { Tag:uint32; Name:string; Type:string; Values:FieldDUCase li
 
 type CompoundField = { Name:string; LenField:SimpleField; DataField:SimpleField }
 
-type FieldData = SimpleField of SimpleField | CompoundField of CompoundField
+type Field = SimpleField of SimpleField | CompoundField of CompoundField
 
 // groups and components refer to fields in the fix xml spec, but the fields are defined elsewhere
 type FieldRef = { FName:string; Required:Required }

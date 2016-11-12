@@ -209,9 +209,9 @@ let MergeLenFields (fields:SimpleField list) =
             if allLengthTypeFields |> Set.contains fld |> not then
                 if allFieldPairsMap.ContainsKey fld then
                     let lenField = allFieldPairsMap.[fld] // 'len' and 'length' fields
-                    yield FieldData.CompoundField {Name=fld.Name; LenField = lenField; DataField = fld}
+                    yield Field.CompoundField {Name=fld.Name; LenField = lenField; DataField = fld}
                 else
-                    yield FieldData.SimpleField fld ]
+                    yield Field.SimpleField fld ]
 
     let lengthPairedFields =  lengthFields @ lenFields |> List.map (fun fld -> fld.Name) |> Set.ofList //todo: get client of this function to use a Set<Field>
     lengthPairedFields, mergedFields
@@ -281,7 +281,7 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
 
 
 
-let Gen (fieldData:FieldData list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swWriteFuncs:StreamWriter) (swFieldDU:StreamWriter) =
+let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swWriteFuncs:StreamWriter) (swFieldDU:StreamWriter) =
 
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
