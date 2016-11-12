@@ -7,6 +7,8 @@ let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
 let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
 
+let bytesToUInt32 = bytesToStr >> System.Convert.ToUInt32
+
 
 let bytesToBool (bs:byte[]) =
     let ii = bytesToInt32 bs
