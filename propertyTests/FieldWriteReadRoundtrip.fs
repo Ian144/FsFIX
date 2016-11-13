@@ -79,13 +79,16 @@ let ``UnderlyingStipulationsGrp write-read roundtrip`` (usIn:NoUnderlyingStipsGr
 
 [<PropertyTestAttribute>]
 let ``UnderlyingStipulations write-read roundtrip`` (usIn:UnderlyingStipulations) =
-    (usIn.NoUnderlyingStipsGrp.IsSome && usIn.NoUnderlyingStipsGrp.Value.Length = 1) ==> lazy
-    let bs = Array.zeroCreate<byte> (1024 * 16)
-    let posW = WriteUnderlyingStipulations  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations 0 bs
-    let ok = usIn = usOut
-    let ok2 = (posW = posR)
-    ok && ok2
+    (usIn.NoUnderlyingStipsGrp.IsSome) ==> lazy
+        let bs = Array.zeroCreate<byte> (1024 * 16)
+        let posW = WriteUnderlyingStipulations  bs 0 usIn
+        let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations 0 bs
+        let ok = usIn = usOut
+        let ok2 = (posW = posR)
+        let xx = ok && ok2
+        if not xx then
+            printf ""
+        xx
 
 
 

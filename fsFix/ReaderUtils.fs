@@ -38,7 +38,9 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
         failwith msg
     let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs 
     let numRepeats = Conversions.bytesToUInt32 numRepeatBs
-    readGrpInner [] pos3 numRepeats bs readFunc
+    let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
+    let gsRev = gs |> List.rev
+    pos4, gsRev
 
 
 let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc = 
@@ -47,7 +49,8 @@ let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc =
         let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs 
         let numRepeats = Conversions.bytesToUInt32 numRepeatBs
         let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
-        pos4, Some gs
+        let gsRev = gs |> List.rev
+        pos4, Some gsRev
     else
         pos, None   // return the original pos, the next read op will re-read it
 
