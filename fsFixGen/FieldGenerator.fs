@@ -37,7 +37,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
             yield! values |> List.map (fun vv -> 
                    sprintf "        |\"%s\"B -> %s.%s" vv.Case typeName vv.Description )
             yield          "        | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
-            yield  sprintf "    pos2 + 1, fld  // +1 to advance the position to after the field separator" 
+            yield  sprintf "    pos2, fld"
     ]    
     Utils.joinStrs "\n" lines
 

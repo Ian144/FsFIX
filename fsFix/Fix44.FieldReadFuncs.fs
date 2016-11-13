@@ -29,7 +29,7 @@ let ReadAdvSide (pos:int) (bs:byte[]) : (int * AdvSide) =
         |"X"B -> AdvSide.Cross
         |"T"B -> AdvSide.Trade
         | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
@@ -40,7 +40,7 @@ let ReadAdvTransType (pos:int) (bs:byte[]) : (int * AdvTransType) =
         |"C"B -> AdvTransType.Cancel
         |"R"B -> AdvTransType.Replace
         | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAvgPx (pos:int) (bs:byte[]) : (int*AvgPx) =
@@ -82,7 +82,7 @@ let ReadCommType (pos:int) (bs:byte[]) : (int * CommType) =
         |"5"B -> CommType.PercentageWaivedEnhancedUnits
         |"6"B -> CommType.PointsPerBondOrOrContract
         | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCumQty (pos:int) (bs:byte[]) : (int*CumQty) =
@@ -147,7 +147,7 @@ let ReadExecInst (pos:int) (bs:byte[]) : (int * ExecInst) =
         |"d"B -> ExecInst.PegToLimitPrice
         |"e"B -> ExecInst.WorkToTargetStrategy
         | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadExecRefID (pos:int) (bs:byte[]) : (int*ExecRefID) =
@@ -162,7 +162,7 @@ let ReadHandlInst (pos:int) (bs:byte[]) : (int * HandlInst) =
         |"2"B -> HandlInst.AutomatedExecutionOrderPublic
         |"3"B -> HandlInst.ManualOrder
         | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
@@ -189,7 +189,7 @@ let ReadSecurityIDSource (pos:int) (bs:byte[]) : (int * SecurityIDSource) =
         |"I"B -> SecurityIDSource.IsdaFpmlProductSpecification
         |"J"B -> SecurityIDSource.OptionsPriceReportingAuthority
         | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadIOIid (pos:int) (bs:byte[]) : (int*IOIid) =
@@ -204,7 +204,7 @@ let ReadIOIQltyInd (pos:int) (bs:byte[]) : (int * IOIQltyInd) =
         |"M"B -> IOIQltyInd.Medium
         |"H"B -> IOIQltyInd.High
         | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadIOIRefID (pos:int) (bs:byte[]) : (int*IOIRefID) =
@@ -223,7 +223,7 @@ let ReadIOITransType (pos:int) (bs:byte[]) : (int * IOITransType) =
         |"C"B -> IOITransType.Cancel
         |"R"B -> IOITransType.Replace
         | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
@@ -235,7 +235,7 @@ let ReadLastCapacity (pos:int) (bs:byte[]) : (int * LastCapacity) =
         |"3"B -> LastCapacity.CrossAsPrincipal
         |"4"B -> LastCapacity.Principal
         | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLastMkt (pos:int) (bs:byte[]) : (int*LastMkt) =
@@ -356,7 +356,7 @@ let ReadMsgType (pos:int) (bs:byte[]) : (int * MsgType) =
         |"BG"B -> MsgType.CollateralInquiryAck
         |"BH"B -> MsgType.ConfirmationRequest
         | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNewSeqNo (pos:int) (bs:byte[]) : (int*NewSeqNo) =
@@ -391,7 +391,7 @@ let ReadOrdStatus (pos:int) (bs:byte[]) : (int * OrdStatus) =
         |"D"B -> OrdStatus.AcceptedForBidding
         |"E"B -> OrdStatus.PendingReplace
         | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
@@ -422,7 +422,7 @@ let ReadOrdType (pos:int) (bs:byte[]) : (int * OrdType) =
         |"M"B -> OrdType.NextFundValuationPoint
         |"P"B -> OrdType.Pegged
         | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrigClOrdID (pos:int) (bs:byte[]) : (int*OrigClOrdID) =
@@ -486,7 +486,7 @@ let ReadSide (pos:int) (bs:byte[]) : (int * Side) =
         |"F"B -> Side.Lend
         |"G"B -> Side.Borrow
         | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSymbol (pos:int) (bs:byte[]) : (int*Symbol) =
@@ -518,7 +518,7 @@ let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
         |"6"B -> TimeInForce.GoodTillDate
         |"7"B -> TimeInForce.AtTheClose
         | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
@@ -533,7 +533,7 @@ let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
         |"1"B -> Urgency.Flash
         |"2"B -> Urgency.Background
         | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
@@ -555,7 +555,7 @@ let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
         |"8"B -> SettlType.SellersOption
         |"9"B -> SettlType.TPlus5
         | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSettlDate (pos:int) (bs:byte[]) : (int*SettlDate) =
@@ -569,7 +569,7 @@ let ReadSymbolSfx (pos:int) (bs:byte[]) : (int * SymbolSfx) =
         |"WI"B -> SymbolSfx.WhenIssued
         |"CD"B -> SymbolSfx.AEucpWithLumpSumInterest
         | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadListID (pos:int) (bs:byte[]) : (int*ListID) =
@@ -600,7 +600,7 @@ let ReadAllocTransType (pos:int) (bs:byte[]) : (int * AllocTransType) =
         |"1"B -> AllocTransType.Replace
         |"2"B -> AllocTransType.Cancel
         | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRefAllocID (pos:int) (bs:byte[]) : (int*RefAllocID) =
@@ -628,7 +628,7 @@ let ReadPositionEffect (pos:int) (bs:byte[]) : (int * PositionEffect) =
         |"R"B -> PositionEffect.Rolled
         |"F"B -> PositionEffect.Fifo
         | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoAllocs (pos:int) (bs:byte[]) : (int*NoAllocs) =
@@ -655,7 +655,7 @@ let ReadProcessCode (pos:int) (bs:byte[]) : (int * ProcessCode) =
         |"5"B -> ProcessCode.SoftDollarStepOut
         |"6"B -> ProcessCode.PlanSponsor
         | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoRpts (pos:int) (bs:byte[]) : (int*NoRpts) =
@@ -685,7 +685,7 @@ let ReadAllocStatus (pos:int) (bs:byte[]) : (int * AllocStatus) =
         |"4"B -> AllocStatus.Incomplete
         |"5"B -> AllocStatus.RejectedByIntermediary
         | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
@@ -707,7 +707,7 @@ let ReadAllocRejCode (pos:int) (bs:byte[]) : (int * AllocRejCode) =
         |"12"B -> AllocRejCode.UnknownClordid
         |"13"B -> AllocRejCode.WarehouseRequestRejected
         | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 // compound read
@@ -728,7 +728,7 @@ let ReadEmailType (pos:int) (bs:byte[]) : (int * EmailType) =
         |"1"B -> EmailType.Reply
         |"2"B -> EmailType.AdminReply
         | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 // compound read
@@ -752,7 +752,7 @@ let ReadEncryptMethod (pos:int) (bs:byte[]) : (int * EncryptMethod) =
         |"5"B -> EncryptMethod.PgpDesMd5
         |"6"B -> EncryptMethod.PemDesMd5
         | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStopPx (pos:int) (bs:byte[]) : (int*StopPx) =
@@ -776,7 +776,7 @@ let ReadCxlRejReason (pos:int) (bs:byte[]) : (int * CxlRejReason) =
         |"6"B -> CxlRejReason.DuplicateClordidReceived
         |"99"B -> CxlRejReason.Other
         | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
@@ -801,7 +801,7 @@ let ReadOrdRejReason (pos:int) (bs:byte[]) : (int * OrdRejReason) =
         |"15"B -> OrdRejReason.UnknownAccount
         |"99"B -> OrdRejReason.Other
         | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
@@ -827,7 +827,7 @@ let ReadIOIQualifier (pos:int) (bs:byte[]) : (int * IOIQualifier) =
         |"Y"B -> IOIQualifier.AtTheMidpoint
         |"Z"B -> IOIQualifier.PreOpen
         | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadWaveNo (pos:int) (bs:byte[]) : (int*WaveNo) =
@@ -922,7 +922,7 @@ let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
         |"F"B -> DKReason.CalculationDifference
         |"Z"B -> DKReason.Other
         | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDeliverToCompID (pos:int) (bs:byte[]) : (int*DeliverToCompID) =
@@ -986,7 +986,7 @@ let ReadMiscFeeType (pos:int) (bs:byte[]) : (int * MiscFeeType) =
         |"11"B -> MiscFeeType.Conversion
         |"12"B -> MiscFeeType.Agent
         | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPrevClosePx (pos:int) (bs:byte[]) : (int*PrevClosePx) =
@@ -1053,7 +1053,7 @@ let ReadExecType (pos:int) (bs:byte[]) : (int * ExecType) =
         |"H"B -> ExecType.TradeCancel
         |"I"B -> ExecType.OrderStatus
         | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLeavesQty (pos:int) (bs:byte[]) : (int*LeavesQty) =
@@ -1083,7 +1083,7 @@ let ReadSettlCurrFxRateCalc (pos:int) (bs:byte[]) : (int * SettlCurrFxRateCalc) 
         |"M"B -> SettlCurrFxRateCalc.Multiply
         |"D"B -> SettlCurrFxRateCalc.Divide
         | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNumDaysInterest (pos:int) (bs:byte[]) : (int*NumDaysInterest) =
@@ -1107,7 +1107,7 @@ let ReadSettlInstMode (pos:int) (bs:byte[]) : (int * SettlInstMode) =
         |"4"B -> SettlInstMode.SpecificOrderForASingleAccount
         |"5"B -> SettlInstMode.RequestReject
         | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAllocText (pos:int) (bs:byte[]) : (int*AllocText) =
@@ -1127,7 +1127,7 @@ let ReadSettlInstTransType (pos:int) (bs:byte[]) : (int * SettlInstTransType) =
         |"R"B -> SettlInstTransType.Replace
         |"T"B -> SettlInstTransType.Restate
         | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadEmailThreadID (pos:int) (bs:byte[]) : (int*EmailThreadID) =
@@ -1142,7 +1142,7 @@ let ReadSettlInstSource (pos:int) (bs:byte[]) : (int * SettlInstSource) =
         |"2"B -> SettlInstSource.InstitutionsInstructions
         |"3"B -> SettlInstSource.Investor
         | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
@@ -1244,7 +1244,7 @@ let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
         |"NONE"B -> SecurityType.NoSecurityType
         |"?"B -> SecurityType.Wildcard
         | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
@@ -1261,7 +1261,7 @@ let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
         |"3"B -> StandInstDbType.AGlobalCustodian
         |"4"B -> StandInstDbType.Accountnet
         | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStandInstDbName (pos:int) (bs:byte[]) : (int*StandInstDbName) =
@@ -1281,7 +1281,7 @@ let ReadSettlDeliveryType (pos:int) (bs:byte[]) : (int * SettlDeliveryType) =
         |"2"B -> SettlDeliveryType.TriParty
         |"3"B -> SettlDeliveryType.HoldInCustody
         | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBidSpotRate (pos:int) (bs:byte[]) : (int*BidSpotRate) =
@@ -1327,7 +1327,7 @@ let ReadAllocLinkType (pos:int) (bs:byte[]) : (int * AllocLinkType) =
         |"0"B -> AllocLinkType.FXNetting
         |"1"B -> AllocLinkType.FXSwap
         | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecondaryOrderID (pos:int) (bs:byte[]) : (int*SecondaryOrderID) =
@@ -1349,7 +1349,7 @@ let ReadPutOrCall (pos:int) (bs:byte[]) : (int * PutOrCall) =
         |"0"B -> PutOrCall.Put
         |"1"B -> PutOrCall.Call
         | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStrikePrice (pos:int) (bs:byte[]) : (int*StrikePrice) =
@@ -1363,7 +1363,7 @@ let ReadCoveredOrUncovered (pos:int) (bs:byte[]) : (int * CoveredOrUncovered) =
         |"0"B -> CoveredOrUncovered.Covered
         |"1"B -> CoveredOrUncovered.Uncovered
         | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOptAttribute (pos:int) (bs:byte[]) : (int*OptAttribute) =
@@ -1386,7 +1386,7 @@ let ReadAllocHandlInst (pos:int) (bs:byte[]) : (int * AllocHandlInst) =
         |"2"B -> AllocHandlInst.Forward
         |"3"B -> AllocHandlInst.ForwardAndMatch
         | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMaxShow (pos:int) (bs:byte[]) : (int*MaxShow) =
@@ -1419,7 +1419,7 @@ let ReadRoutingType (pos:int) (bs:byte[]) : (int * RoutingType) =
         |"3"B -> RoutingType.BlockFirm
         |"4"B -> RoutingType.BlockList
         | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRoutingID (pos:int) (bs:byte[]) : (int*RoutingID) =
@@ -1451,7 +1451,7 @@ let ReadBenchmarkCurveName (pos:int) (bs:byte[]) : (int * BenchmarkCurveName) =
         |"SONIA"B -> BenchmarkCurveName.Sonia
         |"EUREPO"B -> BenchmarkCurveName.Eurepo
         | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBenchmarkCurvePoint (pos:int) (bs:byte[]) : (int*BenchmarkCurvePoint) =
@@ -1562,7 +1562,7 @@ let ReadStipulationType (pos:int) (bs:byte[]) : (int * StipulationType) =
         |"MHP"B -> StipulationType.PercentOfManufacturedHousingPrepaymentCurve
         |"HEP"B -> StipulationType.FinalCprOfHomeEquityPrepaymentCurve
         | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
@@ -1584,7 +1584,7 @@ let ReadStipulationValue (pos:int) (bs:byte[]) : (int * StipulationValue) =
         |"TR"B -> StipulationValue.ReportForEuropeanEquityMarketSecurities
         |"GD"B -> StipulationValue.GuaranteedDelivery
         | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
@@ -1626,7 +1626,7 @@ let ReadYieldType (pos:int) (bs:byte[]) : (int * YieldType) =
         |"VALUE1_32"B -> YieldType.YieldValueOf132
         |"WORST"B -> YieldType.YieldToWorst
         | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadYield (pos:int) (bs:byte[]) : (int*Yield) =
@@ -1741,7 +1741,7 @@ let ReadSubscriptionRequestType (pos:int) (bs:byte[]) : (int * SubscriptionReque
         |"1"B -> SubscriptionRequestType.SnapshotPlusUpdates
         |"2"B -> SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest
         | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMarketDepth (pos:int) (bs:byte[]) : (int*MarketDepth) =
@@ -1755,7 +1755,7 @@ let ReadMDUpdateType (pos:int) (bs:byte[]) : (int * MDUpdateType) =
         |"0"B -> MDUpdateType.FullRefresh
         |"1"B -> MDUpdateType.IncrementalRefresh
         | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAggregatedBook (pos:int) (bs:byte[]) : (int*AggregatedBook) =
@@ -1788,7 +1788,7 @@ let ReadMDEntryType (pos:int) (bs:byte[]) : (int * MDEntryType) =
         |"B"B -> MDEntryType.TradeVolume
         |"C"B -> MDEntryType.OpenInterest
         | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDEntryPx (pos:int) (bs:byte[]) : (int*MDEntryPx) =
@@ -1816,7 +1816,7 @@ let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =
         |"2"B -> TickDirection.MinusTick
         |"3"B -> TickDirection.ZeroMinusTick
         | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDMkt (pos:int) (bs:byte[]) : (int*MDMkt) =
@@ -1837,7 +1837,7 @@ let ReadQuoteCondition (pos:int) (bs:byte[]) : (int * QuoteCondition) =
         |"H"B -> QuoteCondition.FastTrading
         |"I"B -> QuoteCondition.NonFirm
         | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
@@ -1862,7 +1862,7 @@ let ReadTradeCondition (pos:int) (bs:byte[]) : (int * TradeCondition) =
         |"Q"B -> TradeCondition.ImbalanceMoreSellers
         |"R"B -> TradeCondition.OpeningPrice
         | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDEntryID (pos:int) (bs:byte[]) : (int*MDEntryID) =
@@ -1877,7 +1877,7 @@ let ReadMDUpdateAction (pos:int) (bs:byte[]) : (int * MDUpdateAction) =
         |"1"B -> MDUpdateAction.Change
         |"2"B -> MDUpdateAction.Delete
         | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDEntryRefID (pos:int) (bs:byte[]) : (int*MDEntryRefID) =
@@ -1902,7 +1902,7 @@ let ReadMDReqRejReason (pos:int) (bs:byte[]) : (int * MDReqRejReason) =
         |"B"B -> MDReqRejReason.UnsupportedOpenclosesettleflag
         |"C"B -> MDReqRejReason.UnsupportedMdimplicitdelete
         | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDEntryOriginator (pos:int) (bs:byte[]) : (int*MDEntryOriginator) =
@@ -1924,7 +1924,7 @@ let ReadDeleteReason (pos:int) (bs:byte[]) : (int * DeleteReason) =
         |"0"B -> DeleteReason.CancelationTradeBust
         |"1"B -> DeleteReason.Error
         | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
@@ -1938,7 +1938,7 @@ let ReadOpenCloseSettlFlag (pos:int) (bs:byte[]) : (int * OpenCloseSettlFlag) =
         |"4"B -> OpenCloseSettlFlag.EntryFromPreviousBusinessDay
         |"5"B -> OpenCloseSettlFlag.TheoreticalPriceValue
         | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSellerDays (pos:int) (bs:byte[]) : (int*SellerDays) =
@@ -1964,7 +1964,7 @@ let ReadFinancialStatus (pos:int) (bs:byte[]) : (int * FinancialStatus) =
         |"1"B -> FinancialStatus.Bankrupt
         |"2"B -> FinancialStatus.PendingDelisting
         | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
@@ -1977,7 +1977,7 @@ let ReadCorporateAction (pos:int) (bs:byte[]) : (int * CorporateAction) =
         |"D"B -> CorporateAction.New
         |"E"B -> CorporateAction.ExInterest
         | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDefBidSize (pos:int) (bs:byte[]) : (int*DefBidSize) =
@@ -2017,7 +2017,7 @@ let ReadQuoteStatus (pos:int) (bs:byte[]) : (int * QuoteStatus) =
         |"14"B -> QuoteStatus.CanceledDueToLockMarket
         |"15"B -> QuoteStatus.CanceledDueToCrossMarket
         | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
@@ -2029,7 +2029,7 @@ let ReadQuoteCancelType (pos:int) (bs:byte[]) : (int * QuoteCancelType) =
         |"3"B -> QuoteCancelType.CancelForUnderlyingSymbol
         |"4"B -> QuoteCancelType.CancelAllQuotes
         | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteEntryID (pos:int) (bs:byte[]) : (int*QuoteEntryID) =
@@ -2051,7 +2051,7 @@ let ReadQuoteRejectReason (pos:int) (bs:byte[]) : (int * QuoteRejectReason) =
         |"9"B -> QuoteRejectReason.NotAuthorizedToQuoteSecurity
         |"99"B -> QuoteRejectReason.Other
         | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
@@ -2062,7 +2062,7 @@ let ReadQuoteResponseLevel (pos:int) (bs:byte[]) : (int * QuoteResponseLevel) =
         |"1"B -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
         |"2"B -> QuoteResponseLevel.AcknowledgeEachQuoteMessages
         | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteSetID (pos:int) (bs:byte[]) : (int*QuoteSetID) =
@@ -2076,7 +2076,7 @@ let ReadQuoteRequestType (pos:int) (bs:byte[]) : (int * QuoteRequestType) =
         |"1"B -> QuoteRequestType.Manual
         |"2"B -> QuoteRequestType.Automatic
         | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTotNoQuoteEntries (pos:int) (bs:byte[]) : (int*TotNoQuoteEntries) =
@@ -2126,7 +2126,7 @@ let ReadUnderlyingPutOrCall (pos:int) (bs:byte[]) : (int * UnderlyingPutOrCall) 
         |"0"B -> UnderlyingPutOrCall.Put
         |"1"B -> UnderlyingPutOrCall.Call
         | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingStrikePrice (pos:int) (bs:byte[]) : (int*UnderlyingStrikePrice) =
@@ -2154,7 +2154,7 @@ let ReadSecurityRequestType (pos:int) (bs:byte[]) : (int * SecurityRequestType) 
         |"2"B -> SecurityRequestType.RequestListSecurityTypes
         |"3"B -> SecurityRequestType.RequestListSecurities
         | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecurityResponseID (pos:int) (bs:byte[]) : (int*SecurityResponseID) =
@@ -2172,7 +2172,7 @@ let ReadSecurityResponseType (pos:int) (bs:byte[]) : (int * SecurityResponseType
         |"5"B -> SecurityResponseType.RejectSecurityProposal
         |"6"B -> SecurityResponseType.CanNotMatchSelectionCriteria
         | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecurityStatusReqID (pos:int) (bs:byte[]) : (int*SecurityStatusReqID) =
@@ -2211,7 +2211,7 @@ let ReadSecurityTradingStatus (pos:int) (bs:byte[]) : (int * SecurityTradingStat
         |"22"B -> SecurityTradingStatus.OpeningRotation
         |"23"B -> SecurityTradingStatus.FastMarket
         | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
@@ -2225,7 +2225,7 @@ let ReadHaltReason (pos:int) (bs:byte[]) : (int * HaltReason) =
         |"E"B -> HaltReason.OrderInflux
         |"M"B -> HaltReason.AdditionalInformation
         | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadInViewOfCommon (pos:int) (bs:byte[]) : (int*InViewOfCommon) =
@@ -2260,7 +2260,7 @@ let ReadAdjustment (pos:int) (bs:byte[]) : (int * Adjustment) =
         |"2"B -> Adjustment.Error
         |"3"B -> Adjustment.Correction
         | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradSesReqID (pos:int) (bs:byte[]) : (int*TradSesReqID) =
@@ -2283,7 +2283,7 @@ let ReadTradSesMethod (pos:int) (bs:byte[]) : (int * TradSesMethod) =
         |"2"B -> TradSesMethod.OpenOutcry
         |"3"B -> TradSesMethod.TwoParty
         | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
@@ -2294,7 +2294,7 @@ let ReadTradSesMode (pos:int) (bs:byte[]) : (int * TradSesMode) =
         |"2"B -> TradSesMode.Simulated
         |"3"B -> TradSesMode.Production
         | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
@@ -2309,7 +2309,7 @@ let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
         |"5"B -> TradSesStatus.PreClose
         |"6"B -> TradSesStatus.RequestRejected
         | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradSesStartTime (pos:int) (bs:byte[]) : (int*TradSesStartTime) =
@@ -2345,7 +2345,7 @@ let ReadMessageEncoding (pos:int) (bs:byte[]) : (int * MessageEncoding) =
         |"SHIFT_JIS"B -> MessageEncoding.ShiftJis
         |"UTF-8"B -> MessageEncoding.Utf8
         | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 // compound read
@@ -2415,7 +2415,7 @@ let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectRe
         |"8"B -> QuoteEntryRejectReason.InvalidPrice
         |"9"B -> QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity
         | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLastMsgSeqNumProcessed (pos:int) (bs:byte[]) : (int*LastMsgSeqNumProcessed) =
@@ -2454,7 +2454,7 @@ let ReadSessionRejectReason (pos:int) (bs:byte[]) : (int * SessionRejectReason) 
         |"17"B -> SessionRejectReason.NonDataValueIncludesFieldDelimiter
         |"99"B -> SessionRejectReason.Other
         | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) =
@@ -2464,7 +2464,7 @@ let ReadBidRequestTransType (pos:int) (bs:byte[]) : (int * BidRequestTransType) 
         |"N"B -> BidRequestTransType.New
         |"C"B -> BidRequestTransType.Cancel
         | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadContraBroker (pos:int) (bs:byte[]) : (int*ContraBroker) =
@@ -2494,7 +2494,7 @@ let ReadExecRestatementReason (pos:int) (bs:byte[]) : (int * ExecRestatementReas
         |"8"B -> ExecRestatementReason.MarketOption
         |"9"B -> ExecRestatementReason.CanceledNotBest
         | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBusinessRejectRefID (pos:int) (bs:byte[]) : (int*BusinessRejectRefID) =
@@ -2514,7 +2514,7 @@ let ReadBusinessRejectReason (pos:int) (bs:byte[]) : (int * BusinessRejectReason
         |"6"B -> BusinessRejectReason.NotAuthorized
         |"7"B -> BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime
         | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadGrossTradeAmt (pos:int) (bs:byte[]) : (int*GrossTradeAmt) =
@@ -2540,7 +2540,7 @@ let ReadMsgDirection (pos:int) (bs:byte[]) : (int * MsgDirection) =
         |"S"B -> MsgDirection.Send
         |"R"B -> MsgDirection.Receive
         | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoTradingSessions (pos:int) (bs:byte[]) : (int*NoTradingSessions) =
@@ -2563,7 +2563,7 @@ let ReadDiscretionInst (pos:int) (bs:byte[]) : (int * DiscretionInst) =
         |"5"B -> DiscretionInst.RelatedToLastTradePrice
         |"6"B -> DiscretionInst.RelatedToVwap
         | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionOffsetValue (pos:int) (bs:byte[]) : (int*DiscretionOffsetValue) =
@@ -2594,7 +2594,7 @@ let ReadBidType (pos:int) (bs:byte[]) : (int * BidType) =
         |"2"B -> BidType.DisclosedStyle
         |"3"B -> BidType.NoBiddingProcess
         | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNumTickets (pos:int) (bs:byte[]) : (int*NumTickets) =
@@ -2621,7 +2621,7 @@ let ReadBidDescriptorType (pos:int) (bs:byte[]) : (int * BidDescriptorType) =
         |"2"B -> BidDescriptorType.Country
         |"3"B -> BidDescriptorType.Index
         | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBidDescriptor (pos:int) (bs:byte[]) : (int*BidDescriptor) =
@@ -2635,7 +2635,7 @@ let ReadSideValueInd (pos:int) (bs:byte[]) : (int * SideValueInd) =
         |"1"B -> SideValueInd.Sidevalue1
         |"2"B -> SideValueInd.Sidevalue2
         | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLiquidityPctLow (pos:int) (bs:byte[]) : (int*LiquidityPctLow) =
@@ -2675,7 +2675,7 @@ let ReadLiquidityIndType (pos:int) (bs:byte[]) : (int * LiquidityIndType) =
         |"3"B -> LiquidityIndType.NormalMarketSize
         |"4"B -> LiquidityIndType.Other
         | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadWtAverageLiquidity (pos:int) (bs:byte[]) : (int*WtAverageLiquidity) =
@@ -2702,7 +2702,7 @@ let ReadProgRptReqs (pos:int) (bs:byte[]) : (int * ProgRptReqs) =
         |"2"B -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
         |"3"B -> ProgRptReqs.RealTimeExecutionReports
         | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadProgPeriodInterval (pos:int) (bs:byte[]) : (int*ProgPeriodInterval) =
@@ -2716,7 +2716,7 @@ let ReadIncTaxInd (pos:int) (bs:byte[]) : (int * IncTaxInd) =
         |"1"B -> IncTaxInd.Net
         |"2"B -> IncTaxInd.Gross
         | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNumBidders (pos:int) (bs:byte[]) : (int*NumBidders) =
@@ -2732,7 +2732,7 @@ let ReadBidTradeType (pos:int) (bs:byte[]) : (int * BidTradeType) =
         |"A"B -> BidTradeType.Agency
         |"J"B -> BidTradeType.GuaranteedClose
         | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
@@ -2753,7 +2753,7 @@ let ReadBasisPxType (pos:int) (bs:byte[]) : (int * BasisPxType) =
         |"D"B -> BasisPxType.Open
         |"Z"B -> BasisPxType.Others
         | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoBidComponents (pos:int) (bs:byte[]) : (int*NoBidComponents) =
@@ -2784,7 +2784,7 @@ let ReadPriceType (pos:int) (bs:byte[]) : (int * PriceType) =
         |"10"B -> PriceType.FixedCabinetTradePrice
         |"11"B -> PriceType.VariableCabinetTradePrice
         | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDayOrderQty (pos:int) (bs:byte[]) : (int*DayOrderQty) =
@@ -2807,7 +2807,7 @@ let ReadGTBookingInst (pos:int) (bs:byte[]) : (int * GTBookingInst) =
         |"1"B -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
         |"2"B -> GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise
         | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoStrikes (pos:int) (bs:byte[]) : (int*NoStrikes) =
@@ -2825,7 +2825,7 @@ let ReadListStatusType (pos:int) (bs:byte[]) : (int * ListStatusType) =
         |"5"B -> ListStatusType.Alldone
         |"6"B -> ListStatusType.Alert
         | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
@@ -2835,7 +2835,7 @@ let ReadNetGrossInd (pos:int) (bs:byte[]) : (int * NetGrossInd) =
         |"1"B -> NetGrossInd.Net
         |"2"B -> NetGrossInd.Gross
         | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
@@ -2850,7 +2850,7 @@ let ReadListOrderStatus (pos:int) (bs:byte[]) : (int * ListOrderStatus) =
         |"6"B -> ListOrderStatus.AllDone
         |"7"B -> ListOrderStatus.Reject
         | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadExpireDate (pos:int) (bs:byte[]) : (int*ExpireDate) =
@@ -2867,7 +2867,7 @@ let ReadListExecInstType (pos:int) (bs:byte[]) : (int * ListExecInstType) =
         |"4"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp
         |"5"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw
         | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
@@ -2877,7 +2877,7 @@ let ReadCxlRejResponseTo (pos:int) (bs:byte[]) : (int * CxlRejResponseTo) =
         |"1"B -> CxlRejResponseTo.OrderCancelRequest
         |"2"B -> CxlRejResponseTo.OrderCancelReplaceRequest
         | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingCouponRate (pos:int) (bs:byte[]) : (int*UnderlyingCouponRate) =
@@ -2908,7 +2908,7 @@ let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingTy
         |"2"B -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
         |"3"B -> MultiLegReportingType.MultiLegSecurity
         | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStrikeTime (pos:int) (bs:byte[]) : (int*StrikeTime) =
@@ -2947,7 +2947,7 @@ let ReadPartyIDSource (pos:int) (bs:byte[]) : (int * PartyIDSource) =
         |"A"B -> PartyIDSource.AustralianTaxFileNumber
         |"I"B -> PartyIDSource.DirectedBroker
         | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPartyID (pos:int) (bs:byte[]) : (int*PartyID) =
@@ -3000,7 +3000,7 @@ let ReadPartyRole (pos:int) (bs:byte[]) : (int * PartyRole) =
         |"37"B -> PartyRole.ContraTrader
         |"38"B -> PartyRole.PositionAccount
         | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoPartyIDs (pos:int) (bs:byte[]) : (int*NoPartyIDs) =
@@ -3049,7 +3049,7 @@ let ReadProduct (pos:int) (bs:byte[]) : (int * Product) =
         |"12"B -> Product.Other
         |"13"B -> Product.Financing
         | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCFICode (pos:int) (bs:byte[]) : (int*CFICode) =
@@ -3081,7 +3081,7 @@ let ReadQuantityType (pos:int) (bs:byte[]) : (int * QuantityType) =
         |"7"B -> QuantityType.Other
         |"8"B -> QuantityType.Par
         | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBookingRefID (pos:int) (bs:byte[]) : (int*BookingRefID) =
@@ -3100,7 +3100,7 @@ let ReadRoundingDirection (pos:int) (bs:byte[]) : (int * RoundingDirection) =
         |"1"B -> RoundingDirection.RoundDown
         |"2"B -> RoundingDirection.RoundUp
         | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRoundingModulus (pos:int) (bs:byte[]) : (int*RoundingModulus) =
@@ -3152,7 +3152,7 @@ let ReadDistribPaymentMethod (pos:int) (bs:byte[]) : (int * DistribPaymentMethod
         |"11"B -> DistribPaymentMethod.HighValueClearingSystem
         |"12"B -> DistribPaymentMethod.ReinvestInFund
         | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCashDistribCurr (pos:int) (bs:byte[]) : (int*CashDistribCurr) =
@@ -3172,7 +3172,7 @@ let ReadCancellationRights (pos:int) (bs:byte[]) : (int * CancellationRights) =
         |"M"B -> CancellationRights.NoWaiverAgreement
         |"O"B -> CancellationRights.NoInstitutional
         | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStatus) =
@@ -3185,7 +3185,7 @@ let ReadMoneyLaunderingStatus (pos:int) (bs:byte[]) : (int * MoneyLaunderingStat
         |"2"B -> MoneyLaunderingStatus.ExemptClientMoneyTypeExemption
         |"3"B -> MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution
         | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMailingInst (pos:int) (bs:byte[]) : (int*MailingInst) =
@@ -3209,7 +3209,7 @@ let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
         |"Q"B -> ExecPriceType.OfferPriceMinusAdjustmentAmount
         |"S"B -> ExecPriceType.SinglePrice
         | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadExecPriceAdjustment (pos:int) (bs:byte[]) : (int*ExecPriceAdjustment) =
@@ -3230,7 +3230,7 @@ let ReadTradeReportTransType (pos:int) (bs:byte[]) : (int * TradeReportTransType
         |"3"B -> TradeReportTransType.Release
         |"4"B -> TradeReportTransType.Reverse
         | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCardHolderName (pos:int) (bs:byte[]) : (int*CardHolderName) =
@@ -3269,7 +3269,7 @@ let ReadPaymentMethod (pos:int) (bs:byte[]) : (int * PaymentMethod) =
         |"14"B -> PaymentMethod.Bpay
         |"15"B -> PaymentMethod.HighValueClearingSystem
         | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRegistAcctType (pos:int) (bs:byte[]) : (int*RegistAcctType) =
@@ -3296,7 +3296,7 @@ let ReadTaxAdvantageType (pos:int) (bs:byte[]) : (int * TaxAdvantageType) =
         |"9"B -> TaxAdvantageType.EmployeePriorYear
         |"999"B -> TaxAdvantageType.Other
         | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRegistRejReasonText (pos:int) (bs:byte[]) : (int*RegistRejReasonText) =
@@ -3310,7 +3310,7 @@ let ReadFundRenewWaiv (pos:int) (bs:byte[]) : (int * FundRenewWaiv) =
         |"Y"B -> FundRenewWaiv.Yes
         |"N"B -> FundRenewWaiv.No
         | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCashDistribAgentName (pos:int) (bs:byte[]) : (int*CashDistribAgentName) =
@@ -3354,7 +3354,7 @@ let ReadRegistStatus (pos:int) (bs:byte[]) : (int * RegistStatus) =
         |"H"B -> RegistStatus.Held
         |"N"B -> RegistStatus.Reminder
         | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) =
@@ -3381,7 +3381,7 @@ let ReadRegistRejReasonCode (pos:int) (bs:byte[]) : (int * RegistRejReasonCode) 
         |"18"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum
         |"99"B -> RegistRejReasonCode.Other
         | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRegistRefID (pos:int) (bs:byte[]) : (int*RegistRefID) =
@@ -3416,7 +3416,7 @@ let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
         |"1"B -> RegistTransType.Replace
         |"2"B -> RegistTransType.Cancel
         | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadExecValuationPoint (pos:int) (bs:byte[]) : (int*ExecValuationPoint) =
@@ -3435,7 +3435,7 @@ let ReadOwnershipType (pos:int) (bs:byte[]) : (int * OwnershipType) =
         |"T"B -> OwnershipType.TenantsInCommon
         |"2"B -> OwnershipType.JointTrustees
         | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoContAmts (pos:int) (bs:byte[]) : (int*NoContAmts) =
@@ -3456,7 +3456,7 @@ let ReadContAmtType (pos:int) (bs:byte[]) : (int * ContAmtType) =
         |"8"B -> ContAmtType.DilutionLevyPercent
         |"9"B -> ContAmtType.ExitChargeAmount
         | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadContAmtValue (pos:int) (bs:byte[]) : (int*ContAmtValue) =
@@ -3485,7 +3485,7 @@ let ReadOwnerType (pos:int) (bs:byte[]) : (int * OwnerType) =
         |"12"B -> OwnerType.CorporateBody
         |"13"B -> OwnerType.Nominee
         | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPartySubID (pos:int) (bs:byte[]) : (int*PartySubID) =
@@ -3519,7 +3519,7 @@ let ReadOrderCapacity (pos:int) (bs:byte[]) : (int * OrderCapacity) =
         |"R"B -> OrderCapacity.RisklessPrincipal
         |"W"B -> OrderCapacity.AgentForOtherMember
         | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
@@ -3537,7 +3537,7 @@ let ReadOrderRestrictions (pos:int) (bs:byte[]) : (int * OrderRestrictions) =
         |"9"B -> OrderRestrictions.ExternalInterConnectedMarketLinkage
         |"A"B -> OrderRestrictions.RisklessArbitrage
         | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestType) =
@@ -3552,7 +3552,7 @@ let ReadMassCancelRequestType (pos:int) (bs:byte[]) : (int * MassCancelRequestTy
         |"6"B -> MassCancelRequestType.CancelOrdersForATradingSession
         |"7"B -> MassCancelRequestType.CancelAllOrders
         | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
@@ -3568,7 +3568,7 @@ let ReadMassCancelResponse (pos:int) (bs:byte[]) : (int * MassCancelResponse) =
         |"6"B -> MassCancelResponse.CancelOrdersForATradingSession
         |"7"B -> MassCancelResponse.CancelAllOrders
         | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectReason) =
@@ -3584,7 +3584,7 @@ let ReadMassCancelRejectReason (pos:int) (bs:byte[]) : (int * MassCancelRejectRe
         |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
         |"99"B -> MassCancelRejectReason.Other
         | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTotalAffectedOrders (pos:int) (bs:byte[]) : (int*TotalAffectedOrders) =
@@ -3612,7 +3612,7 @@ let ReadQuoteType (pos:int) (bs:byte[]) : (int * QuoteType) =
         |"2"B -> QuoteType.RestrictedTradeable
         |"3"B -> QuoteType.Counter
         | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNestedPartyRole (pos:int) (bs:byte[]) : (int*NestedPartyRole) =
@@ -3647,7 +3647,7 @@ let ReadCashMargin (pos:int) (bs:byte[]) : (int * CashMargin) =
         |"2"B -> CashMargin.MarginOpen
         |"3"B -> CashMargin.MarginClose
         | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNestedPartySubID (pos:int) (bs:byte[]) : (int*NestedPartySubID) =
@@ -3662,7 +3662,7 @@ let ReadScope (pos:int) (bs:byte[]) : (int * Scope) =
         |"2"B -> Scope.National
         |"3"B -> Scope.Global
         | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMDImplicitDelete (pos:int) (bs:byte[]) : (int*MDImplicitDelete) =
@@ -3682,7 +3682,7 @@ let ReadCrossType (pos:int) (bs:byte[]) : (int * CrossType) =
         |"3"B -> CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive
         |"4"B -> CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice
         | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) =
@@ -3693,7 +3693,7 @@ let ReadCrossPrioritization (pos:int) (bs:byte[]) : (int * CrossPrioritization) 
         |"1"B -> CrossPrioritization.BuySideIsPrioritized
         |"2"B -> CrossPrioritization.SellSideIsPrioritized
         | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrigCrossID (pos:int) (bs:byte[]) : (int*OrigCrossID) =
@@ -3707,7 +3707,7 @@ let ReadNoSides (pos:int) (bs:byte[]) : (int * NoSides) =
         |"1"B -> NoSides.OneSide
         |"2"B -> NoSides.BothSides
         | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUsername (pos:int) (bs:byte[]) : (int*Username) =
@@ -3744,7 +3744,7 @@ let ReadSecurityListRequestType (pos:int) (bs:byte[]) : (int * SecurityListReque
         |"3"B -> SecurityListRequestType.Tradingsessionid
         |"4"B -> SecurityListRequestType.AllSecurities
         | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResult) =
@@ -3758,7 +3758,7 @@ let ReadSecurityRequestResult (pos:int) (bs:byte[]) : (int * SecurityRequestResu
         |"4"B -> SecurityRequestResult.InstrumentDataTemporarilyUnavailable
         |"5"B -> SecurityRequestResult.RequestForInstrumentDataNotSupported
         | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadRoundLot (pos:int) (bs:byte[]) : (int*RoundLot) =
@@ -3777,7 +3777,7 @@ let ReadMultiLegRptTypeReq (pos:int) (bs:byte[]) : (int * MultiLegRptTypeReq) =
         |"1"B -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
         |"2"B -> MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly
         | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLegPositionEffect (pos:int) (bs:byte[]) : (int*LegPositionEffect) =
@@ -3798,7 +3798,7 @@ let ReadTradSesStatusRejReason (pos:int) (bs:byte[]) : (int * TradSesStatusRejRe
         match valIn with
         |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
         | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeRequestID (pos:int) (bs:byte[]) : (int*TradeRequestID) =
@@ -3815,7 +3815,7 @@ let ReadTradeRequestType (pos:int) (bs:byte[]) : (int * TradeRequestType) =
         |"3"B -> TradeRequestType.UnreportedTradesThatMatchCriteria
         |"4"B -> TradeRequestType.AdvisoriesThatMatchCriteria
         | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPreviouslyReported (pos:int) (bs:byte[]) : (int*PreviouslyReported) =
@@ -3838,7 +3838,7 @@ let ReadMatchStatus (pos:int) (bs:byte[]) : (int * MatchStatus) =
         |"1"B -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
         |"2"B -> MatchStatus.AdvisoryOrAlert
         | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadMatchType (pos:int) (bs:byte[]) : (int*MatchType) =
@@ -3872,7 +3872,7 @@ let ReadClearingInstruction (pos:int) (bs:byte[]) : (int * ClearingInstruction) 
         |"12"B -> ClearingInstruction.CustomerTrade
         |"13"B -> ClearingInstruction.SelfClearing
         | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeInputSource (pos:int) (bs:byte[]) : (int*TradeInputSource) =
@@ -3899,7 +3899,7 @@ let ReadAccountType (pos:int) (bs:byte[]) : (int * AccountType) =
         |"7"B -> AccountType.AccountIsHouseTraderAndIsCrossMargined
         |"8"B -> AccountType.JointBackofficeAccount
         | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
@@ -3911,7 +3911,7 @@ let ReadCustOrderCapacity (pos:int) (bs:byte[]) : (int * CustOrderCapacity) =
         |"3"B -> CustOrderCapacity.MemberTradingForAnotherMember
         |"4"B -> CustOrderCapacity.AllOther
         | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadClOrdLinkID (pos:int) (bs:byte[]) : (int*ClOrdLinkID) =
@@ -3935,7 +3935,7 @@ let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
         |"7"B -> MassStatusReqType.StatusForAllOrders
         |"8"B -> MassStatusReqType.StatusForOrdersForAPartyid
         | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrigOrdModTime (pos:int) (bs:byte[]) : (int*OrigOrdModTime) =
@@ -3958,7 +3958,7 @@ let ReadDayBookingInst (pos:int) (bs:byte[]) : (int * DayBookingInst) =
         |"1"B -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
         |"2"B -> DayBookingInst.Accumulate
         | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
@@ -3969,7 +3969,7 @@ let ReadBookingUnit (pos:int) (bs:byte[]) : (int * BookingUnit) =
         |"1"B -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
         |"2"B -> BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate
         | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
@@ -3979,7 +3979,7 @@ let ReadPreallocMethod (pos:int) (bs:byte[]) : (int * PreallocMethod) =
         |"0"B -> PreallocMethod.ProRata
         |"1"B -> PreallocMethod.DoNotProRata
         | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingCountryOfIssue (pos:int) (bs:byte[]) : (int*UnderlyingCountryOfIssue) =
@@ -4122,7 +4122,7 @@ let ReadAllocType (pos:int) (bs:byte[]) : (int * AllocType) =
         |"7"B -> AllocType.WarehouseInstruction
         |"8"B -> AllocType.RequestToIntermediary
         | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoHops (pos:int) (bs:byte[]) : (int*NoHops) =
@@ -4170,7 +4170,7 @@ let ReadClearingFeeIndicator (pos:int) (bs:byte[]) : (int * ClearingFeeIndicator
         |"L"B -> ClearingFeeIndicator.LesseeAnd106fEmployees
         |"M"B -> ClearingFeeIndicator.AllOtherOwnershipTypes
         | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadWorkingIndicator (pos:int) (bs:byte[]) : (int*WorkingIndicator) =
@@ -4188,7 +4188,7 @@ let ReadPriorityIndicator (pos:int) (bs:byte[]) : (int * PriorityIndicator) =
         |"0"B -> PriorityIndicator.PriorityUnchanged
         |"1"B -> PriorityIndicator.LostPriorityAsResultOfOrderChange
         | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPriceImprovement (pos:int) (bs:byte[]) : (int*PriceImprovement) =
@@ -4279,7 +4279,7 @@ let ReadQuoteRequestRejectReason (pos:int) (bs:byte[]) : (int * QuoteRequestReje
         |"10"B -> QuoteRequestRejectReason.Pass
         |"99"B -> QuoteRequestRejectReason.Other
         | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSideComplianceID (pos:int) (bs:byte[]) : (int*SideComplianceID) =
@@ -4297,7 +4297,7 @@ let ReadAcctIDSource (pos:int) (bs:byte[]) : (int * AcctIDSource) =
         |"5"B -> AcctIDSource.DtccCode
         |"99"B -> AcctIDSource.Other
         | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAllocAcctIDSource (pos:int) (bs:byte[]) : (int*AllocAcctIDSource) =
@@ -4326,7 +4326,7 @@ let ReadConfirmStatus (pos:int) (bs:byte[]) : (int * ConfirmStatus) =
         |"4"B -> ConfirmStatus.Confirmed
         |"5"B -> ConfirmStatus.RequestRejected
         | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
@@ -4337,7 +4337,7 @@ let ReadConfirmTransType (pos:int) (bs:byte[]) : (int * ConfirmTransType) =
         |"1"B -> ConfirmTransType.Replace
         |"2"B -> ConfirmTransType.Cancel
         | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadContractSettlMonth (pos:int) (bs:byte[]) : (int*ContractSettlMonth) =
@@ -4351,7 +4351,7 @@ let ReadDeliveryForm (pos:int) (bs:byte[]) : (int * DeliveryForm) =
         |"1"B -> DeliveryForm.Bookentry
         |"2"B -> DeliveryForm.Bearer
         | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLastParPx (pos:int) (bs:byte[]) : (int*LastParPx) =
@@ -4447,7 +4447,7 @@ let ReadLegSwapType (pos:int) (bs:byte[]) : (int * LegSwapType) =
         |"4"B -> LegSwapType.Risk
         |"5"B -> LegSwapType.Proceeds
         | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPool (pos:int) (bs:byte[]) : (int*Pool) =
@@ -4469,7 +4469,7 @@ let ReadQuotePriceType (pos:int) (bs:byte[]) : (int * QuotePriceType) =
         |"9"B -> QuotePriceType.YieldSpread
         |"10"B -> QuotePriceType.Yield
         | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteRespID (pos:int) (bs:byte[]) : (int*QuoteRespID) =
@@ -4487,7 +4487,7 @@ let ReadQuoteRespType (pos:int) (bs:byte[]) : (int * QuoteRespType) =
         |"5"B -> QuoteRespType.DoneAway
         |"6"B -> QuoteRespType.Pass
         | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQuoteQualifier (pos:int) (bs:byte[]) : (int*QuoteQualifier) =
@@ -4546,7 +4546,7 @@ let ReadPosType (pos:int) (bs:byte[]) : (int * PosType) =
         |"XM"B -> PosType.CrossMarginQty
         |"SPL"B -> PosType.IntegralSplit
         | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadLongQty (pos:int) (bs:byte[]) : (int*LongQty) =
@@ -4565,7 +4565,7 @@ let ReadPosQtyStatus (pos:int) (bs:byte[]) : (int * PosQtyStatus) =
         |"1"B -> PosQtyStatus.Accepted
         |"2"B -> PosQtyStatus.Rejected
         | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
@@ -4581,7 +4581,7 @@ let ReadPosAmtType (pos:int) (bs:byte[]) : (int * PosAmtType) =
         |"CASH"B -> PosAmtType.CashAmount
         |"VADJ"B -> PosAmtType.ValueAdjustedAmount
         | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosAmt (pos:int) (bs:byte[]) : (int*PosAmt) =
@@ -4598,7 +4598,7 @@ let ReadPosTransType (pos:int) (bs:byte[]) : (int * PosTransType) =
         |"4"B -> PosTransType.PositionChangeSubmissionMarginDisposition
         |"5"B -> PosTransType.Pledge
         | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosReqID (pos:int) (bs:byte[]) : (int*PosReqID) =
@@ -4617,7 +4617,7 @@ let ReadPosMaintAction (pos:int) (bs:byte[]) : (int * PosMaintAction) =
         |"2"B -> PosMaintAction.Replace
         |"3"B -> PosMaintAction.Cancel
         | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrigPosReqRefID (pos:int) (bs:byte[]) : (int*OrigPosReqRefID) =
@@ -4649,7 +4649,7 @@ let ReadAdjustmentType (pos:int) (bs:byte[]) : (int * AdjustmentType) =
         |"2"B -> AdjustmentType.DeltaMinus
         |"3"B -> AdjustmentType.Final
         | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadContraryInstructionIndicator (pos:int) (bs:byte[]) : (int*ContraryInstructionIndicator) =
@@ -4674,7 +4674,7 @@ let ReadPosMaintStatus (pos:int) (bs:byte[]) : (int * PosMaintStatus) =
         |"3"B -> PosMaintStatus.Completed
         |"4"B -> PosMaintStatus.CompletedWithWarnings
         | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
@@ -4685,7 +4685,7 @@ let ReadPosMaintResult (pos:int) (bs:byte[]) : (int * PosMaintResult) =
         |"1"B -> PosMaintResult.Rejected
         |"99"B -> PosMaintResult.Other
         | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
@@ -4697,7 +4697,7 @@ let ReadPosReqType (pos:int) (bs:byte[]) : (int * PosReqType) =
         |"2"B -> PosReqType.Exercises
         |"3"B -> PosReqType.Assignments
         | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportType) =
@@ -4707,7 +4707,7 @@ let ReadResponseTransportType (pos:int) (bs:byte[]) : (int * ResponseTransportTy
         |"0"B -> ResponseTransportType.Inband
         |"1"B -> ResponseTransportType.OutOfBand
         | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadResponseDestination (pos:int) (bs:byte[]) : (int*ResponseDestination) =
@@ -4729,7 +4729,7 @@ let ReadPosReqResult (pos:int) (bs:byte[]) : (int * PosReqResult) =
         |"4"B -> PosReqResult.RequestForPositionNotSupported
         |"99"B -> PosReqResult.Other
         | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
@@ -4740,7 +4740,7 @@ let ReadPosReqStatus (pos:int) (bs:byte[]) : (int * PosReqStatus) =
         |"1"B -> PosReqStatus.CompletedWithWarnings
         |"2"B -> PosReqStatus.Rejected
         | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSettlPrice (pos:int) (bs:byte[]) : (int*SettlPrice) =
@@ -4754,7 +4754,7 @@ let ReadSettlPriceType (pos:int) (bs:byte[]) : (int * SettlPriceType) =
         |"1"B -> SettlPriceType.Final
         |"2"B -> SettlPriceType.Theoretical
         | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingSettlPrice (pos:int) (bs:byte[]) : (int*UnderlyingSettlPrice) =
@@ -4812,7 +4812,7 @@ let ReadAssignmentMethod (pos:int) (bs:byte[]) : (int * AssignmentMethod) =
         |"R"B -> AssignmentMethod.Random
         |"P"B -> AssignmentMethod.Prorata
         | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAssignmentUnit (pos:int) (bs:byte[]) : (int*AssignmentUnit) =
@@ -4830,7 +4830,7 @@ let ReadExerciseMethod (pos:int) (bs:byte[]) : (int * ExerciseMethod) =
         |"A"B -> ExerciseMethod.Automatic
         |"M"B -> ExerciseMethod.Manual
         | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTotNumTradeReports (pos:int) (bs:byte[]) : (int*TotNumTradeReports) =
@@ -4851,7 +4851,7 @@ let ReadTradeRequestResult (pos:int) (bs:byte[]) : (int * TradeRequestResult) =
         |"9"B -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
         |"10"B -> TradeRequestResult.Yield
         | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
@@ -4862,7 +4862,7 @@ let ReadTradeRequestStatus (pos:int) (bs:byte[]) : (int * TradeRequestStatus) =
         |"1"B -> TradeRequestStatus.Completed
         |"2"B -> TradeRequestStatus.Rejected
         | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportRejectReason) =
@@ -4876,7 +4876,7 @@ let ReadTradeReportRejectReason (pos:int) (bs:byte[]) : (int * TradeReportReject
         |"4"B -> TradeReportRejectReason.InvalidTradeType
         |"10"B -> TradeReportRejectReason.Yield
         | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegReportingType) =
@@ -4887,7 +4887,7 @@ let ReadSideMultiLegReportingType (pos:int) (bs:byte[]) : (int * SideMultiLegRep
         |"2"B -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
         |"3"B -> SideMultiLegReportingType.MultiLegSecurity
         | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoPosAmt (pos:int) (bs:byte[]) : (int*NoPosAmt) =
@@ -4968,7 +4968,7 @@ let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) 
         |"4"B -> TrdRegTimestampType.BrokerReceipt
         |"5"B -> TrdRegTimestampType.BrokerExecution
         | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTrdRegTimestampOrigin (pos:int) (bs:byte[]) : (int*TrdRegTimestampOrigin) =
@@ -4987,7 +4987,7 @@ let ReadConfirmType (pos:int) (bs:byte[]) : (int * ConfirmType) =
         |"2"B -> ConfirmType.Confirmation
         |"3"B -> ConfirmType.ConfirmationRequestRejected
         | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
@@ -4998,7 +4998,7 @@ let ReadConfirmRejReason (pos:int) (bs:byte[]) : (int * ConfirmRejReason) =
         |"2"B -> ConfirmRejReason.MissingSettlementInstructions
         |"99"B -> ConfirmRejReason.Other
         | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
@@ -5009,7 +5009,7 @@ let ReadBookingType (pos:int) (bs:byte[]) : (int * BookingType) =
         |"1"B -> BookingType.Cfd
         |"2"B -> BookingType.TotalReturnSwap
         | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadIndividualAllocRejCode (pos:int) (bs:byte[]) : (int*IndividualAllocRejCode) =
@@ -5038,7 +5038,7 @@ let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =
         |"3"B -> AllocSettlInstType.SsiDbIdsProvided
         |"4"B -> AllocSettlInstType.PhoneForInstructions
         | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoSettlPartyIDs (pos:int) (bs:byte[]) : (int*NoSettlPartyIDs) =
@@ -5072,7 +5072,7 @@ let ReadDlvyInstType (pos:int) (bs:byte[]) : (int * DlvyInstType) =
         |"S"B -> DlvyInstType.Securities
         |"C"B -> DlvyInstType.Cash
         | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
@@ -5084,7 +5084,7 @@ let ReadTerminationType (pos:int) (bs:byte[]) : (int * TerminationType) =
         |"3"B -> TerminationType.Flexible
         |"4"B -> TerminationType.Open
         | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNextExpectedMsgSeqNum (pos:int) (bs:byte[]) : (int*NextExpectedMsgSeqNum) =
@@ -5108,7 +5108,7 @@ let ReadSettlInstReqRejCode (pos:int) (bs:byte[]) : (int * SettlInstReqRejCode) 
         |"2"B -> SettlInstReqRejCode.NoMatchingSettlementInstructionsFound
         |"99"B -> SettlInstReqRejCode.Other
         | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecondaryAllocID (pos:int) (bs:byte[]) : (int*SecondaryAllocID) =
@@ -5124,7 +5124,7 @@ let ReadAllocReportType (pos:int) (bs:byte[]) : (int * AllocReportType) =
         |"5"B -> AllocReportType.WarehouseRecap
         |"8"B -> AllocReportType.RequestToIntermediary
         | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAllocReportRefID (pos:int) (bs:byte[]) : (int*AllocReportRefID) =
@@ -5138,7 +5138,7 @@ let ReadAllocCancReplaceReason (pos:int) (bs:byte[]) : (int * AllocCancReplaceRe
         |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
         |"2"B -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
         | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCopyMsgIndicator (pos:int) (bs:byte[]) : (int*CopyMsgIndicator) =
@@ -5157,7 +5157,7 @@ let ReadAllocAccountType (pos:int) (bs:byte[]) : (int * AllocAccountType) =
         |"7"B -> AllocAccountType.AccountIsHouseTraderAndIsCrossMargined
         |"8"B -> AllocAccountType.JointBackofficeAccount
         | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadOrderAvgPx (pos:int) (bs:byte[]) : (int*OrderAvgPx) =
@@ -5207,7 +5207,7 @@ let ReadAllocIntermedReqType (pos:int) (bs:byte[]) : (int * AllocIntermedReqType
         |"5"B -> AllocIntermedReqType.BlockLevelReject
         |"6"B -> AllocIntermedReqType.AccountLevelReject
         | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingPx (pos:int) (bs:byte[]) : (int*UnderlyingPx) =
@@ -5235,7 +5235,7 @@ let ReadApplQueueResolution (pos:int) (bs:byte[]) : (int * ApplQueueResolution) 
         |"2"B -> ApplQueueResolution.OverlayLast
         |"3"B -> ApplQueueResolution.EndSession
         | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
@@ -5247,7 +5247,7 @@ let ReadApplQueueAction (pos:int) (bs:byte[]) : (int * ApplQueueAction) =
         |"2"B -> ApplQueueAction.OverlayLast
         |"3"B -> ApplQueueAction.EndSession
         | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoAltMDSource (pos:int) (bs:byte[]) : (int*NoAltMDSource) =
@@ -5270,7 +5270,7 @@ let ReadAvgPxIndicator (pos:int) (bs:byte[]) : (int * AvgPxIndicator) =
         |"1"B -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
         |"2"B -> AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid
         | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTradeLinkID (pos:int) (bs:byte[]) : (int*TradeLinkID) =
@@ -5305,7 +5305,7 @@ let ReadTradeAllocIndicator (pos:int) (bs:byte[]) : (int * TradeAllocIndicator) 
         |"1"B -> TradeAllocIndicator.AllocationRequired
         |"2"B -> TradeAllocIndicator.UseAllocationProvidedWithTheTrade
         | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
@@ -5315,7 +5315,7 @@ let ReadExpirationCycle (pos:int) (bs:byte[]) : (int * ExpirationCycle) =
         |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
         |"1"B -> ExpirationCycle.ExpireOnTradingSessionOpen
         | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
@@ -5334,7 +5334,7 @@ let ReadTrdType (pos:int) (bs:byte[]) : (int * TrdType) =
         |"9"B -> TrdType.PriorReferencePriceTrade
         |"10"B -> TrdType.AfterHoursTrade
         | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTrdSubType (pos:int) (bs:byte[]) : (int*TrdSubType) =
@@ -5368,7 +5368,7 @@ let ReadPegMoveType (pos:int) (bs:byte[]) : (int * PegMoveType) =
         |"0"B -> PegMoveType.Floating
         |"1"B -> PegMoveType.Fixed
         | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
@@ -5380,7 +5380,7 @@ let ReadPegOffsetType (pos:int) (bs:byte[]) : (int * PegOffsetType) =
         |"2"B -> PegOffsetType.Ticks
         |"3"B -> PegOffsetType.PriceTierLevel
         | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
@@ -5391,7 +5391,7 @@ let ReadPegLimitType (pos:int) (bs:byte[]) : (int * PegLimitType) =
         |"1"B -> PegLimitType.Strict
         |"2"B -> PegLimitType.OrWorse
         | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
@@ -5401,7 +5401,7 @@ let ReadPegRoundDirection (pos:int) (bs:byte[]) : (int * PegRoundDirection) =
         |"1"B -> PegRoundDirection.MoreAggressive
         |"2"B -> PegRoundDirection.MorePassive
         | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPeggedPrice (pos:int) (bs:byte[]) : (int*PeggedPrice) =
@@ -5417,7 +5417,7 @@ let ReadPegScope (pos:int) (bs:byte[]) : (int * PegScope) =
         |"3"B -> PegScope.Global
         |"4"B -> PegScope.NationalExcludingLocal
         | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
@@ -5427,7 +5427,7 @@ let ReadDiscretionMoveType (pos:int) (bs:byte[]) : (int * DiscretionMoveType) =
         |"0"B -> DiscretionMoveType.Floating
         |"1"B -> DiscretionMoveType.Fixed
         | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType) =
@@ -5439,7 +5439,7 @@ let ReadDiscretionOffsetType (pos:int) (bs:byte[]) : (int * DiscretionOffsetType
         |"2"B -> DiscretionOffsetType.Ticks
         |"3"B -> DiscretionOffsetType.PriceTierLevel
         | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) =
@@ -5450,7 +5450,7 @@ let ReadDiscretionLimitType (pos:int) (bs:byte[]) : (int * DiscretionLimitType) 
         |"1"B -> DiscretionLimitType.Strict
         |"2"B -> DiscretionLimitType.OrWorse
         | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundDirection) =
@@ -5460,7 +5460,7 @@ let ReadDiscretionRoundDirection (pos:int) (bs:byte[]) : (int * DiscretionRoundD
         |"1"B -> DiscretionRoundDirection.MoreAggressive
         |"2"B -> DiscretionRoundDirection.MorePassive
         | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadDiscretionPrice (pos:int) (bs:byte[]) : (int*DiscretionPrice) =
@@ -5476,7 +5476,7 @@ let ReadDiscretionScope (pos:int) (bs:byte[]) : (int * DiscretionScope) =
         |"3"B -> DiscretionScope.Global
         |"4"B -> DiscretionScope.NationalExcludingLocal
         | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTargetStrategy (pos:int) (bs:byte[]) : (int*TargetStrategy) =
@@ -5503,7 +5503,7 @@ let ReadLastLiquidityInd (pos:int) (bs:byte[]) : (int * LastLiquidityInd) =
         |"2"B -> LastLiquidityInd.RemovedLiquidity
         |"3"B -> LastLiquidityInd.LiquidityRoutedOut
         | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadPublishTrdIndicator (pos:int) (bs:byte[]) : (int*PublishTrdIndicator) =
@@ -5521,7 +5521,7 @@ let ReadShortSaleReason (pos:int) (bs:byte[]) : (int * ShortSaleReason) =
         |"4"B -> ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort
         |"5"B -> ShortSaleReason.QsrOrAguContraSideSoldShortExempt
         | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
@@ -5531,7 +5531,7 @@ let ReadQtyType (pos:int) (bs:byte[]) : (int * QtyType) =
         |"0"B -> QtyType.Units
         |"1"B -> QtyType.Contracts
         | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSecondaryTrdType (pos:int) (bs:byte[]) : (int*SecondaryTrdType) =
@@ -5551,7 +5551,7 @@ let ReadTradeReportType (pos:int) (bs:byte[]) : (int * TradeReportType) =
         |"6"B -> TradeReportType.TradeReportCancel
         |"7"B -> TradeReportType.LockedInTradeBreak
         | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
@@ -5561,7 +5561,7 @@ let ReadAllocNoOrdersType (pos:int) (bs:byte[]) : (int * AllocNoOrdersType) =
         |"0"B -> AllocNoOrdersType.NotSpecified
         |"1"B -> AllocNoOrdersType.ExplicitListProvided
         | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadSharedCommission (pos:int) (bs:byte[]) : (int*SharedCommission) =
@@ -5602,7 +5602,7 @@ let ReadEventType (pos:int) (bs:byte[]) : (int * EventType) =
         |"4"B -> EventType.SinkingFundCall
         |"99"B -> EventType.Other
         | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadEventDate (pos:int) (bs:byte[]) : (int*EventDate) =
@@ -5653,7 +5653,7 @@ let ReadInstrAttribType (pos:int) (bs:byte[]) : (int * InstrAttribType) =
         |"22"B -> InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered
         |"99"B -> InstrAttribType.Text
         | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadInstrAttribValue (pos:int) (bs:byte[]) : (int*InstrAttribValue) =
@@ -5740,7 +5740,7 @@ let ReadMiscFeeBasis (pos:int) (bs:byte[]) : (int * MiscFeeBasis) =
         |"1"B -> MiscFeeBasis.PerUnit
         |"2"B -> MiscFeeBasis.Percentage
         | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTotNoAllocs (pos:int) (bs:byte[]) : (int*TotNoAllocs) =
@@ -5768,7 +5768,7 @@ let ReadCollAsgnReason (pos:int) (bs:byte[]) : (int * CollAsgnReason) =
         |"6"B -> CollAsgnReason.EventOfDefault
         |"7"B -> CollAsgnReason.AdverseTaxEvent
         | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier) =
@@ -5784,7 +5784,7 @@ let ReadCollInquiryQualifier (pos:int) (bs:byte[]) : (int * CollInquiryQualifier
         |"6"B -> CollInquiryQualifier.FullyAssigned
         |"7"B -> CollInquiryQualifier.OutstandingTrades
         | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoTrades (pos:int) (bs:byte[]) : (int*NoTrades) =
@@ -5821,7 +5821,7 @@ let ReadCollAsgnTransType (pos:int) (bs:byte[]) : (int * CollAsgnTransType) =
         |"3"B -> CollAsgnTransType.Release
         |"4"B -> CollAsgnTransType.Reverse
         | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollRespID (pos:int) (bs:byte[]) : (int*CollRespID) =
@@ -5837,7 +5837,7 @@ let ReadCollAsgnRespType (pos:int) (bs:byte[]) : (int * CollAsgnRespType) =
         |"2"B -> CollAsgnRespType.Declined
         |"3"B -> CollAsgnRespType.Rejected
         | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason) =
@@ -5852,7 +5852,7 @@ let ReadCollAsgnRejectReason (pos:int) (bs:byte[]) : (int * CollAsgnRejectReason
         |"5"B -> CollAsgnRejectReason.ExcessiveSubstitution
         |"99"B -> CollAsgnRejectReason.Other
         | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollAsgnRefID (pos:int) (bs:byte[]) : (int*CollAsgnRefID) =
@@ -5877,7 +5877,7 @@ let ReadCollStatus (pos:int) (bs:byte[]) : (int * CollStatus) =
         |"3"B -> CollStatus.Assigned
         |"4"B -> CollStatus.Challenged
         | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadTotNumReports (pos:int) (bs:byte[]) : (int*TotNumReports) =
@@ -5921,7 +5921,7 @@ let ReadDeliveryType (pos:int) (bs:byte[]) : (int * DeliveryType) =
         |"2"B -> DeliveryType.TriParty
         |"3"B -> DeliveryType.HoldInCustody
         | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadEndAccruedInterestAmt (pos:int) (bs:byte[]) : (int*EndAccruedInterestAmt) =
@@ -5949,7 +5949,7 @@ let ReadUserRequestType (pos:int) (bs:byte[]) : (int * UserRequestType) =
         |"3"B -> UserRequestType.Changepasswordforuser
         |"4"B -> UserRequestType.RequestIndividualUserStatus
         | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNewPassword (pos:int) (bs:byte[]) : (int*NewPassword) =
@@ -5967,7 +5967,7 @@ let ReadUserStatus (pos:int) (bs:byte[]) : (int * UserStatus) =
         |"5"B -> UserStatus.PasswordChanged
         |"6"B -> UserStatus.Other
         | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUserStatusText (pos:int) (bs:byte[]) : (int*UserStatusText) =
@@ -5983,7 +5983,7 @@ let ReadStatusValue (pos:int) (bs:byte[]) : (int * StatusValue) =
         |"3"B -> StatusValue.NotConnectedDownExpectedDown
         |"4"B -> StatusValue.InProcess
         | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStatusText (pos:int) (bs:byte[]) : (int*StatusText) =
@@ -6019,7 +6019,7 @@ let ReadNetworkRequestType (pos:int) (bs:byte[]) : (int * NetworkRequestType) =
         |"4"B -> NetworkRequestType.StopSubscribing
         |"8"B -> NetworkRequestType.LevelOfDetail
         | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoCompIDs (pos:int) (bs:byte[]) : (int*NoCompIDs) =
@@ -6033,7 +6033,7 @@ let ReadNetworkStatusResponseType (pos:int) (bs:byte[]) : (int * NetworkStatusRe
         |"1"B -> NetworkStatusResponseType.Full
         |"2"B -> NetworkStatusResponseType.IncrementalUpdate
         | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadNoCollInquiryQualifier (pos:int) (bs:byte[]) : (int*NoCollInquiryQualifier) =
@@ -6047,7 +6047,7 @@ let ReadTrdRptStatus (pos:int) (bs:byte[]) : (int * TrdRptStatus) =
         |"0"B -> TrdRptStatus.Accepted
         |"1"B -> TrdRptStatus.Rejected
         | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
@@ -6058,7 +6058,7 @@ let ReadAffirmStatus (pos:int) (bs:byte[]) : (int * AffirmStatus) =
         |"2"B -> AffirmStatus.ConfirmRejected
         |"3"B -> AffirmStatus.Affirmed
         | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadUnderlyingStrikeCurrency (pos:int) (bs:byte[]) : (int*UnderlyingStrikeCurrency) =
@@ -6081,7 +6081,7 @@ let ReadCollAction (pos:int) (bs:byte[]) : (int * CollAction) =
         |"1"B -> CollAction.Add
         |"2"B -> CollAction.Remove
         | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
@@ -6094,7 +6094,7 @@ let ReadCollInquiryStatus (pos:int) (bs:byte[]) : (int * CollInquiryStatus) =
         |"3"B -> CollInquiryStatus.CompletedWithWarnings
         |"4"B -> CollInquiryStatus.Rejected
         | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
@@ -6113,7 +6113,7 @@ let ReadCollInquiryResult (pos:int) (bs:byte[]) : (int * CollInquiryResult) =
         |"9"B -> CollInquiryResult.UnauthorizedForCollateralInquiry
         |"99"B -> CollInquiryResult.Other
         | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
-    pos2 + 1, fld  // +1 to advance the position to after the field separator
+    pos2, fld
 
 
 let ReadStrikeCurrency (pos:int) (bs:byte[]) : (int*StrikeCurrency) =

@@ -83,6 +83,6 @@ let ``write len+str pair, contains tag-value seperator`` () =
 
 
 
-[<Fact>]
-let ``test checksum calc`` () =
-    test<@ false @>
+//[<Fact>]
+//let ``test checksum calc`` () =
+//    test<@ false @>

@@ -9,12 +9,12 @@ open Fix44.CompoundItems
 open Fix44.CompoundItemWriteFuncs
 
 // strings stored in FIX do not contain field terminators, 
-let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
-//let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
+//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(0, 9999)
+            let! len = Gen.choose(4, 8)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -30,7 +30,7 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 100,
         Verbose = true,
         QuietOnSuccess = true)
 
@@ -38,109 +38,54 @@ type PropertyTestAttribute() =
 
 [<PropertyTestAttribute>]
 let ``PosMaintRptID  write-read roundtrip`` (pmri:Fix44.Fields.PosMaintRptID) =
-    let fieldIn = FIXField.PosMaintRptID pmri
-    let bs = Array.zeroCreate<byte> (1024 * 64)
-    WriteField bs 0 fieldIn |> ignore
-    let _, fieldOut = ReadField 0 bs
-    let ok = fieldIn = fieldOut
-    if not ok then
-        printf ""
-    ok
+    let bs = Array.zeroCreate<byte> (1024 * 1)
+    let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
+    let posSep = FIXBufUtils.findNextTagValSep 0 bs
+    let posR, pmriOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
+    let ok = pmri = pmriOut && posW = posR // posR should be one past the last byte written, posW should be the next writeable byte, so both should be the same
+    let ok2 = (posW = posR)
+    ok && ok2
 
 
 [<PropertyTestAttribute>]
 let ``field write-read roundtrip`` (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> (1024 * 64)
-    WriteField bs 0 fieldIn |> ignore
-    let _, fieldOut = ReadField 0 bs
+    let posW = WriteField bs 0 fieldIn
+    let posR, fieldOut = ReadField 0 bs
     let ok = fieldIn = fieldOut
     if not ok then
         printf ""
     ok
 
 
-
-let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    let pos2, tag = FIXBufUtils.readTag pos bs
-    if tag <> expectedTag then 
-        let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
-        failwith msg
-    let pos3, fld = readFunc pos2 bs
-    pos3, fld
-
-
-let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    let pos2, tag = FIXBufUtils.readTag pos bs
-    if tag = expectedTag then 
-        let pos3, fld = readFunc pos2 bs
-        pos3, Some fld
-    else
-        pos, None   // return the original pos, the next readoptional will re-read it
-
-
-
-//let inline ReadOptionalComponent (pos:int) (bs:byte[]) readFunc = 
-//    let expectedTag = "123"B // get this at compile time
-//    ReadOptionalField pos expected bs // contains an optional group with only optional fields
-
-//let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
-//    let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs Fix44.FieldReadFuncs.ReadOrderCapacity
-//    let pos, orderRestrictions = ReadOptionalField pos "529"B bs Fix44.FieldReadFuncs.ReadOrderRestrictions
-//    let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs Fix44.FieldReadFuncs.ReadOrderCapacityQty
-//    let grp = 
-//        {
-//            OrderCapacity = orderCapacity
-//            OrderRestrictions = orderRestrictions
-//            OrderCapacityQty = orderCapacityQty
-//        }
-//    pos, grp
-
-// contains a single required component
-let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
-    let pos, instrument = Fix44.CompoundItemReadFuncs.ReadInstrument pos bs
-    let ci:NoStrikesGrp = {
-            Instrument = instrument
-    }
-    pos, ci
-
-
-//// group
-//let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoAllocsGrp  =
-//    let pos, allocAccount = ReadOptionalField pos "79"B bs ReadAllocAccount
-//    let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
-//    let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
-//    let pos, individualAllocID = ReadOptionalField pos "467"B bs ReadIndividualAllocID
-//    let pos, nestedParties2 = 
-//    let pos, allocQty = ReadOptionalField pos "80"B bs ReadAllocQty
-//    let ci = {
-//            AllocAccount = allocAccount
-//            AllocAcctIDSource = allocAcctIDSource
-//            AllocSettlCurrency = allocSettlCurrency
-//            IndividualAllocID = individualAllocID
-//            NestedParties2 = nestedParties2
-//            AllocQty = allocQty
-//    }
-//    pos, ci
-
+[<PropertyTestAttribute>]
+let ``NoCapacitiesGrp write-read roundtrip`` (grp:NoCapacitiesGrp ) =
+    let bs = Array.zeroCreate<byte> (1024 * 16)
+    let endPos = WriteNoCapacitiesGrp  bs 0 grp
+    let posOut, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp 0 bs
+    grp = grpOut //&& endPos = posOut
 
 
 
 [<PropertyTestAttribute>]
-let ``NoCapacitiesGrp write-read roundtrip`` (grp:NoCapacitiesGrp) =
-    printfn "%A" grp
+let ``UnderlyingStipulationsGrp write-read roundtrip`` (usIn:NoUnderlyingStipsGrp ) =
     let bs = Array.zeroCreate<byte> (1024 * 16)
-    let endPos = WriteNoCapacitiesGrp  bs 0 grp
-    let posOut, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp 0 bs
-    let ok = endPos = posOut
-    // test<@ endPos = posOut @>
-    grp = grpOut
+    let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp 0 bs
+    let ok = usIn = usOut //&& endPos = posOut
+    let ok2 = (posW = posR)
+    ok && ok2
 
 
-
-
-
-
-
+[<PropertyTestAttribute>]
+let ``UnderlyingStipulations write-read roundtrip`` (usIn:UnderlyingStipulations) =
+    (usIn.NoUnderlyingStipsGrp.IsSome && usIn.NoUnderlyingStipsGrp.Value.Length = 1) ==> lazy
+    let bs = Array.zeroCreate<byte> (1024 * 16)
+    let posW = WriteUnderlyingStipulations  bs 0 usIn
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations 0 bs
+    let ok = usIn = usOut
+    let ok2 = (posW = posR)
+    ok && ok2
 
 
 

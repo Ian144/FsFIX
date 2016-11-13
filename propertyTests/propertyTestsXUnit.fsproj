@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>propertyTests</Name>
+    <Name>propertyTestsXUnit</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,8 +58,8 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="FieldWriteReadRoundtrip.fs" />
     <Content Include="App.config" />
+    <Compile Include="FieldWriteReadRoundtrip.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

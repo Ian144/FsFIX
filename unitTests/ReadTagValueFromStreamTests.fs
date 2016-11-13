@@ -13,7 +13,7 @@ let ``read first field value from buf`` () =
         |]
     let tagValSepPos = 2 // the index of the = in the input array
     let newPos, fldVal = FIXBufUtils.readValAfterTagValSep tagValSepPos input
-    test<@ 6 = newPos @> 
+    test<@ input.Length = newPos @> 
     test<@ "XXXX"B = fldVal @>
 
 [<Fact>]
@@ -24,7 +24,7 @@ let ``read second field value from buf`` () =
         |]
     let tagValSepPos = 9 // the index of the char one past the 2nd '=' in the input array
     let newPos, fldVal = FIXBufUtils.readValAfterTagValSep tagValSepPos input
-    test<@ 13 = newPos @>
+    test<@ 14 = newPos @> // newPos should be 1 past the separator
     test<@ "YYYY"B = fldVal @>
 
 

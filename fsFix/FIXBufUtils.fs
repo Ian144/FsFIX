@@ -26,7 +26,7 @@ let readValAfterTagValSep (pos:int) (bs:byte[]) =
     let valLen = fldTermPos - pos
     let bsVal = Array.zeroCreate<byte> valLen
     Buffer.BlockCopy (bs, pos, bsVal, 0, valLen)
-    fldTermPos, bsVal
+    fldTermPos + 1, bsVal
 
 /// used for reading the data component of length+data paired fields, the data component may contain field deliminators
 /// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
@@ -37,25 +37,35 @@ let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
     if bs.[pos+count] <> 1uy then failwith "readNBytesVal, next byte is not a field delimator"
     let bsVal = Array.zeroCreate<byte> count
     Buffer.BlockCopy (bs, pos, bsVal, 0, count)
-    pos+count, bsVal
+    pos+count+1, bsVal
 
 
 // assumes and checks that the prevByte points to a field delimitor
 let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
     if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
     let tagValSepPos = findNextTagValSep pos bs
-    if tagValSepPos = -1 then failwith "could not find next tag-valus separator"
+    if tagValSepPos = -1 then failwith "could not find next tag-value separator"
     let tagLen = tagValSepPos - pos
     let bsVal = Array.zeroCreate<byte> tagLen
     Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
-    tagValSepPos, bsVal
+    tagValSepPos + 1, bsVal
 
 
 // may be the first thing to be read from a byte array, so there will be no initial or prev field deliminator
 let readTag (pos:int) (bs:byte[]) =
     let tagValSepPos = findNextTagValSep pos bs
-    if tagValSepPos = -1 then failwith "readTag, could not find next tag-valus separator"
+    if tagValSepPos = -1 then failwith "readTag, could not find next tag-value separator"
     let tagLen = tagValSepPos - pos
     let bsVal = Array.zeroCreate<byte> tagLen
     Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
-    tagValSepPos+1, bsVal // +1 to advance past the tag value seperator
+    tagValSepPos + 1, bsVal // +1 to advance past the tag value seperator
+
+
+let readTagOpt (pos:int) (bs:byte[]) =
+    let tagValSepPos = findNextTagValSep pos bs
+    if tagValSepPos = -1 then None
+    else
+        let tagLen = tagValSepPos - pos
+        let bsVal = Array.zeroCreate<byte> tagLen
+        Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
+        Some (tagValSepPos + 1, bsVal) // +1 to advance past the tag value seperator

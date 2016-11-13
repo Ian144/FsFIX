@@ -12,13 +12,15 @@ let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc =
     pos3, fld
 
 
-let inline ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    let pos2, tag = FIXBufUtils.readTag pos bs
-    if tag = expectedTag then 
-        let pos3, fld = readFunc pos2 bs
-        pos3, Some fld
-    else
-        pos, None   // return the original pos, the next read op will re-read it
+let ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc : int * 'b option = 
+    match FIXBufUtils.readTagOpt pos bs with
+    | Some (pos2, tag)  ->     
+        if tag = expectedTag then 
+            let pos3, fld = readFunc pos2 bs
+            pos3, Some fld
+        else
+            pos, None   // return the original pos, the next read op will re-read it
+    | None -> pos, None   // return the original pos, the next read op will re-read it
 
 
 
@@ -39,13 +41,13 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     readGrpInner [] pos3 numRepeats bs readFunc
 
 
-
-let inline ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc = 
+let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) readFunc = 
     let pos2, tag = FIXBufUtils.readTag pos bs
     if tag = numFieldTag then 
-//        let pos3, fld = readFunc pos2 bs
-//        pos3, Some fld
-        pos, Some []
+        let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs 
+        let numRepeats = Conversions.bytesToUInt32 numRepeatBs
+        let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
+        pos4, Some gs
     else
         pos, None   // return the original pos, the next read op will re-read it
 
@@ -60,7 +62,7 @@ let ReadComponent (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFun
 
 
 
-let inline ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+let ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
     let pos2, tag = FIXBufUtils.readTag pos bs
     if tag = expectedTag then 
         let pos3, fld = readFunc pos2 bs
