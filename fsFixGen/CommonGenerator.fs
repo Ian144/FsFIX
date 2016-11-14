@@ -118,7 +118,7 @@ let fixYield (ss:string) =
 
 // group will need to know the tag of its number field
 
-let genItemListReaderStrs (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
+let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
         let tag = FIXItem.getTag fieldNameMap compNameMap item
         match item with

@@ -34,54 +34,6 @@ let WriteUnderlyingStipulations (dest:byte []) (nextFreeIdx:int) (xx:UnderlyingS
 // component
 let WriteUnderlyingInstrument (dest:byte []) (nextFreeIdx:int) (xx:UnderlyingInstrument) =
     let nextFreeIdx = WriteUnderlyingSymbol dest nextFreeIdx xx.UnderlyingSymbol
-    let nextFreeIdx = Option.fold (WriteUnderlyingSymbolSfx dest) nextFreeIdx xx.UnderlyingSymbolSfx
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecurityID dest) nextFreeIdx xx.UnderlyingSecurityID
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecurityIDSource dest) nextFreeIdx xx.UnderlyingSecurityIDSource
-    // group (apologies for this nested fold code, will refactor when I think of something better)
-    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingSecurityAltIDGrp list) ->
-                                        let numGrps = gs.Length
-                                        let innerNextFreeIdx2 = WriteNoUnderlyingSecurityAltID dest innerNextFreeIdx (Fix44.Fields.NoUnderlyingSecurityAltID numGrps) // write the 'num group repeats' field
-                                        List.fold (fun accFreeIdx gg -> WriteNoUnderlyingSecurityAltIDGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
-                                  nextFreeIdx
-                                  xx.NoUnderlyingSecurityAltIDGrp  // end Option.fold
-    let nextFreeIdx = Option.fold (WriteUnderlyingProduct dest) nextFreeIdx xx.UnderlyingProduct
-    let nextFreeIdx = Option.fold (WriteUnderlyingCFICode dest) nextFreeIdx xx.UnderlyingCFICode
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecurityType dest) nextFreeIdx xx.UnderlyingSecurityType
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecuritySubType dest) nextFreeIdx xx.UnderlyingSecuritySubType
-    let nextFreeIdx = Option.fold (WriteUnderlyingMaturityMonthYear dest) nextFreeIdx xx.UnderlyingMaturityMonthYear
-    let nextFreeIdx = Option.fold (WriteUnderlyingMaturityDate dest) nextFreeIdx xx.UnderlyingMaturityDate
-    let nextFreeIdx = Option.fold (WriteUnderlyingPutOrCall dest) nextFreeIdx xx.UnderlyingPutOrCall
-    let nextFreeIdx = Option.fold (WriteUnderlyingCouponPaymentDate dest) nextFreeIdx xx.UnderlyingCouponPaymentDate
-    let nextFreeIdx = Option.fold (WriteUnderlyingIssueDate dest) nextFreeIdx xx.UnderlyingIssueDate
-    let nextFreeIdx = Option.fold (WriteUnderlyingRepoCollateralSecurityType dest) nextFreeIdx xx.UnderlyingRepoCollateralSecurityType
-    let nextFreeIdx = Option.fold (WriteUnderlyingRepurchaseTerm dest) nextFreeIdx xx.UnderlyingRepurchaseTerm
-    let nextFreeIdx = Option.fold (WriteUnderlyingRepurchaseRate dest) nextFreeIdx xx.UnderlyingRepurchaseRate
-    let nextFreeIdx = Option.fold (WriteUnderlyingFactor dest) nextFreeIdx xx.UnderlyingFactor
-    let nextFreeIdx = Option.fold (WriteUnderlyingCreditRating dest) nextFreeIdx xx.UnderlyingCreditRating
-    let nextFreeIdx = Option.fold (WriteUnderlyingInstrRegistry dest) nextFreeIdx xx.UnderlyingInstrRegistry
-    let nextFreeIdx = Option.fold (WriteUnderlyingCountryOfIssue dest) nextFreeIdx xx.UnderlyingCountryOfIssue
-    let nextFreeIdx = Option.fold (WriteUnderlyingStateOrProvinceOfIssue dest) nextFreeIdx xx.UnderlyingStateOrProvinceOfIssue
-    let nextFreeIdx = Option.fold (WriteUnderlyingLocaleOfIssue dest) nextFreeIdx xx.UnderlyingLocaleOfIssue
-    let nextFreeIdx = Option.fold (WriteUnderlyingRedemptionDate dest) nextFreeIdx xx.UnderlyingRedemptionDate
-    let nextFreeIdx = Option.fold (WriteUnderlyingStrikePrice dest) nextFreeIdx xx.UnderlyingStrikePrice
-    let nextFreeIdx = Option.fold (WriteUnderlyingStrikeCurrency dest) nextFreeIdx xx.UnderlyingStrikeCurrency
-    let nextFreeIdx = Option.fold (WriteUnderlyingOptAttribute dest) nextFreeIdx xx.UnderlyingOptAttribute
-    let nextFreeIdx = Option.fold (WriteUnderlyingContractMultiplier dest) nextFreeIdx xx.UnderlyingContractMultiplier
-    let nextFreeIdx = Option.fold (WriteUnderlyingCouponRate dest) nextFreeIdx xx.UnderlyingCouponRate
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecurityExchange dest) nextFreeIdx xx.UnderlyingSecurityExchange
-    let nextFreeIdx = Option.fold (WriteUnderlyingIssuer dest) nextFreeIdx xx.UnderlyingIssuer
-    let nextFreeIdx = Option.fold (WriteEncodedUnderlyingIssuer dest) nextFreeIdx xx.EncodedUnderlyingIssuer
-    let nextFreeIdx = Option.fold (WriteUnderlyingSecurityDesc dest) nextFreeIdx xx.UnderlyingSecurityDesc
-    let nextFreeIdx = Option.fold (WriteEncodedUnderlyingSecurityDesc dest) nextFreeIdx xx.EncodedUnderlyingSecurityDesc
-    let nextFreeIdx = Option.fold (WriteUnderlyingCPProgram dest) nextFreeIdx xx.UnderlyingCPProgram
-    let nextFreeIdx = Option.fold (WriteUnderlyingCPRegType dest) nextFreeIdx xx.UnderlyingCPRegType
-    let nextFreeIdx = Option.fold (WriteUnderlyingCurrency dest) nextFreeIdx xx.UnderlyingCurrency
-    let nextFreeIdx = Option.fold (WriteUnderlyingQty dest) nextFreeIdx xx.UnderlyingQty
-    let nextFreeIdx = Option.fold (WriteUnderlyingPx dest) nextFreeIdx xx.UnderlyingPx
-    let nextFreeIdx = Option.fold (WriteUnderlyingDirtyPrice dest) nextFreeIdx xx.UnderlyingDirtyPrice
-    let nextFreeIdx = Option.fold (WriteUnderlyingEndPrice dest) nextFreeIdx xx.UnderlyingEndPrice
-    let nextFreeIdx = Option.fold (WriteUnderlyingStartValue dest) nextFreeIdx xx.UnderlyingStartValue
-    let nextFreeIdx = Option.fold (WriteUnderlyingCurrentValue dest) nextFreeIdx xx.UnderlyingCurrentValue
     let nextFreeIdx = Option.fold (WriteUnderlyingEndValue dest) nextFreeIdx xx.UnderlyingEndValue
     let nextFreeIdx = Option.fold (WriteUnderlyingStipulations dest) nextFreeIdx xx.UnderlyingStipulations    // component option
     nextFreeIdx

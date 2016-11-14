@@ -26,48 +26,6 @@ type UnderlyingStipulations = {
 // component
 type UnderlyingInstrument = {
     UnderlyingSymbol: UnderlyingSymbol
-    UnderlyingSymbolSfx: UnderlyingSymbolSfx option
-    UnderlyingSecurityID: UnderlyingSecurityID option
-    UnderlyingSecurityIDSource: UnderlyingSecurityIDSource option
-    NoUnderlyingSecurityAltIDGrp: NoUnderlyingSecurityAltIDGrp list option // group
-    UnderlyingProduct: UnderlyingProduct option
-    UnderlyingCFICode: UnderlyingCFICode option
-    UnderlyingSecurityType: UnderlyingSecurityType option
-    UnderlyingSecuritySubType: UnderlyingSecuritySubType option
-    UnderlyingMaturityMonthYear: UnderlyingMaturityMonthYear option
-    UnderlyingMaturityDate: UnderlyingMaturityDate option
-    UnderlyingPutOrCall: UnderlyingPutOrCall option
-    UnderlyingCouponPaymentDate: UnderlyingCouponPaymentDate option
-    UnderlyingIssueDate: UnderlyingIssueDate option
-    UnderlyingRepoCollateralSecurityType: UnderlyingRepoCollateralSecurityType option
-    UnderlyingRepurchaseTerm: UnderlyingRepurchaseTerm option
-    UnderlyingRepurchaseRate: UnderlyingRepurchaseRate option
-    UnderlyingFactor: UnderlyingFactor option
-    UnderlyingCreditRating: UnderlyingCreditRating option
-    UnderlyingInstrRegistry: UnderlyingInstrRegistry option
-    UnderlyingCountryOfIssue: UnderlyingCountryOfIssue option
-    UnderlyingStateOrProvinceOfIssue: UnderlyingStateOrProvinceOfIssue option
-    UnderlyingLocaleOfIssue: UnderlyingLocaleOfIssue option
-    UnderlyingRedemptionDate: UnderlyingRedemptionDate option
-    UnderlyingStrikePrice: UnderlyingStrikePrice option
-    UnderlyingStrikeCurrency: UnderlyingStrikeCurrency option
-    UnderlyingOptAttribute: UnderlyingOptAttribute option
-    UnderlyingContractMultiplier: UnderlyingContractMultiplier option
-    UnderlyingCouponRate: UnderlyingCouponRate option
-    UnderlyingSecurityExchange: UnderlyingSecurityExchange option
-    UnderlyingIssuer: UnderlyingIssuer option
-    EncodedUnderlyingIssuer: EncodedUnderlyingIssuer option
-    UnderlyingSecurityDesc: UnderlyingSecurityDesc option
-    EncodedUnderlyingSecurityDesc: EncodedUnderlyingSecurityDesc option
-    UnderlyingCPProgram: UnderlyingCPProgram option
-    UnderlyingCPRegType: UnderlyingCPRegType option
-    UnderlyingCurrency: UnderlyingCurrency option
-    UnderlyingQty: UnderlyingQty option
-    UnderlyingPx: UnderlyingPx option
-    UnderlyingDirtyPrice: UnderlyingDirtyPrice option
-    UnderlyingEndPrice: UnderlyingEndPrice option
-    UnderlyingStartValue: UnderlyingStartValue option
-    UnderlyingCurrentValue: UnderlyingCurrentValue option
     UnderlyingEndValue: UnderlyingEndValue option
     UnderlyingStipulations: UnderlyingStipulations option // component
     }

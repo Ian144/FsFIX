@@ -70,11 +70,13 @@ let getIsRequired (fi:FIXItem) =
 
 
 
-let rec getTag (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (fi:FIXItem) = 
+let rec getTag (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (fi:FIXItem) = 
     match fi with
     | FIXItem.FieldRef fldRef   ->  
         let fld = fieldNameMap.[fldRef.FName]
-        fld.Tag
+        match fld with
+        | SimpleField sf -> sf.Tag
+        | CompoundField cf -> cf.LenField.Tag
     | FIXItem.ComponentRef cr   ->  
         let cmp = compNameMap.[cr.CRName]
         let firstItem = cmp.Items.Head // program is in an errored state if this fails, hence failing fast
@@ -82,7 +84,9 @@ let rec getTag (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<Component
     | FIXItem.Group grp ->
         // the groups short name is that of the 'NoGROUPNAME' field, which holds the number of group elements
         let numFld = fieldNameMap.[grp.GName]
-        numFld.Tag
+        match numFld with
+        | SimpleField sf -> sf.Tag
+        | CompoundField cf -> failwith "invalid field type for group number field"
 
 
 

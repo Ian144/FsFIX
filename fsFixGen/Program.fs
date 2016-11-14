@@ -32,8 +32,14 @@ let main _ =
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fields
     FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs  swFieldDU
 
+
+    let getFieldName (fld:Field) =
+        match fld with
+        | SimpleField sf -> sf.Name
+        | CompoundField cf -> cf.Name
+
     // Make a map of field name to field definition, used to connect a field reference with the field definition.
-    let fieldNameMap = fields |> List.map (fun fld -> fld.Name, fld ) |> Map.ofList
+    let fieldNameMap = mergedFields |> List.map (fun fld -> (getFieldName fld), fld ) |> Map.ofList
     
     printfn "read header"
     let xpthHrd = doc.XPathSelectElement "fix/header"

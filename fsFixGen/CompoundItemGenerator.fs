@@ -124,7 +124,7 @@ let private genFieldInitStrs (items:FIXItem list) =
 
 
 
-let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>)  (sw:StreamWriter) (ci:CompoundItem) = 
+let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>)  (sw:StreamWriter) (ci:CompoundItem) = 
     let name = CompoundItemFuncs.getName ci
     let suffix = CompoundItemFuncs.getNameSuffix ci
     let typeName = sprintf "%s%s" name suffix
@@ -144,7 +144,7 @@ let private genCompoundItemReader (fieldNameMap:Map<string,SimpleField>) (compNa
     sw.WriteLine ""
 
 
-let GenReadFuncs (fieldNameMap:Map<string,SimpleField>) (compNameMap:Map<ComponentName,Component>) (groups:CompoundItem list) (sw:StreamWriter) =
+let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemReadFuncs"
     sw.WriteLine ""
     sw.WriteLine "open ReaderUtils"

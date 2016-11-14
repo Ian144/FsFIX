@@ -188,7 +188,7 @@ let MergeLenFields (fields:SimpleField list) =
     let nameToFieldMap = fields |> List.map (fun fd -> fd.Name, fd) |> Map.ofList
 
     let lenFields = fields |> List.filter (fun fd -> isLenFieldName fd.Name)
-    let lengthFields = fields |> List.filter (fun fd -> isLengthFieldName fd.Name) |> List.filter (fun fd -> fd.Name <> "BodyLength") // todo: fix hardcoded field name in length-data field pair detection
+    let lengthFields = fields |> List.filter (fun fd -> isLengthFieldName fd.Name) |> List.filter (fun fd -> fd.Name <> "BodyLength") // todo: fix hardcoded field name filter in length-data field pair detection
     let allLengthTypeFields = lengthFields @ lenFields |> Set.ofList
 
     // find those fields (string or byte[]) paired with a len|length field
