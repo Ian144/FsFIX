@@ -81,4 +81,12 @@ let ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc =
 
 
 
-
+let ReadOptionalComponentGroupHolder (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+    match FIXBufUtils.readTagOpt pos bs with
+    | Some (_, tag)  ->
+        if tag = expectedTag then 
+            let pos3, fld = readFunc pos bs // rewinding back to pos as the inner group expects the same first field as the group
+            pos3, Some fld
+        else
+            pos, None   // return the original pos, the next read op will re-read it
+    | None -> pos, None

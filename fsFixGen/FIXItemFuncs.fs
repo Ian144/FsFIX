@@ -69,6 +69,12 @@ let getIsRequired (fi:FIXItem) =
     | FIXItem.Group grp         ->  grp.Required = Required.Required
 
 
+let isGroup (fi:FIXItem) =
+    match fi with
+    | FIXItem.FieldRef _        ->  false
+    | FIXItem.ComponentRef _    ->  false
+    | FIXItem.Group grp         ->  true
+
 
 let rec getTag (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (fi:FIXItem) = 
     match fi with

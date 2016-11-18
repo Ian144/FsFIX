@@ -38,7 +38,7 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 10,
         Verbose = true,
         QuietOnSuccess = true)
 
@@ -46,7 +46,7 @@ type PropertyTestAttribute() =
 
 [<PropertyTestAttribute>]
 let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
-    let bs = Array.zeroCreate<byte> (1024 * 1)
+    let bs = Array.zeroCreate<byte> (1024 * 2)
     let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
     let posSep = FIXBufUtils.findNextTagValSep 0 bs
     let posR, pmriOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
@@ -134,6 +134,17 @@ let describeType (objA:'t) (objB:'t) =
     printfn "###################"
 
 
+//// component
+//let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument  =
+//    let pos1, underlyingSymbol = ReadField "ReadUnderlyingInstrument" pos "311"B bs ReadUnderlyingSymbol
+//    let pos2, underlyingEndValue = ReadOptionalField pos1 "886"B bs ReadUnderlyingEndValue
+//    let pos3, underlyingStipulations = ReadOptionalComponentGroupHolder pos2 "887"B bs ReadUnderlyingStipulations
+//    let ci:UnderlyingInstrument = {
+//        UnderlyingSymbol = underlyingSymbol
+//        UnderlyingEndValue = underlyingEndValue
+//        UnderlyingStipulations = underlyingStipulations
+//    }
+//    pos3, ci
 
 
 [<PropertyTestAttribute>]

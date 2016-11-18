@@ -116,27 +116,36 @@ let fixYield (ss:string) =
     | ss        -> ss
 
 
-// group will need to know the tag of its number field
+
+
+let isComponentSimpleGroupWrapper (cmpRef:ComponentRef) (compNameMap:Map<ComponentName,Component>) = 
+    let cmp = compNameMap.[cmpRef.CRName]
+    cmp.Items.Length = 1 && cmp.Items.Head |> FIXItem.isGroup
+
 
 let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
     items |> List.collect (fun item ->
         let tag = FIXItem.getTag fieldNameMap compNameMap item
         match item with
-        | FIXItem.FieldRef fld      ->  let name = fld.FName
-                                        let varName = Utils.lCaseFirstChar name |> fixYield
-                                        match fld.Required with
-                                        | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentName tag name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" varName tag name ]
-        | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
-                                        let varName = Utils.lCaseFirstChar name
-                                        match cmp.Required with
-                                        | Required.Required     ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
-        | FIXItem.Group grp         ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
-                                        let varName = Utils.lCaseFirstChar longName
-                                        match grp.Required with
-                                        | Required.Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
-                                        | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%sGrp" varName tag longName ]
+        | FIXItem.FieldRef fld          ->  let name = fld.FName
+                                            let varName = Utils.lCaseFirstChar name |> fixYield
+                                            match fld.Required with
+                                            | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentName tag name ]
+                                            | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" varName tag name ]
+        | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
+                                            let varName = Utils.lCaseFirstChar name
+                                            let isGroupWrapper = isComponentSimpleGroupWrapper cmpRef compNameMap
+                                            match cmpRef.Required, isGroupWrapper with
+                                            | Required.Required, false      ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
+                                            | Required.NotRequired, false   ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
+//                                            | Required.Required, true       ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
+                                            | Required.Required, true       ->  failwith "########"
+                                            | Required.NotRequired, true    ->  [   sprintf "    let pos, %s = ReadOptionalComponentGroupHolder pos \"%d\"B bs Read%s" varName tag name ]
+        | FIXItem.Group grp             ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
+                                            let varName = Utils.lCaseFirstChar longName
+                                            match grp.Required with
+                                            | Required.Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
+                                            | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%sGrp" varName tag longName ]
         ) // end List.collect
 
 
