@@ -63,3 +63,27 @@ let ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired (cmpNameMa
                                                             let items2 = cr2 :: gg.Items.Tail
                                                             let gg2 = {gg with Items = items2} |> CompoundItem.Group
                                                             [cmp2Ci; gg2]
+
+
+
+let elideOptionalComponentsContainingASingleOptionalGroupInner (cmpNameMap:Map<ComponentName,Component>) (fi:FIXItem) : FIXItem =
+    match fi with
+    | FIXItem.FieldRef _        ->  fi
+    | FIXItem.Group   _         ->  fi
+    | FIXItem.ComponentRef cr   ->  let cmp = cmpNameMap.[cr.CRName]
+                                    let xs = cmp.Items
+                                    match xs.Length with
+                                    | 1 ->  match FIXItem.isGroup xs.Head, FIXItem.getIsRequired fi, FIXItem.getIsRequired xs.Head with
+                                            | true, false, false    -> xs.Head
+                                            | _                     -> fi
+                                    | _ ->  fi
+
+
+
+let elideComponentsContainingASingleOptionalGroup (cmpNameMap:Map<ComponentName,Component>) (cmpItem:CompoundItem) : CompoundItem =
+    match cmpItem with 
+    | Component cmp ->  let items2 = cmp.Items |> List.map (elideOptionalComponentsContainingASingleOptionalGroupInner cmpNameMap)
+                        Component {cmp with Items = items2}
+    | Group gg      ->  let items2 = gg.Items |> List.map (elideOptionalComponentsContainingASingleOptionalGroupInner cmpNameMap)
+                        Group {gg with Items = items2}
+

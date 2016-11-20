@@ -1,3 +1,69 @@
+// taken from http://stackoverflow.com/questions/26605506/fastest-way-to-compare-two-byte-arrays-in-f
+let Compare (x:byte[]) (y:byte[]) =
+    let xlen = x.Length
+    let ylen = y.Length
+    let len = if xlen<ylen then xlen else ylen
+    let mutable i = 0
+    let mutable result = 0
+    while i<len do
+        let c = (int (x.[i])) - int (y.[i])
+        if c <> 0 then
+            i <- len+1 // breaks out of the loop, and signals that result is valid
+            result <- c
+        else
+            i <- i + 1
+    if i>len then result else (xlen - ylen)
+
+
+let eqCmp = { 
+    new System.Collections.Generic.IEqualityComparer<byte[]> with
+        member x.Equals(bs1, bs2) = (Compare bs1 bs2) = 0
+        member x.GetHashCode(bs:byte[]) = bs |> Array.sum |> int
+   }
+
+let readMap = System.Collections.Generic.Dictionary<byte[], int->byte[]->int*FIXField>(eqCmp)
+
+
+
+let inline readFuncAdaptor (rf:int->byte[]->int*'t) (tc:'t->FIXField) : (int->byte[]->int*FIXField) =
+    fun pos bs -> 
+        let pos, tt = rf pos bs
+        pos, (tc tt)
+
+
+readMap.Add ("1"B, readFuncAdaptor ReadAccount FIXField.Account)
+readMap.Add ("2"B, readFuncAdaptor ReadAdvId FIXField.AdvId)
+readMap.Add ("3"B, readFuncAdaptor ReadAdvRefID FIXField.AdvRefID)
+readMap.Add ("4"B, readFuncAdaptor ReadAdvSide FIXField.AdvSide)
+readMap.Add ("5"B, readFuncAdaptor ReadAdvTransType FIXField.AdvTransType)
+
+
+----
+
+let writeMap = System.Collections.Generic.Dictionary<System.Type, byte[]->int->FIXField->int>()
+
+
+let writeFuncAdaptor (wf:byte[]->int->'t->int) (tc:FIXField->'t) : byte[]->int->FIXField->int =
+    fun (bs:byte[]) (nextFreeIdx:int) (fld:FIXField) ->
+        let rawField =  tc fld
+        wf bs nextFreeIdx rawField
+
+writeMap.Add(FIXField.Account.GetType(), WriteAccount)
+
+
+
+let WriteField2 dest nextFreeIdx fixField =
+    let tp = fixField.GetType()
+    let writeFunc = writeMap.[tp]
+    writeFunc dest nextFreeIdx fixField
+
+
+	THE TYPE OF THE FIXField input is not known to be a specific instance of a type
+
+
+----
+
+
 
 let calcCheckSum (arr:byte[]) (endPos:int) =
     let mutable (sum:byte) = 0uy

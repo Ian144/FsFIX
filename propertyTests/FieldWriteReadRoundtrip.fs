@@ -38,7 +38,7 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10,
+        MaxTest = 1000,
         Verbose = true,
         QuietOnSuccess = true)
 
@@ -53,6 +53,17 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     let ok = pmri = pmriOut && posW = posR // posR should be one past the last byte written, posW should be the next writeable byte, so both should be the same
     let ok2 = (posW = posR)
     ok && ok2
+
+
+//[<PropertyTestAttribute>]
+//let AllFields2 (fieldIn:FIXField) =
+//    let bs = Array.zeroCreate<byte> (1024 * 64)
+//    let posW = WriteField bs 0 fieldIn
+//    let posR, fieldOut = ReadField2 0 bs
+//    let ok = fieldIn = fieldOut
+//    if not ok then
+//        printf ""
+//    ok
 
 
 [<PropertyTestAttribute>]
@@ -149,7 +160,7 @@ let describeType (objA:'t) (objB:'t) =
 
 [<PropertyTestAttribute>]
 let UnderlyingInstument (usIn:UnderlyingInstrument) =
-    ((usIn.UnderlyingStipulations.IsSome) && (usIn.UnderlyingStipulations.Value.NoUnderlyingStipsGrp.IsSome)) ==> lazy
+//    ((usIn.UnderlyingStipulations.IsSome && usIn.UnderlyingStipulations.Value.NoUnderlyingStipsGrp.IsSome) || usIn.UnderlyingStipulations.IsNone ) ==> lazy
         let bs = Array.zeroCreate<byte> (1024 * 128)
         let posW = WriteUnderlyingInstrument  bs 0 usIn
         let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument 0 bs
@@ -160,3 +171,20 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) =
             describeType usIn usOut
             printf "%A" usIn
         xx
+
+
+
+
+
+[<PropertyTestAttribute>]
+let InstrumentLegFG (usIn:InstrumentLegFG) =
+    let bs = Array.zeroCreate<byte> (1024 * 128)
+    let posW = WriteInstrumentLegFG  bs 0 usIn
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG 0 bs
+    let ok = usIn = usOut
+    let ok2 = (posW = posR)
+    let xx = ok && ok2
+    if not xx then
+        describeType usIn usOut
+        printf "%A" usIn
+    xx

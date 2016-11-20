@@ -73,13 +73,23 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
     printfn "GROUP RULE: ensure components that are the first item of a group have a first item that is required"
     let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
 
-    let cmpNameMapAfterGroupRulesApplied = allCompItems4 
+
+    let mapX = allCompItems4 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
+
+
+    printfn "COMPONENT RULE: if an optional component contains just a single optional group then replace the component with the group"
+    let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup mapX)
+
+
+    let allCompItemsProcessed = allCompItems5
+
+    let cmpNameMapAfterGroupRulesApplied = allCompItemsProcessed
                                         |> CompoundItemFuncs.extractComponents 
                                         |> List.map (fun cmp -> cmp.CName, cmp)
                                         |> Map.ofList
 
     printfn "calculating group and component dependency order"
-    let constrainedCompoundItemsInDepOrder  = allCompItems4
+    let constrainedCompoundItemsInDepOrder  = allCompItemsProcessed
                                                 |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupRulesApplied)
     
@@ -89,28 +99,3 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
         |> List.iter (printfn "    %s")
 
     hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterGroupRulesApplied
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
