@@ -74,7 +74,7 @@ let elideOptionalComponentsContainingASingleOptionalGroupInner (cmpNameMap:Map<C
                                     let xs = cmp.Items
                                     match xs.Length with
                                     | 1 ->  match FIXItem.isGroup xs.Head, FIXItem.getIsRequired fi, FIXItem.getIsRequired xs.Head with
-                                            | true, false, false    -> xs.Head
+                                            | true, _, false    -> xs.Head
                                             | _                     -> fi
                                     | _ ->  fi
 
@@ -87,3 +87,30 @@ let elideComponentsContainingASingleOptionalGroup (cmpNameMap:Map<ComponentName,
     | Group gg      ->  let items2 = gg.Items |> List.map (elideOptionalComponentsContainingASingleOptionalGroupInner cmpNameMap)
                         Group {gg with Items = items2}
 
+
+
+
+let private makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner (cmpNameMap:Map<ComponentName,Component>) (fi:FIXItem) : FIXItem list =
+    match fi with
+    | FIXItem.FieldRef _        ->  [fi]
+    | FIXItem.Group   _         ->  [fi]
+    | FIXItem.ComponentRef cr   ->  let cmp = cmpNameMap.[cr.CRName]
+                                    let xs = cmp.Items
+                                    let allItemsOptional = xs |> List.forall (FIXItem.getIsRequired >> not)
+                                    match allItemsOptional with
+                                    | false   ->    [fi]
+                                    | true    ->    let cr2 = { cr with Required = Required.Required }
+                                                    let fi2 = FIXItem.ComponentRef cr2
+                                                    [fi2]
+                                                    
+
+// Components can be treated as macros, representing just the items they are composed of.
+// To have the component and its sub-items as optional leads to ambiguous states with the same bit represention when sent down the wire e.g. the optional component is Option.Some when all the sub-items are Option.None VS the component is Option.None.
+// To remove this ambiguity while keeping components first class (for fsFix user convenience) in the fsFix type system, such components are made 'required', optionality is preserved because the sub-items are optional.
+// This facilitates read-write roundtrip testing, as it prevents the round-tripped object from having a different but equivalent representation
+let makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems (cmpNameMap:Map<ComponentName,Component>) (cmpItem:CompoundItem) : CompoundItem =
+    match cmpItem with 
+    | Component cmp ->  let items2 = cmp.Items |> List.collect (makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner cmpNameMap)
+                        Component {cmp with Items = items2}
+    | Group gg      ->  let items2 = gg.Items |> List.collect (makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner cmpNameMap)
+                        Group {gg with Items = items2}

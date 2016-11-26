@@ -307,7 +307,7 @@ type TradeCaptureReportNoSidesGrp = {
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     TimeBracket: TimeBracket option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     GrossTradeAmt: GrossTradeAmt option
     NumDaysInterest: NumDaysInterest option
     ExDate: ExDate option
@@ -407,7 +407,7 @@ type NoSettlInstGrp = {
     EffectiveTime: EffectiveTime option
     ExpireTime: ExpireTime option
     LastUpdateTime: LastUpdateTime option
-    SettlInstructionsData: SettlInstructionsData option // component
+    SettlInstructionsData: SettlInstructionsData // component
     PaymentMethod: PaymentMethod option
     PaymentRef: PaymentRef option
     CardHolderName: CardHolderName option
@@ -445,7 +445,7 @@ type AllocationReportNoAllocsGrp = {
     AllocHandlInst: AllocHandlInst option
     AllocText: AllocText option
     EncodedAllocText: EncodedAllocText option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     AllocAvgPx: AllocAvgPx option
     AllocNetMoney: AllocNetMoney option
     SettlCurrAmt: SettlCurrAmt option
@@ -460,7 +460,7 @@ type AllocationReportNoAllocsGrp = {
     NoClearingInstructionsGrp: NoClearingInstructionsGrp list option // group
     ClearingFeeIndicator: ClearingFeeIndicator option
     AllocSettlInstType: AllocSettlInstType option
-    SettlInstructionsData: SettlInstructionsData option // component
+    SettlInstructionsData: SettlInstructionsData // component
     }
 
 // group
@@ -477,7 +477,7 @@ type AllocationInstructionNoAllocsGrp = {
     AllocHandlInst: AllocHandlInst option
     AllocText: AllocText option
     EncodedAllocText: EncodedAllocText option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     AllocAvgPx: AllocAvgPx option
     AllocNetMoney: AllocNetMoney option
     SettlCurrAmt: SettlCurrAmt option
@@ -495,7 +495,7 @@ type AllocationInstructionNoAllocsGrp = {
     ClearingInstruction: ClearingInstruction option
     ClearingFeeIndicator: ClearingFeeIndicator option
     AllocSettlInstType: AllocSettlInstType option
-    SettlInstructionsData: SettlInstructionsData option // component
+    SettlInstructionsData: SettlInstructionsData // component
     }
 
 // component
@@ -709,8 +709,8 @@ type NewOrderListNoOrdersGrp = {
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
@@ -721,7 +721,7 @@ type NewOrderListNoOrdersGrp = {
     ExpireDate: ExpireDate option
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -736,8 +736,8 @@ type NewOrderListNoOrdersGrp = {
     PositionEffect: PositionEffect option
     CoveredOrUncovered: CoveredOrUncovered option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -894,7 +894,7 @@ type CrossOrderCancelReplaceRequestNoSidesGrp = {
     NoAllocsGrp: NoAllocsGrp list option // group
     QtyType: QtyType option
     OrderQtyData: OrderQtyData // component
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -930,7 +930,7 @@ type NoSidesGrp = {
     NoAllocsGrp: NoAllocsGrp list option // group
     QtyType: QtyType option
     OrderQtyData: OrderQtyData // component
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -986,7 +986,7 @@ type DerivativeSecurityListNoRelatedSymGrp = {
     Instrument: Instrument // component
     Currency: Currency option
     ExpirationCycle: ExpirationCycle option
-    InstrumentExtension: InstrumentExtension option // component
+    InstrumentExtension: InstrumentExtension // component
     NoLegsGrp: NoLegsGrp list option // group
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
@@ -1022,20 +1022,20 @@ type SecurityListNoLegsGrp = {
     LegSwapType: LegSwapType option
     LegSettlType: LegSettlType option
     NoLegStipulationsGrp: NoLegStipulationsGrp list option // group
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData // component
     }
 
 // group
 type SecurityListNoRelatedSymGrp = {
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Currency: Currency option
     NoStipulationsGrp: NoStipulationsGrp list option // group
     SecurityListNoLegsGrp: SecurityListNoLegsGrp list option // group
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     RoundLot: RoundLot option
     MinTradeVol: MinTradeVol option
     TradingSessionID: TradingSessionID option
@@ -1192,7 +1192,7 @@ type QuoteStatusReportNoLegsGrp = {
 // group
 type NoQuoteEntriesGrp = {
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     }
@@ -1209,7 +1209,7 @@ type QuoteNoLegsGrp = {
     LegPriceType: LegPriceType option
     LegBidPx: LegBidPx option
     LegOfferPx: LegOfferPx option
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData // component
     }
 
 // group
@@ -1233,13 +1233,13 @@ type QuoteRequestRejectNoLegsGrp = {
     LegSettlDate: LegSettlDate option
     NoLegStipulationsGrp: NoLegStipulationsGrp list option // group
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp list option // group
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData // component
     }
 
 // group
 type QuoteRequestRejectNoRelatedSymGrp = {
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
@@ -1249,7 +1249,7 @@ type QuoteRequestRejectNoRelatedSymGrp = {
     TradeOriginationDate: TradeOriginationDate option
     Side: Side option
     QtyType: QtyType option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     SettlDate2: SettlDate2 option
@@ -1274,7 +1274,7 @@ type QuoteResponseNoLegsGrp = {
     LegPriceType: LegPriceType option
     LegBidPx: LegBidPx option
     LegOfferPx: LegOfferPx option
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData // component
     }
 
 // group
@@ -1286,7 +1286,7 @@ type QuoteRequestNoLegsGrp = {
     LegSettlDate: LegSettlDate option
     NoLegStipulationsGrp: NoLegStipulationsGrp list option // group
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp list option // group
-    LegBenchmarkCurveData: LegBenchmarkCurveData option // component
+    LegBenchmarkCurveData: LegBenchmarkCurveData // component
     }
 
 // group
@@ -1297,7 +1297,7 @@ type NoQuoteQualifiersGrp = {
 // group
 type QuoteRequestNoRelatedSymGrp = {
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PrevClosePx: PrevClosePx option
     QuoteRequestType: QuoteRequestType option
@@ -1307,7 +1307,7 @@ type QuoteRequestNoRelatedSymGrp = {
     TradeOriginationDate: TradeOriginationDate option
     Side: Side option
     QtyType: QtyType option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     SettlDate2: SettlDate2 option
@@ -1324,11 +1324,11 @@ type QuoteRequestNoRelatedSymGrp = {
     ValidUntilTime: ValidUntilTime option
     ExpireTime: ExpireTime option
     TransactTime: TransactTime option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     PriceType: PriceType option
     Price: Price option
     Price2: Price2 option
-    YieldData: YieldData option // component
+    YieldData: YieldData // component
     NoPartyIDsGrp: NoPartyIDsGrp list option // group
     }
 

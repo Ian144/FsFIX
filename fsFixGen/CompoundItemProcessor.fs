@@ -74,14 +74,19 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
     let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
 
 
-    let mapX = allCompItems4 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
+    let compMap4 = allCompItems4 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
 
     printfn "COMPONENT RULE: if an optional component contains just a single optional group then replace the component with the group"
-    let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup mapX)
+    let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup compMap4)
+
+    let compMap5 = allCompItems5 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
+
+    printfn "COMPONENT RULE: promote noptional components to required if they contain only optional items"
+    let allCompItems6 = allCompItems5 |> List.map (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems compMap5)
 
 
-    let allCompItemsProcessed = allCompItems5
+    let allCompItemsProcessed = allCompItems6
 
     let cmpNameMapAfterGroupRulesApplied = allCompItemsProcessed
                                         |> CompoundItemFuncs.extractComponents 
