@@ -190,7 +190,7 @@ let ``read msg`` () =
 
     
     let output = StreamUtils.ReadMsgBytes ms
-    test<@ body = output @>
+    body =! output
 
 
 // todo: test read msg with a fake checksum field inside a rawdata field, and no actual checksum page, because the bytes have not been received yes

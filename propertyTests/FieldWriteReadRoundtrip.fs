@@ -10,9 +10,9 @@ open Fix44.FieldDU
 open Fix44.FieldReadFuncs
 open Fix44.CompoundItems
 open Fix44.CompoundItemWriteFuncs
+open Fix44.CompoundItemDU
 
-
-
+open Swensen.Unquote
 
 
 
@@ -38,8 +38,8 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
-        Verbose = true,
+        MaxTest = 10,
+        Verbose = false,
         QuietOnSuccess = true)
 
 
@@ -55,23 +55,15 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     ok && ok2
 
 
-//[<PropertyTestAttribute>]
-//let AllFields2 (fieldIn:FIXField) =
-//    let bs = Array.zeroCreate<byte> (1024 * 64)
-//    let posW = WriteField bs 0 fieldIn
-//    let posR, fieldOut = ReadField2 0 bs
-//    let ok = fieldIn = fieldOut
-//    if not ok then
-//        printf ""
-//    ok
-
 
 [<PropertyTestAttribute>]
 let AllFields (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> (1024 * 64)
     let posW = WriteField bs 0 fieldIn
     let posR, fieldOut = ReadField 0 bs
-    let ok = fieldIn = fieldOut
+    let ok1 = fieldIn = fieldOut
+    let ok2 = posW = posR
+    let ok = ok1 && ok2
     if not ok then
         printf ""
     ok
@@ -114,9 +106,9 @@ let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 
 
 
-let describeType (objA:'t) (objB:'t) =
-    let ty = objA.GetType()
-    
+
+
+let rec compareInner (indent:string) (objA:System.Object) (objB:System.Object) =
     let bindingFlags = 
         BindingFlags.Public     ||| 
         BindingFlags.NonPublic  |||
@@ -124,38 +116,33 @@ let describeType (objA:'t) (objB:'t) =
         BindingFlags.Static     |||
         BindingFlags.DeclaredOnly
 
-//    let methods = 
-//        ty.GetMethods(bindingFlags) 
-//        |> Array.fold (fun desc meth -> desc + sprintf "%s\r\n" meth.Name) ""
-//        
-//    let props = 
-//        ty.GetProperties(bindingFlags)
-//        |> Array.fold (fun desc prop -> desc + sprintf "%s\r\n" prop.Name) ""
- 
+    let ty = objA.GetType()
     let fields = ty.GetFields(bindingFlags)
-        //|> Array.fold (fun desc field -> desc + sprintf "%s\r\n" field.Name) ""
 
-    fields |> Array.iter (fun fi ->
-        let vA = fi.GetValue objA
-        let vB = fi.GetValue objB
-        if vA <> vB then
-            printfn "vA <> vB"
-        )
+    let compStrs = 
+        fields |> Array.map (fun fi ->
+            let vA = fi.GetValue objA
+            let vB = fi.GetValue objB
+            if vA <> vB then
+                let ft = fi.FieldType
+                let fieldsInner = ft.GetFields(bindingFlags)
+                if fieldsInner.Length > 1 then
+                    let indent2 = sprintf "    %s" indent
+                    compareInner indent2 vA vB
+                else
+                    sprintf "%s >>>>>>>> %s: %O <> %O" indent fi.Name vA vB
+            else
+               sprintf "%s: %O <> %O" fi.Name vA vB
+            )
  
-    printfn "###################"
+    System.String.Join("\n", compStrs)
 
 
-//// component
-//let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument  =
-//    let pos1, underlyingSymbol = ReadField "ReadUnderlyingInstrument" pos "311"B bs ReadUnderlyingSymbol
-//    let pos2, underlyingEndValue = ReadOptionalField pos1 "886"B bs ReadUnderlyingEndValue
-//    let pos3, underlyingStipulations = ReadOptionalComponentGroupHolder pos2 "887"B bs ReadUnderlyingStipulations
-//    let ci:UnderlyingInstrument = {
-//        UnderlyingSymbol = underlyingSymbol
-//        UnderlyingEndValue = underlyingEndValue
-//        UnderlyingStipulations = underlyingStipulations
-//    }
-//    pos3, ci
+let compare (objA:System.Object) (objB:System.Object) = 
+    let ss = compareInner "" objA objB
+    printf "%s" ss
+
+
 
 
 [<PropertyTestAttribute>]
@@ -168,13 +155,67 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) =
         let ok2 = (posW = posR)
         let xx = ok && ok2
         if not xx then
-            describeType usIn usOut
-            printf "%A" usIn
+            compare usIn usOut
         xx
 
 
+[<PropertyTestAttribute>]
+let NoSidesGrp (gIn:NoSidesGrp ) =
+    try
+        let bs = Array.zeroCreate<byte> (1024 * 16)
+        let posW = WriteNoSidesGrp bs 0 gIn
+        let posR, gOut = Fix44.CompoundItemReadFuncs.ReadNoSidesGrp 0 bs
+    //    let xx = gIn = gOut
+    //
+    //    if not xx then
+    //        let eqside = gIn.Side = gOut.Side
+    //        let eqpreallocMethod = gIn.PreallocMethod = gOut.PreallocMethod
+    //        let eqallocID = gIn.AllocID = gOut.AllocID
+    //        let eqnoAllocsGrp = gIn.NoAllocsGrp = gOut.NoAllocsGrp
+    //        let eqqtyType = gIn.QtyType = gOut.QtyType
+    //        let eqorderQtyData = gIn.OrderQtyData = gOut.OrderQtyData
+    //        let eqcommissionData = gIn.CommissionData = gOut.CommissionData
+    //        let eqorderCapacity = gIn.OrderCapacity = gOut.OrderCapacity
+    //        let eqorderRestrictions = gIn.OrderRestrictions = gOut.OrderRestrictions
+    //        let eqcustOrderCapacity = gIn.CustOrderCapacity = gOut.CustOrderCapacity
+    //        let eqforexReq = gIn.ForexReq = gOut.ForexReq
+    //        let eqsettlCurrency = gIn.SettlCurrency = gOut.SettlCurrency
+    //        let eqbookingType = gIn.BookingType = gOut.BookingType
+    //        let eqtext = gIn.Text = gOut.Text
+    //        let eqencodedText = gIn.EncodedText = gOut.EncodedText
+    //        let eqpositionEffect = gIn.PositionEffect = gOut.PositionEffect
+    //        let eqcoveredOrUncovered = gIn.CoveredOrUncovered = gOut.CoveredOrUncovered
+    //        let eqcashMargin = gIn.CashMargin = gOut.CashMargin
+    //        let eqclearingFeeIndicator = gIn.ClearingFeeIndicator = gOut.ClearingFeeIndicator
+    //        let eqsolicitedFlag = gIn.SolicitedFlag = gOut.SolicitedFlag
+    //        let eqsideComplianceID = gIn.SideComplianceID = gOut.SideComplianceID
+    //
+    //        compare gIn gOut
+    //
+        posW =! posR
+        gIn =! gOut
+        true
+    with 
+        | ex -> printfn ""
+                false
 
 
+[<PropertyTestAttribute>]
+let CompoundItem (ciIn:FIXGroup) =
+    try
+        let bs = Array.zeroCreate<byte> (1024 * 128)
+        let posW = WriteCITest  bs 0 ciIn
+        let posR, usOut =  ReadCITest ciIn 0 bs
+        let ok = ciIn = usOut
+        let ok2 = (posW = posR)
+        let xx = ok && ok2
+        if not xx then
+            compare ciIn usOut
+        xx
+    with 
+        | ex ->
+            printfn "##: %s" ex.Message
+            true
 
 [<PropertyTestAttribute>]
 let InstrumentLegFG (usIn:InstrumentLegFG) =
@@ -185,6 +226,6 @@ let InstrumentLegFG (usIn:InstrumentLegFG) =
     let ok2 = (posW = posR)
     let xx = ok && ok2
     if not xx then
-        describeType usIn usOut
-        printf "%A" usIn
+        let ss = compare usIn usOut
+        printf "%A" ss
     xx

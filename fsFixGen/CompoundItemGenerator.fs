@@ -64,20 +64,19 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItms.WriteLine ""
     swCompItms.WriteLine ""
     
-    // write the 'group/component' DU
+    // write the 'group/component' DU, used only in property based tests
     swCompItemDU.WriteLine "module Fix44.CompoundItemDU"
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine "open Fix44.CompoundItems"
-    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine "open Fix44.CompoundItemWriteFuncs"
+    swCompItemDU.WriteLine "open Fix44.CompoundItemReadFuncs"
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
     let groups = cmpItems |> CompoundItemFuncs.extractGroups
     swCompItemDU.WriteLine  "type FIXGroup ="
-    groups 
-    |> List.map GroupUtils.makeLongName
-    |> List.sort 
-    |> List.iter (fun grpLngName ->
+    let names = groups |> List.map GroupUtils.makeLongName|> List.sort 
+    names |> List.iter (fun grpLngName ->
             let (GroupLongName strName) = grpLngName
             let ss  = sprintf "    | %sGrp of %sGrp" strName strName
             swCompItemDU.WriteLine ss  )
@@ -85,7 +84,28 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
+    // create the 'WriteCompound' DU function, used only in property based tests
+    swCompItemDU.WriteLine "let WriteCITest dest nextFreeIdx grp ="
+    swCompItemDU.WriteLine "    match grp with"
+    names |> List.iter (fun grpLngName ->
+                let (GroupLongName strName) = grpLngName
+                let ss  = sprintf "    | %sGrp grp -> Write%sGrp dest nextFreeIdx grp" strName strName
+                swCompItemDU.WriteLine ss  )
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
+    swCompItemDU.WriteLine ""
 
+    // create the 'TestReadCompound' DU function, used only in property based tests
+    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) pos bs ="
+    swCompItemDU.WriteLine "    match selector with"
+    names |> List.iter (fun grpLngName ->
+                let (GroupLongName strName) = grpLngName
+                let ss1  = sprintf "    | %sGrp _ ->" strName
+                let ss2  = sprintf "        let pos, grp = Read%sGrp  pos bs" strName
+                let ss3 =  sprintf "        pos, grp |> FIXGroup.%sGrp" strName
+                swCompItemDU.WriteLine ss1
+                swCompItemDU.WriteLine ss2
+                swCompItemDU.WriteLine ss3 ) // end List.iter
 
 
 
@@ -111,6 +131,7 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "open Fix44.Fields"
     sw.WriteLine "open Fix44.FieldWriteFuncs"
     sw.WriteLine "open Fix44.CompoundItems"
+    sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine ""
     groups |> List.iter (genCompoundItemWriter sw)  

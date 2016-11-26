@@ -80,6 +80,7 @@
     <Compile Include="ReadTagValueFromStreamTests.fs" />
     <Compile Include="FieldWriteTests.fs" />
     <Compile Include="FieldReadTests.fs" />
+    <Compile Include="CompoundItemReadWriteTests.fs" />
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>

@@ -60,24 +60,16 @@ let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -
 
 
 let ReadComponent (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    let pos2, tag = FIXBufUtils.readTag pos bs
-    if tag <> expectedTag then 
-        let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
-        failwith msg
-    let pos3, fld = readFunc pos2 bs
+    let pos3, fld = readFunc pos bs
     pos3, fld
 
 
-
 let ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    match FIXBufUtils.readTagOpt pos bs with
-    | Some (pos2, tag)  ->
-        if tag = expectedTag then 
-            let pos3, fld = readFunc pos2 bs
-            pos3, Some fld
-        else
-            pos, None   // return the original pos, the next read op will re-read it
-    | None -> pos, None
+    let pos2, cmp = readFunc pos bs
+    if pos2 > pos then // if nothing was read then consider the optional component to be none
+        pos2, Some cmp
+    else
+        pos, None
 
 
 
