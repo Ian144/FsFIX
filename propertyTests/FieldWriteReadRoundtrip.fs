@@ -33,24 +33,23 @@ let genAlphaString =
 
 
 type ArbOverrides() =
-    static member String() =
-            Arb.fromGen genAlphaString
+    static member String() = Arb.fromGen genAlphaString
 
 
-// PropertyAttribute is defined in https://github.com/fscheck/FsCheck/blob/d1e8865cf7b5a32fac1d07c65e7451c38698bc62/src/FsCheck.Xunit/PropertyAttribute.fs#L111 
-type PropertyTestAttribute() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-//        MaxTest = 100,
-        EndSize = 8
-//        Verbose = false,
-//        QuietOnSuccess = true
-        )
+//type Fix44PropertyTestAttribute() =
+//    inherit PropertyAttribute(
+//        Arbitrary = [| typeof<ArbOverrides> |],
+////        MaxTest = 100,
+//        EndSize = 8
+////        Verbose = false,
+////        QuietOnSuccess = true
+//        )
 
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
@@ -71,7 +70,8 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoCapacitiesGrp  bs 0 grpIn
@@ -82,7 +82,8 @@ let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
@@ -92,7 +93,8 @@ let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 //    (usIn.NoUnderlyingStipsGrp.IsSome) ==> lazy
     let bs = Array.zeroCreate<byte> bufSize
@@ -140,7 +142,8 @@ let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let UnderlyingInstument (usIn:UnderlyingInstrument) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteUnderlyingInstrument  bs 0 usIn
@@ -150,7 +153,8 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let NoSidesGrp (gIn:NoSidesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoSidesGrp bs 0 gIn
@@ -160,7 +164,8 @@ let NoSidesGrp (gIn:NoSidesGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let CompoundItem (ciIn:FIXGroup) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
@@ -170,7 +175,8 @@ let CompoundItem (ciIn:FIXGroup) =
 
 
 
-[<PropertyTestAttribute>]
+//[<Fix44PropertyTestAttribute>]
+[<Property>]
 let InstrumentLegFG (usIn:InstrumentLegFG) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteInstrumentLegFG  bs 0 usIn
