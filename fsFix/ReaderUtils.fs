@@ -64,21 +64,14 @@ let ReadComponent (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFun
     pos3, fld
 
 
+// the first field of an optional component is required, so the component is present if the first field is present
 let ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
-    let pos2, cmp = readFunc pos bs
-    if pos2 > pos then // if nothing was read then consider the optional component to be none
-        pos2, Some cmp
-    else
-        pos, None
-
-
-
-let ReadOptionalComponentGroupHolder (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
     match FIXBufUtils.readTagOpt pos bs with
     | Some (_, tag)  ->
         if tag = expectedTag then 
-            let pos3, fld = readFunc pos bs // rewinding back to pos as the inner group expects the same first field as the group
-            pos3, Some fld
+            let pos2, cmp = readFunc pos bs // this will read the tag again, will live with this inefficiency until it proves costly, if ever
+            pos2, Some cmp
         else
             pos, None   // return the original pos, the next read op will re-read it
     | None -> pos, None
+

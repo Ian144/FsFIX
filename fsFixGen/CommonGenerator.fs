@@ -10,19 +10,19 @@ open FIXGenTypes
 let private makeItemStr (item:FIXItem) = 
     match item with
     | FIXItem.FieldRef fld     ->   match fld.Required with
-                                    | Required.Required     ->  sprintf "    %s: %s" fld.FName fld.FName
-                                    | Required.NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
+                                    | Required     ->  sprintf "    %s: %s" fld.FName fld.FName
+                                    | NotRequired  ->  sprintf "    %s: %s option" fld.FName fld.FName
     | FIXItem.ComponentRef cmp ->   let (ComponentName nm) = cmp.CRName
                                     match cmp.Required with
-                                    | Required.Required     ->  sprintf "    %s: %s // component" nm nm 
-                                    | Required.NotRequired  ->  sprintf "    %s: %s option // component" nm nm
+                                    | Required     ->  sprintf "    %s: %s // component" nm nm 
+                                    | NotRequired  ->  sprintf "    %s: %s option // component" nm nm
     | FIXItem.Group grp     ->      let (GroupLongName grpNameInner) = GroupUtils.makeLongName grp
                                     let isSidesGroup = grp.GName = "NoSides"
                                     match isSidesGroup, grp.Required with
-                                    | false, Required.Required     ->  sprintf "    %sGrp: %sGrp list // group" grpNameInner grpNameInner
-                                    | false, Required.NotRequired  ->  sprintf "    %sGrp: %sGrp list option // group" grpNameInner grpNameInner
-                                    | true,  Required.Required     ->  sprintf "    %sGrp: %sGrp OneOrTwo // group" grpNameInner grpNameInner
-                                    | true,  Required.NotRequired  ->  sprintf "    %sGrp: %sGrp OneOrTwo option // group" grpNameInner grpNameInner
+                                    | false, Required     ->  sprintf "    %sGrp: %sGrp list // group" grpNameInner grpNameInner
+                                    | false, NotRequired  ->  sprintf "    %sGrp: %sGrp list option // group" grpNameInner grpNameInner
+                                    | true,  Required     ->  sprintf "    %sGrp: %sGrp OneOrTwo // group" grpNameInner grpNameInner
+                                    | true,  NotRequired  ->  sprintf "    %sGrp: %sGrp OneOrTwo option // group" grpNameInner grpNameInner
     
 
 
@@ -52,10 +52,6 @@ let private genWriteGroup (parent:string) (grp:Group) =
             (sprintf   "    let numGrps = %s.%sGrp.Length" parent longName)
             (sprintf   "    let nextFreeIdx = Write%s dest nextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") countFieldName countFieldName
             (sprintf   "    let nextFreeIdx =  %s.%sGrp |> List.fold (fun accFreeIdx gg -> Write%sGrp dest accFreeIdx gg) nextFreeIdx") parent longName longName
-
-//            (sprintf   "    let numGrps = %s.%sGrp.Length" parent longName)
-//            (sprintf   "    Write%s strm (Fix44.Fields.%s numGrps) // write the 'num group repeats' field" countFieldName countFieldName)
-//            (sprintf   "    %s.%sGrp |> List.iter (fun gg -> Write%sGrp strm gg)" parent longName longName)
         ]
 
 
@@ -97,19 +93,20 @@ let genItemListWriterStrs (items:FIXItem list) =
         match item with
         | FIXItem.FieldRef fld      ->  let name = fld.FName
                                         match fld.Required with
-                                        | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" name name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" name name ]
+                                        | Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s" name name ]
+                                        | NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s" name name ]
         | FIXItem.ComponentRef cmp  ->  let (ComponentName name) = cmp.CRName
                                         match cmp.Required with
-                                        | Required.Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s   // component" name name ]
-                                        | Required.NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s    // component option" name name ]
+                                        | Required     ->  [   sprintf "    let nextFreeIdx = Write%s dest nextFreeIdx xx.%s   // component" name name ]
+                                        | NotRequired  ->  [   sprintf "    let nextFreeIdx = Option.fold (Write%s dest) nextFreeIdx xx.%s    // component option" name name ]
         | FIXItem.Group grp         ->  match grp.Required with
-                                        | Required.Required     ->  genWriteGroup "xx" grp
-                                        | Required.NotRequired  ->  genWriteOptionalGroup "xx" grp
+                                        | Required     ->  genWriteGroup "xx" grp
+                                        | NotRequired  ->  genWriteOptionalGroup "xx" grp
         ) // end List.collect
 
 
 
+// yield is an f# keyword
 let fixYield (ss:string) = 
     match ss with 
     | "yield"   -> "yyield"
@@ -130,22 +127,18 @@ let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<Comp
         | FIXItem.FieldRef fld          ->  let name = fld.FName
                                             let varName = Utils.lCaseFirstChar name |> fixYield
                                             match fld.Required with
-                                            | Required.Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentName tag name ]
-                                            | Required.NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" varName tag name ]
+                                            | Required     ->  [   sprintf "    let pos, %s = ReadField \"Read%s\" pos \"%d\"B bs Read%s" varName parentName tag name ]
+                                            | NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField pos \"%d\"B bs Read%s" varName tag name ]
         | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
                                             let varName = Utils.lCaseFirstChar name
-                                            let isGroupWrapper = isComponentSimpleGroupWrapper cmpRef compNameMap
-                                            match cmpRef.Required, isGroupWrapper with
-                                            | Required.Required, false      ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
-                                            | Required.NotRequired, false   ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
-//                                            | Required.Required, true       ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
-                                            | Required.Required, true       ->  failwith "########"
-                                            | Required.NotRequired, true    ->  [   sprintf "    let pos, %s = ReadOptionalComponentGroupHolder pos \"%d\"B bs Read%s" varName tag name ]
+                                            match cmpRef.Required with
+                                            | Required      ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
+                                            | NotRequired   ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
         | FIXItem.Group grp             ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
                                             let varName = Utils.lCaseFirstChar longName
                                             match grp.Required with
-                                            | Required.Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
-                                            | Required.NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%sGrp" varName tag longName ]
+                                            | Required     ->  [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
+                                            | NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup pos \"%d\"B bs Read%sGrp" varName tag longName ]
         ) // end List.collect
 
 

@@ -3,14 +3,21 @@
 
 open Fix44.FieldDU
 
+open Fix44.FieldDU
+//open Fix44.FieldReadFuncs
+open Fix44.CompoundItems
+open Fix44.CompoundItemWriteFuncs
+open Fix44.CompoundItemDU
 
 
 
-let genAlphaChar = Gen.choose(0,256) |> Gen.map char 
-let genAlphaCharArray = Gen.arrayOfLength 8 genAlphaChar 
+//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
+//let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! chars = genAlphaCharArray
+            let! len = Gen.choose(4, 512)
+            let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
 
@@ -19,6 +26,8 @@ type ArbOverrides() =
     static member String() = Arb.fromGen genAlphaString
 //        Arb.Default.String()
 //        |> Arb.filter (fun ss -> not (isNull ss) && ss.Length > 0 && StringIsAlpha(ss) )
+
+
 
 
 Arb.register<ArbOverrides>() |> ignore
@@ -30,12 +39,24 @@ let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
     fieldIn = fieldOut
 
 
+let bufSize = 1024 * 1024 * 64
+
+let propReadWriteCompoundItem (ciIn:FIXGroup) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = WriteCITest  bs 0 ciIn
+    let posR, ciOut =  ReadCITest ciIn 0 bs
+    posW = posR && ciIn = ciOut
+
+
+
+
+
 let config = {  Config.Quick with 
-                    EveryShrink = (sprintf "%A" )
+//                    EveryShrink = (sprintf "%A" )
 //                    Replay = Some (Random.StdGen (310046944,296129814))
 //                    StartSize = 512
 //                    MaxFail = 10000
-                    MaxTest = 10000 }
+                    MaxTest = 1000 }
 
 
 
@@ -44,7 +65,8 @@ let WaitForExitCmd () =
     while stdin.Read() <> 88 do // 88 is 'X'
         ()
 
+Check.One (config, propReadWriteCompoundItem)
+//Check.One (Config.Quick, propReadWriteFIXFieldRoundtrip)
 
-Check.One (config, propReadWriteFIXFieldRoundtrip)
 
-
+//WaitForExitCmd ()
