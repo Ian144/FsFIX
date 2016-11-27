@@ -20,12 +20,12 @@ let bufSize = 1024 * 64 // so as not to go into the LOH
 
 
 // strings stored in FIX do not contain field terminators, 
-//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
-let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
+let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+//let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 8)
+            let! len = Gen.choose(4, 16)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -41,9 +41,11 @@ type ArbOverrides() =
 type PropertyTestAttribute() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        Verbose = false,
-        QuietOnSuccess = true)
+//        MaxTest = 100,
+        EndSize = 8
+//        Verbose = false,
+//        QuietOnSuccess = true
+        )
 
 
 
@@ -58,14 +60,14 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     pmri =! pmriOut  
 
 
-
-[<PropertyTestAttribute>]
-let AllFields (fieldIn:FIXField) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteField bs 0 fieldIn
-    let posR, fieldOut = ReadField 0 bs
-    posW =! posR
-    fieldIn =! fieldOut  
+//
+//[<PropertyTestAttribute>]
+//let AllFields (fieldIn:FIXField) =
+//    let bs = Array.zeroCreate<byte> bufSize
+//    let posW = WriteField bs 0 fieldIn
+//    let posR, fieldOut = ReadField 0 bs
+//    posW =! posR
+//    fieldIn =! fieldOut  
 
 
 

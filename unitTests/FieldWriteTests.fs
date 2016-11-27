@@ -17,8 +17,8 @@ let ``write single-case DU`` () =
     let endPos = WriteBeginString dest 0 beginString
     let expectedBytesWritten = [| yield! "8=FIX.4.4"B; yield 1uy |] // 1uy is the FIX delimiter
     let dest2 = dest |> Array.take expectedBytesWritten.Length
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ 10 = endPos @>
+    expectedBytesWritten =! dest2
+    10 =! endPos
 
 
 /// test that no part of the first is overwritten by the second
@@ -31,8 +31,8 @@ let ``write single-case DU twice`` () =
     let expectedBytesWritten = [| yield! "8=FIX.4.4"B; yield 1uy; yield! "8=FIX.4.4"B; yield 1uy; |] // 1uy is the FIX delimiter
     let dest2 = dest |> Array.take expectedBytesWritten.Length
     let arraysEq = expectedBytesWritten = dest2
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ 20 = endPos2 @>
+    expectedBytesWritten =! dest2
+    20 =! endPos2
 
 
 [<Fact>]
@@ -42,8 +42,8 @@ let ``write multicase DU`` () =
     let endPos = WriteAdvSide dest 0 fld
     let expectedBytesWritten  = [|yield! "4=B"B; yield 1uy; |]
     let dest2 = dest |> Array.take expectedBytesWritten.Length
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ expectedBytesWritten.Length = endPos @>
+    expectedBytesWritten =! dest2
+    expectedBytesWritten.Length =! endPos
     
     
 [<Fact>]
@@ -54,8 +54,8 @@ let ``write len+data pair`` () =
     let expectedBytesWritten  =  [| yield! "95=8"B; yield 1uy           // length is 8
                                     yield! "96=12345678"B; yield 1uy |]
     let dest2 = dest |> Array.take expectedBytesWritten.Length
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ expectedBytesWritten.Length = endPos @>
+    expectedBytesWritten =! dest2
+    expectedBytesWritten.Length =! endPos
 
 
 [<Fact>]
@@ -66,8 +66,8 @@ let ``write len+str pair, contains field seperator`` () =
     let expectedBytesWritten  =  [| yield! "95=9"B; yield 1uy   // length is 9
                                     yield! "96=1234"B; yield 1uy; yield! "5678"B; yield 1uy |]
     let dest2 = dest |> Array.take expectedBytesWritten.Length
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ expectedBytesWritten.Length = endPos @>
+    expectedBytesWritten =! dest2
+    expectedBytesWritten.Length =! endPos
 
 
 [<Fact>]
@@ -78,11 +78,11 @@ let ``write len+str pair, contains tag-value seperator`` () =
     let expectedBytesWritten  =  [| yield! "95=9"B; yield 1uy   // length is 9
                                     yield! "96=1234=5678"B; yield 1uy |]
     let dest2 = dest |> Array.take expectedBytesWritten.Length
-    test<@ expectedBytesWritten = dest2 @>
-    test<@ expectedBytesWritten.Length = endPos @>
+    expectedBytesWritten =! dest2
+    expectedBytesWritten.Length =! endPos
 
 
 
 //[<Fact>]
 //let ``test checksum calc`` () =
-//    test<@ false @>
+//    false 

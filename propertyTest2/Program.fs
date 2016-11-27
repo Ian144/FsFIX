@@ -11,12 +11,12 @@ open Fix44.CompoundItemDU
 
 
 
-//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
-let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
+let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+//let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 512)
+            let! len = Gen.choose(4, 64)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -39,9 +39,16 @@ let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
     fieldIn = fieldOut
 
 
-let bufSize = 1024 * 1024 * 64
+let bufSize = 1024 * 64
+
+
+let mutable ctr:int = 0
 
 let propReadWriteCompoundItem (ciIn:FIXGroup) =
+    ctr <- ctr + 1
+    if ctr % 10 = 0 then
+        printfn "test count: %d" ctr
+
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
     let posR, ciOut =  ReadCITest ciIn 0 bs
@@ -54,7 +61,9 @@ let propReadWriteCompoundItem (ciIn:FIXGroup) =
 let config = {  Config.Quick with 
 //                    EveryShrink = (sprintf "%A" )
 //                    Replay = Some (Random.StdGen (310046944,296129814))
-//                    StartSize = 512
+//                    StartSize = 64
+                    EndSize = 8
+
 //                    MaxFail = 10000
                     MaxTest = 1000 }
 
