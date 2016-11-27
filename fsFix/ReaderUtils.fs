@@ -59,7 +59,7 @@ let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -
 
 
 
-let ReadComponent (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+let ReadComponent (ss:string) (pos:int) (bs:byte[]) readFunc = 
     let pos3, fld = readFunc pos bs
     pos3, fld
 

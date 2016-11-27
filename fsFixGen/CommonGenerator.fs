@@ -132,7 +132,7 @@ let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<Comp
         | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
                                             let varName = Utils.lCaseFirstChar name
                                             match cmpRef.Required with
-                                            | Required      ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos \"%d\"B bs Read%s" varName name tag name ]
+                                            | Required      ->  [   sprintf "    let pos, %s = ReadComponent \"Read%s component\" pos bs Read%s" varName name name ]
                                             | NotRequired   ->  [   sprintf "    let pos, %s = ReadOptionalComponent pos \"%d\"B bs Read%s" varName tag name ]
         | FIXItem.Group grp             ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
                                             let varName = Utils.lCaseFirstChar longName
