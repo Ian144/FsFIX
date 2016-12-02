@@ -1,5 +1,5 @@
 ﻿open FsCheck
-open Swensen.Unquote
+
 
 open Fix44.FieldDU
 
@@ -22,9 +22,6 @@ let genAlphaString =
         }
 
 
-
-
-
 type ArbOverrides() =
     static member String() = Arb.fromGen genAlphaString
 //        Arb.Default.String()
@@ -32,105 +29,30 @@ type ArbOverrides() =
 
 
 
+
 Arb.register<ArbOverrides>() |> ignore
 
+let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
+    let bs = Array.zeroCreate<byte> 2048
+    WriteField bs 0 fieldIn |> ignore
+    let _, fieldOut = ReadField 0 bs
+    fieldIn = fieldOut
 
 
-
-let bufSize = 1024 * 64 // so as not to go into the LOH
-
+let bufSize = 1024 * 64
 
 
-let propWriteReadPosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
-    let posSep = FIXBufUtils.findNextTagValSep 0 bs
-    let posR, pmriOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
-    posW =! posR
-    pmri =! pmriOut  
+let mutable ctr:int = 0
 
+let propReadWriteCompoundItem (ciIn:FIXGroup) =
+    ctr <- ctr + 1
+    if ctr % 10 = 0 then
+        printfn "test count: %d" ctr
 
-
-
-let propWriteReadFields (fieldIn:FIXField) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteField bs 0 fieldIn
-    let posR, fieldOut = ReadField 0 bs
-    posW =! posR
-    fieldIn =! fieldOut  
-
-
-
-
-
-let propWriteReadNoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoCapacitiesGrp  bs 0 grpIn
-    let posR, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp 0 bs
-    posW =! posR
-    grpIn =! grpOut  
-
-
-
-
-
-
-let propWriteReadUnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp 0 bs
-    posW =! posR
-    usIn =! usOut
-
-
-
-let propWriteReadUnderlyingStipulations (usIn:UnderlyingStipulations) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteUnderlyingStipulations  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations 0 bs
-    usIn =! usOut
-    posW =! posR
-
-
-let propWriteReadUnderlyingInstument (usIn:UnderlyingInstrument) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteUnderlyingInstrument  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument 0 bs
-    posW =! posR
-    usIn =! usOut         
-
-
-
-
-
-let propWriteReadNoSidesGrp (gIn:NoSidesGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoSidesGrp bs 0 gIn
-    let posR, gOut = Fix44.CompoundItemReadFuncs.ReadNoSidesGrp 0 bs
-    posW =! posR
-    gIn =! gOut
-
-
-
-
-
-let propWriteReadCompoundItem (ciIn:FIXGroup) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
     let posR, ciOut =  ReadCITest ciIn 0 bs
-    posW =! posR
-    ciIn =! ciOut
-
-
-
-
-let propWriteReadInstrumentLegFG (usIn:InstrumentLegFG) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteInstrumentLegFG  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG 0 bs
-    posW =! posR
-    usIn =! usOut
-
+    posW = posR && ciIn = ciOut
 
 
 
@@ -143,7 +65,7 @@ let config = {  Config.Quick with
                     EndSize = 8
 
 //                    MaxFail = 10000
-                    MaxTest = 100 }
+                    MaxTest = 1000 }
 
 
 
@@ -152,16 +74,8 @@ let WaitForExitCmd () =
     while stdin.Read() <> 88 do // 88 is 'X'
         ()
 
+Check.One (config, propReadWriteCompoundItem)
+//Check.One (Config.Quick, propReadWriteFIXFieldRoundtrip)
 
 
-
-//Check.One (config, propWriteReadPosMaintRptID)
-Check.One (config, propWriteReadFields)
-Check.One (config, propWriteReadNoCapacitiesGrp)
-Check.One (config, propWriteReadUnderlyingStipulationsGrp)
-Check.One (config, propWriteReadUnderlyingStipulations)
-Check.One (config, propWriteReadUnderlyingInstument)
-Check.One (config, propWriteReadNoSidesGrp)
-Check.One (config, propWriteReadCompoundItem)
-Check.One (config, propWriteReadInstrumentLegFG)
-
+//WaitForExitCmd ()

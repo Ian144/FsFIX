@@ -1,5 +1,7 @@
 source https://www.nuget.org/api/v2
 nuget BenchmarkDotNet
+nuget FsCheck
+nuget FsCheck.Xunit
 nuget Unquote 3.1.2 framework: >= net461
 nuget xunit 2.0.0 framework: >= net45
 nuget xunit.abstractions 2.0.0 framework: >= net45
