@@ -42,7 +42,7 @@ type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
 //        MaxTest = 100,
-        EndSize = 8
+        EndSize = 16
 //        Verbose = false,
 //        QuietOnSuccess = true
         )
@@ -60,14 +60,14 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     pmri =! pmriOut  
 
 
-//
-//[<PropertyTestAttribute>]
-//let AllFields (fieldIn:FIXField) =
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = WriteField bs 0 fieldIn
-//    let posR, fieldOut = ReadField 0 bs
-//    posW =! posR
-//    fieldIn =! fieldOut  
+
+[<FsFixPropertyTest>]
+let AllFields (fieldIn:FIXField) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = WriteField bs 0 fieldIn
+    let posR, fieldOut = ReadField 0 bs
+    posW =! posR
+    fieldIn =! fieldOut  
 
 
 
