@@ -57,11 +57,19 @@ let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
     funcSig
 
 
+// todo: put both versions of this in CommonGenerator
+let private genFieldInitStrs (items:FIXItem list) =
+    items |> List.map (fun fi -> 
+        let fieldName = fi |> FIXItem.getNameLN
+        let varName = fieldName |> Utils.lCaseFirstChar |> CommonGenerator.fixYield
+        sprintf "        %s = %s" fieldName varName )
+
+
 let private genMsgWriterFunc (requiredHdrItems:FIXItem list) (sw:StreamWriter) (msg:Msg) =
     let name = msg.MName
     let cmnt = sprintf "// tag: %s" msg.Tag
     sw.WriteLine cmnt
-    let funcSig = makeFuncSig requiredHdrItems msg
+    let funcSig = makeFuncSig [] msg
     sw.WriteLine funcSig
     let writeGroupFuncStrs = CommonGenerator.genItemListWriterStrs msg.Items
     writeGroupFuncStrs |> List.iter sw.WriteLine
@@ -85,5 +93,39 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
     sw.WriteLine ""
     groups |> List.iter (genMsgWriterFunc requiredHdrFields sw)  
+
+
+
+
+let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
+    let funcSig = sprintf "let Read%s (pos:int) (bs:byte []) : int * %s  =" msg.MName msg.MName
+    sw.WriteLine funcSig
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName msg.Items
+    readFIXItemStrs |> List.iter sw.WriteLine
+    let fieldInitStrs = genFieldInitStrs msg.Items
+    sw.WriteLine (sprintf "    let msg:%s = {" msg.MName)
+    fieldInitStrs |> List.iter sw.WriteLine
+    sw.WriteLine "    }"
+    sw.WriteLine "    pos, msg"
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+
+let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (hdrItems:FIXItem list) (xs:Msg list) (sw:StreamWriter) =
+    // let requiredHdrFields, optionalHdrFields = hdrItems |> List.partition FIXItem.getIsRequired
+    // generate the group write functions todo: generate group read funcs
+    sw.WriteLine "module Fix44.MsgReadFuncs"
+    sw.WriteLine ""
+    sw.WriteLine "open OneOrTwo"
+    sw.WriteLine "open ReaderUtils"
+    sw.WriteLine "open Fix44.Fields"
+    sw.WriteLine "open Fix44.FieldReadFuncs"
+    sw.WriteLine "open Fix44.CompoundItems"
+    sw.WriteLine "open Fix44.CompoundItemReadFuncs"
+    sw.WriteLine "open Fix44.Messages"
+    sw.WriteLine ""
+    sw.WriteLine ""
+    xs |> List.iter (genMsgReaderFunc fieldNameMap compNameMap sw)
+
 
 

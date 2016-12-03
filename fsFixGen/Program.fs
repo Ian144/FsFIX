@@ -75,7 +75,12 @@ let main _ =
     MessageGenerator.Gen msgsAfterGroupMerge swMsgs
 
     printfn "generating message writer funcs"
-    use swMsgFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")
-    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgFuncs
+    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")
+    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgWriteFuncs
+
+    printfn "generating message reader funcs"
+    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgReadFuncs.fs")
+    MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgWriteFuncs
+
 
     0 // exit code

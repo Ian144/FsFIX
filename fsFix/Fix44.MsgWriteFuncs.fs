@@ -9,13 +9,13 @@ open Fix44.Messages
 
 
 // tag: 0
-let WriteHeartbeat (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Heartbeat) = 
+let WriteHeartbeat (dest:byte []) (nextFreeIdx:int)  (xx:Heartbeat) = 
     let nextFreeIdx = Option.fold (WriteTestReqID dest) nextFreeIdx xx.TestReqID
     nextFreeIdx
 
 
 // tag: A
-let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) = 
+let WriteLogon (dest:byte []) (nextFreeIdx:int)  (xx:Logon) = 
     let nextFreeIdx = WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
     let nextFreeIdx = WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
@@ -36,20 +36,20 @@ let WriteLogon (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
 
 
 // tag: 1
-let WriteTestRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TestRequest) = 
+let WriteTestRequest (dest:byte []) (nextFreeIdx:int)  (xx:TestRequest) = 
     let nextFreeIdx = WriteTestReqID dest nextFreeIdx xx.TestReqID
     nextFreeIdx
 
 
 // tag: 2
-let WriteResendRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ResendRequest) = 
+let WriteResendRequest (dest:byte []) (nextFreeIdx:int)  (xx:ResendRequest) = 
     let nextFreeIdx = WriteBeginSeqNo dest nextFreeIdx xx.BeginSeqNo
     let nextFreeIdx = WriteEndSeqNo dest nextFreeIdx xx.EndSeqNo
     nextFreeIdx
 
 
 // tag: 3
-let WriteReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Reject) = 
+let WriteReject (dest:byte []) (nextFreeIdx:int)  (xx:Reject) = 
     let nextFreeIdx = WriteRefSeqNum dest nextFreeIdx xx.RefSeqNum
     let nextFreeIdx = Option.fold (WriteRefTagID dest) nextFreeIdx xx.RefTagID
     let nextFreeIdx = Option.fold (WriteRefMsgType dest) nextFreeIdx xx.RefMsgType
@@ -60,21 +60,21 @@ let WriteReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (body
 
 
 // tag: 4
-let WriteSequenceReset (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SequenceReset) = 
+let WriteSequenceReset (dest:byte []) (nextFreeIdx:int)  (xx:SequenceReset) = 
     let nextFreeIdx = Option.fold (WriteGapFillFlag dest) nextFreeIdx xx.GapFillFlag
     let nextFreeIdx = WriteNewSeqNo dest nextFreeIdx xx.NewSeqNo
     nextFreeIdx
 
 
 // tag: 5
-let WriteLogout (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logout) = 
+let WriteLogout (dest:byte []) (nextFreeIdx:int)  (xx:Logout) = 
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
     nextFreeIdx
 
 
 // tag: j
-let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:BusinessMessageReject) = 
+let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int)  (xx:BusinessMessageReject) = 
     let nextFreeIdx = Option.fold (WriteRefSeqNum dest) nextFreeIdx xx.RefSeqNum
     let nextFreeIdx = WriteRefMsgType dest nextFreeIdx xx.RefMsgType
     let nextFreeIdx = Option.fold (WriteBusinessRejectRefID dest) nextFreeIdx xx.BusinessRejectRefID
@@ -85,7 +85,7 @@ let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: BE
-let WriteUserRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:UserRequest) = 
+let WriteUserRequest (dest:byte []) (nextFreeIdx:int)  (xx:UserRequest) = 
     let nextFreeIdx = WriteUserRequestID dest nextFreeIdx xx.UserRequestID
     let nextFreeIdx = WriteUserRequestType dest nextFreeIdx xx.UserRequestType
     let nextFreeIdx = WriteUsername dest nextFreeIdx xx.Username
@@ -96,7 +96,7 @@ let WriteUserRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) 
 
 
 // tag: BF
-let WriteUserResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:UserResponse) = 
+let WriteUserResponse (dest:byte []) (nextFreeIdx:int)  (xx:UserResponse) = 
     let nextFreeIdx = WriteUserRequestID dest nextFreeIdx xx.UserRequestID
     let nextFreeIdx = WriteUsername dest nextFreeIdx xx.Username
     let nextFreeIdx = Option.fold (WriteUserStatus dest) nextFreeIdx xx.UserStatus
@@ -105,7 +105,7 @@ let WriteUserResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString)
 
 
 // tag: 7
-let WriteAdvertisement (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Advertisement) = 
+let WriteAdvertisement (dest:byte []) (nextFreeIdx:int)  (xx:Advertisement) = 
     let nextFreeIdx = WriteAdvId dest nextFreeIdx xx.AdvId
     let nextFreeIdx = WriteAdvTransType dest nextFreeIdx xx.AdvTransType
     let nextFreeIdx = Option.fold (WriteAdvRefID dest) nextFreeIdx xx.AdvRefID
@@ -141,7 +141,7 @@ let WriteAdvertisement (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
 
 
 // tag: 6
-let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:IndicationOfInterest) = 
+let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int)  (xx:IndicationOfInterest) = 
     let nextFreeIdx = WriteIOIid dest nextFreeIdx xx.IOIid
     let nextFreeIdx = WriteIOITransType dest nextFreeIdx xx.IOITransType
     let nextFreeIdx = Option.fold (WriteIOIRefID dest) nextFreeIdx xx.IOIRefID
@@ -196,7 +196,7 @@ let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int) (beginString:Begi
 
 
 // tag: B
-let WriteNews (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:News) = 
+let WriteNews (dest:byte []) (nextFreeIdx:int)  (xx:News) = 
     let nextFreeIdx = Option.fold (WriteOrigTime dest) nextFreeIdx xx.OrigTime
     let nextFreeIdx = Option.fold (WriteUrgency dest) nextFreeIdx xx.Urgency
     let nextFreeIdx = WriteHeadline dest nextFreeIdx xx.Headline
@@ -238,7 +238,7 @@ let WriteNews (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLe
 
 
 // tag: C
-let WriteEmail (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Email) = 
+let WriteEmail (dest:byte []) (nextFreeIdx:int)  (xx:Email) = 
     let nextFreeIdx = WriteEmailThreadID dest nextFreeIdx xx.EmailThreadID
     let nextFreeIdx = WriteEmailType dest nextFreeIdx xx.EmailType
     let nextFreeIdx = Option.fold (WriteOrigTime dest) nextFreeIdx xx.OrigTime
@@ -282,7 +282,7 @@ let WriteEmail (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
 
 
 // tag: R
-let WriteQuoteRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteRequest) = 
+let WriteQuoteRequest (dest:byte []) (nextFreeIdx:int)  (xx:QuoteRequest) = 
     let nextFreeIdx = WriteQuoteReqID dest nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = Option.fold (WriteRFQReqID dest) nextFreeIdx xx.RFQReqID
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
@@ -296,7 +296,7 @@ let WriteQuoteRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString)
 
 
 // tag: AJ
-let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteResponse) = 
+let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int)  (xx:QuoteResponse) = 
     let nextFreeIdx = WriteQuoteRespID dest nextFreeIdx xx.QuoteRespID
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = WriteQuoteRespType dest nextFreeIdx xx.QuoteRespType
@@ -379,7 +379,7 @@ let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
 
 
 // tag: AG
-let WriteQuoteRequestReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteRequestReject) = 
+let WriteQuoteRequestReject (dest:byte []) (nextFreeIdx:int)  (xx:QuoteRequestReject) = 
     let nextFreeIdx = WriteQuoteReqID dest nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = Option.fold (WriteRFQReqID dest) nextFreeIdx xx.RFQReqID
     let nextFreeIdx = WriteQuoteRequestRejectReason dest nextFreeIdx xx.QuoteRequestRejectReason
@@ -409,7 +409,7 @@ let WriteQuoteRequestReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: AH
-let WriteRFQRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:RFQRequest) = 
+let WriteRFQRequest (dest:byte []) (nextFreeIdx:int)  (xx:RFQRequest) = 
     let nextFreeIdx = WriteRFQReqID dest nextFreeIdx xx.RFQReqID
     let numGrps = xx.RFQRequestNoRelatedSymGrp.Length
     let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
@@ -419,7 +419,7 @@ let WriteRFQRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (
 
 
 // tag: S
-let WriteQuote (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Quote) = 
+let WriteQuote (dest:byte []) (nextFreeIdx:int)  (xx:Quote) = 
     let nextFreeIdx = Option.fold (WriteQuoteReqID dest) nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = WriteQuoteID dest nextFreeIdx xx.QuoteID
     let nextFreeIdx = Option.fold (WriteQuoteRespID dest) nextFreeIdx xx.QuoteRespID
@@ -500,7 +500,7 @@ let WriteQuote (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyL
 
 
 // tag: Z
-let WriteQuoteCancel (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteCancel) = 
+let WriteQuoteCancel (dest:byte []) (nextFreeIdx:int)  (xx:QuoteCancel) = 
     let nextFreeIdx = Option.fold (WriteQuoteReqID dest) nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = WriteQuoteID dest nextFreeIdx xx.QuoteID
     let nextFreeIdx = WriteQuoteCancelType dest nextFreeIdx xx.QuoteCancelType
@@ -522,7 +522,7 @@ let WriteQuoteCancel (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) 
 
 
 // tag: a
-let WriteQuoteStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteStatusRequest) = 
+let WriteQuoteStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:QuoteStatusRequest) = 
     let nextFreeIdx = Option.fold (WriteQuoteStatusReqID dest) nextFreeIdx xx.QuoteStatusReqID
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
@@ -552,7 +552,7 @@ let WriteQuoteStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: AI
-let WriteQuoteStatusReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:QuoteStatusReport) = 
+let WriteQuoteStatusReport (dest:byte []) (nextFreeIdx:int)  (xx:QuoteStatusReport) = 
     let nextFreeIdx = Option.fold (WriteQuoteStatusReqID dest) nextFreeIdx xx.QuoteStatusReqID
     let nextFreeIdx = Option.fold (WriteQuoteReqID dest) nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = WriteQuoteID dest nextFreeIdx xx.QuoteID
@@ -635,7 +635,7 @@ let WriteQuoteStatusReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: i
-let WriteMassQuote (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MassQuote) = 
+let WriteMassQuote (dest:byte []) (nextFreeIdx:int)  (xx:MassQuote) = 
     let nextFreeIdx = Option.fold (WriteQuoteReqID dest) nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = WriteQuoteID dest nextFreeIdx xx.QuoteID
     let nextFreeIdx = Option.fold (WriteQuoteType dest) nextFreeIdx xx.QuoteType
@@ -653,7 +653,7 @@ let WriteMassQuote (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (b
 
 
 // tag: b
-let WriteMassQuoteAcknowledgement (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MassQuoteAcknowledgement) = 
+let WriteMassQuoteAcknowledgement (dest:byte []) (nextFreeIdx:int)  (xx:MassQuoteAcknowledgement) = 
     let nextFreeIdx = Option.fold (WriteQuoteReqID dest) nextFreeIdx xx.QuoteReqID
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = WriteQuoteStatus dest nextFreeIdx xx.QuoteStatus
@@ -677,7 +677,7 @@ let WriteMassQuoteAcknowledgement (dest:byte []) (nextFreeIdx:int) (beginString:
 
 
 // tag: V
-let WriteMarketDataRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MarketDataRequest) = 
+let WriteMarketDataRequest (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataRequest) = 
     let nextFreeIdx = WriteMDReqID dest nextFreeIdx xx.MDReqID
     let nextFreeIdx = WriteSubscriptionRequestType dest nextFreeIdx xx.SubscriptionRequestType
     let nextFreeIdx = WriteMarketDepth dest nextFreeIdx xx.MarketDepth
@@ -705,7 +705,7 @@ let WriteMarketDataRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: W
-let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MarketDataSnapshotFullRefresh) = 
+let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataSnapshotFullRefresh) = 
     let nextFreeIdx = Option.fold (WriteMDReqID dest) nextFreeIdx xx.MDReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -734,7 +734,7 @@ let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int) (beginSt
 
 
 // tag: X
-let WriteMarketDataIncrementalRefresh (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MarketDataIncrementalRefresh) = 
+let WriteMarketDataIncrementalRefresh (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataIncrementalRefresh) = 
     let nextFreeIdx = Option.fold (WriteMDReqID dest) nextFreeIdx xx.MDReqID
     let numGrps = xx.MarketDataIncrementalRefreshNoMDEntriesGrp.Length
     let nextFreeIdx = WriteNoMDEntries dest nextFreeIdx (Fix44.Fields.NoMDEntries numGrps) // write the 'num group repeats' field
@@ -745,7 +745,7 @@ let WriteMarketDataIncrementalRefresh (dest:byte []) (nextFreeIdx:int) (beginStr
 
 
 // tag: Y
-let WriteMarketDataRequestReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MarketDataRequestReject) = 
+let WriteMarketDataRequestReject (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataRequestReject) = 
     let nextFreeIdx = WriteMDReqID dest nextFreeIdx xx.MDReqID
     let nextFreeIdx = Option.fold (WriteMDReqRejReason dest) nextFreeIdx xx.MDReqRejReason
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -761,7 +761,7 @@ let WriteMarketDataRequestReject (dest:byte []) (nextFreeIdx:int) (beginString:B
 
 
 // tag: c
-let WriteSecurityDefinitionRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityDefinitionRequest) = 
+let WriteSecurityDefinitionRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecurityDefinitionRequest) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityRequestType dest nextFreeIdx xx.SecurityRequestType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
@@ -791,7 +791,7 @@ let WriteSecurityDefinitionRequest (dest:byte []) (nextFreeIdx:int) (beginString
 
 
 // tag: d
-let WriteSecurityDefinition (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityDefinition) = 
+let WriteSecurityDefinition (dest:byte []) (nextFreeIdx:int)  (xx:SecurityDefinition) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityResponseID dest nextFreeIdx xx.SecurityResponseID
     let nextFreeIdx = WriteSecurityResponseType dest nextFreeIdx xx.SecurityResponseType
@@ -823,7 +823,7 @@ let WriteSecurityDefinition (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: v
-let WriteSecurityTypeRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityTypeRequest) = 
+let WriteSecurityTypeRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecurityTypeRequest) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
@@ -836,7 +836,7 @@ let WriteSecurityTypeRequest (dest:byte []) (nextFreeIdx:int) (beginString:Begin
 
 
 // tag: w
-let WriteSecurityTypes (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityTypes) = 
+let WriteSecurityTypes (dest:byte []) (nextFreeIdx:int)  (xx:SecurityTypes) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityResponseID dest nextFreeIdx xx.SecurityResponseID
     let nextFreeIdx = WriteSecurityResponseType dest nextFreeIdx xx.SecurityResponseType
@@ -858,7 +858,7 @@ let WriteSecurityTypes (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
 
 
 // tag: x
-let WriteSecurityListRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityListRequest) = 
+let WriteSecurityListRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecurityListRequest) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityListRequestType dest nextFreeIdx xx.SecurityListRequestType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
@@ -888,7 +888,7 @@ let WriteSecurityListRequest (dest:byte []) (nextFreeIdx:int) (beginString:Begin
 
 
 // tag: y
-let WriteSecurityList (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityList) = 
+let WriteSecurityList (dest:byte []) (nextFreeIdx:int)  (xx:SecurityList) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityResponseID dest nextFreeIdx xx.SecurityResponseID
     let nextFreeIdx = WriteSecurityRequestResult dest nextFreeIdx xx.SecurityRequestResult
@@ -905,7 +905,7 @@ let WriteSecurityList (dest:byte []) (nextFreeIdx:int) (beginString:BeginString)
 
 
 // tag: z
-let WriteDerivativeSecurityListRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:DerivativeSecurityListRequest) = 
+let WriteDerivativeSecurityListRequest (dest:byte []) (nextFreeIdx:int)  (xx:DerivativeSecurityListRequest) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityListRequestType dest nextFreeIdx xx.SecurityListRequestType
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
@@ -920,7 +920,7 @@ let WriteDerivativeSecurityListRequest (dest:byte []) (nextFreeIdx:int) (beginSt
 
 
 // tag: AA
-let WriteDerivativeSecurityList (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:DerivativeSecurityList) = 
+let WriteDerivativeSecurityList (dest:byte []) (nextFreeIdx:int)  (xx:DerivativeSecurityList) = 
     let nextFreeIdx = WriteSecurityReqID dest nextFreeIdx xx.SecurityReqID
     let nextFreeIdx = WriteSecurityResponseID dest nextFreeIdx xx.SecurityResponseID
     let nextFreeIdx = WriteSecurityRequestResult dest nextFreeIdx xx.SecurityRequestResult
@@ -938,7 +938,7 @@ let WriteDerivativeSecurityList (dest:byte []) (nextFreeIdx:int) (beginString:Be
 
 
 // tag: e
-let WriteSecurityStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityStatusRequest) = 
+let WriteSecurityStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecurityStatusRequest) = 
     let nextFreeIdx = WriteSecurityStatusReqID dest nextFreeIdx xx.SecurityStatusReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteInstrumentExtension dest) nextFreeIdx xx.InstrumentExtension    // component option
@@ -964,7 +964,7 @@ let WriteSecurityStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: f
-let WriteSecurityStatus (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SecurityStatus) = 
+let WriteSecurityStatus (dest:byte []) (nextFreeIdx:int)  (xx:SecurityStatus) = 
     let nextFreeIdx = Option.fold (WriteSecurityStatusReqID dest) nextFreeIdx xx.SecurityStatusReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteInstrumentExtension dest) nextFreeIdx xx.InstrumentExtension    // component option
@@ -1005,7 +1005,7 @@ let WriteSecurityStatus (dest:byte []) (nextFreeIdx:int) (beginString:BeginStrin
 
 
 // tag: g
-let WriteTradingSessionStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradingSessionStatusRequest) = 
+let WriteTradingSessionStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:TradingSessionStatusRequest) = 
     let nextFreeIdx = WriteTradSesReqID dest nextFreeIdx xx.TradSesReqID
     let nextFreeIdx = Option.fold (WriteTradingSessionID dest) nextFreeIdx xx.TradingSessionID
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
@@ -1016,7 +1016,7 @@ let WriteTradingSessionStatusRequest (dest:byte []) (nextFreeIdx:int) (beginStri
 
 
 // tag: h
-let WriteTradingSessionStatus (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradingSessionStatus) = 
+let WriteTradingSessionStatus (dest:byte []) (nextFreeIdx:int)  (xx:TradingSessionStatus) = 
     let nextFreeIdx = Option.fold (WriteTradSesReqID dest) nextFreeIdx xx.TradSesReqID
     let nextFreeIdx = WriteTradingSessionID dest nextFreeIdx xx.TradingSessionID
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
@@ -1037,7 +1037,7 @@ let WriteTradingSessionStatus (dest:byte []) (nextFreeIdx:int) (beginString:Begi
 
 
 // tag: D
-let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NewOrderSingle) = 
+let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderSingle) = 
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = Option.fold (WriteClOrdLinkID dest) nextFreeIdx xx.ClOrdLinkID
@@ -1135,7 +1135,7 @@ let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int) (beginString:BeginStrin
 
 
 // tag: 8
-let WriteExecutionReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ExecutionReport) = 
+let WriteExecutionReport (dest:byte []) (nextFreeIdx:int)  (xx:ExecutionReport) = 
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
@@ -1307,7 +1307,7 @@ let WriteExecutionReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginStri
 
 
 // tag: Q
-let WriteDontKnowTrade (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:DontKnowTrade) = 
+let WriteDontKnowTrade (dest:byte []) (nextFreeIdx:int)  (xx:DontKnowTrade) = 
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = WriteExecID dest nextFreeIdx xx.ExecID
@@ -1337,7 +1337,7 @@ let WriteDontKnowTrade (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
 
 
 // tag: G
-let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderCancelReplaceRequest) = 
+let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCancelReplaceRequest) = 
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteParties dest) nextFreeIdx xx.Parties    // component option
     let nextFreeIdx = Option.fold (WriteTradeOriginationDate dest) nextFreeIdx xx.TradeOriginationDate
@@ -1434,7 +1434,7 @@ let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginString
 
 
 // tag: F
-let WriteOrderCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderCancelRequest) = 
+let WriteOrderCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCancelRequest) = 
     let nextFreeIdx = WriteOrigClOrdID dest nextFreeIdx xx.OrigClOrdID
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
@@ -1465,7 +1465,7 @@ let WriteOrderCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: 9
-let WriteOrderCancelReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderCancelReject) = 
+let WriteOrderCancelReject (dest:byte []) (nextFreeIdx:int)  (xx:OrderCancelReject) = 
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
@@ -1490,7 +1490,7 @@ let WriteOrderCancelReject (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: H
-let WriteOrderStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderStatusRequest) = 
+let WriteOrderStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderStatusRequest) = 
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
@@ -1513,7 +1513,7 @@ let WriteOrderStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: q
-let WriteOrderMassCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderMassCancelRequest) = 
+let WriteOrderMassCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderMassCancelRequest) = 
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = WriteMassCancelRequestType dest nextFreeIdx xx.MassCancelRequestType
@@ -1529,7 +1529,7 @@ let WriteOrderMassCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:Be
 
 
 // tag: r
-let WriteOrderMassCancelReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderMassCancelReport) = 
+let WriteOrderMassCancelReport (dest:byte []) (nextFreeIdx:int)  (xx:OrderMassCancelReport) = 
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
@@ -1557,7 +1557,7 @@ let WriteOrderMassCancelReport (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: AF
-let WriteOrderMassStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:OrderMassStatusRequest) = 
+let WriteOrderMassStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderMassStatusRequest) = 
     let nextFreeIdx = WriteMassStatusReqID dest nextFreeIdx xx.MassStatusReqID
     let nextFreeIdx = WriteMassStatusReqType dest nextFreeIdx xx.MassStatusReqType
     let nextFreeIdx = Option.fold (WriteParties dest) nextFreeIdx xx.Parties    // component option
@@ -1572,7 +1572,7 @@ let WriteOrderMassStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:Be
 
 
 // tag: s
-let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NewOrderCross) = 
+let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderCross) = 
     let nextFreeIdx = WriteCrossID dest nextFreeIdx xx.CrossID
     let nextFreeIdx = WriteCrossType dest nextFreeIdx xx.CrossType
     let nextFreeIdx = WriteCrossPrioritization dest nextFreeIdx xx.CrossPrioritization
@@ -1645,7 +1645,7 @@ let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int) (beginString:BeginString
 
 
 // tag: t
-let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CrossOrderCancelReplaceRequest) = 
+let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:CrossOrderCancelReplaceRequest) = 
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = WriteCrossID dest nextFreeIdx xx.CrossID
     let nextFreeIdx = WriteOrigCrossID dest nextFreeIdx xx.OrigCrossID
@@ -1720,7 +1720,7 @@ let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginS
 
 
 // tag: u
-let WriteCrossOrderCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CrossOrderCancelRequest) = 
+let WriteCrossOrderCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:CrossOrderCancelRequest) = 
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = WriteCrossID dest nextFreeIdx xx.CrossID
     let nextFreeIdx = WriteOrigCrossID dest nextFreeIdx xx.OrigCrossID
@@ -1752,7 +1752,7 @@ let WriteCrossOrderCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:B
 
 
 // tag: AB
-let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NewOrderMultileg) = 
+let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderMultileg) = 
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
     let nextFreeIdx = Option.fold (WriteClOrdLinkID dest) nextFreeIdx xx.ClOrdLinkID
@@ -1847,7 +1847,7 @@ let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int) (beginString:BeginStr
 
 
 // tag: AC
-let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:MultilegOrderCancelReplaceRequest) = 
+let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:MultilegOrderCancelReplaceRequest) = 
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = WriteOrigClOrdID dest nextFreeIdx xx.OrigClOrdID
     let nextFreeIdx = WriteClOrdID dest nextFreeIdx xx.ClOrdID
@@ -1945,7 +1945,7 @@ let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int) (beg
 
 
 // tag: k
-let WriteBidRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:BidRequest) = 
+let WriteBidRequest (dest:byte []) (nextFreeIdx:int)  (xx:BidRequest) = 
     let nextFreeIdx = Option.fold (WriteBidID dest) nextFreeIdx xx.BidID
     let nextFreeIdx = WriteClientBidID dest nextFreeIdx xx.ClientBidID
     let nextFreeIdx = WriteBidRequestTransType dest nextFreeIdx xx.BidRequestTransType
@@ -1990,7 +1990,7 @@ let WriteBidRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (
 
 
 // tag: l
-let WriteBidResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:BidResponse) = 
+let WriteBidResponse (dest:byte []) (nextFreeIdx:int)  (xx:BidResponse) = 
     let nextFreeIdx = Option.fold (WriteBidID dest) nextFreeIdx xx.BidID
     let nextFreeIdx = Option.fold (WriteClientBidID dest) nextFreeIdx xx.ClientBidID
     let numGrps = xx.BidResponseNoBidComponentsGrp.Length
@@ -2000,7 +2000,7 @@ let WriteBidResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) 
 
 
 // tag: E
-let WriteNewOrderList (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NewOrderList) = 
+let WriteNewOrderList (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderList) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = Option.fold (WriteBidID dest) nextFreeIdx xx.BidID
     let nextFreeIdx = Option.fold (WriteClientBidID dest) nextFreeIdx xx.ClientBidID
@@ -2025,7 +2025,7 @@ let WriteNewOrderList (dest:byte []) (nextFreeIdx:int) (beginString:BeginString)
 
 
 // tag: m
-let WriteListStrikePrice (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ListStrikePrice) = 
+let WriteListStrikePrice (dest:byte []) (nextFreeIdx:int)  (xx:ListStrikePrice) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = WriteTotNoStrikes dest nextFreeIdx xx.TotNoStrikes
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
@@ -2043,7 +2043,7 @@ let WriteListStrikePrice (dest:byte []) (nextFreeIdx:int) (beginString:BeginStri
 
 
 // tag: N
-let WriteListStatus (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ListStatus) = 
+let WriteListStatus (dest:byte []) (nextFreeIdx:int)  (xx:ListStatus) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = WriteListStatusType dest nextFreeIdx xx.ListStatusType
     let nextFreeIdx = WriteNoRpts dest nextFreeIdx xx.NoRpts
@@ -2061,7 +2061,7 @@ let WriteListStatus (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (
 
 
 // tag: L
-let WriteListExecute (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ListExecute) = 
+let WriteListExecute (dest:byte []) (nextFreeIdx:int)  (xx:ListExecute) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = Option.fold (WriteClientBidID dest) nextFreeIdx xx.ClientBidID
     let nextFreeIdx = Option.fold (WriteBidID dest) nextFreeIdx xx.BidID
@@ -2072,7 +2072,7 @@ let WriteListExecute (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) 
 
 
 // tag: K
-let WriteListCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ListCancelRequest) = 
+let WriteListCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:ListCancelRequest) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
     let nextFreeIdx = Option.fold (WriteTradeOriginationDate dest) nextFreeIdx xx.TradeOriginationDate
@@ -2083,7 +2083,7 @@ let WriteListCancelRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: M
-let WriteListStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ListStatusRequest) = 
+let WriteListStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:ListStatusRequest) = 
     let nextFreeIdx = WriteListID dest nextFreeIdx xx.ListID
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
@@ -2091,7 +2091,7 @@ let WriteListStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: J
-let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:AllocationInstruction) = 
+let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int)  (xx:AllocationInstruction) = 
     let nextFreeIdx = WriteAllocID dest nextFreeIdx xx.AllocID
     let nextFreeIdx = WriteAllocTransType dest nextFreeIdx xx.AllocTransType
     let nextFreeIdx = WriteAllocType dest nextFreeIdx xx.AllocType
@@ -2188,7 +2188,7 @@ let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: P
-let WriteAllocationInstructionAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:AllocationInstructionAck) = 
+let WriteAllocationInstructionAck (dest:byte []) (nextFreeIdx:int)  (xx:AllocationInstructionAck) = 
     let nextFreeIdx = WriteAllocID dest nextFreeIdx xx.AllocID
     let nextFreeIdx = Option.fold (WriteParties dest) nextFreeIdx xx.Parties    // component option
     let nextFreeIdx = Option.fold (WriteSecondaryAllocID dest) nextFreeIdx xx.SecondaryAllocID
@@ -2214,7 +2214,7 @@ let WriteAllocationInstructionAck (dest:byte []) (nextFreeIdx:int) (beginString:
 
 
 // tag: AS
-let WriteAllocationReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:AllocationReport) = 
+let WriteAllocationReport (dest:byte []) (nextFreeIdx:int)  (xx:AllocationReport) = 
     let nextFreeIdx = WriteAllocReportID dest nextFreeIdx xx.AllocReportID
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
     let nextFreeIdx = WriteAllocTransType dest nextFreeIdx xx.AllocTransType
@@ -2311,7 +2311,7 @@ let WriteAllocationReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginStr
 
 
 // tag: AT
-let WriteAllocationReportAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:AllocationReportAck) = 
+let WriteAllocationReportAck (dest:byte []) (nextFreeIdx:int)  (xx:AllocationReportAck) = 
     let nextFreeIdx = WriteAllocReportID dest nextFreeIdx xx.AllocReportID
     let nextFreeIdx = WriteAllocID dest nextFreeIdx xx.AllocID
     let nextFreeIdx = Option.fold (WriteParties dest) nextFreeIdx xx.Parties    // component option
@@ -2338,7 +2338,7 @@ let WriteAllocationReportAck (dest:byte []) (nextFreeIdx:int) (beginString:Begin
 
 
 // tag: AK
-let WriteConfirmation (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Confirmation) = 
+let WriteConfirmation (dest:byte []) (nextFreeIdx:int)  (xx:Confirmation) = 
     let nextFreeIdx = WriteConfirmID dest nextFreeIdx xx.ConfirmID
     let nextFreeIdx = Option.fold (WriteConfirmRefID dest) nextFreeIdx xx.ConfirmRefID
     let nextFreeIdx = Option.fold (WriteConfirmReqID dest) nextFreeIdx xx.ConfirmReqID
@@ -2425,7 +2425,7 @@ let WriteConfirmation (dest:byte []) (nextFreeIdx:int) (beginString:BeginString)
 
 
 // tag: AU
-let WriteConfirmationAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ConfirmationAck) = 
+let WriteConfirmationAck (dest:byte []) (nextFreeIdx:int)  (xx:ConfirmationAck) = 
     let nextFreeIdx = WriteConfirmID dest nextFreeIdx xx.ConfirmID
     let nextFreeIdx = WriteTradeDate dest nextFreeIdx xx.TradeDate
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
@@ -2438,7 +2438,7 @@ let WriteConfirmationAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginStri
 
 
 // tag: BH
-let WriteConfirmationRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:ConfirmationRequest) = 
+let WriteConfirmationRequest (dest:byte []) (nextFreeIdx:int)  (xx:ConfirmationRequest) = 
     let nextFreeIdx = WriteConfirmReqID dest nextFreeIdx xx.ConfirmReqID
     let nextFreeIdx = WriteConfirmType dest nextFreeIdx xx.ConfirmType
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -2461,7 +2461,7 @@ let WriteConfirmationRequest (dest:byte []) (nextFreeIdx:int) (beginString:Begin
 
 
 // tag: T
-let WriteSettlementInstructions (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SettlementInstructions) = 
+let WriteSettlementInstructions (dest:byte []) (nextFreeIdx:int)  (xx:SettlementInstructions) = 
     let nextFreeIdx = WriteSettlInstMsgID dest nextFreeIdx xx.SettlInstMsgID
     let nextFreeIdx = Option.fold (WriteSettlInstReqID dest) nextFreeIdx xx.SettlInstReqID
     let nextFreeIdx = WriteSettlInstMode dest nextFreeIdx xx.SettlInstMode
@@ -2482,7 +2482,7 @@ let WriteSettlementInstructions (dest:byte []) (nextFreeIdx:int) (beginString:Be
 
 
 // tag: AV
-let WriteSettlementInstructionRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:SettlementInstructionRequest) = 
+let WriteSettlementInstructionRequest (dest:byte []) (nextFreeIdx:int)  (xx:SettlementInstructionRequest) = 
     let nextFreeIdx = WriteSettlInstReqID dest nextFreeIdx xx.SettlInstReqID
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
     let nextFreeIdx = Option.fold (WriteParties dest) nextFreeIdx xx.Parties    // component option
@@ -2502,7 +2502,7 @@ let WriteSettlementInstructionRequest (dest:byte []) (nextFreeIdx:int) (beginStr
 
 
 // tag: AD
-let WriteTradeCaptureReportRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradeCaptureReportRequest) = 
+let WriteTradeCaptureReportRequest (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureReportRequest) = 
     let nextFreeIdx = WriteTradeRequestID dest nextFreeIdx xx.TradeRequestID
     let nextFreeIdx = WriteTradeRequestType dest nextFreeIdx xx.TradeRequestType
     let nextFreeIdx = Option.fold (WriteSubscriptionRequestType dest) nextFreeIdx xx.SubscriptionRequestType
@@ -2560,7 +2560,7 @@ let WriteTradeCaptureReportRequest (dest:byte []) (nextFreeIdx:int) (beginString
 
 
 // tag: AQ
-let WriteTradeCaptureReportRequestAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradeCaptureReportRequestAck) = 
+let WriteTradeCaptureReportRequestAck (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureReportRequestAck) = 
     let nextFreeIdx = WriteTradeRequestID dest nextFreeIdx xx.TradeRequestID
     let nextFreeIdx = WriteTradeRequestType dest nextFreeIdx xx.TradeRequestType
     let nextFreeIdx = Option.fold (WriteSubscriptionRequestType dest) nextFreeIdx xx.SubscriptionRequestType
@@ -2591,7 +2591,7 @@ let WriteTradeCaptureReportRequestAck (dest:byte []) (nextFreeIdx:int) (beginStr
 
 
 // tag: AE
-let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradeCaptureReport) = 
+let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureReport) = 
     let nextFreeIdx = WriteTradeReportID dest nextFreeIdx xx.TradeReportID
     let nextFreeIdx = Option.fold (WriteTradeReportTransType dest) nextFreeIdx xx.TradeReportTransType
     let nextFreeIdx = Option.fold (WriteTradeReportType dest) nextFreeIdx xx.TradeReportType
@@ -2670,7 +2670,7 @@ let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: AR
-let WriteTradeCaptureReportAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:TradeCaptureReportAck) = 
+let WriteTradeCaptureReportAck (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureReportAck) = 
     let nextFreeIdx = WriteTradeReportID dest nextFreeIdx xx.TradeReportID
     let nextFreeIdx = Option.fold (WriteTradeReportTransType dest) nextFreeIdx xx.TradeReportTransType
     let nextFreeIdx = Option.fold (WriteTradeReportType dest) nextFreeIdx xx.TradeReportType
@@ -2723,7 +2723,7 @@ let WriteTradeCaptureReportAck (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: o
-let WriteRegistrationInstructions (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:RegistrationInstructions) = 
+let WriteRegistrationInstructions (dest:byte []) (nextFreeIdx:int)  (xx:RegistrationInstructions) = 
     let nextFreeIdx = WriteRegistID dest nextFreeIdx xx.RegistID
     let nextFreeIdx = WriteRegistTransType dest nextFreeIdx xx.RegistTransType
     let nextFreeIdx = WriteRegistRefID dest nextFreeIdx xx.RegistRefID
@@ -2752,7 +2752,7 @@ let WriteRegistrationInstructions (dest:byte []) (nextFreeIdx:int) (beginString:
 
 
 // tag: p
-let WriteRegistrationInstructionsResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:RegistrationInstructionsResponse) = 
+let WriteRegistrationInstructionsResponse (dest:byte []) (nextFreeIdx:int)  (xx:RegistrationInstructionsResponse) = 
     let nextFreeIdx = WriteRegistID dest nextFreeIdx xx.RegistID
     let nextFreeIdx = WriteRegistTransType dest nextFreeIdx xx.RegistTransType
     let nextFreeIdx = WriteRegistRefID dest nextFreeIdx xx.RegistRefID
@@ -2767,7 +2767,7 @@ let WriteRegistrationInstructionsResponse (dest:byte []) (nextFreeIdx:int) (begi
 
 
 // tag: AL
-let WritePositionMaintenanceRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:PositionMaintenanceRequest) = 
+let WritePositionMaintenanceRequest (dest:byte []) (nextFreeIdx:int)  (xx:PositionMaintenanceRequest) = 
     let nextFreeIdx = WritePosReqID dest nextFreeIdx xx.PosReqID
     let nextFreeIdx = WritePosTransType dest nextFreeIdx xx.PosTransType
     let nextFreeIdx = WritePosMaintAction dest nextFreeIdx xx.PosMaintAction
@@ -2815,7 +2815,7 @@ let WritePositionMaintenanceRequest (dest:byte []) (nextFreeIdx:int) (beginStrin
 
 
 // tag: AM
-let WritePositionMaintenanceReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:PositionMaintenanceReport) = 
+let WritePositionMaintenanceReport (dest:byte []) (nextFreeIdx:int)  (xx:PositionMaintenanceReport) = 
     let nextFreeIdx = WritePosMaintRptID dest nextFreeIdx xx.PosMaintRptID
     let nextFreeIdx = WritePosTransType dest nextFreeIdx xx.PosTransType
     let nextFreeIdx = Option.fold (WritePosReqID dest) nextFreeIdx xx.PosReqID
@@ -2864,7 +2864,7 @@ let WritePositionMaintenanceReport (dest:byte []) (nextFreeIdx:int) (beginString
 
 
 // tag: AN
-let WriteRequestForPositions (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:RequestForPositions) = 
+let WriteRequestForPositions (dest:byte []) (nextFreeIdx:int)  (xx:RequestForPositions) = 
     let nextFreeIdx = WritePosReqID dest nextFreeIdx xx.PosReqID
     let nextFreeIdx = WritePosReqType dest nextFreeIdx xx.PosReqType
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
@@ -2908,7 +2908,7 @@ let WriteRequestForPositions (dest:byte []) (nextFreeIdx:int) (beginString:Begin
 
 
 // tag: AO
-let WriteRequestForPositionsAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:RequestForPositionsAck) = 
+let WriteRequestForPositionsAck (dest:byte []) (nextFreeIdx:int)  (xx:RequestForPositionsAck) = 
     let nextFreeIdx = WritePosMaintRptID dest nextFreeIdx xx.PosMaintRptID
     let nextFreeIdx = Option.fold (WritePosReqID dest) nextFreeIdx xx.PosReqID
     let nextFreeIdx = Option.fold (WriteTotalNumPosReports dest) nextFreeIdx xx.TotalNumPosReports
@@ -2943,7 +2943,7 @@ let WriteRequestForPositionsAck (dest:byte []) (nextFreeIdx:int) (beginString:Be
 
 
 // tag: AP
-let WritePositionReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:PositionReport) = 
+let WritePositionReport (dest:byte []) (nextFreeIdx:int)  (xx:PositionReport) = 
     let nextFreeIdx = WritePosMaintRptID dest nextFreeIdx xx.PosMaintRptID
     let nextFreeIdx = Option.fold (WritePosReqID dest) nextFreeIdx xx.PosReqID
     let nextFreeIdx = Option.fold (WritePosReqType dest) nextFreeIdx xx.PosReqType
@@ -2987,7 +2987,7 @@ let WritePositionReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginStrin
 
 
 // tag: AW
-let WriteAssignmentReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:AssignmentReport) = 
+let WriteAssignmentReport (dest:byte []) (nextFreeIdx:int)  (xx:AssignmentReport) = 
     let nextFreeIdx = WriteAsgnRptID dest nextFreeIdx xx.AsgnRptID
     let nextFreeIdx = Option.fold (WriteTotNumAssignmentReports dest) nextFreeIdx xx.TotNumAssignmentReports
     let nextFreeIdx = Option.fold (WriteLastRptRequested dest) nextFreeIdx xx.LastRptRequested
@@ -3025,7 +3025,7 @@ let WriteAssignmentReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginStr
 
 
 // tag: AX
-let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralRequest) = 
+let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int)  (xx:CollateralRequest) = 
     let nextFreeIdx = WriteCollReqID dest nextFreeIdx xx.CollReqID
     let nextFreeIdx = WriteCollAsgnReason dest nextFreeIdx xx.CollAsgnReason
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
@@ -3097,7 +3097,7 @@ let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: AY
-let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralAssignment) = 
+let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int)  (xx:CollateralAssignment) = 
     let nextFreeIdx = WriteCollAsgnID dest nextFreeIdx xx.CollAsgnID
     let nextFreeIdx = Option.fold (WriteCollReqID dest) nextFreeIdx xx.CollReqID
     let nextFreeIdx = WriteCollAsgnReason dest nextFreeIdx xx.CollAsgnReason
@@ -3173,7 +3173,7 @@ let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int) (beginString:Begi
 
 
 // tag: AZ
-let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralResponse) = 
+let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int)  (xx:CollateralResponse) = 
     let nextFreeIdx = WriteCollRespID dest nextFreeIdx xx.CollRespID
     let nextFreeIdx = WriteCollAsgnID dest nextFreeIdx xx.CollAsgnID
     let nextFreeIdx = Option.fold (WriteCollReqID dest) nextFreeIdx xx.CollReqID
@@ -3244,7 +3244,7 @@ let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginS
 
 
 // tag: BA
-let WriteCollateralReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralReport) = 
+let WriteCollateralReport (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReport) = 
     let nextFreeIdx = WriteCollRptID dest nextFreeIdx xx.CollRptID
     let nextFreeIdx = Option.fold (WriteCollInquiryID dest) nextFreeIdx xx.CollInquiryID
     let nextFreeIdx = WriteCollStatus dest nextFreeIdx xx.CollStatus
@@ -3318,7 +3318,7 @@ let WriteCollateralReport (dest:byte []) (nextFreeIdx:int) (beginString:BeginStr
 
 
 // tag: BB
-let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralInquiry) = 
+let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInquiry) = 
     let nextFreeIdx = Option.fold (WriteCollInquiryID dest) nextFreeIdx xx.CollInquiryID
     // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoCollInquiryQualifierGrp list) ->
@@ -3391,7 +3391,7 @@ let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int) (beginString:BeginSt
 
 
 // tag: BC
-let WriteNetworkStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NetworkStatusRequest) = 
+let WriteNetworkStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:NetworkStatusRequest) = 
     let nextFreeIdx = WriteNetworkRequestType dest nextFreeIdx xx.NetworkRequestType
     let nextFreeIdx = WriteNetworkRequestID dest nextFreeIdx xx.NetworkRequestID
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -3405,7 +3405,7 @@ let WriteNetworkStatusRequest (dest:byte []) (nextFreeIdx:int) (beginString:Begi
 
 
 // tag: BD
-let WriteNetworkStatusResponse (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:NetworkStatusResponse) = 
+let WriteNetworkStatusResponse (dest:byte []) (nextFreeIdx:int)  (xx:NetworkStatusResponse) = 
     let nextFreeIdx = WriteNetworkStatusResponseType dest nextFreeIdx xx.NetworkStatusResponseType
     let nextFreeIdx = Option.fold (WriteNetworkRequestID dest) nextFreeIdx xx.NetworkRequestID
     let nextFreeIdx = Option.fold (WriteNetworkResponseID dest) nextFreeIdx xx.NetworkResponseID
@@ -3417,7 +3417,7 @@ let WriteNetworkStatusResponse (dest:byte []) (nextFreeIdx:int) (beginString:Beg
 
 
 // tag: BG
-let WriteCollateralInquiryAck (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:CollateralInquiryAck) = 
+let WriteCollateralInquiryAck (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInquiryAck) = 
     let nextFreeIdx = WriteCollInquiryID dest nextFreeIdx xx.CollInquiryID
     let nextFreeIdx = WriteCollInquiryStatus dest nextFreeIdx xx.CollInquiryStatus
     let nextFreeIdx = Option.fold (WriteCollInquiryResult dest) nextFreeIdx xx.CollInquiryResult

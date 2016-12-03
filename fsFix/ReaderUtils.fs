@@ -31,9 +31,9 @@ let rec readGrpInner (acc: 'grp list) (pos:int) (recursionCount:uint32) (bs:byte
                 readGrpInner (grpInstance::acc) pos2 (recursionCount-1u) bs readFunc
 
 
-let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc = 
+let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     let pos2, tag = FIXBufUtils.readTag pos bs
-    if tag <> numTag then 
+    if tag <> numTag then
         let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss numTag tag
         failwith msg
     let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs 
@@ -41,6 +41,24 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
     let gsRev = gs
     pos4, gsRev
+
+
+
+
+let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
+    let pos2, tag = FIXBufUtils.readTag pos bs
+    if tag <> numTag then
+        let msg = sprintf "ReadNoSidesGroup, when reading %s: expected tag: %A, actual: %A" ss numTag tag
+        failwith msg
+    let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs
+    match numRepeatBs with
+    | "1"B  ->  let pos4, grp = readFunc pos3 bs
+                pos4, OneOrTwo.One grp
+    | "2"B  ->  let pos4, grp1 = readFunc pos3 bs
+                let pos5, grp2 = readFunc pos4 bs
+                pos5, OneOrTwo.Two (grp1, grp2)
+    | x     ->  failwith (sprintf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %A"  x)
+
 
 
 let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -> byte[] -> int * 'grp) : int * 'grp list option = 

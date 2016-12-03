@@ -60,6 +60,7 @@
     <Compile Include="Fix44.CompoundItemDU.fs" />
     <Compile Include="Fix44.Messages.fs" />
     <Compile Include="Fix44.MsgWriteFuncs.fs" />
+    <Compile Include="Fix44.MsgReadFuncs.fs" />
     <Compile Include="Fix44.HeaderTrailer.fs" />
   </ItemGroup>
   <PropertyGroup>

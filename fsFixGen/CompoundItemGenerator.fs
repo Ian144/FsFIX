@@ -165,7 +165,7 @@ let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:
     sw.WriteLine ""
 
 
-let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (groups:CompoundItem list) (sw:StreamWriter) =
+let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (xs:CompoundItem list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.CompoundItemReadFuncs"
     sw.WriteLine ""
     sw.WriteLine "open ReaderUtils"
@@ -174,5 +174,5 @@ let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName
     sw.WriteLine "open Fix44.CompoundItems"
     sw.WriteLine ""
     sw.WriteLine ""
-    groups |> List.iter (genCompoundItemReader fieldNameMap compNameMap sw)  
+    xs |> List.iter (genCompoundItemReader fieldNameMap compNameMap sw)  
 
