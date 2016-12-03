@@ -27,7 +27,7 @@ let genAlphaChar = Gen.choose(65,90) |> Gen.map char
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 8)
+            let! len = Gen.choose(4, 32)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -43,9 +43,9 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1,
-        EndSize = 2,
-        Verbose = true
+        MaxTest = 100,
+        EndSize = 16,
+        Verbose = false
 //        QuietOnSuccess = true
         )
 
@@ -198,7 +198,7 @@ let CompoundItem (ciIn:FIXGroup) =
 let Message (msg:FIXMessage) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteMessage bs 0 msg
-    let posR, msgOut =  ReadMessage msg 0 bs
+    let posR, msgOut = ReadMessage msg 0 bs
     posW =! posR
     msg =! msgOut
 
