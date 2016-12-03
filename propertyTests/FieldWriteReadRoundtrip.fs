@@ -60,14 +60,15 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     pmri =! pmriOut  
 
 
-
-[<FsFixPropertyTest>]
-let AllFields (fieldIn:FIXField) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteField bs 0 fieldIn
-    let posR, fieldOut = ReadField 0 bs
-    posW =! posR
-    fieldIn =! fieldOut  
+// a very slow test due to the large number of Field DU instances
+// will re-enable this test occasionally
+//[<FsFixPropertyTest>]
+//let AllFields (fieldIn:FIXField) =
+//    let bs = Array.zeroCreate<byte> bufSize
+//    let posW = WriteField bs 0 fieldIn
+//    let posR, fieldOut = ReadField 0 bs
+//    posW =! posR
+//    fieldIn =! fieldOut  
 
 
 
