@@ -61,7 +61,7 @@ let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc 
 
 
 
-let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -> byte[] -> int * 'grp) : int * 'grp list option = 
+let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -> byte[] -> int * 'grp) : int * 'grp list option =
     match FIXBufUtils.readTagOpt pos bs with
     | Some (pos2, tag)  ->
         if tag = numFieldTag then 

@@ -17,7 +17,7 @@ open BenchmarkDotNet.Running
 
 
 //// tag: A
-//let WriteLogon2 (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) = 
+//let WriteLogon2 (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) =
 //    let mutable nextFreeIdx = nextFreeIdx
 //    nextFreeIdx <- WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
 //    nextFreeIdx <- WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
@@ -28,7 +28,7 @@ open BenchmarkDotNet.Running
 //    if xx.ResetSeqNumFlag.IsSome then nextFreeIdx <- WriteResetSeqNumFlag dest nextFreeIdx xx.ResetSeqNumFlag.Value
 //    if xx.NextExpectedMsgSeqNum.IsSome then nextFreeIdx <- WriteNextExpectedMsgSeqNum dest nextFreeIdx xx.NextExpectedMsgSeqNum.Value
 //    if xx.MaxMessageSize.IsSome then nextFreeIdx <- WriteMaxMessageSize dest nextFreeIdx xx.MaxMessageSize.Value
-//    
+//
 //    nextFreeIdx <- Option.fold (fun innerNextFreeIdx (gs:NoMsgTypesGrp list) ->
 //                                        let numGrps = gs.Length
 //                                        let innerNextFreeIdx2 = WriteNoMsgTypes dest innerNextFreeIdx (Fix44.Fields.NoMsgTypes numGrps) // write the 'num group repeats' field
@@ -76,40 +76,40 @@ type BenchmarkWriteLogon () =
 
 
     [<Benchmark>]
-    member this.WriteLogonMsg () = 
-        let nextFreeIdx = 
-            Fix44.MsgWriteFuncs.WriteLogon 
-                this.Dst 
-                0 
-                this.BeginString 
-                this.BodyLength 
-                this.MsgType 
-                this.SenderCompID 
-                this.TargetCompID 
-                this.MsgSeqNum 
-                this.SendingTime 
+    member this.WriteLogonMsg () =
+        let nextFreeIdx =
+            Fix44.MsgWriteFuncs.WriteLogon
+                this.Dst
+                0
+//                this.BeginString
+//                this.BodyLength
+//                this.MsgType
+//                this.SenderCompID
+//                this.TargetCompID
+//                this.MsgSeqNum
+//                this.SendingTime
                 this.logonMsg
         ()
 
 
     [<Benchmark>]
-    member this.WriteLogonMsg2 () = 
-        let nextFreeIdx = 
-            Fix44.MsgWriteFuncs.WriteLogon 
-                this.Dst 
-                0 
-                this.BeginString 
-                this.BodyLength 
-                this.MsgType 
-                this.SenderCompID 
-                this.TargetCompID 
-                this.MsgSeqNum 
-                this.SendingTime 
+    member this.WriteLogonMsg2 () =
+        let nextFreeIdx =
+            Fix44.MsgWriteFuncs.WriteLogon
+                this.Dst
+                0
+//                this.BeginString
+//                this.BodyLength
+//                this.MsgType
+//                this.SenderCompID
+//                this.TargetCompID
+//                this.MsgSeqNum
+//                this.SendingTime
                 this.logonMsg
         ()
 
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
     BenchmarkRunner.Run<BenchmarkWriteLogon>() |> ignore
     0

@@ -103,10 +103,10 @@ let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
     let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName msg.Items
     readFIXItemStrs |> List.iter sw.WriteLine
     let fieldInitStrs = genFieldInitStrs msg.Items
-    sw.WriteLine (sprintf "    let msg:%s = {" msg.MName)
+    sw.WriteLine (sprintf "    let ci:%s = {" msg.MName)
     fieldInitStrs |> List.iter sw.WriteLine
     sw.WriteLine "    }"
-    sw.WriteLine "    pos, msg"
+    sw.WriteLine "    pos, ci"
     sw.WriteLine ""
     sw.WriteLine ""
 
