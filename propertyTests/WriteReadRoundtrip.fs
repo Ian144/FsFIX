@@ -1,4 +1,4 @@
-﻿module FieldWriteReadRoundtrip
+﻿module WriteReadRoundtrip
 
 open System.Reflection
 
@@ -20,12 +20,12 @@ let bufSize = 1024 * 64 // so as not to go into the LOH
 
 
 // strings stored in FIX do not contain field terminators, 
-let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
-//let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
+//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 16)
+            let! len = Gen.choose(4, 8)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -42,10 +42,32 @@ type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 1000,
-        EndSize = 16
+        EndSize = 4
 //        Verbose = false,
 //        QuietOnSuccess = true
         )
+
+
+// a simple msg
+[<FsFixPropertyTest>]
+let msgUserRequest (msg:Fix44.Messages.UserRequest) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = Fix44.MsgWriteFuncs.WriteUserRequest bs 0 msg
+    let posR, msgOut = Fix44.MsgReadFuncs.ReadUserRequest 0 bs
+    posW =! posR
+    msg =! msgOut
+
+
+
+// msg containing a 'NoSides' group
+[<FsFixPropertyTest>]
+let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = Fix44.MsgWriteFuncs.WriteNewOrderCross bs 0 msg
+    let posR, msgOut = Fix44.MsgReadFuncs.ReadNewOrderCross 0 bs
+    posW =! posR
+    msg =! msgOut
+
 
 
 

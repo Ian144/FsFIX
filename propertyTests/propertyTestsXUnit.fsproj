@@ -493,7 +493,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="App.config" />
-    <Compile Include="FieldWriteReadRoundtrip.fs" />
+    <Compile Include="WriteReadRoundtrip.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>

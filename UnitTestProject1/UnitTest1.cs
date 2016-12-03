@@ -12,5 +12,11 @@ namespace UnitTestProject1
         {
             Assert.True(true);
         }
+
+        [Fact]
+        public void TestMethod2()
+        {
+            Assert.True(true);
+        }
     }
 }

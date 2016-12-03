@@ -103,14 +103,14 @@ type IndicationOfInterest = {
     IOITransType: IOITransType
     IOIRefID: IOIRefID option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side
     QtyType: QtyType option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     IOIQty: IOIQty
     Currency: Currency option
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     IndicationOfInterestNoLegsGrp: IndicationOfInterestNoLegsGrp list option // group
     PriceType: PriceType option
     Price: Price option
@@ -123,8 +123,8 @@ type IndicationOfInterest = {
     TransactTime: TransactTime option
     URLLink: URLLink option
     NoRoutingIDsGrp: NoRoutingIDsGrp list option // group
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     }
 
 type News = {
@@ -176,20 +176,20 @@ type QuoteResponse = {
     IOIid: IOIid option
     QuoteType: QuoteType option
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
-    Parties: Parties option // component
+    Parties: Parties // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     SettlDate2: SettlDate2 option
     OrderQty2: OrderQty2 option
     Currency: Currency option
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -226,8 +226,8 @@ type QuoteResponse = {
     EncodedText: EncodedText option
     Price: Price option
     PriceType: PriceType option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     }
 
 type QuoteRequestReject = {
@@ -240,12 +240,12 @@ type QuoteRequestReject = {
     OrdType: OrdType option
     ExpireTime: ExpireTime option
     TransactTime: TransactTime option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     PriceType: PriceType option
     Price: Price option
     Price2: Price2 option
-    YieldData: YieldData option // component
-    Parties: Parties option // component
+    YieldData: YieldData // component
+    Parties: Parties // component
     Text: Text option
     EncodedText: EncodedText option
     }
@@ -263,20 +263,20 @@ type Quote = {
     QuoteType: QuoteType option
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
     QuoteResponseLevel: QuoteResponseLevel option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     SettlDate2: SettlDate2 option
     OrderQty2: OrderQty2 option
     Currency: Currency option
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -311,8 +311,8 @@ type Quote = {
     ExDestination: ExDestination option
     OrderCapacity: OrderCapacity option
     PriceType: PriceType option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     Text: Text option
     EncodedText: EncodedText option
     }
@@ -322,7 +322,7 @@ type QuoteCancel = {
     QuoteID: QuoteID
     QuoteCancelType: QuoteCancelType
     QuoteResponseLevel: QuoteResponseLevel option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -335,10 +335,10 @@ type QuoteStatusRequest = {
     QuoteStatusReqID: QuoteStatusReqID option
     QuoteID: QuoteID option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -353,20 +353,20 @@ type QuoteStatusReport = {
     QuoteID: QuoteID
     QuoteRespID: QuoteRespID option
     QuoteType: QuoteType option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     SettlType: SettlType option
     SettlDate: SettlDate option
     SettlDate2: SettlDate2 option
     OrderQty2: OrderQty2 option
     Currency: Currency option
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -375,8 +375,8 @@ type QuoteStatusReport = {
     ExpireTime: ExpireTime option
     Price: Price option
     PriceType: PriceType option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     BidPx: BidPx option
     OfferPx: OfferPx option
     MktBidPx: MktBidPx option
@@ -415,7 +415,7 @@ type MassQuote = {
     QuoteID: QuoteID
     QuoteType: QuoteType option
     QuoteResponseLevel: QuoteResponseLevel option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -431,7 +431,7 @@ type MassQuoteAcknowledgement = {
     QuoteRejectReason: QuoteRejectReason option
     QuoteResponseLevel: QuoteResponseLevel option
     QuoteType: QuoteType option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
@@ -488,7 +488,7 @@ type SecurityDefinitionRequest = {
     SecurityReqID: SecurityReqID
     SecurityRequestType: SecurityRequestType
     Instrument: Instrument option // component
-    InstrumentExtension: InstrumentExtension option // component
+    InstrumentExtension: InstrumentExtension // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Currency: Currency option
     Text: Text option
@@ -505,7 +505,7 @@ type SecurityDefinition = {
     SecurityResponseID: SecurityResponseID
     SecurityResponseType: SecurityResponseType
     Instrument: Instrument option // component
-    InstrumentExtension: InstrumentExtension option // component
+    InstrumentExtension: InstrumentExtension // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Currency: Currency option
     TradingSessionID: TradingSessionID option
@@ -547,8 +547,8 @@ type SecurityListRequest = {
     SecurityReqID: SecurityReqID
     SecurityListRequestType: SecurityListRequestType
     Instrument: Instrument option // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     Currency: Currency option
@@ -594,7 +594,7 @@ type DerivativeSecurityList = {
 type SecurityStatusRequest = {
     SecurityStatusReqID: SecurityStatusReqID
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
+    InstrumentExtension: InstrumentExtension // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     Currency: Currency option
@@ -606,7 +606,7 @@ type SecurityStatusRequest = {
 type SecurityStatus = {
     SecurityStatusReqID: SecurityStatusReqID option
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
+    InstrumentExtension: InstrumentExtension // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     Currency: Currency option
@@ -662,7 +662,7 @@ type NewOrderSingle = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
     ClOrdLinkID: ClOrdLinkID option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeOriginationDate: TradeOriginationDate option
     TradeDate: TradeDate option
     Account: Account option
@@ -685,21 +685,21 @@ type NewOrderSingle = {
     NoTradingSessionsGrp: NoTradingSessionsGrp list option // group
     ProcessCode: ProcessCode option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PrevClosePx: PrevClosePx option
     Side: Side
     LocateReqd: LocateReqd option
     TransactTime: TransactTime
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     QtyType: QtyType option
     OrderQtyData: OrderQtyData // component
     OrdType: OrdType
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
@@ -710,7 +710,7 @@ type NewOrderSingle = {
     ExpireDate: ExpireDate option
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -725,8 +725,8 @@ type NewOrderSingle = {
     PositionEffect: PositionEffect option
     CoveredOrUncovered: CoveredOrUncovered option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -749,7 +749,7 @@ type ExecutionReport = {
     MassStatusReqID: MassStatusReqID option
     TotNumReports: TotNumReports option
     LastRptRequested: LastRptRequested option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeOriginationDate: TradeOriginationDate option
     NoContraBrokersGrp: NoContraBrokersGrp list option // group
     ListID: ListID option
@@ -774,18 +774,18 @@ type ExecutionReport = {
     CashMargin: CashMargin option
     ClearingFeeIndicator: ClearingFeeIndicator option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     QtyType: QtyType option
-    OrderQtyData: OrderQtyData option // component
+    OrderQtyData: OrderQtyData // component
     OrdType: OrdType option
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     PeggedPrice: PeggedPrice option
     DiscretionPrice: DiscretionPrice option
     TargetStrategy: TargetStrategy option
@@ -825,9 +825,9 @@ type ExecutionReport = {
     TradeDate: TradeDate option
     TransactTime: TransactTime option
     ReportToExch: ReportToExch option
-    CommissionData: CommissionData option // component
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    CommissionData: CommissionData // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     GrossTradeAmt: GrossTradeAmt option
     NumDaysInterest: NumDaysInterest option
     ExDate: ExDate option
@@ -894,7 +894,7 @@ type DontKnowTrade = {
 
 type OrderCancelReplaceRequest = {
     OrderID: OrderID option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeOriginationDate: TradeOriginationDate option
     TradeDate: TradeDate option
     OrigClOrdID: OrigClOrdID
@@ -922,7 +922,7 @@ type OrderCancelReplaceRequest = {
     ExDestination: ExDestination option
     NoTradingSessionsGrp: NoTradingSessionsGrp list option // group
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side
     TransactTime: TransactTime
@@ -932,10 +932,10 @@ type OrderCancelReplaceRequest = {
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -947,7 +947,7 @@ type OrderCancelReplaceRequest = {
     ExpireDate: ExpireDate option
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -980,9 +980,9 @@ type OrderCancelRequest = {
     Account: Account option
     AcctIDSource: AcctIDSource option
     AccountType: AccountType option
-    Parties: Parties option // component
+    Parties: Parties // component
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side
     TransactTime: TransactTime
@@ -1020,12 +1020,12 @@ type OrderStatusRequest = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
     ClOrdLinkID: ClOrdLinkID option
-    Parties: Parties option // component
+    Parties: Parties // component
     OrdStatusReqID: OrdStatusReqID option
     Account: Account option
     AcctIDSource: AcctIDSource option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     Side: Side
     }
@@ -1067,7 +1067,7 @@ type OrderMassCancelReport = {
 type OrderMassStatusRequest = {
     MassStatusReqID: MassStatusReqID
     MassStatusReqType: MassStatusReqType
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     TradingSessionID: TradingSessionID option
@@ -1097,13 +1097,13 @@ type NewOrderCross = {
     PrevClosePx: PrevClosePx option
     LocateReqd: LocateReqd option
     TransactTime: TransactTime
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     OrdType: OrdType
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
     IOIid: IOIid option
@@ -1114,8 +1114,8 @@ type NewOrderCross = {
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -1147,13 +1147,13 @@ type CrossOrderCancelReplaceRequest = {
     PrevClosePx: PrevClosePx option
     LocateReqd: LocateReqd option
     TransactTime: TransactTime
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     OrdType: OrdType
     PriceType: PriceType option
     Price: Price option
     StopPx: StopPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    YieldData: YieldData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
     IOIid: IOIid option
@@ -1164,8 +1164,8 @@ type CrossOrderCancelReplaceRequest = {
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -1192,7 +1192,7 @@ type NewOrderMultileg = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
     ClOrdLinkID: ClOrdLinkID option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeOriginationDate: TradeOriginationDate option
     TradeDate: TradeDate option
     Account: Account option
@@ -1237,7 +1237,7 @@ type NewOrderMultileg = {
     ExpireDate: ExpireDate option
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -1249,8 +1249,8 @@ type NewOrderMultileg = {
     PositionEffect: PositionEffect option
     CoveredOrUncovered: CoveredOrUncovered option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -1268,7 +1268,7 @@ type MultilegOrderCancelReplaceRequest = {
     SecondaryClOrdID: SecondaryClOrdID option
     ClOrdLinkID: ClOrdLinkID option
     OrigOrdModTime: OrigOrdModTime option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeOriginationDate: TradeOriginationDate option
     TradeDate: TradeDate option
     Account: Account option
@@ -1313,7 +1313,7 @@ type MultilegOrderCancelReplaceRequest = {
     ExpireDate: ExpireDate option
     ExpireTime: ExpireTime option
     GTBookingInst: GTBookingInst option
-    CommissionData: CommissionData option // component
+    CommissionData: CommissionData // component
     OrderCapacity: OrderCapacity option
     OrderRestrictions: OrderRestrictions option
     CustOrderCapacity: CustOrderCapacity option
@@ -1325,8 +1325,8 @@ type MultilegOrderCancelReplaceRequest = {
     PositionEffect: PositionEffect option
     CoveredOrUncovered: CoveredOrUncovered option
     MaxShow: MaxShow option
-    PegInstructions: PegInstructions option // component
-    DiscretionInstructions: DiscretionInstructions option // component
+    PegInstructions: PegInstructions // component
+    DiscretionInstructions: DiscretionInstructions // component
     TargetStrategy: TargetStrategy option
     TargetStrategyParameters: TargetStrategyParameters option
     ParticipationRate: ParticipationRate option
@@ -1460,8 +1460,8 @@ type AllocationInstruction = {
     MatchType: MatchType option
     Side: Side
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     Quantity: Quantity
@@ -1473,10 +1473,10 @@ type AllocationInstruction = {
     PriceType: PriceType option
     AvgPx: AvgPx
     AvgParPx: AvgParPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     Currency: Currency option
     AvgPxPrecision: AvgPxPrecision option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeDate: TradeDate
     TransactTime: TransactTime option
     SettlType: SettlType option
@@ -1499,8 +1499,8 @@ type AllocationInstruction = {
     StartCash: StartCash option
     EndCash: EndCash option
     LegalConfirm: LegalConfirm option
-    Stipulations: Stipulations option // component
-    YieldData: YieldData option // component
+    Stipulations: Stipulations // component
+    YieldData: YieldData // component
     TotNoAllocs: TotNoAllocs option
     LastFragment: LastFragment option
     AllocationInstructionNoAllocsGrp: AllocationInstructionNoAllocsGrp list option // group
@@ -1508,7 +1508,7 @@ type AllocationInstruction = {
 
 type AllocationInstructionAck = {
     AllocID: AllocID
-    Parties: Parties option // component
+    Parties: Parties // component
     SecondaryAllocID: SecondaryAllocID option
     TradeDate: TradeDate option
     TransactTime: TransactTime
@@ -1547,8 +1547,8 @@ type AllocationReport = {
     MatchType: MatchType option
     Side: Side
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     Quantity: Quantity
@@ -1560,10 +1560,10 @@ type AllocationReport = {
     PriceType: PriceType option
     AvgPx: AvgPx
     AvgParPx: AvgParPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     Currency: Currency option
     AvgPxPrecision: AvgPxPrecision option
-    Parties: Parties option // component
+    Parties: Parties // component
     TradeDate: TradeDate
     TransactTime: TransactTime option
     SettlType: SettlType option
@@ -1586,8 +1586,8 @@ type AllocationReport = {
     StartCash: StartCash option
     EndCash: EndCash option
     LegalConfirm: LegalConfirm option
-    Stipulations: Stipulations option // component
-    YieldData: YieldData option // component
+    Stipulations: Stipulations // component
+    YieldData: YieldData // component
     TotNoAllocs: TotNoAllocs option
     LastFragment: LastFragment option
     AllocationReportNoAllocsGrp: AllocationReportNoAllocsGrp list // group
@@ -1596,7 +1596,7 @@ type AllocationReport = {
 type AllocationReportAck = {
     AllocReportID: AllocReportID
     AllocID: AllocID
-    Parties: Parties option // component
+    Parties: Parties // component
     SecondaryAllocID: SecondaryAllocID option
     TradeDate: TradeDate option
     TransactTime: TransactTime
@@ -1621,7 +1621,7 @@ type Confirmation = {
     CopyMsgIndicator: CopyMsgIndicator option
     LegalConfirm: LegalConfirm option
     ConfirmStatus: ConfirmStatus
-    Parties: Parties option // component
+    Parties: Parties // component
     NoOrdersGrp: NoOrdersGrp list option // group
     AllocID: AllocID option
     SecondaryAllocID: SecondaryAllocID option
@@ -1630,11 +1630,11 @@ type Confirmation = {
     TradeDate: TradeDate
     TrdRegTimestamps: TrdRegTimestamps option // component
     Instrument: Instrument // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list // group
     NoLegsGrp: NoLegsGrp list // group
-    YieldData: YieldData option // component
+    YieldData: YieldData // component
     AllocQty: AllocQty
     QtyType: QtyType option
     Side: Side
@@ -1648,7 +1648,7 @@ type Confirmation = {
     AvgPxPrecision: AvgPxPrecision option
     PriceType: PriceType option
     AvgParPx: AvgParPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     ReportedPx: ReportedPx option
     Text: Text option
     EncodedText: EncodedText option
@@ -1672,10 +1672,10 @@ type Confirmation = {
     SettlCurrFxRateCalc: SettlCurrFxRateCalc option
     SettlType: SettlType option
     SettlDate: SettlDate option
-    SettlInstructionsData: SettlInstructionsData option // component
-    CommissionData: CommissionData option // component
+    SettlInstructionsData: SettlInstructionsData // component
+    CommissionData: CommissionData // component
     SharedCommission: SharedCommission option
-    Stipulations: Stipulations option // component
+    Stipulations: Stipulations // component
     NoMiscFeesGrp: NoMiscFeesGrp list option // group
     }
 
@@ -1721,7 +1721,7 @@ type SettlementInstructions = {
 type SettlementInstructionRequest = {
     SettlInstReqID: SettlInstReqID
     TransactTime: TransactTime
-    Parties: Parties option // component
+    Parties: Parties // component
     AllocAccount: AllocAccount option
     AllocAcctIDSource: AllocAcctIDSource option
     Side: Side option
@@ -1753,10 +1753,10 @@ type TradeCaptureReportRequest = {
     SecondaryTrdType: SecondaryTrdType option
     TradeLinkID: TradeLinkID option
     TrdMatchID: TrdMatchID option
-    Parties: Parties option // component
+    Parties: Parties // component
     Instrument: Instrument option // component
-    InstrumentExtension: InstrumentExtension option // component
-    FinancingDetails: FinancingDetails option // component
+    InstrumentExtension: InstrumentExtension // component
+    FinancingDetails: FinancingDetails // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     NoLegsGrp: NoLegsGrp list option // group
     NoDatesGrp: NoDatesGrp list option // group
@@ -1817,10 +1817,10 @@ type TradeCaptureReport = {
     PreviouslyReported: PreviouslyReported
     PriceType: PriceType option
     Instrument: Instrument // component
-    FinancingDetails: FinancingDetails option // component
-    OrderQtyData: OrderQtyData option // component
+    FinancingDetails: FinancingDetails // component
+    OrderQtyData: OrderQtyData // component
     QtyType: QtyType option
-    YieldData: YieldData option // component
+    YieldData: YieldData // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     UnderlyingTradingSessionID: UnderlyingTradingSessionID option
     UnderlyingTradingSessionSubID: UnderlyingTradingSessionSubID option
@@ -1833,7 +1833,7 @@ type TradeCaptureReport = {
     TradeDate: TradeDate
     ClearingBusinessDate: ClearingBusinessDate option
     AvgPx: AvgPx option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
     AvgPxIndicator: AvgPxIndicator option
     PositionAmountData: PositionAmountData option // component
     MultiLegReportingType: MultiLegReportingType option
@@ -1895,7 +1895,7 @@ type RegistrationInstructions = {
     RegistTransType: RegistTransType
     RegistRefID: RegistRefID
     ClOrdID: ClOrdID option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     RegistAcctType: RegistAcctType option
@@ -1910,7 +1910,7 @@ type RegistrationInstructionsResponse = {
     RegistTransType: RegistTransType
     RegistRefID: RegistRefID
     ClOrdID: ClOrdID option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AcctIDSource: AcctIDSource option
     RegistStatus: RegistStatus
@@ -1957,7 +1957,7 @@ type PositionMaintenanceReport = {
     ClearingBusinessDate: ClearingBusinessDate
     SettlSessID: SettlSessID option
     SettlSessSubID: SettlSessSubID option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account
     AcctIDSource: AcctIDSource option
     AccountType: AccountType
@@ -2060,7 +2060,7 @@ type AssignmentReport = {
     Instrument: Instrument option // component
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PositionQty: PositionQty // component
     PositionAmountData: PositionAmountData // component
@@ -2085,7 +2085,7 @@ type CollateralRequest = {
     CollAsgnReason: CollAsgnReason
     TransactTime: TransactTime
     ExpireTime: ExpireTime option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2095,13 +2095,13 @@ type CollateralRequest = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     CollateralRequestNoUnderlyingsGrp: CollateralRequestNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2115,8 +2115,8 @@ type CollateralRequest = {
     EndAccruedInterestAmt: EndAccruedInterestAmt option
     StartCash: StartCash option
     EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    Stipulations: Stipulations // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     SettlSessID: SettlSessID option
@@ -2134,7 +2134,7 @@ type CollateralAssignment = {
     CollAsgnRefID: CollAsgnRefID option
     TransactTime: TransactTime
     ExpireTime: ExpireTime option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2144,13 +2144,13 @@ type CollateralAssignment = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     CollateralAssignmentNoUnderlyingsGrp: CollateralAssignmentNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2164,9 +2164,9 @@ type CollateralAssignment = {
     EndAccruedInterestAmt: EndAccruedInterestAmt option
     StartCash: StartCash option
     EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
-    SettlInstructionsData: SettlInstructionsData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    Stipulations: Stipulations // component
+    SettlInstructionsData: SettlInstructionsData // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     SettlSessID: SettlSessID option
@@ -2185,7 +2185,7 @@ type CollateralResponse = {
     CollAsgnRespType: CollAsgnRespType
     CollAsgnRejectReason: CollAsgnRejectReason option
     TransactTime: TransactTime
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2195,13 +2195,13 @@ type CollateralResponse = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     CollateralResponseNoUnderlyingsGrp: CollateralResponseNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2215,8 +2215,8 @@ type CollateralResponse = {
     EndAccruedInterestAmt: EndAccruedInterestAmt option
     StartCash: StartCash option
     EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    Stipulations: Stipulations // component
     Text: Text option
     EncodedText: EncodedText option
     }
@@ -2227,7 +2227,7 @@ type CollateralReport = {
     CollStatus: CollStatus
     TotNumReports: TotNumReports option
     LastRptRequested: LastRptRequested option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2237,13 +2237,13 @@ type CollateralReport = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2257,9 +2257,9 @@ type CollateralReport = {
     EndAccruedInterestAmt: EndAccruedInterestAmt option
     StartCash: StartCash option
     EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
-    SettlInstructionsData: SettlInstructionsData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    Stipulations: Stipulations // component
+    SettlInstructionsData: SettlInstructionsData // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     SettlSessID: SettlSessID option
@@ -2275,7 +2275,7 @@ type CollateralInquiry = {
     SubscriptionRequestType: SubscriptionRequestType option
     ResponseTransportType: ResponseTransportType option
     ResponseDestination: ResponseDestination option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2285,13 +2285,13 @@ type CollateralInquiry = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2304,9 +2304,9 @@ type CollateralInquiry = {
     EndAccruedInterestAmt: EndAccruedInterestAmt option
     StartCash: StartCash option
     EndCash: EndCash option
-    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData option // component
-    Stipulations: Stipulations option // component
-    SettlInstructionsData: SettlInstructionsData option // component
+    SpreadOrBenchmarkCurveData: SpreadOrBenchmarkCurveData // component
+    Stipulations: Stipulations // component
+    SettlInstructionsData: SettlInstructionsData // component
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option
     SettlSessID: SettlSessID option
@@ -2336,7 +2336,7 @@ type CollateralInquiryAck = {
     CollInquiryResult: CollInquiryResult option
     NoCollInquiryQualifierGrp: NoCollInquiryQualifierGrp list option // group
     TotNumReports: TotNumReports option
-    Parties: Parties option // component
+    Parties: Parties // component
     Account: Account option
     AccountType: AccountType option
     ClOrdID: ClOrdID option
@@ -2346,13 +2346,13 @@ type CollateralInquiryAck = {
     NoExecsGrp: NoExecsGrp list option // group
     NoTradesGrp: NoTradesGrp list option // group
     Instrument: Instrument option // component
-    FinancingDetails: FinancingDetails option // component
+    FinancingDetails: FinancingDetails // component
     SettlDate: SettlDate option
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
     NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg option // component
+    InstrumentLeg: InstrumentLeg // component
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option

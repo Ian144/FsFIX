@@ -70,17 +70,22 @@ let main _ =
     use swGroupReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemReadFuncs.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
+
+    let msgsx = 
+        [   for msg in msgsAfterGroupMerge do
+            let items2 = msg.Items |> List.collect (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner componentNameMap)
+            yield {msg with Items = items2} ]
+
     printfn "generating F# message definitions"
     use swMsgs = new StreamWriter (Utils.MkOutpath "Fix44.Messages.fs")
-    MessageGenerator.Gen msgsAfterGroupMerge swMsgs
+    MessageGenerator.Gen msgsx swMsgs
 
     printfn "generating message writer funcs"
     use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")
-    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgWriteFuncs
+    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     printfn "generating message reader funcs"
     use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgReadFuncs.fs")
-    MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsAfterGroupMerge swMsgWriteFuncs
-
+    MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     0 // exit code
