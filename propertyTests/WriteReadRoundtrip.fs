@@ -5,14 +5,16 @@ open System.Reflection
 open Xunit
 open FsCheck
 open FsCheck.Xunit
+open Swensen.Unquote
 
 open Fix44.FieldDU
 //open Fix44.FieldReadFuncs
 open Fix44.CompoundItems
 open Fix44.CompoundItemWriteFuncs
 open Fix44.CompoundItemDU
+open Fix44.MessageDU
 
-open Swensen.Unquote
+
 
 
 
@@ -41,9 +43,9 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
-        EndSize = 4
-//        Verbose = false,
+        MaxTest = 1,
+        EndSize = 2,
+        Verbose = true
 //        QuietOnSuccess = true
         )
 
@@ -190,6 +192,17 @@ let CompoundItem (ciIn:FIXGroup) =
     let posR, ciOut =  ReadCITest ciIn 0 bs
     posW =! posR
     ciIn =! ciOut
+
+
+[<FsFixPropertyTest>]
+let Message (msg:FIXMessage) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = WriteMessage bs 0 msg
+    let posR, msgOut =  ReadMessage msg 0 bs
+    posW =! posR
+    msg =! msgOut
+
+
 
 
 

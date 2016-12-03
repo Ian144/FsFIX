@@ -88,4 +88,8 @@ let main _ =
     use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgReadFuncs.fs")
     MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
+    printfn "generating message DU"
+    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MessageDU.fs")
+    MessageGenerator.GenMessageDU msgsx swMsgWriteFuncs
+
     0 // exit code

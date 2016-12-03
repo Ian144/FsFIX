@@ -129,3 +129,44 @@ let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName
 
 
 
+
+let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
+
+    // write the 'group/component' DU, used only in property based tests
+    sw.WriteLine "module Fix44.MessageDU"
+    sw.WriteLine ""
+    sw.WriteLine "open Fix44.Messages"
+    sw.WriteLine "open Fix44.MsgWriteFuncs"
+    sw.WriteLine "open Fix44.MsgReadFuncs"
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+    sw.WriteLine  "type FIXMessage ="
+    let names = msgs |> List.map (fun msg -> msg.MName) |> List.sort 
+    names |> List.iter (fun name ->
+            let ss  = sprintf "    | %s of %s" name name
+            sw.WriteLine ss  )
+    sw.WriteLine ""
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+    // create the 'WriteMessage' DU function, probably will only used in property tests
+    sw.WriteLine "let WriteMessage dest nextFreeIdx msg ="
+    sw.WriteLine "    match msg with"
+    names |> List.iter (fun strName ->
+                let ss  = sprintf "    | %s msg -> Write%s dest nextFreeIdx msg" strName strName
+                sw.WriteLine ss  )
+    sw.WriteLine ""
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+    // create the 'TestReadCompound' DU function, probably will only used in property based tests
+    sw.WriteLine "let ReadMessage (selector:FIXMessage) pos bs ="
+    sw.WriteLine "    match selector with"
+    names |> List.iter (fun strName ->
+                let ss1  = sprintf "    | %s _ ->" strName
+                let ss2  = sprintf "        let pos, msg = Read%s  pos bs" strName
+                let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" strName
+                sw.WriteLine ss1
+                sw.WriteLine ss2
+                sw.WriteLine ss3 ) // end List.iter
