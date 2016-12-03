@@ -38,7 +38,7 @@ type ArbOverrides() =
 
 
 // PropertyAttribute is defined in https://github.com/fscheck/FsCheck/blob/d1e8865cf7b5a32fac1d07c65e7451c38698bc62/src/FsCheck.Xunit/PropertyAttribute.fs#L111 
-type PropertyTestAttribute() =
+type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
 //        MaxTest = 100,
@@ -50,7 +50,7 @@ type PropertyTestAttribute() =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
@@ -71,7 +71,7 @@ let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoCapacitiesGrp  bs 0 grpIn
@@ -82,7 +82,7 @@ let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
@@ -92,7 +92,7 @@ let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 //    (usIn.NoUnderlyingStipsGrp.IsSome) ==> lazy
     let bs = Array.zeroCreate<byte> bufSize
@@ -140,7 +140,7 @@ let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let UnderlyingInstument (usIn:UnderlyingInstrument) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteUnderlyingInstrument  bs 0 usIn
@@ -150,7 +150,7 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let NoSidesGrp (gIn:NoSidesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoSidesGrp bs 0 gIn
@@ -160,7 +160,7 @@ let NoSidesGrp (gIn:NoSidesGrp ) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let CompoundItem (ciIn:FIXGroup) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
@@ -170,7 +170,7 @@ let CompoundItem (ciIn:FIXGroup) =
 
 
 
-[<PropertyTestAttribute>]
+[<FsFixPropertyTest>]
 let InstrumentLegFG (usIn:InstrumentLegFG) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteInstrumentLegFG  bs 0 usIn
