@@ -160,7 +160,7 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
     sw.WriteLine ""
 
-    // create the 'TestReadCompound' DU function, probably will only used in property based tests
+    // create the 'TestReadMessage DU function, probably will only used in property based tests
     sw.WriteLine "let ReadMessage (selector:FIXMessage) pos bs ="
     sw.WriteLine "    match selector with"
     names |> List.iter (fun strName ->
@@ -170,3 +170,24 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
                 sw.WriteLine ss1
                 sw.WriteLine ss2
                 sw.WriteLine ss3 ) // end List.iter
+    sw.WriteLine ""
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+
+    // create the 'ReadMessage' DU function that keys off a msg tag
+    sw.WriteLine "let ReadMessage2 (tag:byte []) pos bs ="
+    sw.WriteLine "    match tag with"
+    msgs |> List.iter (fun msg ->
+                let ss1  = sprintf "    | \"%s\"B   ->" msg.Tag
+                let ss2  = sprintf "        let pos, msg = Read%s pos bs" msg.MName
+                let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" msg.MName
+                sw.WriteLine ss1
+                sw.WriteLine ss2
+                sw.WriteLine ss3 ) // end List.iter
+    let ss1  = "    | invalidTag   ->"
+    let ss2  = "        let ss = sprintf \"received unknown message type tag: %A\" invalidTag"
+    let ss3  = "        failwith ss"
+    sw.WriteLine ss1
+    sw.WriteLine ss2
+    sw.WriteLine ss3

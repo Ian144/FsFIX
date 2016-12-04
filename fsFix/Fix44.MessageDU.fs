@@ -476,3 +476,287 @@ let ReadMessage (selector:FIXMessage) pos bs =
     | UserResponse _ ->
         let pos, msg = ReadUserResponse  pos bs
         pos, msg |> FIXMessage.UserResponse
+
+
+
+let ReadMessage2 (tag:byte []) pos bs =
+    match tag with
+    | "0"B   ->
+        let pos, msg = ReadHeartbeat pos bs
+        pos, msg |> FIXMessage.Heartbeat
+    | "A"B   ->
+        let pos, msg = ReadLogon pos bs
+        pos, msg |> FIXMessage.Logon
+    | "1"B   ->
+        let pos, msg = ReadTestRequest pos bs
+        pos, msg |> FIXMessage.TestRequest
+    | "2"B   ->
+        let pos, msg = ReadResendRequest pos bs
+        pos, msg |> FIXMessage.ResendRequest
+    | "3"B   ->
+        let pos, msg = ReadReject pos bs
+        pos, msg |> FIXMessage.Reject
+    | "4"B   ->
+        let pos, msg = ReadSequenceReset pos bs
+        pos, msg |> FIXMessage.SequenceReset
+    | "5"B   ->
+        let pos, msg = ReadLogout pos bs
+        pos, msg |> FIXMessage.Logout
+    | "j"B   ->
+        let pos, msg = ReadBusinessMessageReject pos bs
+        pos, msg |> FIXMessage.BusinessMessageReject
+    | "BE"B   ->
+        let pos, msg = ReadUserRequest pos bs
+        pos, msg |> FIXMessage.UserRequest
+    | "BF"B   ->
+        let pos, msg = ReadUserResponse pos bs
+        pos, msg |> FIXMessage.UserResponse
+    | "7"B   ->
+        let pos, msg = ReadAdvertisement pos bs
+        pos, msg |> FIXMessage.Advertisement
+    | "6"B   ->
+        let pos, msg = ReadIndicationOfInterest pos bs
+        pos, msg |> FIXMessage.IndicationOfInterest
+    | "B"B   ->
+        let pos, msg = ReadNews pos bs
+        pos, msg |> FIXMessage.News
+    | "C"B   ->
+        let pos, msg = ReadEmail pos bs
+        pos, msg |> FIXMessage.Email
+    | "R"B   ->
+        let pos, msg = ReadQuoteRequest pos bs
+        pos, msg |> FIXMessage.QuoteRequest
+    | "AJ"B   ->
+        let pos, msg = ReadQuoteResponse pos bs
+        pos, msg |> FIXMessage.QuoteResponse
+    | "AG"B   ->
+        let pos, msg = ReadQuoteRequestReject pos bs
+        pos, msg |> FIXMessage.QuoteRequestReject
+    | "AH"B   ->
+        let pos, msg = ReadRFQRequest pos bs
+        pos, msg |> FIXMessage.RFQRequest
+    | "S"B   ->
+        let pos, msg = ReadQuote pos bs
+        pos, msg |> FIXMessage.Quote
+    | "Z"B   ->
+        let pos, msg = ReadQuoteCancel pos bs
+        pos, msg |> FIXMessage.QuoteCancel
+    | "a"B   ->
+        let pos, msg = ReadQuoteStatusRequest pos bs
+        pos, msg |> FIXMessage.QuoteStatusRequest
+    | "AI"B   ->
+        let pos, msg = ReadQuoteStatusReport pos bs
+        pos, msg |> FIXMessage.QuoteStatusReport
+    | "i"B   ->
+        let pos, msg = ReadMassQuote pos bs
+        pos, msg |> FIXMessage.MassQuote
+    | "b"B   ->
+        let pos, msg = ReadMassQuoteAcknowledgement pos bs
+        pos, msg |> FIXMessage.MassQuoteAcknowledgement
+    | "V"B   ->
+        let pos, msg = ReadMarketDataRequest pos bs
+        pos, msg |> FIXMessage.MarketDataRequest
+    | "W"B   ->
+        let pos, msg = ReadMarketDataSnapshotFullRefresh pos bs
+        pos, msg |> FIXMessage.MarketDataSnapshotFullRefresh
+    | "X"B   ->
+        let pos, msg = ReadMarketDataIncrementalRefresh pos bs
+        pos, msg |> FIXMessage.MarketDataIncrementalRefresh
+    | "Y"B   ->
+        let pos, msg = ReadMarketDataRequestReject pos bs
+        pos, msg |> FIXMessage.MarketDataRequestReject
+    | "c"B   ->
+        let pos, msg = ReadSecurityDefinitionRequest pos bs
+        pos, msg |> FIXMessage.SecurityDefinitionRequest
+    | "d"B   ->
+        let pos, msg = ReadSecurityDefinition pos bs
+        pos, msg |> FIXMessage.SecurityDefinition
+    | "v"B   ->
+        let pos, msg = ReadSecurityTypeRequest pos bs
+        pos, msg |> FIXMessage.SecurityTypeRequest
+    | "w"B   ->
+        let pos, msg = ReadSecurityTypes pos bs
+        pos, msg |> FIXMessage.SecurityTypes
+    | "x"B   ->
+        let pos, msg = ReadSecurityListRequest pos bs
+        pos, msg |> FIXMessage.SecurityListRequest
+    | "y"B   ->
+        let pos, msg = ReadSecurityList pos bs
+        pos, msg |> FIXMessage.SecurityList
+    | "z"B   ->
+        let pos, msg = ReadDerivativeSecurityListRequest pos bs
+        pos, msg |> FIXMessage.DerivativeSecurityListRequest
+    | "AA"B   ->
+        let pos, msg = ReadDerivativeSecurityList pos bs
+        pos, msg |> FIXMessage.DerivativeSecurityList
+    | "e"B   ->
+        let pos, msg = ReadSecurityStatusRequest pos bs
+        pos, msg |> FIXMessage.SecurityStatusRequest
+    | "f"B   ->
+        let pos, msg = ReadSecurityStatus pos bs
+        pos, msg |> FIXMessage.SecurityStatus
+    | "g"B   ->
+        let pos, msg = ReadTradingSessionStatusRequest pos bs
+        pos, msg |> FIXMessage.TradingSessionStatusRequest
+    | "h"B   ->
+        let pos, msg = ReadTradingSessionStatus pos bs
+        pos, msg |> FIXMessage.TradingSessionStatus
+    | "D"B   ->
+        let pos, msg = ReadNewOrderSingle pos bs
+        pos, msg |> FIXMessage.NewOrderSingle
+    | "8"B   ->
+        let pos, msg = ReadExecutionReport pos bs
+        pos, msg |> FIXMessage.ExecutionReport
+    | "Q"B   ->
+        let pos, msg = ReadDontKnowTrade pos bs
+        pos, msg |> FIXMessage.DontKnowTrade
+    | "G"B   ->
+        let pos, msg = ReadOrderCancelReplaceRequest pos bs
+        pos, msg |> FIXMessage.OrderCancelReplaceRequest
+    | "F"B   ->
+        let pos, msg = ReadOrderCancelRequest pos bs
+        pos, msg |> FIXMessage.OrderCancelRequest
+    | "9"B   ->
+        let pos, msg = ReadOrderCancelReject pos bs
+        pos, msg |> FIXMessage.OrderCancelReject
+    | "H"B   ->
+        let pos, msg = ReadOrderStatusRequest pos bs
+        pos, msg |> FIXMessage.OrderStatusRequest
+    | "q"B   ->
+        let pos, msg = ReadOrderMassCancelRequest pos bs
+        pos, msg |> FIXMessage.OrderMassCancelRequest
+    | "r"B   ->
+        let pos, msg = ReadOrderMassCancelReport pos bs
+        pos, msg |> FIXMessage.OrderMassCancelReport
+    | "AF"B   ->
+        let pos, msg = ReadOrderMassStatusRequest pos bs
+        pos, msg |> FIXMessage.OrderMassStatusRequest
+    | "s"B   ->
+        let pos, msg = ReadNewOrderCross pos bs
+        pos, msg |> FIXMessage.NewOrderCross
+    | "t"B   ->
+        let pos, msg = ReadCrossOrderCancelReplaceRequest pos bs
+        pos, msg |> FIXMessage.CrossOrderCancelReplaceRequest
+    | "u"B   ->
+        let pos, msg = ReadCrossOrderCancelRequest pos bs
+        pos, msg |> FIXMessage.CrossOrderCancelRequest
+    | "AB"B   ->
+        let pos, msg = ReadNewOrderMultileg pos bs
+        pos, msg |> FIXMessage.NewOrderMultileg
+    | "AC"B   ->
+        let pos, msg = ReadMultilegOrderCancelReplaceRequest pos bs
+        pos, msg |> FIXMessage.MultilegOrderCancelReplaceRequest
+    | "k"B   ->
+        let pos, msg = ReadBidRequest pos bs
+        pos, msg |> FIXMessage.BidRequest
+    | "l"B   ->
+        let pos, msg = ReadBidResponse pos bs
+        pos, msg |> FIXMessage.BidResponse
+    | "E"B   ->
+        let pos, msg = ReadNewOrderList pos bs
+        pos, msg |> FIXMessage.NewOrderList
+    | "m"B   ->
+        let pos, msg = ReadListStrikePrice pos bs
+        pos, msg |> FIXMessage.ListStrikePrice
+    | "N"B   ->
+        let pos, msg = ReadListStatus pos bs
+        pos, msg |> FIXMessage.ListStatus
+    | "L"B   ->
+        let pos, msg = ReadListExecute pos bs
+        pos, msg |> FIXMessage.ListExecute
+    | "K"B   ->
+        let pos, msg = ReadListCancelRequest pos bs
+        pos, msg |> FIXMessage.ListCancelRequest
+    | "M"B   ->
+        let pos, msg = ReadListStatusRequest pos bs
+        pos, msg |> FIXMessage.ListStatusRequest
+    | "J"B   ->
+        let pos, msg = ReadAllocationInstruction pos bs
+        pos, msg |> FIXMessage.AllocationInstruction
+    | "P"B   ->
+        let pos, msg = ReadAllocationInstructionAck pos bs
+        pos, msg |> FIXMessage.AllocationInstructionAck
+    | "AS"B   ->
+        let pos, msg = ReadAllocationReport pos bs
+        pos, msg |> FIXMessage.AllocationReport
+    | "AT"B   ->
+        let pos, msg = ReadAllocationReportAck pos bs
+        pos, msg |> FIXMessage.AllocationReportAck
+    | "AK"B   ->
+        let pos, msg = ReadConfirmation pos bs
+        pos, msg |> FIXMessage.Confirmation
+    | "AU"B   ->
+        let pos, msg = ReadConfirmationAck pos bs
+        pos, msg |> FIXMessage.ConfirmationAck
+    | "BH"B   ->
+        let pos, msg = ReadConfirmationRequest pos bs
+        pos, msg |> FIXMessage.ConfirmationRequest
+    | "T"B   ->
+        let pos, msg = ReadSettlementInstructions pos bs
+        pos, msg |> FIXMessage.SettlementInstructions
+    | "AV"B   ->
+        let pos, msg = ReadSettlementInstructionRequest pos bs
+        pos, msg |> FIXMessage.SettlementInstructionRequest
+    | "AD"B   ->
+        let pos, msg = ReadTradeCaptureReportRequest pos bs
+        pos, msg |> FIXMessage.TradeCaptureReportRequest
+    | "AQ"B   ->
+        let pos, msg = ReadTradeCaptureReportRequestAck pos bs
+        pos, msg |> FIXMessage.TradeCaptureReportRequestAck
+    | "AE"B   ->
+        let pos, msg = ReadTradeCaptureReport pos bs
+        pos, msg |> FIXMessage.TradeCaptureReport
+    | "AR"B   ->
+        let pos, msg = ReadTradeCaptureReportAck pos bs
+        pos, msg |> FIXMessage.TradeCaptureReportAck
+    | "o"B   ->
+        let pos, msg = ReadRegistrationInstructions pos bs
+        pos, msg |> FIXMessage.RegistrationInstructions
+    | "p"B   ->
+        let pos, msg = ReadRegistrationInstructionsResponse pos bs
+        pos, msg |> FIXMessage.RegistrationInstructionsResponse
+    | "AL"B   ->
+        let pos, msg = ReadPositionMaintenanceRequest pos bs
+        pos, msg |> FIXMessage.PositionMaintenanceRequest
+    | "AM"B   ->
+        let pos, msg = ReadPositionMaintenanceReport pos bs
+        pos, msg |> FIXMessage.PositionMaintenanceReport
+    | "AN"B   ->
+        let pos, msg = ReadRequestForPositions pos bs
+        pos, msg |> FIXMessage.RequestForPositions
+    | "AO"B   ->
+        let pos, msg = ReadRequestForPositionsAck pos bs
+        pos, msg |> FIXMessage.RequestForPositionsAck
+    | "AP"B   ->
+        let pos, msg = ReadPositionReport pos bs
+        pos, msg |> FIXMessage.PositionReport
+    | "AW"B   ->
+        let pos, msg = ReadAssignmentReport pos bs
+        pos, msg |> FIXMessage.AssignmentReport
+    | "AX"B   ->
+        let pos, msg = ReadCollateralRequest pos bs
+        pos, msg |> FIXMessage.CollateralRequest
+    | "AY"B   ->
+        let pos, msg = ReadCollateralAssignment pos bs
+        pos, msg |> FIXMessage.CollateralAssignment
+    | "AZ"B   ->
+        let pos, msg = ReadCollateralResponse pos bs
+        pos, msg |> FIXMessage.CollateralResponse
+    | "BA"B   ->
+        let pos, msg = ReadCollateralReport pos bs
+        pos, msg |> FIXMessage.CollateralReport
+    | "BB"B   ->
+        let pos, msg = ReadCollateralInquiry pos bs
+        pos, msg |> FIXMessage.CollateralInquiry
+    | "BC"B   ->
+        let pos, msg = ReadNetworkStatusRequest pos bs
+        pos, msg |> FIXMessage.NetworkStatusRequest
+    | "BD"B   ->
+        let pos, msg = ReadNetworkStatusResponse pos bs
+        pos, msg |> FIXMessage.NetworkStatusResponse
+    | "BG"B   ->
+        let pos, msg = ReadCollateralInquiryAck pos bs
+        pos, msg |> FIXMessage.CollateralInquiryAck
+    | invalidTag   ->
+        let ss = sprintf "received unknown message type tag: %A" invalidTag
+        failwith ss

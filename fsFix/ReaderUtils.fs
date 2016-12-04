@@ -43,8 +43,6 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     pos4, gsRev
 
 
-
-
 let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     let pos2, tag = FIXBufUtils.readTag pos bs
     if tag <> numTag then
