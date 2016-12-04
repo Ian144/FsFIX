@@ -760,3 +760,101 @@ let ReadMessage2 (tag:byte []) pos bs =
     | invalidTag   ->
         let ss = sprintf "received unknown message type tag: %A" invalidTag
         failwith ss
+
+let GetTag (msg:FIXMessage) = 
+    match msg with
+    | Heartbeat _                         ->  "0"B
+    | TestRequest _                       ->  "1"B
+    | ResendRequest _                     ->  "2"B
+    | Reject _                            ->  "3"B
+    | SequenceReset _                     ->  "4"B
+    | Logout _                            ->  "5"B
+    | IndicationOfInterest _              ->  "6"B
+    | Advertisement _                     ->  "7"B
+    | ExecutionReport _                   ->  "8"B
+    | OrderCancelReject _                 ->  "9"B
+    | Logon _                             ->  "A"B
+    | QuoteStatusRequest _                ->  "a"B
+    | DerivativeSecurityList _            ->  "AA"B
+    | NewOrderMultileg _                  ->  "AB"B
+    | MultilegOrderCancelReplaceRequest _ ->  "AC"B
+    | TradeCaptureReportRequest _         ->  "AD"B
+    | TradeCaptureReport _                ->  "AE"B
+    | OrderMassStatusRequest _            ->  "AF"B
+    | QuoteRequestReject _                ->  "AG"B
+    | RFQRequest _                        ->  "AH"B
+    | QuoteStatusReport _                 ->  "AI"B
+    | QuoteResponse _                     ->  "AJ"B
+    | Confirmation _                      ->  "AK"B
+    | PositionMaintenanceRequest _        ->  "AL"B
+    | PositionMaintenanceReport _         ->  "AM"B
+    | RequestForPositions _               ->  "AN"B
+    | RequestForPositionsAck _            ->  "AO"B
+    | PositionReport _                    ->  "AP"B
+    | TradeCaptureReportRequestAck _      ->  "AQ"B
+    | TradeCaptureReportAck _             ->  "AR"B
+    | AllocationReport _                  ->  "AS"B
+    | AllocationReportAck _               ->  "AT"B
+    | ConfirmationAck _                   ->  "AU"B
+    | SettlementInstructionRequest _      ->  "AV"B
+    | AssignmentReport _                  ->  "AW"B
+    | CollateralRequest _                 ->  "AX"B
+    | CollateralAssignment _              ->  "AY"B
+    | CollateralResponse _                ->  "AZ"B
+    | MassQuoteAcknowledgement _          ->  "b"B
+    | News _                              ->  "B"B
+    | CollateralReport _                  ->  "BA"B
+    | CollateralInquiry _                 ->  "BB"B
+    | NetworkStatusRequest _              ->  "BC"B
+    | NetworkStatusResponse _             ->  "BD"B
+    | UserRequest _                       ->  "BE"B
+    | UserResponse _                      ->  "BF"B
+    | CollateralInquiryAck _              ->  "BG"B
+    | ConfirmationRequest _               ->  "BH"B
+    | Email _                             ->  "C"B
+    | SecurityDefinitionRequest _         ->  "c"B
+    | NewOrderSingle _                    ->  "D"B
+    | SecurityDefinition _                ->  "d"B
+    | NewOrderList _                      ->  "E"B
+    | SecurityStatusRequest _             ->  "e"B
+    | OrderCancelRequest _                ->  "F"B
+    | SecurityStatus _                    ->  "f"B
+    | OrderCancelReplaceRequest _         ->  "G"B
+    | TradingSessionStatusRequest _       ->  "g"B
+    | OrderStatusRequest _                ->  "H"B
+    | TradingSessionStatus _              ->  "h"B
+    | MassQuote _                         ->  "i"B
+    | AllocationInstruction _             ->  "J"B
+    | BusinessMessageReject _             ->  "j"B
+    | BidRequest _                        ->  "k"B
+    | ListCancelRequest _                 ->  "K"B
+    | BidResponse _                       ->  "l"B
+    | ListExecute _                       ->  "L"B
+    | ListStatusRequest _                 ->  "M"B
+    | ListStrikePrice _                   ->  "m"B
+    | ListStatus _                        ->  "N"B
+    | RegistrationInstructions _          ->  "o"B
+    | AllocationInstructionAck _          ->  "P"B
+    | RegistrationInstructionsResponse _  ->  "p"B
+    | DontKnowTrade _                     ->  "Q"B
+    | OrderMassCancelRequest _            ->  "q"B
+    | OrderMassCancelReport _             ->  "r"B
+    | QuoteRequest _                      ->  "R"B
+    | NewOrderCross _                     ->  "s"B
+    | Quote _                             ->  "S"B
+    | CrossOrderCancelReplaceRequest _    ->  "t"B
+    | SettlementInstructions _            ->  "T"B
+    | CrossOrderCancelRequest _           ->  "u"B
+    | MarketDataRequest _                 ->  "V"B
+    | SecurityTypeRequest _               ->  "v"B
+    | MarketDataSnapshotFullRefresh _     ->  "W"B
+    | SecurityTypes _                     ->  "w"B
+    | MarketDataIncrementalRefresh _      ->  "X"B
+    | SecurityListRequest _               ->  "x"B
+    | MarketDataRequestReject _           ->  "Y"B
+    | SecurityList _                      ->  "y"B
+    | DerivativeSecurityListRequest _     ->  "z"B
+    | QuoteCancel _                       ->  "Z"B
+
+
+

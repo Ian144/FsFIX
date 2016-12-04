@@ -7,8 +7,13 @@ open FsCheck
 open FsCheck.Xunit
 open Swensen.Unquote
 
+
+open Fix44.Fields
+open Fix44.FieldWriteFuncs
+open Fix44.FieldReadFuncs
+
 open Fix44.FieldDU
-//open Fix44.FieldReadFuncs
+
 open Fix44.CompoundItems
 open Fix44.CompoundItemWriteFuncs
 open Fix44.CompoundItemDU
@@ -18,7 +23,7 @@ open Fix44.MessageDU
 
 
 
-let bufSize = 1024 * 64 // so as not to go into the LOH
+let bufSize = 1024 * 82 // so as not to go into the LOH
 
 
 // strings stored in FIX do not contain field terminators, 
@@ -27,7 +32,7 @@ let genAlphaChar = Gen.choose(65,90) |> Gen.map char
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 32)
+            let! len = Gen.choose(4, 16)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -39,11 +44,10 @@ type ArbOverrides() =
             Arb.fromGen genAlphaString
 
 
-// PropertyAttribute is defined in https://github.com/fscheck/FsCheck/blob/d1e8865cf7b5a32fac1d07c65e7451c38698bc62/src/FsCheck.Xunit/PropertyAttribute.fs#L111 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
+        MaxTest = 1000,
         EndSize = 16,
         Verbose = false
 //        QuietOnSuccess = true
@@ -194,6 +198,7 @@ let CompoundItem (ciIn:FIXGroup) =
     ciIn =! ciOut
 
 
+
 [<FsFixPropertyTest>]
 let Message (msg:FIXMessage) =
     let bs = Array.zeroCreate<byte> bufSize
@@ -204,8 +209,6 @@ let Message (msg:FIXMessage) =
 
 
 
-
-
 [<FsFixPropertyTest>]
 let InstrumentLegFG (usIn:InstrumentLegFG) =
     let bs = Array.zeroCreate<byte> bufSize
@@ -213,3 +216,35 @@ let InstrumentLegFG (usIn:InstrumentLegFG) =
     let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG 0 bs
     posW =! posR
     usIn =! usOut
+
+
+
+[<FsFixPropertyTest>]
+let MessageWithHeaderTrailer 
+        (beginString:BeginString) 
+        (senderCompID:SenderCompID) 
+        (targetCompID:TargetCompID) 
+        (msgSeqNum:MsgSeqNum) 
+        (sendingTime:SendingTime) 
+        (msg:FIXMessage) =
+    
+    let buf = Array.zeroCreate<byte> bufSize
+    let tmpBuf = Array.zeroCreate<byte> bufSize // todo: think of better names
+
+
+    let posW = WriterUtils.WriteMessage2 
+                                tmpBuf 
+                                buf 
+                                0 
+                                beginString 
+                                senderCompID
+                                targetCompID
+                                msgSeqNum
+                                sendingTime
+                                msg
+
+    let tmpBuf2 = Array.zeroCreate<byte> bufSize
+
+    let posR, msgOut = WriterUtils.ReadMessage buf tmpBuf2
+
+    msg =! msgOut
