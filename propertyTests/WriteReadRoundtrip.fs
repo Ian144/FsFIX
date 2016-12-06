@@ -48,7 +48,7 @@ type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 1000,
-        EndSize = 16,
+        EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
         )

@@ -479,7 +479,7 @@ let ReadMessage (selector:FIXMessage) pos bs =
 
 
 
-let ReadMessage2 (tag:byte []) pos bs =
+let ReadMessageDU (tag:byte []) pos bs =
     match tag with
     | "0"B   ->
         let pos, msg = ReadHeartbeat pos bs

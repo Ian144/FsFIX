@@ -135,37 +135,43 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
 
-    ReadMessage2 tag 0 innerBuf
+    ReadMessageDU tag 0 innerBuf
     
 
 
-//
-//let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
-//    let pos = 1 + FIXBufUtils.findNextTagValSep 0 src
-//    let pos, beginString    = ReadBeginString pos src
-//    let pos, bodyLen        = ReadBodyLength pos src
-//    
-////    let pos, msgType        = ReadMsgType pos src
-//    
-//    let tagValSepPos        = FIXBufUtils.findNextTagValSep pos src
-//    let pos, tag            = FIXBufUtils.readValAfterTagValSep tagValSepPos src
-//    
-//    let pos, senderCompID   = ReadSenderCompID pos src
-//    let pos, targetCompID   = ReadTargetCompID pos src
-//    let pos, seqNum         = ReadMsgSeqNum pos src
-//    let pos, sendTime       = ReadSendingTime pos src
-//
-//    let (BodyLength len) = bodyLen
-//    System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
-//    
-//    let calcedCheckSum = CalcCheckSum innerBuf len 
-//
-//    let pos = pos + len
-//    let pos, receivedCheckSum   = ReadCheckSum pos src
-//
-//    if calcedCheckSum <> receivedCheckSum then
-//        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-//        failwith msg
-//
-//    ReadMessage2 tag 0 innerBuf
+
+let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->int*'t) : int * 't =
+    let pos = 0
+    let pos, beginString    = ReaderUtils.ReadField "ReadBeginString" pos "8"B src ReadBeginString
+    let pos, bodyLen        = ReaderUtils.ReadField "ReadBodyLength" pos "9"B src ReadBodyLength
+    
+//    let pos, msgType        = ReadMsgType pos src
+    let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep pos src
+    let pos, tag            = FIXBufUtils.readValAfterTagValSep tagValSepPos src
+    
+(*
+    see freemind notes
+*)
+
+    let pos, senderCompID   = ReaderUtils.ReadField "ReadSenderCompID" pos "49"B src ReadSenderCompID
+    let pos, targetCompID   = ReaderUtils.ReadField "ReadTargetCompID" pos "56"B src ReadTargetCompID
+    let pos, seqNum         = ReaderUtils.ReadField "ReadMsgSeqNum"    pos "34"B src ReadMsgSeqNum
+    let pos, sendTime       = ReaderUtils.ReadField "ReadSendingTime"  pos "52"B src ReadSendingTime
+
+    let (BodyLength len) = bodyLen
+    System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
+    
+    let calcedCheckSum = CalcCheckSum innerBuf len 
+
+    let pos = pos + len
+    let pos, receivedCheckSum   = ReaderUtils.ReadField "ReadCheckSum" pos "10"B src ReadCheckSum
+
+    if calcedCheckSum <> receivedCheckSum then
+        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+        failwith msg
+
+    readFunc 0 innerBuf
+
+
+
     
