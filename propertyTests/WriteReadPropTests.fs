@@ -32,7 +32,7 @@ let genAlphaChar = Gen.choose(65,90) |> Gen.map char
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 16)
+            let! len = Gen.choose(4, 4)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -47,7 +47,7 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 100,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -232,7 +232,7 @@ let MessageWithHeaderTrailer
     let tmpBuf = Array.zeroCreate<byte> bufSize // todo: think of better names
 
 
-    let posW = WriterUtils.WriteMessage2 
+    let posW = WriterUtils.WriteMessageDU 
                                 tmpBuf 
                                 buf 
                                 0 

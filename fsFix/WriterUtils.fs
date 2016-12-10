@@ -70,7 +70,7 @@ let WriteTag (dest:byte[]) (nextFreeIdx:int) (msgTag:byte[]) : int =
 
 
 
-let WriteMessage2
+let WriteMessageDU
         (tmpBuf:byte []) 
         (dest:byte []) 
         (nextFreeIdx:int) 
@@ -147,12 +147,7 @@ let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->
     
 //    let pos, msgType        = ReadMsgType pos src
     let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep pos src
-    let pos, tag            = FIXBufUtils.readValAfterTagValSep tagValSepPos src
-    
-(*
-    see freemind notes
-*)
-
+    let pos, tag            = FIXBufUtils.readValAfterTagValSep tagValSepPos src // need to bounce from a runtime value to a compile time generic instance, is using a DU unavoidable??
     let pos, senderCompID   = ReaderUtils.ReadField "ReadSenderCompID" pos "49"B src ReadSenderCompID
     let pos, targetCompID   = ReaderUtils.ReadField "ReadTargetCompID" pos "56"B src ReadTargetCompID
     let pos, seqNum         = ReaderUtils.ReadField "ReadMsgSeqNum"    pos "34"B src ReadMsgSeqNum
@@ -170,7 +165,8 @@ let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
 
-    readFunc 0 innerBuf
+    let _, msg = readFunc 0 innerBuf // reading from the inner buffer, so its pos is not the one to be returned
+    pos, msg
 
 
 

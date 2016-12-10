@@ -1,4 +1,4 @@
-﻿module CompoundItemReadWriteTests
+﻿module WriteReadUnitTests
 
 open Xunit
 open Swensen.Unquote
