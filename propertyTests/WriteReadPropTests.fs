@@ -77,7 +77,7 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
+        MaxTest = 1000,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -105,17 +105,26 @@ let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) =
     msg =! msgOut
 
 
-
-
-
 [<FsFixPropertyTest>]
-let PosMaintRptID (pmri:Fix44.Fields.PosMaintRptID) =
+let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) =
     let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 pmri
+    let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 fldIn
     let posSep = FIXBufUtils.findNextTagValSep 0 bs
-    let posR, pmriOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
+    let posR, fldOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
     posW =! posR
-    pmri =! pmriOut  
+    fldIn =! fldOut  
+
+
+// MDEntryTime wraps UTCTimeOnly
+[<FsFixPropertyTest>]
+let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = Fix44.FieldWriteFuncs.WriteMDEntryTime bs 0 fldIn
+    let posSep = FIXBufUtils.findNextTagValSep 0 bs
+    let posR, fldOut = Fix44.FieldReadFuncs.ReadMDEntryTime (posSep+1) bs
+    posW =! posR
+    fldIn =! fldOut 
+
 
 
 // a very slow test due to the large number of Field DU instances

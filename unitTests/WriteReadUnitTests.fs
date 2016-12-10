@@ -16,9 +16,7 @@ open Fix44.MsgWriteFuncs
 
 [<Fact>]
 let MassQuoteNoQuoteEntriesGrp () =
-
     let bs = Array.zeroCreate<byte> 1024
-
     let xIn:MassQuoteNoQuoteEntriesGrp =
                  {  QuoteEntryID = QuoteEntryID "GKCO"
                     Instrument = None
@@ -53,3 +51,58 @@ let MassQuoteNoQuoteEntriesGrp () =
     xIn =! xOut
 
 
+
+ 
+
+
+[<Fact>]
+let MarketDataIncrementalRefreshNoMDEntriesGrp () =
+    let bs = Array.zeroCreate<byte> 1024    
+    let tm = FIXDateTime.MakeUTCTimeOnly.Make (13, 59, 25, 377)
+    let xIn:MarketDataIncrementalRefreshNoMDEntriesGrp = 
+          {MDUpdateAction = MDUpdateAction.New;
+           DeleteReason = None;
+           MDEntryType = None;
+           MDEntryID = None;
+           MDEntryRefID = None;
+           Instrument = None;
+           NoUnderlyingsGrp = None;
+           NoLegsGrp = None;
+           FinancialStatus = None;
+           CorporateAction = None;
+           MDEntryPx = None;
+           Currency = None;
+           MDEntrySize = None;
+           MDEntryDate = None;
+           MDEntryTime = Some (MDEntryTime tm);
+           TickDirection = None;
+           MDMkt = None;
+           TradingSessionID = None;
+           TradingSessionSubID = None;
+           QuoteCondition = None;
+           TradeCondition = None;
+           MDEntryOriginator = None;
+           LocationID = None;
+           DeskID = None;
+           OpenCloseSettlFlag = None;
+           TimeInForce = None;
+           ExpireDate = None;
+           ExpireTime = None;
+           MinQty = None;
+           ExecInst = None;
+           SellerDays = None;
+           OrderID = None;
+           QuoteEntryID = None;
+           MDEntryBuyer = None;
+           MDEntrySeller = None;
+           NumberOfOrders = None;
+           MDEntryPositionNo = None;
+           Scope = None;
+           PriceDelta = None;
+           NetChgPrevDay = None;
+           Text = None;
+           EncodedText = None;}
+    let posW = WriteMarketDataIncrementalRefreshNoMDEntriesGrp  bs 0 xIn
+    let posR, xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrp 0 bs
+    posW =! posR
+    xIn =! xOut

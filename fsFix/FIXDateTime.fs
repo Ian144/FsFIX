@@ -27,6 +27,10 @@
 type UTCTimeOnly =  private 
                         UTCTimeOnly  of Hours:int * Minutes:int * Seconds:int | 
                         UTCTimeOnlyMs of Hours:int * Minutes:int * Seconds:int * Milliseconds:int
+                    override x.ToString() =
+                        match x with
+                        | UTCTimeOnly( hh, mm, ss)          ->  sprintf "%02d:%02d:%02d" hh mm ss
+                        | UTCTimeOnlyMs( hh, mm, ss, ms)    ->  sprintf "%02d:%02d:%02d.%03d" hh mm ss ms
 
 // see https://fsharpforfunandprofit.com/posts/designing-with-types-single-case-dus/
 
@@ -41,15 +45,10 @@ type MakeUTCTimeOnly private () =
 
     static member Make (hh:int, mm:int, ss:int, ms:int): UTCTimeOnly = 
                     match hh, mm, ss, ms with
-                    | 23, 59, 60, ms                                                                                                    -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | hh, mm, ss, ms when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59 && ms >= 0 && ms <= 999   -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
-                    | _                                                                                                                 -> failwith "invalid UTCTimeOnly"
+                    | 23, 59, 60, ms                                                                                                -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
+                    | hh, mm, ss, ms when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59 && ms >= 0 && ms <= 999 -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | _                                                                                                             -> failwith "invalid UTCTimeOnly"
 
-
-let ToFIXString tm = 
-    match tm with
-    | UTCTimeOnly( hh, mm, ss)          ->  sprintf "%02d:%02d:%02d" hh mm ss
-    | UTCTimeOnlyMs( hh, mm, ss, ms)    ->  sprintf "%02d:%02d:%02d.%03d" hh mm ss ms
 
 
 

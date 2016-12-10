@@ -48,7 +48,7 @@ let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
 let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
     let tm = FIXDateTime.fromBytes bs pos pos2
-    pos2,  fldCtor tm
+    pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
 // all compound fields are of type data (i.e. byte[])
