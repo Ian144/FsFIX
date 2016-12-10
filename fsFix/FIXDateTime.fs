@@ -35,15 +35,15 @@ type UTCTimeOnly =  private
 type MakeUTCTimeOnly private () =
     static member Make (hh:int, mm:int, ss:int) : UTCTimeOnly = 
                     match hh, mm, ss with
-                    | 23, 59, 60                                                                            -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
-                    | hh, mm, ss when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 00 && ss <= 59    -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)
-                    | _                                                                                     -> failwith "invalid utc time only"
+                    | 23, 59, 60                                                                        -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
+                    | hh, mm, ss when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59 -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)
+                    | _                                                                                 -> failwith "invalid utc time only"
 
     static member Make (hh:int, mm:int, ss:int, ms:int): UTCTimeOnly = 
                     match hh, mm, ss, ms with
                     | 23, 59, 60, ms                                                                                                    -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | hh, mm, ss, ms when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 00 && ss <= 59 && ms >= 00 && ms <= 999   -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
-                    | _                                                                                                                 -> failwith "invalid utc time only"
+                    | hh, mm, ss, ms when hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59 && ms >= 0 && ms <= 999   -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | _                                                                                                                 -> failwith "invalid UTCTimeOnly"
 
 
 let ToFIXString tm = 
@@ -59,33 +59,91 @@ let inline private byte2ToInt (bs:byte[]) (pos:int) : int =
     d1 * 10 + d2
 
 
+let inline private write2ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
+    let d1 = (n / 10) 
+    let d2 = n - (d1 * 10)
+    let b1 = (d1 + 48) |> byte
+    let b2 = (d2 + 48) |> byte
+    bs.[pos  ] <- b1
+    bs.[pos+1] <- b2
+
+
+let inline private write3Byte2Int (bs:byte[]) (pos:int) (n:int) : unit =
+    let d1 = (n / 100) 
+    let n2 = n - (d1 * 100) 
+    let d2 = n2 / 10
+    let d3 = n2 - (d2 * 10)
+    let b1 = (d1 + 48) |> byte
+    let b2 = (d2 + 48) |> byte
+    let b3 = (d3 + 48) |> byte
+    bs.[pos  ] <- b1
+    bs.[pos+1] <- b2
+    bs.[pos+2] <- b3
+
+
+
 let inline private byte3ToInt (bs:byte[]) (pos:int) : int =
     let d1 = bs.[pos]   - 48uy |> int
     let d2 = bs.[pos+1] - 48uy |> int
-    let d3 = bs.[pos+1] - 48uy |> int
-    d1 * 100 * d2 * 10 + d3
+    let d3 = bs.[pos+2] - 48uy |> int
+    d1 * 100 + d2 * 10 + d3
 
 
 let inline private read3ints (bs:byte[]) (begPos:int) = 
     let hh = byte2ToInt bs begPos
-    let mm = byte2ToInt bs begPos + 3
-    let ss = byte2ToInt bs begPos + 6
+    let mm = byte2ToInt bs (begPos + 3)
+    let ss = byte2ToInt bs (begPos + 6)
     hh, mm, ss
 
 
 let inline private read4ints (bs:byte[]) (begPos:int) =
     let hh = byte2ToInt bs begPos
-    let mm = byte2ToInt bs begPos + 3
-    let ss = byte2ToInt bs begPos + 6
-    let ms = byte3ToInt bs begPos + 9
+    let mm = byte2ToInt bs (begPos + 3)
+    let ss = byte2ToInt bs (begPos + 6)
+    let ms = byte3ToInt bs (begPos + 9)
     hh, mm, ss, ms
 
-
 // consider using ArraySegement
+let writeBytes (tm:UTCTimeOnly) (bs:byte[]) (pos:int) : int =
+    match tm with
+    | UTCTimeOnly( hh, mm, ss)          ->  
+            write2ByteInt bs pos hh
+            bs.[pos + 2] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 3) mm
+            bs.[pos + 5] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 6) ss
+            pos + 8
+    | UTCTimeOnlyMs( hh, mm, ss, ms)    ->  
+            write2ByteInt bs pos hh
+            bs.[pos + 2] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 3) mm
+            bs.[pos + 5] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 6) ss
+            bs.[pos + 8] <- 46uy // write the '.'
+            write3Byte2Int bs (pos + 9) ms
+            pos + 12
+
+
+// todo: consider using ArraySegment
 let fromBytes (bs:byte[]) (begPos:int) (endPos:int)  : UTCTimeOnly =
     match (endPos - begPos) with
-    | 9     ->  let hh, mm, ss = read3ints bs begPos
+    | 8     ->  let hh, mm, ss = read3ints bs begPos
                 MakeUTCTimeOnly.Make (hh, mm, ss)
-    | 13    ->  let hh, mm, ss, ms = read4ints bs begPos
+    | 12    ->  let hh, mm, ss, ms = read4ints bs begPos
                 MakeUTCTimeOnly.Make (hh, mm, ss, ms)
     | _     ->  failwith "corrupt serialised UTCTimeOnly"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
