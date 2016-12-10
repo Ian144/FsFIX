@@ -2,7 +2,6 @@ module Fix44.Fields
 
 open FIXDateTime
 
-
 type Account =
     |Account of string
      member x.Value = let (Account v) = x in v

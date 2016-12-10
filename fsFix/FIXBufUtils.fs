@@ -2,6 +2,19 @@
 
 open System
 
+
+let findNextOrEnd (bb:byte) (pos:int) (bs:byte[]) =
+    let mutable found = false
+    let mutable ctr = pos
+    while (ctr < bs.Length && (not found)) do
+        if bs.[ctr] = bb then
+            found <- true
+        else
+            ctr <- ctr + 1
+    ctr
+
+let findNextFieldTermOrEnd (pos:int) (bs:byte[]) = findNextOrEnd 1uy pos bs
+
 let findNext (bb:byte) (pos:int) (bs:byte[]) =
     let mutable found = false
     let mutable ctr = pos

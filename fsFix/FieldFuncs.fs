@@ -45,6 +45,11 @@ let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
     pos2, fld
 
 
+let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+    let tm = FIXDateTime.fromBytes bs pos pos2
+    pos2,  fldCtor tm
+
 
 // all compound fields are of type data (i.e. byte[])
 let ReadLengthDataCompoundField (strTagExpected:byte[]) (pos:int) (bs:byte[]) fldCtor =
@@ -123,6 +128,20 @@ let inline WriteFieldStr
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
 
+let inline WriteFieldUTCTimeOnly
+        (dest:byte []) 
+        (nextFreeIdx:int) 
+        (tag:byte[]) 
+        (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:UTCTimeOnly) fieldIn)
+    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    let nextFreeIdx3 =  FIXDateTime.writeBytes tm dest nextFreeIdx2
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    nextFreeIdx3 + 1 // +1 to move past the delimeter
+
+
+
 
 let inline WriteFieldData
         (dest:byte []) 
@@ -157,6 +176,19 @@ let inline WriteFieldLengthData (lenTag:byte[]) (dataTag:byte[]) (dest:byte []) 
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to move past the delimeter
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
