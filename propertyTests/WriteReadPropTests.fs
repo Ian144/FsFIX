@@ -44,6 +44,7 @@ let genUTCTimeOnlyNoMs =
             let! ss = Gen.choose(0, 59)
             return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss)
         }
+
 let genUTCTimeOnlyMs =
         gen {
             let! hh = Gen.choose(0, 23)
@@ -52,10 +53,12 @@ let genUTCTimeOnlyMs =
             let! ms = Gen.choose(0, 999)
             return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss, ms)
         }
+
 let genUTCTimeOnlyLeapSecondNoMs =
         gen {
             return FIXDateTime.MakeUTCTimeOnly.Make(23, 59, 60 )
         }
+
 let genUTCTimeOnlyLeapSecondMs =
         gen {
             let! ms = Gen.choose(0, 999)
@@ -64,8 +67,8 @@ let genUTCTimeOnlyLeapSecondMs =
 
 let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs; 
                                         19, genUTCTimeOnlyMs; 
-                                        1, genUTCTimeOnlyLeapSecondNoMs; 
-                                        1, genUTCTimeOnlyLeapSecondMs   ])
+                                        1,  genUTCTimeOnlyLeapSecondNoMs; 
+                                        1,  genUTCTimeOnlyLeapSecondMs   ])
 
 
 

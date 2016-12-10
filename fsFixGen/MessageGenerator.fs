@@ -176,7 +176,7 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
 
 
     // create the 'ReadMessage' DU function that keys off a msg tag
-    sw.WriteLine "let ReadMessage2 (tag:byte []) pos bs ="
+    sw.WriteLine "let ReadMessageDU (tag:byte []) pos bs ="
     sw.WriteLine "    match tag with"
     msgs |> List.iter (fun msg ->
                 let ss1  = sprintf "    | \"%s\"B   ->" msg.Tag

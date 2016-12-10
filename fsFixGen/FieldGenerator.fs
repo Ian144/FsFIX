@@ -84,23 +84,25 @@ let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> cor
 
 let private getSingleCaseDUReadFuncString (fieldType:string) =
     match fieldType with
-    | "int"     -> "ReadSingleCaseDUIntField"
-    | "decimal" -> "ReadSingleCaseDUDecimalField"
-    | "bool"    -> "ReadSingleCaseDUBoolField"
-    | "string"  -> "ReadSingleCaseDUStrField"
-    | "byte []" -> "ReadSingleCaseDUDataField"
-    | _         -> failwith "unknown type name"
+    | "int"         -> "ReadSingleCaseDUIntField"
+    | "decimal"     -> "ReadSingleCaseDUDecimalField"
+    | "bool"        -> "ReadSingleCaseDUBoolField"
+    | "string"      -> "ReadSingleCaseDUStrField"
+    | "byte []"     -> "ReadSingleCaseDUDataField"
+    | "UTCTimeOnly" -> "ReadSingleCaseUTCTimeOnlyField"
+    | _             -> failwith "unknown type name"
 
 
 
 let private getSingleCaseDUWriteFuncString (fieldType:string) =
     match fieldType with
-    | "int"     -> "WriteFieldInt"
-    | "decimal" -> "WriteFieldDecimal"
-    | "bool"    -> "WriteFieldBool"
-    | "string"  -> "WriteFieldStr"
-    | "byte []" -> "WriteFieldData"
-    | _         -> failwith "unknown type name"
+    | "int"         -> "WriteFieldInt"
+    | "decimal"     -> "WriteFieldDecimal"
+    | "bool"        -> "WriteFieldBool"
+    | "string"      -> "WriteFieldStr"
+    | "byte []"     -> "WriteFieldData"
+    | "UTCTimeOnly" -> "WriteFieldUTCTimeOnly"
+    | _             -> failwith "unknown type name"
 
 
 
@@ -161,7 +163,7 @@ let private createFieldTypes (field:SimpleField) =
     | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
     | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCDATEONLY as string, use appropriate type (use NODA TIME)
-    | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMEONLY as string, use appropriate type (use NODA TIME)
+    | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMESTAMP as string, use appropriate type (use NODA TIME)
     | "XMLDATA",                true    -> makeSingleCaseDU fieldName tag "string"
     | "INT",                    false   -> createFieldDUWithValues fieldName tag values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
@@ -286,6 +288,10 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
     sw.WriteLine ""
+    sw.WriteLine "open FIXDateTime"
+    sw.WriteLine ""
+    sw.WriteLine ""
+
 
     // write the individual field instances
     fieldData |> Seq.iter (fun fd ->
