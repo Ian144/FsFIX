@@ -855,6 +855,3 @@ let GetTag (msg:FIXMessage) =
     | SecurityList _                      ->  "y"B
     | DerivativeSecurityListRequest _     ->  "z"B
     | QuoteCancel _                       ->  "Z"B
-
-
-

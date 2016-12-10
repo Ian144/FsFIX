@@ -1,5 +1,7 @@
 module Fix44.Fields
 
+open FIXDateTime
+
 
 type Account =
     |Account of string
@@ -1740,7 +1742,7 @@ type MDEntryDate =
 
 
 type MDEntryTime =
-    |MDEntryTime of string
+    |MDEntryTime of UTCTimeOnly
      member x.Value = let (MDEntryTime v) = x in v
 
 

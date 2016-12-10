@@ -3,6 +3,7 @@
 open System
 open Conversions
 
+open FIXDateTime
 
 
 // todo: microbenchmark inlining these read funcs
@@ -156,3 +157,6 @@ let inline WriteFieldLengthData (lenTag:byte[]) (dataTag:byte[]) (dest:byte []) 
     let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
     dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
     nextFreeIdx6 + 1 // +1 to move past the delimeter
+
+
+

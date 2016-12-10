@@ -82,7 +82,7 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
 
     let compMap5 = allCompItems5 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
-    printfn "COMPONENT RULE: promote noptional components to required if they contain only optional items"
+    printfn "COMPONENT RULE: promote optional components to required if they contain only optional items"
     let allCompItems6 = allCompItems5 |> List.map (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems compMap5)
 
 

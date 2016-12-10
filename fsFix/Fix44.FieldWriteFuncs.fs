@@ -4843,7 +4843,7 @@ let WriteMDEntryDate (dest:byte []) (pos:int) (valIn:MDEntryDate) : int =
 
 
 let WriteMDEntryTime (dest:byte []) (pos:int) (valIn:MDEntryTime) : int = 
-    WriteFieldStr dest pos "273="B valIn
+    WriteFieldUTCTimeOnly dest pos "273="B valIn
 
 
 let WriteTickDirection (dest:byte array) (nextFreeIdx:int) (xxIn:TickDirection) : int =

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
+    <Compile Include="FIXDateTime.fs" />
     <Compile Include="Conversions.fs" />
     <Compile Include="FIXBufUtils.fs" />
     <Compile Include="StreamUtils.fs" />

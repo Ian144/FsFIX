@@ -1804,7 +1804,7 @@ let ReadMDEntryDate (pos:int) (bs:byte[]) : (int*MDEntryDate) =
 
 
 let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =
-    ReadSingleCaseDUStrField pos bs MDEntryTime.MDEntryTime
+    ReadSingleCaseUTCTimeOnlyField pos bs MDEntryTime.MDEntryTime
 
 
 let ReadTickDirection (pos:int) (bs:byte[]) : (int * TickDirection) =

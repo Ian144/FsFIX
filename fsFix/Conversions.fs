@@ -36,4 +36,5 @@ type ToBytes private () =
     static member Convert (dd:decimal) = sprintf "%.32f" dd |> sToB  // todo: is "%.32f" ok for Decimal->string conversion, how does fix represent such types? what is thier byte representation
     static member Convert (bb:bool)    = if bb then "1"B else "0"B   // todo: confirm this is how FIX sends bools down the wire
     static member Convert (bs:byte []) = bs
+    
 
