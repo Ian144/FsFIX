@@ -393,7 +393,7 @@ type OrigClOrdID =
 
 
 type OrigTime =
-    |OrigTime of string
+    |OrigTime of UTCTimestamp
      member x.Value = let (OrigTime v) = x in v
 
 
@@ -428,7 +428,7 @@ type SenderSubID =
 
 
 type SendingTime =
-    |SendingTime of string
+    |SendingTime of UTCTimestamp
      member x.Value = let (SendingTime v) = x in v
 
 
@@ -488,7 +488,7 @@ type TimeInForce =
 
 
 type TransactTime =
-    |TransactTime of string
+    |TransactTime of UTCTimestamp
      member x.Value = let (TransactTime v) = x in v
 
 
@@ -499,7 +499,7 @@ type Urgency =
 
 
 type ValidUntilTime =
-    |ValidUntilTime of string
+    |ValidUntilTime of UTCTimestamp
      member x.Value = let (ValidUntilTime v) = x in v
 
 
@@ -837,7 +837,7 @@ type ForexReq =
 
 
 type OrigSendingTime =
-    |OrigSendingTime of string
+    |OrigSendingTime of UTCTimestamp
      member x.Value = let (OrigSendingTime v) = x in v
 
 
@@ -852,7 +852,7 @@ type NoExecs =
 
 
 type ExpireTime =
-    |ExpireTime of string
+    |ExpireTime of UTCTimestamp
      member x.Value = let (ExpireTime v) = x in v
 
 
@@ -1186,7 +1186,7 @@ type SecurityType =
 
 
 type EffectiveTime =
-    |EffectiveTime of string
+    |EffectiveTime of UTCTimestamp
      member x.Value = let (EffectiveTime v) = x in v
 
 
@@ -2180,27 +2180,27 @@ type TradSesStatus =
 
 
 type TradSesStartTime =
-    |TradSesStartTime of string
+    |TradSesStartTime of UTCTimestamp
      member x.Value = let (TradSesStartTime v) = x in v
 
 
 type TradSesOpenTime =
-    |TradSesOpenTime of string
+    |TradSesOpenTime of UTCTimestamp
      member x.Value = let (TradSesOpenTime v) = x in v
 
 
 type TradSesPreCloseTime =
-    |TradSesPreCloseTime of string
+    |TradSesPreCloseTime of UTCTimestamp
      member x.Value = let (TradSesPreCloseTime v) = x in v
 
 
 type TradSesCloseTime =
-    |TradSesCloseTime of string
+    |TradSesCloseTime of UTCTimestamp
      member x.Value = let (TradSesCloseTime v) = x in v
 
 
 type TradSesEndTime =
-    |TradSesEndTime of string
+    |TradSesEndTime of UTCTimestamp
      member x.Value = let (TradSesEndTime v) = x in v
 
 
@@ -2276,7 +2276,7 @@ type AllocPrice =
 
 
 type QuoteSetValidUntilTime =
-    |QuoteSetValidUntilTime of string
+    |QuoteSetValidUntilTime of UTCTimestamp
      member x.Value = let (QuoteSetValidUntilTime v) = x in v
 
 
@@ -2709,7 +2709,7 @@ type ContraTradeQty =
 
 
 type ContraTradeTime =
-    |ContraTradeTime of string
+    |ContraTradeTime of UTCTimestamp
      member x.Value = let (ContraTradeTime v) = x in v
 
 
@@ -2725,7 +2725,7 @@ type MultiLegReportingType =
 
 
 type StrikeTime =
-    |StrikeTime of string
+    |StrikeTime of UTCTimestamp
      member x.Value = let (StrikeTime v) = x in v
 
 
@@ -2995,7 +2995,7 @@ type MailingInst =
 
 
 type TransBkdTime =
-    |TransBkdTime of string
+    |TransBkdTime of UTCTimestamp
      member x.Value = let (TransBkdTime v) = x in v
 
 
@@ -3206,7 +3206,7 @@ type RegistTransType =
 
 
 type ExecValuationPoint =
-    |ExecValuationPoint of string
+    |ExecValuationPoint of UTCTimestamp
      member x.Value = let (ExecValuationPoint v) = x in v
 
 
@@ -3652,7 +3652,7 @@ type MassStatusReqType =
 
 
 type OrigOrdModTime =
-    |OrigOrdModTime of string
+    |OrigOrdModTime of UTCTimestamp
      member x.Value = let (OrigOrdModTime v) = x in v
 
 
@@ -3864,7 +3864,7 @@ type HopCompID =
 
 
 type HopSendingTime =
-    |HopSendingTime of string
+    |HopSendingTime of UTCTimestamp
      member x.Value = let (HopSendingTime v) = x in v
 
 
@@ -4650,7 +4650,7 @@ type NoTrdRegTimestamps =
 
 
 type TrdRegTimestamp =
-    |TrdRegTimestamp of string
+    |TrdRegTimestamp of UTCTimestamp
      member x.Value = let (TrdRegTimestamp v) = x in v
 
 
@@ -4706,7 +4706,7 @@ type NoSettlInst =
 
 
 type LastUpdateTime =
-    |LastUpdateTime of string
+    |LastUpdateTime of UTCTimestamp
      member x.Value = let (LastUpdateTime v) = x in v
 
 

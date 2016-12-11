@@ -84,27 +84,29 @@ let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> cor
 
 let private getSingleCaseDUReadFuncString (fieldType:string) =
     match fieldType with
-    | "int"         -> "ReadSingleCaseDUIntField"
-    | "decimal"     -> "ReadSingleCaseDUDecimalField"
-    | "bool"        -> "ReadSingleCaseDUBoolField"
-    | "string"      -> "ReadSingleCaseDUStrField"
-    | "byte []"     -> "ReadSingleCaseDUDataField"
-    | "UTCTimeOnly" -> "ReadSingleCaseUTCTimeOnlyField"
-    | "UTCDate"     -> "ReadSingleCaseUTCDateField"
-    | _             -> failwith "unknown type name"
+    | "int"             -> "ReadSingleCaseDUIntField"
+    | "decimal"         -> "ReadSingleCaseDUDecimalField"
+    | "bool"            -> "ReadSingleCaseDUBoolField"
+    | "string"          -> "ReadSingleCaseDUStrField"
+    | "byte []"         -> "ReadSingleCaseDUDataField"
+    | "UTCTimeOnly"     -> "ReadSingleCaseUTCTimeOnlyField"
+    | "UTCDate"         -> "ReadSingleCaseUTCDateField"
+    | "UTCTimestamp"    -> "ReadSingleCaseUTCTimestampField" 
+    | _                 -> failwith "unknown type name"
 
 
 
 let private getSingleCaseDUWriteFuncString (fieldType:string) =
     match fieldType with
-    | "int"         -> "WriteFieldInt"
-    | "decimal"     -> "WriteFieldDecimal"
-    | "bool"        -> "WriteFieldBool"
-    | "string"      -> "WriteFieldStr"
-    | "byte []"     -> "WriteFieldData"
-    | "UTCTimeOnly" -> "WriteFieldUTCTimeOnly"
-    | "UTCDate"     -> "WriteFieldUTCDate"
-    | _             -> failwith "unknown type name"
+    | "int"             -> "WriteFieldInt"
+    | "decimal"         -> "WriteFieldDecimal"
+    | "bool"            -> "WriteFieldBool"
+    | "string"          -> "WriteFieldStr"
+    | "byte []"         -> "WriteFieldData"
+    | "UTCTimeOnly"     -> "WriteFieldUTCTimeOnly"
+    | "UTCDate"         -> "WriteFieldUTCDate"
+    | "UTCTimestamp"    -> "WriteFieldUTCTimestamp"
+    | _                 -> failwith "unknown type name"
 
 
 
@@ -164,9 +166,9 @@ let private createFieldTypes (field:SimpleField) =
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
     | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
     | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
-    | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate" // todo: storing UTCDATEONLY as string, use appropriate type (use NODA TIME)
+    | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
-    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing UTCTIMESTAMP as string, use appropriate type (use NODA TIME)
+    | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"
     | "XMLDATA",                true    -> makeSingleCaseDU fieldName tag "string"
     | "INT",                    false   -> createFieldDUWithValues fieldName tag values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
     | "CHAR",                   false   -> createFieldDUWithValues fieldName tag values

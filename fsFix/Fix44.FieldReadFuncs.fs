@@ -430,7 +430,7 @@ let ReadOrigClOrdID (pos:int) (bs:byte[]) : (int*OrigClOrdID) =
 
 
 let ReadOrigTime (pos:int) (bs:byte[]) : (int*OrigTime) =
-    ReadSingleCaseDUStrField pos bs OrigTime.OrigTime
+    ReadSingleCaseUTCTimestampField pos bs OrigTime.OrigTime
 
 
 let ReadPossDupFlag (pos:int) (bs:byte[]) : (int*PossDupFlag) =
@@ -458,7 +458,7 @@ let ReadSenderSubID (pos:int) (bs:byte[]) : (int*SenderSubID) =
 
 
 let ReadSendingTime (pos:int) (bs:byte[]) : (int*SendingTime) =
-    ReadSingleCaseDUStrField pos bs SendingTime.SendingTime
+    ReadSingleCaseUTCTimestampField pos bs SendingTime.SendingTime
 
 
 let ReadQuantity (pos:int) (bs:byte[]) : (int*Quantity) =
@@ -522,7 +522,7 @@ let ReadTimeInForce (pos:int) (bs:byte[]) : (int * TimeInForce) =
 
 
 let ReadTransactTime (pos:int) (bs:byte[]) : (int*TransactTime) =
-    ReadSingleCaseDUStrField pos bs TransactTime.TransactTime
+    ReadSingleCaseUTCTimestampField pos bs TransactTime.TransactTime
 
 
 let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
@@ -537,7 +537,7 @@ let ReadUrgency (pos:int) (bs:byte[]) : (int * Urgency) =
 
 
 let ReadValidUntilTime (pos:int) (bs:byte[]) : (int*ValidUntilTime) =
-    ReadSingleCaseDUStrField pos bs ValidUntilTime.ValidUntilTime
+    ReadSingleCaseUTCTimestampField pos bs ValidUntilTime.ValidUntilTime
 
 
 let ReadSettlType (pos:int) (bs:byte[]) : (int * SettlType) =
@@ -895,7 +895,7 @@ let ReadForexReq (pos:int) (bs:byte[]) : (int*ForexReq) =
 
 
 let ReadOrigSendingTime (pos:int) (bs:byte[]) : (int*OrigSendingTime) =
-    ReadSingleCaseDUStrField pos bs OrigSendingTime.OrigSendingTime
+    ReadSingleCaseUTCTimestampField pos bs OrigSendingTime.OrigSendingTime
 
 
 let ReadGapFillFlag (pos:int) (bs:byte[]) : (int*GapFillFlag) =
@@ -907,7 +907,7 @@ let ReadNoExecs (pos:int) (bs:byte[]) : (int*NoExecs) =
 
 
 let ReadExpireTime (pos:int) (bs:byte[]) : (int*ExpireTime) =
-    ReadSingleCaseDUStrField pos bs ExpireTime.ExpireTime
+    ReadSingleCaseUTCTimestampField pos bs ExpireTime.ExpireTime
 
 
 let ReadDKReason (pos:int) (bs:byte[]) : (int * DKReason) =
@@ -1248,7 +1248,7 @@ let ReadSecurityType (pos:int) (bs:byte[]) : (int * SecurityType) =
 
 
 let ReadEffectiveTime (pos:int) (bs:byte[]) : (int*EffectiveTime) =
-    ReadSingleCaseDUStrField pos bs EffectiveTime.EffectiveTime
+    ReadSingleCaseUTCTimestampField pos bs EffectiveTime.EffectiveTime
 
 
 let ReadStandInstDbType (pos:int) (bs:byte[]) : (int * StandInstDbType) =
@@ -2313,23 +2313,23 @@ let ReadTradSesStatus (pos:int) (bs:byte[]) : (int * TradSesStatus) =
 
 
 let ReadTradSesStartTime (pos:int) (bs:byte[]) : (int*TradSesStartTime) =
-    ReadSingleCaseDUStrField pos bs TradSesStartTime.TradSesStartTime
+    ReadSingleCaseUTCTimestampField pos bs TradSesStartTime.TradSesStartTime
 
 
 let ReadTradSesOpenTime (pos:int) (bs:byte[]) : (int*TradSesOpenTime) =
-    ReadSingleCaseDUStrField pos bs TradSesOpenTime.TradSesOpenTime
+    ReadSingleCaseUTCTimestampField pos bs TradSesOpenTime.TradSesOpenTime
 
 
 let ReadTradSesPreCloseTime (pos:int) (bs:byte[]) : (int*TradSesPreCloseTime) =
-    ReadSingleCaseDUStrField pos bs TradSesPreCloseTime.TradSesPreCloseTime
+    ReadSingleCaseUTCTimestampField pos bs TradSesPreCloseTime.TradSesPreCloseTime
 
 
 let ReadTradSesCloseTime (pos:int) (bs:byte[]) : (int*TradSesCloseTime) =
-    ReadSingleCaseDUStrField pos bs TradSesCloseTime.TradSesCloseTime
+    ReadSingleCaseUTCTimestampField pos bs TradSesCloseTime.TradSesCloseTime
 
 
 let ReadTradSesEndTime (pos:int) (bs:byte[]) : (int*TradSesEndTime) =
-    ReadSingleCaseDUStrField pos bs TradSesEndTime.TradSesEndTime
+    ReadSingleCaseUTCTimestampField pos bs TradSesEndTime.TradSesEndTime
 
 
 let ReadNumberOfOrders (pos:int) (bs:byte[]) : (int*NumberOfOrders) =
@@ -2398,7 +2398,7 @@ let ReadAllocPrice (pos:int) (bs:byte[]) : (int*AllocPrice) =
 
 
 let ReadQuoteSetValidUntilTime (pos:int) (bs:byte[]) : (int*QuoteSetValidUntilTime) =
-    ReadSingleCaseDUStrField pos bs QuoteSetValidUntilTime.QuoteSetValidUntilTime
+    ReadSingleCaseUTCTimestampField pos bs QuoteSetValidUntilTime.QuoteSetValidUntilTime
 
 
 let ReadQuoteEntryRejectReason (pos:int) (bs:byte[]) : (int * QuoteEntryRejectReason) =
@@ -2893,7 +2893,7 @@ let ReadContraTradeQty (pos:int) (bs:byte[]) : (int*ContraTradeQty) =
 
 
 let ReadContraTradeTime (pos:int) (bs:byte[]) : (int*ContraTradeTime) =
-    ReadSingleCaseDUStrField pos bs ContraTradeTime.ContraTradeTime
+    ReadSingleCaseUTCTimestampField pos bs ContraTradeTime.ContraTradeTime
 
 
 let ReadLiquidityNumSecurities (pos:int) (bs:byte[]) : (int*LiquidityNumSecurities) =
@@ -2912,7 +2912,7 @@ let ReadMultiLegReportingType (pos:int) (bs:byte[]) : (int * MultiLegReportingTy
 
 
 let ReadStrikeTime (pos:int) (bs:byte[]) : (int*StrikeTime) =
-    ReadSingleCaseDUStrField pos bs StrikeTime.StrikeTime
+    ReadSingleCaseUTCTimestampField pos bs StrikeTime.StrikeTime
 
 
 let ReadListStatusText (pos:int) (bs:byte[]) : (int*ListStatusText) =
@@ -3193,7 +3193,7 @@ let ReadMailingInst (pos:int) (bs:byte[]) : (int*MailingInst) =
 
 
 let ReadTransBkdTime (pos:int) (bs:byte[]) : (int*TransBkdTime) =
-    ReadSingleCaseDUStrField pos bs TransBkdTime.TransBkdTime
+    ReadSingleCaseUTCTimestampField pos bs TransBkdTime.TransBkdTime
 
 
 let ReadExecPriceType (pos:int) (bs:byte[]) : (int * ExecPriceType) =
@@ -3420,7 +3420,7 @@ let ReadRegistTransType (pos:int) (bs:byte[]) : (int * RegistTransType) =
 
 
 let ReadExecValuationPoint (pos:int) (bs:byte[]) : (int*ExecValuationPoint) =
-    ReadSingleCaseDUStrField pos bs ExecValuationPoint.ExecValuationPoint
+    ReadSingleCaseUTCTimestampField pos bs ExecValuationPoint.ExecValuationPoint
 
 
 let ReadOrderPercent (pos:int) (bs:byte[]) : (int*OrderPercent) =
@@ -3939,7 +3939,7 @@ let ReadMassStatusReqType (pos:int) (bs:byte[]) : (int * MassStatusReqType) =
 
 
 let ReadOrigOrdModTime (pos:int) (bs:byte[]) : (int*OrigOrdModTime) =
-    ReadSingleCaseDUStrField pos bs OrigOrdModTime.OrigOrdModTime
+    ReadSingleCaseUTCTimestampField pos bs OrigOrdModTime.OrigOrdModTime
 
 
 let ReadLegSettlType (pos:int) (bs:byte[]) : (int*LegSettlType) =
@@ -4134,7 +4134,7 @@ let ReadHopCompID (pos:int) (bs:byte[]) : (int*HopCompID) =
 
 
 let ReadHopSendingTime (pos:int) (bs:byte[]) : (int*HopSendingTime) =
-    ReadSingleCaseDUStrField pos bs HopSendingTime.HopSendingTime
+    ReadSingleCaseUTCTimestampField pos bs HopSendingTime.HopSendingTime
 
 
 let ReadHopRefID (pos:int) (bs:byte[]) : (int*HopRefID) =
@@ -4955,7 +4955,7 @@ let ReadNoTrdRegTimestamps (pos:int) (bs:byte[]) : (int*NoTrdRegTimestamps) =
 
 
 let ReadTrdRegTimestamp (pos:int) (bs:byte[]) : (int*TrdRegTimestamp) =
-    ReadSingleCaseDUStrField pos bs TrdRegTimestamp.TrdRegTimestamp
+    ReadSingleCaseUTCTimestampField pos bs TrdRegTimestamp.TrdRegTimestamp
 
 
 let ReadTrdRegTimestampType (pos:int) (bs:byte[]) : (int * TrdRegTimestampType) =
@@ -5025,7 +5025,7 @@ let ReadNoSettlInst (pos:int) (bs:byte[]) : (int*NoSettlInst) =
 
 
 let ReadLastUpdateTime (pos:int) (bs:byte[]) : (int*LastUpdateTime) =
-    ReadSingleCaseDUStrField pos bs LastUpdateTime.LastUpdateTime
+    ReadSingleCaseUTCTimestampField pos bs LastUpdateTime.LastUpdateTime
 
 
 let ReadAllocSettlInstType (pos:int) (bs:byte[]) : (int * AllocSettlInstType) =

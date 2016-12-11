@@ -56,6 +56,13 @@ let ReadSingleCaseUTCDateField  (pos:int) (bs:byte[]) fldCtor =
     let dt = FIXDateTime.fromBytesUTCDate bs pos pos2
     pos2 + 1,  fldCtor dt
 
+let ReadSingleCaseUTCTimestampField (pos:int) (bs:byte[]) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+    let dt = FIXDateTime.fromBytesUTCTimestamp bs pos pos2
+    pos2 + 1,  fldCtor dt
+
+
+
 
 
 // all compound fields are of type data (i.e. byte[])
@@ -159,6 +166,23 @@ let inline WriteFieldUTCDate
     let nextFreeIdx3 =  FIXDateTime.writeBytesUTCDate tm dest nextFreeIdx2
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     nextFreeIdx3 + 1 // +1 to move past the delimeter
+
+
+let inline WriteFieldUTCTimestamp
+        (dest:byte []) 
+        (nextFreeIdx:int) 
+        (tag:byte[]) 
+        (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:UTCTimestamp) fieldIn)
+    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCTimestamp tm dest nextFreeIdx2
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    nextFreeIdx3 + 1 // +1 to move past the delimeter
+
+
+
+
 
 
 let inline WriteFieldData

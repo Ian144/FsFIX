@@ -1467,7 +1467,7 @@ let WriteOrigClOrdID (dest:byte []) (pos:int) (valIn:OrigClOrdID) : int =
 
 
 let WriteOrigTime (dest:byte []) (pos:int) (valIn:OrigTime) : int = 
-    WriteFieldStr dest pos "42="B valIn
+    WriteFieldUTCTimestamp dest pos "42="B valIn
 
 
 let WritePossDupFlag (dest:byte []) (pos:int) (valIn:PossDupFlag) : int = 
@@ -1495,7 +1495,7 @@ let WriteSenderSubID (dest:byte []) (pos:int) (valIn:SenderSubID) : int =
 
 
 let WriteSendingTime (dest:byte []) (pos:int) (valIn:SendingTime) : int = 
-    WriteFieldStr dest pos "52="B valIn
+    WriteFieldUTCTimestamp dest pos "52="B valIn
 
 
 let WriteQuantity (dest:byte []) (pos:int) (valIn:Quantity) : int = 
@@ -1671,7 +1671,7 @@ let WriteTimeInForce (dest:byte array) (nextFreeIdx:int) (xxIn:TimeInForce) : in
 
 
 let WriteTransactTime (dest:byte []) (pos:int) (valIn:TransactTime) : int = 
-    WriteFieldStr dest pos "60="B valIn
+    WriteFieldUTCTimestamp dest pos "60="B valIn
 
 
 let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
@@ -1697,7 +1697,7 @@ let WriteUrgency (dest:byte array) (nextFreeIdx:int) (xxIn:Urgency) : int =
 
 
 let WriteValidUntilTime (dest:byte []) (pos:int) (valIn:ValidUntilTime) : int = 
-    WriteFieldStr dest pos "62="B valIn
+    WriteFieldUTCTimestamp dest pos "62="B valIn
 
 
 let WriteSettlType (dest:byte array) (nextFreeIdx:int) (xxIn:SettlType) : int =
@@ -2502,7 +2502,7 @@ let WriteForexReq (dest:byte []) (pos:int) (valIn:ForexReq) : int =
 
 
 let WriteOrigSendingTime (dest:byte []) (pos:int) (valIn:OrigSendingTime) : int = 
-    WriteFieldStr dest pos "122="B valIn
+    WriteFieldUTCTimestamp dest pos "122="B valIn
 
 
 let WriteGapFillFlag (dest:byte []) (pos:int) (valIn:GapFillFlag) : int = 
@@ -2514,7 +2514,7 @@ let WriteNoExecs (dest:byte []) (pos:int) (valIn:NoExecs) : int =
 
 
 let WriteExpireTime (dest:byte []) (pos:int) (valIn:ExpireTime) : int = 
-    WriteFieldStr dest pos "126="B valIn
+    WriteFieldUTCTimestamp dest pos "126="B valIn
 
 
 let WriteDKReason (dest:byte array) (nextFreeIdx:int) (xxIn:DKReason) : int =
@@ -3548,7 +3548,7 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
 
 
 let WriteEffectiveTime (dest:byte []) (pos:int) (valIn:EffectiveTime) : int = 
-    WriteFieldStr dest pos "168="B valIn
+    WriteFieldUTCTimestamp dest pos "168="B valIn
 
 
 let WriteStandInstDbType (dest:byte array) (nextFreeIdx:int) (xxIn:StandInstDbType) : int =
@@ -6025,23 +6025,23 @@ let WriteTradSesStatus (dest:byte array) (nextFreeIdx:int) (xxIn:TradSesStatus) 
 
 
 let WriteTradSesStartTime (dest:byte []) (pos:int) (valIn:TradSesStartTime) : int = 
-    WriteFieldStr dest pos "341="B valIn
+    WriteFieldUTCTimestamp dest pos "341="B valIn
 
 
 let WriteTradSesOpenTime (dest:byte []) (pos:int) (valIn:TradSesOpenTime) : int = 
-    WriteFieldStr dest pos "342="B valIn
+    WriteFieldUTCTimestamp dest pos "342="B valIn
 
 
 let WriteTradSesPreCloseTime (dest:byte []) (pos:int) (valIn:TradSesPreCloseTime) : int = 
-    WriteFieldStr dest pos "343="B valIn
+    WriteFieldUTCTimestamp dest pos "343="B valIn
 
 
 let WriteTradSesCloseTime (dest:byte []) (pos:int) (valIn:TradSesCloseTime) : int = 
-    WriteFieldStr dest pos "344="B valIn
+    WriteFieldUTCTimestamp dest pos "344="B valIn
 
 
 let WriteTradSesEndTime (dest:byte []) (pos:int) (valIn:TradSesEndTime) : int = 
-    WriteFieldStr dest pos "345="B valIn
+    WriteFieldUTCTimestamp dest pos "345="B valIn
 
 
 let WriteNumberOfOrders (dest:byte []) (pos:int) (valIn:NumberOfOrders) : int = 
@@ -6126,7 +6126,7 @@ let WriteAllocPrice (dest:byte []) (pos:int) (valIn:AllocPrice) : int =
 
 
 let WriteQuoteSetValidUntilTime (dest:byte []) (pos:int) (valIn:QuoteSetValidUntilTime) : int = 
-    WriteFieldStr dest pos "367="B valIn
+    WriteFieldUTCTimestamp dest pos "367="B valIn
 
 
 let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteEntryRejectReason) : int =
@@ -7168,7 +7168,7 @@ let WriteContraTradeQty (dest:byte []) (pos:int) (valIn:ContraTradeQty) : int =
 
 
 let WriteContraTradeTime (dest:byte []) (pos:int) (valIn:ContraTradeTime) : int = 
-    WriteFieldStr dest pos "438="B valIn
+    WriteFieldUTCTimestamp dest pos "438="B valIn
 
 
 let WriteLiquidityNumSecurities (dest:byte []) (pos:int) (valIn:LiquidityNumSecurities) : int = 
@@ -7198,7 +7198,7 @@ let WriteMultiLegReportingType (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLe
 
 
 let WriteStrikeTime (dest:byte []) (pos:int) (valIn:StrikeTime) : int = 
-    WriteFieldStr dest pos "443="B valIn
+    WriteFieldUTCTimestamp dest pos "443="B valIn
 
 
 let WriteListStatusText (dest:byte []) (pos:int) (valIn:ListStatusText) : int = 
@@ -7947,7 +7947,7 @@ let WriteMailingInst (dest:byte []) (pos:int) (valIn:MailingInst) : int =
 
 
 let WriteTransBkdTime (dest:byte []) (pos:int) (valIn:TransBkdTime) : int = 
-    WriteFieldStr dest pos "483="B valIn
+    WriteFieldUTCTimestamp dest pos "483="B valIn
 
 
 let WriteExecPriceType (dest:byte array) (nextFreeIdx:int) (xxIn:ExecPriceType) : int =
@@ -8477,7 +8477,7 @@ let WriteRegistTransType (dest:byte array) (nextFreeIdx:int) (xxIn:RegistTransTy
 
 
 let WriteExecValuationPoint (dest:byte []) (pos:int) (valIn:ExecValuationPoint) : int = 
-    WriteFieldStr dest pos "515="B valIn
+    WriteFieldUTCTimestamp dest pos "515="B valIn
 
 
 let WriteOrderPercent (dest:byte []) (pos:int) (valIn:OrderPercent) : int = 
@@ -9595,7 +9595,7 @@ let WriteMassStatusReqType (dest:byte array) (nextFreeIdx:int) (xxIn:MassStatusR
 
 
 let WriteOrigOrdModTime (dest:byte []) (pos:int) (valIn:OrigOrdModTime) : int = 
-    WriteFieldStr dest pos "586="B valIn
+    WriteFieldUTCTimestamp dest pos "586="B valIn
 
 
 let WriteLegSettlType (dest:byte []) (pos:int) (valIn:LegSettlType) : int = 
@@ -9839,7 +9839,7 @@ let WriteHopCompID (dest:byte []) (pos:int) (valIn:HopCompID) : int =
 
 
 let WriteHopSendingTime (dest:byte []) (pos:int) (valIn:HopSendingTime) : int = 
-    WriteFieldStr dest pos "629="B valIn
+    WriteFieldUTCTimestamp dest pos "629="B valIn
 
 
 let WriteHopRefID (dest:byte []) (pos:int) (valIn:HopRefID) : int = 
@@ -11289,7 +11289,7 @@ let WriteNoTrdRegTimestamps (dest:byte []) (pos:int) (valIn:NoTrdRegTimestamps) 
 
 
 let WriteTrdRegTimestamp (dest:byte []) (pos:int) (valIn:TrdRegTimestamp) : int = 
-    WriteFieldStr dest pos "769="B valIn
+    WriteFieldUTCTimestamp dest pos "769="B valIn
 
 
 let WriteTrdRegTimestampType (dest:byte array) (nextFreeIdx:int) (xxIn:TrdRegTimestampType) : int =
@@ -11413,7 +11413,7 @@ let WriteNoSettlInst (dest:byte []) (pos:int) (valIn:NoSettlInst) : int =
 
 
 let WriteLastUpdateTime (dest:byte []) (pos:int) (valIn:LastUpdateTime) : int = 
-    WriteFieldStr dest pos "779="B valIn
+    WriteFieldUTCTimestamp dest pos "779="B valIn
 
 
 let WriteAllocSettlInstType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocSettlInstType) : int =
