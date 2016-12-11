@@ -81,9 +81,10 @@
     <Compile Include="FieldWriteTests.fs" />
     <Compile Include="FieldReadTests.fs" />
     <Compile Include="WriteReadUnitTests.fs" />
-    <Compile Include="UTCTimeOnlyTests.fs" />
+    <Compile Include="UTCDateTests.fs" />
     <Content Include="App.config" />
     <None Include="paket.references" />
+    <Compile Include="UTCTimeOnlyTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

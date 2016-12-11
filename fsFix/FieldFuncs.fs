@@ -47,7 +47,7 @@ let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
 
 let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
-    let tm = FIXDateTime.fromBytes bs pos pos2
+    let tm = FIXDateTime.fromBytesUTCTimeOnly bs pos pos2
     pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
@@ -136,7 +136,7 @@ let inline WriteFieldUTCTimeOnly
     let tm = (^T :(member Value:UTCTimeOnly) fieldIn)
     Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
     let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  FIXDateTime.writeBytes tm dest nextFreeIdx2
+    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCTimeOnly tm dest nextFreeIdx2
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
