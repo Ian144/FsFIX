@@ -1800,7 +1800,7 @@ let ReadMDEntrySize (pos:int) (bs:byte[]) : (int*MDEntrySize) =
 
 
 let ReadMDEntryDate (pos:int) (bs:byte[]) : (int*MDEntryDate) =
-    ReadSingleCaseDUStrField pos bs MDEntryDate.MDEntryDate
+    ReadSingleCaseUTCDateField pos bs MDEntryDate.MDEntryDate
 
 
 let ReadMDEntryTime (pos:int) (bs:byte[]) : (int*MDEntryTime) =

@@ -70,17 +70,27 @@ let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs;
                                         1,  genUTCTimeOnlyLeapSecondNoMs; 
                                         1,  genUTCTimeOnlyLeapSecondMs   ])
 
+let genUTCDate = 
+        gen {
+            let! yy = Gen.choose(0, 9999)
+            let! mm = Gen.choose(1, 12)
+            let! dd = Gen.choose(1, 31)
+            return FIXDateTime.MakeUTCDate(yy, mm, dd)
+        }
+
+
 
 
 type ArbOverrides() =
     static member String()      = Arb.fromGen genAlphaString
-    static member OTCTimeOnly() = Arb.fromGen genUTCTimeOnly
+    static member UTCTimeOnly() = Arb.fromGen genUTCTimeOnly
+    static member UTCDate()     = Arb.fromGen genUTCDate
 
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 100,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -269,11 +279,8 @@ let MessageWithHeaderTrailer
         (msgSeqNum:MsgSeqNum) 
         (sendingTime:SendingTime) 
         (msg:FIXMessage) =
-    
     let buf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize // todo: think of better names
-
-
     let posW = WriterUtils.WriteMessageDU 
                                 tmpBuf 
                                 buf 
@@ -284,9 +291,6 @@ let MessageWithHeaderTrailer
                                 msgSeqNum
                                 sendingTime
                                 msg
-
     let tmpBuf2 = Array.zeroCreate<byte> bufSize
-
     let posR, msgOut = WriterUtils.ReadMessage buf tmpBuf2
-
     msg =! msgOut

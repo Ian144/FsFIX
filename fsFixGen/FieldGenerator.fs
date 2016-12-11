@@ -90,6 +90,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "string"      -> "ReadSingleCaseDUStrField"
     | "byte []"     -> "ReadSingleCaseDUDataField"
     | "UTCTimeOnly" -> "ReadSingleCaseUTCTimeOnlyField"
+    | "UTCDate"     -> "ReadSingleCaseUTCDateField"
     | _             -> failwith "unknown type name"
 
 
@@ -102,6 +103,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "string"      -> "WriteFieldStr"
     | "byte []"     -> "WriteFieldData"
     | "UTCTimeOnly" -> "WriteFieldUTCTimeOnly"
+    | "UTCDate"     -> "WriteFieldUTCDate"
     | _             -> failwith "unknown type name"
 
 

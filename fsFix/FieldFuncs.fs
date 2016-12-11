@@ -51,6 +51,13 @@ let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
     pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
+let ReadSingleCaseUTCDateField  (pos:int) (bs:byte[]) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+    let dt = FIXDateTime.fromBytesUTCDate bs pos pos2
+    pos2 + 1,  fldCtor dt
+
+
+
 // all compound fields are of type data (i.e. byte[])
 let ReadLengthDataCompoundField (strTagExpected:byte[]) (pos:int) (bs:byte[]) fldCtor =
     let nextFieldBeg, lenBytes = FIXBufUtils.readValAfterTagValSep pos bs
@@ -141,6 +148,17 @@ let inline WriteFieldUTCTimeOnly
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
 
+let inline WriteFieldUTCDate
+        (dest:byte []) 
+        (nextFreeIdx:int) 
+        (tag:byte[]) 
+        (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:UTCDate) fieldIn)
+    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCDate tm dest nextFreeIdx2
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    nextFreeIdx3 + 1 // +1 to move past the delimeter
 
 
 let inline WriteFieldData

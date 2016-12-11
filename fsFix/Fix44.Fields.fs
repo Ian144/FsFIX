@@ -1738,7 +1738,7 @@ type MDEntrySize =
 
 
 type MDEntryDate =
-    |MDEntryDate of string
+    |MDEntryDate of UTCDate
      member x.Value = let (MDEntryDate v) = x in v
 
 

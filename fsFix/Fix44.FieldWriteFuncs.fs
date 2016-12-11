@@ -4839,7 +4839,7 @@ let WriteMDEntrySize (dest:byte []) (pos:int) (valIn:MDEntrySize) : int =
 
 
 let WriteMDEntryDate (dest:byte []) (pos:int) (valIn:MDEntryDate) : int = 
-    WriteFieldStr dest pos "272="B valIn
+    WriteFieldUTCDate dest pos "272="B valIn
 
 
 let WriteMDEntryTime (dest:byte []) (pos:int) (valIn:MDEntryTime) : int = 
