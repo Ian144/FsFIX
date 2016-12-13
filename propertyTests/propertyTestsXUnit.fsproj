@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="App.config" />
+    <Compile Include="DateTimeGenerators.fs" />
     <Compile Include="WriteReadPropTests.fs" />
     <None Include="paket.references" />
   </ItemGroup>

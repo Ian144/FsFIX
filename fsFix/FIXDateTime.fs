@@ -43,21 +43,27 @@ let inline private validateHHMMSS   (hh, mm, ss)        = hh >= 0 && hh <= 23 &&
 let inline private validateHHMMSSMS (hh, mm, ss, ms)    = validateHHMMSS (hh, mm, ss) && ms >= 0 && ms <= 999
 let inline private validateYYYYMMDD (yy, mm, dd)        = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
 
+let inline private validateYYYYMMDD_HHMMSSMS (yy, mth, dd, hh, mm, ss, ms) = validateYYYYMMDD (yy, mth, dd) && validateHHMMSSMS(hh, mm, ss, ms)
+let inline private validateYYYYMMDD_HHMMSS   (yy, mth, dd, hh, mm, ss)     = validateYYYYMMDD (yy, mth, dd) && validateHHMMSS(hh, mm, ss)
+
 
 // function overloading in F#
 [<AbstractClass;Sealed>]
 type MakeUTCTimestamp private () =
     static member Make (yy:int, mth:int, dd:int, hh:int, mm:int, ss:int) : UTCTimestamp = 
                     match yy, mth, dd, hh, mm, ss with
-                    | yy, mth, dd, 23, 59, 60 when validateYYYYMMDD (yy, mth, dd)   -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
-                    | yy, mth, dd, hh, mm, ss when validateHHMMSS (hh, mm, ss)      -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)
-                    | _                                                             -> failwith "invalid UTCTimestamp"
+                    | yy, mth, dd, 23, 59, 60 when validateYYYYMMDD (yy, mth, dd)                       -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
+                    | yy, mth, dd, hh, mm, ss when validateYYYYMMDD_HHMMSS (yy, mth, dd, hh, mm, ss)    -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)
+                    | _                                                                                 -> let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d" yy mth dd hh mm ss
+                                                                                                           failwith msg
 
     static member Make (yy:int, mth:int, dd:int, hh:int, mm:int, ss:int, ms:int): UTCTimestamp = 
                     match yy, mth, dd, hh, mm, ss, ms with
-                    | yy, mth, dd, 23, 59, 60, ms when validateYYYYMMDD (yy, mm, dd) && ms >= 0 && ms <= 999                -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | yy, mth, dd, hh, mm, ss, ms when validateYYYYMMDD (yy, mm, dd) && validateHHMMSSMS (hh, mm, ss, ms)   -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
-                    | _                                                                                                     -> failwith "invalid UTCTimestamp"
+                    | yy, mth, dd, 23, 59, 60, ms when validateYYYYMMDD (yy, mth, dd) && ms >= 0 && ms <= 999   -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
+                    | yy, mth, dd, hh, mm, ss, ms when validateYYYYMMDD_HHMMSSMS (yy, mth, dd, hh, mm, ss, ms)  -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | _                                                                                         -> let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d.%03d" yy mth dd hh mm ss ms
+                                                                                                                   failwith msg
+
 
 
 let MakeUTCDate (yy:int, mm:int, dd:int) : UTCDate = 
@@ -94,7 +100,7 @@ let inline private write2ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
     bs.[pos+1] <- b2
 
 
-let inline private write3Byte2Int (bs:byte[]) (pos:int) (n:int) : unit =
+let inline private write3ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
     let d1 = (n / 100) 
     let n2 = n - (d1 * 100) 
     let d2 = n2 / 10
@@ -108,7 +114,7 @@ let inline private write3Byte2Int (bs:byte[]) (pos:int) (n:int) : unit =
 
 
 
-let private write4ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
+let inline private write4ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
     let d1 = (n / 1000) 
     let n2 = n - (d1 * 1000) 
     let d2 = n2 / 100
@@ -169,9 +175,9 @@ let inline private readTimestampInts (bs:byte[]) (begPos:int) =
     let yy  = bytes4ToInt bs begPos
     let mth = bytes2ToInt bs (begPos + 4)
     let dd  = bytes2ToInt bs (begPos + 6)
-    let hh  = bytes2ToInt bs (begPos + 8)
-    let mm  = bytes2ToInt bs (begPos + 11)
-    let ss  = bytes2ToInt bs (begPos + 14)
+    let hh  = bytes2ToInt bs (begPos + 9)
+    let mm  = bytes2ToInt bs (begPos + 12)
+    let ss  = bytes2ToInt bs (begPos + 15)
     yy, mth, dd, hh, mm, ss
 
 
@@ -179,10 +185,10 @@ let inline private readTimestampMsInts (bs:byte[]) (begPos:int) =
     let yy  = bytes4ToInt bs begPos
     let mth = bytes2ToInt bs (begPos + 4)
     let dd  = bytes2ToInt bs (begPos + 6)
-    let hh  = bytes2ToInt bs (begPos + 8)
-    let mm  = bytes2ToInt bs (begPos + 11)
-    let ss  = bytes2ToInt bs (begPos + 14)
-    let ms  = bytes3ToInt bs (begPos + 17)
+    let hh  = bytes2ToInt bs (begPos + 9)
+    let mm  = bytes2ToInt bs (begPos + 12)
+    let ss  = bytes2ToInt bs (begPos + 15)
+    let ms  = bytes3ToInt bs (begPos + 18)
     yy, mth, dd, hh, mm, ss, ms
 
 
@@ -212,7 +218,7 @@ let writeBytesUTCTimeOnly (tm:UTCTimeOnly) (bs:byte[]) (pos:int) : int =
             bs.[pos + 5] <- 58uy // write the ':'
             write2ByteInt bs (pos + 6) ss
             bs.[pos + 8] <- 46uy // write the '.'
-            write3Byte2Int bs (pos + 9) ms
+            write3ByteInt bs (pos + 9) ms
             pos + 12
 
 
@@ -258,10 +264,10 @@ let writeBytesUTCTimestamp (tm:UTCTimestamp) (bs:byte[]) (pos:int) : int =
             write2ByteInt bs (pos + 6) dd      
             bs.[pos + 8] <- 45uy // write the '-'
             write2ByteInt bs (pos + 9) hh
-            bs.[pos + 10] <- 58uy // write the ':'
-            write2ByteInt bs (pos + 11) mm
-            bs.[pos + 13] <- 58uy // write the ':'
-            write2ByteInt bs (pos + 14) ss
+            bs.[pos + 11] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 12) mm
+            bs.[pos + 14] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 15) ss
             pos + 17
     | UTCTimestampMs (yy, mth, dd, hh, mm, ss, ms)    ->  
             write4ByteInt bs pos yy
@@ -269,20 +275,20 @@ let writeBytesUTCTimestamp (tm:UTCTimestamp) (bs:byte[]) (pos:int) : int =
             write2ByteInt bs (pos + 6) dd      
             bs.[pos + 8] <- 45uy // write the '-'
             write2ByteInt bs (pos + 9) hh
-            bs.[pos + 10] <- 58uy // write the ':'
-            write2ByteInt bs (pos + 11) mm
-            bs.[pos + 13] <- 58uy // write the ':'
-            write2ByteInt bs (pos + 14) ss
-            bs.[pos + 15] <- 46uy // write the '.'
-            write3Byte2Int bs (pos + 16) ms
+            bs.[pos + 11] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 12) mm
+            bs.[pos + 14] <- 58uy // write the ':'
+            write2ByteInt bs (pos + 15) ss
+            bs.[pos + 17] <- 46uy // write the '.'
+            write3ByteInt bs (pos + 18) ms
             pos + 21
 
 
 let fromBytesUTCTimestamp (bs:byte[]) (begPos:int) (endPos:int)  : UTCTimestamp =
     match (endPos - begPos) with
-    | 8     ->  let yy, mth, dd, hh, mm, ss = readTimestampInts bs begPos
+    | 17    ->  let yy, mth, dd, hh, mm, ss = readTimestampInts bs begPos
                 MakeUTCTimestamp.Make (yy, mth, dd, hh, mm, ss)
-    | 12    ->  let yy, mth, dd, hh, mm, ss, ms = readTimestampMsInts bs begPos
+    | 21    ->  let yy, mth, dd, hh, mm, ss, ms = readTimestampMsInts bs begPos
                 MakeUTCTimestamp.Make (yy, mth, dd, hh, mm, ss, ms)
     | _     ->  failwith "corrupt serialised UTCTimeOnly"
 

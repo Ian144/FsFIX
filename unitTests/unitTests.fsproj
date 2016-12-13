@@ -76,6 +76,7 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="UTCTimestamp.fs" />
     <Compile Include="TestUtils.fs" />
     <Compile Include="ReadTagValueFromStreamTests.fs" />
     <Compile Include="FieldWriteTests.fs" />

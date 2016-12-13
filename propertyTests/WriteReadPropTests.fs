@@ -19,7 +19,7 @@ open Fix44.CompoundItemWriteFuncs
 open Fix44.CompoundItemDU
 open Fix44.MessageDU
 
-
+open DateTimeGenerators
 
 
 
@@ -37,55 +37,13 @@ let genAlphaString =
             return System.String chars
         }
 
-let genUTCTimeOnlyNoMs =
-        gen {
-            let! hh = Gen.choose(0, 23)
-            let! mm = Gen.choose(0, 59)
-            let! ss = Gen.choose(0, 59)
-            return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss)
-        }
-
-let genUTCTimeOnlyMs =
-        gen {
-            let! hh = Gen.choose(0, 23)
-            let! mm = Gen.choose(0, 59)
-            let! ss = Gen.choose(0, 59)
-            let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss, ms)
-        }
-
-let genUTCTimeOnlyLeapSecondNoMs =
-        gen {
-            return FIXDateTime.MakeUTCTimeOnly.Make(23, 59, 60 )
-        }
-
-let genUTCTimeOnlyLeapSecondMs =
-        gen {
-            let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimeOnly.Make(23, 59, 60, ms )
-        }
-
-let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs; 
-                                        19, genUTCTimeOnlyMs; 
-                                        1,  genUTCTimeOnlyLeapSecondNoMs; 
-                                        1,  genUTCTimeOnlyLeapSecondMs   ])
-
-let genUTCDate = 
-        gen {
-            let! yy = Gen.choose(0, 9999)
-            let! mm = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)
-            return FIXDateTime.MakeUTCDate(yy, mm, dd)
-        }
-
-
 
 
 type ArbOverrides() =
-    static member String()      = Arb.fromGen genAlphaString
-    static member UTCTimeOnly() = Arb.fromGen genUTCTimeOnly
-    static member UTCDate()     = Arb.fromGen genUTCDate
-
+    static member String()          = Arb.fromGen genAlphaString
+    static member UTCTimeOnly()     = Arb.fromGen genUTCTimeOnly
+    static member UTCDate()         = Arb.fromGen genUTCDate
+    static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
