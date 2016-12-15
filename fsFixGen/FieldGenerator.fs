@@ -92,6 +92,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "UTCTimeOnly"     -> "ReadSingleCaseUTCTimeOnlyField"
     | "UTCDate"         -> "ReadSingleCaseUTCDateField"
     | "UTCTimestamp"    -> "ReadSingleCaseUTCTimestampField" 
+    | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
     | _                 -> failwith "unknown type name"
 
 
@@ -106,6 +107,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "UTCTimeOnly"     -> "WriteFieldUTCTimeOnly"
     | "UTCDate"         -> "WriteFieldUTCDate"
     | "UTCTimestamp"    -> "WriteFieldUTCTimestamp"
+    | "TZTimeOnly"      -> "WriteFieldTZTimeOnly"
     | _                 -> failwith "unknown type name"
 
 
@@ -164,8 +166,8 @@ let private createFieldTypes (field:SimpleField) =
     | "QTY",                    true    -> makeSingleCaseDU fieldName tag "decimal"
     | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"     // todo: represent seqnum as a uint?
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
-    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
-    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string, use appropriate type (use NODA TIME)
+    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
+    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"

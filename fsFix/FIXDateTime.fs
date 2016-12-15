@@ -8,6 +8,34 @@
 //type LocalMktDate = { Year:int; Month:int; Day:int }
 
 
+
+
+
+
+
+// TZTimeOnly 
+// string field representing the time represented based on ISO 8601. This is the time with a UTC offset to allow identification of local time and timezone of that time.
+// Format is HH:MM[:SS][Z [ + - hh[:mm]]] where HH = 00-23 hours, MM = 00-59 minutes, SS = 00-59 seconds, hh = 01-12 offset hours, mm = 00-59 offset minutes.
+// Example: 07:39Z is 07:39 UTC
+// Example: 02:39-05 is five hours behind UTC, thus Eastern Time
+// Example: 15:39+08 is eight hours ahead of UTC, Hong Kong/Singapore time
+// Example: 13:09+05:30 is 5.5 hours ahead of UTC, India time
+//
+// oddly documentation does not mention leap seconds
+type TZOffset = private
+                    | UTC
+                    | PosOffsetHH of Hours:int 
+                    | NegOffsetHH of Hours:int
+                    | PosOffsetHHmm of Hours:int * Minutes:int 
+                    | NegOffsetHHmm of Hours:int * Minutes:int 
+
+type TZTimeOnly =  private 
+                    | TZTimeOnly    of Offset:TZOffset * Hours:int * Minutes:int
+                    | TZTimeOnlySS  of Offset:TZOffset * Hours:int * Minutes:int * Seconds:int
+
+
+
+
 // string field representing Date represented in UTC (Universal Time Coordinated, also known as "GMT") in YYYYMMDD format. 
 // This special-purpose field is paired with UTCTimeOnly to form a proper UTCTimestamp for bandwidth-sensitive messages.
 // Valid values:
@@ -24,20 +52,61 @@ type UTCTimeOnly =  private
                         UTCTimeOnlyMs of Hours:int * Minutes:int * Seconds:int * Milliseconds:int
 
 
-
-
 type UTCTimestamp =  private 
                         UTCTimestamp    of Year:int * Month:int * Day:int * Hours:int * Minutes:int * Seconds:int | 
                         UTCTimestampMs  of Year:int * Month:int * Day:int * Hours:int * Minutes:int * Seconds:int * Milliseconds:int
 
 
 
-let inline private validate_HHmmss   (hh, mm, ss)       = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
-let inline private validate_HHmmss_fff (hh, mm, ss, ms) = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
+let inline private validate_HHmmss (hh, mm, ss)         = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
+let inline private validate_HHmmss_sss (hh, mm, ss, ms) = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
 let inline private validate_yyyyMMdd (yy, mm, dd)       = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
 
-let inline private validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms)   = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_fff(hh, mm, ss, ms)
+let inline private validate_yyyyMMdd_HHmmss_sss (yy, mth, dd, hh, mm, ss, ms)   = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_sss(hh, mm, ss, ms)
 let inline private validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)         = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss(hh, mm, ss)
+
+let inline private validate_HHmm (hh, mm) = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59
+
+
+
+
+[<AbstractClass;Sealed>]
+type MakeTZOffset private () =
+    static member Make () = TZOffset.UTC
+    
+    static member Make (isPos:bool, hh:int) = 
+                    let valid = hh > 0 && hh <= 12 
+                    match isPos, valid with
+                    | true,  true -> PosOffsetHH hh
+                    | false, true -> NegOffsetHH hh
+                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
+                                     failwith msg
+    
+    static member Make (isPos:bool, hh:int, mm:int) = 
+                    let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
+                    match isPos, valid with
+                    | true,  true -> PosOffsetHHmm ( hh, mm)
+                    | false, true -> NegOffsetHHmm ( hh, mm)
+                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
+                                     failwith msg
+
+
+
+
+[<AbstractClass;Sealed>]
+type MakeTZTimeOnly private () =
+    static member Make (hh, mm, offset) = 
+                    match hh, mm, offset with
+                    | hh, mm, offset when validate_HHmm(hh, mm) ->  TZTimeOnly( Hours = hh, Minutes = mm, Offset = offset )
+                    | _                                         ->  let msg = sprintf "invalid TZTimeOnly, %A %d:%d" offset hh mm
+                                                                    failwith msg
+    static member Make (offset, hh, mm, ss) = 
+                    match hh, mm, ss, offset with
+                    | hh, mm, ss, offset  when validate_HHmmss (hh, mm, ss) ->  TZTimeOnlySS( Offset = offset, Hours = hh, Minutes = mm, Seconds = ss )
+                    | _                                                     ->  let msg = sprintf "invalid TZTimeOnly, %A %d:%d:%d" offset hh mm ss
+                                                                                failwith msg
+
+
 
 
 // function overloading in F#
@@ -53,7 +122,7 @@ type MakeUTCTimestamp private () =
     static member Make (yy:int, mth:int, dd:int, hh:int, mm:int, ss:int, ms:int): UTCTimestamp = 
                     match yy, mth, dd, hh, mm, ss, ms with
                     | yy, mth, dd, 23, 59, 60, ms when validate_yyyyMMdd (yy, mth, dd) && ms >= 0 && ms <= 999      ->  UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | yy, mth, dd, hh, mm, ss, ms when validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms)   ->  UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | yy, mth, dd, hh, mm, ss, ms when validate_yyyyMMdd_HHmmss_sss (yy, mth, dd, hh, mm, ss, ms)   ->  UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
                     | _                                                                                             ->  let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d.%03d" yy mth dd hh mm ss ms
                                                                                                                         failwith msg
 
@@ -77,7 +146,7 @@ type MakeUTCTimeOnly private () =
     static member Make (hh:int, mm:int, ss:int, ms:int): UTCTimeOnly = 
                     match hh, mm, ss, ms with
                     | 23, 59, 60, ms                                            -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | hh, mm, ss, ms when validate_HHmmss_fff (hh, mm, ss, ms)  -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | hh, mm, ss, ms when validate_HHmmss_sss (hh, mm, ss, ms)  -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
                     | _                                                         -> failwith "invalid UTCTimeOnly"
 
 
