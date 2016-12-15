@@ -28,12 +28,57 @@ type TZOffset = private
                     | NegOffsetHH of Hours:int
                     | PosOffsetHHmm of Hours:int * Minutes:int 
                     | NegOffsetHHmm of Hours:int * Minutes:int 
+                    override this.ToString() = 
+                        match this with
+                        | UTC -> "UTC"
+                        | PosOffsetHH hh        -> sprintf "PosOffsetHH %d" hh
+                        | NegOffsetHH hh        -> sprintf "NegOffsetHH %d" hh
+                        | PosOffsetHHmm (hh,mm) -> sprintf "PosOffsetHHmm %d:%d" hh mm
+                        | NegOffsetHHmm (hh,mm) -> sprintf "NegOffsetHHmm %d:%d" hh mm
 
 type TZTimeOnly =  private 
                     | TZTimeOnly    of Offset:TZOffset * Hours:int * Minutes:int
                     | TZTimeOnlySS  of Offset:TZOffset * Hours:int * Minutes:int * Seconds:int
 
 
+
+[<AbstractClass;Sealed>]
+type MakeTZOffset private () =
+    static member Make () = TZOffset.UTC
+    
+    static member Make (isPos:bool, hh:int) = 
+                    let valid = hh > 0 && hh <= 12 
+                    match isPos, valid with
+                    | true,  true -> PosOffsetHH hh
+                    | false, true -> NegOffsetHH hh
+                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
+                                     failwith msg
+    
+    static member Make (isPos:bool, hh:int, mm:int) = 
+                    let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
+                    match isPos, valid with
+                    | true,  true -> PosOffsetHHmm ( hh, mm)
+                    | false, true -> NegOffsetHHmm ( hh, mm)
+                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
+                                     failwith msg
+
+
+[<AbstractClass;Sealed>]
+type MakeTZTimeOnly private () =
+    static member Make (offset:TZOffset, hh:int, mm:int) =
+        let valid = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59
+        match valid with
+        | true  -> TZTimeOnly (offset, hh, mm)
+        | false -> let msg = sprintf "invalid TZTimeOnly, %d:%d" hh mm
+                   failwith msg
+                   
+    static member Make (offset:TZOffset, hh:int, mm:int, ss:int) =
+        let valid = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
+        match valid with
+        | true  -> TZTimeOnlySS (offset, hh, mm, ss)
+        | false -> let msg = sprintf "invalid TZTimeOnly, %d:%d:%d" hh mm ss
+                   failwith msg
+                   
 
 
 // string field representing Date represented in UTC (Universal Time Coordinated, also known as "GMT") in YYYYMMDD format. 
@@ -70,25 +115,7 @@ let inline private validate_HHmm (hh, mm) = hh >= 0 && hh <= 23 && mm >= 0 && mm
 
 
 
-[<AbstractClass;Sealed>]
-type MakeTZOffset private () =
-    static member Make () = TZOffset.UTC
-    
-    static member Make (isPos:bool, hh:int) = 
-                    let valid = hh > 0 && hh <= 12 
-                    match isPos, valid with
-                    | true,  true -> PosOffsetHH hh
-                    | false, true -> NegOffsetHH hh
-                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
-                                     failwith msg
-    
-    static member Make (isPos:bool, hh:int, mm:int) = 
-                    let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
-                    match isPos, valid with
-                    | true,  true -> PosOffsetHHmm ( hh, mm)
-                    | false, true -> NegOffsetHHmm ( hh, mm)
-                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
-                                     failwith msg
+
 
 
 
