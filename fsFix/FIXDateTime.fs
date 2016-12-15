@@ -39,12 +39,12 @@ type UTCTimestamp =  private
 
 
 
-let inline private validate_HHmmss   (hh, mm, ss)        = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
-let inline private validate_HHmmss_fff (hh, mm, ss, ms)    = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
-let inline private validate_yyyyMMdd (yy, mm, dd)        = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
+let inline private validate_HHmmss   (hh, mm, ss)       = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
+let inline private validate_HHmmss_fff (hh, mm, ss, ms) = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
+let inline private validate_yyyyMMdd (yy, mm, dd)       = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
 
-let inline private validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms) = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_fff(hh, mm, ss, ms)
-let inline private validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)     = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss(hh, mm, ss)
+let inline private validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms)   = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_fff(hh, mm, ss, ms)
+let inline private validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)         = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss(hh, mm, ss)
 
 
 // function overloading in F#
@@ -52,24 +52,24 @@ let inline private validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)     = va
 type MakeUTCTimestamp private () =
     static member Make (yy:int, mth:int, dd:int, hh:int, mm:int, ss:int) : UTCTimestamp = 
                     match yy, mth, dd, hh, mm, ss with
-                    | yy, mth, dd, 23, 59, 60 when validate_yyyyMMdd (yy, mth, dd)                       -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
-                    | yy, mth, dd, hh, mm, ss when validate_yyyyMMdd_HHmmss (yy, mth, dd, hh, mm, ss)    -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)
+                    | yy, mth, dd, 23, 59, 60 when validate_yyyyMMdd (yy, mth, dd)                      -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
+                    | yy, mth, dd, hh, mm, ss when validate_yyyyMMdd_HHmmss (yy, mth, dd, hh, mm, ss)   -> UTCTimestamp (Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss)
                     | _                                                                                 -> let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d" yy mth dd hh mm ss
                                                                                                            failwith msg
 
     static member Make (yy:int, mth:int, dd:int, hh:int, mm:int, ss:int, ms:int): UTCTimestamp = 
                     match yy, mth, dd, hh, mm, ss, ms with
-                    | yy, mth, dd, 23, 59, 60, ms when validate_yyyyMMdd (yy, mth, dd) && ms >= 0 && ms <= 999   -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | yy, mth, dd, hh, mm, ss, ms when validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms)  -> UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
-                    | _                                                                                         -> let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d.%03d" yy mth dd hh mm ss ms
-                                                                                                                   failwith msg
+                    | yy, mth, dd, 23, 59, 60, ms when validate_yyyyMMdd (yy, mth, dd) && ms >= 0 && ms <= 999      ->  UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
+                    | yy, mth, dd, hh, mm, ss, ms when validate_yyyyMMdd_HHmmss_fff (yy, mth, dd, hh, mm, ss, ms)   ->  UTCTimestampMs(Year = yy, Month = mth, Day = dd, Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | _                                                                                             ->  let msg = sprintf "invalid UTCTimestamp, %04d%02d%02d-%02d%02d%02d.%03d" yy mth dd hh mm ss ms
+                                                                                                                        failwith msg
 
 
 
 let MakeUTCDate (yy:int, mm:int, dd:int) : UTCDate = 
                     match yy, mm with
-                    | yy, mm when validate_yyyyMMdd (yy, mm, dd) -> UTCDate( Year = yy, Month = mm, Day = dd )
-                    | _                                         -> failwith "invalid UTCDateOnly"
+                    | yy, mm when validate_yyyyMMdd (yy, mm, dd)    -> UTCDate( Year = yy, Month = mm, Day = dd )
+                    | _                                             -> failwith "invalid UTCDateOnly"
 
 
 // function overloading in F#
@@ -77,15 +77,15 @@ let MakeUTCDate (yy:int, mm:int, dd:int) : UTCDate =
 type MakeUTCTimeOnly private () =
     static member Make (hh:int, mm:int, ss:int) : UTCTimeOnly = 
                     match hh, mm, ss with
-                    | 23, 59, 60                                -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
-                    | hh, mm, ss when validate_HHmmss (hh,mm,ss) -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)
-                    | _                                         -> failwith "invalid UTCTimeOnly"
+                    | 23, 59, 60                                    -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)  // the leap second case
+                    | hh, mm, ss when validate_HHmmss (hh,mm,ss)    -> UTCTimeOnly(Hours = hh, Minutes = mm, Seconds = ss)
+                    | _                                             -> failwith "invalid UTCTimeOnly"
 
     static member Make (hh:int, mm:int, ss:int, ms:int): UTCTimeOnly = 
                     match hh, mm, ss, ms with
-                    | 23, 59, 60, ms                                        -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
-                    | hh, mm, ss, ms when validate_HHmmss_fff (hh, mm, ss, ms) -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
-                    | _                                                     -> failwith "invalid UTCTimeOnly"
+                    | 23, 59, 60, ms                                            -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)  // the leap second case
+                    | hh, mm, ss, ms when validate_HHmmss_fff (hh, mm, ss, ms)  -> UTCTimeOnlyMs(Hours = hh, Minutes = mm, Seconds = ss, Milliseconds = ms)
+                    | _                                                         -> failwith "invalid UTCTimeOnly"
 
 
 
