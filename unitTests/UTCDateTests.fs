@@ -9,7 +9,7 @@ open Swensen.Unquote
 let ``write valid yyyyddmm to bytes`` () =
     let xIn = FIXDateTime.MakeUTCDate (1999, 12, 31)
     let bs = Array.zeroCreate<byte> 8
-    let posOut = FIXDateTime.writeBytesUTCDate xIn bs 0
+    let posOut = FIXDateTime.writeUTCDate xIn bs 0
     let expected = "19991231"B
     posOut =! 8
     expected =! bs
@@ -17,7 +17,7 @@ let ``write valid yyyyddmm to bytes`` () =
 
 [<Fact>]
 let ``read valid hhmmss from bytes`` () =
-    let dt = FIXDateTime.fromBytesUTCDate "19991231"B 0 8
+    let dt = FIXDateTime.readUTCDate "19991231"B 0 8
     let expected = FIXDateTime.MakeUTCDate (1999, 12, 31)
     expected =! dt
 

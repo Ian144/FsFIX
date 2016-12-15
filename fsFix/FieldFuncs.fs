@@ -47,18 +47,18 @@ let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
 
 let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
-    let tm = FIXDateTime.fromBytesUTCTimeOnly bs pos pos2
+    let tm = FIXDateTime.readUTCTimeOnly bs pos pos2
     pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
 let ReadSingleCaseUTCDateField  (pos:int) (bs:byte[]) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
-    let dt = FIXDateTime.fromBytesUTCDate bs pos pos2
+    let dt = FIXDateTime.readUTCDate bs pos pos2
     pos2 + 1,  fldCtor dt
 
 let ReadSingleCaseUTCTimestampField (pos:int) (bs:byte[]) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
-    let dt = FIXDateTime.fromBytesUTCTimestamp bs pos pos2
+    let dt = FIXDateTime.readUTCTimestamp bs pos pos2
     pos2 + 1,  fldCtor dt
 
 
@@ -150,7 +150,7 @@ let inline WriteFieldUTCTimeOnly
     let tm = (^T :(member Value:UTCTimeOnly) fieldIn)
     Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
     let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCTimeOnly tm dest nextFreeIdx2
+    let nextFreeIdx3 =  FIXDateTime.writeUTCTimeOnly tm dest nextFreeIdx2
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
@@ -163,7 +163,7 @@ let inline WriteFieldUTCDate
     let tm = (^T :(member Value:UTCDate) fieldIn)
     Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
     let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCDate tm dest nextFreeIdx2
+    let nextFreeIdx3 =  FIXDateTime.writeUTCDate tm dest nextFreeIdx2
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
@@ -176,7 +176,7 @@ let inline WriteFieldUTCTimestamp
     let tm = (^T :(member Value:UTCTimestamp) fieldIn)
     Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
     let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  FIXDateTime.writeBytesUTCTimestamp tm dest nextFreeIdx2
+    let nextFreeIdx3 =  FIXDateTime.writeUTCTimestamp tm dest nextFreeIdx2
     dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
     nextFreeIdx3 + 1 // +1 to move past the delimeter
 
