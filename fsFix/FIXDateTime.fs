@@ -97,7 +97,7 @@ let readTZOffset (bs:byte[]) (pos:int) =
     | 3 ->  let zone, hh = readZHH bs pos
             let offset = MakeTZOffset.Make (zone, hh)
             nextFieldSepOrEnd, offset
-    | 5 ->  let zone, hh, mm = readZHHmm bs pos
+    | 6 ->  let zone, hh, mm = readZHHmm bs pos
             let offset = MakeTZOffset.Make (zone, hh, mm)
             nextFieldSepOrEnd, offset
     | _ ->  let msg = sprintf "invalid TZOffset length: %d" offsetLen
@@ -125,24 +125,6 @@ let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
                                     (pos + 6)
 
 
-
-//    static member Make () = TZOffset.UTC    
-//
-//    static member Make (isPos:bool, hh:int) = 
-//                    let valid = hh > 0 && hh <= 12 
-//                    match isPos, valid with
-//                    | true,  true -> PosOffsetHH hh
-//                    | false, true -> NegOffsetHH hh
-//                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
-//                                     failwith msg
-//    
-//    static member Make (isPos:bool, hh:int, mm:int) = 
-//                    let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
-//                    match isPos, valid with
-//                    | true,  true -> PosOffsetHHmm ( hh, mm)
-//                    | false, true -> NegOffsetHHmm ( hh, mm)
-//                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
-//                                     failwith msg
 
 
 [<AbstractClass;Sealed>]
