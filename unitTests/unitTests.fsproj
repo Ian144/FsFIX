@@ -83,6 +83,7 @@
     <Compile Include="FieldReadTests.fs" />
     <Compile Include="WriteReadUnitTests.fs" />
     <Compile Include="UTCDateTests.fs" />
+    <Compile Include="TZTimeOnlyTests.fs" />
     <Content Include="App.config" />
     <None Include="paket.references" />
     <Compile Include="UTCTimeOnlyTests.fs" />

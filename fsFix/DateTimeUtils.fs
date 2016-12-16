@@ -45,8 +45,6 @@ let inline write4ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
 
 
 
-
-
 let inline bytes2ToInt (bs:byte[]) (pos:int) : int =
     let d1 = bs.[pos] - 48uy |> int
     let d2 = bs.[pos+1] - 48uy |> int

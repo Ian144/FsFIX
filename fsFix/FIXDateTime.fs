@@ -65,42 +65,39 @@ type MakeTZOffset private () =
                     | _,    _       ->  let msg = sprintf "invalid TZOffset, %c-%d:%d" (System.Convert.ToChar dir) hh mm
                                         failwith msg
 
-//assume Z|+|- is at pos
-let inline funcz (bs:byte[]) (pos:int) =
-    let zone = bs.[pos]
-    zone
 
-// assume Z|+|- is at pos, HH 
-let inline funcx (bs:byte[]) (pos:int) =
-    let zone = bs.[pos]
-    let hhD1 = bs.[pos+1] - 48uy |> int
-    let hhD2 = bs.[pos+2] - 48uy |> int
-    let hh = hhD1 * 10 + hhD2
-    zone, hh
 
-// assume Z|+|- is at pos, HH MM
-let inline funcy (bs:byte[]) (pos:int) =
-    let zone = bs.[pos]
-    let hhD1 = bs.[pos+1] - 48uy |> int
-    let hhD2 = bs.[pos+2] - 48uy |> int
-    let mmD1 = bs.[pos+4] - 48uy |> int
-    let mmD2 = bs.[pos+5] - 48uy |> int
-    let hh = hhD1 * 10 + hhD2
-    let mm = mmD1 * 10 + mmD2
-    zone, hh, mm
 
 
 let readTZOffset (bs:byte[]) (pos:int) =
+    let inline readZ (bs:byte[]) (pos:int) = // assume Z|+|- is at pos
+        let zone = bs.[pos]
+        zone
+    let inline readZHH (bs:byte[]) (pos:int) = // assume Z|+|- is at pos, HH
+        let zone = bs.[pos]
+        let hhD1 = bs.[pos+1] - 48uy |> int
+        let hhD2 = bs.[pos+2] - 48uy |> int
+        let hh = hhD1 * 10 + hhD2
+        zone, hh
+    let inline readZHHmm (bs:byte[]) (pos:int) = // assume Z|+|- is at pos, HH MM
+        let zone = bs.[pos]
+        let hhD1 = bs.[pos+1] - 48uy |> int
+        let hhD2 = bs.[pos+2] - 48uy |> int
+        let mmD1 = bs.[pos+4] - 48uy |> int
+        let mmD2 = bs.[pos+5] - 48uy |> int
+        let hh = hhD1 * 10 + hhD2
+        let mm = mmD1 * 10 + mmD2
+        zone, hh, mm
     let nextFieldSepOrEnd = FIXBufUtils.findNextFieldTermOrEnd pos bs
     let offsetLen = nextFieldSepOrEnd - pos
     match offsetLen with
-    | 1 ->  let zone = funcz bs pos
+    | 1 ->  let zone = readZ bs pos
             let offset = MakeTZOffset.Make zone
             nextFieldSepOrEnd, offset
-    | 3 ->  let zone, hh = funcx bs pos
+    | 3 ->  let zone, hh = readZHH bs pos
             let offset = MakeTZOffset.Make (zone, hh)
             nextFieldSepOrEnd, offset
-    | 5 ->  let zone, hh, mm = funcy bs pos
+    | 5 ->  let zone, hh, mm = readZHHmm bs pos
             let offset = MakeTZOffset.Make (zone, hh, mm)
             nextFieldSepOrEnd, offset
     | _ ->  let msg = sprintf "invalid TZOffset length: %d" offsetLen
@@ -118,14 +115,14 @@ let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
                                     (pos + 3)
     | NegOffsetHHmm (hh, mm)    ->  bs.[pos] <- 45uy
                                     DateTimeUtils.write2ByteInt bs (pos+1) hh
-                                    bs.[pos] <- 58uy
+                                    bs.[pos+3] <- 58uy
                                     DateTimeUtils.write2ByteInt bs (pos+4) mm
-                                    (pos + 5)
+                                    (pos + 6)
     | PosOffsetHHmm (hh, mm)    ->  bs.[pos] <- 43uy
                                     DateTimeUtils.write2ByteInt bs (pos+1) hh
-                                    bs.[pos] <- 58uy
+                                    bs.[pos+3] <- 58uy
                                     DateTimeUtils.write2ByteInt bs (pos+4) mm
-                                    (pos + 5)
+                                    (pos + 6)
 
 
 
