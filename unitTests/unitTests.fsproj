@@ -76,12 +76,12 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="UTCTimestamp.fs" />
     <Compile Include="TestUtils.fs" />
     <Compile Include="ReadTagValueFromStreamTests.fs" />
     <Compile Include="FieldWriteTests.fs" />
     <Compile Include="FieldReadTests.fs" />
     <Compile Include="WriteReadUnitTests.fs" />
+    <Compile Include="UTCTimestampTests.fs" />
     <Compile Include="UTCDateTests.fs" />
     <Compile Include="TZTimeOnlyTests.fs" />
     <Content Include="App.config" />

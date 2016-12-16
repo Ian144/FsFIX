@@ -11,7 +11,7 @@ let genUTCDate =
             let! yy = Gen.choose(0, 9999)
             let! mm = Gen.choose(1, 12)
             let! dd = Gen.choose(1, 31)
-            return FIXDateTime.MakeUTCDate(yy, mm, dd)
+            return UTCDateTimex.MakeUTCDate(yy, mm, dd)
         }
 
 
@@ -23,7 +23,7 @@ let private genUTCTimeOnlyNoMs =
             let! hh = Gen.choose(0, 23)
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
-            return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss)
+            return UTCDateTimex.MakeUTCTimeOnly.Make(hh, mm, ss)
         }
 
 let private genUTCTimeOnlyMs =
@@ -32,18 +32,18 @@ let private genUTCTimeOnlyMs =
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
             let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimeOnly.Make(hh, mm, ss, ms)
+            return UTCDateTimex.MakeUTCTimeOnly.Make(hh, mm, ss, ms)
         }
 
 let private genUTCTimeOnlyLeapSecondNoMs =
         gen {
-            return FIXDateTime.MakeUTCTimeOnly.Make(23, 59, 60 )
+            return UTCDateTimex.MakeUTCTimeOnly.Make(23, 59, 60 )
         }
 
 let private genUTCTimeOnlyLeapSecondMs =
         gen {
             let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimeOnly.Make(23, 59, 60, ms )
+            return UTCDateTimex.MakeUTCTimeOnly.Make(23, 59, 60, ms )
         }
 
 let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs; 
@@ -59,7 +59,7 @@ let private genUTCTimestampNoMs =
             let! hh = Gen.choose(0, 23)
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
-            return FIXDateTime.MakeUTCTimestamp.Make(yy, mth, dd, hh, mm, ss)
+            return UTCDateTimex.MakeUTCTimestamp.Make(yy, mth, dd, hh, mm, ss)
         }
 
 let private genUTCTimestampMs =
@@ -71,7 +71,7 @@ let private genUTCTimestampMs =
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
             let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimestamp.Make(yy, mth, dd, hh, mm, ss, ms)
+            return UTCDateTimex.MakeUTCTimestamp.Make(yy, mth, dd, hh, mm, ss, ms)
         }
 
 let private genUTCTimestampLeapSecondNoMs =
@@ -79,7 +79,7 @@ let private genUTCTimestampLeapSecondNoMs =
             let! yy = Gen.choose(0, 9999)
             let! mth = Gen.choose(1, 12)
             let! dd = Gen.choose(1, 31)                        
-            return FIXDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60 )
+            return UTCDateTimex.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60 )
         }
 
 let private genUTCTimestampLeapSecondMs =
@@ -88,7 +88,7 @@ let private genUTCTimestampLeapSecondMs =
             let! mth = Gen.choose(1, 12)
             let! dd = Gen.choose(1, 31)                        
             let! ms = Gen.choose(0, 999)
-            return FIXDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60, ms )
+            return UTCDateTimex.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60, ms )
         }
 
 let genUTCTimestamp = Gen.frequency( [   19, genUTCTimestampNoMs; 

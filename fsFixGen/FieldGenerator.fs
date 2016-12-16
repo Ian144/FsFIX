@@ -276,7 +276,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
     sw.WriteLine ""
-    sw.WriteLine "open FIXDateTime"
+    sw.WriteLine "open UTCDateTime"
     sw.WriteLine ""
     sw.WriteLine ""
 

@@ -1,7 +1,7 @@
 module Fix44.Fields
 
 
-open FIXDateTime
+open UTCDateTimex
 
 
 type Account =
