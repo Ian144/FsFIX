@@ -1,6 +1,6 @@
 ﻿module FIXDateTime
 
-
+open DateTimeUtils
 
 
 //type MonthYear = MonthYear of string
@@ -30,7 +30,7 @@ type TZOffset = private
                     | NegOffsetHHmm of Hours:int * Minutes:int 
                     override this.ToString() = 
                         match this with
-                        | UTC -> "UTC"
+                        | UTC                   -> "UTC"
                         | PosOffsetHH hh        -> sprintf "PosOffsetHH %d" hh
                         | NegOffsetHH hh        -> sprintf "NegOffsetHH %d" hh
                         | PosOffsetHHmm (hh,mm) -> sprintf "PosOffsetHHmm %d:%d" hh mm
@@ -44,23 +44,108 @@ type TZTimeOnly =  private
 
 [<AbstractClass;Sealed>]
 type MakeTZOffset private () =
-    static member Make () = TZOffset.UTC
-    
-    static member Make (isPos:bool, hh:int) = 
+    static member Make (dir:byte) = 
+        match dir with 
+        | 90uy  ->  TZOffset.UTC    // match 'Z'
+        | _     ->  let msg = sprintf "invalid TZOffset %c" (System.Convert.ToChar dir)
+                    failwith msg
+
+    static member Make (dir:byte, hh:int) = 
                     let valid = hh > 0 && hh <= 12 
-                    match isPos, valid with
-                    | true,  true -> PosOffsetHH hh
-                    | false, true -> NegOffsetHH hh
-                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
-                                     failwith msg
-    
-    static member Make (isPos:bool, hh:int, mm:int) = 
+                    match dir, valid with
+                    | 43uy, true    ->  PosOffsetHH hh // +
+                    | 45uy, true    ->  NegOffsetHH hh // -
+                    | _,    _       ->  let msg = sprintf "invalid TZOffset, %c-%d" (System.Convert.ToChar dir) hh
+                                        failwith msg
+    static member Make (dir:byte, hh:int, mm:int) = 
                     let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
-                    match isPos, valid with
-                    | true,  true -> PosOffsetHHmm ( hh, mm)
-                    | false, true -> NegOffsetHHmm ( hh, mm)
-                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
-                                     failwith msg
+                    match dir, valid with
+                    | 43uy,  true   ->  PosOffsetHHmm ( hh, mm) // +
+                    | 45uy,  true   ->  NegOffsetHHmm ( hh, mm) // -
+                    | _,    _       ->  let msg = sprintf "invalid TZOffset, %c-%d:%d" (System.Convert.ToChar dir) hh mm
+                                        failwith msg
+
+//assume Z|+|- is at pos
+let inline funcz (bs:byte[]) (pos:int) =
+    let zone = bs.[pos]
+    zone
+
+// assume Z|+|- is at pos, HH 
+let inline funcx (bs:byte[]) (pos:int) =
+    let zone = bs.[pos]
+    let hhD1 = bs.[pos+1] - 48uy |> int
+    let hhD2 = bs.[pos+2] - 48uy |> int
+    let hh = hhD1 * 10 + hhD2
+    zone, hh
+
+// assume Z|+|- is at pos, HH MM
+let inline funcy (bs:byte[]) (pos:int) =
+    let zone = bs.[pos]
+    let hhD1 = bs.[pos+1] - 48uy |> int
+    let hhD2 = bs.[pos+2] - 48uy |> int
+    let mmD1 = bs.[pos+4] - 48uy |> int
+    let mmD2 = bs.[pos+5] - 48uy |> int
+    let hh = hhD1 * 10 + hhD2
+    let mm = mmD1 * 10 + mmD2
+    zone, hh, mm
+
+
+let readTZOffset (bs:byte[]) (pos:int) =
+    let nextFieldSepOrEnd = FIXBufUtils.findNextFieldTermOrEnd pos bs
+    let offsetLen = nextFieldSepOrEnd - pos
+    match offsetLen with
+    | 1 ->  let zone = funcz bs pos
+            let offset = MakeTZOffset.Make zone
+            nextFieldSepOrEnd, offset
+    | 3 ->  let zone, hh = funcx bs pos
+            let offset = MakeTZOffset.Make (zone, hh)
+            nextFieldSepOrEnd, offset
+    | 5 ->  let zone, hh, mm = funcy bs pos
+            let offset = MakeTZOffset.Make (zone, hh, mm)
+            nextFieldSepOrEnd, offset
+    | _ ->  let msg = sprintf "invalid TZOffset length: %d" offsetLen
+            failwith msg 
+
+
+let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
+    match offSet with 
+    | UTC                       ->  bs.[pos] <- 90uy; (pos + 1)
+    | PosOffsetHH hh            ->  bs.[pos] <- 43uy
+                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    (pos + 3)
+    | NegOffsetHH hh            ->  bs.[pos] <- 45uy
+                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    (pos + 3)
+    | NegOffsetHHmm (hh, mm)    ->  bs.[pos] <- 45uy
+                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    bs.[pos] <- 58uy
+                                    DateTimeUtils.write2ByteInt bs (pos+4) mm
+                                    (pos + 5)
+    | PosOffsetHHmm (hh, mm)    ->  bs.[pos] <- 43uy
+                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    bs.[pos] <- 58uy
+                                    DateTimeUtils.write2ByteInt bs (pos+4) mm
+                                    (pos + 5)
+
+
+
+//    static member Make () = TZOffset.UTC    
+//
+//    static member Make (isPos:bool, hh:int) = 
+//                    let valid = hh > 0 && hh <= 12 
+//                    match isPos, valid with
+//                    | true,  true -> PosOffsetHH hh
+//                    | false, true -> NegOffsetHH hh
+//                    | _,    false -> let msg = sprintf "invalid TZOffset, %d" hh
+//                                     failwith msg
+//    
+//    static member Make (isPos:bool, hh:int, mm:int) = 
+//                    let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
+//                    match isPos, valid with
+//                    | true,  true -> PosOffsetHHmm ( hh, mm)
+//                    | false, true -> NegOffsetHHmm ( hh, mm)
+//                    | _,    false -> let msg = sprintf "invalid TZOffset, %d:%d" hh mm
+//                                     failwith msg
 
 
 [<AbstractClass;Sealed>]
@@ -103,35 +188,14 @@ type UTCTimestamp =  private
 
 
 
-let inline private validate_HHmmss (hh, mm, ss)         = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
-let inline private validate_HHmmss_sss (hh, mm, ss, ms) = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
-let inline private validate_yyyyMMdd (yy, mm, dd)       = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
+let inline validate_HHmmss (hh, mm, ss)         = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
+let inline validate_HHmmss_sss (hh, mm, ss, ms) = validate_HHmmss (hh, mm, ss) && ms >= 0 && ms <= 999
+let inline validate_yyyyMMdd (yy, mm, dd)       = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12 && dd >= 01 && dd <= 31 
 
-let inline private validate_yyyyMMdd_HHmmss_sss (yy, mth, dd, hh, mm, ss, ms)   = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_sss(hh, mm, ss, ms)
-let inline private validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)         = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss(hh, mm, ss)
+let inline validate_yyyyMMdd_HHmmss_sss (yy, mth, dd, hh, mm, ss, ms)   = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss_sss(hh, mm, ss, ms)
+let inline validate_yyyyMMdd_HHmmss   (yy, mth, dd, hh, mm, ss)         = validate_yyyyMMdd (yy, mth, dd) && validate_HHmmss(hh, mm, ss)
 
-let inline private validate_HHmm (hh, mm) = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59
-
-
-
-
-
-
-
-
-
-[<AbstractClass;Sealed>]
-type MakeTZTimeOnly private () =
-    static member Make (hh, mm, offset) = 
-                    match hh, mm, offset with
-                    | hh, mm, offset when validate_HHmm(hh, mm) ->  TZTimeOnly( Hours = hh, Minutes = mm, Offset = offset )
-                    | _                                         ->  let msg = sprintf "invalid TZTimeOnly, %A %d:%d" offset hh mm
-                                                                    failwith msg
-    static member Make (offset, hh, mm, ss) = 
-                    match hh, mm, ss, offset with
-                    | hh, mm, ss, offset  when validate_HHmmss (hh, mm, ss) ->  TZTimeOnlySS( Offset = offset, Hours = hh, Minutes = mm, Seconds = ss )
-                    | _                                                     ->  let msg = sprintf "invalid TZTimeOnly, %A %d:%d:%d" offset hh mm ss
-                                                                                failwith msg
+let inline validate_HHmm (hh, mm) = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59
 
 
 
@@ -178,114 +242,6 @@ type MakeUTCTimeOnly private () =
 
 
 
-
-
-let inline private write2ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
-    let d1 = (n / 10) 
-    let d2 = n - (d1 * 10)
-    let b1 = (d1 + 48) |> byte
-    let b2 = (d2 + 48) |> byte
-    bs.[pos  ] <- b1
-    bs.[pos+1] <- b2
-
-
-let inline private write3ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
-    let d1 = (n / 100) 
-    let n2 = n - (d1 * 100) 
-    let d2 = n2 / 10
-    let d3 = n2 - (d2 * 10)
-    let b1 = (d1 + 48) |> byte
-    let b2 = (d2 + 48) |> byte
-    let b3 = (d3 + 48) |> byte
-    bs.[pos  ] <- b1
-    bs.[pos+1] <- b2
-    bs.[pos+2] <- b3
-
-
-
-let inline private write4ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
-    let d1 = (n / 1000) 
-    let n2 = n - (d1 * 1000) 
-    let d2 = n2 / 100
-    let n3 = n2 - (d2 * 100)
-    let d3 = n3 / 10
-    let d4 = n3 - (d3 * 10)
-    let b1 = (d1 + 48) |> byte
-    let b2 = (d2 + 48) |> byte
-    let b3 = (d3 + 48) |> byte
-    let b4 = (d4 + 48) |> byte
-    bs.[pos  ] <- b1
-    bs.[pos+1] <- b2
-    bs.[pos+2] <- b3
-    bs.[pos+3] <- b4
-
-
-
-
-
-let inline private bytes2ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos] - 48uy |> int
-    let d2 = bs.[pos+1] - 48uy |> int
-    d1 * 10 + d2
-
-
-
-let inline private bytes3ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos]   - 48uy |> int
-    let d2 = bs.[pos+1] - 48uy |> int
-    let d3 = bs.[pos+2] - 48uy |> int
-    d1 * 100 + d2 * 10 + d3
-
-let inline private bytes4ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos]   - 48uy |> int
-    let d2 = bs.[pos+1] - 48uy |> int
-    let d3 = bs.[pos+2] - 48uy |> int
-    let d4 = bs.[pos+3] - 48uy |> int
-    d1 * 1000 + d2 * 100 + d3 * 10 + d4
-
-
-let inline private readHHMMSSints (bs:byte[]) (begPos:int) = 
-    let hh = bytes2ToInt bs begPos
-    let mm = bytes2ToInt bs (begPos + 3)
-    let ss = bytes2ToInt bs (begPos + 6)
-    hh, mm, ss
-
-
-let inline private readHHMMSSMS (bs:byte[]) (begPos:int) =
-    let hh = bytes2ToInt bs begPos
-    let mm = bytes2ToInt bs (begPos + 3)
-    let ss = bytes2ToInt bs (begPos + 6)
-    let ms = bytes3ToInt bs (begPos + 9)
-    hh, mm, ss, ms
-
-
-
-let inline private readTimestampInts (bs:byte[]) (begPos:int) = 
-    let yy  = bytes4ToInt bs begPos
-    let mth = bytes2ToInt bs (begPos + 4)
-    let dd  = bytes2ToInt bs (begPos + 6)
-    let hh  = bytes2ToInt bs (begPos + 9)
-    let mm  = bytes2ToInt bs (begPos + 12)
-    let ss  = bytes2ToInt bs (begPos + 15)
-    yy, mth, dd, hh, mm, ss
-
-
-let inline private readTimestampMsInts (bs:byte[]) (begPos:int) =
-    let yy  = bytes4ToInt bs begPos
-    let mth = bytes2ToInt bs (begPos + 4)
-    let dd  = bytes2ToInt bs (begPos + 6)
-    let hh  = bytes2ToInt bs (begPos + 9)
-    let mm  = bytes2ToInt bs (begPos + 12)
-    let ss  = bytes2ToInt bs (begPos + 15)
-    let ms  = bytes3ToInt bs (begPos + 18)
-    yy, mth, dd, hh, mm, ss, ms
-
-
-let inline private readYYYYmmDDints (bs:byte[]) (begPos:int) =
-    let yy = bytes4ToInt bs begPos
-    let mm = bytes2ToInt bs (begPos + 4)
-    let dd = bytes2ToInt bs (begPos + 6)
-    yy, mm, dd
 
 
 
