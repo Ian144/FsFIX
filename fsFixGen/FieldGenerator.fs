@@ -382,8 +382,8 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-    swFieldDU.WriteLine  "let ReadField (pos:int) (bs:byte[]) ="
-    swFieldDU.WriteLine  "    let pos2, tag = FIXBufUtils.readTag pos bs"
+    swFieldDU.WriteLine  "let ReadField (bs:byte[]) (pos:int) ="
+    swFieldDU.WriteLine  "    let pos2, tag = FIXBufUtils.readTag bs pos"
     swFieldDU.WriteLine  "    match tag with"
     fieldData |> Seq.iter (fun fd ->
             let ss =

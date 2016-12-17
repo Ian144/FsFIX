@@ -98,7 +98,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
 
 
 let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
-    let funcSig = sprintf "let Read%s (pos:int) (bs:byte []) : int * %s  =" msg.MName msg.MName
+    let funcSig = sprintf "let Read%s (bs:byte []) (pos:int) : int * %s  =" msg.MName msg.MName
     sw.WriteLine funcSig
     let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName msg.Items
     readFIXItemStrs |> List.iter sw.WriteLine
@@ -161,11 +161,11 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
 
     // create the 'TestReadMessage DU function, probably will only used in property based tests
-    sw.WriteLine "let ReadMessage (selector:FIXMessage) pos bs ="
+    sw.WriteLine "let ReadMessage (selector:FIXMessage) bs pos ="
     sw.WriteLine "    match selector with"
     names |> List.iter (fun strName ->
                 let ss1  = sprintf "    | %s _ ->" strName
-                let ss2  = sprintf "        let pos, msg = Read%s  pos bs" strName
+                let ss2  = sprintf "        let pos, msg = Read%s  bs pos" strName
                 let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" strName
                 sw.WriteLine ss1
                 sw.WriteLine ss2
@@ -176,11 +176,11 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
 
 
     // create the 'ReadMessage' DU function that keys off a msg tag
-    sw.WriteLine "let ReadMessageDU (tag:byte []) pos bs ="
+    sw.WriteLine "let ReadMessageDU (tag:byte []) bs pos ="
     sw.WriteLine "    match tag with"
     msgs |> List.iter (fun msg ->
                 let ss1  = sprintf "    | \"%s\"B   ->" msg.Tag
-                let ss2  = sprintf "        let pos, msg = Read%s pos bs" msg.MName
+                let ss2  = sprintf "        let pos, msg = Read%s bs pos" msg.MName
                 let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" msg.MName
                 sw.WriteLine ss1
                 sw.WriteLine ss2

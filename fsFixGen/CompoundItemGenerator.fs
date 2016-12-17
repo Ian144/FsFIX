@@ -96,12 +96,12 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine ""
 
     // create the 'TestReadCompound' DU function, used only in property based tests
-    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) pos bs ="
+    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) bs pos ="
     swCompItemDU.WriteLine "    match selector with"
     names |> List.iter (fun grpLngName ->
                 let (GroupLongName strName) = grpLngName
                 let ss1  = sprintf "    | %sGrp _ ->" strName
-                let ss2  = sprintf "        let pos, grp = Read%sGrp  pos bs" strName
+                let ss2  = sprintf "        let pos, grp = Read%sGrp bs pos" strName
                 let ss3 =  sprintf "        pos, grp |> FIXGroup.%sGrp" strName
                 swCompItemDU.WriteLine ss1
                 swCompItemDU.WriteLine ss2
@@ -152,7 +152,7 @@ let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:
     let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
     let items = CompoundItemFuncs.getItems ci
     sw.WriteLine (sprintf "// %s" compOrGroup)
-    let funcSig = sprintf "let Read%s (pos:int) (bs:byte []) : int * %s  =" typeName typeName
+    let funcSig = sprintf "let Read%s (bs:byte []) (pos:int) : int * %s  =" typeName typeName
     sw.WriteLine funcSig
     let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap name items
     readFIXItemStrs |> List.iter sw.WriteLine

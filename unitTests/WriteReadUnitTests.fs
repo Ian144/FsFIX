@@ -46,7 +46,7 @@ let MassQuoteNoQuoteEntriesGrp () =
                     Currency = None    } 
 
     let posW = WriteMassQuoteNoQuoteEntriesGrp  bs 0 xIn
-    let posR, xOut = ReadMassQuoteNoQuoteEntriesGrp 0 bs
+    let posR, xOut = ReadMassQuoteNoQuoteEntriesGrp bs 0
     posW =! posR
     xIn =! xOut
 
@@ -103,6 +103,6 @@ let MarketDataIncrementalRefreshNoMDEntriesGrp () =
            Text = None;
            EncodedText = None;}
     let posW = WriteMarketDataIncrementalRefreshNoMDEntriesGrp  bs 0 xIn
-    let posR, xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrp 0 bs
+    let posR, xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrp bs 0
     posW =! posR
     xIn =! xOut

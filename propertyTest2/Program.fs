@@ -35,7 +35,7 @@ Arb.register<ArbOverrides>() |> ignore
 let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> 2048
     WriteField bs 0 fieldIn |> ignore
-    let _, fieldOut = ReadField 0 bs
+    let _, fieldOut = ReadField bs 0
     fieldIn = fieldOut
 
 
@@ -51,7 +51,7 @@ let propReadWriteCompoundItem (ciIn:FIXGroup) =
 
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
-    let posR, ciOut =  ReadCITest ciIn 0 bs
+    let posR, ciOut =  ReadCITest ciIn bs 0
     posW = posR && ciIn = ciOut
 
 

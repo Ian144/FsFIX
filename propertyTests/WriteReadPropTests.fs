@@ -50,7 +50,7 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 100,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -75,7 +75,7 @@ let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  genWriteReadTest tm TZDateTime.wr
 let msgUserRequest (msg:Fix44.Messages.UserRequest) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.MsgWriteFuncs.WriteUserRequest bs 0 msg
-    let posR, msgOut = Fix44.MsgReadFuncs.ReadUserRequest 0 bs
+    let posR, msgOut = Fix44.MsgReadFuncs.ReadUserRequest bs 0
     posW =! posR
     msg =! msgOut
 
@@ -86,7 +86,7 @@ let msgUserRequest (msg:Fix44.Messages.UserRequest) =
 let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.MsgWriteFuncs.WriteNewOrderCross bs 0 msg
-    let posR, msgOut = Fix44.MsgReadFuncs.ReadNewOrderCross 0 bs
+    let posR, msgOut = Fix44.MsgReadFuncs.ReadNewOrderCross bs 0
     posW =! posR
     msg =! msgOut
 
@@ -119,7 +119,7 @@ let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) =
 let AllFields (fieldIn:FIXField) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteField bs 0 fieldIn
-    let posR, fieldOut = ReadField 0 bs
+    let posR, fieldOut = ReadField bs 0
     posW =! posR
     fieldIn =! fieldOut  
 
@@ -129,7 +129,7 @@ let AllFields (fieldIn:FIXField) =
 let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoCapacitiesGrp  bs 0 grpIn
-    let posR, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp 0 bs
+    let posR, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp bs 0
     posW =! posR
     grpIn =! grpOut  
 
@@ -140,7 +140,7 @@ let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
 let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp 0 bs
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp bs 0
     posW =! posR
     usIn =! usOut
 
@@ -151,7 +151,7 @@ let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 //    (usIn.NoUnderlyingStipsGrp.IsSome) ==> lazy
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteUnderlyingStipulations  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations 0 bs
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations bs 0
     usIn =! usOut
     posW =! posR
         
@@ -198,7 +198,7 @@ let UnderlyingStipulations (usIn:UnderlyingStipulations) =
 let UnderlyingInstument (usIn:UnderlyingInstrument) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteUnderlyingInstrument  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument 0 bs
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument bs 0
     posW =! posR
     usIn =! usOut         
 
@@ -208,7 +208,7 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) =
 let NoSidesGrp (gIn:NoSidesGrp ) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteNoSidesGrp bs 0 gIn
-    let posR, gOut = Fix44.CompoundItemReadFuncs.ReadNoSidesGrp 0 bs
+    let posR, gOut = Fix44.CompoundItemReadFuncs.ReadNoSidesGrp bs 0
     posW =! posR
     gIn =! gOut
 
@@ -218,7 +218,7 @@ let NoSidesGrp (gIn:NoSidesGrp ) =
 let CompoundItem (ciIn:FIXGroup) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteCITest  bs 0 ciIn
-    let posR, ciOut =  ReadCITest ciIn 0 bs
+    let posR, ciOut =  ReadCITest ciIn bs 0
     posW =! posR
     ciIn =! ciOut
 
@@ -228,7 +228,7 @@ let CompoundItem (ciIn:FIXGroup) =
 let Message (msg:FIXMessage) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteMessage bs 0 msg
-    let posR, msgOut = ReadMessage msg 0 bs
+    let posR, msgOut = ReadMessage msg bs 0
     posW =! posR
     msg =! msgOut
 
@@ -238,7 +238,7 @@ let Message (msg:FIXMessage) =
 let InstrumentLegFG (usIn:InstrumentLegFG) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = WriteInstrumentLegFG  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG 0 bs
+    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG bs 0
     posW =! posR
     usIn =! usOut
 

@@ -9,7 +9,7 @@ open Fix44.CompoundItemReadFuncs
 open Fix44.Messages
 
 
-let ReadHeartbeat (pos:int) (bs:byte []) : int * Heartbeat  =
+let ReadHeartbeat (bs:byte []) (pos:int) : int * Heartbeat  =
     let pos, testReqID = ReadOptionalField pos "112"B bs ReadTestReqID
     let ci:Heartbeat = {
         TestReqID = testReqID
@@ -17,7 +17,7 @@ let ReadHeartbeat (pos:int) (bs:byte []) : int * Heartbeat  =
     pos, ci
 
 
-let ReadLogon (pos:int) (bs:byte []) : int * Logon  =
+let ReadLogon (bs:byte []) (pos:int) : int * Logon  =
     let pos, encryptMethod = ReadField "ReadLogon" pos "98"B bs ReadEncryptMethod
     let pos, heartBtInt = ReadField "ReadLogon" pos "108"B bs ReadHeartBtInt
     let pos, rawData = ReadOptionalField pos "95"B bs ReadRawData
@@ -43,7 +43,7 @@ let ReadLogon (pos:int) (bs:byte []) : int * Logon  =
     pos, ci
 
 
-let ReadTestRequest (pos:int) (bs:byte []) : int * TestRequest  =
+let ReadTestRequest (bs:byte []) (pos:int) : int * TestRequest  =
     let pos, testReqID = ReadField "ReadTestRequest" pos "112"B bs ReadTestReqID
     let ci:TestRequest = {
         TestReqID = testReqID
@@ -51,7 +51,7 @@ let ReadTestRequest (pos:int) (bs:byte []) : int * TestRequest  =
     pos, ci
 
 
-let ReadResendRequest (pos:int) (bs:byte []) : int * ResendRequest  =
+let ReadResendRequest (bs:byte []) (pos:int) : int * ResendRequest  =
     let pos, beginSeqNo = ReadField "ReadResendRequest" pos "7"B bs ReadBeginSeqNo
     let pos, endSeqNo = ReadField "ReadResendRequest" pos "16"B bs ReadEndSeqNo
     let ci:ResendRequest = {
@@ -61,7 +61,7 @@ let ReadResendRequest (pos:int) (bs:byte []) : int * ResendRequest  =
     pos, ci
 
 
-let ReadReject (pos:int) (bs:byte []) : int * Reject  =
+let ReadReject (bs:byte []) (pos:int) : int * Reject  =
     let pos, refSeqNum = ReadField "ReadReject" pos "45"B bs ReadRefSeqNum
     let pos, refTagID = ReadOptionalField pos "371"B bs ReadRefTagID
     let pos, refMsgType = ReadOptionalField pos "372"B bs ReadRefMsgType
@@ -79,7 +79,7 @@ let ReadReject (pos:int) (bs:byte []) : int * Reject  =
     pos, ci
 
 
-let ReadSequenceReset (pos:int) (bs:byte []) : int * SequenceReset  =
+let ReadSequenceReset (bs:byte []) (pos:int) : int * SequenceReset  =
     let pos, gapFillFlag = ReadOptionalField pos "123"B bs ReadGapFillFlag
     let pos, newSeqNo = ReadField "ReadSequenceReset" pos "36"B bs ReadNewSeqNo
     let ci:SequenceReset = {
@@ -89,7 +89,7 @@ let ReadSequenceReset (pos:int) (bs:byte []) : int * SequenceReset  =
     pos, ci
 
 
-let ReadLogout (pos:int) (bs:byte []) : int * Logout  =
+let ReadLogout (bs:byte []) (pos:int) : int * Logout  =
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "354"B bs ReadEncodedText
     let ci:Logout = {
@@ -99,7 +99,7 @@ let ReadLogout (pos:int) (bs:byte []) : int * Logout  =
     pos, ci
 
 
-let ReadBusinessMessageReject (pos:int) (bs:byte []) : int * BusinessMessageReject  =
+let ReadBusinessMessageReject (bs:byte []) (pos:int) : int * BusinessMessageReject  =
     let pos, refSeqNum = ReadOptionalField pos "45"B bs ReadRefSeqNum
     let pos, refMsgType = ReadField "ReadBusinessMessageReject" pos "372"B bs ReadRefMsgType
     let pos, businessRejectRefID = ReadOptionalField pos "379"B bs ReadBusinessRejectRefID
@@ -117,7 +117,7 @@ let ReadBusinessMessageReject (pos:int) (bs:byte []) : int * BusinessMessageReje
     pos, ci
 
 
-let ReadUserRequest (pos:int) (bs:byte []) : int * UserRequest  =
+let ReadUserRequest (bs:byte []) (pos:int) : int * UserRequest  =
     let pos, userRequestID = ReadField "ReadUserRequest" pos "923"B bs ReadUserRequestID
     let pos, userRequestType = ReadField "ReadUserRequest" pos "924"B bs ReadUserRequestType
     let pos, username = ReadField "ReadUserRequest" pos "553"B bs ReadUsername
@@ -135,7 +135,7 @@ let ReadUserRequest (pos:int) (bs:byte []) : int * UserRequest  =
     pos, ci
 
 
-let ReadUserResponse (pos:int) (bs:byte []) : int * UserResponse  =
+let ReadUserResponse (bs:byte []) (pos:int) : int * UserResponse  =
     let pos, userRequestID = ReadField "ReadUserResponse" pos "923"B bs ReadUserRequestID
     let pos, username = ReadField "ReadUserResponse" pos "553"B bs ReadUsername
     let pos, userStatus = ReadOptionalField pos "926"B bs ReadUserStatus
@@ -149,7 +149,7 @@ let ReadUserResponse (pos:int) (bs:byte []) : int * UserResponse  =
     pos, ci
 
 
-let ReadAdvertisement (pos:int) (bs:byte []) : int * Advertisement  =
+let ReadAdvertisement (bs:byte []) (pos:int) : int * Advertisement  =
     let pos, advId = ReadField "ReadAdvertisement" pos "2"B bs ReadAdvId
     let pos, advTransType = ReadField "ReadAdvertisement" pos "5"B bs ReadAdvTransType
     let pos, advRefID = ReadOptionalField pos "3"B bs ReadAdvRefID
@@ -193,7 +193,7 @@ let ReadAdvertisement (pos:int) (bs:byte []) : int * Advertisement  =
     pos, ci
 
 
-let ReadIndicationOfInterest (pos:int) (bs:byte []) : int * IndicationOfInterest  =
+let ReadIndicationOfInterest (bs:byte []) (pos:int) : int * IndicationOfInterest  =
     let pos, iOIid = ReadField "ReadIndicationOfInterest" pos "23"B bs ReadIOIid
     let pos, iOITransType = ReadField "ReadIndicationOfInterest" pos "28"B bs ReadIOITransType
     let pos, iOIRefID = ReadOptionalField pos "26"B bs ReadIOIRefID
@@ -251,7 +251,7 @@ let ReadIndicationOfInterest (pos:int) (bs:byte []) : int * IndicationOfInterest
     pos, ci
 
 
-let ReadNews (pos:int) (bs:byte []) : int * News  =
+let ReadNews (bs:byte []) (pos:int) : int * News  =
     let pos, origTime = ReadOptionalField pos "42"B bs ReadOrigTime
     let pos, urgency = ReadOptionalField pos "61"B bs ReadUrgency
     let pos, headline = ReadField "ReadNews" pos "148"B bs ReadHeadline
@@ -279,7 +279,7 @@ let ReadNews (pos:int) (bs:byte []) : int * News  =
     pos, ci
 
 
-let ReadEmail (pos:int) (bs:byte []) : int * Email  =
+let ReadEmail (bs:byte []) (pos:int) : int * Email  =
     let pos, emailThreadID = ReadField "ReadEmail" pos "164"B bs ReadEmailThreadID
     let pos, emailType = ReadField "ReadEmail" pos "94"B bs ReadEmailType
     let pos, origTime = ReadOptionalField pos "42"B bs ReadOrigTime
@@ -311,7 +311,7 @@ let ReadEmail (pos:int) (bs:byte []) : int * Email  =
     pos, ci
 
 
-let ReadQuoteRequest (pos:int) (bs:byte []) : int * QuoteRequest  =
+let ReadQuoteRequest (bs:byte []) (pos:int) : int * QuoteRequest  =
     let pos, quoteReqID = ReadField "ReadQuoteRequest" pos "131"B bs ReadQuoteReqID
     let pos, rFQReqID = ReadOptionalField pos "644"B bs ReadRFQReqID
     let pos, clOrdID = ReadOptionalField pos "11"B bs ReadClOrdID
@@ -331,7 +331,7 @@ let ReadQuoteRequest (pos:int) (bs:byte []) : int * QuoteRequest  =
     pos, ci
 
 
-let ReadQuoteResponse (pos:int) (bs:byte []) : int * QuoteResponse  =
+let ReadQuoteResponse (bs:byte []) (pos:int) : int * QuoteResponse  =
     let pos, quoteRespID = ReadField "ReadQuoteResponse" pos "693"B bs ReadQuoteRespID
     let pos, quoteID = ReadOptionalField pos "117"B bs ReadQuoteID
     let pos, quoteRespType = ReadField "ReadQuoteResponse" pos "694"B bs ReadQuoteRespType
@@ -457,7 +457,7 @@ let ReadQuoteResponse (pos:int) (bs:byte []) : int * QuoteResponse  =
     pos, ci
 
 
-let ReadQuoteRequestReject (pos:int) (bs:byte []) : int * QuoteRequestReject  =
+let ReadQuoteRequestReject (bs:byte []) (pos:int) : int * QuoteRequestReject  =
     let pos, quoteReqID = ReadField "ReadQuoteRequestReject" pos "131"B bs ReadQuoteReqID
     let pos, rFQReqID = ReadOptionalField pos "644"B bs ReadRFQReqID
     let pos, quoteRequestRejectReason = ReadField "ReadQuoteRequestReject" pos "658"B bs ReadQuoteRequestRejectReason
@@ -497,7 +497,7 @@ let ReadQuoteRequestReject (pos:int) (bs:byte []) : int * QuoteRequestReject  =
     pos, ci
 
 
-let ReadRFQRequest (pos:int) (bs:byte []) : int * RFQRequest  =
+let ReadRFQRequest (bs:byte []) (pos:int) : int * RFQRequest  =
     let pos, rFQReqID = ReadField "ReadRFQRequest" pos "644"B bs ReadRFQReqID
     let pos, rFQRequestNoRelatedSymGrp = ReadGroup "ReadRFQRequest" pos "146"B bs ReadRFQRequestNoRelatedSymGrp
     let pos, subscriptionRequestType = ReadOptionalField pos "263"B bs ReadSubscriptionRequestType
@@ -509,7 +509,7 @@ let ReadRFQRequest (pos:int) (bs:byte []) : int * RFQRequest  =
     pos, ci
 
 
-let ReadQuote (pos:int) (bs:byte []) : int * Quote  =
+let ReadQuote (bs:byte []) (pos:int) : int * Quote  =
     let pos, quoteReqID = ReadOptionalField pos "131"B bs ReadQuoteReqID
     let pos, quoteID = ReadField "ReadQuote" pos "117"B bs ReadQuoteID
     let pos, quoteRespID = ReadOptionalField pos "693"B bs ReadQuoteRespID
@@ -631,7 +631,7 @@ let ReadQuote (pos:int) (bs:byte []) : int * Quote  =
     pos, ci
 
 
-let ReadQuoteCancel (pos:int) (bs:byte []) : int * QuoteCancel  =
+let ReadQuoteCancel (bs:byte []) (pos:int) : int * QuoteCancel  =
     let pos, quoteReqID = ReadOptionalField pos "131"B bs ReadQuoteReqID
     let pos, quoteID = ReadField "ReadQuoteCancel" pos "117"B bs ReadQuoteID
     let pos, quoteCancelType = ReadField "ReadQuoteCancel" pos "298"B bs ReadQuoteCancelType
@@ -659,7 +659,7 @@ let ReadQuoteCancel (pos:int) (bs:byte []) : int * QuoteCancel  =
     pos, ci
 
 
-let ReadQuoteStatusRequest (pos:int) (bs:byte []) : int * QuoteStatusRequest  =
+let ReadQuoteStatusRequest (bs:byte []) (pos:int) : int * QuoteStatusRequest  =
     let pos, quoteStatusReqID = ReadOptionalField pos "649"B bs ReadQuoteStatusReqID
     let pos, quoteID = ReadOptionalField pos "117"B bs ReadQuoteID
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
@@ -691,7 +691,7 @@ let ReadQuoteStatusRequest (pos:int) (bs:byte []) : int * QuoteStatusRequest  =
     pos, ci
 
 
-let ReadQuoteStatusReport (pos:int) (bs:byte []) : int * QuoteStatusReport  =
+let ReadQuoteStatusReport (bs:byte []) (pos:int) : int * QuoteStatusReport  =
     let pos, quoteStatusReqID = ReadOptionalField pos "649"B bs ReadQuoteStatusReqID
     let pos, quoteReqID = ReadOptionalField pos "131"B bs ReadQuoteReqID
     let pos, quoteID = ReadField "ReadQuoteStatusReport" pos "117"B bs ReadQuoteID
@@ -817,7 +817,7 @@ let ReadQuoteStatusReport (pos:int) (bs:byte []) : int * QuoteStatusReport  =
     pos, ci
 
 
-let ReadMassQuote (pos:int) (bs:byte []) : int * MassQuote  =
+let ReadMassQuote (bs:byte []) (pos:int) : int * MassQuote  =
     let pos, quoteReqID = ReadOptionalField pos "131"B bs ReadQuoteReqID
     let pos, quoteID = ReadField "ReadMassQuote" pos "117"B bs ReadQuoteID
     let pos, quoteType = ReadOptionalField pos "537"B bs ReadQuoteType
@@ -845,7 +845,7 @@ let ReadMassQuote (pos:int) (bs:byte []) : int * MassQuote  =
     pos, ci
 
 
-let ReadMassQuoteAcknowledgement (pos:int) (bs:byte []) : int * MassQuoteAcknowledgement  =
+let ReadMassQuoteAcknowledgement (bs:byte []) (pos:int) : int * MassQuoteAcknowledgement  =
     let pos, quoteReqID = ReadOptionalField pos "131"B bs ReadQuoteReqID
     let pos, quoteID = ReadOptionalField pos "117"B bs ReadQuoteID
     let pos, quoteStatus = ReadField "ReadMassQuoteAcknowledgement" pos "297"B bs ReadQuoteStatus
@@ -877,7 +877,7 @@ let ReadMassQuoteAcknowledgement (pos:int) (bs:byte []) : int * MassQuoteAcknowl
     pos, ci
 
 
-let ReadMarketDataRequest (pos:int) (bs:byte []) : int * MarketDataRequest  =
+let ReadMarketDataRequest (bs:byte []) (pos:int) : int * MarketDataRequest  =
     let pos, mDReqID = ReadField "ReadMarketDataRequest" pos "262"B bs ReadMDReqID
     let pos, subscriptionRequestType = ReadField "ReadMarketDataRequest" pos "263"B bs ReadSubscriptionRequestType
     let pos, marketDepth = ReadField "ReadMarketDataRequest" pos "264"B bs ReadMarketDepth
@@ -909,7 +909,7 @@ let ReadMarketDataRequest (pos:int) (bs:byte []) : int * MarketDataRequest  =
     pos, ci
 
 
-let ReadMarketDataSnapshotFullRefresh (pos:int) (bs:byte []) : int * MarketDataSnapshotFullRefresh  =
+let ReadMarketDataSnapshotFullRefresh (bs:byte []) (pos:int) : int * MarketDataSnapshotFullRefresh  =
     let pos, mDReqID = ReadOptionalField pos "262"B bs ReadMDReqID
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
@@ -935,7 +935,7 @@ let ReadMarketDataSnapshotFullRefresh (pos:int) (bs:byte []) : int * MarketDataS
     pos, ci
 
 
-let ReadMarketDataIncrementalRefresh (pos:int) (bs:byte []) : int * MarketDataIncrementalRefresh  =
+let ReadMarketDataIncrementalRefresh (bs:byte []) (pos:int) : int * MarketDataIncrementalRefresh  =
     let pos, mDReqID = ReadOptionalField pos "262"B bs ReadMDReqID
     let pos, marketDataIncrementalRefreshNoMDEntriesGrp = ReadGroup "ReadMarketDataIncrementalRefresh" pos "268"B bs ReadMarketDataIncrementalRefreshNoMDEntriesGrp
     let pos, applQueueDepth = ReadOptionalField pos "813"B bs ReadApplQueueDepth
@@ -949,7 +949,7 @@ let ReadMarketDataIncrementalRefresh (pos:int) (bs:byte []) : int * MarketDataIn
     pos, ci
 
 
-let ReadMarketDataRequestReject (pos:int) (bs:byte []) : int * MarketDataRequestReject  =
+let ReadMarketDataRequestReject (bs:byte []) (pos:int) : int * MarketDataRequestReject  =
     let pos, mDReqID = ReadField "ReadMarketDataRequestReject" pos "262"B bs ReadMDReqID
     let pos, mDReqRejReason = ReadOptionalField pos "281"B bs ReadMDReqRejReason
     let pos, noAltMDSourceGrp = ReadOptionalGroup pos "816"B bs ReadNoAltMDSourceGrp
@@ -965,7 +965,7 @@ let ReadMarketDataRequestReject (pos:int) (bs:byte []) : int * MarketDataRequest
     pos, ci
 
 
-let ReadSecurityDefinitionRequest (pos:int) (bs:byte []) : int * SecurityDefinitionRequest  =
+let ReadSecurityDefinitionRequest (bs:byte []) (pos:int) : int * SecurityDefinitionRequest  =
     let pos, securityReqID = ReadField "ReadSecurityDefinitionRequest" pos "320"B bs ReadSecurityReqID
     let pos, securityRequestType = ReadField "ReadSecurityDefinitionRequest" pos "321"B bs ReadSecurityRequestType
     let pos, instrument = ReadOptionalComponent pos "55"B bs ReadInstrument
@@ -997,7 +997,7 @@ let ReadSecurityDefinitionRequest (pos:int) (bs:byte []) : int * SecurityDefinit
     pos, ci
 
 
-let ReadSecurityDefinition (pos:int) (bs:byte []) : int * SecurityDefinition  =
+let ReadSecurityDefinition (bs:byte []) (pos:int) : int * SecurityDefinition  =
     let pos, securityReqID = ReadField "ReadSecurityDefinition" pos "320"B bs ReadSecurityReqID
     let pos, securityResponseID = ReadField "ReadSecurityDefinition" pos "322"B bs ReadSecurityResponseID
     let pos, securityResponseType = ReadField "ReadSecurityDefinition" pos "323"B bs ReadSecurityResponseType
@@ -1033,7 +1033,7 @@ let ReadSecurityDefinition (pos:int) (bs:byte []) : int * SecurityDefinition  =
     pos, ci
 
 
-let ReadSecurityTypeRequest (pos:int) (bs:byte []) : int * SecurityTypeRequest  =
+let ReadSecurityTypeRequest (bs:byte []) (pos:int) : int * SecurityTypeRequest  =
     let pos, securityReqID = ReadField "ReadSecurityTypeRequest" pos "320"B bs ReadSecurityReqID
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "354"B bs ReadEncodedText
@@ -1055,7 +1055,7 @@ let ReadSecurityTypeRequest (pos:int) (bs:byte []) : int * SecurityTypeRequest  
     pos, ci
 
 
-let ReadSecurityTypes (pos:int) (bs:byte []) : int * SecurityTypes  =
+let ReadSecurityTypes (bs:byte []) (pos:int) : int * SecurityTypes  =
     let pos, securityReqID = ReadField "ReadSecurityTypes" pos "320"B bs ReadSecurityReqID
     let pos, securityResponseID = ReadField "ReadSecurityTypes" pos "322"B bs ReadSecurityResponseID
     let pos, securityResponseType = ReadField "ReadSecurityTypes" pos "323"B bs ReadSecurityResponseType
@@ -1083,7 +1083,7 @@ let ReadSecurityTypes (pos:int) (bs:byte []) : int * SecurityTypes  =
     pos, ci
 
 
-let ReadSecurityListRequest (pos:int) (bs:byte []) : int * SecurityListRequest  =
+let ReadSecurityListRequest (bs:byte []) (pos:int) : int * SecurityListRequest  =
     let pos, securityReqID = ReadField "ReadSecurityListRequest" pos "320"B bs ReadSecurityReqID
     let pos, securityListRequestType = ReadField "ReadSecurityListRequest" pos "559"B bs ReadSecurityListRequestType
     let pos, instrument = ReadOptionalComponent pos "55"B bs ReadInstrument
@@ -1115,7 +1115,7 @@ let ReadSecurityListRequest (pos:int) (bs:byte []) : int * SecurityListRequest  
     pos, ci
 
 
-let ReadSecurityList (pos:int) (bs:byte []) : int * SecurityList  =
+let ReadSecurityList (bs:byte []) (pos:int) : int * SecurityList  =
     let pos, securityReqID = ReadField "ReadSecurityList" pos "320"B bs ReadSecurityReqID
     let pos, securityResponseID = ReadField "ReadSecurityList" pos "322"B bs ReadSecurityResponseID
     let pos, securityRequestResult = ReadField "ReadSecurityList" pos "560"B bs ReadSecurityRequestResult
@@ -1133,7 +1133,7 @@ let ReadSecurityList (pos:int) (bs:byte []) : int * SecurityList  =
     pos, ci
 
 
-let ReadDerivativeSecurityListRequest (pos:int) (bs:byte []) : int * DerivativeSecurityListRequest  =
+let ReadDerivativeSecurityListRequest (bs:byte []) (pos:int) : int * DerivativeSecurityListRequest  =
     let pos, securityReqID = ReadField "ReadDerivativeSecurityListRequest" pos "320"B bs ReadSecurityReqID
     let pos, securityListRequestType = ReadField "ReadDerivativeSecurityListRequest" pos "559"B bs ReadSecurityListRequestType
     let pos, underlyingInstrument = ReadOptionalComponent pos "311"B bs ReadUnderlyingInstrument
@@ -1159,7 +1159,7 @@ let ReadDerivativeSecurityListRequest (pos:int) (bs:byte []) : int * DerivativeS
     pos, ci
 
 
-let ReadDerivativeSecurityList (pos:int) (bs:byte []) : int * DerivativeSecurityList  =
+let ReadDerivativeSecurityList (bs:byte []) (pos:int) : int * DerivativeSecurityList  =
     let pos, securityReqID = ReadField "ReadDerivativeSecurityList" pos "320"B bs ReadSecurityReqID
     let pos, securityResponseID = ReadField "ReadDerivativeSecurityList" pos "322"B bs ReadSecurityResponseID
     let pos, securityRequestResult = ReadField "ReadDerivativeSecurityList" pos "560"B bs ReadSecurityRequestResult
@@ -1179,7 +1179,7 @@ let ReadDerivativeSecurityList (pos:int) (bs:byte []) : int * DerivativeSecurity
     pos, ci
 
 
-let ReadSecurityStatusRequest (pos:int) (bs:byte []) : int * SecurityStatusRequest  =
+let ReadSecurityStatusRequest (bs:byte []) (pos:int) : int * SecurityStatusRequest  =
     let pos, securityStatusReqID = ReadField "ReadSecurityStatusRequest" pos "324"B bs ReadSecurityStatusReqID
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, instrumentExtension = ReadComponent "ReadInstrumentExtension component" pos bs ReadInstrumentExtension
@@ -1203,7 +1203,7 @@ let ReadSecurityStatusRequest (pos:int) (bs:byte []) : int * SecurityStatusReque
     pos, ci
 
 
-let ReadSecurityStatus (pos:int) (bs:byte []) : int * SecurityStatus  =
+let ReadSecurityStatus (bs:byte []) (pos:int) : int * SecurityStatus  =
     let pos, securityStatusReqID = ReadOptionalField pos "324"B bs ReadSecurityStatusReqID
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, instrumentExtension = ReadComponent "ReadInstrumentExtension component" pos bs ReadInstrumentExtension
@@ -1257,7 +1257,7 @@ let ReadSecurityStatus (pos:int) (bs:byte []) : int * SecurityStatus  =
     pos, ci
 
 
-let ReadTradingSessionStatusRequest (pos:int) (bs:byte []) : int * TradingSessionStatusRequest  =
+let ReadTradingSessionStatusRequest (bs:byte []) (pos:int) : int * TradingSessionStatusRequest  =
     let pos, tradSesReqID = ReadField "ReadTradingSessionStatusRequest" pos "335"B bs ReadTradSesReqID
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
@@ -1275,7 +1275,7 @@ let ReadTradingSessionStatusRequest (pos:int) (bs:byte []) : int * TradingSessio
     pos, ci
 
 
-let ReadTradingSessionStatus (pos:int) (bs:byte []) : int * TradingSessionStatus  =
+let ReadTradingSessionStatus (bs:byte []) (pos:int) : int * TradingSessionStatus  =
     let pos, tradSesReqID = ReadOptionalField pos "335"B bs ReadTradSesReqID
     let pos, tradingSessionID = ReadField "ReadTradingSessionStatus" pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
@@ -1313,7 +1313,7 @@ let ReadTradingSessionStatus (pos:int) (bs:byte []) : int * TradingSessionStatus
     pos, ci
 
 
-let ReadNewOrderSingle (pos:int) (bs:byte []) : int * NewOrderSingle  =
+let ReadNewOrderSingle (bs:byte []) (pos:int) : int * NewOrderSingle  =
     let pos, clOrdID = ReadField "ReadNewOrderSingle" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
@@ -1469,7 +1469,7 @@ let ReadNewOrderSingle (pos:int) (bs:byte []) : int * NewOrderSingle  =
     pos, ci
 
 
-let ReadExecutionReport (pos:int) (bs:byte []) : int * ExecutionReport  =
+let ReadExecutionReport (bs:byte []) (pos:int) : int * ExecutionReport  =
     let pos, orderID = ReadField "ReadExecutionReport" pos "37"B bs ReadOrderID
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
@@ -1749,7 +1749,7 @@ let ReadExecutionReport (pos:int) (bs:byte []) : int * ExecutionReport  =
     pos, ci
 
 
-let ReadDontKnowTrade (pos:int) (bs:byte []) : int * DontKnowTrade  =
+let ReadDontKnowTrade (bs:byte []) (pos:int) : int * DontKnowTrade  =
     let pos, orderID = ReadField "ReadDontKnowTrade" pos "37"B bs ReadOrderID
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
     let pos, execID = ReadField "ReadDontKnowTrade" pos "17"B bs ReadExecID
@@ -1781,7 +1781,7 @@ let ReadDontKnowTrade (pos:int) (bs:byte []) : int * DontKnowTrade  =
     pos, ci
 
 
-let ReadOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * OrderCancelReplaceRequest  =
+let ReadOrderCancelReplaceRequest (bs:byte []) (pos:int) : int * OrderCancelReplaceRequest  =
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, parties = ReadComponent "ReadParties component" pos bs ReadParties
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
@@ -1935,7 +1935,7 @@ let ReadOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * OrderCancelRepl
     pos, ci
 
 
-let ReadOrderCancelRequest (pos:int) (bs:byte []) : int * OrderCancelRequest  =
+let ReadOrderCancelRequest (bs:byte []) (pos:int) : int * OrderCancelRequest  =
     let pos, origClOrdID = ReadField "ReadOrderCancelRequest" pos "41"B bs ReadOrigClOrdID
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, clOrdID = ReadField "ReadOrderCancelRequest" pos "11"B bs ReadClOrdID
@@ -1981,7 +1981,7 @@ let ReadOrderCancelRequest (pos:int) (bs:byte []) : int * OrderCancelRequest  =
     pos, ci
 
 
-let ReadOrderCancelReject (pos:int) (bs:byte []) : int * OrderCancelReject  =
+let ReadOrderCancelReject (bs:byte []) (pos:int) : int * OrderCancelReject  =
     let pos, orderID = ReadField "ReadOrderCancelReject" pos "37"B bs ReadOrderID
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
@@ -2027,7 +2027,7 @@ let ReadOrderCancelReject (pos:int) (bs:byte []) : int * OrderCancelReject  =
     pos, ci
 
 
-let ReadOrderStatusRequest (pos:int) (bs:byte []) : int * OrderStatusRequest  =
+let ReadOrderStatusRequest (bs:byte []) (pos:int) : int * OrderStatusRequest  =
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, clOrdID = ReadField "ReadOrderStatusRequest" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
@@ -2057,7 +2057,7 @@ let ReadOrderStatusRequest (pos:int) (bs:byte []) : int * OrderStatusRequest  =
     pos, ci
 
 
-let ReadOrderMassCancelRequest (pos:int) (bs:byte []) : int * OrderMassCancelRequest  =
+let ReadOrderMassCancelRequest (bs:byte []) (pos:int) : int * OrderMassCancelRequest  =
     let pos, clOrdID = ReadField "ReadOrderMassCancelRequest" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, massCancelRequestType = ReadField "ReadOrderMassCancelRequest" pos "530"B bs ReadMassCancelRequestType
@@ -2085,7 +2085,7 @@ let ReadOrderMassCancelRequest (pos:int) (bs:byte []) : int * OrderMassCancelReq
     pos, ci
 
 
-let ReadOrderMassCancelReport (pos:int) (bs:byte []) : int * OrderMassCancelReport  =
+let ReadOrderMassCancelReport (bs:byte []) (pos:int) : int * OrderMassCancelReport  =
     let pos, clOrdID = ReadOptionalField pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, orderID = ReadField "ReadOrderMassCancelReport" pos "37"B bs ReadOrderID
@@ -2125,7 +2125,7 @@ let ReadOrderMassCancelReport (pos:int) (bs:byte []) : int * OrderMassCancelRepo
     pos, ci
 
 
-let ReadOrderMassStatusRequest (pos:int) (bs:byte []) : int * OrderMassStatusRequest  =
+let ReadOrderMassStatusRequest (bs:byte []) (pos:int) : int * OrderMassStatusRequest  =
     let pos, massStatusReqID = ReadField "ReadOrderMassStatusRequest" pos "584"B bs ReadMassStatusReqID
     let pos, massStatusReqType = ReadField "ReadOrderMassStatusRequest" pos "585"B bs ReadMassStatusReqType
     let pos, parties = ReadComponent "ReadParties component" pos bs ReadParties
@@ -2151,7 +2151,7 @@ let ReadOrderMassStatusRequest (pos:int) (bs:byte []) : int * OrderMassStatusReq
     pos, ci
 
 
-let ReadNewOrderCross (pos:int) (bs:byte []) : int * NewOrderCross  =
+let ReadNewOrderCross (bs:byte []) (pos:int) : int * NewOrderCross  =
     let pos, crossID = ReadField "ReadNewOrderCross" pos "548"B bs ReadCrossID
     let pos, crossType = ReadField "ReadNewOrderCross" pos "549"B bs ReadCrossType
     let pos, crossPrioritization = ReadField "ReadNewOrderCross" pos "550"B bs ReadCrossPrioritization
@@ -2247,7 +2247,7 @@ let ReadNewOrderCross (pos:int) (bs:byte []) : int * NewOrderCross  =
     pos, ci
 
 
-let ReadCrossOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * CrossOrderCancelReplaceRequest  =
+let ReadCrossOrderCancelReplaceRequest (bs:byte []) (pos:int) : int * CrossOrderCancelReplaceRequest  =
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, crossID = ReadField "ReadCrossOrderCancelReplaceRequest" pos "548"B bs ReadCrossID
     let pos, origCrossID = ReadField "ReadCrossOrderCancelReplaceRequest" pos "551"B bs ReadOrigCrossID
@@ -2347,7 +2347,7 @@ let ReadCrossOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * CrossOrder
     pos, ci
 
 
-let ReadCrossOrderCancelRequest (pos:int) (bs:byte []) : int * CrossOrderCancelRequest  =
+let ReadCrossOrderCancelRequest (bs:byte []) (pos:int) : int * CrossOrderCancelRequest  =
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, crossID = ReadField "ReadCrossOrderCancelRequest" pos "548"B bs ReadCrossID
     let pos, origCrossID = ReadField "ReadCrossOrderCancelRequest" pos "551"B bs ReadOrigCrossID
@@ -2373,7 +2373,7 @@ let ReadCrossOrderCancelRequest (pos:int) (bs:byte []) : int * CrossOrderCancelR
     pos, ci
 
 
-let ReadNewOrderMultileg (pos:int) (bs:byte []) : int * NewOrderMultileg  =
+let ReadNewOrderMultileg (bs:byte []) (pos:int) : int * NewOrderMultileg  =
     let pos, clOrdID = ReadField "ReadNewOrderMultileg" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, clOrdLinkID = ReadOptionalField pos "583"B bs ReadClOrdLinkID
@@ -2519,7 +2519,7 @@ let ReadNewOrderMultileg (pos:int) (bs:byte []) : int * NewOrderMultileg  =
     pos, ci
 
 
-let ReadMultilegOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * MultilegOrderCancelReplaceRequest  =
+let ReadMultilegOrderCancelReplaceRequest (bs:byte []) (pos:int) : int * MultilegOrderCancelReplaceRequest  =
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, origClOrdID = ReadField "ReadMultilegOrderCancelReplaceRequest" pos "41"B bs ReadOrigClOrdID
     let pos, clOrdID = ReadField "ReadMultilegOrderCancelReplaceRequest" pos "11"B bs ReadClOrdID
@@ -2671,7 +2671,7 @@ let ReadMultilegOrderCancelReplaceRequest (pos:int) (bs:byte []) : int * Multile
     pos, ci
 
 
-let ReadBidRequest (pos:int) (bs:byte []) : int * BidRequest  =
+let ReadBidRequest (bs:byte []) (pos:int) : int * BidRequest  =
     let pos, bidID = ReadOptionalField pos "390"B bs ReadBidID
     let pos, clientBidID = ReadField "ReadBidRequest" pos "391"B bs ReadClientBidID
     let pos, bidRequestTransType = ReadField "ReadBidRequest" pos "374"B bs ReadBidRequestTransType
@@ -2733,7 +2733,7 @@ let ReadBidRequest (pos:int) (bs:byte []) : int * BidRequest  =
     pos, ci
 
 
-let ReadBidResponse (pos:int) (bs:byte []) : int * BidResponse  =
+let ReadBidResponse (bs:byte []) (pos:int) : int * BidResponse  =
     let pos, bidID = ReadOptionalField pos "390"B bs ReadBidID
     let pos, clientBidID = ReadOptionalField pos "391"B bs ReadClientBidID
     let pos, bidResponseNoBidComponentsGrp = ReadGroup "ReadBidResponse" pos "420"B bs ReadBidResponseNoBidComponentsGrp
@@ -2745,7 +2745,7 @@ let ReadBidResponse (pos:int) (bs:byte []) : int * BidResponse  =
     pos, ci
 
 
-let ReadNewOrderList (pos:int) (bs:byte []) : int * NewOrderList  =
+let ReadNewOrderList (bs:byte []) (pos:int) : int * NewOrderList  =
     let pos, listID = ReadField "ReadNewOrderList" pos "66"B bs ReadListID
     let pos, bidID = ReadOptionalField pos "390"B bs ReadBidID
     let pos, clientBidID = ReadOptionalField pos "391"B bs ReadClientBidID
@@ -2787,7 +2787,7 @@ let ReadNewOrderList (pos:int) (bs:byte []) : int * NewOrderList  =
     pos, ci
 
 
-let ReadListStrikePrice (pos:int) (bs:byte []) : int * ListStrikePrice  =
+let ReadListStrikePrice (bs:byte []) (pos:int) : int * ListStrikePrice  =
     let pos, listID = ReadField "ReadListStrikePrice" pos "66"B bs ReadListID
     let pos, totNoStrikes = ReadField "ReadListStrikePrice" pos "422"B bs ReadTotNoStrikes
     let pos, lastFragment = ReadOptionalField pos "893"B bs ReadLastFragment
@@ -2803,7 +2803,7 @@ let ReadListStrikePrice (pos:int) (bs:byte []) : int * ListStrikePrice  =
     pos, ci
 
 
-let ReadListStatus (pos:int) (bs:byte []) : int * ListStatus  =
+let ReadListStatus (bs:byte []) (pos:int) : int * ListStatus  =
     let pos, listID = ReadField "ReadListStatus" pos "66"B bs ReadListID
     let pos, listStatusType = ReadField "ReadListStatus" pos "429"B bs ReadListStatusType
     let pos, noRpts = ReadField "ReadListStatus" pos "82"B bs ReadNoRpts
@@ -2831,7 +2831,7 @@ let ReadListStatus (pos:int) (bs:byte []) : int * ListStatus  =
     pos, ci
 
 
-let ReadListExecute (pos:int) (bs:byte []) : int * ListExecute  =
+let ReadListExecute (bs:byte []) (pos:int) : int * ListExecute  =
     let pos, listID = ReadField "ReadListExecute" pos "66"B bs ReadListID
     let pos, clientBidID = ReadOptionalField pos "391"B bs ReadClientBidID
     let pos, bidID = ReadOptionalField pos "390"B bs ReadBidID
@@ -2849,7 +2849,7 @@ let ReadListExecute (pos:int) (bs:byte []) : int * ListExecute  =
     pos, ci
 
 
-let ReadListCancelRequest (pos:int) (bs:byte []) : int * ListCancelRequest  =
+let ReadListCancelRequest (bs:byte []) (pos:int) : int * ListCancelRequest  =
     let pos, listID = ReadField "ReadListCancelRequest" pos "66"B bs ReadListID
     let pos, transactTime = ReadField "ReadListCancelRequest" pos "60"B bs ReadTransactTime
     let pos, tradeOriginationDate = ReadOptionalField pos "229"B bs ReadTradeOriginationDate
@@ -2867,7 +2867,7 @@ let ReadListCancelRequest (pos:int) (bs:byte []) : int * ListCancelRequest  =
     pos, ci
 
 
-let ReadListStatusRequest (pos:int) (bs:byte []) : int * ListStatusRequest  =
+let ReadListStatusRequest (bs:byte []) (pos:int) : int * ListStatusRequest  =
     let pos, listID = ReadField "ReadListStatusRequest" pos "66"B bs ReadListID
     let pos, text = ReadOptionalField pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "354"B bs ReadEncodedText
@@ -2879,7 +2879,7 @@ let ReadListStatusRequest (pos:int) (bs:byte []) : int * ListStatusRequest  =
     pos, ci
 
 
-let ReadAllocationInstruction (pos:int) (bs:byte []) : int * AllocationInstruction  =
+let ReadAllocationInstruction (bs:byte []) (pos:int) : int * AllocationInstruction  =
     let pos, allocID = ReadField "ReadAllocationInstruction" pos "70"B bs ReadAllocID
     let pos, allocTransType = ReadField "ReadAllocationInstruction" pos "71"B bs ReadAllocTransType
     let pos, allocType = ReadField "ReadAllocationInstruction" pos "626"B bs ReadAllocType
@@ -3009,7 +3009,7 @@ let ReadAllocationInstruction (pos:int) (bs:byte []) : int * AllocationInstructi
     pos, ci
 
 
-let ReadAllocationInstructionAck (pos:int) (bs:byte []) : int * AllocationInstructionAck  =
+let ReadAllocationInstructionAck (bs:byte []) (pos:int) : int * AllocationInstructionAck  =
     let pos, allocID = ReadField "ReadAllocationInstructionAck" pos "70"B bs ReadAllocID
     let pos, parties = ReadComponent "ReadParties component" pos bs ReadParties
     let pos, secondaryAllocID = ReadOptionalField pos "793"B bs ReadSecondaryAllocID
@@ -3045,7 +3045,7 @@ let ReadAllocationInstructionAck (pos:int) (bs:byte []) : int * AllocationInstru
     pos, ci
 
 
-let ReadAllocationReport (pos:int) (bs:byte []) : int * AllocationReport  =
+let ReadAllocationReport (bs:byte []) (pos:int) : int * AllocationReport  =
     let pos, allocReportID = ReadField "ReadAllocationReport" pos "755"B bs ReadAllocReportID
     let pos, allocID = ReadOptionalField pos "70"B bs ReadAllocID
     let pos, allocTransType = ReadField "ReadAllocationReport" pos "71"B bs ReadAllocTransType
@@ -3183,7 +3183,7 @@ let ReadAllocationReport (pos:int) (bs:byte []) : int * AllocationReport  =
     pos, ci
 
 
-let ReadAllocationReportAck (pos:int) (bs:byte []) : int * AllocationReportAck  =
+let ReadAllocationReportAck (bs:byte []) (pos:int) : int * AllocationReportAck  =
     let pos, allocReportID = ReadField "ReadAllocationReportAck" pos "755"B bs ReadAllocReportID
     let pos, allocID = ReadField "ReadAllocationReportAck" pos "70"B bs ReadAllocID
     let pos, parties = ReadComponent "ReadParties component" pos bs ReadParties
@@ -3221,7 +3221,7 @@ let ReadAllocationReportAck (pos:int) (bs:byte []) : int * AllocationReportAck  
     pos, ci
 
 
-let ReadConfirmation (pos:int) (bs:byte []) : int * Confirmation  =
+let ReadConfirmation (bs:byte []) (pos:int) : int * Confirmation  =
     let pos, confirmID = ReadField "ReadConfirmation" pos "664"B bs ReadConfirmID
     let pos, confirmRefID = ReadOptionalField pos "772"B bs ReadConfirmRefID
     let pos, confirmReqID = ReadOptionalField pos "859"B bs ReadConfirmReqID
@@ -3355,7 +3355,7 @@ let ReadConfirmation (pos:int) (bs:byte []) : int * Confirmation  =
     pos, ci
 
 
-let ReadConfirmationAck (pos:int) (bs:byte []) : int * ConfirmationAck  =
+let ReadConfirmationAck (bs:byte []) (pos:int) : int * ConfirmationAck  =
     let pos, confirmID = ReadField "ReadConfirmationAck" pos "664"B bs ReadConfirmID
     let pos, tradeDate = ReadField "ReadConfirmationAck" pos "75"B bs ReadTradeDate
     let pos, transactTime = ReadField "ReadConfirmationAck" pos "60"B bs ReadTransactTime
@@ -3377,7 +3377,7 @@ let ReadConfirmationAck (pos:int) (bs:byte []) : int * ConfirmationAck  =
     pos, ci
 
 
-let ReadConfirmationRequest (pos:int) (bs:byte []) : int * ConfirmationRequest  =
+let ReadConfirmationRequest (bs:byte []) (pos:int) : int * ConfirmationRequest  =
     let pos, confirmReqID = ReadField "ReadConfirmationRequest" pos "859"B bs ReadConfirmReqID
     let pos, confirmType = ReadField "ReadConfirmationRequest" pos "773"B bs ReadConfirmType
     let pos, noOrdersGrp = ReadOptionalGroup pos "73"B bs ReadNoOrdersGrp
@@ -3407,7 +3407,7 @@ let ReadConfirmationRequest (pos:int) (bs:byte []) : int * ConfirmationRequest  
     pos, ci
 
 
-let ReadSettlementInstructions (pos:int) (bs:byte []) : int * SettlementInstructions  =
+let ReadSettlementInstructions (bs:byte []) (pos:int) : int * SettlementInstructions  =
     let pos, settlInstMsgID = ReadField "ReadSettlementInstructions" pos "777"B bs ReadSettlInstMsgID
     let pos, settlInstReqID = ReadOptionalField pos "791"B bs ReadSettlInstReqID
     let pos, settlInstMode = ReadField "ReadSettlementInstructions" pos "160"B bs ReadSettlInstMode
@@ -3433,7 +3433,7 @@ let ReadSettlementInstructions (pos:int) (bs:byte []) : int * SettlementInstruct
     pos, ci
 
 
-let ReadSettlementInstructionRequest (pos:int) (bs:byte []) : int * SettlementInstructionRequest  =
+let ReadSettlementInstructionRequest (bs:byte []) (pos:int) : int * SettlementInstructionRequest  =
     let pos, settlInstReqID = ReadField "ReadSettlementInstructionRequest" pos "791"B bs ReadSettlInstReqID
     let pos, transactTime = ReadField "ReadSettlementInstructionRequest" pos "60"B bs ReadTransactTime
     let pos, parties = ReadComponent "ReadParties component" pos bs ReadParties
@@ -3469,7 +3469,7 @@ let ReadSettlementInstructionRequest (pos:int) (bs:byte []) : int * SettlementIn
     pos, ci
 
 
-let ReadTradeCaptureReportRequest (pos:int) (bs:byte []) : int * TradeCaptureReportRequest  =
+let ReadTradeCaptureReportRequest (bs:byte []) (pos:int) : int * TradeCaptureReportRequest  =
     let pos, tradeRequestID = ReadField "ReadTradeCaptureReportRequest" pos "568"B bs ReadTradeRequestID
     let pos, tradeRequestType = ReadField "ReadTradeCaptureReportRequest" pos "569"B bs ReadTradeRequestType
     let pos, subscriptionRequestType = ReadOptionalField pos "263"B bs ReadSubscriptionRequestType
@@ -3545,7 +3545,7 @@ let ReadTradeCaptureReportRequest (pos:int) (bs:byte []) : int * TradeCaptureRep
     pos, ci
 
 
-let ReadTradeCaptureReportRequestAck (pos:int) (bs:byte []) : int * TradeCaptureReportRequestAck  =
+let ReadTradeCaptureReportRequestAck (bs:byte []) (pos:int) : int * TradeCaptureReportRequestAck  =
     let pos, tradeRequestID = ReadField "ReadTradeCaptureReportRequestAck" pos "568"B bs ReadTradeRequestID
     let pos, tradeRequestType = ReadField "ReadTradeCaptureReportRequestAck" pos "569"B bs ReadTradeRequestType
     let pos, subscriptionRequestType = ReadOptionalField pos "263"B bs ReadSubscriptionRequestType
@@ -3579,7 +3579,7 @@ let ReadTradeCaptureReportRequestAck (pos:int) (bs:byte []) : int * TradeCapture
     pos, ci
 
 
-let ReadTradeCaptureReport (pos:int) (bs:byte []) : int * TradeCaptureReport  =
+let ReadTradeCaptureReport (bs:byte []) (pos:int) : int * TradeCaptureReport  =
     let pos, tradeReportID = ReadField "ReadTradeCaptureReport" pos "571"B bs ReadTradeReportID
     let pos, tradeReportTransType = ReadOptionalField pos "487"B bs ReadTradeReportTransType
     let pos, tradeReportType = ReadOptionalField pos "856"B bs ReadTradeReportType
@@ -3699,7 +3699,7 @@ let ReadTradeCaptureReport (pos:int) (bs:byte []) : int * TradeCaptureReport  =
     pos, ci
 
 
-let ReadTradeCaptureReportAck (pos:int) (bs:byte []) : int * TradeCaptureReportAck  =
+let ReadTradeCaptureReportAck (bs:byte []) (pos:int) : int * TradeCaptureReportAck  =
     let pos, tradeReportID = ReadField "ReadTradeCaptureReportAck" pos "571"B bs ReadTradeReportID
     let pos, tradeReportTransType = ReadOptionalField pos "487"B bs ReadTradeReportTransType
     let pos, tradeReportType = ReadOptionalField pos "856"B bs ReadTradeReportType
@@ -3777,7 +3777,7 @@ let ReadTradeCaptureReportAck (pos:int) (bs:byte []) : int * TradeCaptureReportA
     pos, ci
 
 
-let ReadRegistrationInstructions (pos:int) (bs:byte []) : int * RegistrationInstructions  =
+let ReadRegistrationInstructions (bs:byte []) (pos:int) : int * RegistrationInstructions  =
     let pos, registID = ReadField "ReadRegistrationInstructions" pos "513"B bs ReadRegistID
     let pos, registTransType = ReadField "ReadRegistrationInstructions" pos "514"B bs ReadRegistTransType
     let pos, registRefID = ReadField "ReadRegistrationInstructions" pos "508"B bs ReadRegistRefID
@@ -3807,7 +3807,7 @@ let ReadRegistrationInstructions (pos:int) (bs:byte []) : int * RegistrationInst
     pos, ci
 
 
-let ReadRegistrationInstructionsResponse (pos:int) (bs:byte []) : int * RegistrationInstructionsResponse  =
+let ReadRegistrationInstructionsResponse (bs:byte []) (pos:int) : int * RegistrationInstructionsResponse  =
     let pos, registID = ReadField "ReadRegistrationInstructionsResponse" pos "513"B bs ReadRegistID
     let pos, registTransType = ReadField "ReadRegistrationInstructionsResponse" pos "514"B bs ReadRegistTransType
     let pos, registRefID = ReadField "ReadRegistrationInstructionsResponse" pos "508"B bs ReadRegistRefID
@@ -3833,7 +3833,7 @@ let ReadRegistrationInstructionsResponse (pos:int) (bs:byte []) : int * Registra
     pos, ci
 
 
-let ReadPositionMaintenanceRequest (pos:int) (bs:byte []) : int * PositionMaintenanceRequest  =
+let ReadPositionMaintenanceRequest (bs:byte []) (pos:int) : int * PositionMaintenanceRequest  =
     let pos, posReqID = ReadField "ReadPositionMaintenanceRequest" pos "710"B bs ReadPosReqID
     let pos, posTransType = ReadField "ReadPositionMaintenanceRequest" pos "709"B bs ReadPosTransType
     let pos, posMaintAction = ReadField "ReadPositionMaintenanceRequest" pos "712"B bs ReadPosMaintAction
@@ -3889,7 +3889,7 @@ let ReadPositionMaintenanceRequest (pos:int) (bs:byte []) : int * PositionMainte
     pos, ci
 
 
-let ReadPositionMaintenanceReport (pos:int) (bs:byte []) : int * PositionMaintenanceReport  =
+let ReadPositionMaintenanceReport (bs:byte []) (pos:int) : int * PositionMaintenanceReport  =
     let pos, posMaintRptID = ReadField "ReadPositionMaintenanceReport" pos "721"B bs ReadPosMaintRptID
     let pos, posTransType = ReadField "ReadPositionMaintenanceReport" pos "709"B bs ReadPosTransType
     let pos, posReqID = ReadOptionalField pos "710"B bs ReadPosReqID
@@ -3947,7 +3947,7 @@ let ReadPositionMaintenanceReport (pos:int) (bs:byte []) : int * PositionMainten
     pos, ci
 
 
-let ReadRequestForPositions (pos:int) (bs:byte []) : int * RequestForPositions  =
+let ReadRequestForPositions (bs:byte []) (pos:int) : int * RequestForPositions  =
     let pos, posReqID = ReadField "ReadRequestForPositions" pos "710"B bs ReadPosReqID
     let pos, posReqType = ReadField "ReadRequestForPositions" pos "724"B bs ReadPosReqType
     let pos, matchStatus = ReadOptionalField pos "573"B bs ReadMatchStatus
@@ -3995,7 +3995,7 @@ let ReadRequestForPositions (pos:int) (bs:byte []) : int * RequestForPositions  
     pos, ci
 
 
-let ReadRequestForPositionsAck (pos:int) (bs:byte []) : int * RequestForPositionsAck  =
+let ReadRequestForPositionsAck (bs:byte []) (pos:int) : int * RequestForPositionsAck  =
     let pos, posMaintRptID = ReadField "ReadRequestForPositionsAck" pos "721"B bs ReadPosMaintRptID
     let pos, posReqID = ReadOptionalField pos "710"B bs ReadPosReqID
     let pos, totalNumPosReports = ReadOptionalField pos "727"B bs ReadTotalNumPosReports
@@ -4037,7 +4037,7 @@ let ReadRequestForPositionsAck (pos:int) (bs:byte []) : int * RequestForPosition
     pos, ci
 
 
-let ReadPositionReport (pos:int) (bs:byte []) : int * PositionReport  =
+let ReadPositionReport (bs:byte []) (pos:int) : int * PositionReport  =
     let pos, posMaintRptID = ReadField "ReadPositionReport" pos "721"B bs ReadPosMaintRptID
     let pos, posReqID = ReadOptionalField pos "710"B bs ReadPosReqID
     let pos, posReqType = ReadOptionalField pos "724"B bs ReadPosReqType
@@ -4097,7 +4097,7 @@ let ReadPositionReport (pos:int) (bs:byte []) : int * PositionReport  =
     pos, ci
 
 
-let ReadAssignmentReport (pos:int) (bs:byte []) : int * AssignmentReport  =
+let ReadAssignmentReport (bs:byte []) (pos:int) : int * AssignmentReport  =
     let pos, asgnRptID = ReadField "ReadAssignmentReport" pos "833"B bs ReadAsgnRptID
     let pos, totNumAssignmentReports = ReadOptionalField pos "832"B bs ReadTotNumAssignmentReports
     let pos, lastRptRequested = ReadOptionalField pos "912"B bs ReadLastRptRequested
@@ -4157,7 +4157,7 @@ let ReadAssignmentReport (pos:int) (bs:byte []) : int * AssignmentReport  =
     pos, ci
 
 
-let ReadCollateralRequest (pos:int) (bs:byte []) : int * CollateralRequest  =
+let ReadCollateralRequest (bs:byte []) (pos:int) : int * CollateralRequest  =
     let pos, collReqID = ReadField "ReadCollateralRequest" pos "894"B bs ReadCollReqID
     let pos, collAsgnReason = ReadField "ReadCollateralRequest" pos "895"B bs ReadCollAsgnReason
     let pos, transactTime = ReadField "ReadCollateralRequest" pos "60"B bs ReadTransactTime
@@ -4249,7 +4249,7 @@ let ReadCollateralRequest (pos:int) (bs:byte []) : int * CollateralRequest  =
     pos, ci
 
 
-let ReadCollateralAssignment (pos:int) (bs:byte []) : int * CollateralAssignment  =
+let ReadCollateralAssignment (bs:byte []) (pos:int) : int * CollateralAssignment  =
     let pos, collAsgnID = ReadField "ReadCollateralAssignment" pos "902"B bs ReadCollAsgnID
     let pos, collReqID = ReadOptionalField pos "894"B bs ReadCollReqID
     let pos, collAsgnReason = ReadField "ReadCollateralAssignment" pos "895"B bs ReadCollAsgnReason
@@ -4349,7 +4349,7 @@ let ReadCollateralAssignment (pos:int) (bs:byte []) : int * CollateralAssignment
     pos, ci
 
 
-let ReadCollateralResponse (pos:int) (bs:byte []) : int * CollateralResponse  =
+let ReadCollateralResponse (bs:byte []) (pos:int) : int * CollateralResponse  =
     let pos, collRespID = ReadField "ReadCollateralResponse" pos "904"B bs ReadCollRespID
     let pos, collAsgnID = ReadField "ReadCollateralResponse" pos "902"B bs ReadCollAsgnID
     let pos, collReqID = ReadOptionalField pos "894"B bs ReadCollReqID
@@ -4439,7 +4439,7 @@ let ReadCollateralResponse (pos:int) (bs:byte []) : int * CollateralResponse  =
     pos, ci
 
 
-let ReadCollateralReport (pos:int) (bs:byte []) : int * CollateralReport  =
+let ReadCollateralReport (bs:byte []) (pos:int) : int * CollateralReport  =
     let pos, collRptID = ReadField "ReadCollateralReport" pos "908"B bs ReadCollRptID
     let pos, collInquiryID = ReadOptionalField pos "909"B bs ReadCollInquiryID
     let pos, collStatus = ReadField "ReadCollateralReport" pos "910"B bs ReadCollStatus
@@ -4535,7 +4535,7 @@ let ReadCollateralReport (pos:int) (bs:byte []) : int * CollateralReport  =
     pos, ci
 
 
-let ReadCollateralInquiry (pos:int) (bs:byte []) : int * CollateralInquiry  =
+let ReadCollateralInquiry (bs:byte []) (pos:int) : int * CollateralInquiry  =
     let pos, collInquiryID = ReadOptionalField pos "909"B bs ReadCollInquiryID
     let pos, noCollInquiryQualifierGrp = ReadOptionalGroup pos "938"B bs ReadNoCollInquiryQualifierGrp
     let pos, subscriptionRequestType = ReadOptionalField pos "263"B bs ReadSubscriptionRequestType
@@ -4629,7 +4629,7 @@ let ReadCollateralInquiry (pos:int) (bs:byte []) : int * CollateralInquiry  =
     pos, ci
 
 
-let ReadNetworkStatusRequest (pos:int) (bs:byte []) : int * NetworkStatusRequest  =
+let ReadNetworkStatusRequest (bs:byte []) (pos:int) : int * NetworkStatusRequest  =
     let pos, networkRequestType = ReadField "ReadNetworkStatusRequest" pos "935"B bs ReadNetworkRequestType
     let pos, networkRequestID = ReadField "ReadNetworkStatusRequest" pos "933"B bs ReadNetworkRequestID
     let pos, noCompIDsGrp = ReadOptionalGroup pos "936"B bs ReadNoCompIDsGrp
@@ -4641,7 +4641,7 @@ let ReadNetworkStatusRequest (pos:int) (bs:byte []) : int * NetworkStatusRequest
     pos, ci
 
 
-let ReadNetworkStatusResponse (pos:int) (bs:byte []) : int * NetworkStatusResponse  =
+let ReadNetworkStatusResponse (bs:byte []) (pos:int) : int * NetworkStatusResponse  =
     let pos, networkStatusResponseType = ReadField "ReadNetworkStatusResponse" pos "937"B bs ReadNetworkStatusResponseType
     let pos, networkRequestID = ReadOptionalField pos "933"B bs ReadNetworkRequestID
     let pos, networkResponseID = ReadOptionalField pos "932"B bs ReadNetworkResponseID
@@ -4657,7 +4657,7 @@ let ReadNetworkStatusResponse (pos:int) (bs:byte []) : int * NetworkStatusRespon
     pos, ci
 
 
-let ReadCollateralInquiryAck (pos:int) (bs:byte []) : int * CollateralInquiryAck  =
+let ReadCollateralInquiryAck (bs:byte []) (pos:int) : int * CollateralInquiryAck  =
     let pos, collInquiryID = ReadField "ReadCollateralInquiryAck" pos "909"B bs ReadCollInquiryID
     let pos, collInquiryStatus = ReadField "ReadCollateralInquiryAck" pos "945"B bs ReadCollInquiryStatus
     let pos, collInquiryResult = ReadOptionalField pos "946"B bs ReadCollInquiryResult

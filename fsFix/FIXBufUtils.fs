@@ -53,7 +53,7 @@ let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
 
 
 // assumes and checks that the prevByte points to a field delimitor
-let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
+let readTagAfterFieldDelim (bs:byte[]) (pos:int) =
     if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
     let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "could not find next tag-value separator"
@@ -64,7 +64,7 @@ let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
 
 
 // may be the first thing to be read from a byte array, so there will be no initial or prev field deliminator
-let readTag (pos:int) (bs:byte[]) =
+let readTag (bs:byte[]) (pos:int) =
     let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "readTag, could not find next tag-value separator"
     let tagLen = tagValSepPos - pos
@@ -73,7 +73,7 @@ let readTag (pos:int) (bs:byte[]) =
     tagValSepPos + 1, bsVal // +1 to advance past the tag value seperator
 
 
-let readTagOpt (pos:int) (bs:byte[]) =
+let readTagOpt (bs:byte[]) (pos:int) =
     let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then None
     else

@@ -63,7 +63,7 @@ type MakeTZOffset private () =
 
 
 
-let inline private readNonUTC (isPos:bool) (bs:byte[]) pos =
+let inline private readNonUTC (isPos:bool) (bs:byte[]) (pos:int) =
     let isHHmm = bs.Length > (pos+3) && bs.[pos+3] = 58uy // if there is a ':' 3 chars hence
     if isHHmm then
         let hh, mm = DateTimeUtils.readHHMMints bs (pos+1)

@@ -7,7 +7,7 @@ open Fix44.CompoundItems
 
 
 // group
-let ReadNoUnderlyingSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoUnderlyingSecurityAltIDGrp  =
+let ReadNoUnderlyingSecurityAltIDGrp (bs:byte []) (pos:int) : int * NoUnderlyingSecurityAltIDGrp  =
     let pos, underlyingSecurityAltID = ReadField "ReadNoUnderlyingSecurityAltID" pos "458"B bs ReadUnderlyingSecurityAltID
     let pos, underlyingSecurityAltIDSource = ReadOptionalField pos "459"B bs ReadUnderlyingSecurityAltIDSource
     let ci:NoUnderlyingSecurityAltIDGrp = {
@@ -18,7 +18,7 @@ let ReadNoUnderlyingSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoUnderlying
 
 
 // group
-let ReadNoUnderlyingStipsGrp (pos:int) (bs:byte []) : int * NoUnderlyingStipsGrp  =
+let ReadNoUnderlyingStipsGrp (bs:byte []) (pos:int) : int * NoUnderlyingStipsGrp  =
     let pos, underlyingStipType = ReadField "ReadNoUnderlyingStips" pos "888"B bs ReadUnderlyingStipType
     let pos, underlyingStipValue = ReadOptionalField pos "889"B bs ReadUnderlyingStipValue
     let ci:NoUnderlyingStipsGrp = {
@@ -29,7 +29,7 @@ let ReadNoUnderlyingStipsGrp (pos:int) (bs:byte []) : int * NoUnderlyingStipsGrp
 
 
 // component
-let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument  =
+let ReadUnderlyingInstrument (bs:byte []) (pos:int) : int * UnderlyingInstrument  =
     let pos, underlyingSymbol = ReadField "ReadUnderlyingInstrument" pos "311"B bs ReadUnderlyingSymbol
     let pos, underlyingSymbolSfx = ReadOptionalField pos "312"B bs ReadUnderlyingSymbolSfx
     let pos, underlyingSecurityID = ReadOptionalField pos "309"B bs ReadUnderlyingSecurityID
@@ -126,7 +126,7 @@ let ReadUnderlyingInstrument (pos:int) (bs:byte []) : int * UnderlyingInstrument
 
 
 // group
-let ReadCollateralResponseNoUnderlyingsGrp (pos:int) (bs:byte []) : int * CollateralResponseNoUnderlyingsGrp  =
+let ReadCollateralResponseNoUnderlyingsGrp (bs:byte []) (pos:int) : int * CollateralResponseNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci:CollateralResponseNoUnderlyingsGrp = {
@@ -137,7 +137,7 @@ let ReadCollateralResponseNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collat
 
 
 // group
-let ReadCollateralAssignmentNoUnderlyingsGrp (pos:int) (bs:byte []) : int * CollateralAssignmentNoUnderlyingsGrp  =
+let ReadCollateralAssignmentNoUnderlyingsGrp (bs:byte []) (pos:int) : int * CollateralAssignmentNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci:CollateralAssignmentNoUnderlyingsGrp = {
@@ -148,7 +148,7 @@ let ReadCollateralAssignmentNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Coll
 
 
 // group
-let ReadCollateralRequestNoUnderlyingsGrp (pos:int) (bs:byte []) : int * CollateralRequestNoUnderlyingsGrp  =
+let ReadCollateralRequestNoUnderlyingsGrp (bs:byte []) (pos:int) : int * CollateralRequestNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let pos, collAction = ReadOptionalField pos "944"B bs ReadCollAction
     let ci:CollateralRequestNoUnderlyingsGrp = {
@@ -159,7 +159,7 @@ let ReadCollateralRequestNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Collate
 
 
 // group
-let ReadPositionReportNoUnderlyingsGrp (pos:int) (bs:byte []) : int * PositionReportNoUnderlyingsGrp  =
+let ReadPositionReportNoUnderlyingsGrp (bs:byte []) (pos:int) : int * PositionReportNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let pos, underlyingSettlPrice = ReadField "ReadPositionReportNoUnderlyings" pos "732"B bs ReadUnderlyingSettlPrice
     let pos, underlyingSettlPriceType = ReadField "ReadPositionReportNoUnderlyings" pos "733"B bs ReadUnderlyingSettlPriceType
@@ -172,7 +172,7 @@ let ReadPositionReportNoUnderlyingsGrp (pos:int) (bs:byte []) : int * PositionRe
 
 
 // group
-let ReadNoNestedPartySubIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartySubIDsGrp  =
+let ReadNoNestedPartySubIDsGrp (bs:byte []) (pos:int) : int * NoNestedPartySubIDsGrp  =
     let pos, nestedPartySubID = ReadField "ReadNoNestedPartySubIDs" pos "545"B bs ReadNestedPartySubID
     let pos, nestedPartySubIDType = ReadOptionalField pos "805"B bs ReadNestedPartySubIDType
     let ci:NoNestedPartySubIDsGrp = {
@@ -183,7 +183,7 @@ let ReadNoNestedPartySubIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartySubID
 
 
 // group
-let ReadNoNestedPartyIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartyIDsGrp  =
+let ReadNoNestedPartyIDsGrp (bs:byte []) (pos:int) : int * NoNestedPartyIDsGrp  =
     let pos, nestedPartyID = ReadField "ReadNoNestedPartyIDs" pos "524"B bs ReadNestedPartyID
     let pos, nestedPartyIDSource = ReadOptionalField pos "525"B bs ReadNestedPartyIDSource
     let pos, nestedPartyRole = ReadOptionalField pos "538"B bs ReadNestedPartyRole
@@ -198,7 +198,7 @@ let ReadNoNestedPartyIDsGrp (pos:int) (bs:byte []) : int * NoNestedPartyIDsGrp  
 
 
 // group
-let ReadNoPositionsGrp (pos:int) (bs:byte []) : int * NoPositionsGrp  =
+let ReadNoPositionsGrp (bs:byte []) (pos:int) : int * NoPositionsGrp  =
     let pos, posType = ReadField "ReadNoPositions" pos "703"B bs ReadPosType
     let pos, longQty = ReadOptionalField pos "704"B bs ReadLongQty
     let pos, shortQty = ReadOptionalField pos "705"B bs ReadShortQty
@@ -215,7 +215,7 @@ let ReadNoPositionsGrp (pos:int) (bs:byte []) : int * NoPositionsGrp  =
 
 
 // component
-let ReadPositionQty (pos:int) (bs:byte []) : int * PositionQty  =
+let ReadPositionQty (bs:byte []) (pos:int) : int * PositionQty  =
     let pos, noPositionsGrp = ReadGroup "ReadPositionQty" pos "702"B bs ReadNoPositionsGrp
     let ci:PositionQty = {
         NoPositionsGrp = noPositionsGrp
@@ -224,7 +224,7 @@ let ReadPositionQty (pos:int) (bs:byte []) : int * PositionQty  =
 
 
 // group
-let ReadNoRegistDtlsGrp (pos:int) (bs:byte []) : int * NoRegistDtlsGrp  =
+let ReadNoRegistDtlsGrp (bs:byte []) (pos:int) : int * NoRegistDtlsGrp  =
     let pos, registDtls = ReadField "ReadNoRegistDtls" pos "509"B bs ReadRegistDtls
     let pos, registEmail = ReadOptionalField pos "511"B bs ReadRegistEmail
     let pos, mailingDtls = ReadOptionalField pos "474"B bs ReadMailingDtls
@@ -247,7 +247,7 @@ let ReadNoRegistDtlsGrp (pos:int) (bs:byte []) : int * NoRegistDtlsGrp  =
 
 
 // group
-let ReadNoNested2PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartySubIDsGrp  =
+let ReadNoNested2PartySubIDsGrp (bs:byte []) (pos:int) : int * NoNested2PartySubIDsGrp  =
     let pos, nested2PartySubID = ReadField "ReadNoNested2PartySubIDs" pos "760"B bs ReadNested2PartySubID
     let pos, nested2PartySubIDType = ReadOptionalField pos "807"B bs ReadNested2PartySubIDType
     let ci:NoNested2PartySubIDsGrp = {
@@ -258,7 +258,7 @@ let ReadNoNested2PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartySub
 
 
 // group
-let ReadNoNested2PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartyIDsGrp  =
+let ReadNoNested2PartyIDsGrp (bs:byte []) (pos:int) : int * NoNested2PartyIDsGrp  =
     let pos, nested2PartyID = ReadField "ReadNoNested2PartyIDs" pos "757"B bs ReadNested2PartyID
     let pos, nested2PartyIDSource = ReadOptionalField pos "758"B bs ReadNested2PartyIDSource
     let pos, nested2PartyRole = ReadOptionalField pos "759"B bs ReadNested2PartyRole
@@ -273,7 +273,7 @@ let ReadNoNested2PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested2PartyIDsGrp
 
 
 // group
-let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoAllocsGrp  =
+let ReadTradeCaptureReportAckNoAllocsGrp (bs:byte []) (pos:int) : int * TradeCaptureReportAckNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadTradeCaptureReportAckNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
@@ -292,7 +292,7 @@ let ReadTradeCaptureReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * TradeCap
 
 
 // group
-let ReadNoLegSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoLegSecurityAltIDGrp  =
+let ReadNoLegSecurityAltIDGrp (bs:byte []) (pos:int) : int * NoLegSecurityAltIDGrp  =
     let pos, legSecurityAltID = ReadField "ReadNoLegSecurityAltID" pos "605"B bs ReadLegSecurityAltID
     let pos, legSecurityAltIDSource = ReadOptionalField pos "606"B bs ReadLegSecurityAltIDSource
     let ci:NoLegSecurityAltIDGrp = {
@@ -303,7 +303,7 @@ let ReadNoLegSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoLegSecurityAltIDG
 
 
 // component
-let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
+let ReadInstrumentLegFG (bs:byte []) (pos:int) : int * InstrumentLegFG  =
     let pos, legSymbol = ReadField "ReadInstrumentLegFG" pos "600"B bs ReadLegSymbol
     let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
     let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
@@ -390,7 +390,7 @@ let ReadInstrumentLegFG (pos:int) (bs:byte []) : int * InstrumentLegFG  =
 
 
 // group
-let ReadNoLegStipulationsGrp (pos:int) (bs:byte []) : int * NoLegStipulationsGrp  =
+let ReadNoLegStipulationsGrp (bs:byte []) (pos:int) : int * NoLegStipulationsGrp  =
     let pos, legStipulationType = ReadField "ReadNoLegStipulations" pos "688"B bs ReadLegStipulationType
     let pos, legStipulationValue = ReadOptionalField pos "689"B bs ReadLegStipulationValue
     let ci:NoLegStipulationsGrp = {
@@ -401,7 +401,7 @@ let ReadNoLegStipulationsGrp (pos:int) (bs:byte []) : int * NoLegStipulationsGrp
 
 
 // group
-let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportAckNoLegsGrp  =
+let ReadTradeCaptureReportAckNoLegsGrp (bs:byte []) (pos:int) : int * TradeCaptureReportAckNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -432,7 +432,7 @@ let ReadTradeCaptureReportAckNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptu
 
 
 // group
-let ReadNoPartySubIDsGrp (pos:int) (bs:byte []) : int * NoPartySubIDsGrp  =
+let ReadNoPartySubIDsGrp (bs:byte []) (pos:int) : int * NoPartySubIDsGrp  =
     let pos, partySubID = ReadField "ReadNoPartySubIDs" pos "523"B bs ReadPartySubID
     let pos, partySubIDType = ReadOptionalField pos "803"B bs ReadPartySubIDType
     let ci:NoPartySubIDsGrp = {
@@ -443,7 +443,7 @@ let ReadNoPartySubIDsGrp (pos:int) (bs:byte []) : int * NoPartySubIDsGrp  =
 
 
 // group
-let ReadNoPartyIDsGrp (pos:int) (bs:byte []) : int * NoPartyIDsGrp  =
+let ReadNoPartyIDsGrp (bs:byte []) (pos:int) : int * NoPartyIDsGrp  =
     let pos, partyID = ReadField "ReadNoPartyIDs" pos "448"B bs ReadPartyID
     let pos, partyIDSource = ReadOptionalField pos "447"B bs ReadPartyIDSource
     let pos, partyRole = ReadOptionalField pos "452"B bs ReadPartyRole
@@ -458,7 +458,7 @@ let ReadNoPartyIDsGrp (pos:int) (bs:byte []) : int * NoPartyIDsGrp  =
 
 
 // group
-let ReadNoClearingInstructionsGrp (pos:int) (bs:byte []) : int * NoClearingInstructionsGrp  =
+let ReadNoClearingInstructionsGrp (bs:byte []) (pos:int) : int * NoClearingInstructionsGrp  =
     let pos, clearingInstruction = ReadField "ReadNoClearingInstructions" pos "577"B bs ReadClearingInstruction
     let ci:NoClearingInstructionsGrp = {
         ClearingInstruction = clearingInstruction
@@ -467,7 +467,7 @@ let ReadNoClearingInstructionsGrp (pos:int) (bs:byte []) : int * NoClearingInstr
 
 
 // component
-let ReadCommissionData (pos:int) (bs:byte []) : int * CommissionData  =
+let ReadCommissionData (bs:byte []) (pos:int) : int * CommissionData  =
     let pos, commission = ReadOptionalField pos "12"B bs ReadCommission
     let pos, commType = ReadOptionalField pos "13"B bs ReadCommType
     let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
@@ -482,7 +482,7 @@ let ReadCommissionData (pos:int) (bs:byte []) : int * CommissionData  =
 
 
 // group
-let ReadNoContAmtsGrp (pos:int) (bs:byte []) : int * NoContAmtsGrp  =
+let ReadNoContAmtsGrp (bs:byte []) (pos:int) : int * NoContAmtsGrp  =
     let pos, contAmtType = ReadField "ReadNoContAmts" pos "519"B bs ReadContAmtType
     let pos, contAmtValue = ReadOptionalField pos "520"B bs ReadContAmtValue
     let pos, contAmtCurr = ReadOptionalField pos "521"B bs ReadContAmtCurr
@@ -495,7 +495,7 @@ let ReadNoContAmtsGrp (pos:int) (bs:byte []) : int * NoContAmtsGrp  =
 
 
 // group
-let ReadNoStipulationsGrp (pos:int) (bs:byte []) : int * NoStipulationsGrp  =
+let ReadNoStipulationsGrp (bs:byte []) (pos:int) : int * NoStipulationsGrp  =
     let pos, stipulationType = ReadField "ReadNoStipulations" pos "233"B bs ReadStipulationType
     let pos, stipulationValue = ReadOptionalField pos "234"B bs ReadStipulationValue
     let ci:NoStipulationsGrp = {
@@ -506,7 +506,7 @@ let ReadNoStipulationsGrp (pos:int) (bs:byte []) : int * NoStipulationsGrp  =
 
 
 // group
-let ReadNoMiscFeesGrp (pos:int) (bs:byte []) : int * NoMiscFeesGrp  =
+let ReadNoMiscFeesGrp (bs:byte []) (pos:int) : int * NoMiscFeesGrp  =
     let pos, miscFeeAmt = ReadField "ReadNoMiscFees" pos "137"B bs ReadMiscFeeAmt
     let pos, miscFeeCurr = ReadOptionalField pos "138"B bs ReadMiscFeeCurr
     let pos, miscFeeType = ReadOptionalField pos "139"B bs ReadMiscFeeType
@@ -521,7 +521,7 @@ let ReadNoMiscFeesGrp (pos:int) (bs:byte []) : int * NoMiscFeesGrp  =
 
 
 // group
-let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCaptureReportNoSidesGrp  =
+let ReadTradeCaptureReportNoSidesGrp (bs:byte []) (pos:int) : int * TradeCaptureReportNoSidesGrp  =
     let pos, side = ReadField "ReadTradeCaptureReportNoSides" pos "54"B bs ReadSide
     let pos, orderID = ReadField "ReadTradeCaptureReportNoSides" pos "37"B bs ReadOrderID
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
@@ -642,7 +642,7 @@ let ReadTradeCaptureReportNoSidesGrp (pos:int) (bs:byte []) : int * TradeCapture
 
 
 // group
-let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureReportNoLegsGrp  =
+let ReadTradeCaptureReportNoLegsGrp (bs:byte []) (pos:int) : int * TradeCaptureReportNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -673,7 +673,7 @@ let ReadTradeCaptureReportNoLegsGrp (pos:int) (bs:byte []) : int * TradeCaptureR
 
 
 // group
-let ReadNoPosAmtGrp (pos:int) (bs:byte []) : int * NoPosAmtGrp  =
+let ReadNoPosAmtGrp (bs:byte []) (pos:int) : int * NoPosAmtGrp  =
     let pos, posAmtType = ReadField "ReadNoPosAmt" pos "707"B bs ReadPosAmtType
     let pos, posAmt = ReadField "ReadNoPosAmt" pos "708"B bs ReadPosAmt
     let ci:NoPosAmtGrp = {
@@ -684,7 +684,7 @@ let ReadNoPosAmtGrp (pos:int) (bs:byte []) : int * NoPosAmtGrp  =
 
 
 // component
-let ReadPositionAmountData (pos:int) (bs:byte []) : int * PositionAmountData  =
+let ReadPositionAmountData (bs:byte []) (pos:int) : int * PositionAmountData  =
     let pos, noPosAmtGrp = ReadGroup "ReadPositionAmountData" pos "753"B bs ReadNoPosAmtGrp
     let ci:PositionAmountData = {
         NoPosAmtGrp = noPosAmtGrp
@@ -693,7 +693,7 @@ let ReadPositionAmountData (pos:int) (bs:byte []) : int * PositionAmountData  =
 
 
 // group
-let ReadNoSettlPartySubIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartySubIDsGrp  =
+let ReadNoSettlPartySubIDsGrp (bs:byte []) (pos:int) : int * NoSettlPartySubIDsGrp  =
     let pos, settlPartySubID = ReadField "ReadNoSettlPartySubIDs" pos "785"B bs ReadSettlPartySubID
     let pos, settlPartySubIDType = ReadOptionalField pos "786"B bs ReadSettlPartySubIDType
     let ci:NoSettlPartySubIDsGrp = {
@@ -704,7 +704,7 @@ let ReadNoSettlPartySubIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartySubIDsG
 
 
 // group
-let ReadNoSettlPartyIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartyIDsGrp  =
+let ReadNoSettlPartyIDsGrp (bs:byte []) (pos:int) : int * NoSettlPartyIDsGrp  =
     let pos, settlPartyID = ReadField "ReadNoSettlPartyIDs" pos "782"B bs ReadSettlPartyID
     let pos, settlPartyIDSource = ReadOptionalField pos "783"B bs ReadSettlPartyIDSource
     let pos, settlPartyRole = ReadOptionalField pos "784"B bs ReadSettlPartyRole
@@ -719,7 +719,7 @@ let ReadNoSettlPartyIDsGrp (pos:int) (bs:byte []) : int * NoSettlPartyIDsGrp  =
 
 
 // group
-let ReadNoDlvyInstGrp (pos:int) (bs:byte []) : int * NoDlvyInstGrp  =
+let ReadNoDlvyInstGrp (bs:byte []) (pos:int) : int * NoDlvyInstGrp  =
     let pos, settlInstSource = ReadField "ReadNoDlvyInst" pos "165"B bs ReadSettlInstSource
     let pos, dlvyInstType = ReadOptionalField pos "787"B bs ReadDlvyInstType
     let pos, noSettlPartyIDsGrp = ReadOptionalGroup pos "781"B bs ReadNoSettlPartyIDsGrp
@@ -732,7 +732,7 @@ let ReadNoDlvyInstGrp (pos:int) (bs:byte []) : int * NoDlvyInstGrp  =
 
 
 // component
-let ReadSettlInstructionsData (pos:int) (bs:byte []) : int * SettlInstructionsData  =
+let ReadSettlInstructionsData (bs:byte []) (pos:int) : int * SettlInstructionsData  =
     let pos, settlDeliveryType = ReadOptionalField pos "172"B bs ReadSettlDeliveryType
     let pos, standInstDbType = ReadOptionalField pos "169"B bs ReadStandInstDbType
     let pos, standInstDbName = ReadOptionalField pos "170"B bs ReadStandInstDbName
@@ -749,7 +749,7 @@ let ReadSettlInstructionsData (pos:int) (bs:byte []) : int * SettlInstructionsDa
 
 
 // group
-let ReadNoSettlInstGrp (pos:int) (bs:byte []) : int * NoSettlInstGrp  =
+let ReadNoSettlInstGrp (bs:byte []) (pos:int) : int * NoSettlInstGrp  =
     let pos, settlInstID = ReadField "ReadNoSettlInst" pos "162"B bs ReadSettlInstID
     let pos, settlInstTransType = ReadOptionalField pos "163"B bs ReadSettlInstTransType
     let pos, settlInstRefID = ReadOptionalField pos "214"B bs ReadSettlInstRefID
@@ -798,7 +798,7 @@ let ReadNoSettlInstGrp (pos:int) (bs:byte []) : int * NoSettlInstGrp  =
 
 
 // group
-let ReadNoTrdRegTimestampsGrp (pos:int) (bs:byte []) : int * NoTrdRegTimestampsGrp  =
+let ReadNoTrdRegTimestampsGrp (bs:byte []) (pos:int) : int * NoTrdRegTimestampsGrp  =
     let pos, trdRegTimestamp = ReadField "ReadNoTrdRegTimestamps" pos "769"B bs ReadTrdRegTimestamp
     let pos, trdRegTimestampType = ReadOptionalField pos "770"B bs ReadTrdRegTimestampType
     let pos, trdRegTimestampOrigin = ReadOptionalField pos "771"B bs ReadTrdRegTimestampOrigin
@@ -811,7 +811,7 @@ let ReadNoTrdRegTimestampsGrp (pos:int) (bs:byte []) : int * NoTrdRegTimestampsG
 
 
 // component
-let ReadTrdRegTimestamps (pos:int) (bs:byte []) : int * TrdRegTimestamps  =
+let ReadTrdRegTimestamps (bs:byte []) (pos:int) : int * TrdRegTimestamps  =
     let pos, noTrdRegTimestampsGrp = ReadGroup "ReadTrdRegTimestamps" pos "768"B bs ReadNoTrdRegTimestampsGrp
     let ci:TrdRegTimestamps = {
         NoTrdRegTimestampsGrp = noTrdRegTimestampsGrp
@@ -820,7 +820,7 @@ let ReadTrdRegTimestamps (pos:int) (bs:byte []) : int * TrdRegTimestamps  =
 
 
 // group
-let ReadAllocationReportNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationReportNoAllocsGrp  =
+let ReadAllocationReportNoAllocsGrp (bs:byte []) (pos:int) : int * AllocationReportNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadAllocationReportNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, matchStatus = ReadOptionalField pos "573"B bs ReadMatchStatus
@@ -883,7 +883,7 @@ let ReadAllocationReportNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationRep
 
 
 // group
-let ReadAllocationInstructionNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationInstructionNoAllocsGrp  =
+let ReadAllocationInstructionNoAllocsGrp (bs:byte []) (pos:int) : int * AllocationInstructionNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadAllocationInstructionNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, matchStatus = ReadOptionalField pos "573"B bs ReadMatchStatus
@@ -952,7 +952,7 @@ let ReadAllocationInstructionNoAllocsGrp (pos:int) (bs:byte []) : int * Allocati
 
 
 // component
-let ReadSettlParties (pos:int) (bs:byte []) : int * SettlParties  =
+let ReadSettlParties (bs:byte []) (pos:int) : int * SettlParties  =
     let pos, noSettlPartyIDsGrp = ReadOptionalGroup pos "781"B bs ReadNoSettlPartyIDsGrp
     let ci:SettlParties = {
         NoSettlPartyIDsGrp = noSettlPartyIDsGrp
@@ -961,7 +961,7 @@ let ReadSettlParties (pos:int) (bs:byte []) : int * SettlParties  =
 
 
 // group
-let ReadNoOrdersGrp (pos:int) (bs:byte []) : int * NoOrdersGrp  =
+let ReadNoOrdersGrp (bs:byte []) (pos:int) : int * NoOrdersGrp  =
     let pos, clOrdID = ReadField "ReadNoOrders" pos "11"B bs ReadClOrdID
     let pos, orderID = ReadOptionalField pos "37"B bs ReadOrderID
     let pos, secondaryOrderID = ReadOptionalField pos "198"B bs ReadSecondaryOrderID
@@ -986,7 +986,7 @@ let ReadNoOrdersGrp (pos:int) (bs:byte []) : int * NoOrdersGrp  =
 
 
 // group
-let ReadListStrikePriceNoUnderlyingsGrp (pos:int) (bs:byte []) : int * ListStrikePriceNoUnderlyingsGrp  =
+let ReadListStrikePriceNoUnderlyingsGrp (bs:byte []) (pos:int) : int * ListStrikePriceNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let pos, prevClosePx = ReadOptionalField pos "140"B bs ReadPrevClosePx
     let pos, clOrdID = ReadOptionalField pos "11"B bs ReadClOrdID
@@ -1011,7 +1011,7 @@ let ReadListStrikePriceNoUnderlyingsGrp (pos:int) (bs:byte []) : int * ListStrik
 
 
 // group
-let ReadNoSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoSecurityAltIDGrp  =
+let ReadNoSecurityAltIDGrp (bs:byte []) (pos:int) : int * NoSecurityAltIDGrp  =
     let pos, securityAltID = ReadField "ReadNoSecurityAltID" pos "455"B bs ReadSecurityAltID
     let pos, securityAltIDSource = ReadOptionalField pos "456"B bs ReadSecurityAltIDSource
     let ci:NoSecurityAltIDGrp = {
@@ -1022,7 +1022,7 @@ let ReadNoSecurityAltIDGrp (pos:int) (bs:byte []) : int * NoSecurityAltIDGrp  =
 
 
 // group
-let ReadNoEventsGrp (pos:int) (bs:byte []) : int * NoEventsGrp  =
+let ReadNoEventsGrp (bs:byte []) (pos:int) : int * NoEventsGrp  =
     let pos, eventType = ReadField "ReadNoEvents" pos "865"B bs ReadEventType
     let pos, eventDate = ReadOptionalField pos "866"B bs ReadEventDate
     let pos, eventPx = ReadOptionalField pos "867"B bs ReadEventPx
@@ -1037,7 +1037,7 @@ let ReadNoEventsGrp (pos:int) (bs:byte []) : int * NoEventsGrp  =
 
 
 // component
-let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
+let ReadInstrument (bs:byte []) (pos:int) : int * Instrument  =
     let pos, symbol = ReadField "ReadInstrument" pos "55"B bs ReadSymbol
     let pos, symbolSfx = ReadOptionalField pos "65"B bs ReadSymbolSfx
     let pos, securityID = ReadOptionalField pos "48"B bs ReadSecurityID
@@ -1126,7 +1126,7 @@ let ReadInstrument (pos:int) (bs:byte []) : int * Instrument  =
 
 
 // group
-let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
+let ReadNoStrikesGrp (bs:byte []) (pos:int) : int * NoStrikesGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let ci:NoStrikesGrp = {
         Instrument = instrument
@@ -1135,7 +1135,7 @@ let ReadNoStrikesGrp (pos:int) (bs:byte []) : int * NoStrikesGrp  =
 
 
 // group
-let ReadNoAllocsGrp (pos:int) (bs:byte []) : int * NoAllocsGrp  =
+let ReadNoAllocsGrp (bs:byte []) (pos:int) : int * NoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
@@ -1154,7 +1154,7 @@ let ReadNoAllocsGrp (pos:int) (bs:byte []) : int * NoAllocsGrp  =
 
 
 // group
-let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp  =
+let ReadNoTradingSessionsGrp (bs:byte []) (pos:int) : int * NoTradingSessionsGrp  =
     let pos, tradingSessionID = ReadField "ReadNoTradingSessions" pos "336"B bs ReadTradingSessionID
     let pos, tradingSessionSubID = ReadOptionalField pos "625"B bs ReadTradingSessionSubID
     let ci:NoTradingSessionsGrp = {
@@ -1165,7 +1165,7 @@ let ReadNoTradingSessionsGrp (pos:int) (bs:byte []) : int * NoTradingSessionsGrp
 
 
 // group
-let ReadNoUnderlyingsGrp (pos:int) (bs:byte []) : int * NoUnderlyingsGrp  =
+let ReadNoUnderlyingsGrp (bs:byte []) (pos:int) : int * NoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let ci:NoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
@@ -1174,7 +1174,7 @@ let ReadNoUnderlyingsGrp (pos:int) (bs:byte []) : int * NoUnderlyingsGrp  =
 
 
 // component
-let ReadOrderQtyData (pos:int) (bs:byte []) : int * OrderQtyData  =
+let ReadOrderQtyData (bs:byte []) (pos:int) : int * OrderQtyData  =
     let pos, orderQty = ReadOptionalField pos "38"B bs ReadOrderQty
     let pos, cashOrderQty = ReadOptionalField pos "152"B bs ReadCashOrderQty
     let pos, orderPercent = ReadOptionalField pos "516"B bs ReadOrderPercent
@@ -1191,7 +1191,7 @@ let ReadOrderQtyData (pos:int) (bs:byte []) : int * OrderQtyData  =
 
 
 // component
-let ReadSpreadOrBenchmarkCurveData (pos:int) (bs:byte []) : int * SpreadOrBenchmarkCurveData  =
+let ReadSpreadOrBenchmarkCurveData (bs:byte []) (pos:int) : int * SpreadOrBenchmarkCurveData  =
     let pos, spread = ReadOptionalField pos "218"B bs ReadSpread
     let pos, benchmarkCurveCurrency = ReadOptionalField pos "220"B bs ReadBenchmarkCurveCurrency
     let pos, benchmarkCurveName = ReadOptionalField pos "221"B bs ReadBenchmarkCurveName
@@ -1214,7 +1214,7 @@ let ReadSpreadOrBenchmarkCurveData (pos:int) (bs:byte []) : int * SpreadOrBenchm
 
 
 // component
-let ReadYieldData (pos:int) (bs:byte []) : int * YieldData  =
+let ReadYieldData (bs:byte []) (pos:int) : int * YieldData  =
     let pos, yieldType = ReadOptionalField pos "235"B bs ReadYieldType
     let pos, yyield = ReadOptionalField pos "236"B bs ReadYield
     let pos, yieldCalcDate = ReadOptionalField pos "701"B bs ReadYieldCalcDate
@@ -1233,7 +1233,7 @@ let ReadYieldData (pos:int) (bs:byte []) : int * YieldData  =
 
 
 // component
-let ReadPegInstructions (pos:int) (bs:byte []) : int * PegInstructions  =
+let ReadPegInstructions (bs:byte []) (pos:int) : int * PegInstructions  =
     let pos, pegOffsetValue = ReadOptionalField pos "211"B bs ReadPegOffsetValue
     let pos, pegMoveType = ReadOptionalField pos "835"B bs ReadPegMoveType
     let pos, pegOffsetType = ReadOptionalField pos "836"B bs ReadPegOffsetType
@@ -1252,7 +1252,7 @@ let ReadPegInstructions (pos:int) (bs:byte []) : int * PegInstructions  =
 
 
 // component
-let ReadDiscretionInstructions (pos:int) (bs:byte []) : int * DiscretionInstructions  =
+let ReadDiscretionInstructions (bs:byte []) (pos:int) : int * DiscretionInstructions  =
     let pos, discretionInst = ReadOptionalField pos "388"B bs ReadDiscretionInst
     let pos, discretionOffsetValue = ReadOptionalField pos "389"B bs ReadDiscretionOffsetValue
     let pos, discretionMoveType = ReadOptionalField pos "841"B bs ReadDiscretionMoveType
@@ -1273,7 +1273,7 @@ let ReadDiscretionInstructions (pos:int) (bs:byte []) : int * DiscretionInstruct
 
 
 // group
-let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrdersGrp  =
+let ReadNewOrderListNoOrdersGrp (bs:byte []) (pos:int) : int * NewOrderListNoOrdersGrp  =
     let pos, clOrdID = ReadField "ReadNewOrderListNoOrders" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, listSeqNo = ReadField "ReadNewOrderListNoOrders" pos "67"B bs ReadListSeqNo
@@ -1428,7 +1428,7 @@ let ReadNewOrderListNoOrdersGrp (pos:int) (bs:byte []) : int * NewOrderListNoOrd
 
 
 // component
-let ReadCommissionDataFG (pos:int) (bs:byte []) : int * CommissionDataFG  =
+let ReadCommissionDataFG (bs:byte []) (pos:int) : int * CommissionDataFG  =
     let pos, commission = ReadField "ReadCommissionDataFG" pos "12"B bs ReadCommission
     let pos, commType = ReadOptionalField pos "13"B bs ReadCommType
     let pos, commCurrency = ReadOptionalField pos "479"B bs ReadCommCurrency
@@ -1443,7 +1443,7 @@ let ReadCommissionDataFG (pos:int) (bs:byte []) : int * CommissionDataFG  =
 
 
 // group
-let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponseNoBidComponentsGrp  =
+let ReadBidResponseNoBidComponentsGrp (bs:byte []) (pos:int) : int * BidResponseNoBidComponentsGrp  =
     let pos, commissionDataFG = ReadComponent "ReadCommissionDataFG component" pos bs ReadCommissionDataFG
     let pos, listID = ReadOptionalField pos "66"B bs ReadListID
     let pos, country = ReadOptionalField pos "421"B bs ReadCountry
@@ -1478,7 +1478,7 @@ let ReadBidResponseNoBidComponentsGrp (pos:int) (bs:byte []) : int * BidResponse
 
 
 // group
-let ReadNoLegAllocsGrp (pos:int) (bs:byte []) : int * NoLegAllocsGrp  =
+let ReadNoLegAllocsGrp (bs:byte []) (pos:int) : int * NoLegAllocsGrp  =
     let pos, legAllocAccount = ReadField "ReadNoLegAllocs" pos "671"B bs ReadLegAllocAccount
     let pos, legIndividualAllocID = ReadOptionalField pos "672"B bs ReadLegIndividualAllocID
     let pos, noNested2PartyIDsGrp = ReadOptionalGroup pos "756"B bs ReadNoNested2PartyIDsGrp
@@ -1497,7 +1497,7 @@ let ReadNoLegAllocsGrp (pos:int) (bs:byte []) : int * NoLegAllocsGrp  =
 
 
 // group
-let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int * MultilegOrderCancelReplaceRequestNoLegsGrp  =
+let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (bs:byte []) (pos:int) : int * MultilegOrderCancelReplaceRequestNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -1528,7 +1528,7 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (pos:int) (bs:byte []) : int 
 
 
 // group
-let ReadNoNested3PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartySubIDsGrp  =
+let ReadNoNested3PartySubIDsGrp (bs:byte []) (pos:int) : int * NoNested3PartySubIDsGrp  =
     let pos, nested3PartySubID = ReadField "ReadNoNested3PartySubIDs" pos "953"B bs ReadNested3PartySubID
     let pos, nested3PartySubIDType = ReadOptionalField pos "954"B bs ReadNested3PartySubIDType
     let ci:NoNested3PartySubIDsGrp = {
@@ -1539,7 +1539,7 @@ let ReadNoNested3PartySubIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartySub
 
 
 // group
-let ReadNoNested3PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartyIDsGrp  =
+let ReadNoNested3PartyIDsGrp (bs:byte []) (pos:int) : int * NoNested3PartyIDsGrp  =
     let pos, nested3PartyID = ReadField "ReadNoNested3PartyIDs" pos "949"B bs ReadNested3PartyID
     let pos, nested3PartyIDSource = ReadOptionalField pos "950"B bs ReadNested3PartyIDSource
     let pos, nested3PartyRole = ReadOptionalField pos "951"B bs ReadNested3PartyRole
@@ -1554,7 +1554,7 @@ let ReadNoNested3PartyIDsGrp (pos:int) (bs:byte []) : int * NoNested3PartyIDsGrp
 
 
 // group
-let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (pos:int) (bs:byte []) : int * MultilegOrderCancelReplaceRequestNoAllocsGrp  =
+let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (bs:byte []) (pos:int) : int * MultilegOrderCancelReplaceRequestNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadMultilegOrderCancelReplaceRequestNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
@@ -1573,7 +1573,7 @@ let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (pos:int) (bs:byte []) : in
 
 
 // group
-let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultilegNoLegsGrp  =
+let ReadNewOrderMultilegNoLegsGrp (bs:byte []) (pos:int) : int * NewOrderMultilegNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -1604,7 +1604,7 @@ let ReadNewOrderMultilegNoLegsGrp (pos:int) (bs:byte []) : int * NewOrderMultile
 
 
 // component
-let ReadNestedParties2 (pos:int) (bs:byte []) : int * NestedParties2  =
+let ReadNestedParties2 (bs:byte []) (pos:int) : int * NestedParties2  =
     let pos, noNested2PartyIDsGrp = ReadOptionalGroup pos "756"B bs ReadNoNested2PartyIDsGrp
     let ci:NestedParties2 = {
         NoNested2PartyIDsGrp = noNested2PartyIDsGrp
@@ -1613,7 +1613,7 @@ let ReadNestedParties2 (pos:int) (bs:byte []) : int * NestedParties2  =
 
 
 // group
-let ReadNewOrderMultilegNoAllocsGrp (pos:int) (bs:byte []) : int * NewOrderMultilegNoAllocsGrp  =
+let ReadNewOrderMultilegNoAllocsGrp (bs:byte []) (pos:int) : int * NewOrderMultilegNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadNewOrderMultilegNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocSettlCurrency = ReadOptionalField pos "736"B bs ReadAllocSettlCurrency
@@ -1632,7 +1632,7 @@ let ReadNewOrderMultilegNoAllocsGrp (pos:int) (bs:byte []) : int * NewOrderMulti
 
 
 // component
-let ReadNestedParties3 (pos:int) (bs:byte []) : int * NestedParties3  =
+let ReadNestedParties3 (bs:byte []) (pos:int) : int * NestedParties3  =
     let pos, noNested3PartyIDsGrp = ReadOptionalGroup pos "948"B bs ReadNoNested3PartyIDsGrp
     let ci:NestedParties3 = {
         NoNested3PartyIDsGrp = noNested3PartyIDsGrp
@@ -1641,7 +1641,7 @@ let ReadNestedParties3 (pos:int) (bs:byte []) : int * NestedParties3  =
 
 
 // group
-let ReadCrossOrderCancelRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOrderCancelRequestNoSidesGrp  =
+let ReadCrossOrderCancelRequestNoSidesGrp (bs:byte []) (pos:int) : int * CrossOrderCancelRequestNoSidesGrp  =
     let pos, side = ReadField "ReadCrossOrderCancelRequestNoSides" pos "54"B bs ReadSide
     let pos, origClOrdID = ReadField "ReadCrossOrderCancelRequestNoSides" pos "41"B bs ReadOrigClOrdID
     let pos, clOrdID = ReadField "ReadCrossOrderCancelRequestNoSides" pos "11"B bs ReadClOrdID
@@ -1674,7 +1674,7 @@ let ReadCrossOrderCancelRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOr
 
 
 // group
-let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * CrossOrderCancelReplaceRequestNoSidesGrp  =
+let ReadCrossOrderCancelReplaceRequestNoSidesGrp (bs:byte []) (pos:int) : int * CrossOrderCancelReplaceRequestNoSidesGrp  =
     let pos, side = ReadField "ReadCrossOrderCancelReplaceRequestNoSides" pos "54"B bs ReadSide
     let pos, origClOrdID = ReadField "ReadCrossOrderCancelReplaceRequestNoSides" pos "41"B bs ReadOrigClOrdID
     let pos, clOrdID = ReadField "ReadCrossOrderCancelReplaceRequestNoSides" pos "11"B bs ReadClOrdID
@@ -1749,7 +1749,7 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrp (pos:int) (bs:byte []) : int * 
 
 
 // group
-let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
+let ReadNoSidesGrp (bs:byte []) (pos:int) : int * NoSidesGrp  =
     let pos, side = ReadField "ReadNoSides" pos "54"B bs ReadSide
     let pos, clOrdID = ReadField "ReadNoSides" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
@@ -1820,7 +1820,7 @@ let ReadNoSidesGrp (pos:int) (bs:byte []) : int * NoSidesGrp  =
 
 
 // group
-let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportNoLegsGrp  =
+let ReadExecutionReportNoLegsGrp (bs:byte []) (pos:int) : int * ExecutionReportNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -1851,7 +1851,7 @@ let ReadExecutionReportNoLegsGrp (pos:int) (bs:byte []) : int * ExecutionReportN
 
 
 // group
-let ReadNoInstrAttribGrp (pos:int) (bs:byte []) : int * NoInstrAttribGrp  =
+let ReadNoInstrAttribGrp (bs:byte []) (pos:int) : int * NoInstrAttribGrp  =
     let pos, instrAttribType = ReadField "ReadNoInstrAttrib" pos "871"B bs ReadInstrAttribType
     let pos, instrAttribValue = ReadOptionalField pos "872"B bs ReadInstrAttribValue
     let ci:NoInstrAttribGrp = {
@@ -1862,7 +1862,7 @@ let ReadNoInstrAttribGrp (pos:int) (bs:byte []) : int * NoInstrAttribGrp  =
 
 
 // component
-let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  =
+let ReadInstrumentExtension (bs:byte []) (pos:int) : int * InstrumentExtension  =
     let pos, deliveryForm = ReadOptionalField pos "668"B bs ReadDeliveryForm
     let pos, pctAtRisk = ReadOptionalField pos "869"B bs ReadPctAtRisk
     let pos, noInstrAttribGrp = ReadOptionalGroup pos "870"B bs ReadNoInstrAttribGrp
@@ -1875,7 +1875,7 @@ let ReadInstrumentExtension (pos:int) (bs:byte []) : int * InstrumentExtension  
 
 
 // group
-let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
+let ReadNoLegsGrp (bs:byte []) (pos:int) : int * NoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let ci:NoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
@@ -1884,7 +1884,7 @@ let ReadNoLegsGrp (pos:int) (bs:byte []) : int * NoLegsGrp  =
 
 
 // group
-let ReadDerivativeSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * DerivativeSecurityListNoRelatedSymGrp  =
+let ReadDerivativeSecurityListNoRelatedSymGrp (bs:byte []) (pos:int) : int * DerivativeSecurityListNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
     let pos, expirationCycle = ReadOptionalField pos "827"B bs ReadExpirationCycle
@@ -1909,7 +1909,7 @@ let ReadDerivativeSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * Der
 
 
 // component
-let ReadFinancingDetails (pos:int) (bs:byte []) : int * FinancingDetails  =
+let ReadFinancingDetails (bs:byte []) (pos:int) : int * FinancingDetails  =
     let pos, agreementDesc = ReadOptionalField pos "913"B bs ReadAgreementDesc
     let pos, agreementID = ReadOptionalField pos "914"B bs ReadAgreementID
     let pos, agreementDate = ReadOptionalField pos "915"B bs ReadAgreementDate
@@ -1934,7 +1934,7 @@ let ReadFinancingDetails (pos:int) (bs:byte []) : int * FinancingDetails  =
 
 
 // component
-let ReadLegBenchmarkCurveData (pos:int) (bs:byte []) : int * LegBenchmarkCurveData  =
+let ReadLegBenchmarkCurveData (bs:byte []) (pos:int) : int * LegBenchmarkCurveData  =
     let pos, legBenchmarkCurveCurrency = ReadOptionalField pos "676"B bs ReadLegBenchmarkCurveCurrency
     let pos, legBenchmarkCurveName = ReadOptionalField pos "677"B bs ReadLegBenchmarkCurveName
     let pos, legBenchmarkCurvePoint = ReadOptionalField pos "678"B bs ReadLegBenchmarkCurvePoint
@@ -1951,7 +1951,7 @@ let ReadLegBenchmarkCurveData (pos:int) (bs:byte []) : int * LegBenchmarkCurveDa
 
 
 // group
-let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsGrp  =
+let ReadSecurityListNoLegsGrp (bs:byte []) (pos:int) : int * SecurityListNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
     let pos, legSettlType = ReadOptionalField pos "587"B bs ReadLegSettlType
@@ -1968,7 +1968,7 @@ let ReadSecurityListNoLegsGrp (pos:int) (bs:byte []) : int * SecurityListNoLegsG
 
 
 // group
-let ReadSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * SecurityListNoRelatedSymGrp  =
+let ReadSecurityListNoRelatedSymGrp (bs:byte []) (pos:int) : int * SecurityListNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, instrumentExtension = ReadComponent "ReadInstrumentExtension component" pos bs ReadInstrumentExtension
     let pos, financingDetails = ReadComponent "ReadFinancingDetails component" pos bs ReadFinancingDetails
@@ -2007,7 +2007,7 @@ let ReadSecurityListNoRelatedSymGrp (pos:int) (bs:byte []) : int * SecurityListN
 
 
 // group
-let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int * MarketDataIncrementalRefreshNoMDEntriesGrp  =
+let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (bs:byte []) (pos:int) : int * MarketDataIncrementalRefreshNoMDEntriesGrp  =
     let pos, mDUpdateAction = ReadField "ReadMarketDataIncrementalRefreshNoMDEntries" pos "279"B bs ReadMDUpdateAction
     let pos, deleteReason = ReadOptionalField pos "285"B bs ReadDeleteReason
     let pos, mDEntryType = ReadOptionalField pos "269"B bs ReadMDEntryType
@@ -2098,7 +2098,7 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (pos:int) (bs:byte []) : int 
 
 
 // group
-let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDataRequestNoRelatedSymGrp  =
+let ReadMarketDataRequestNoRelatedSymGrp (bs:byte []) (pos:int) : int * MarketDataRequestNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
     let pos, noLegsGrp = ReadOptionalGroup pos "555"B bs ReadNoLegsGrp
@@ -2111,7 +2111,7 @@ let ReadMarketDataRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * MarketDa
 
 
 // group
-let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteAcknowledgementNoQuoteEntriesGrp  =
+let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (bs:byte []) (pos:int) : int * MassQuoteAcknowledgementNoQuoteEntriesGrp  =
     let pos, quoteEntryID = ReadField "ReadMassQuoteAcknowledgementNoQuoteEntries" pos "299"B bs ReadQuoteEntryID
     let pos, instrument = ReadOptionalComponent pos "55"B bs ReadInstrument
     let pos, noLegsGrp = ReadOptionalGroup pos "555"B bs ReadNoLegsGrp
@@ -2172,7 +2172,7 @@ let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (pos:int) (bs:byte []) : int *
 
 
 // group
-let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (pos:int) (bs:byte []) : int * MassQuoteAcknowledgementNoQuoteSetsGrp  =
+let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (bs:byte []) (pos:int) : int * MassQuoteAcknowledgementNoQuoteSetsGrp  =
     let pos, quoteSetID = ReadField "ReadMassQuoteAcknowledgementNoQuoteSets" pos "302"B bs ReadQuoteSetID
     let pos, underlyingInstrument = ReadOptionalComponent pos "311"B bs ReadUnderlyingInstrument
     let pos, totNoQuoteEntries = ReadOptionalField pos "304"B bs ReadTotNoQuoteEntries
@@ -2189,7 +2189,7 @@ let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (pos:int) (bs:byte []) : int * Ma
 
 
 // group
-let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuoteEntriesGrp  =
+let ReadMassQuoteNoQuoteEntriesGrp (bs:byte []) (pos:int) : int * MassQuoteNoQuoteEntriesGrp  =
     let pos, quoteEntryID = ReadField "ReadMassQuoteNoQuoteEntries" pos "299"B bs ReadQuoteEntryID
     let pos, instrument = ReadOptionalComponent pos "55"B bs ReadInstrument
     let pos, noLegsGrp = ReadOptionalGroup pos "555"B bs ReadNoLegsGrp
@@ -2248,7 +2248,7 @@ let ReadMassQuoteNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * MassQuoteNoQuo
 
 
 // group
-let ReadNoQuoteSetsGrp (pos:int) (bs:byte []) : int * NoQuoteSetsGrp  =
+let ReadNoQuoteSetsGrp (bs:byte []) (pos:int) : int * NoQuoteSetsGrp  =
     let pos, quoteSetID = ReadField "ReadNoQuoteSets" pos "302"B bs ReadQuoteSetID
     let pos, underlyingInstrument = ReadOptionalComponent pos "311"B bs ReadUnderlyingInstrument
     let pos, quoteSetValidUntilTime = ReadOptionalField pos "367"B bs ReadQuoteSetValidUntilTime
@@ -2267,7 +2267,7 @@ let ReadNoQuoteSetsGrp (pos:int) (bs:byte []) : int * NoQuoteSetsGrp  =
 
 
 // group
-let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusReportNoLegsGrp  =
+let ReadQuoteStatusReportNoLegsGrp (bs:byte []) (pos:int) : int * QuoteStatusReportNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -2288,7 +2288,7 @@ let ReadQuoteStatusReportNoLegsGrp (pos:int) (bs:byte []) : int * QuoteStatusRep
 
 
 // group
-let ReadNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * NoQuoteEntriesGrp  =
+let ReadNoQuoteEntriesGrp (bs:byte []) (pos:int) : int * NoQuoteEntriesGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, financingDetails = ReadComponent "ReadFinancingDetails component" pos bs ReadFinancingDetails
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
@@ -2303,7 +2303,7 @@ let ReadNoQuoteEntriesGrp (pos:int) (bs:byte []) : int * NoQuoteEntriesGrp  =
 
 
 // group
-let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
+let ReadQuoteNoLegsGrp (bs:byte []) (pos:int) : int * QuoteNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -2332,7 +2332,7 @@ let ReadQuoteNoLegsGrp (pos:int) (bs:byte []) : int * QuoteNoLegsGrp  =
 
 
 // group
-let ReadRFQRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * RFQRequestNoRelatedSymGrp  =
+let ReadRFQRequestNoRelatedSymGrp (bs:byte []) (pos:int) : int * RFQRequestNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
     let pos, noLegsGrp = ReadOptionalGroup pos "555"B bs ReadNoLegsGrp
@@ -2355,7 +2355,7 @@ let ReadRFQRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * RFQRequestNoRel
 
 
 // group
-let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestRejectNoLegsGrp  =
+let ReadQuoteRequestRejectNoLegsGrp (bs:byte []) (pos:int) : int * QuoteRequestRejectNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -2378,7 +2378,7 @@ let ReadQuoteRequestRejectNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestR
 
 
 // group
-let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestRejectNoRelatedSymGrp  =
+let ReadQuoteRequestRejectNoRelatedSymGrp (bs:byte []) (pos:int) : int * QuoteRequestRejectNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, financingDetails = ReadComponent "ReadFinancingDetails component" pos bs ReadFinancingDetails
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
@@ -2429,7 +2429,7 @@ let ReadQuoteRequestRejectNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRe
 
 
 // group
-let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLegsGrp  =
+let ReadQuoteResponseNoLegsGrp (bs:byte []) (pos:int) : int * QuoteResponseNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -2458,7 +2458,7 @@ let ReadQuoteResponseNoLegsGrp (pos:int) (bs:byte []) : int * QuoteResponseNoLeg
 
 
 // group
-let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsGrp  =
+let ReadQuoteRequestNoLegsGrp (bs:byte []) (pos:int) : int * QuoteRequestNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legQty = ReadOptionalField pos "687"B bs ReadLegQty
     let pos, legSwapType = ReadOptionalField pos "690"B bs ReadLegSwapType
@@ -2481,7 +2481,7 @@ let ReadQuoteRequestNoLegsGrp (pos:int) (bs:byte []) : int * QuoteRequestNoLegsG
 
 
 // group
-let ReadNoQuoteQualifiersGrp (pos:int) (bs:byte []) : int * NoQuoteQualifiersGrp  =
+let ReadNoQuoteQualifiersGrp (bs:byte []) (pos:int) : int * NoQuoteQualifiersGrp  =
     let pos, quoteQualifier = ReadField "ReadNoQuoteQualifiers" pos "695"B bs ReadQuoteQualifier
     let ci:NoQuoteQualifiersGrp = {
         QuoteQualifier = quoteQualifier
@@ -2490,7 +2490,7 @@ let ReadNoQuoteQualifiersGrp (pos:int) (bs:byte []) : int * NoQuoteQualifiersGrp
 
 
 // group
-let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestNoRelatedSymGrp  =
+let ReadQuoteRequestNoRelatedSymGrp (bs:byte []) (pos:int) : int * QuoteRequestNoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let pos, financingDetails = ReadComponent "ReadFinancingDetails component" pos bs ReadFinancingDetails
     let pos, noUnderlyingsGrp = ReadOptionalGroup pos "711"B bs ReadNoUnderlyingsGrp
@@ -2565,7 +2565,7 @@ let ReadQuoteRequestNoRelatedSymGrp (pos:int) (bs:byte []) : int * QuoteRequestN
 
 
 // component
-let ReadParties (pos:int) (bs:byte []) : int * Parties  =
+let ReadParties (bs:byte []) (pos:int) : int * Parties  =
     let pos, noPartyIDsGrp = ReadOptionalGroup pos "453"B bs ReadNoPartyIDsGrp
     let ci:Parties = {
         NoPartyIDsGrp = noPartyIDsGrp
@@ -2574,7 +2574,7 @@ let ReadParties (pos:int) (bs:byte []) : int * Parties  =
 
 
 // component
-let ReadNestedParties (pos:int) (bs:byte []) : int * NestedParties  =
+let ReadNestedParties (bs:byte []) (pos:int) : int * NestedParties  =
     let pos, noNestedPartyIDsGrp = ReadOptionalGroup pos "539"B bs ReadNoNestedPartyIDsGrp
     let ci:NestedParties = {
         NoNestedPartyIDsGrp = noNestedPartyIDsGrp
@@ -2583,7 +2583,7 @@ let ReadNestedParties (pos:int) (bs:byte []) : int * NestedParties  =
 
 
 // group
-let ReadNoRelatedSymGrp (pos:int) (bs:byte []) : int * NoRelatedSymGrp  =
+let ReadNoRelatedSymGrp (bs:byte []) (pos:int) : int * NoRelatedSymGrp  =
     let pos, instrument = ReadComponent "ReadInstrument component" pos bs ReadInstrument
     let ci:NoRelatedSymGrp = {
         Instrument = instrument
@@ -2592,7 +2592,7 @@ let ReadNoRelatedSymGrp (pos:int) (bs:byte []) : int * NoRelatedSymGrp  =
 
 
 // group
-let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationOfInterestNoLegsGrp  =
+let ReadIndicationOfInterestNoLegsGrp (bs:byte []) (pos:int) : int * IndicationOfInterestNoLegsGrp  =
     let pos, instrumentLegFG = ReadComponent "ReadInstrumentLegFG component" pos bs ReadInstrumentLegFG
     let pos, legIOIQty = ReadOptionalField pos "682"B bs ReadLegIOIQty
     let pos, noLegStipulationsGrp = ReadOptionalGroup pos "683"B bs ReadNoLegStipulationsGrp
@@ -2605,7 +2605,7 @@ let ReadIndicationOfInterestNoLegsGrp (pos:int) (bs:byte []) : int * IndicationO
 
 
 // component
-let ReadLegStipulations (pos:int) (bs:byte []) : int * LegStipulations  =
+let ReadLegStipulations (bs:byte []) (pos:int) : int * LegStipulations  =
     let pos, noLegStipulationsGrp = ReadOptionalGroup pos "683"B bs ReadNoLegStipulationsGrp
     let ci:LegStipulations = {
         NoLegStipulationsGrp = noLegStipulationsGrp
@@ -2614,7 +2614,7 @@ let ReadLegStipulations (pos:int) (bs:byte []) : int * LegStipulations  =
 
 
 // component
-let ReadStipulations (pos:int) (bs:byte []) : int * Stipulations  =
+let ReadStipulations (bs:byte []) (pos:int) : int * Stipulations  =
     let pos, noStipulationsGrp = ReadOptionalGroup pos "232"B bs ReadNoStipulationsGrp
     let ci:Stipulations = {
         NoStipulationsGrp = noStipulationsGrp
@@ -2623,7 +2623,7 @@ let ReadStipulations (pos:int) (bs:byte []) : int * Stipulations  =
 
 
 // group
-let ReadAdvertisementNoUnderlyingsGrp (pos:int) (bs:byte []) : int * AdvertisementNoUnderlyingsGrp  =
+let ReadAdvertisementNoUnderlyingsGrp (bs:byte []) (pos:int) : int * AdvertisementNoUnderlyingsGrp  =
     let pos, underlyingInstrument = ReadComponent "ReadUnderlyingInstrument component" pos bs ReadUnderlyingInstrument
     let ci:AdvertisementNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
@@ -2632,7 +2632,7 @@ let ReadAdvertisementNoUnderlyingsGrp (pos:int) (bs:byte []) : int * Advertiseme
 
 
 // component
-let ReadUnderlyingStipulations (pos:int) (bs:byte []) : int * UnderlyingStipulations  =
+let ReadUnderlyingStipulations (bs:byte []) (pos:int) : int * UnderlyingStipulations  =
     let pos, noUnderlyingStipsGrp = ReadOptionalGroup pos "887"B bs ReadNoUnderlyingStipsGrp
     let ci:UnderlyingStipulations = {
         NoUnderlyingStipsGrp = noUnderlyingStipsGrp
@@ -2641,7 +2641,7 @@ let ReadUnderlyingStipulations (pos:int) (bs:byte []) : int * UnderlyingStipulat
 
 
 // component
-let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
+let ReadInstrumentLeg (bs:byte []) (pos:int) : int * InstrumentLeg  =
     let pos, legSymbol = ReadOptionalField pos "600"B bs ReadLegSymbol
     let pos, legSymbolSfx = ReadOptionalField pos "601"B bs ReadLegSymbolSfx
     let pos, legSecurityID = ReadOptionalField pos "602"B bs ReadLegSecurityID
@@ -2728,7 +2728,7 @@ let ReadInstrumentLeg (pos:int) (bs:byte []) : int * InstrumentLeg  =
 
 
 // group
-let ReadNoMsgTypesGrp (pos:int) (bs:byte []) : int * NoMsgTypesGrp  =
+let ReadNoMsgTypesGrp (bs:byte []) (pos:int) : int * NoMsgTypesGrp  =
     let pos, refMsgType = ReadField "ReadNoMsgTypes" pos "372"B bs ReadRefMsgType
     let pos, msgDirection = ReadOptionalField pos "385"B bs ReadMsgDirection
     let ci:NoMsgTypesGrp = {
@@ -2739,7 +2739,7 @@ let ReadNoMsgTypesGrp (pos:int) (bs:byte []) : int * NoMsgTypesGrp  =
 
 
 // group
-let ReadNoIOIQualifiersGrp (pos:int) (bs:byte []) : int * NoIOIQualifiersGrp  =
+let ReadNoIOIQualifiersGrp (bs:byte []) (pos:int) : int * NoIOIQualifiersGrp  =
     let pos, iOIQualifier = ReadField "ReadNoIOIQualifiers" pos "104"B bs ReadIOIQualifier
     let ci:NoIOIQualifiersGrp = {
         IOIQualifier = iOIQualifier
@@ -2748,7 +2748,7 @@ let ReadNoIOIQualifiersGrp (pos:int) (bs:byte []) : int * NoIOIQualifiersGrp  =
 
 
 // group
-let ReadNoRoutingIDsGrp (pos:int) (bs:byte []) : int * NoRoutingIDsGrp  =
+let ReadNoRoutingIDsGrp (bs:byte []) (pos:int) : int * NoRoutingIDsGrp  =
     let pos, routingType = ReadField "ReadNoRoutingIDs" pos "216"B bs ReadRoutingType
     let pos, routingID = ReadOptionalField pos "217"B bs ReadRoutingID
     let ci:NoRoutingIDsGrp = {
@@ -2759,7 +2759,7 @@ let ReadNoRoutingIDsGrp (pos:int) (bs:byte []) : int * NoRoutingIDsGrp  =
 
 
 // group
-let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
+let ReadLinesOfTextGrp (bs:byte []) (pos:int) : int * LinesOfTextGrp  =
     let pos, text = ReadField "ReadLinesOfText" pos "58"B bs ReadText
     let pos, encodedText = ReadOptionalField pos "354"B bs ReadEncodedText
     let ci:LinesOfTextGrp = {
@@ -2770,7 +2770,7 @@ let ReadLinesOfTextGrp (pos:int) (bs:byte []) : int * LinesOfTextGrp  =
 
 
 // group
-let ReadNoMDEntryTypesGrp (pos:int) (bs:byte []) : int * NoMDEntryTypesGrp  =
+let ReadNoMDEntryTypesGrp (bs:byte []) (pos:int) : int * NoMDEntryTypesGrp  =
     let pos, mDEntryType = ReadField "ReadNoMDEntryTypes" pos "269"B bs ReadMDEntryType
     let ci:NoMDEntryTypesGrp = {
         MDEntryType = mDEntryType
@@ -2779,7 +2779,7 @@ let ReadNoMDEntryTypesGrp (pos:int) (bs:byte []) : int * NoMDEntryTypesGrp  =
 
 
 // group
-let ReadNoMDEntriesGrp (pos:int) (bs:byte []) : int * NoMDEntriesGrp  =
+let ReadNoMDEntriesGrp (bs:byte []) (pos:int) : int * NoMDEntriesGrp  =
     let pos, mDEntryType = ReadField "ReadNoMDEntries" pos "269"B bs ReadMDEntryType
     let pos, mDEntryPx = ReadOptionalField pos "270"B bs ReadMDEntryPx
     let pos, currency = ReadOptionalField pos "15"B bs ReadCurrency
@@ -2850,7 +2850,7 @@ let ReadNoMDEntriesGrp (pos:int) (bs:byte []) : int * NoMDEntriesGrp  =
 
 
 // group
-let ReadNoAltMDSourceGrp (pos:int) (bs:byte []) : int * NoAltMDSourceGrp  =
+let ReadNoAltMDSourceGrp (bs:byte []) (pos:int) : int * NoAltMDSourceGrp  =
     let pos, altMDSourceID = ReadField "ReadNoAltMDSource" pos "817"B bs ReadAltMDSourceID
     let ci:NoAltMDSourceGrp = {
         AltMDSourceID = altMDSourceID
@@ -2859,7 +2859,7 @@ let ReadNoAltMDSourceGrp (pos:int) (bs:byte []) : int * NoAltMDSourceGrp  =
 
 
 // group
-let ReadNoSecurityTypesGrp (pos:int) (bs:byte []) : int * NoSecurityTypesGrp  =
+let ReadNoSecurityTypesGrp (bs:byte []) (pos:int) : int * NoSecurityTypesGrp  =
     let pos, securityType = ReadField "ReadNoSecurityTypes" pos "167"B bs ReadSecurityType
     let pos, securitySubType = ReadOptionalField pos "762"B bs ReadSecuritySubType
     let pos, product = ReadOptionalField pos "460"B bs ReadProduct
@@ -2874,7 +2874,7 @@ let ReadNoSecurityTypesGrp (pos:int) (bs:byte []) : int * NoSecurityTypesGrp  =
 
 
 // group
-let ReadNoContraBrokersGrp (pos:int) (bs:byte []) : int * NoContraBrokersGrp  =
+let ReadNoContraBrokersGrp (bs:byte []) (pos:int) : int * NoContraBrokersGrp  =
     let pos, contraBroker = ReadField "ReadNoContraBrokers" pos "375"B bs ReadContraBroker
     let pos, contraTrader = ReadOptionalField pos "337"B bs ReadContraTrader
     let pos, contraTradeQty = ReadOptionalField pos "437"B bs ReadContraTradeQty
@@ -2891,7 +2891,7 @@ let ReadNoContraBrokersGrp (pos:int) (bs:byte []) : int * NoContraBrokersGrp  =
 
 
 // group
-let ReadNoAffectedOrdersGrp (pos:int) (bs:byte []) : int * NoAffectedOrdersGrp  =
+let ReadNoAffectedOrdersGrp (bs:byte []) (pos:int) : int * NoAffectedOrdersGrp  =
     let pos, origClOrdID = ReadField "ReadNoAffectedOrders" pos "41"B bs ReadOrigClOrdID
     let pos, affectedOrderID = ReadOptionalField pos "535"B bs ReadAffectedOrderID
     let pos, affectedSecondaryOrderID = ReadOptionalField pos "536"B bs ReadAffectedSecondaryOrderID
@@ -2904,7 +2904,7 @@ let ReadNoAffectedOrdersGrp (pos:int) (bs:byte []) : int * NoAffectedOrdersGrp  
 
 
 // group
-let ReadNoBidDescriptorsGrp (pos:int) (bs:byte []) : int * NoBidDescriptorsGrp  =
+let ReadNoBidDescriptorsGrp (bs:byte []) (pos:int) : int * NoBidDescriptorsGrp  =
     let pos, bidDescriptorType = ReadField "ReadNoBidDescriptors" pos "399"B bs ReadBidDescriptorType
     let pos, bidDescriptor = ReadOptionalField pos "400"B bs ReadBidDescriptor
     let pos, sideValueInd = ReadOptionalField pos "401"B bs ReadSideValueInd
@@ -2933,7 +2933,7 @@ let ReadNoBidDescriptorsGrp (pos:int) (bs:byte []) : int * NoBidDescriptorsGrp  
 
 
 // group
-let ReadNoBidComponentsGrp (pos:int) (bs:byte []) : int * NoBidComponentsGrp  =
+let ReadNoBidComponentsGrp (bs:byte []) (pos:int) : int * NoBidComponentsGrp  =
     let pos, listID = ReadField "ReadNoBidComponents" pos "66"B bs ReadListID
     let pos, side = ReadOptionalField pos "54"B bs ReadSide
     let pos, tradingSessionID = ReadOptionalField pos "336"B bs ReadTradingSessionID
@@ -2958,7 +2958,7 @@ let ReadNoBidComponentsGrp (pos:int) (bs:byte []) : int * NoBidComponentsGrp  =
 
 
 // group
-let ReadListStatusNoOrdersGrp (pos:int) (bs:byte []) : int * ListStatusNoOrdersGrp  =
+let ReadListStatusNoOrdersGrp (bs:byte []) (pos:int) : int * ListStatusNoOrdersGrp  =
     let pos, clOrdID = ReadField "ReadListStatusNoOrders" pos "11"B bs ReadClOrdID
     let pos, secondaryClOrdID = ReadOptionalField pos "526"B bs ReadSecondaryClOrdID
     let pos, cumQty = ReadField "ReadListStatusNoOrders" pos "14"B bs ReadCumQty
@@ -2987,7 +2987,7 @@ let ReadListStatusNoOrdersGrp (pos:int) (bs:byte []) : int * ListStatusNoOrdersG
 
 
 // group
-let ReadAllocationInstructionNoExecsGrp (pos:int) (bs:byte []) : int * AllocationInstructionNoExecsGrp  =
+let ReadAllocationInstructionNoExecsGrp (bs:byte []) (pos:int) : int * AllocationInstructionNoExecsGrp  =
     let pos, lastQty = ReadField "ReadAllocationInstructionNoExecs" pos "32"B bs ReadLastQty
     let pos, execID = ReadOptionalField pos "17"B bs ReadExecID
     let pos, secondaryExecID = ReadOptionalField pos "527"B bs ReadSecondaryExecID
@@ -3006,7 +3006,7 @@ let ReadAllocationInstructionNoExecsGrp (pos:int) (bs:byte []) : int * Allocatio
 
 
 // group
-let ReadAllocationInstructionAckNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationInstructionAckNoAllocsGrp  =
+let ReadAllocationInstructionAckNoAllocsGrp (bs:byte []) (pos:int) : int * AllocationInstructionAckNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadAllocationInstructionAckNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocPrice = ReadOptionalField pos "366"B bs ReadAllocPrice
@@ -3027,7 +3027,7 @@ let ReadAllocationInstructionAckNoAllocsGrp (pos:int) (bs:byte []) : int * Alloc
 
 
 // group
-let ReadAllocationReportNoExecsGrp (pos:int) (bs:byte []) : int * AllocationReportNoExecsGrp  =
+let ReadAllocationReportNoExecsGrp (bs:byte []) (pos:int) : int * AllocationReportNoExecsGrp  =
     let pos, lastQty = ReadField "ReadAllocationReportNoExecs" pos "32"B bs ReadLastQty
     let pos, execID = ReadOptionalField pos "17"B bs ReadExecID
     let pos, secondaryExecID = ReadOptionalField pos "527"B bs ReadSecondaryExecID
@@ -3046,7 +3046,7 @@ let ReadAllocationReportNoExecsGrp (pos:int) (bs:byte []) : int * AllocationRepo
 
 
 // group
-let ReadAllocationReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * AllocationReportAckNoAllocsGrp  =
+let ReadAllocationReportAckNoAllocsGrp (bs:byte []) (pos:int) : int * AllocationReportAckNoAllocsGrp  =
     let pos, allocAccount = ReadField "ReadAllocationReportAckNoAllocs" pos "79"B bs ReadAllocAccount
     let pos, allocAcctIDSource = ReadOptionalField pos "661"B bs ReadAllocAcctIDSource
     let pos, allocPrice = ReadOptionalField pos "366"B bs ReadAllocPrice
@@ -3067,7 +3067,7 @@ let ReadAllocationReportAckNoAllocsGrp (pos:int) (bs:byte []) : int * Allocation
 
 
 // group
-let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
+let ReadNoCapacitiesGrp (bs:byte []) (pos:int) : int * NoCapacitiesGrp  =
     let pos, orderCapacity = ReadField "ReadNoCapacities" pos "528"B bs ReadOrderCapacity
     let pos, orderRestrictions = ReadOptionalField pos "529"B bs ReadOrderRestrictions
     let pos, orderCapacityQty = ReadField "ReadNoCapacities" pos "863"B bs ReadOrderCapacityQty
@@ -3080,7 +3080,7 @@ let ReadNoCapacitiesGrp (pos:int) (bs:byte []) : int * NoCapacitiesGrp  =
 
 
 // group
-let ReadNoDatesGrp (pos:int) (bs:byte []) : int * NoDatesGrp  =
+let ReadNoDatesGrp (bs:byte []) (pos:int) : int * NoDatesGrp  =
     let pos, tradeDate = ReadField "ReadNoDates" pos "75"B bs ReadTradeDate
     let pos, transactTime = ReadOptionalField pos "60"B bs ReadTransactTime
     let ci:NoDatesGrp = {
@@ -3091,7 +3091,7 @@ let ReadNoDatesGrp (pos:int) (bs:byte []) : int * NoDatesGrp  =
 
 
 // group
-let ReadNoDistribInstsGrp (pos:int) (bs:byte []) : int * NoDistribInstsGrp  =
+let ReadNoDistribInstsGrp (bs:byte []) (pos:int) : int * NoDistribInstsGrp  =
     let pos, distribPaymentMethod = ReadField "ReadNoDistribInsts" pos "477"B bs ReadDistribPaymentMethod
     let pos, distribPercentage = ReadOptionalField pos "512"B bs ReadDistribPercentage
     let pos, cashDistribCurr = ReadOptionalField pos "478"B bs ReadCashDistribCurr
@@ -3114,7 +3114,7 @@ let ReadNoDistribInstsGrp (pos:int) (bs:byte []) : int * NoDistribInstsGrp  =
 
 
 // group
-let ReadNoExecsGrp (pos:int) (bs:byte []) : int * NoExecsGrp  =
+let ReadNoExecsGrp (bs:byte []) (pos:int) : int * NoExecsGrp  =
     let pos, execID = ReadField "ReadNoExecs" pos "17"B bs ReadExecID
     let ci:NoExecsGrp = {
         ExecID = execID
@@ -3123,7 +3123,7 @@ let ReadNoExecsGrp (pos:int) (bs:byte []) : int * NoExecsGrp  =
 
 
 // group
-let ReadNoTradesGrp (pos:int) (bs:byte []) : int * NoTradesGrp  =
+let ReadNoTradesGrp (bs:byte []) (pos:int) : int * NoTradesGrp  =
     let pos, tradeReportID = ReadField "ReadNoTrades" pos "571"B bs ReadTradeReportID
     let pos, secondaryTradeReportID = ReadOptionalField pos "818"B bs ReadSecondaryTradeReportID
     let ci:NoTradesGrp = {
@@ -3134,7 +3134,7 @@ let ReadNoTradesGrp (pos:int) (bs:byte []) : int * NoTradesGrp  =
 
 
 // group
-let ReadNoCollInquiryQualifierGrp (pos:int) (bs:byte []) : int * NoCollInquiryQualifierGrp  =
+let ReadNoCollInquiryQualifierGrp (bs:byte []) (pos:int) : int * NoCollInquiryQualifierGrp  =
     let pos, collInquiryQualifier = ReadField "ReadNoCollInquiryQualifier" pos "896"B bs ReadCollInquiryQualifier
     let ci:NoCollInquiryQualifierGrp = {
         CollInquiryQualifier = collInquiryQualifier
@@ -3143,7 +3143,7 @@ let ReadNoCollInquiryQualifierGrp (pos:int) (bs:byte []) : int * NoCollInquiryQu
 
 
 // group
-let ReadNoCompIDsGrp (pos:int) (bs:byte []) : int * NoCompIDsGrp  =
+let ReadNoCompIDsGrp (bs:byte []) (pos:int) : int * NoCompIDsGrp  =
     let pos, refCompID = ReadField "ReadNoCompIDs" pos "930"B bs ReadRefCompID
     let pos, refSubID = ReadOptionalField pos "931"B bs ReadRefSubID
     let pos, locationID = ReadOptionalField pos "283"B bs ReadLocationID
@@ -3158,7 +3158,7 @@ let ReadNoCompIDsGrp (pos:int) (bs:byte []) : int * NoCompIDsGrp  =
 
 
 // group
-let ReadNetworkStatusResponseNoCompIDsGrp (pos:int) (bs:byte []) : int * NetworkStatusResponseNoCompIDsGrp  =
+let ReadNetworkStatusResponseNoCompIDsGrp (bs:byte []) (pos:int) : int * NetworkStatusResponseNoCompIDsGrp  =
     let pos, refCompID = ReadField "ReadNetworkStatusResponseNoCompIDs" pos "930"B bs ReadRefCompID
     let pos, refSubID = ReadOptionalField pos "931"B bs ReadRefSubID
     let pos, locationID = ReadOptionalField pos "283"B bs ReadLocationID
@@ -3177,7 +3177,7 @@ let ReadNetworkStatusResponseNoCompIDsGrp (pos:int) (bs:byte []) : int * Network
 
 
 // group
-let ReadNoHopsGrp (pos:int) (bs:byte []) : int * NoHopsGrp  =
+let ReadNoHopsGrp (bs:byte []) (pos:int) : int * NoHopsGrp  =
     let pos, hopCompID = ReadField "ReadNoHops" pos "628"B bs ReadHopCompID
     let pos, hopSendingTime = ReadOptionalField pos "629"B bs ReadHopSendingTime
     let pos, hopRefID = ReadOptionalField pos "630"B bs ReadHopRefID

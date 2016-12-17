@@ -77,7 +77,7 @@ let ReadLengthDataCompoundField (strTagExpected:byte[]) (bs:byte[]) (pos:int) fl
     let strLen = Conversions.bytesToInt32 lenBytes
     // the len has been read, next read the string
     // the tag read-in must match the expected tag
-    let strFieldBegin, strTagBytes = FIXBufUtils.readTagAfterFieldDelim nextFieldBeg bs
+    let strFieldBegin, strTagBytes = FIXBufUtils.readTagAfterFieldDelim bs nextFieldBeg
     if strTagExpected <> strTagBytes then failwith "ReadLengthDataCompoundField, unexpected string field tag"
     let nextFieldTermPos2, bs = FIXBufUtils.readNBytesVal strFieldBegin strLen bs
     nextFieldTermPos2, fldCtor bs
