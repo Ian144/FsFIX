@@ -31,8 +31,6 @@ type UTCTimestamp =  private
 
 
 
-
-
 // function overloading in F#
 [<AbstractClass;Sealed>]
 type MakeUTCTimestamp private () =
