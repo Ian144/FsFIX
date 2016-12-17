@@ -216,7 +216,7 @@ let ReadNoPositionsGrp (bs:byte []) (pos:int) : int * NoPositionsGrp  =
 
 // component
 let ReadPositionQty (bs:byte []) (pos:int) : int * PositionQty  =
-    let pos, noPositionsGrp = ReadGroup "ReadPositionQty" pos "702"B bs ReadNoPositionsGrp
+    let pos, noPositionsGrp = ReadGroup bs pos "ReadPositionQty" "702"B ReadNoPositionsGrp
     let ci:PositionQty = {
         NoPositionsGrp = noPositionsGrp
     }
@@ -685,7 +685,7 @@ let ReadNoPosAmtGrp (bs:byte []) (pos:int) : int * NoPosAmtGrp  =
 
 // component
 let ReadPositionAmountData (bs:byte []) (pos:int) : int * PositionAmountData  =
-    let pos, noPosAmtGrp = ReadGroup "ReadPositionAmountData" pos "753"B bs ReadNoPosAmtGrp
+    let pos, noPosAmtGrp = ReadGroup bs pos "ReadPositionAmountData" "753"B ReadNoPosAmtGrp
     let ci:PositionAmountData = {
         NoPosAmtGrp = noPosAmtGrp
     }
@@ -812,7 +812,7 @@ let ReadNoTrdRegTimestampsGrp (bs:byte []) (pos:int) : int * NoTrdRegTimestampsG
 
 // component
 let ReadTrdRegTimestamps (bs:byte []) (pos:int) : int * TrdRegTimestamps  =
-    let pos, noTrdRegTimestampsGrp = ReadGroup "ReadTrdRegTimestamps" pos "768"B bs ReadNoTrdRegTimestampsGrp
+    let pos, noTrdRegTimestampsGrp = ReadGroup bs pos "ReadTrdRegTimestamps" "768"B ReadNoTrdRegTimestampsGrp
     let ci:TrdRegTimestamps = {
         NoTrdRegTimestampsGrp = noTrdRegTimestampsGrp
     }
@@ -2254,7 +2254,7 @@ let ReadNoQuoteSetsGrp (bs:byte []) (pos:int) : int * NoQuoteSetsGrp  =
     let pos, quoteSetValidUntilTime = ReadOptionalField bs pos "367"B  ReadQuoteSetValidUntilTime
     let pos, totNoQuoteEntries = ReadField bs pos "ReadNoQuoteSets" "304"B ReadTotNoQuoteEntries
     let pos, lastFragment = ReadOptionalField bs pos "893"B  ReadLastFragment
-    let pos, massQuoteNoQuoteEntriesGrp = ReadGroup "ReadNoQuoteSets" pos "295"B bs ReadMassQuoteNoQuoteEntriesGrp
+    let pos, massQuoteNoQuoteEntriesGrp = ReadGroup bs pos "ReadNoQuoteSets" "295"B ReadMassQuoteNoQuoteEntriesGrp
     let ci:NoQuoteSetsGrp = {
         QuoteSetID = quoteSetID
         UnderlyingInstrument = underlyingInstrument

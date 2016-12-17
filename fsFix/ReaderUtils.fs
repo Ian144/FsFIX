@@ -24,26 +24,26 @@ let ReadOptionalField (bs:byte[]) (pos:int) (expectedTag:byte[]) readFunc : int 
 
 
 
-let rec readGrpInner (acc: 'grp list) (pos:int) (recursionCount:uint32) (bs:byte[]) (readFunc: byte [] -> int -> int * 'grp) =
+let rec readGrpInner (bs:byte[]) (pos:int) (acc: 'grp list)(recursionCount:uint32) (readFunc: byte [] -> int -> int * 'grp) =
     match recursionCount with
     | 0u    ->  pos, (acc |> List.rev)
     | _     ->  let pos2, grpInstance = readFunc bs pos 
-                readGrpInner (grpInstance::acc) pos2 (recursionCount-1u) bs readFunc
+                readGrpInner bs pos2 (grpInstance::acc) (recursionCount-1u) readFunc
 
 
-let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
+let ReadGroup (bs:byte[]) (pos:int) (ss:string) (numTag:byte[]) readFunc =
     let pos2, tag = FIXBufUtils.readTag bs pos
     if tag <> numTag then
         let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss numTag tag
         failwith msg
     let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep bs pos2
     let numRepeats = Conversions.bytesToUInt32 numRepeatBs
-    let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
+    let pos4, gs = readGrpInner bs pos3 [] numRepeats readFunc
     let gsRev = gs
     pos4, gsRev
 
 
-let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
+let ReadNoSidesGroup (bs:byte[]) (pos:int) (ss:string) (numTag:byte[]) readFunc =
     let pos2, tag = FIXBufUtils.readTag bs pos
     if tag <> numTag then
         let msg = sprintf "ReadNoSidesGroup, when reading %s: expected tag: %A, actual: %A" ss numTag tag
@@ -65,7 +65,7 @@ let ReadOptionalGroup (bs:byte[]) (pos:int) (numFieldTag:byte[]) (readFunc:byte[
         if tag = numFieldTag then 
             let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep bs pos2
             let numRepeats = Conversions.bytesToUInt32 numRepeatBs
-            let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
+            let pos4, gs = readGrpInner bs pos3 [] numRepeats readFunc
             let gsRev = gs
             pos4, Some gsRev
         else

@@ -115,9 +115,9 @@ let private genReadGroup (varName:string) (longName:string) (parentName:string) 
     let varName = Utils.lCaseFirstChar longName
     let isNoSides = longName.Contains "NoSides"
     if isNoSides then   // return a literal list of strings
-        [   sprintf "    let pos, %sGrp = ReadNoSidesGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
+        [   sprintf "    let pos, %sGrp = ReadNoSidesGroup bs pos \"Read%s\" \"%d\"B Read%sGrp" varName parentName tag longName ]
     else
-        [   sprintf "    let pos, %sGrp = ReadGroup \"Read%s\" pos \"%d\"B bs Read%sGrp" varName parentName tag longName ]
+        [   sprintf "    let pos, %sGrp = ReadGroup bs pos \"Read%s\" \"%d\"B Read%sGrp" varName parentName tag longName ]
 
 
 

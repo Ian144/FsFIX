@@ -143,7 +143,7 @@ let inline private isOffsetMarker (bb:byte) =
 
 // throw if not found
 // only look 5 and 8 bytes ahead, TZ is either hh:mm or hh:mm:ss
-let inline private findOffsetMarker (pos:int) (bs:byte[]) =
+let inline private findOffsetMarker (bs:byte[]) (pos:int) =
     if bs.[pos+5] |> isOffsetMarker then
         5
     elif bs.[pos+8] |> isOffsetMarker then
@@ -153,7 +153,7 @@ let inline private findOffsetMarker (pos:int) (bs:byte[]) =
 
 
 let readTZTimeOnly (bs:byte[]) (pos:int) =
-    let offSetMarkerPos = findOffsetMarker pos bs
+    let offSetMarkerPos = findOffsetMarker bs pos
     match offSetMarkerPos with 
     | 5 ->  let hh, mm = DateTimeUtils.readHHMMints bs pos
             let posOut, offset = readTZOffset bs (pos+5)
