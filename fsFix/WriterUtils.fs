@@ -135,7 +135,7 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
 
-    let _, msg = ReadMessageDU tag innerBuf 0
+    let _, msg = ReadMessageDU tag innerBuf 0 // reading from the inner buffer, so its pos is not the one to be returned
     pos, msg
     
 

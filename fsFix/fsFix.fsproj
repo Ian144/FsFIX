@@ -50,6 +50,7 @@
     <Compile Include="DateTimeUtils.fs" />
     <Compile Include="UTCDateTime.fs" />
     <Compile Include="TZDateTime.fs" />
+    <Compile Include="MonthYear.fs" />
     <Compile Include="StreamUtils.fs" />
     <Compile Include="ReaderUtils.fs" />
     <Compile Include="FieldFuncs.fs" />

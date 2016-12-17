@@ -157,7 +157,7 @@ let private createFieldTypes (field:SimpleField) =
     | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"     //todo: store length as a uint??
     | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
-    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
+    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MONTHYEAR" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
     | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store numingroup as a uint?
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
@@ -167,7 +167,7 @@ let private createFieldTypes (field:SimpleField) =
     | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"     // todo: represent seqnum as a uint?
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
     | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
-    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "string" // todo: storing TZTIMESTAMP as string
+    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTIMESTAMP" // todo: storing TZTIMESTAMP as string, not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"
@@ -272,14 +272,12 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
 
 
 let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swWriteFuncs:StreamWriter) (swFieldDU:StreamWriter) =
-
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine "open UTCDateTime"
     sw.WriteLine ""
     sw.WriteLine ""
-
 
     // write the individual field instances
     fieldData |> Seq.iter (fun fd ->
@@ -292,7 +290,6 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
             sw.WriteLine ""
             sw.WriteLine ""
         )
-
     
     // write the field read functions
     swReadFuncs.WriteLine "module Fix44.FieldReadFuncs"
@@ -317,7 +314,6 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
             swReadFuncs.WriteLine ""
             swReadFuncs.WriteLine ""
         )
-
 
     // write the field write functions
     swWriteFuncs.WriteLine "module Fix44.FieldWriteFuncs"
