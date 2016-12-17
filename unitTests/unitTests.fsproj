@@ -87,6 +87,7 @@
     <Content Include="App.config" />
     <None Include="paket.references" />
     <Compile Include="UTCTimeOnlyTests.fs" />
+    <Compile Include="TZOffsetTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
