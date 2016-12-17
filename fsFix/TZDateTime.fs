@@ -34,6 +34,8 @@ type TZTimeOnly =  private
 
 
 
+
+
 [<AbstractClass;Sealed>]
 type MakeTZOffset private () =
     static member Make (dir:byte) = 
@@ -154,7 +156,7 @@ let inline private findNextOffsetMarker (pos:int) (bs:byte[]) =
         failwith "could not find offset market in TZTimeOnly"
 
 
-let readTZOnly (bs:byte[]) (pos:int) =
+let readTZTimeOnly (bs:byte[]) (pos:int) =
     let offSetMarkerPos = findNextOffsetMarker pos bs
     match offSetMarkerPos with 
     | 5 ->  let hh, mm = DateTimeUtils.readHHMMints bs pos

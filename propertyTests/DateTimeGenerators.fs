@@ -15,7 +15,7 @@ let genUTCDate =
         }
 
 
-
+// UTCTimeOnly
 
 
 let private genUTCTimeOnlyNoMs =
@@ -50,6 +50,9 @@ let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs;
                                         19, genUTCTimeOnlyMs; 
                                         1,  genUTCTimeOnlyLeapSecondNoMs; 
                                         1,  genUTCTimeOnlyLeapSecondMs   ])
+
+
+// UTCTimestamp
 
 let private genUTCTimestampNoMs =
         gen {
@@ -91,7 +94,51 @@ let private genUTCTimestampLeapSecondMs =
             return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60, ms )
         }
 
-let genUTCTimestamp = Gen.frequency( [   19, genUTCTimestampNoMs; 
-                                        19, genUTCTimestampMs; 
-                                        1,  genUTCTimestampLeapSecondNoMs; 
-                                        1,  genUTCTimestampLeapSecondMs   ])
+let genUTCTimestamp = Gen.frequency [  19, genUTCTimestampNoMs; 
+                                       19, genUTCTimestampMs; 
+                                       1,  genUTCTimestampLeapSecondNoMs; 
+                                       1,  genUTCTimestampLeapSecondMs   ]
+
+// TZOffset
+
+let private genDir = Gen.elements [ 43uy; 45uy ]
+
+let private genTZOffsetUTC = gen{ return TZDateTime.MakeTZOffset.Make 90uy  } // 90uy is Z which meas UTC
+
+let private genTZOffsetHH = gen{
+            let! dir = genDir
+            let! hh = Gen.choose(1, 12)
+            return TZDateTime.MakeTZOffset.Make (dir, hh) // 43uy is +, meaning positive offset
+        }
+
+let private genTZOffsetHHmm = gen{
+            let! dir = genDir
+            let! hh = Gen.choose(1, 12)
+            let! mm = Gen.choose(0, 59)
+            return TZDateTime.MakeTZOffset.Make (dir, hh, mm) // 43uy is +, meaning positive offset
+        }
+
+let genTZOffset = Gen.frequency [   1, genTZOffsetUTC;
+                                    10, genTZOffsetHH;
+                                    10, genTZOffsetHHmm ]
+
+
+// TZTimeOnly
+
+let private genHHmmTZTimeOnlyHHmm = gen{
+            let! offset = genTZOffset
+            let! hh = Gen.choose(1, 23)
+            let! mm = Gen.choose(0, 59)
+            return TZDateTime.MakeTZTimeOnly.Make (offset, hh, mm)
+    }
+
+let private genHHmmTZTimeOnlyHHmmSS = gen{
+            let! offset = genTZOffset
+            let! hh = Gen.choose(1, 23)
+            let! mm = Gen.choose(0, 59)
+            let! ss = Gen.choose(0, 59)
+            return TZDateTime.MakeTZTimeOnly.Make (offset, hh, mm, ss)
+    }
+
+
+let genTZTimeOnly = Gen.frequency [1, genHHmmTZTimeOnlyHHmm; 1, genHHmmTZTimeOnlyHHmmSS ]

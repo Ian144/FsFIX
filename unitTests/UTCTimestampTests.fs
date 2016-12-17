@@ -11,7 +11,7 @@ let ``write valid hhmmss to bytes`` () =
     let bs = Array.zeroCreate<byte> 17
     let posOut = UTCDateTime.writeUTCTimestamp timeIn bs 0
     let expected = "20161213-23:59:59"B
-    posOut =! expected.Length
+    expected.Length =! posOut
     expected =! bs
 
 
@@ -21,7 +21,7 @@ let ``write valid hhmmssNNN to bytes`` () =
     let bs = Array.zeroCreate<byte> 21
     let posOut = UTCDateTime.writeUTCTimestamp timeIn bs 0
     let expected = "20161213-23:59:59.123"B
-    posOut =! expected.Length
+    expected.Length =! posOut
     expected =! bs
 
 
@@ -30,7 +30,6 @@ let ``read valid hhmmss from bytes`` () =
     let uto = UTCDateTime.readUTCTimestamp "20161213-23:59:59"B 0 17
     let expected = UTCDateTime.MakeUTCTimestamp.Make (2016, 12, 13, 23, 59, 59)
     expected =! uto
-
 
 
 [<Fact>]
@@ -53,7 +52,6 @@ let ``read valid leapsecond hhmmssMMM from bytes`` () =
     let uto = UTCDateTime.readUTCTimestamp bs  0 bs.Length
     let expected = UTCDateTime.MakeUTCTimestamp.Make (2016, 12, 13, 23, 59, 60, 999)
     expected =! uto
-
 
 
 [<Fact>]
