@@ -3,7 +3,7 @@
 
 
 
-let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+let ReadField (bs:byte[]) (pos:int) (ss:string) (expectedTag:byte[]) readFunc = 
     let pos2, tag = FIXBufUtils.readTag bs pos
     if tag <> expectedTag then 
         let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
@@ -12,7 +12,7 @@ let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc =
     pos3, fld
 
 
-let ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc : int * 'b option = 
+let ReadOptionalField (bs:byte[]) (pos:int) (expectedTag:byte[]) readFunc : int * 'b option = 
     match FIXBufUtils.readTagOpt bs pos with
     | Some (pos2, tag)  ->     
         if tag = expectedTag then 
@@ -59,7 +59,7 @@ let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc 
 
 
 
-let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:byte[] -> int -> int * 'grp) : int * 'grp list option =
+let ReadOptionalGroup (bs:byte[]) (pos:int) (numFieldTag:byte[]) (readFunc:byte[] -> int -> int * 'grp) : int * 'grp list option =
     match FIXBufUtils.readTagOpt bs pos with
     | Some (pos2, tag)  ->
         if tag = numFieldTag then 
@@ -75,13 +75,13 @@ let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:byte[
 
 
 
-let ReadComponent (ss:string) (pos:int) (bs:byte[]) readFunc = 
+let ReadComponent (bs:byte[]) (pos:int) (ss:string) readFunc = 
     let pos3, fld = readFunc bs pos
     pos3, fld
 
 
 // the first field of an optional component is required, so the component is present if the first field is present
-let ReadOptionalComponent (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc = 
+let ReadOptionalComponent (bs:byte[]) (pos:int) (expectedTag:byte[]) readFunc = 
     match FIXBufUtils.readTagOpt bs pos with
     | Some (_, tag)  ->
         if tag = expectedTag then 

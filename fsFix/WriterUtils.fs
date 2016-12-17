@@ -111,17 +111,17 @@ let WriteMessageDU
 
 let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let pos = 0
-    let pos, beginString    = ReaderUtils.ReadField "ReadBeginString" pos "8"B src ReadBeginString
-    let pos, bodyLen        = ReaderUtils.ReadField "ReadBodyLength" pos "9"B src ReadBodyLength
+    let pos, beginString    = ReaderUtils.ReadField src pos "ReadBeginString" "8"B  ReadBeginString
+    let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
     
 //    let pos, msgType        = ReadMsgType pos src
     let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep src pos
     let pos, tag            = FIXBufUtils.readValAfterTagValSep src tagValSepPos
     
-    let pos, senderCompID   = ReaderUtils.ReadField "ReadSenderCompID" pos "49"B src ReadSenderCompID
-    let pos, targetCompID   = ReaderUtils.ReadField "ReadTargetCompID" pos "56"B src ReadTargetCompID
-    let pos, seqNum         = ReaderUtils.ReadField "ReadMsgSeqNum"    pos "34"B src ReadMsgSeqNum
-    let pos, sendTime       = ReaderUtils.ReadField "ReadSendingTime"  pos "52"B src ReadSendingTime
+    let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
+    let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
+    let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
+    let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
 
     let (BodyLength len) = bodyLen
     System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
@@ -129,7 +129,7 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let calcedCheckSum = CalcCheckSum innerBuf len 
 
     let pos = pos + len
-    let pos, receivedCheckSum   = ReaderUtils.ReadField "ReadCheckSum" pos "10"B src ReadCheckSum
+    let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
@@ -142,16 +142,16 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
 
 let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->int*'t) : int * 't =
     let pos = 0
-    let pos, beginString    = ReaderUtils.ReadField "ReadBeginString" pos "8"B src ReadBeginString
-    let pos, bodyLen        = ReaderUtils.ReadField "ReadBodyLength" pos "9"B src ReadBodyLength
+    let pos, beginString    = ReaderUtils.ReadField src pos "ReadBeginString" "8"B  ReadBeginString
+    let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
     
 //    let pos, msgType        = ReadMsgType pos src
     let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep src pos 
     let pos, tag            = FIXBufUtils.readValAfterTagValSep src tagValSepPos// need to bounce from a runtime value to a compile time generic instance, is using a DU unavoidable??
-    let pos, senderCompID   = ReaderUtils.ReadField "ReadSenderCompID" pos "49"B src ReadSenderCompID
-    let pos, targetCompID   = ReaderUtils.ReadField "ReadTargetCompID" pos "56"B src ReadTargetCompID
-    let pos, seqNum         = ReaderUtils.ReadField "ReadMsgSeqNum"    pos "34"B src ReadMsgSeqNum
-    let pos, sendTime       = ReaderUtils.ReadField "ReadSendingTime"  pos "52"B src ReadSendingTime
+    let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
+    let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
+    let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
+    let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
 
     let (BodyLength len) = bodyLen
     System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
@@ -159,7 +159,7 @@ let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->
     let calcedCheckSum = CalcCheckSum innerBuf len 
 
     let pos = pos + len
-    let pos, receivedCheckSum   = ReaderUtils.ReadField "ReadCheckSum" pos "10"B src ReadCheckSum
+    let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
