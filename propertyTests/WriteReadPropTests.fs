@@ -58,191 +58,6 @@ type FsFixPropertyTest() =
 
 
 
-let genWriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = writeFunc bs 0 tIn
-    let posR, tOut = readFunc bs 0
-    posW =! posR
-    tIn =! tOut
-
-[<FsFixPropertyTest>]
-let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  genWriteReadTest tm TZDateTime.writeTZTimeOnly TZDateTime.readTZTimeOnly
-
-
-
-// a simple msg
-[<FsFixPropertyTest>]
-let msgUserRequest (msg:Fix44.Messages.UserRequest) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.MsgWriteFuncs.WriteUserRequest bs 0 msg
-    let posR, msgOut = Fix44.MsgReadFuncs.ReadUserRequest bs 0
-    posW =! posR
-    msg =! msgOut
-
-
-
-// msg containing a 'NoSides' group
-[<FsFixPropertyTest>]
-let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.MsgWriteFuncs.WriteNewOrderCross bs 0 msg
-    let posR, msgOut = Fix44.MsgReadFuncs.ReadNewOrderCross bs 0
-    posW =! posR
-    msg =! msgOut
-
-
-[<FsFixPropertyTest>]
-let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 fldIn
-    let posSep = FIXBufUtils.findNextTagValSep bs 0
-    let posR, fldOut = Fix44.FieldReadFuncs.ReadPosMaintRptID bs (posSep+1)
-    posW =! posR
-    fldIn =! fldOut  
-
-
-// MDEntryTime wraps UTCTimeOnly
-[<FsFixPropertyTest>]
-let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = Fix44.FieldWriteFuncs.WriteMDEntryTime bs 0 fldIn
-    let posSep = FIXBufUtils.findNextTagValSep bs 0
-    let posR, fldOut = Fix44.FieldReadFuncs.ReadMDEntryTime bs (posSep+1)
-    posW =! posR
-    fldIn =! fldOut 
-
-
-
-// a very slow test due to the large number of Field DU instances
-// will re-enable this test occasionally
-[<FsFixPropertyTest>]
-let AllFields (fieldIn:FIXField) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteField bs 0 fieldIn
-    let posR, fieldOut = ReadField bs 0
-    posW =! posR
-    fieldIn =! fieldOut  
-
-
-
-[<FsFixPropertyTest>]
-let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoCapacitiesGrp  bs 0 grpIn
-    let posR, grpOut = Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp bs 0
-    posW =! posR
-    grpIn =! grpOut  
-
-
-
-
-[<FsFixPropertyTest>]
-let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoUnderlyingStipsGrp bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp bs 0
-    posW =! posR
-    usIn =! usOut
-
-
-
-[<FsFixPropertyTest>]
-let UnderlyingStipulations (usIn:UnderlyingStipulations) =
-//    (usIn.NoUnderlyingStipsGrp.IsSome) ==> lazy
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteUnderlyingStipulations  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations bs 0
-    usIn =! usOut
-    posW =! posR
-        
-
-
-//let rec compareInner (indent:string) (objA:System.Object) (objB:System.Object) =
-//    let bindingFlags = 
-//        BindingFlags.Public     ||| 
-//        BindingFlags.NonPublic  |||
-//        BindingFlags.Instance   ||| 
-//        BindingFlags.Static     |||
-//        BindingFlags.DeclaredOnly
-//
-//    let ty = objA.GetType()
-//    let fields = ty.GetFields(bindingFlags)
-//
-//    let compStrs = 
-//        fields |> Array.map (fun fi ->
-//            let vA = fi.GetValue objA
-//            let vB = fi.GetValue objB
-//            if vA <> vB then
-//                let ft = fi.FieldType
-//                let fieldsInner = ft.GetFields(bindingFlags)
-//                if fieldsInner.Length > 1 then
-//                    let indent2 = sprintf "    %s" indent
-//                    compareInner indent2 vA vB
-//                else
-//                    sprintf "%s >>>>>>>> %s: %O <> %O" indent fi.Name vA vB
-//            else
-//               sprintf "%s: %O <> %O" fi.Name vA vB
-//            )
-// 
-//    System.String.Join("\n", compStrs)
-//
-//
-//let compare (objA:System.Object) (objB:System.Object) = 
-//    let ss = compareInner "" objA objB
-//    printf "%s" ss
-
-
-
-
-[<FsFixPropertyTest>]
-let UnderlyingInstument (usIn:UnderlyingInstrument) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteUnderlyingInstrument  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument bs 0
-    posW =! posR
-    usIn =! usOut         
-
-
-
-[<FsFixPropertyTest>]
-let NoSidesGrp (gIn:NoSidesGrp ) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteNoSidesGrp bs 0 gIn
-    let posR, gOut = Fix44.CompoundItemReadFuncs.ReadNoSidesGrp bs 0
-    posW =! posR
-    gIn =! gOut
-
-
-
-[<FsFixPropertyTest>]
-let CompoundItem (ciIn:FIXGroup) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteCITest  bs 0 ciIn
-    let posR, ciOut =  ReadCITest ciIn bs 0
-    posW =! posR
-    ciIn =! ciOut
-
-
-
-[<FsFixPropertyTest>]
-let Message (msg:FIXMessage) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteMessage bs 0 msg
-    let posR, msgOut = ReadMessage msg bs 0
-    posW =! posR
-    msg =! msgOut
-
-
-
-[<FsFixPropertyTest>]
-let InstrumentLegFG (usIn:InstrumentLegFG) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteInstrumentLegFG  bs 0 usIn
-    let posR, usOut = Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG bs 0
-    posW =! posR
-    usIn =! usOut
-
-
 
 [<FsFixPropertyTest>]
 let MessageWithHeaderTrailer 
@@ -267,3 +82,127 @@ let MessageWithHeaderTrailer
     let tmpBuf2 = Array.zeroCreate<byte> bufSize
     let posR, msgOut = WriterUtils.ReadMessage buf tmpBuf2
     msg =! msgOut
+    posW =! posR
+
+
+// most write-read tests follow this form
+let WriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    let posR, tOut = readFunc bs 0
+    posW =! posR
+    tIn =! tOut
+
+
+// write-read test for fields, where the tag written by the write function should be ignored. as field read functions only read the body. The tag is read elsewhere and used to find the field read func
+let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    let posSep = FIXBufUtils.findNextTagValSep bs 0
+    let posR, tOut = readFunc bs (posSep+1)
+    posW =! posR
+    tIn =! tOut
+
+
+
+[<FsFixPropertyTest>]
+let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  WriteReadTest tm TZDateTime.writeTZTimeOnly TZDateTime.readTZTimeOnly
+
+
+[<FsFixPropertyTest>]
+let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadTest msg Fix44.MsgWriteFuncs.WriteUserRequest Fix44.MsgReadFuncs.ReadUserRequest
+
+
+// msg containing a 'NoSides' group
+[<FsFixPropertyTest>]
+let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = WriteReadTest msg Fix44.MsgWriteFuncs.WriteNewOrderCross Fix44.MsgReadFuncs.ReadNewOrderCross
+
+
+
+[<FsFixPropertyTest>]
+let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn Fix44.FieldWriteFuncs.WritePosMaintRptID Fix44.FieldReadFuncs.ReadPosMaintRptID
+
+
+
+// MDEntryTime wraps UTCTimeOnly
+[<FsFixPropertyTest>]
+let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriteFuncs.WriteMDEntryTime Fix44.FieldReadFuncs.ReadMDEntryTime
+
+// a very slow test due to the large number of Field DU instances
+// will re-enable this test occasionally
+//[<FsFixPropertyTest>]
+//let AllFields (fieldIn:FIXField) = WriteReadTest fieldIn WriteField ReadField
+
+
+
+[<FsFixPropertyTest>]
+let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadTest grpIn WriteNoCapacitiesGrp Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp
+
+
+
+[<FsFixPropertyTest>]
+let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp
+
+
+
+[<FsFixPropertyTest>]
+let UnderlyingStipulations (usIn:UnderlyingStipulations) = WriteReadTest usIn WriteUnderlyingStipulations Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations
+        
+
+
+[<FsFixPropertyTest>]
+let UnderlyingInstument (usIn:UnderlyingInstrument) = WriteReadTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument
+
+
+
+[<FsFixPropertyTest>]
+let NoSidesGrp (gIn:NoSidesGrp) = WriteReadTest gIn WriteNoSidesGrp Fix44.CompoundItemReadFuncs.ReadNoSidesGrp
+
+
+[<FsFixPropertyTest>]
+let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadTest usIn WriteInstrumentLegFG Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG
+
+
+
+
+
+
+let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->int->int*'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    let posR, tOut = readFunc tIn bs 0
+    posW =! posR
+    tIn =! tOut
+
+[<FsFixPropertyTest>]
+let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest
+
+
+[<FsFixPropertyTest>]
+let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage
+
+
+//
+//
+//[<FsFixPropertyTest>]
+//let CompoundItem (ciIn:FIXGroup) =
+//    let bs = Array.zeroCreate<byte> bufSize
+//    let posW = WriteCITest  bs 0 ciIn
+//    let posR, ciOut =  ReadCITest ciIn bs 0
+//    posW =! posR
+//    ciIn =! ciOut
+//
+//
+//
+//[<FsFixPropertyTest>]
+//let Message (msg:FIXMessage) =
+//    let bs = Array.zeroCreate<byte> bufSize
+//    let posW = WriteMessage bs 0 msg
+//    let posR, msgOut = ReadMessage msg bs 0
+//    posW =! posR
+//    msg =! msgOut
+//
+//
+//
+
+

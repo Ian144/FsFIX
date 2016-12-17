@@ -131,3 +131,43 @@ let ReadLogon (src:System.IO.Stream) (xx:Logon) =
         Password = Option.None
         }
     Logon
+
+
+
+
+
+
+
+//let rec compareInner (indent:string) (objA:System.Object) (objB:System.Object) =
+//    let bindingFlags = 
+//        BindingFlags.Public     ||| 
+//        BindingFlags.NonPublic  |||
+//        BindingFlags.Instance   ||| 
+//        BindingFlags.Static     |||
+//        BindingFlags.DeclaredOnly
+//
+//    let ty = objA.GetType()
+//    let fields = ty.GetFields(bindingFlags)
+//
+//    let compStrs = 
+//        fields |> Array.map (fun fi ->
+//            let vA = fi.GetValue objA
+//            let vB = fi.GetValue objB
+//            if vA <> vB then
+//                let ft = fi.FieldType
+//                let fieldsInner = ft.GetFields(bindingFlags)
+//                if fieldsInner.Length > 1 then
+//                    let indent2 = sprintf "    %s" indent
+//                    compareInner indent2 vA vB
+//                else
+//                    sprintf "%s >>>>>>>> %s: %O <> %O" indent fi.Name vA vB
+//            else
+//               sprintf "%s: %O <> %O" fi.Name vA vB
+//            )
+// 
+//    System.String.Join("\n", compStrs)
+//
+//
+//let compare (objA:System.Object) (objB:System.Object) = 
+//    let ss = compareInner "" objA objB
+//    printf "%s" ss
