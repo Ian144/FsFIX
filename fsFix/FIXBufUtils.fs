@@ -3,7 +3,7 @@
 open System
 
 
-let findNextOrEnd (bb:byte) (pos:int) (bs:byte[]) =
+let findNextOrEnd (bs:byte[]) (pos:int) (bb:byte) =
     let mutable found = false
     let mutable ctr = pos
     while (ctr < bs.Length && (not found)) do
@@ -13,9 +13,9 @@ let findNextOrEnd (bb:byte) (pos:int) (bs:byte[]) =
             ctr <- ctr + 1
     ctr
 
-let findNextFieldTermOrEnd (pos:int) (bs:byte[]) = findNextOrEnd 1uy pos bs
+let findNextFieldTermOrEnd (bs:byte[]) (pos:int) = findNextOrEnd bs pos 1uy
 
-let findNext (bb:byte) (pos:int) (bs:byte[]) =
+let findNext (bs:byte[]) (pos:int) (bb:byte) =
     let mutable found = false
     let mutable ctr = pos
     while (ctr < bs.Length && (not found)) do
@@ -25,16 +25,15 @@ let findNext (bb:byte) (pos:int) (bs:byte[]) =
             ctr <- ctr + 1
     if found then ctr else -1
 
-let findNextFieldTerm (pos:int) (bs:byte[]) = findNext 1uy pos bs
-
-let findNextTagValSep (pos:int) (bs:byte[]) = findNext 61uy pos bs
+let findNextFieldTerm (bs:byte[]) (pos:int) = findNext bs pos 1uy 
+let findNextTagValSep (bs:byte[]) (pos:int) = findNext bs pos 61uy
 
 /// returns the index of first char after the field value and the value itself
 /// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
-let readValAfterTagValSep (pos:int) (bs:byte[]) =
+let readValAfterTagValSep (bs:byte[]) (pos:int) =
     // byte value of '=' is 61
     if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
-    let fldTermPos = findNextFieldTerm pos bs
+    let fldTermPos = findNextFieldTerm bs pos
     if fldTermPos = -1 then failwith "could not find next field separator"
     let valLen = fldTermPos - pos
     let bsVal = Array.zeroCreate<byte> valLen
@@ -56,7 +55,7 @@ let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
 // assumes and checks that the prevByte points to a field delimitor
 let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
     if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
-    let tagValSepPos = findNextTagValSep pos bs
+    let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "could not find next tag-value separator"
     let tagLen = tagValSepPos - pos
     let bsVal = Array.zeroCreate<byte> tagLen
@@ -66,7 +65,7 @@ let readTagAfterFieldDelim (pos:int) (bs:byte[]) =
 
 // may be the first thing to be read from a byte array, so there will be no initial or prev field deliminator
 let readTag (pos:int) (bs:byte[]) =
-    let tagValSepPos = findNextTagValSep pos bs
+    let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "readTag, could not find next tag-value separator"
     let tagLen = tagValSepPos - pos
     let bsVal = Array.zeroCreate<byte> tagLen
@@ -75,7 +74,7 @@ let readTag (pos:int) (bs:byte[]) =
 
 
 let readTagOpt (pos:int) (bs:byte[]) =
-    let tagValSepPos = findNextTagValSep pos bs
+    let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then None
     else
         let tagLen = tagValSepPos - pos

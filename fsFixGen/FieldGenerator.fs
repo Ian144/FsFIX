@@ -30,8 +30,8 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:Fie
 let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list) =
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
-            yield  sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" typeName typeName 
-            yield  sprintf "    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs"
+            yield  sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" typeName typeName 
+            yield  sprintf "    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos"
             yield  sprintf "    let fld = "
             yield  sprintf "        match valIn with"
             yield! values |> List.map (fun vv -> 
@@ -124,8 +124,8 @@ let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (
 let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
     let readFunc = getSingleCaseDUReadFuncString wrappedType
     let lines = [
-            sprintf "let Read%s (pos:int) (bs:byte[]) : (int*%s) =" fieldName fieldName
-            sprintf "    %s pos bs %s.%s" readFunc fieldName fieldName
+            sprintf "let Read%s (bs:byte[]) (pos:int): (int*%s) =" fieldName fieldName
+            sprintf "    %s bs pos %s.%s" readFunc fieldName fieldName
     ]    
     Utils.joinStrs "\n" lines
 
@@ -254,8 +254,8 @@ let private createLenDataFieldDefinition (cfd:CompoundField) =
 let private createLenDataFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
-            sprintf "let Read%s (pos:int) (bs:byte[]) : (int * %s) =" fld.Name fld.Name
-            sprintf "    ReadLengthDataCompoundField \"%d\"B (pos:int) (bs:byte[]) %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
+            sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" fld.Name fld.Name
+            sprintf "    ReadLengthDataCompoundField \"%d\"B (bs:byte[]) (pos:int) %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
     ]
     Utils.joinStrs "\n" lines
 
@@ -388,7 +388,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     fieldData |> Seq.iter (fun fd ->
             let ss =
                 match fd with
-                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s pos2 bs\n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
+                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s bs pos2 \n        pos3, fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s bs pos2 \n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
             swFieldDU.WriteLine ss )
     swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "

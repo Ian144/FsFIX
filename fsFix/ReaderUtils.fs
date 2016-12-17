@@ -8,7 +8,7 @@ let ReadField (ss:string) (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc =
     if tag <> expectedTag then 
         let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
         failwith msg
-    let pos3, fld = readFunc pos2 bs
+    let pos3, fld = readFunc bs pos2
     pos3, fld
 
 
@@ -16,7 +16,7 @@ let ReadOptionalField (pos:int) (expectedTag:byte[]) (bs:byte[]) readFunc : int 
     match FIXBufUtils.readTagOpt pos bs with
     | Some (pos2, tag)  ->     
         if tag = expectedTag then 
-            let pos3, fld = readFunc pos2 bs
+            let pos3, fld = readFunc bs pos2
             pos3, Some fld
         else
             pos, None   // return the original pos, the next read op will re-read it
@@ -36,7 +36,7 @@ let ReadGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc =
     if tag <> numTag then
         let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss numTag tag
         failwith msg
-    let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs 
+    let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep bs pos2
     let numRepeats = Conversions.bytesToUInt32 numRepeatBs
     let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
     let gsRev = gs
@@ -48,7 +48,7 @@ let ReadNoSidesGroup (ss:string) (pos:int) (numTag:byte[]) (bs:byte[]) readFunc 
     if tag <> numTag then
         let msg = sprintf "ReadNoSidesGroup, when reading %s: expected tag: %A, actual: %A" ss numTag tag
         failwith msg
-    let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs
+    let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep bs pos2
     match numRepeatBs with
     | "1"B  ->  let pos4, grp = readFunc pos3 bs
                 pos4, OneOrTwo.One grp
@@ -63,7 +63,7 @@ let ReadOptionalGroup (pos:int) (numFieldTag:byte[]) (bs:byte[]) (readFunc:int -
     match FIXBufUtils.readTagOpt pos bs with
     | Some (pos2, tag)  ->
         if tag = numFieldTag then 
-            let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep pos2 bs
+            let pos3, numRepeatBs = FIXBufUtils.readValAfterTagValSep bs pos2
             let numRepeats = Conversions.bytesToUInt32 numRepeatBs
             let pos4, gs = readGrpInner [] pos3 numRepeats bs readFunc
             let gsRev = gs

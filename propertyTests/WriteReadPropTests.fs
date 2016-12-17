@@ -95,8 +95,8 @@ let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) =
 let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldWriteFuncs.WritePosMaintRptID bs 0 fldIn
-    let posSep = FIXBufUtils.findNextTagValSep 0 bs
-    let posR, fldOut = Fix44.FieldReadFuncs.ReadPosMaintRptID (posSep+1) bs
+    let posSep = FIXBufUtils.findNextTagValSep bs 0
+    let posR, fldOut = Fix44.FieldReadFuncs.ReadPosMaintRptID bs (posSep+1)
     posW =! posR
     fldIn =! fldOut  
 
@@ -106,8 +106,8 @@ let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) =
 let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldWriteFuncs.WriteMDEntryTime bs 0 fldIn
-    let posSep = FIXBufUtils.findNextTagValSep 0 bs
-    let posR, fldOut = Fix44.FieldReadFuncs.ReadMDEntryTime (posSep+1) bs
+    let posSep = FIXBufUtils.findNextTagValSep bs 0
+    let posR, fldOut = Fix44.FieldReadFuncs.ReadMDEntryTime bs (posSep+1)
     posW =! posR
     fldIn =! fldOut 
 
@@ -115,13 +115,13 @@ let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) =
 
 // a very slow test due to the large number of Field DU instances
 // will re-enable this test occasionally
-//[<FsFixPropertyTest>]
-//let AllFields (fieldIn:FIXField) =
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = WriteField bs 0 fieldIn
-//    let posR, fieldOut = ReadField 0 bs
-//    posW =! posR
-//    fieldIn =! fieldOut  
+[<FsFixPropertyTest>]
+let AllFields (fieldIn:FIXField) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = WriteField bs 0 fieldIn
+    let posR, fieldOut = ReadField 0 bs
+    posW =! posR
+    fieldIn =! fieldOut  
 
 
 

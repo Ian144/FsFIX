@@ -7,16 +7,16 @@ open UTCDateTime
 
 
 // todo: microbenchmark inlining these read funcs
-let ReadSingleCaseDUIntField (pos:int) (bs:byte[]) fldCtor =
-    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadSingleCaseDUIntField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
     let tmp = Conversions.bytesToInt32 valIn
     let fld = fldCtor tmp
     pos2, fld
 
 
 
-let ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) fldCtor =
-    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadSingleCaseDUDecimalField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
     let tmp = Conversions.bytesToDecimal valIn
     let fld = fldCtor tmp
     pos2, fld 
@@ -24,47 +24,47 @@ let ReadSingleCaseDUDecimalField (pos:int) (bs:byte[]) fldCtor =
 
 
 
-let ReadSingleCaseDUBoolField (pos:int) (bs:byte[]) fldCtor =
-    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadSingleCaseDUBoolField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
     let tmp = Conversions.bytesToBool valIn
     let fld = fldCtor tmp
     pos2, fld 
 
 
 
-let ReadSingleCaseDUStrField (pos:int) (bs:byte[]) fldCtor =
-    let pos2, valIn = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadSingleCaseDUStrField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
     let tmp = Conversions.bytesToStr valIn
     let fld = fldCtor tmp
     pos2, fld
 
 
-let ReadSingleCaseDUDataField (pos:int) (bs:byte[]) fldCtor =
-    let pos2, bs = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadSingleCaseDUDataField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, bs = FIXBufUtils.readValAfterTagValSep bs pos
     let fld = fldCtor bs
     pos2, fld
 
 
-let ReadSingleCaseUTCTimeOnlyField  (pos:int) (bs:byte[]) fldCtor =
-    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+let ReadSingleCaseUTCTimeOnlyField  (bs:byte[]) (pos:int) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let tm = UTCDateTime.readUTCTimeOnly bs pos pos2
     pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
-let ReadSingleCaseUTCDateField  (pos:int) (bs:byte[]) fldCtor =
-    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+let ReadSingleCaseUTCDateField  (bs:byte[]) (pos:int) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCDate bs pos pos2
     pos2 + 1,  fldCtor dt
 
-let ReadSingleCaseUTCTimestampField (pos:int) (bs:byte[]) fldCtor =
-    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+let ReadSingleCaseUTCTimestampField (bs:byte[]) (pos:int) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCTimestamp bs pos pos2
     pos2 + 1,  fldCtor dt
 
 // not used in FIX4.4, so not tested at the time of writing
 // TZDateTime.readTZTimeOnly has been tested
-let ReadSingleCaseTZTimeOnlyField (pos:int) (bs:byte[]) fldCtor =
-    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+let ReadSingleCaseTZTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = TZDateTime.readTZTimeOnly bs pos //pos2
     pos2 + 1,  fldCtor dt
 
@@ -72,8 +72,8 @@ let ReadSingleCaseTZTimeOnlyField (pos:int) (bs:byte[]) fldCtor =
 
 
 // all compound fields are of type data (i.e. byte[])
-let ReadLengthDataCompoundField (strTagExpected:byte[]) (pos:int) (bs:byte[]) fldCtor =
-    let nextFieldBeg, lenBytes = FIXBufUtils.readValAfterTagValSep pos bs
+let ReadLengthDataCompoundField (strTagExpected:byte[]) (bs:byte[]) (pos:int) fldCtor =
+    let nextFieldBeg, lenBytes = FIXBufUtils.readValAfterTagValSep bs pos
     let strLen = Conversions.bytesToInt32 lenBytes
     // the len has been read, next read the string
     // the tag read-in must match the expected tag
