@@ -89,9 +89,9 @@ let inline WriteFieldInt (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int 
     let vv = (^T :(member Value:int) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
-    let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
-    let pos3 = pos2 + bs.Length
+    let valBytes = Conversions.ToBytes.Convert(vv)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
@@ -101,9 +101,9 @@ let inline WriteFieldDecimal (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : 
     let vv = (^T :(member Value:decimal) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
-    let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
-    let pos3 = pos2 + bs.Length
+    let valBytes = Conversions.ToBytes.Convert(vv)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
@@ -113,21 +113,21 @@ let inline WriteFieldBool (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int
     let vv = (^T :(member Value:bool) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
-    let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
-    let pos3 = pos2 + bs.Length
+    let valBytes = Conversions.ToBytes.Convert(vv)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
 
 
-let inline WriteFieldStr  (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
+let inline WriteFieldStr (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let strVal = (^T :(member Value:string) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
-    let bs = Conversions.ToBytes.Convert(strVal)
-    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
-    let pos3 = pos2 + bs.Length
+    let valBytes = Conversions.ToBytes.Convert(strVal)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
@@ -176,9 +176,9 @@ let inline WriteFieldData (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int
     let strVal = (^T :(member Value:string) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
-    let bs = Conversions.ToBytes.Convert(strVal)
-    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
-    let pos3 = pos2 + bs.Length
+    let valBytes = Conversions.ToBytes.Convert(strVal)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
