@@ -255,7 +255,7 @@ let private createLenDataFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
             sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" fld.Name fld.Name
-            sprintf "    ReadLengthDataCompoundField \"%d\"B (bs:byte[]) (pos:int) %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
+            sprintf "    ReadLengthDataCompoundField (bs:byte[]) (pos:int) \"%d\"B %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
     ]
     Utils.joinStrs "\n" lines
 
@@ -264,7 +264,7 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound write, of a length field and the corresponding string field"
             sprintf "let Write%s (dest:byte []) (pos:int) (fld:%s) : int =" fld.Name fld.Name
-            sprintf "    WriteFieldLengthData \"%d=\"B \"%d=\"B dest pos fld" fld.LenField.Tag fld.DataField.Tag
+            sprintf "    WriteFieldLengthData dest pos \"%d=\"B \"%d=\"B fld" fld.LenField.Tag fld.DataField.Tag
         ]
     Utils.joinStrs "\n" lines
 

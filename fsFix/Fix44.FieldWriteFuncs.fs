@@ -2074,12 +2074,12 @@ let WriteAllocRejCode (dest:byte array) (nextFreeIdx:int) (xxIn:AllocRejCode) : 
 
 // compound write, of a length field and the corresponding string field
 let WriteSignature (dest:byte []) (pos:int) (fld:Signature) : int =
-    WriteFieldLengthData "93="B "89="B dest pos fld
+    WriteFieldLengthData dest pos "93="B "89="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteSecureData (dest:byte []) (pos:int) (fld:SecureData) : int =
-    WriteFieldLengthData "90="B "91="B dest pos fld
+    WriteFieldLengthData dest pos "90="B "91="B fld
 
 
 let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
@@ -2106,7 +2106,7 @@ let WriteEmailType (dest:byte array) (nextFreeIdx:int) (xxIn:EmailType) : int =
 
 // compound write, of a length field and the corresponding string field
 let WriteRawData (dest:byte []) (pos:int) (fld:RawData) : int =
-    WriteFieldLengthData "95="B "96="B dest pos fld
+    WriteFieldLengthData dest pos "95="B "96="B fld
 
 
 let WritePossResend (dest:byte []) (pos:int) (valIn:PossResend) : int = 
@@ -3765,7 +3765,7 @@ let WritePegOffsetValue (dest:byte []) (pos:int) (valIn:PegOffsetValue) : int =
 
 // compound write, of a length field and the corresponding string field
 let WriteXmlData (dest:byte []) (pos:int) (fld:XmlData) : int =
-    WriteFieldLengthData "212="B "213="B dest pos fld
+    WriteFieldLengthData dest pos "212="B "213="B fld
 
 
 let WriteSettlInstRefID (dest:byte []) (pos:int) (valIn:SettlInstRefID) : int = 
@@ -6078,47 +6078,47 @@ let WriteMessageEncoding (dest:byte array) (nextFreeIdx:int) (xxIn:MessageEncodi
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedIssuer (dest:byte []) (pos:int) (fld:EncodedIssuer) : int =
-    WriteFieldLengthData "348="B "349="B dest pos fld
+    WriteFieldLengthData dest pos "348="B "349="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedSecurityDesc (dest:byte []) (pos:int) (fld:EncodedSecurityDesc) : int =
-    WriteFieldLengthData "350="B "351="B dest pos fld
+    WriteFieldLengthData dest pos "350="B "351="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedListExecInst (dest:byte []) (pos:int) (fld:EncodedListExecInst) : int =
-    WriteFieldLengthData "352="B "353="B dest pos fld
+    WriteFieldLengthData dest pos "352="B "353="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedText (dest:byte []) (pos:int) (fld:EncodedText) : int =
-    WriteFieldLengthData "354="B "355="B dest pos fld
+    WriteFieldLengthData dest pos "354="B "355="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedSubject (dest:byte []) (pos:int) (fld:EncodedSubject) : int =
-    WriteFieldLengthData "356="B "357="B dest pos fld
+    WriteFieldLengthData dest pos "356="B "357="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedHeadline (dest:byte []) (pos:int) (fld:EncodedHeadline) : int =
-    WriteFieldLengthData "358="B "359="B dest pos fld
+    WriteFieldLengthData dest pos "358="B "359="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedAllocText (dest:byte []) (pos:int) (fld:EncodedAllocText) : int =
-    WriteFieldLengthData "360="B "361="B dest pos fld
+    WriteFieldLengthData dest pos "360="B "361="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedUnderlyingIssuer (dest:byte []) (pos:int) (fld:EncodedUnderlyingIssuer) : int =
-    WriteFieldLengthData "362="B "363="B dest pos fld
+    WriteFieldLengthData dest pos "362="B "363="B fld
 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedUnderlyingSecurityDesc (dest:byte []) (pos:int) (fld:EncodedUnderlyingSecurityDesc) : int =
-    WriteFieldLengthData "364="B "365="B dest pos fld
+    WriteFieldLengthData dest pos "364="B "365="B fld
 
 
 let WriteAllocPrice (dest:byte []) (pos:int) (valIn:AllocPrice) : int = 
@@ -7207,7 +7207,7 @@ let WriteListStatusText (dest:byte []) (pos:int) (valIn:ListStatusText) : int =
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedListStatusText (dest:byte []) (pos:int) (fld:EncodedListStatusText) : int =
-    WriteFieldLengthData "445="B "446="B dest pos fld
+    WriteFieldLengthData dest pos "445="B "446="B fld
 
 
 let WritePartyIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:PartyIDSource) : int =
@@ -9772,7 +9772,7 @@ let WriteLegIssuer (dest:byte []) (pos:int) (valIn:LegIssuer) : int =
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedLegIssuer (dest:byte []) (pos:int) (fld:EncodedLegIssuer) : int =
-    WriteFieldLengthData "618="B "619="B dest pos fld
+    WriteFieldLengthData dest pos "618="B "619="B fld
 
 
 let WriteLegSecurityDesc (dest:byte []) (pos:int) (valIn:LegSecurityDesc) : int = 
@@ -9781,7 +9781,7 @@ let WriteLegSecurityDesc (dest:byte []) (pos:int) (valIn:LegSecurityDesc) : int 
 
 // compound write, of a length field and the corresponding string field
 let WriteEncodedLegSecurityDesc (dest:byte []) (pos:int) (fld:EncodedLegSecurityDesc) : int =
-    WriteFieldLengthData "621="B "622="B dest pos fld
+    WriteFieldLengthData dest pos "621="B "622="B fld
 
 
 let WriteLegRatioQty (dest:byte []) (pos:int) (valIn:LegRatioQty) : int = 

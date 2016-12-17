@@ -45,13 +45,13 @@ let ReadSingleCaseDUDataField (bs:byte[]) (pos:int) fldCtor =
     pos2, fld
 
 
-let ReadSingleCaseUTCTimeOnlyField  (bs:byte[]) (pos:int) fldCtor =
+let ReadSingleCaseUTCTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let tm = UTCDateTime.readUTCTimeOnly bs pos pos2
     pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
-let ReadSingleCaseUTCDateField  (bs:byte[]) (pos:int) fldCtor =
+let ReadSingleCaseUTCDateField (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCDate bs pos pos2
     pos2 + 1,  fldCtor dt
@@ -72,7 +72,7 @@ let ReadSingleCaseTZTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
 
 
 // all compound fields are of type data (i.e. byte[])
-let ReadLengthDataCompoundField (strTagExpected:byte[]) (bs:byte[]) (pos:int) fldCtor =
+let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (strTagExpected:byte[]) fldCtor =
     let nextFieldBeg, lenBytes = FIXBufUtils.readValAfterTagValSep bs pos
     let strLen = Conversions.bytesToInt32 lenBytes
     // the len has been read, next read the string
@@ -85,158 +85,122 @@ let ReadLengthDataCompoundField (strTagExpected:byte[]) (bs:byte[]) (pos:int) fl
 
 
 // todo: how could one func replace the WriteFieldXXX funcs
-let inline WriteFieldInt
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldInt (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let vv = (^T :(member Value:int) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
     let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
+    let pos3 = pos2 + bs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 
-let inline WriteFieldDecimal
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldDecimal (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let vv = (^T :(member Value:decimal) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
     let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
+    let pos3 = pos2 + bs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 
-let inline WriteFieldBool
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldBool (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let vv = (^T :(member Value:bool) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
     let bs = Conversions.ToBytes.Convert(vv)
-    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
+    let pos3 = pos2 + bs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 
-let inline WriteFieldStr 
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldStr  (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let strVal = (^T :(member Value:string) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
     let bs = Conversions.ToBytes.Convert(strVal)
-    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
+    let pos3 = pos2 + bs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
-let inline WriteFieldUTCTimeOnly
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldUTCTimeOnly (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let tm = (^T :(member Value:UTCTimeOnly) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  UTCDateTime.writeUTCTimeOnly tm dest nextFreeIdx2
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  UTCDateTime.writeUTCTimeOnly tm bs pos2
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
-let inline WriteFieldUTCDate
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldUTCDate (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let tm = (^T :(member Value:UTCDate) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  UTCDateTime.writeUTCDate tm dest nextFreeIdx2
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  UTCDateTime.writeUTCDate tm bs pos2
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
-let inline WriteFieldUTCTimestamp
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldUTCTimestamp (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let tm = (^T :(member Value:UTCTimestamp) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  UTCDateTime.writeUTCTimestamp tm dest nextFreeIdx2
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  UTCDateTime.writeUTCTimestamp tm bs pos2
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 
 // not used in FIX4.4, so not tested at the time of writing
 // functions called by TZDateTime.writeTZTimeOnly have been tested
-let inline WriteFieldTZTimeOnly
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldTZTimeOnly (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let tm = (^T :(member Value:TZDateTime.TZTimeOnly) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
-    let nextFreeIdx3 =  TZDateTime.writeTZTimeOnly dest nextFreeIdx2 tm
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  TZDateTime.writeTZTimeOnly bs pos2 tm
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 
-let inline WriteFieldData
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (tag:byte[]) 
-        (fieldIn:^T) : int = 
+let inline WriteFieldData (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let strVal = (^T :(member Value:string) fieldIn)
-    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
     let bs = Conversions.ToBytes.Convert(strVal)
-    Buffer.BlockCopy (bs, 0, dest, nextFreeIdx2, bs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + bs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (bs, 0, bs, pos2, bs.Length)
+    let pos3 = pos2 + bs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
-// compound write, of a compound length data field
-let inline WriteFieldLengthData (lenTag:byte[]) (dataTag:byte[]) (dest:byte []) (nextFreeIdx:int) (fieldIn:^T) : int =
+// compound write, of a compound length+data field
+let inline WriteFieldLengthData (bs:byte []) (pos:int) (lenTag:byte[]) (dataTag:byte[]) (fieldIn:^T) : int =
     let dataBs = (^T :(member Value:byte[]) fieldIn)
     // write the len part of the field
-    Buffer.BlockCopy (lenTag, 0, dest, nextFreeIdx, lenTag.Length)
-    let nextFreeIdx2 = nextFreeIdx + lenTag.Length
+    Buffer.BlockCopy (lenTag, 0, bs, pos, lenTag.Length)
+    let pos2 = pos + lenTag.Length
     let lenBs = ToBytes.Convert dataBs.Length
-    Buffer.BlockCopy (lenBs, 0, dest, nextFreeIdx2, lenBs.Length)
-    let nextFreeIdx3 = nextFreeIdx2 + lenBs.Length
-    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
-    let nextFreeIdx4 = nextFreeIdx3 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (lenBs, 0, bs, pos2, lenBs.Length)
+    let pos3 = pos2 + lenBs.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    let pos4 = pos3 + 1 // +1 to move past the delimeter
     // write the data part of the compound field
-    Buffer.BlockCopy (dataTag, 0, dest, nextFreeIdx4, dataTag.Length)
-    let nextFreeIdx5 = nextFreeIdx4 + dataTag.Length
-    Buffer.BlockCopy (dataBs, 0, dest, nextFreeIdx5, dataBs.Length)
-    let nextFreeIdx6 = nextFreeIdx5 + dataBs.Length
-    dest.[nextFreeIdx6] <- 1uy // write the SOH field delimeter
-    nextFreeIdx6 + 1 // +1 to move past the delimeter
+    Buffer.BlockCopy (dataTag, 0, bs, pos4, dataTag.Length)
+    let pos5 = pos4 + dataTag.Length
+    Buffer.BlockCopy (dataBs, 0, bs, pos5, dataBs.Length)
+    let pos6 = pos5 + dataBs.Length
+    bs.[pos6] <- 1uy // write the SOH field delimeter
+    pos6 + 1 // +1 to move past the delimeter
 
 
 

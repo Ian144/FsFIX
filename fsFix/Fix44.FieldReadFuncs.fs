@@ -712,12 +712,12 @@ let ReadAllocRejCode (bs:byte[]) (pos:int) : (int * AllocRejCode) =
 
 // compound read
 let ReadSignature (bs:byte[]) (pos:int) : (int * Signature) =
-    ReadLengthDataCompoundField "89"B (bs:byte[]) (pos:int) Signature.Signature
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "89"B Signature.Signature
 
 
 // compound read
 let ReadSecureData (bs:byte[]) (pos:int) : (int * SecureData) =
-    ReadLengthDataCompoundField "91"B (bs:byte[]) (pos:int) SecureData.SecureData
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "91"B SecureData.SecureData
 
 
 let ReadEmailType (bs:byte[]) (pos:int) : (int * EmailType) =
@@ -733,7 +733,7 @@ let ReadEmailType (bs:byte[]) (pos:int) : (int * EmailType) =
 
 // compound read
 let ReadRawData (bs:byte[]) (pos:int) : (int * RawData) =
-    ReadLengthDataCompoundField "96"B (bs:byte[]) (pos:int) RawData.RawData
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "96"B RawData.RawData
 
 
 let ReadPossResend (bs:byte[]) (pos:int): (int*PossResend) =
@@ -1399,7 +1399,7 @@ let ReadPegOffsetValue (bs:byte[]) (pos:int): (int*PegOffsetValue) =
 
 // compound read
 let ReadXmlData (bs:byte[]) (pos:int) : (int * XmlData) =
-    ReadLengthDataCompoundField "213"B (bs:byte[]) (pos:int) XmlData.XmlData
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "213"B XmlData.XmlData
 
 
 let ReadSettlInstRefID (bs:byte[]) (pos:int): (int*SettlInstRefID) =
@@ -2350,47 +2350,47 @@ let ReadMessageEncoding (bs:byte[]) (pos:int) : (int * MessageEncoding) =
 
 // compound read
 let ReadEncodedIssuer (bs:byte[]) (pos:int) : (int * EncodedIssuer) =
-    ReadLengthDataCompoundField "349"B (bs:byte[]) (pos:int) EncodedIssuer.EncodedIssuer
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "349"B EncodedIssuer.EncodedIssuer
 
 
 // compound read
 let ReadEncodedSecurityDesc (bs:byte[]) (pos:int) : (int * EncodedSecurityDesc) =
-    ReadLengthDataCompoundField "351"B (bs:byte[]) (pos:int) EncodedSecurityDesc.EncodedSecurityDesc
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "351"B EncodedSecurityDesc.EncodedSecurityDesc
 
 
 // compound read
 let ReadEncodedListExecInst (bs:byte[]) (pos:int) : (int * EncodedListExecInst) =
-    ReadLengthDataCompoundField "353"B (bs:byte[]) (pos:int) EncodedListExecInst.EncodedListExecInst
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "353"B EncodedListExecInst.EncodedListExecInst
 
 
 // compound read
 let ReadEncodedText (bs:byte[]) (pos:int) : (int * EncodedText) =
-    ReadLengthDataCompoundField "355"B (bs:byte[]) (pos:int) EncodedText.EncodedText
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "355"B EncodedText.EncodedText
 
 
 // compound read
 let ReadEncodedSubject (bs:byte[]) (pos:int) : (int * EncodedSubject) =
-    ReadLengthDataCompoundField "357"B (bs:byte[]) (pos:int) EncodedSubject.EncodedSubject
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "357"B EncodedSubject.EncodedSubject
 
 
 // compound read
 let ReadEncodedHeadline (bs:byte[]) (pos:int) : (int * EncodedHeadline) =
-    ReadLengthDataCompoundField "359"B (bs:byte[]) (pos:int) EncodedHeadline.EncodedHeadline
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "359"B EncodedHeadline.EncodedHeadline
 
 
 // compound read
 let ReadEncodedAllocText (bs:byte[]) (pos:int) : (int * EncodedAllocText) =
-    ReadLengthDataCompoundField "361"B (bs:byte[]) (pos:int) EncodedAllocText.EncodedAllocText
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "361"B EncodedAllocText.EncodedAllocText
 
 
 // compound read
 let ReadEncodedUnderlyingIssuer (bs:byte[]) (pos:int) : (int * EncodedUnderlyingIssuer) =
-    ReadLengthDataCompoundField "363"B (bs:byte[]) (pos:int) EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "363"B EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
 
 
 // compound read
 let ReadEncodedUnderlyingSecurityDesc (bs:byte[]) (pos:int) : (int * EncodedUnderlyingSecurityDesc) =
-    ReadLengthDataCompoundField "365"B (bs:byte[]) (pos:int) EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "365"B EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
 
 
 let ReadAllocPrice (bs:byte[]) (pos:int): (int*AllocPrice) =
@@ -2921,7 +2921,7 @@ let ReadListStatusText (bs:byte[]) (pos:int): (int*ListStatusText) =
 
 // compound read
 let ReadEncodedListStatusText (bs:byte[]) (pos:int) : (int * EncodedListStatusText) =
-    ReadLengthDataCompoundField "446"B (bs:byte[]) (pos:int) EncodedListStatusText.EncodedListStatusText
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "446"B EncodedListStatusText.EncodedListStatusText
 
 
 let ReadPartyIDSource (bs:byte[]) (pos:int) : (int * PartyIDSource) =
@@ -4088,7 +4088,7 @@ let ReadLegIssuer (bs:byte[]) (pos:int): (int*LegIssuer) =
 
 // compound read
 let ReadEncodedLegIssuer (bs:byte[]) (pos:int) : (int * EncodedLegIssuer) =
-    ReadLengthDataCompoundField "619"B (bs:byte[]) (pos:int) EncodedLegIssuer.EncodedLegIssuer
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "619"B EncodedLegIssuer.EncodedLegIssuer
 
 
 let ReadLegSecurityDesc (bs:byte[]) (pos:int): (int*LegSecurityDesc) =
@@ -4097,7 +4097,7 @@ let ReadLegSecurityDesc (bs:byte[]) (pos:int): (int*LegSecurityDesc) =
 
 // compound read
 let ReadEncodedLegSecurityDesc (bs:byte[]) (pos:int) : (int * EncodedLegSecurityDesc) =
-    ReadLengthDataCompoundField "622"B (bs:byte[]) (pos:int) EncodedLegSecurityDesc.EncodedLegSecurityDesc
+    ReadLengthDataCompoundField (bs:byte[]) (pos:int) "622"B EncodedLegSecurityDesc.EncodedLegSecurityDesc
 
 
 let ReadLegRatioQty (bs:byte[]) (pos:int): (int*LegRatioQty) =
