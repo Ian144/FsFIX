@@ -1,4 +1,4 @@
-﻿module UTCDateTimex
+﻿module UTCDateTime
 
 open DateTimeUtils
 

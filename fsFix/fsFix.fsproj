@@ -48,7 +48,7 @@
     <Compile Include="Conversions.fs" />
     <Compile Include="FIXBufUtils.fs" />
     <Compile Include="DateTimeUtils.fs" />
-    <Compile Include="UTCDateTimex.fs" />
+    <Compile Include="UTCDateTime.fs" />
     <Compile Include="TZDateTime.fs" />
     <Compile Include="StreamUtils.fs" />
     <Compile Include="ReaderUtils.fs" />

@@ -29,8 +29,8 @@ let findNextFieldTerm (pos:int) (bs:byte[]) = findNext 1uy pos bs
 
 let findNextTagValSep (pos:int) (bs:byte[]) = findNext 61uy pos bs
 
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 /// returns the index of first char after the field value and the value itself
+/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 let readValAfterTagValSep (pos:int) (bs:byte[]) =
     // byte value of '=' is 61
     if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"

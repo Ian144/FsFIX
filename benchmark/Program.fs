@@ -55,7 +55,7 @@ type BenchmarkWriteLogon () =
     member val SenderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
     member val TargetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
     member val MsgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99
-    member val SendingTime:SendingTime = SendingTime.SendingTime (UTCDateTimex.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
+    member val SendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
 
 
     member val logonMsg:Fix44.Messages.Logon = {

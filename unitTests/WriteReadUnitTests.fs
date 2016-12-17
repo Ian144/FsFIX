@@ -58,7 +58,7 @@ let MassQuoteNoQuoteEntriesGrp () =
 [<Fact>]
 let MarketDataIncrementalRefreshNoMDEntriesGrp () =
     let bs = Array.zeroCreate<byte> 1024    
-    let tm = UTCDateTimex.MakeUTCTimeOnly.Make (13, 59, 25, 377)
+    let tm = UTCDateTime.MakeUTCTimeOnly.Make (13, 59, 25, 377)
     let xIn:MarketDataIncrementalRefreshNoMDEntriesGrp = 
           {MDUpdateAction = MDUpdateAction.New;
            DeleteReason = None;

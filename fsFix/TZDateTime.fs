@@ -98,11 +98,11 @@ let readTZOffset (bs:byte[]) (pos:int) =
 
 let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
     match offSet with 
-    | UTC                       ->  bs.[pos] <- 90uy; (pos + 1)
-    | PosOffsetHH hh            ->  bs.[pos] <- 43uy
+    | UTC                       ->  bs.[pos] <- 90uy; (pos + 1)     // write Z
+    | PosOffsetHH hh            ->  bs.[pos] <- 43uy                // write +
                                     DateTimeUtils.write2ByteInt bs (pos+1) hh
                                     (pos + 3)
-    | NegOffsetHH hh            ->  bs.[pos] <- 45uy
+    | NegOffsetHH hh            ->  bs.[pos] <- 45uy                // write -
                                     DateTimeUtils.write2ByteInt bs (pos+1) hh
                                     (pos + 3)
     | NegOffsetHHmm (hh, mm)    ->  bs.[pos] <- 45uy
@@ -135,4 +135,53 @@ type MakeTZTimeOnly private () =
         | false -> let msg = sprintf "invalid TZTimeOnly, %d:%d:%d" hh mm ss
                    failwith msg
                    
+
+
+let inline private isOffsetMarker (bb:byte) = 
+    match bb with 
+    | 90uy | 43uy | 45uy    -> true
+    | _                     -> false
+
+
+// throw if not found
+// only look 5 and 8 bytes ahead, TZ is either hh:mm or hh:mm:ss
+let inline private findNextOffsetMarker (pos:int) (bs:byte[]) =
+    if bs.[pos+5] |> isOffsetMarker then
+        5
+    elif bs.[pos+8] |> isOffsetMarker then
+        8
+    else
+        failwith "could not find offset market in TZTimeOnly"
+
+
+let readTZOnly (bs:byte[]) (pos:int) =
+    let offSetMarkerPos = findNextOffsetMarker pos bs
+    match offSetMarkerPos with 
+    | 5 ->  let hh, mm = DateTimeUtils.readHHMMints bs pos
+            let posOut, offset = readTZOffset bs (pos+5)
+            let tm = MakeTZTimeOnly.Make (offset, hh, mm)
+            posOut, tm
+    | 8 ->  let hh, mm, ss = DateTimeUtils.readHHMMSSints bs pos
+            let posOut, offset = readTZOffset bs (pos+8)
+            let tm = MakeTZTimeOnly.Make (offset, hh, mm, ss)
+            posOut, tm
+    | _ ->  failwith "invalid offset marker reading TZTimeOnly"
+
+
+let writeTZTimeOnly (bs:byte[]) (pos:int) (tm:TZTimeOnly) : int =
+    match tm with 
+    | TZTimeOnly    (offset, hh, mm)    ->
+        write2ByteInt bs pos hh
+        bs.[pos + 2] <- 58uy // write the ':'
+        write2ByteInt bs (pos+3) mm
+        writeTZOffset bs (pos+5) offset
+    | TZTimeOnlySS  (offset, hh, mm, ss) -> 
+        write2ByteInt bs pos hh
+        bs.[pos + 2] <- 58uy // write the ':'
+        write2ByteInt bs (pos+3) mm
+        bs.[pos + 5] <- 58uy // write the ':'
+        write2ByteInt bs (pos+6) ss
+        writeTZOffset bs (pos+8) offset
+
+
 

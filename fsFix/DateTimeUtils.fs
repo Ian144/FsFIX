@@ -46,30 +46,36 @@ let inline write4ByteInt (bs:byte[]) (pos:int) (n:int) : unit =
 
 
 let inline bytes2ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos] - 48uy |> int
+    let d1 = bs.[pos  ] - 48uy |> int
     let d2 = bs.[pos+1] - 48uy |> int
     d1 * 10 + d2
 
 
 
 let inline bytes3ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos]   - 48uy |> int
+    let d1 = bs.[pos  ] - 48uy |> int
     let d2 = bs.[pos+1] - 48uy |> int
     let d3 = bs.[pos+2] - 48uy |> int
     d1 * 100 + d2 * 10 + d3
 
 let inline bytes4ToInt (bs:byte[]) (pos:int) : int =
-    let d1 = bs.[pos]   - 48uy |> int
+    let d1 = bs.[pos  ] - 48uy |> int
     let d2 = bs.[pos+1] - 48uy |> int
     let d3 = bs.[pos+2] - 48uy |> int
     let d4 = bs.[pos+3] - 48uy |> int
     d1 * 1000 + d2 * 100 + d3 * 10 + d4
 
 
+let inline readHHMMints (bs:byte[]) (begPos:int) = 
+    let hh = bytes2ToInt bs begPos
+    let mm = bytes2ToInt bs (begPos + 3) // skip the :
+    hh, mm
+
+
 let inline readHHMMSSints (bs:byte[]) (begPos:int) = 
     let hh = bytes2ToInt bs begPos
-    let mm = bytes2ToInt bs (begPos + 3)
-    let ss = bytes2ToInt bs (begPos + 6)
+    let mm = bytes2ToInt bs (begPos + 3) // skip the :
+    let ss = bytes2ToInt bs (begPos + 6) // skip the :
     hh, mm, ss
 
 

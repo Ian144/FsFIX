@@ -7,9 +7,9 @@ open Swensen.Unquote
 
 [<Fact>]
 let ``write valid yyyyddmm to bytes`` () =
-    let xIn = UTCDateTimex.MakeUTCDate (1999, 12, 31)
+    let xIn = UTCDateTime.MakeUTCDate (1999, 12, 31)
     let bs = Array.zeroCreate<byte> 8
-    let posOut = UTCDateTimex.writeUTCDate xIn bs 0
+    let posOut = UTCDateTime.writeUTCDate xIn bs 0
     let expected = "19991231"B
     posOut =! 8
     expected =! bs
@@ -17,15 +17,15 @@ let ``write valid yyyyddmm to bytes`` () =
 
 [<Fact>]
 let ``read valid hhmmss from bytes`` () =
-    let dt = UTCDateTimex.readUTCDate "19991231"B 0 8
-    let expected = UTCDateTimex.MakeUTCDate (1999, 12, 31)
+    let dt = UTCDateTime.readUTCDate "19991231"B 0 8
+    let expected = UTCDateTime.MakeUTCDate (1999, 12, 31)
     expected =! dt
 
 
 [<Fact>]
 let ``make invalid year UTCDate`` () =
     try
-        UTCDateTimex.MakeUTCDate (99999, 12, 31) |> ignore
+        UTCDateTime.MakeUTCDate (99999, 12, 31) |> ignore
         false // MakeUTCDate should throw
     with
     |   ex -> true
@@ -34,7 +34,7 @@ let ``make invalid year UTCDate`` () =
 [<Fact>]
 let ``make invalid month UTCDate`` () =
     try
-        UTCDateTimex.MakeUTCDate (2016, 13, 31) |> ignore
+        UTCDateTime.MakeUTCDate (2016, 13, 31) |> ignore
         false // MakeUTCDate should throw
     with
     |   ex -> true
@@ -43,7 +43,7 @@ let ``make invalid month UTCDate`` () =
 [<Fact>]
 let ``make invalid month 2 UTCDate`` () =
     try
-        UTCDateTimex.MakeUTCDate (2016, 0, 31) |> ignore
+        UTCDateTime.MakeUTCDate (2016, 0, 31) |> ignore
         false // MakeUTCDate should throw
     with
     |   ex -> true
@@ -52,7 +52,7 @@ let ``make invalid month 2 UTCDate`` () =
 [<Fact>]
 let ``make invalid day UTCDate`` () =
     try
-        UTCDateTimex.MakeUTCDate (2016, 01, 32) |> ignore
+        UTCDateTime.MakeUTCDate (2016, 01, 32) |> ignore
         false // MakeUTCDate should throw
     with
     |   ex -> true
@@ -61,7 +61,7 @@ let ``make invalid day UTCDate`` () =
 [<Fact>]
 let ``make invalid day 2 UTCDate`` () =
     try
-        UTCDateTimex.MakeUTCDate (2016, 01, 0) |> ignore
+        UTCDateTime.MakeUTCDate (2016, 01, 0) |> ignore
         false // MakeUTCDate should throw
     with
     |   ex -> true
