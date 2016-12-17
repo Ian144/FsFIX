@@ -142,3 +142,37 @@ let private genHHmmTZTimeOnlyHHmmSS = gen{
 
 
 let genTZTimeOnly = Gen.frequency [1, genHHmmTZTimeOnlyHHmm; 1, genHHmmTZTimeOnlyHHmmSS ]
+
+
+
+
+
+// MonthYear
+
+
+let private genMonthYearYYYYMM = 
+        gen {
+            let! yy = Gen.choose(0, 9999)
+            let! mm = Gen.choose(1, 12)
+            return MonthYear.MakeMonthYear.Make (yy, mm)
+        }
+
+let private genMonthYearYYYYMMDD = 
+        gen {
+            let! yy = Gen.choose(0, 9999)
+            let! mm = Gen.choose(1, 12)
+            let! dd = Gen.choose(1, 31)
+            return MonthYear.MakeMonthYear.Make(yy, mm, dd)
+        }
+
+
+let private genMonthYearYYYYMMWW = 
+        gen {
+            let! yy = Gen.choose(0, 9999)
+            let! mm = Gen.choose(1, 12)
+            let! (ww:MonthYear.Week) = Gen.elements [MonthYear.Week.W1; MonthYear.Week.W2; MonthYear.Week.W3; MonthYear.Week.W4; MonthYear.Week.W5 ]
+            return MonthYear.MakeMonthYear.Make(yy, mm, ww)
+        }
+
+let genMonthYear = Gen.frequency [1, genMonthYearYYYYMM; 1,genMonthYearYYYYMMDD; 1, genMonthYearYYYYMMWW]
+

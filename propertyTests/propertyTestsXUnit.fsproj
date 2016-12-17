@@ -60,8 +60,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="App.config" />
     <Compile Include="DateTimeGenerators.fs" />
-    <None Include="paket.references" />
     <Compile Include="WriteReadPropTests.fs" />
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

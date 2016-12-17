@@ -45,12 +45,12 @@ type ArbOverrides() =
     static member UTCDate()         = Arb.fromGen genUTCDate
     static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
     static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
-
+    static member MonthYear()       = Arb.fromGen genMonthYear
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
+        MaxTest = 1000,
         EndSize = 4,
         Verbose = false
 //        QuietOnSuccess = true
@@ -104,6 +104,18 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     tIn =! tOut
 
 
+let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    bs.[posW] <- 1uy
+    let posR, tOut = readFunc bs 0
+    posW =! posR
+    tIn =! tOut
+
+
+[<FsFixPropertyTest>]
+let monthYear (tm:MonthYear.MonthYear) = WriteReadTestAppendFieldTerm tm MonthYear.write MonthYear.read
+
 
 [<FsFixPropertyTest>]
 let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  WriteReadTest tm TZDateTime.writeTZTimeOnly TZDateTime.readTZTimeOnly
@@ -116,7 +128,6 @@ let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadTest msg Fix44.Ms
 // msg containing a 'NoSides' group
 [<FsFixPropertyTest>]
 let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = WriteReadTest msg Fix44.MsgWriteFuncs.WriteNewOrderCross Fix44.MsgReadFuncs.ReadNewOrderCross
-
 
 
 [<FsFixPropertyTest>]

@@ -69,8 +69,6 @@ let private readWeek (bs:byte[]) (pos:int) =
 
 
 let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
-    let wByte = bs.[pos]
-    let nByte = bs.[pos+1]
     match ww with
     | W1    ->  bs.[pos] <- 119uy; bs.[pos+1] <- 49uy
     | W2    ->  bs.[pos] <- 119uy; bs.[pos+1] <- 50uy
@@ -80,7 +78,7 @@ let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
 
 
 
-let readYYYYMM (bs:byte[]) (pos:int) : int*MonthYear =
+let read (bs:byte[]) (pos:int) : int*MonthYear =
     let endPos = FIXBufUtils.findNextFieldTermOrEnd bs pos
     match endPos - pos with
     | 6 -> // YYYYMM
@@ -104,7 +102,7 @@ let readYYYYMM (bs:byte[]) (pos:int) : int*MonthYear =
 
 
 
-let writeYYYYMM (bs:byte[]) (pos:int) (ym:MonthYear) : int =
+let write (bs:byte[]) (pos:int) (ym:MonthYear) : int =
     match ym with
     | YYYYMM (yy, mth)          -> 
         write4ByteInt bs pos yy

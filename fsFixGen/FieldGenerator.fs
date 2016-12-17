@@ -157,7 +157,7 @@ let private createFieldTypes (field:SimpleField) =
     | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"     //todo: store length as a uint??
     | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
-    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MONTHYEAR" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
+    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
     | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store numingroup as a uint?
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
