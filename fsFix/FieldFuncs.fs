@@ -61,6 +61,12 @@ let ReadSingleCaseUTCTimestampField (pos:int) (bs:byte[]) fldCtor =
     let dt = UTCDateTime.readUTCTimestamp bs pos pos2
     pos2 + 1,  fldCtor dt
 
+// not used in FIX4.4, so not tested at the time of writing
+// TZDateTime.readTZTimeOnly has been tested
+let ReadSingleCaseTZTimeOnlyField (pos:int) (bs:byte[]) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd pos bs
+    let dt = TZDateTime.readTZTimeOnly bs pos //pos2
+    pos2 + 1,  fldCtor dt
 
 
 
@@ -182,6 +188,19 @@ let inline WriteFieldUTCTimestamp
 
 
 
+// not used in FIX4.4, so not tested at the time of writing
+// functions called by TZDateTime.writeTZTimeOnly have been tested
+let inline WriteFieldTZTimeOnly
+        (dest:byte []) 
+        (nextFreeIdx:int) 
+        (tag:byte[]) 
+        (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:TZDateTime.TZTimeOnly) fieldIn)
+    Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+    let nextFreeIdx2 = nextFreeIdx + tag.Length
+    let nextFreeIdx3 =  TZDateTime.writeTZTimeOnly dest nextFreeIdx2 tm
+    dest.[nextFreeIdx3] <- 1uy // write the SOH field delimeter
+    nextFreeIdx3 + 1 // +1 to move past the delimeter
 
 
 

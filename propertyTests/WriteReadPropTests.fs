@@ -57,14 +57,16 @@ type FsFixPropertyTest() =
         )
 
 
-[<FsFixPropertyTest>]
-let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = TZDateTime.writeTZTimeOnly bs 0 tm
-    let posR, tmOut = TZDateTime.readTZTimeOnly bs 0
-    posW =! posR
-    tm =! tmOut
 
+let genWriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    let posR, tOut = readFunc bs 0
+    posW =! posR
+    tIn =! tOut
+
+[<FsFixPropertyTest>]
+let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  genWriteReadTest tm TZDateTime.writeTZTimeOnly TZDateTime.readTZTimeOnly
 
 
 
