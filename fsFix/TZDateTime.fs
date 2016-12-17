@@ -63,39 +63,35 @@ type MakeTZOffset private () =
 
 
 
+let inline private readNonUTC (isPos:bool) (bs:byte[]) pos =
+    let isHHmm = bs.Length > (pos+3) && bs.[pos+3] = 58uy // if there is a ':' 3 chars hence
+    if isHHmm then
+        let hh, mm = DateTimeUtils.readHHMMints bs (pos+1)
+        match isPos with
+        | true  -> pos+6, MakeTZOffset.Make (43uy, hh, mm)
+        | false -> pos+6, MakeTZOffset.Make (45uy, hh, mm)
+    else
+        // is an hour only offset (no minutes component)
+        let hhD1 = bs.[pos+1] - 48uy |> int
+        let hhD2 = bs.[pos+2] - 48uy |> int
+        let hh = hhD1 * 10 + hhD2
+        match isPos with
+        | true  -> pos+3, MakeTZOffset.Make (43uy, hh)
+        | false -> pos+3, MakeTZOffset.Make (45uy, hh)
+        
+
 let readTZOffset (bs:byte[]) (pos:int) =
-    let inline readZ (bs:byte[]) (pos:int) = // assume Z|+|- is at pos
-        let zone = bs.[pos]
-        zone
-    let inline readZHH (bs:byte[]) (pos:int) = // assume Z|+|- is at pos, HH
-        let zone = bs.[pos]
-        let hhD1 = bs.[pos+1] - 48uy |> int
-        let hhD2 = bs.[pos+2] - 48uy |> int
-        let hh = hhD1 * 10 + hhD2
-        zone, hh
-    let inline readZHHmm (bs:byte[]) (pos:int) = // assume Z|+|- is at pos, HH MM
-        let zone = bs.[pos]
-        let hhD1 = bs.[pos+1] - 48uy |> int
-        let hhD2 = bs.[pos+2] - 48uy |> int
-        let mmD1 = bs.[pos+4] - 48uy |> int
-        let mmD2 = bs.[pos+5] - 48uy |> int
-        let hh = hhD1 * 10 + hhD2
-        let mm = mmD1 * 10 + mmD2
-        zone, hh, mm
     let nextFieldSepOrEnd = FIXBufUtils.findNextFieldTermOrEnd pos bs
-    let offsetLen = nextFieldSepOrEnd - pos
-    match offsetLen with
-    | 1 ->  let zone = readZ bs pos
-            let offset = MakeTZOffset.Make zone
-            nextFieldSepOrEnd, offset
-    | 3 ->  let zone, hh = readZHH bs pos
-            let offset = MakeTZOffset.Make (zone, hh)
-            nextFieldSepOrEnd, offset
-    | 6 ->  let zone, hh, mm = readZHHmm bs pos
-            let offset = MakeTZOffset.Make (zone, hh, mm)
-            nextFieldSepOrEnd, offset
-    | _ ->  let msg = sprintf "invalid TZOffset length: %d" offsetLen
-            failwith msg 
+    if bs.[pos] = 90uy then // next byte is a 'Z', meaning UTC offset
+        (pos+1), TZOffset.UTC
+    elif bs.[pos] = 43uy then // positive offset
+        readNonUTC true bs pos
+    elif bs.[pos] = 45uy then // negative offset
+        readNonUTC false bs pos
+    else
+        let msg = sprintf "invalid TZOffset starting at pos: %d" pos
+        failwith msg
+
 
 
 let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =

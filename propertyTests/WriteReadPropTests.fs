@@ -44,6 +44,8 @@ type ArbOverrides() =
     static member UTCTimeOnly()     = Arb.fromGen genUTCTimeOnly
     static member UTCDate()         = Arb.fromGen genUTCDate
     static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
+    static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
+
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
@@ -53,6 +55,17 @@ type FsFixPropertyTest() =
         Verbose = false
 //        QuietOnSuccess = true
         )
+
+
+[<FsFixPropertyTest>]
+let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = TZDateTime.writeTZTimeOnly bs 0 tm
+    let posR, tmOut = TZDateTime.readTZTimeOnly bs 0
+    posW =! posR
+    tm =! tmOut
+
+
 
 
 // a simple msg
