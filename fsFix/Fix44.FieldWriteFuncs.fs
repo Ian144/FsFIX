@@ -95,7 +95,7 @@ let WriteClOrdID (dest:byte []) (pos:int) (valIn:ClOrdID) : int =
 
 
 let WriteCommission (dest:byte []) (pos:int) (valIn:Commission) : int = 
-    WriteFieldInt dest pos "12="B valIn
+    WriteFieldDecimal dest pos "12="B valIn
 
 
 let WriteCommType (dest:byte array) (nextFreeIdx:int) (xxIn:CommType) : int =
@@ -2486,11 +2486,11 @@ let WriteQuoteID (dest:byte []) (pos:int) (valIn:QuoteID) : int =
 
 
 let WriteNetMoney (dest:byte []) (pos:int) (valIn:NetMoney) : int = 
-    WriteFieldInt dest pos "118="B valIn
+    WriteFieldDecimal dest pos "118="B valIn
 
 
 let WriteSettlCurrAmt (dest:byte []) (pos:int) (valIn:SettlCurrAmt) : int = 
-    WriteFieldInt dest pos "119="B valIn
+    WriteFieldDecimal dest pos "119="B valIn
 
 
 let WriteSettlCurrency (dest:byte []) (pos:int) (valIn:SettlCurrency) : int = 
@@ -2600,7 +2600,7 @@ let WriteNoMiscFees (dest:byte []) (pos:int) (valIn:NoMiscFees) : int =
 
 
 let WriteMiscFeeAmt (dest:byte []) (pos:int) (valIn:MiscFeeAmt) : int = 
-    WriteFieldInt dest pos "137="B valIn
+    WriteFieldDecimal dest pos "137="B valIn
 
 
 let WriteMiscFeeCurr (dest:byte []) (pos:int) (valIn:MiscFeeCurr) : int = 
@@ -2854,7 +2854,7 @@ let WriteAllocAvgPx (dest:byte []) (pos:int) (valIn:AllocAvgPx) : int =
 
 
 let WriteAllocNetMoney (dest:byte []) (pos:int) (valIn:AllocNetMoney) : int = 
-    WriteFieldInt dest pos "154="B valIn
+    WriteFieldDecimal dest pos "154="B valIn
 
 
 let WriteSettlCurrFxRate (dest:byte []) (pos:int) (valIn:SettlCurrFxRate) : int = 
@@ -2886,7 +2886,7 @@ let WriteAccruedInterestRate (dest:byte []) (pos:int) (valIn:AccruedInterestRate
 
 
 let WriteAccruedInterestAmt (dest:byte []) (pos:int) (valIn:AccruedInterestAmt) : int = 
-    WriteFieldInt dest pos "159="B valIn
+    WriteFieldDecimal dest pos "159="B valIn
 
 
 let WriteSettlInstMode (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstMode) : int =
@@ -3722,7 +3722,7 @@ let WriteCoveredOrUncovered (dest:byte array) (nextFreeIdx:int) (xxIn:CoveredOrU
 
 
 let WriteOptAttribute (dest:byte []) (pos:int) (valIn:OptAttribute) : int = 
-    WriteFieldInt dest pos "206="B valIn
+    WriteFieldChar dest pos "206="B valIn
 
 
 let WriteSecurityExchange (dest:byte []) (pos:int) (valIn:SecurityExchange) : int = 
@@ -4595,11 +4595,11 @@ let WriteYield (dest:byte []) (pos:int) (valIn:Yield) : int =
 
 
 let WriteTotalTakedown (dest:byte []) (pos:int) (valIn:TotalTakedown) : int = 
-    WriteFieldInt dest pos "237="B valIn
+    WriteFieldDecimal dest pos "237="B valIn
 
 
 let WriteConcession (dest:byte []) (pos:int) (valIn:Concession) : int = 
-    WriteFieldInt dest pos "238="B valIn
+    WriteFieldDecimal dest pos "238="B valIn
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:RepoCollateralSecurityType) : int = 
@@ -5603,7 +5603,7 @@ let WriteUnderlyingStrikePrice (dest:byte []) (pos:int) (valIn:UnderlyingStrikeP
 
 
 let WriteUnderlyingOptAttribute (dest:byte []) (pos:int) (valIn:UnderlyingOptAttribute) : int = 
-    WriteFieldInt dest pos "317="B valIn
+    WriteFieldChar dest pos "317="B valIn
 
 
 let WriteUnderlyingCurrency (dest:byte []) (pos:int) (valIn:UnderlyingCurrency) : int = 
@@ -6466,7 +6466,7 @@ let WriteBusinessRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Business
 
 
 let WriteGrossTradeAmt (dest:byte []) (pos:int) (valIn:GrossTradeAmt) : int = 
-    WriteFieldInt dest pos "381="B valIn
+    WriteFieldDecimal dest pos "381="B valIn
 
 
 let WriteNoContraBrokers (dest:byte []) (pos:int) (valIn:NoContraBrokers) : int = 
@@ -6598,11 +6598,11 @@ let WriteNumTickets (dest:byte []) (pos:int) (valIn:NumTickets) : int =
 
 
 let WriteSideValue1 (dest:byte []) (pos:int) (valIn:SideValue1) : int = 
-    WriteFieldInt dest pos "396="B valIn
+    WriteFieldDecimal dest pos "396="B valIn
 
 
 let WriteSideValue2 (dest:byte []) (pos:int) (valIn:SideValue2) : int = 
-    WriteFieldInt dest pos "397="B valIn
+    WriteFieldDecimal dest pos "397="B valIn
 
 
 let WriteNoBidDescriptors (dest:byte []) (pos:int) (valIn:NoBidDescriptors) : int = 
@@ -6660,7 +6660,7 @@ let WriteLiquidityPctHigh (dest:byte []) (pos:int) (valIn:LiquidityPctHigh) : in
 
 
 let WriteLiquidityValue (dest:byte []) (pos:int) (valIn:LiquidityValue) : int = 
-    WriteFieldInt dest pos "404="B valIn
+    WriteFieldDecimal dest pos "404="B valIn
 
 
 let WriteEFPTrackingError (dest:byte []) (pos:int) (valIn:EFPTrackingError) : int = 
@@ -6668,7 +6668,7 @@ let WriteEFPTrackingError (dest:byte []) (pos:int) (valIn:EFPTrackingError) : in
 
 
 let WriteFairValue (dest:byte []) (pos:int) (valIn:FairValue) : int = 
-    WriteFieldInt dest pos "406="B valIn
+    WriteFieldDecimal dest pos "406="B valIn
 
 
 let WriteOutsideIndexPct (dest:byte []) (pos:int) (valIn:OutsideIndexPct) : int = 
@@ -6676,7 +6676,7 @@ let WriteOutsideIndexPct (dest:byte []) (pos:int) (valIn:OutsideIndexPct) : int 
 
 
 let WriteValueOfFutures (dest:byte []) (pos:int) (valIn:ValueOfFutures) : int = 
-    WriteFieldInt dest pos "408="B valIn
+    WriteFieldDecimal dest pos "408="B valIn
 
 
 let WriteLiquidityIndType (dest:byte array) (nextFreeIdx:int) (xxIn:LiquidityIndType) : int =
@@ -6716,7 +6716,7 @@ let WriteExchangeForPhysical (dest:byte []) (pos:int) (valIn:ExchangeForPhysical
 
 
 let WriteOutMainCntryUIndex (dest:byte []) (pos:int) (valIn:OutMainCntryUIndex) : int = 
-    WriteFieldInt dest pos "412="B valIn
+    WriteFieldDecimal dest pos "412="B valIn
 
 
 let WriteCrossPercent (dest:byte []) (pos:int) (valIn:CrossPercent) : int = 
@@ -8667,7 +8667,7 @@ let WriteNestedPartyID (dest:byte []) (pos:int) (valIn:NestedPartyID) : int =
 
 
 let WriteNestedPartyIDSource (dest:byte []) (pos:int) (valIn:NestedPartyIDSource) : int = 
-    WriteFieldInt dest pos "525="B valIn
+    WriteFieldChar dest pos "525="B valIn
 
 
 let WriteSecondaryClOrdID (dest:byte []) (pos:int) (valIn:SecondaryClOrdID) : int = 
@@ -8985,7 +8985,7 @@ let WriteNoNestedPartyIDs (dest:byte []) (pos:int) (valIn:NoNestedPartyIDs) : in
 
 
 let WriteTotalAccruedInterestAmt (dest:byte []) (pos:int) (valIn:TotalAccruedInterestAmt) : int = 
-    WriteFieldInt dest pos "540="B valIn
+    WriteFieldDecimal dest pos "540="B valIn
 
 
 let WriteMaturityDate (dest:byte []) (pos:int) (valIn:MaturityDate) : int = 
@@ -9255,7 +9255,7 @@ let WriteMultiLegRptTypeReq (dest:byte array) (nextFreeIdx:int) (xxIn:MultiLegRp
 
 
 let WriteLegPositionEffect (dest:byte []) (pos:int) (valIn:LegPositionEffect) : int = 
-    WriteFieldInt dest pos "564="B valIn
+    WriteFieldChar dest pos "564="B valIn
 
 
 let WriteLegCoveredOrUncovered (dest:byte []) (pos:int) (valIn:LegCoveredOrUncovered) : int = 
@@ -9599,7 +9599,7 @@ let WriteOrigOrdModTime (dest:byte []) (pos:int) (valIn:OrigOrdModTime) : int =
 
 
 let WriteLegSettlType (dest:byte []) (pos:int) (valIn:LegSettlType) : int = 
-    WriteFieldInt dest pos "587="B valIn
+    WriteFieldChar dest pos "587="B valIn
 
 
 let WriteLegSettlDate (dest:byte []) (pos:int) (valIn:LegSettlDate) : int = 
@@ -9751,7 +9751,7 @@ let WriteLegStrikePrice (dest:byte []) (pos:int) (valIn:LegStrikePrice) : int =
 
 
 let WriteLegOptAttribute (dest:byte []) (pos:int) (valIn:LegOptAttribute) : int = 
-    WriteFieldInt dest pos "613="B valIn
+    WriteFieldChar dest pos "613="B valIn
 
 
 let WriteLegContractMultiplier (dest:byte []) (pos:int) (valIn:LegContractMultiplier) : int = 
@@ -9789,7 +9789,7 @@ let WriteLegRatioQty (dest:byte []) (pos:int) (valIn:LegRatioQty) : int =
 
 
 let WriteLegSide (dest:byte []) (pos:int) (valIn:LegSide) : int = 
-    WriteFieldInt dest pos "624="B valIn
+    WriteFieldChar dest pos "624="B valIn
 
 
 let WriteTradingSessionSubID (dest:byte []) (pos:int) (valIn:TradingSessionSubID) : int = 
@@ -10441,7 +10441,7 @@ let WriteQuoteRespType (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteRespType) 
 
 
 let WriteQuoteQualifier (dest:byte []) (pos:int) (valIn:QuoteQualifier) : int = 
-    WriteFieldInt dest pos "695="B valIn
+    WriteFieldChar dest pos "695="B valIn
 
 
 let WriteYieldRedemptionDate (dest:byte []) (pos:int) (valIn:YieldRedemptionDate) : int = 
@@ -10673,7 +10673,7 @@ let WritePosAmtType (dest:byte array) (nextFreeIdx:int) (xxIn:PosAmtType) : int 
 
 
 let WritePosAmt (dest:byte []) (pos:int) (valIn:PosAmt) : int = 
-    WriteFieldInt dest pos "708="B valIn
+    WriteFieldDecimal dest pos "708="B valIn
 
 
 let WritePosTransType (dest:byte array) (nextFreeIdx:int) (xxIn:PosTransType) : int =
@@ -11011,11 +11011,11 @@ let WriteAllocSettlCurrency (dest:byte []) (pos:int) (valIn:AllocSettlCurrency) 
 
 
 let WriteAllocSettlCurrAmt (dest:byte []) (pos:int) (valIn:AllocSettlCurrAmt) : int = 
-    WriteFieldInt dest pos "737="B valIn
+    WriteFieldDecimal dest pos "737="B valIn
 
 
 let WriteInterestAtMaturity (dest:byte []) (pos:int) (valIn:InterestAtMaturity) : int = 
-    WriteFieldInt dest pos "738="B valIn
+    WriteFieldDecimal dest pos "738="B valIn
 
 
 let WriteLegDatedDate (dest:byte []) (pos:int) (valIn:LegDatedDate) : int = 
@@ -11027,11 +11027,11 @@ let WriteLegPool (dest:byte []) (pos:int) (valIn:LegPool) : int =
 
 
 let WriteAllocInterestAtMaturity (dest:byte []) (pos:int) (valIn:AllocInterestAtMaturity) : int = 
-    WriteFieldInt dest pos "741="B valIn
+    WriteFieldDecimal dest pos "741="B valIn
 
 
 let WriteAllocAccruedInterestAmt (dest:byte []) (pos:int) (valIn:AllocAccruedInterestAmt) : int = 
-    WriteFieldInt dest pos "742="B valIn
+    WriteFieldDecimal dest pos "742="B valIn
 
 
 let WriteDeliveryDate (dest:byte []) (pos:int) (valIn:DeliveryDate) : int = 
@@ -11059,7 +11059,7 @@ let WriteAssignmentUnit (dest:byte []) (pos:int) (valIn:AssignmentUnit) : int =
 
 
 let WriteOpenInterest (dest:byte []) (pos:int) (valIn:OpenInterest) : int = 
-    WriteFieldInt dest pos "746="B valIn
+    WriteFieldDecimal dest pos "746="B valIn
 
 
 let WriteExerciseMethod (dest:byte array) (nextFreeIdx:int) (xxIn:ExerciseMethod) : int =
@@ -11245,7 +11245,7 @@ let WriteNested2PartyID (dest:byte []) (pos:int) (valIn:Nested2PartyID) : int =
 
 
 let WriteNested2PartyIDSource (dest:byte []) (pos:int) (valIn:Nested2PartyIDSource) : int = 
-    WriteFieldInt dest pos "758="B valIn
+    WriteFieldChar dest pos "758="B valIn
 
 
 let WriteNested2PartyRole (dest:byte []) (pos:int) (valIn:Nested2PartyRole) : int = 
@@ -11277,7 +11277,7 @@ let WriteAllowableOneSidednessPct (dest:byte []) (pos:int) (valIn:AllowableOneSi
 
 
 let WriteAllowableOneSidednessValue (dest:byte []) (pos:int) (valIn:AllowableOneSidednessValue) : int = 
-    WriteFieldInt dest pos "766="B valIn
+    WriteFieldDecimal dest pos "766="B valIn
 
 
 let WriteAllowableOneSidednessCurr (dest:byte []) (pos:int) (valIn:AllowableOneSidednessCurr) : int = 
@@ -11459,7 +11459,7 @@ let WriteSettlPartyID (dest:byte []) (pos:int) (valIn:SettlPartyID) : int =
 
 
 let WriteSettlPartyIDSource (dest:byte []) (pos:int) (valIn:SettlPartyIDSource) : int = 
-    WriteFieldInt dest pos "783="B valIn
+    WriteFieldChar dest pos "783="B valIn
 
 
 let WriteSettlPartyRole (dest:byte []) (pos:int) (valIn:SettlPartyRole) : int = 
@@ -12397,7 +12397,7 @@ let WriteAllocNoOrdersType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocNoOrde
 
 
 let WriteSharedCommission (dest:byte []) (pos:int) (valIn:SharedCommission) : int = 
-    WriteFieldInt dest pos "858="B valIn
+    WriteFieldDecimal dest pos "858="B valIn
 
 
 let WriteConfirmReqID (dest:byte []) (pos:int) (valIn:ConfirmReqID) : int = 
@@ -12669,15 +12669,15 @@ let WriteUnderlyingEndPrice (dest:byte []) (pos:int) (valIn:UnderlyingEndPrice) 
 
 
 let WriteUnderlyingStartValue (dest:byte []) (pos:int) (valIn:UnderlyingStartValue) : int = 
-    WriteFieldInt dest pos "884="B valIn
+    WriteFieldDecimal dest pos "884="B valIn
 
 
 let WriteUnderlyingCurrentValue (dest:byte []) (pos:int) (valIn:UnderlyingCurrentValue) : int = 
-    WriteFieldInt dest pos "885="B valIn
+    WriteFieldDecimal dest pos "885="B valIn
 
 
 let WriteUnderlyingEndValue (dest:byte []) (pos:int) (valIn:UnderlyingEndValue) : int = 
-    WriteFieldInt dest pos "886="B valIn
+    WriteFieldDecimal dest pos "886="B valIn
 
 
 let WriteNoUnderlyingStips (dest:byte []) (pos:int) (valIn:NoUnderlyingStips) : int = 
@@ -12693,7 +12693,7 @@ let WriteUnderlyingStipValue (dest:byte []) (pos:int) (valIn:UnderlyingStipValue
 
 
 let WriteMaturityNetMoney (dest:byte []) (pos:int) (valIn:MaturityNetMoney) : int = 
-    WriteFieldInt dest pos "890="B valIn
+    WriteFieldDecimal dest pos "890="B valIn
 
 
 let WriteMiscFeeBasis (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeBasis) : int =
@@ -12843,15 +12843,15 @@ let WriteMarginRatio (dest:byte []) (pos:int) (valIn:MarginRatio) : int =
 
 
 let WriteMarginExcess (dest:byte []) (pos:int) (valIn:MarginExcess) : int = 
-    WriteFieldInt dest pos "899="B valIn
+    WriteFieldDecimal dest pos "899="B valIn
 
 
 let WriteTotalNetValue (dest:byte []) (pos:int) (valIn:TotalNetValue) : int = 
-    WriteFieldInt dest pos "900="B valIn
+    WriteFieldDecimal dest pos "900="B valIn
 
 
 let WriteCashOutstanding (dest:byte []) (pos:int) (valIn:CashOutstanding) : int = 
-    WriteFieldInt dest pos "901="B valIn
+    WriteFieldDecimal dest pos "901="B valIn
 
 
 let WriteCollAsgnID (dest:byte []) (pos:int) (valIn:CollAsgnID) : int = 
@@ -13077,15 +13077,15 @@ let WriteDeliveryType (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryType) : 
 
 
 let WriteEndAccruedInterestAmt (dest:byte []) (pos:int) (valIn:EndAccruedInterestAmt) : int = 
-    WriteFieldInt dest pos "920="B valIn
+    WriteFieldDecimal dest pos "920="B valIn
 
 
 let WriteStartCash (dest:byte []) (pos:int) (valIn:StartCash) : int = 
-    WriteFieldInt dest pos "921="B valIn
+    WriteFieldDecimal dest pos "921="B valIn
 
 
 let WriteEndCash (dest:byte []) (pos:int) (valIn:EndCash) : int = 
-    WriteFieldInt dest pos "922="B valIn
+    WriteFieldDecimal dest pos "922="B valIn
 
 
 let WriteUserRequestID (dest:byte []) (pos:int) (valIn:UserRequestID) : int = 
@@ -13461,7 +13461,7 @@ let WriteNested3PartyID (dest:byte []) (pos:int) (valIn:Nested3PartyID) : int =
 
 
 let WriteNested3PartyIDSource (dest:byte []) (pos:int) (valIn:Nested3PartyIDSource) : int = 
-    WriteFieldInt dest pos "950="B valIn
+    WriteFieldChar dest pos "950="B valIn
 
 
 let WriteNested3PartyRole (dest:byte []) (pos:int) (valIn:Nested3PartyRole) : int = 

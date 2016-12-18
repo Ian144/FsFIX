@@ -37,9 +37,11 @@ let genAlphaString =
             return System.String chars
         }
 
+let genChar = Gen.choose(32,255) |> Gen.map char 
 
 
 type ArbOverrides() =
+    static member Char()            = Arb.fromGen genChar
     static member String()          = Arb.fromGen genAlphaString
     static member UTCTimeOnly()     = Arb.fromGen genUTCTimeOnly
     static member UTCDate()         = Arb.fromGen genUTCDate

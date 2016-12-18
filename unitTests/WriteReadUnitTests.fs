@@ -14,8 +14,66 @@ open Fix44.MsgWriteFuncs
 
 
 
+
+
+
+
+
 [<Fact>]
 let InstrumentLegFG () =
+    let bs = Array.zeroCreate<byte> 1024
+    let legContractSettlMonth = MonthYear.MakeMonthYear.Make(2016, 12) |> LegContractSettlMonth
+    let xIn:InstrumentLegFG = {
+                LegSymbol = LegSymbol "DHVC"
+                LegSymbolSfx = None
+                LegSecurityID = None
+                LegSecurityIDSource = None
+                NoLegSecurityAltIDGrp = None
+                LegProduct = None
+                LegCFICode = None
+                LegSecurityType = None
+                LegSecuritySubType = None
+                LegMaturityMonthYear = None
+                LegMaturityDate = None
+                LegCouponPaymentDate = None
+                LegIssueDate = None
+                LegRepoCollateralSecurityType = None
+                LegRepurchaseTerm = None
+                LegRepurchaseRate = None
+                LegFactor = None
+                LegCreditRating = None
+                LegInstrRegistry = None
+                LegCountryOfIssue = None
+                LegStateOrProvinceOfIssue = None
+                LegLocaleOfIssue = None
+                LegRedemptionDate = None
+                LegStrikePrice = None
+                LegStrikeCurrency = None
+                LegOptAttribute = None
+                LegContractMultiplier = None
+                LegCouponRate = None
+                LegSecurityExchange = None
+                LegIssuer = None
+                EncodedLegIssuer = None
+                LegSecurityDesc = None
+                EncodedLegSecurityDesc = None
+                LegRatioQty = None
+                LegSide = Some (LegSide 'a')
+                LegCurrency = None
+                LegPool = None
+                LegDatedDate = None
+                LegContractSettlMonth = None
+                LegInterestAccrualDate = None}
+    let posW = WriteInstrumentLegFG  bs 0 xIn
+    let posR, xOut = ReadInstrumentLegFG bs 0
+    xIn =! xOut
+    posW =! posR
+
+
+
+
+[<Fact>]
+let InstrumentLegFG2 () =
     let bs = Array.zeroCreate<byte> 1024
     let legContractSettlMonth = MonthYear.MakeMonthYear.Make(2016, 12) |> LegContractSettlMonth
     let xIn:InstrumentLegFG = {

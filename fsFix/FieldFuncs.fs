@@ -14,6 +14,16 @@ let ReadSingleCaseDUIntField (bs:byte[]) (pos:int) fldCtor =
     pos2, fld
 
 
+let ReadSingleCaseDUCharField (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
+    let cc =
+        match valIn.Length with
+        | 1 ->  valIn.[0] |> char
+        | n ->  let msg = sprintf "invalid length for char field: %d" n
+                failwith msg
+    pos2, fldCtor cc
+
+
 
 let ReadSingleCaseDUDecimalField (bs:byte[]) (pos:int) fldCtor =
     let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
@@ -99,6 +109,17 @@ let inline WriteFieldInt (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int 
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
+
+// todo: how could one func replace the WriteFieldXXX funcs
+let inline WriteFieldChar (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
+    let cc = (^T :(member Value:char) fieldIn)
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let valBytes = [|byte(cc)|]
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 
 let inline WriteFieldDecimal (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 

@@ -87,6 +87,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "int"             -> "ReadSingleCaseDUIntField"
     | "decimal"         -> "ReadSingleCaseDUDecimalField"
     | "bool"            -> "ReadSingleCaseDUBoolField"
+    | "char"            -> "ReadSingleCaseDUCharField"
     | "string"          -> "ReadSingleCaseDUStrField"
     | "byte []"         -> "ReadSingleCaseDUDataField"
     | "UTCTimeOnly"     -> "ReadSingleCaseUTCTimeOnlyField"
@@ -103,6 +104,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "int"             -> "WriteFieldInt"
     | "decimal"         -> "WriteFieldDecimal"
     | "bool"            -> "WriteFieldBool"
+    | "char"            -> "WriteFieldChar"
     | "string"          -> "WriteFieldStr"
     | "byte []"         -> "WriteFieldData"
     | "UTCTimeOnly"     -> "WriteFieldUTCTimeOnly"
@@ -146,13 +148,13 @@ let private createFieldTypes (field:SimpleField) =
     let tag = field.Tag
     let values = field.Values
     match fieldType, (Seq.isEmpty values) with
-    | "AMT",                    true    -> makeSingleCaseDU fieldName tag "int"
+    | "AMT",                    true    -> makeSingleCaseDU fieldName tag "decimal"
     | "BOOLEAN",                true    -> makeSingleCaseDU fieldName tag "bool"
-    | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "int" // todo, store char as a byte|char
-    | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string"
-    | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"
+    | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "char"
+    | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string"  // todo: create country single-case DU
+    | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"  // todo: create currency single-case DU
     | "DATA",                   true    -> makeSingleCaseDU fieldName tag "byte []"
-    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store dayofmonth as a uint|ushort
+//    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "DayOfMonth"     // not in FIX4.4
     | "EXCHANGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "FLOAT",                  true    -> makeSingleCaseDU fieldName tag "decimal"
     | "INT",                    true    -> makeSingleCaseDU fieldName tag "int"
@@ -168,8 +170,8 @@ let private createFieldTypes (field:SimpleField) =
     | "QTY",                    true    -> makeSingleCaseDU fieldName tag "decimal"
     | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"     // todo: represent seqnum as a uint?
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
-    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
-    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTIMESTAMP" // todo: storing TZTIMESTAMP as string, not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
+//    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
+//    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTIMESTAMP" // todo: not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"

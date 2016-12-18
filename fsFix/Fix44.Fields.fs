@@ -64,7 +64,7 @@ type ClOrdID =
 
 
 type Commission =
-    |Commission of int
+    |Commission of decimal
      member x.Value = let (Commission v) = x in v
 
 
@@ -818,12 +818,12 @@ type QuoteID =
 
 
 type NetMoney =
-    |NetMoney of int
+    |NetMoney of decimal
      member x.Value = let (NetMoney v) = x in v
 
 
 type SettlCurrAmt =
-    |SettlCurrAmt of int
+    |SettlCurrAmt of decimal
      member x.Value = let (SettlCurrAmt v) = x in v
 
 
@@ -913,7 +913,7 @@ type NoMiscFees =
 
 
 type MiscFeeAmt =
-    |MiscFeeAmt of int
+    |MiscFeeAmt of decimal
      member x.Value = let (MiscFeeAmt v) = x in v
 
 
@@ -1025,7 +1025,7 @@ type AllocAvgPx =
 
 
 type AllocNetMoney =
-    |AllocNetMoney of int
+    |AllocNetMoney of decimal
      member x.Value = let (AllocNetMoney v) = x in v
 
 
@@ -1050,7 +1050,7 @@ type AccruedInterestRate =
 
 
 type AccruedInterestAmt =
-    |AccruedInterestAmt of int
+    |AccruedInterestAmt of decimal
      member x.Value = let (AccruedInterestAmt v) = x in v
 
 
@@ -1297,7 +1297,7 @@ type CoveredOrUncovered =
 
 
 type OptAttribute =
-    |OptAttribute of int
+    |OptAttribute of char
      member x.Value = let (OptAttribute v) = x in v
 
 
@@ -1557,12 +1557,12 @@ type Yield =
 
 
 type TotalTakedown =
-    |TotalTakedown of int
+    |TotalTakedown of decimal
      member x.Value = let (TotalTakedown v) = x in v
 
 
 type Concession =
-    |Concession of int
+    |Concession of decimal
      member x.Value = let (Concession v) = x in v
 
 
@@ -2027,7 +2027,7 @@ type UnderlyingStrikePrice =
 
 
 type UnderlyingOptAttribute =
-    |UnderlyingOptAttribute of int
+    |UnderlyingOptAttribute of char
      member x.Value = let (UnderlyingOptAttribute v) = x in v
 
 
@@ -2380,7 +2380,7 @@ type BusinessRejectReason =
 
 
 type GrossTradeAmt =
-    |GrossTradeAmt of int
+    |GrossTradeAmt of decimal
      member x.Value = let (GrossTradeAmt v) = x in v
 
 
@@ -2461,12 +2461,12 @@ type NumTickets =
 
 
 type SideValue1 =
-    |SideValue1 of int
+    |SideValue1 of decimal
      member x.Value = let (SideValue1 v) = x in v
 
 
 type SideValue2 =
-    |SideValue2 of int
+    |SideValue2 of decimal
      member x.Value = let (SideValue2 v) = x in v
 
 
@@ -2502,7 +2502,7 @@ type LiquidityPctHigh =
 
 
 type LiquidityValue =
-    |LiquidityValue of int
+    |LiquidityValue of decimal
      member x.Value = let (LiquidityValue v) = x in v
 
 
@@ -2512,7 +2512,7 @@ type EFPTrackingError =
 
 
 type FairValue =
-    |FairValue of int
+    |FairValue of decimal
      member x.Value = let (FairValue v) = x in v
 
 
@@ -2522,7 +2522,7 @@ type OutsideIndexPct =
 
 
 type ValueOfFutures =
-    |ValueOfFutures of int
+    |ValueOfFutures of decimal
      member x.Value = let (ValueOfFutures v) = x in v
 
 
@@ -2544,7 +2544,7 @@ type ExchangeForPhysical =
 
 
 type OutMainCntryUIndex =
-    |OutMainCntryUIndex of int
+    |OutMainCntryUIndex of decimal
      member x.Value = let (OutMainCntryUIndex v) = x in v
 
 
@@ -3276,7 +3276,7 @@ type NestedPartyID =
 
 
 type NestedPartyIDSource =
-    |NestedPartyIDSource of int
+    |NestedPartyIDSource of char
      member x.Value = let (NestedPartyIDSource v) = x in v
 
 
@@ -3382,7 +3382,7 @@ type NoNestedPartyIDs =
 
 
 type TotalAccruedInterestAmt =
-    |TotalAccruedInterestAmt of int
+    |TotalAccruedInterestAmt of decimal
      member x.Value = let (TotalAccruedInterestAmt v) = x in v
 
 
@@ -3515,7 +3515,7 @@ type MultiLegRptTypeReq =
 
 
 type LegPositionEffect =
-    |LegPositionEffect of int
+    |LegPositionEffect of char
      member x.Value = let (LegPositionEffect v) = x in v
 
 
@@ -3658,7 +3658,7 @@ type OrigOrdModTime =
 
 
 type LegSettlType =
-    |LegSettlType of int
+    |LegSettlType of char
      member x.Value = let (LegSettlType v) = x in v
 
 
@@ -3790,7 +3790,7 @@ type LegStrikePrice =
 
 
 type LegOptAttribute =
-    |LegOptAttribute of int
+    |LegOptAttribute of char
      member x.Value = let (LegOptAttribute v) = x in v
 
 
@@ -3837,7 +3837,7 @@ type LegRatioQty =
 
 
 type LegSide =
-    |LegSide of int
+    |LegSide of char
      member x.Value = let (LegSide v) = x in v
 
 
@@ -4227,7 +4227,7 @@ type QuoteRespType =
 
 
 type QuoteQualifier =
-    |QuoteQualifier of int
+    |QuoteQualifier of char
      member x.Value = let (QuoteQualifier v) = x in v
 
 
@@ -4316,7 +4316,7 @@ type PosAmtType =
 
 
 type PosAmt =
-    |PosAmt of int
+    |PosAmt of decimal
      member x.Value = let (PosAmt v) = x in v
 
 
@@ -4478,12 +4478,12 @@ type AllocSettlCurrency =
 
 
 type AllocSettlCurrAmt =
-    |AllocSettlCurrAmt of int
+    |AllocSettlCurrAmt of decimal
      member x.Value = let (AllocSettlCurrAmt v) = x in v
 
 
 type InterestAtMaturity =
-    |InterestAtMaturity of int
+    |InterestAtMaturity of decimal
      member x.Value = let (InterestAtMaturity v) = x in v
 
 
@@ -4498,12 +4498,12 @@ type LegPool =
 
 
 type AllocInterestAtMaturity =
-    |AllocInterestAtMaturity of int
+    |AllocInterestAtMaturity of decimal
      member x.Value = let (AllocInterestAtMaturity v) = x in v
 
 
 type AllocAccruedInterestAmt =
-    |AllocAccruedInterestAmt of int
+    |AllocAccruedInterestAmt of decimal
      member x.Value = let (AllocAccruedInterestAmt v) = x in v
 
 
@@ -4523,7 +4523,7 @@ type AssignmentUnit =
 
 
 type OpenInterest =
-    |OpenInterest of int
+    |OpenInterest of decimal
      member x.Value = let (OpenInterest v) = x in v
 
 
@@ -4596,7 +4596,7 @@ type Nested2PartyID =
 
 
 type Nested2PartyIDSource =
-    |Nested2PartyIDSource of int
+    |Nested2PartyIDSource of char
      member x.Value = let (Nested2PartyIDSource v) = x in v
 
 
@@ -4636,7 +4636,7 @@ type AllowableOneSidednessPct =
 
 
 type AllowableOneSidednessValue =
-    |AllowableOneSidednessValue of int
+    |AllowableOneSidednessValue of decimal
      member x.Value = let (AllowableOneSidednessValue v) = x in v
 
 
@@ -4730,7 +4730,7 @@ type SettlPartyID =
 
 
 type SettlPartyIDSource =
-    |SettlPartyIDSource of int
+    |SettlPartyIDSource of char
      member x.Value = let (SettlPartyIDSource v) = x in v
 
 
@@ -5151,7 +5151,7 @@ type AllocNoOrdersType =
 
 
 type SharedCommission =
-    |SharedCommission of int
+    |SharedCommission of decimal
      member x.Value = let (SharedCommission v) = x in v
 
 
@@ -5305,17 +5305,17 @@ type UnderlyingEndPrice =
 
 
 type UnderlyingStartValue =
-    |UnderlyingStartValue of int
+    |UnderlyingStartValue of decimal
      member x.Value = let (UnderlyingStartValue v) = x in v
 
 
 type UnderlyingCurrentValue =
-    |UnderlyingCurrentValue of int
+    |UnderlyingCurrentValue of decimal
      member x.Value = let (UnderlyingCurrentValue v) = x in v
 
 
 type UnderlyingEndValue =
-    |UnderlyingEndValue of int
+    |UnderlyingEndValue of decimal
      member x.Value = let (UnderlyingEndValue v) = x in v
 
 
@@ -5335,7 +5335,7 @@ type UnderlyingStipValue =
 
 
 type MaturityNetMoney =
-    |MaturityNetMoney of int
+    |MaturityNetMoney of decimal
      member x.Value = let (MaturityNetMoney v) = x in v
 
 
@@ -5393,17 +5393,17 @@ type MarginRatio =
 
 
 type MarginExcess =
-    |MarginExcess of int
+    |MarginExcess of decimal
      member x.Value = let (MarginExcess v) = x in v
 
 
 type TotalNetValue =
-    |TotalNetValue of int
+    |TotalNetValue of decimal
      member x.Value = let (TotalNetValue v) = x in v
 
 
 type CashOutstanding =
-    |CashOutstanding of int
+    |CashOutstanding of decimal
      member x.Value = let (CashOutstanding v) = x in v
 
 
@@ -5513,17 +5513,17 @@ type DeliveryType =
 
 
 type EndAccruedInterestAmt =
-    |EndAccruedInterestAmt of int
+    |EndAccruedInterestAmt of decimal
      member x.Value = let (EndAccruedInterestAmt v) = x in v
 
 
 type StartCash =
-    |StartCash of int
+    |StartCash of decimal
      member x.Value = let (StartCash v) = x in v
 
 
 type EndCash =
-    |EndCash of int
+    |EndCash of decimal
      member x.Value = let (EndCash v) = x in v
 
 
@@ -5687,7 +5687,7 @@ type Nested3PartyID =
 
 
 type Nested3PartyIDSource =
-    |Nested3PartyIDSource of int
+    |Nested3PartyIDSource of char
      member x.Value = let (Nested3PartyIDSource v) = x in v
 
 
