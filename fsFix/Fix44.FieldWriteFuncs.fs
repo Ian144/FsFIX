@@ -3682,7 +3682,7 @@ let WriteNoIOIQualifiers (dest:byte []) (pos:int) (valIn:NoIOIQualifiers) : int 
 
 
 let WriteMaturityMonthYear (dest:byte []) (pos:int) (valIn:MaturityMonthYear) : int = 
-    WriteFieldStr dest pos "200="B valIn
+    WriteFieldMonthYear dest pos "200="B valIn
 
 
 let WritePutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:PutOrCall) : int =
@@ -5579,7 +5579,7 @@ let WriteUnderlyingSymbolSfx (dest:byte []) (pos:int) (valIn:UnderlyingSymbolSfx
 
 
 let WriteUnderlyingMaturityMonthYear (dest:byte []) (pos:int) (valIn:UnderlyingMaturityMonthYear) : int = 
-    WriteFieldStr dest pos "313="B valIn
+    WriteFieldMonthYear dest pos "313="B valIn
 
 
 let WriteUnderlyingPutOrCall (dest:byte array) (nextFreeIdx:int) (xxIn:UnderlyingPutOrCall) : int =
@@ -9739,7 +9739,7 @@ let WriteLegSecurityType (dest:byte []) (pos:int) (valIn:LegSecurityType) : int 
 
 
 let WriteLegMaturityMonthYear (dest:byte []) (pos:int) (valIn:LegMaturityMonthYear) : int = 
-    WriteFieldStr dest pos "610="B valIn
+    WriteFieldMonthYear dest pos "610="B valIn
 
 
 let WriteLegMaturityDate (dest:byte []) (pos:int) (valIn:LegMaturityDate) : int = 
@@ -10197,7 +10197,7 @@ let WriteConfirmTransType (dest:byte array) (nextFreeIdx:int) (xxIn:ConfirmTrans
 
 
 let WriteContractSettlMonth (dest:byte []) (pos:int) (valIn:ContractSettlMonth) : int = 
-    WriteFieldStr dest pos "667="B valIn
+    WriteFieldMonthYear dest pos "667="B valIn
 
 
 let WriteDeliveryForm (dest:byte array) (nextFreeIdx:int) (xxIn:DeliveryForm) : int =
@@ -13481,7 +13481,7 @@ let WriteNested3PartySubIDType (dest:byte []) (pos:int) (valIn:Nested3PartySubID
 
 
 let WriteLegContractSettlMonth (dest:byte []) (pos:int) (valIn:LegContractSettlMonth) : int = 
-    WriteFieldStr dest pos "955="B valIn
+    WriteFieldMonthYear dest pos "955="B valIn
 
 
 let WriteLegInterestAccrualDate (dest:byte []) (pos:int) (valIn:LegInterestAccrualDate) : int = 

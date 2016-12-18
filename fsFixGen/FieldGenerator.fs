@@ -93,6 +93,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "UTCDate"         -> "ReadSingleCaseUTCDateField"
     | "UTCTimestamp"    -> "ReadSingleCaseUTCTimestampField" 
     | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
+    | "MonthYear"       -> "ReadFieldMonthYear"
     | _                 -> failwith "unknown type name"
 
 
@@ -108,6 +109,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "UTCDate"         -> "WriteFieldUTCDate"
     | "UTCTimestamp"    -> "WriteFieldUTCTimestamp"
     | "TZTimeOnly"      -> "WriteFieldTZTimeOnly"
+    | "MonthYear"       -> "WriteFieldMonthYear"
     | _                 -> failwith "unknown type name"
 
 
@@ -157,7 +159,7 @@ let private createFieldTypes (field:SimpleField) =
     | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "int"     //todo: store length as a uint??
     | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
-    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "string" // todo: storing MONTHYEAR as string, use appropriate type(use NODA TIME)
+    | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MonthYear"
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
     | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store numingroup as a uint?
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
@@ -276,6 +278,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine "open UTCDateTime"
+    sw.WriteLine "open MonthYear"
     sw.WriteLine ""
     sw.WriteLine ""
 

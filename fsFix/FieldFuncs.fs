@@ -54,21 +54,25 @@ let ReadSingleCaseUTCTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
 let ReadSingleCaseUTCDateField (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCDate bs pos pos2
-    pos2 + 1,  fldCtor dt
+    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 let ReadSingleCaseUTCTimestampField (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCTimestamp bs pos pos2
-    pos2 + 1,  fldCtor dt
+    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 // not used in FIX4.4, so not tested at the time of writing
 // TZDateTime.readTZTimeOnly has been tested
 let ReadSingleCaseTZTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = TZDateTime.readTZTimeOnly bs pos //pos2
-    pos2 + 1,  fldCtor dt
+    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
+let ReadFieldMonthYear (bs:byte[]) (pos:int) fldCtor =
+//    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
+    let pos2, dt = MonthYear.read bs pos //pos2
+    pos2 + 1, fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
 
 
 // all compound fields are of type data (i.e. byte[])
@@ -159,7 +163,6 @@ let inline WriteFieldUTCTimestamp (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^
     pos3 + 1 // +1 to move past the delimeter
 
 
-
 // not used in FIX4.4, so not tested at the time of writing
 // functions called by TZDateTime.writeTZTimeOnly have been tested
 let inline WriteFieldTZTimeOnly (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
@@ -167,6 +170,16 @@ let inline WriteFieldTZTimeOnly (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
     let pos3 =  TZDateTime.writeTZTimeOnly bs pos2 tm
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
+
+
+
+let inline WriteFieldMonthYear (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:MonthYear.MonthYear) fieldIn)
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  MonthYear.write bs pos2 tm
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 

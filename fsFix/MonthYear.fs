@@ -56,16 +56,14 @@ type MakeMonthYear private () =
 let private readWeek (bs:byte[]) (pos:int) =
     let wByte = bs.[pos]
     let nByte = bs.[pos+1]
-    let ww =
-        match wByte, nByte with
-        | 119uy, 49uy   ->  W1
-        | 119uy, 50uy   ->  W2
-        | 119uy, 51uy   ->  W3
-        | 119uy, 52uy   ->  W4
-        | 119uy, 53uy   ->  W5
-        | _             ->  let msg = sprintf "invalid week %c-%c" (System.Convert.ToChar wByte) (System.Convert.ToChar nByte)
-                            failwith msg
-    ww
+    match wByte, nByte with
+    | 119uy, 49uy   ->  W1
+    | 119uy, 50uy   ->  W2
+    | 119uy, 51uy   ->  W3
+    | 119uy, 52uy   ->  W4
+    | 119uy, 53uy   ->  W5
+    | _             ->  let msg = sprintf "invalid week %c-%c" (System.Convert.ToChar wByte) (System.Convert.ToChar nByte)
+                        failwith msg
 
 
 let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =

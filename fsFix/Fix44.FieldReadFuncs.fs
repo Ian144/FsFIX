@@ -1339,7 +1339,7 @@ let ReadNoIOIQualifiers (bs:byte[]) (pos:int): (int*NoIOIQualifiers) =
 
 
 let ReadMaturityMonthYear (bs:byte[]) (pos:int): (int*MaturityMonthYear) =
-    ReadSingleCaseDUStrField bs pos MaturityMonthYear.MaturityMonthYear
+    ReadFieldMonthYear bs pos MaturityMonthYear.MaturityMonthYear
 
 
 let ReadPutOrCall (bs:byte[]) (pos:int) : (int * PutOrCall) =
@@ -2116,7 +2116,7 @@ let ReadUnderlyingSymbolSfx (bs:byte[]) (pos:int): (int*UnderlyingSymbolSfx) =
 
 
 let ReadUnderlyingMaturityMonthYear (bs:byte[]) (pos:int): (int*UnderlyingMaturityMonthYear) =
-    ReadSingleCaseDUStrField bs pos UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear
+    ReadFieldMonthYear bs pos UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear
 
 
 let ReadUnderlyingPutOrCall (bs:byte[]) (pos:int) : (int * UnderlyingPutOrCall) =
@@ -4055,7 +4055,7 @@ let ReadLegSecurityType (bs:byte[]) (pos:int): (int*LegSecurityType) =
 
 
 let ReadLegMaturityMonthYear (bs:byte[]) (pos:int): (int*LegMaturityMonthYear) =
-    ReadSingleCaseDUStrField bs pos LegMaturityMonthYear.LegMaturityMonthYear
+    ReadFieldMonthYear bs pos LegMaturityMonthYear.LegMaturityMonthYear
 
 
 let ReadLegMaturityDate (bs:byte[]) (pos:int): (int*LegMaturityDate) =
@@ -4341,7 +4341,7 @@ let ReadConfirmTransType (bs:byte[]) (pos:int) : (int * ConfirmTransType) =
 
 
 let ReadContractSettlMonth (bs:byte[]) (pos:int): (int*ContractSettlMonth) =
-    ReadSingleCaseDUStrField bs pos ContractSettlMonth.ContractSettlMonth
+    ReadFieldMonthYear bs pos ContractSettlMonth.ContractSettlMonth
 
 
 let ReadDeliveryForm (bs:byte[]) (pos:int) : (int * DeliveryForm) =
@@ -6149,7 +6149,7 @@ let ReadNested3PartySubIDType (bs:byte[]) (pos:int): (int*Nested3PartySubIDType)
 
 
 let ReadLegContractSettlMonth (bs:byte[]) (pos:int): (int*LegContractSettlMonth) =
-    ReadSingleCaseDUStrField bs pos LegContractSettlMonth.LegContractSettlMonth
+    ReadFieldMonthYear bs pos LegContractSettlMonth.LegContractSettlMonth
 
 
 let ReadLegInterestAccrualDate (bs:byte[]) (pos:int): (int*LegInterestAccrualDate) =

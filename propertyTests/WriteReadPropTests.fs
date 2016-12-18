@@ -90,8 +90,9 @@ let WriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->in
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
     let posR, tOut = readFunc bs 0
-    posW =! posR
     tIn =! tOut
+    posW =! posR
+
 
 
 // write-read test for fields, where the tag written by the write function should be ignored. as field read functions only read the body. The tag is read elsewhere and used to find the field read func
@@ -100,8 +101,8 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     let posW = writeFunc bs 0 tIn
     let posSep = FIXBufUtils.findNextTagValSep bs 0
     let posR, tOut = readFunc bs (posSep+1)
-    posW =! posR
     tIn =! tOut
+    posW =! posR
 
 
 let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
@@ -109,8 +110,8 @@ let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) (read
     let posW = writeFunc bs 0 tIn
     bs.[posW] <- 1uy
     let posR, tOut = readFunc bs 0
-    posW =! posR
     tIn =! tOut
+    posW =! posR
 
 
 [<FsFixPropertyTest>]

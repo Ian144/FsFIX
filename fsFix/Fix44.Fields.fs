@@ -2,6 +2,7 @@ module Fix44.Fields
 
 
 open UTCDateTime
+open MonthYear
 
 
 type Account =
@@ -1276,7 +1277,7 @@ type NoIOIQualifiers =
 
 
 type MaturityMonthYear =
-    |MaturityMonthYear of string
+    |MaturityMonthYear of MonthYear
      member x.Value = let (MaturityMonthYear v) = x in v
 
 
@@ -2011,7 +2012,7 @@ type UnderlyingSymbolSfx =
 
 
 type UnderlyingMaturityMonthYear =
-    |UnderlyingMaturityMonthYear of string
+    |UnderlyingMaturityMonthYear of MonthYear
      member x.Value = let (UnderlyingMaturityMonthYear v) = x in v
 
 
@@ -3774,7 +3775,7 @@ type LegSecurityType =
 
 
 type LegMaturityMonthYear =
-    |LegMaturityMonthYear of string
+    |LegMaturityMonthYear of MonthYear
      member x.Value = let (LegMaturityMonthYear v) = x in v
 
 
@@ -4072,7 +4073,7 @@ type ConfirmTransType =
 
 
 type ContractSettlMonth =
-    |ContractSettlMonth of string
+    |ContractSettlMonth of MonthYear
      member x.Value = let (ContractSettlMonth v) = x in v
 
 
@@ -5711,7 +5712,7 @@ type Nested3PartySubIDType =
 
 
 type LegContractSettlMonth =
-    |LegContractSettlMonth of string
+    |LegContractSettlMonth of MonthYear
      member x.Value = let (LegContractSettlMonth v) = x in v
 
 
