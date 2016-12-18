@@ -9,15 +9,15 @@ open FieldFuncs
 
 
 let ReadAccount (bs:byte[]) (pos:int): (int*Account) =
-    ReadSingleCaseDUStrField bs pos Account.Account
+    ReadFieldStr bs pos Account.Account
 
 
 let ReadAdvId (bs:byte[]) (pos:int): (int*AdvId) =
-    ReadSingleCaseDUStrField bs pos AdvId.AdvId
+    ReadFieldStr bs pos AdvId.AdvId
 
 
 let ReadAdvRefID (bs:byte[]) (pos:int): (int*AdvRefID) =
-    ReadSingleCaseDUStrField bs pos AdvRefID.AdvRefID
+    ReadFieldStr bs pos AdvRefID.AdvRefID
 
 
 let ReadAdvSide (bs:byte[]) (pos:int) : (int * AdvSide) =
@@ -44,31 +44,31 @@ let ReadAdvTransType (bs:byte[]) (pos:int) : (int * AdvTransType) =
 
 
 let ReadAvgPx (bs:byte[]) (pos:int): (int*AvgPx) =
-    ReadSingleCaseDUDecimalField bs pos AvgPx.AvgPx
+    ReadFieldDecimal bs pos AvgPx.AvgPx
 
 
 let ReadBeginSeqNo (bs:byte[]) (pos:int): (int*BeginSeqNo) =
-    ReadSingleCaseDUUint32Field bs pos BeginSeqNo.BeginSeqNo
+    ReadFieldUint32 bs pos BeginSeqNo.BeginSeqNo
 
 
 let ReadBeginString (bs:byte[]) (pos:int): (int*BeginString) =
-    ReadSingleCaseDUStrField bs pos BeginString.BeginString
+    ReadFieldStr bs pos BeginString.BeginString
 
 
 let ReadBodyLength (bs:byte[]) (pos:int): (int*BodyLength) =
-    ReadSingleCaseDUIntField bs pos BodyLength.BodyLength
+    ReadFieldInt bs pos BodyLength.BodyLength
 
 
 let ReadCheckSum (bs:byte[]) (pos:int): (int*CheckSum) =
-    ReadSingleCaseDUStrField bs pos CheckSum.CheckSum
+    ReadFieldStr bs pos CheckSum.CheckSum
 
 
 let ReadClOrdID (bs:byte[]) (pos:int): (int*ClOrdID) =
-    ReadSingleCaseDUStrField bs pos ClOrdID.ClOrdID
+    ReadFieldStr bs pos ClOrdID.ClOrdID
 
 
 let ReadCommission (bs:byte[]) (pos:int): (int*Commission) =
-    ReadSingleCaseDUDecimalField bs pos Commission.Commission
+    ReadFieldDecimal bs pos Commission.Commission
 
 
 let ReadCommType (bs:byte[]) (pos:int) : (int * CommType) =
@@ -86,19 +86,19 @@ let ReadCommType (bs:byte[]) (pos:int) : (int * CommType) =
 
 
 let ReadCumQty (bs:byte[]) (pos:int): (int*CumQty) =
-    ReadSingleCaseDUDecimalField bs pos CumQty.CumQty
+    ReadFieldDecimal bs pos CumQty.CumQty
 
 
 let ReadCurrency (bs:byte[]) (pos:int): (int*Currency) =
-    ReadSingleCaseDUStrField bs pos Currency.Currency
+    ReadFieldStr bs pos Currency.Currency
 
 
 let ReadEndSeqNo (bs:byte[]) (pos:int): (int*EndSeqNo) =
-    ReadSingleCaseDUUint32Field bs pos EndSeqNo.EndSeqNo
+    ReadFieldUint32 bs pos EndSeqNo.EndSeqNo
 
 
 let ReadExecID (bs:byte[]) (pos:int): (int*ExecID) =
-    ReadSingleCaseDUStrField bs pos ExecID.ExecID
+    ReadFieldStr bs pos ExecID.ExecID
 
 
 let ReadExecInst (bs:byte[]) (pos:int) : (int * ExecInst) =
@@ -151,7 +151,7 @@ let ReadExecInst (bs:byte[]) (pos:int) : (int * ExecInst) =
 
 
 let ReadExecRefID (bs:byte[]) (pos:int): (int*ExecRefID) =
-    ReadSingleCaseDUStrField bs pos ExecRefID.ExecRefID
+    ReadFieldStr bs pos ExecRefID.ExecRefID
 
 
 let ReadHandlInst (bs:byte[]) (pos:int) : (int * HandlInst) =
@@ -193,7 +193,7 @@ let ReadSecurityIDSource (bs:byte[]) (pos:int) : (int * SecurityIDSource) =
 
 
 let ReadIOIid (bs:byte[]) (pos:int): (int*IOIid) =
-    ReadSingleCaseDUStrField bs pos IOIid.IOIid
+    ReadFieldStr bs pos IOIid.IOIid
 
 
 let ReadIOIQltyInd (bs:byte[]) (pos:int) : (int * IOIQltyInd) =
@@ -208,11 +208,11 @@ let ReadIOIQltyInd (bs:byte[]) (pos:int) : (int * IOIQltyInd) =
 
 
 let ReadIOIRefID (bs:byte[]) (pos:int): (int*IOIRefID) =
-    ReadSingleCaseDUStrField bs pos IOIRefID.IOIRefID
+    ReadFieldStr bs pos IOIRefID.IOIRefID
 
 
 let ReadIOIQty (bs:byte[]) (pos:int): (int*IOIQty) =
-    ReadSingleCaseDUStrField bs pos IOIQty.IOIQty
+    ReadFieldStr bs pos IOIQty.IOIQty
 
 
 let ReadIOITransType (bs:byte[]) (pos:int) : (int * IOITransType) =
@@ -239,23 +239,23 @@ let ReadLastCapacity (bs:byte[]) (pos:int) : (int * LastCapacity) =
 
 
 let ReadLastMkt (bs:byte[]) (pos:int): (int*LastMkt) =
-    ReadSingleCaseDUStrField bs pos LastMkt.LastMkt
+    ReadFieldStr bs pos LastMkt.LastMkt
 
 
 let ReadLastPx (bs:byte[]) (pos:int): (int*LastPx) =
-    ReadSingleCaseDUDecimalField bs pos LastPx.LastPx
+    ReadFieldDecimal bs pos LastPx.LastPx
 
 
 let ReadLastQty (bs:byte[]) (pos:int): (int*LastQty) =
-    ReadSingleCaseDUDecimalField bs pos LastQty.LastQty
+    ReadFieldDecimal bs pos LastQty.LastQty
 
 
 let ReadLinesOfText (bs:byte[]) (pos:int): (int*LinesOfText) =
-    ReadSingleCaseDUIntField bs pos LinesOfText.LinesOfText
+    ReadFieldInt bs pos LinesOfText.LinesOfText
 
 
 let ReadMsgSeqNum (bs:byte[]) (pos:int): (int*MsgSeqNum) =
-    ReadSingleCaseDUUint32Field bs pos MsgSeqNum.MsgSeqNum
+    ReadFieldUint32 bs pos MsgSeqNum.MsgSeqNum
 
 
 let ReadMsgType (bs:byte[]) (pos:int) : (int * MsgType) =
@@ -360,15 +360,15 @@ let ReadMsgType (bs:byte[]) (pos:int) : (int * MsgType) =
 
 
 let ReadNewSeqNo (bs:byte[]) (pos:int): (int*NewSeqNo) =
-    ReadSingleCaseDUUint32Field bs pos NewSeqNo.NewSeqNo
+    ReadFieldUint32 bs pos NewSeqNo.NewSeqNo
 
 
 let ReadOrderID (bs:byte[]) (pos:int): (int*OrderID) =
-    ReadSingleCaseDUStrField bs pos OrderID.OrderID
+    ReadFieldStr bs pos OrderID.OrderID
 
 
 let ReadOrderQty (bs:byte[]) (pos:int): (int*OrderQty) =
-    ReadSingleCaseDUDecimalField bs pos OrderQty.OrderQty
+    ReadFieldDecimal bs pos OrderQty.OrderQty
 
 
 let ReadOrdStatus (bs:byte[]) (pos:int) : (int * OrdStatus) =
@@ -426,43 +426,43 @@ let ReadOrdType (bs:byte[]) (pos:int) : (int * OrdType) =
 
 
 let ReadOrigClOrdID (bs:byte[]) (pos:int): (int*OrigClOrdID) =
-    ReadSingleCaseDUStrField bs pos OrigClOrdID.OrigClOrdID
+    ReadFieldStr bs pos OrigClOrdID.OrigClOrdID
 
 
 let ReadOrigTime (bs:byte[]) (pos:int): (int*OrigTime) =
-    ReadSingleCaseUTCTimestampField bs pos OrigTime.OrigTime
+    ReadFieldUTCTimestamp bs pos OrigTime.OrigTime
 
 
 let ReadPossDupFlag (bs:byte[]) (pos:int): (int*PossDupFlag) =
-    ReadSingleCaseDUBoolField bs pos PossDupFlag.PossDupFlag
+    ReadFieldBool bs pos PossDupFlag.PossDupFlag
 
 
 let ReadPrice (bs:byte[]) (pos:int): (int*Price) =
-    ReadSingleCaseDUDecimalField bs pos Price.Price
+    ReadFieldDecimal bs pos Price.Price
 
 
 let ReadRefSeqNum (bs:byte[]) (pos:int): (int*RefSeqNum) =
-    ReadSingleCaseDUUint32Field bs pos RefSeqNum.RefSeqNum
+    ReadFieldUint32 bs pos RefSeqNum.RefSeqNum
 
 
 let ReadSecurityID (bs:byte[]) (pos:int): (int*SecurityID) =
-    ReadSingleCaseDUStrField bs pos SecurityID.SecurityID
+    ReadFieldStr bs pos SecurityID.SecurityID
 
 
 let ReadSenderCompID (bs:byte[]) (pos:int): (int*SenderCompID) =
-    ReadSingleCaseDUStrField bs pos SenderCompID.SenderCompID
+    ReadFieldStr bs pos SenderCompID.SenderCompID
 
 
 let ReadSenderSubID (bs:byte[]) (pos:int): (int*SenderSubID) =
-    ReadSingleCaseDUStrField bs pos SenderSubID.SenderSubID
+    ReadFieldStr bs pos SenderSubID.SenderSubID
 
 
 let ReadSendingTime (bs:byte[]) (pos:int): (int*SendingTime) =
-    ReadSingleCaseUTCTimestampField bs pos SendingTime.SendingTime
+    ReadFieldUTCTimestamp bs pos SendingTime.SendingTime
 
 
 let ReadQuantity (bs:byte[]) (pos:int): (int*Quantity) =
-    ReadSingleCaseDUDecimalField bs pos Quantity.Quantity
+    ReadFieldDecimal bs pos Quantity.Quantity
 
 
 let ReadSide (bs:byte[]) (pos:int) : (int * Side) =
@@ -490,19 +490,19 @@ let ReadSide (bs:byte[]) (pos:int) : (int * Side) =
 
 
 let ReadSymbol (bs:byte[]) (pos:int): (int*Symbol) =
-    ReadSingleCaseDUStrField bs pos Symbol.Symbol
+    ReadFieldStr bs pos Symbol.Symbol
 
 
 let ReadTargetCompID (bs:byte[]) (pos:int): (int*TargetCompID) =
-    ReadSingleCaseDUStrField bs pos TargetCompID.TargetCompID
+    ReadFieldStr bs pos TargetCompID.TargetCompID
 
 
 let ReadTargetSubID (bs:byte[]) (pos:int): (int*TargetSubID) =
-    ReadSingleCaseDUStrField bs pos TargetSubID.TargetSubID
+    ReadFieldStr bs pos TargetSubID.TargetSubID
 
 
 let ReadText (bs:byte[]) (pos:int): (int*Text) =
-    ReadSingleCaseDUStrField bs pos Text.Text
+    ReadFieldStr bs pos Text.Text
 
 
 let ReadTimeInForce (bs:byte[]) (pos:int) : (int * TimeInForce) =
@@ -522,7 +522,7 @@ let ReadTimeInForce (bs:byte[]) (pos:int) : (int * TimeInForce) =
 
 
 let ReadTransactTime (bs:byte[]) (pos:int): (int*TransactTime) =
-    ReadSingleCaseUTCTimestampField bs pos TransactTime.TransactTime
+    ReadFieldUTCTimestamp bs pos TransactTime.TransactTime
 
 
 let ReadUrgency (bs:byte[]) (pos:int) : (int * Urgency) =
@@ -537,7 +537,7 @@ let ReadUrgency (bs:byte[]) (pos:int) : (int * Urgency) =
 
 
 let ReadValidUntilTime (bs:byte[]) (pos:int): (int*ValidUntilTime) =
-    ReadSingleCaseUTCTimestampField bs pos ValidUntilTime.ValidUntilTime
+    ReadFieldUTCTimestamp bs pos ValidUntilTime.ValidUntilTime
 
 
 let ReadSettlType (bs:byte[]) (pos:int) : (int * SettlType) =
@@ -559,7 +559,7 @@ let ReadSettlType (bs:byte[]) (pos:int) : (int * SettlType) =
 
 
 let ReadSettlDate (bs:byte[]) (pos:int): (int*SettlDate) =
-    ReadSingleCaseDUStrField bs pos SettlDate.SettlDate
+    ReadFieldStr bs pos SettlDate.SettlDate
 
 
 let ReadSymbolSfx (bs:byte[]) (pos:int) : (int * SymbolSfx) =
@@ -573,23 +573,23 @@ let ReadSymbolSfx (bs:byte[]) (pos:int) : (int * SymbolSfx) =
 
 
 let ReadListID (bs:byte[]) (pos:int): (int*ListID) =
-    ReadSingleCaseDUStrField bs pos ListID.ListID
+    ReadFieldStr bs pos ListID.ListID
 
 
 let ReadListSeqNo (bs:byte[]) (pos:int): (int*ListSeqNo) =
-    ReadSingleCaseDUIntField bs pos ListSeqNo.ListSeqNo
+    ReadFieldInt bs pos ListSeqNo.ListSeqNo
 
 
 let ReadTotNoOrders (bs:byte[]) (pos:int): (int*TotNoOrders) =
-    ReadSingleCaseDUIntField bs pos TotNoOrders.TotNoOrders
+    ReadFieldInt bs pos TotNoOrders.TotNoOrders
 
 
 let ReadListExecInst (bs:byte[]) (pos:int): (int*ListExecInst) =
-    ReadSingleCaseDUStrField bs pos ListExecInst.ListExecInst
+    ReadFieldStr bs pos ListExecInst.ListExecInst
 
 
 let ReadAllocID (bs:byte[]) (pos:int): (int*AllocID) =
-    ReadSingleCaseDUStrField bs pos AllocID.AllocID
+    ReadFieldStr bs pos AllocID.AllocID
 
 
 let ReadAllocTransType (bs:byte[]) (pos:int) : (int * AllocTransType) =
@@ -604,19 +604,19 @@ let ReadAllocTransType (bs:byte[]) (pos:int) : (int * AllocTransType) =
 
 
 let ReadRefAllocID (bs:byte[]) (pos:int): (int*RefAllocID) =
-    ReadSingleCaseDUStrField bs pos RefAllocID.RefAllocID
+    ReadFieldStr bs pos RefAllocID.RefAllocID
 
 
 let ReadNoOrders (bs:byte[]) (pos:int): (int*NoOrders) =
-    ReadSingleCaseDUIntField bs pos NoOrders.NoOrders
+    ReadFieldInt bs pos NoOrders.NoOrders
 
 
 let ReadAvgPxPrecision (bs:byte[]) (pos:int): (int*AvgPxPrecision) =
-    ReadSingleCaseDUIntField bs pos AvgPxPrecision.AvgPxPrecision
+    ReadFieldInt bs pos AvgPxPrecision.AvgPxPrecision
 
 
 let ReadTradeDate (bs:byte[]) (pos:int): (int*TradeDate) =
-    ReadSingleCaseDUStrField bs pos TradeDate.TradeDate
+    ReadFieldStr bs pos TradeDate.TradeDate
 
 
 let ReadPositionEffect (bs:byte[]) (pos:int) : (int * PositionEffect) =
@@ -632,15 +632,15 @@ let ReadPositionEffect (bs:byte[]) (pos:int) : (int * PositionEffect) =
 
 
 let ReadNoAllocs (bs:byte[]) (pos:int): (int*NoAllocs) =
-    ReadSingleCaseDUIntField bs pos NoAllocs.NoAllocs
+    ReadFieldInt bs pos NoAllocs.NoAllocs
 
 
 let ReadAllocAccount (bs:byte[]) (pos:int): (int*AllocAccount) =
-    ReadSingleCaseDUStrField bs pos AllocAccount.AllocAccount
+    ReadFieldStr bs pos AllocAccount.AllocAccount
 
 
 let ReadAllocQty (bs:byte[]) (pos:int): (int*AllocQty) =
-    ReadSingleCaseDUDecimalField bs pos AllocQty.AllocQty
+    ReadFieldDecimal bs pos AllocQty.AllocQty
 
 
 let ReadProcessCode (bs:byte[]) (pos:int) : (int * ProcessCode) =
@@ -659,19 +659,19 @@ let ReadProcessCode (bs:byte[]) (pos:int) : (int * ProcessCode) =
 
 
 let ReadNoRpts (bs:byte[]) (pos:int): (int*NoRpts) =
-    ReadSingleCaseDUIntField bs pos NoRpts.NoRpts
+    ReadFieldInt bs pos NoRpts.NoRpts
 
 
 let ReadRptSeq (bs:byte[]) (pos:int): (int*RptSeq) =
-    ReadSingleCaseDUIntField bs pos RptSeq.RptSeq
+    ReadFieldInt bs pos RptSeq.RptSeq
 
 
 let ReadCxlQty (bs:byte[]) (pos:int): (int*CxlQty) =
-    ReadSingleCaseDUDecimalField bs pos CxlQty.CxlQty
+    ReadFieldDecimal bs pos CxlQty.CxlQty
 
 
 let ReadNoDlvyInst (bs:byte[]) (pos:int): (int*NoDlvyInst) =
-    ReadSingleCaseDUIntField bs pos NoDlvyInst.NoDlvyInst
+    ReadFieldInt bs pos NoDlvyInst.NoDlvyInst
 
 
 let ReadAllocStatus (bs:byte[]) (pos:int) : (int * AllocStatus) =
@@ -737,7 +737,7 @@ let ReadRawData (bs:byte[]) (pos:int) : (int * RawData) =
 
 
 let ReadPossResend (bs:byte[]) (pos:int): (int*PossResend) =
-    ReadSingleCaseDUBoolField bs pos PossResend.PossResend
+    ReadFieldBool bs pos PossResend.PossResend
 
 
 let ReadEncryptMethod (bs:byte[]) (pos:int) : (int * EncryptMethod) =
@@ -756,11 +756,11 @@ let ReadEncryptMethod (bs:byte[]) (pos:int) : (int * EncryptMethod) =
 
 
 let ReadStopPx (bs:byte[]) (pos:int): (int*StopPx) =
-    ReadSingleCaseDUDecimalField bs pos StopPx.StopPx
+    ReadFieldDecimal bs pos StopPx.StopPx
 
 
 let ReadExDestination (bs:byte[]) (pos:int): (int*ExDestination) =
-    ReadSingleCaseDUStrField bs pos ExDestination.ExDestination
+    ReadFieldStr bs pos ExDestination.ExDestination
 
 
 let ReadCxlRejReason (bs:byte[]) (pos:int) : (int * CxlRejReason) =
@@ -831,83 +831,83 @@ let ReadIOIQualifier (bs:byte[]) (pos:int) : (int * IOIQualifier) =
 
 
 let ReadWaveNo (bs:byte[]) (pos:int): (int*WaveNo) =
-    ReadSingleCaseDUStrField bs pos WaveNo.WaveNo
+    ReadFieldStr bs pos WaveNo.WaveNo
 
 
 let ReadIssuer (bs:byte[]) (pos:int): (int*Issuer) =
-    ReadSingleCaseDUStrField bs pos Issuer.Issuer
+    ReadFieldStr bs pos Issuer.Issuer
 
 
 let ReadSecurityDesc (bs:byte[]) (pos:int): (int*SecurityDesc) =
-    ReadSingleCaseDUStrField bs pos SecurityDesc.SecurityDesc
+    ReadFieldStr bs pos SecurityDesc.SecurityDesc
 
 
 let ReadHeartBtInt (bs:byte[]) (pos:int): (int*HeartBtInt) =
-    ReadSingleCaseDUIntField bs pos HeartBtInt.HeartBtInt
+    ReadFieldInt bs pos HeartBtInt.HeartBtInt
 
 
 let ReadMinQty (bs:byte[]) (pos:int): (int*MinQty) =
-    ReadSingleCaseDUDecimalField bs pos MinQty.MinQty
+    ReadFieldDecimal bs pos MinQty.MinQty
 
 
 let ReadMaxFloor (bs:byte[]) (pos:int): (int*MaxFloor) =
-    ReadSingleCaseDUDecimalField bs pos MaxFloor.MaxFloor
+    ReadFieldDecimal bs pos MaxFloor.MaxFloor
 
 
 let ReadTestReqID (bs:byte[]) (pos:int): (int*TestReqID) =
-    ReadSingleCaseDUStrField bs pos TestReqID.TestReqID
+    ReadFieldStr bs pos TestReqID.TestReqID
 
 
 let ReadReportToExch (bs:byte[]) (pos:int): (int*ReportToExch) =
-    ReadSingleCaseDUBoolField bs pos ReportToExch.ReportToExch
+    ReadFieldBool bs pos ReportToExch.ReportToExch
 
 
 let ReadLocateReqd (bs:byte[]) (pos:int): (int*LocateReqd) =
-    ReadSingleCaseDUBoolField bs pos LocateReqd.LocateReqd
+    ReadFieldBool bs pos LocateReqd.LocateReqd
 
 
 let ReadOnBehalfOfCompID (bs:byte[]) (pos:int): (int*OnBehalfOfCompID) =
-    ReadSingleCaseDUStrField bs pos OnBehalfOfCompID.OnBehalfOfCompID
+    ReadFieldStr bs pos OnBehalfOfCompID.OnBehalfOfCompID
 
 
 let ReadOnBehalfOfSubID (bs:byte[]) (pos:int): (int*OnBehalfOfSubID) =
-    ReadSingleCaseDUStrField bs pos OnBehalfOfSubID.OnBehalfOfSubID
+    ReadFieldStr bs pos OnBehalfOfSubID.OnBehalfOfSubID
 
 
 let ReadQuoteID (bs:byte[]) (pos:int): (int*QuoteID) =
-    ReadSingleCaseDUStrField bs pos QuoteID.QuoteID
+    ReadFieldStr bs pos QuoteID.QuoteID
 
 
 let ReadNetMoney (bs:byte[]) (pos:int): (int*NetMoney) =
-    ReadSingleCaseDUDecimalField bs pos NetMoney.NetMoney
+    ReadFieldDecimal bs pos NetMoney.NetMoney
 
 
 let ReadSettlCurrAmt (bs:byte[]) (pos:int): (int*SettlCurrAmt) =
-    ReadSingleCaseDUDecimalField bs pos SettlCurrAmt.SettlCurrAmt
+    ReadFieldDecimal bs pos SettlCurrAmt.SettlCurrAmt
 
 
 let ReadSettlCurrency (bs:byte[]) (pos:int): (int*SettlCurrency) =
-    ReadSingleCaseDUStrField bs pos SettlCurrency.SettlCurrency
+    ReadFieldStr bs pos SettlCurrency.SettlCurrency
 
 
 let ReadForexReq (bs:byte[]) (pos:int): (int*ForexReq) =
-    ReadSingleCaseDUBoolField bs pos ForexReq.ForexReq
+    ReadFieldBool bs pos ForexReq.ForexReq
 
 
 let ReadOrigSendingTime (bs:byte[]) (pos:int): (int*OrigSendingTime) =
-    ReadSingleCaseUTCTimestampField bs pos OrigSendingTime.OrigSendingTime
+    ReadFieldUTCTimestamp bs pos OrigSendingTime.OrigSendingTime
 
 
 let ReadGapFillFlag (bs:byte[]) (pos:int): (int*GapFillFlag) =
-    ReadSingleCaseDUBoolField bs pos GapFillFlag.GapFillFlag
+    ReadFieldBool bs pos GapFillFlag.GapFillFlag
 
 
 let ReadNoExecs (bs:byte[]) (pos:int): (int*NoExecs) =
-    ReadSingleCaseDUIntField bs pos NoExecs.NoExecs
+    ReadFieldInt bs pos NoExecs.NoExecs
 
 
 let ReadExpireTime (bs:byte[]) (pos:int): (int*ExpireTime) =
-    ReadSingleCaseUTCTimestampField bs pos ExpireTime.ExpireTime
+    ReadFieldUTCTimestamp bs pos ExpireTime.ExpireTime
 
 
 let ReadDKReason (bs:byte[]) (pos:int) : (int * DKReason) =
@@ -926,47 +926,47 @@ let ReadDKReason (bs:byte[]) (pos:int) : (int * DKReason) =
 
 
 let ReadDeliverToCompID (bs:byte[]) (pos:int): (int*DeliverToCompID) =
-    ReadSingleCaseDUStrField bs pos DeliverToCompID.DeliverToCompID
+    ReadFieldStr bs pos DeliverToCompID.DeliverToCompID
 
 
 let ReadDeliverToSubID (bs:byte[]) (pos:int): (int*DeliverToSubID) =
-    ReadSingleCaseDUStrField bs pos DeliverToSubID.DeliverToSubID
+    ReadFieldStr bs pos DeliverToSubID.DeliverToSubID
 
 
 let ReadIOINaturalFlag (bs:byte[]) (pos:int): (int*IOINaturalFlag) =
-    ReadSingleCaseDUBoolField bs pos IOINaturalFlag.IOINaturalFlag
+    ReadFieldBool bs pos IOINaturalFlag.IOINaturalFlag
 
 
 let ReadQuoteReqID (bs:byte[]) (pos:int): (int*QuoteReqID) =
-    ReadSingleCaseDUStrField bs pos QuoteReqID.QuoteReqID
+    ReadFieldStr bs pos QuoteReqID.QuoteReqID
 
 
 let ReadBidPx (bs:byte[]) (pos:int): (int*BidPx) =
-    ReadSingleCaseDUDecimalField bs pos BidPx.BidPx
+    ReadFieldDecimal bs pos BidPx.BidPx
 
 
 let ReadOfferPx (bs:byte[]) (pos:int): (int*OfferPx) =
-    ReadSingleCaseDUDecimalField bs pos OfferPx.OfferPx
+    ReadFieldDecimal bs pos OfferPx.OfferPx
 
 
 let ReadBidSize (bs:byte[]) (pos:int): (int*BidSize) =
-    ReadSingleCaseDUDecimalField bs pos BidSize.BidSize
+    ReadFieldDecimal bs pos BidSize.BidSize
 
 
 let ReadOfferSize (bs:byte[]) (pos:int): (int*OfferSize) =
-    ReadSingleCaseDUDecimalField bs pos OfferSize.OfferSize
+    ReadFieldDecimal bs pos OfferSize.OfferSize
 
 
 let ReadNoMiscFees (bs:byte[]) (pos:int): (int*NoMiscFees) =
-    ReadSingleCaseDUIntField bs pos NoMiscFees.NoMiscFees
+    ReadFieldInt bs pos NoMiscFees.NoMiscFees
 
 
 let ReadMiscFeeAmt (bs:byte[]) (pos:int): (int*MiscFeeAmt) =
-    ReadSingleCaseDUDecimalField bs pos MiscFeeAmt.MiscFeeAmt
+    ReadFieldDecimal bs pos MiscFeeAmt.MiscFeeAmt
 
 
 let ReadMiscFeeCurr (bs:byte[]) (pos:int): (int*MiscFeeCurr) =
-    ReadSingleCaseDUStrField bs pos MiscFeeCurr.MiscFeeCurr
+    ReadFieldStr bs pos MiscFeeCurr.MiscFeeCurr
 
 
 let ReadMiscFeeType (bs:byte[]) (pos:int) : (int * MiscFeeType) =
@@ -990,43 +990,43 @@ let ReadMiscFeeType (bs:byte[]) (pos:int) : (int * MiscFeeType) =
 
 
 let ReadPrevClosePx (bs:byte[]) (pos:int): (int*PrevClosePx) =
-    ReadSingleCaseDUDecimalField bs pos PrevClosePx.PrevClosePx
+    ReadFieldDecimal bs pos PrevClosePx.PrevClosePx
 
 
 let ReadResetSeqNumFlag (bs:byte[]) (pos:int): (int*ResetSeqNumFlag) =
-    ReadSingleCaseDUBoolField bs pos ResetSeqNumFlag.ResetSeqNumFlag
+    ReadFieldBool bs pos ResetSeqNumFlag.ResetSeqNumFlag
 
 
 let ReadSenderLocationID (bs:byte[]) (pos:int): (int*SenderLocationID) =
-    ReadSingleCaseDUStrField bs pos SenderLocationID.SenderLocationID
+    ReadFieldStr bs pos SenderLocationID.SenderLocationID
 
 
 let ReadTargetLocationID (bs:byte[]) (pos:int): (int*TargetLocationID) =
-    ReadSingleCaseDUStrField bs pos TargetLocationID.TargetLocationID
+    ReadFieldStr bs pos TargetLocationID.TargetLocationID
 
 
 let ReadOnBehalfOfLocationID (bs:byte[]) (pos:int): (int*OnBehalfOfLocationID) =
-    ReadSingleCaseDUStrField bs pos OnBehalfOfLocationID.OnBehalfOfLocationID
+    ReadFieldStr bs pos OnBehalfOfLocationID.OnBehalfOfLocationID
 
 
 let ReadDeliverToLocationID (bs:byte[]) (pos:int): (int*DeliverToLocationID) =
-    ReadSingleCaseDUStrField bs pos DeliverToLocationID.DeliverToLocationID
+    ReadFieldStr bs pos DeliverToLocationID.DeliverToLocationID
 
 
 let ReadNoRelatedSym (bs:byte[]) (pos:int): (int*NoRelatedSym) =
-    ReadSingleCaseDUIntField bs pos NoRelatedSym.NoRelatedSym
+    ReadFieldInt bs pos NoRelatedSym.NoRelatedSym
 
 
 let ReadSubject (bs:byte[]) (pos:int): (int*Subject) =
-    ReadSingleCaseDUStrField bs pos Subject.Subject
+    ReadFieldStr bs pos Subject.Subject
 
 
 let ReadHeadline (bs:byte[]) (pos:int): (int*Headline) =
-    ReadSingleCaseDUStrField bs pos Headline.Headline
+    ReadFieldStr bs pos Headline.Headline
 
 
 let ReadURLLink (bs:byte[]) (pos:int): (int*URLLink) =
-    ReadSingleCaseDUStrField bs pos URLLink.URLLink
+    ReadFieldStr bs pos URLLink.URLLink
 
 
 let ReadExecType (bs:byte[]) (pos:int) : (int * ExecType) =
@@ -1057,23 +1057,23 @@ let ReadExecType (bs:byte[]) (pos:int) : (int * ExecType) =
 
 
 let ReadLeavesQty (bs:byte[]) (pos:int): (int*LeavesQty) =
-    ReadSingleCaseDUDecimalField bs pos LeavesQty.LeavesQty
+    ReadFieldDecimal bs pos LeavesQty.LeavesQty
 
 
 let ReadCashOrderQty (bs:byte[]) (pos:int): (int*CashOrderQty) =
-    ReadSingleCaseDUDecimalField bs pos CashOrderQty.CashOrderQty
+    ReadFieldDecimal bs pos CashOrderQty.CashOrderQty
 
 
 let ReadAllocAvgPx (bs:byte[]) (pos:int): (int*AllocAvgPx) =
-    ReadSingleCaseDUDecimalField bs pos AllocAvgPx.AllocAvgPx
+    ReadFieldDecimal bs pos AllocAvgPx.AllocAvgPx
 
 
 let ReadAllocNetMoney (bs:byte[]) (pos:int): (int*AllocNetMoney) =
-    ReadSingleCaseDUDecimalField bs pos AllocNetMoney.AllocNetMoney
+    ReadFieldDecimal bs pos AllocNetMoney.AllocNetMoney
 
 
 let ReadSettlCurrFxRate (bs:byte[]) (pos:int): (int*SettlCurrFxRate) =
-    ReadSingleCaseDUDecimalField bs pos SettlCurrFxRate.SettlCurrFxRate
+    ReadFieldDecimal bs pos SettlCurrFxRate.SettlCurrFxRate
 
 
 let ReadSettlCurrFxRateCalc (bs:byte[]) (pos:int) : (int * SettlCurrFxRateCalc) =
@@ -1087,15 +1087,15 @@ let ReadSettlCurrFxRateCalc (bs:byte[]) (pos:int) : (int * SettlCurrFxRateCalc) 
 
 
 let ReadNumDaysInterest (bs:byte[]) (pos:int): (int*NumDaysInterest) =
-    ReadSingleCaseDUIntField bs pos NumDaysInterest.NumDaysInterest
+    ReadFieldInt bs pos NumDaysInterest.NumDaysInterest
 
 
 let ReadAccruedInterestRate (bs:byte[]) (pos:int): (int*AccruedInterestRate) =
-    ReadSingleCaseDUDecimalField bs pos AccruedInterestRate.AccruedInterestRate
+    ReadFieldDecimal bs pos AccruedInterestRate.AccruedInterestRate
 
 
 let ReadAccruedInterestAmt (bs:byte[]) (pos:int): (int*AccruedInterestAmt) =
-    ReadSingleCaseDUDecimalField bs pos AccruedInterestAmt.AccruedInterestAmt
+    ReadFieldDecimal bs pos AccruedInterestAmt.AccruedInterestAmt
 
 
 let ReadSettlInstMode (bs:byte[]) (pos:int) : (int * SettlInstMode) =
@@ -1111,11 +1111,11 @@ let ReadSettlInstMode (bs:byte[]) (pos:int) : (int * SettlInstMode) =
 
 
 let ReadAllocText (bs:byte[]) (pos:int): (int*AllocText) =
-    ReadSingleCaseDUStrField bs pos AllocText.AllocText
+    ReadFieldStr bs pos AllocText.AllocText
 
 
 let ReadSettlInstID (bs:byte[]) (pos:int): (int*SettlInstID) =
-    ReadSingleCaseDUStrField bs pos SettlInstID.SettlInstID
+    ReadFieldStr bs pos SettlInstID.SettlInstID
 
 
 let ReadSettlInstTransType (bs:byte[]) (pos:int) : (int * SettlInstTransType) =
@@ -1131,7 +1131,7 @@ let ReadSettlInstTransType (bs:byte[]) (pos:int) : (int * SettlInstTransType) =
 
 
 let ReadEmailThreadID (bs:byte[]) (pos:int): (int*EmailThreadID) =
-    ReadSingleCaseDUStrField bs pos EmailThreadID.EmailThreadID
+    ReadFieldStr bs pos EmailThreadID.EmailThreadID
 
 
 let ReadSettlInstSource (bs:byte[]) (pos:int) : (int * SettlInstSource) =
@@ -1248,7 +1248,7 @@ let ReadSecurityType (bs:byte[]) (pos:int) : (int * SecurityType) =
 
 
 let ReadEffectiveTime (bs:byte[]) (pos:int): (int*EffectiveTime) =
-    ReadSingleCaseUTCTimestampField bs pos EffectiveTime.EffectiveTime
+    ReadFieldUTCTimestamp bs pos EffectiveTime.EffectiveTime
 
 
 let ReadStandInstDbType (bs:byte[]) (pos:int) : (int * StandInstDbType) =
@@ -1265,11 +1265,11 @@ let ReadStandInstDbType (bs:byte[]) (pos:int) : (int * StandInstDbType) =
 
 
 let ReadStandInstDbName (bs:byte[]) (pos:int): (int*StandInstDbName) =
-    ReadSingleCaseDUStrField bs pos StandInstDbName.StandInstDbName
+    ReadFieldStr bs pos StandInstDbName.StandInstDbName
 
 
 let ReadStandInstDbID (bs:byte[]) (pos:int): (int*StandInstDbID) =
-    ReadSingleCaseDUStrField bs pos StandInstDbID.StandInstDbID
+    ReadFieldStr bs pos StandInstDbID.StandInstDbID
 
 
 let ReadSettlDeliveryType (bs:byte[]) (pos:int) : (int * SettlDeliveryType) =
@@ -1285,39 +1285,39 @@ let ReadSettlDeliveryType (bs:byte[]) (pos:int) : (int * SettlDeliveryType) =
 
 
 let ReadBidSpotRate (bs:byte[]) (pos:int): (int*BidSpotRate) =
-    ReadSingleCaseDUDecimalField bs pos BidSpotRate.BidSpotRate
+    ReadFieldDecimal bs pos BidSpotRate.BidSpotRate
 
 
 let ReadBidForwardPoints (bs:byte[]) (pos:int): (int*BidForwardPoints) =
-    ReadSingleCaseDUDecimalField bs pos BidForwardPoints.BidForwardPoints
+    ReadFieldDecimal bs pos BidForwardPoints.BidForwardPoints
 
 
 let ReadOfferSpotRate (bs:byte[]) (pos:int): (int*OfferSpotRate) =
-    ReadSingleCaseDUDecimalField bs pos OfferSpotRate.OfferSpotRate
+    ReadFieldDecimal bs pos OfferSpotRate.OfferSpotRate
 
 
 let ReadOfferForwardPoints (bs:byte[]) (pos:int): (int*OfferForwardPoints) =
-    ReadSingleCaseDUDecimalField bs pos OfferForwardPoints.OfferForwardPoints
+    ReadFieldDecimal bs pos OfferForwardPoints.OfferForwardPoints
 
 
 let ReadOrderQty2 (bs:byte[]) (pos:int): (int*OrderQty2) =
-    ReadSingleCaseDUDecimalField bs pos OrderQty2.OrderQty2
+    ReadFieldDecimal bs pos OrderQty2.OrderQty2
 
 
 let ReadSettlDate2 (bs:byte[]) (pos:int): (int*SettlDate2) =
-    ReadSingleCaseDUStrField bs pos SettlDate2.SettlDate2
+    ReadFieldStr bs pos SettlDate2.SettlDate2
 
 
 let ReadLastSpotRate (bs:byte[]) (pos:int): (int*LastSpotRate) =
-    ReadSingleCaseDUDecimalField bs pos LastSpotRate.LastSpotRate
+    ReadFieldDecimal bs pos LastSpotRate.LastSpotRate
 
 
 let ReadLastForwardPoints (bs:byte[]) (pos:int): (int*LastForwardPoints) =
-    ReadSingleCaseDUDecimalField bs pos LastForwardPoints.LastForwardPoints
+    ReadFieldDecimal bs pos LastForwardPoints.LastForwardPoints
 
 
 let ReadAllocLinkID (bs:byte[]) (pos:int): (int*AllocLinkID) =
-    ReadSingleCaseDUStrField bs pos AllocLinkID.AllocLinkID
+    ReadFieldStr bs pos AllocLinkID.AllocLinkID
 
 
 let ReadAllocLinkType (bs:byte[]) (pos:int) : (int * AllocLinkType) =
@@ -1331,11 +1331,11 @@ let ReadAllocLinkType (bs:byte[]) (pos:int) : (int * AllocLinkType) =
 
 
 let ReadSecondaryOrderID (bs:byte[]) (pos:int): (int*SecondaryOrderID) =
-    ReadSingleCaseDUStrField bs pos SecondaryOrderID.SecondaryOrderID
+    ReadFieldStr bs pos SecondaryOrderID.SecondaryOrderID
 
 
 let ReadNoIOIQualifiers (bs:byte[]) (pos:int): (int*NoIOIQualifiers) =
-    ReadSingleCaseDUIntField bs pos NoIOIQualifiers.NoIOIQualifiers
+    ReadFieldInt bs pos NoIOIQualifiers.NoIOIQualifiers
 
 
 let ReadMaturityMonthYear (bs:byte[]) (pos:int): (int*MaturityMonthYear) =
@@ -1353,7 +1353,7 @@ let ReadPutOrCall (bs:byte[]) (pos:int) : (int * PutOrCall) =
 
 
 let ReadStrikePrice (bs:byte[]) (pos:int): (int*StrikePrice) =
-    ReadSingleCaseDUDecimalField bs pos StrikePrice.StrikePrice
+    ReadFieldDecimal bs pos StrikePrice.StrikePrice
 
 
 let ReadCoveredOrUncovered (bs:byte[]) (pos:int) : (int * CoveredOrUncovered) =
@@ -1367,15 +1367,15 @@ let ReadCoveredOrUncovered (bs:byte[]) (pos:int) : (int * CoveredOrUncovered) =
 
 
 let ReadOptAttribute (bs:byte[]) (pos:int): (int*OptAttribute) =
-    ReadSingleCaseDUCharField bs pos OptAttribute.OptAttribute
+    ReadFieldChar bs pos OptAttribute.OptAttribute
 
 
 let ReadSecurityExchange (bs:byte[]) (pos:int): (int*SecurityExchange) =
-    ReadSingleCaseDUStrField bs pos SecurityExchange.SecurityExchange
+    ReadFieldStr bs pos SecurityExchange.SecurityExchange
 
 
 let ReadNotifyBrokerOfCredit (bs:byte[]) (pos:int): (int*NotifyBrokerOfCredit) =
-    ReadSingleCaseDUBoolField bs pos NotifyBrokerOfCredit.NotifyBrokerOfCredit
+    ReadFieldBool bs pos NotifyBrokerOfCredit.NotifyBrokerOfCredit
 
 
 let ReadAllocHandlInst (bs:byte[]) (pos:int) : (int * AllocHandlInst) =
@@ -1390,11 +1390,11 @@ let ReadAllocHandlInst (bs:byte[]) (pos:int) : (int * AllocHandlInst) =
 
 
 let ReadMaxShow (bs:byte[]) (pos:int): (int*MaxShow) =
-    ReadSingleCaseDUDecimalField bs pos MaxShow.MaxShow
+    ReadFieldDecimal bs pos MaxShow.MaxShow
 
 
 let ReadPegOffsetValue (bs:byte[]) (pos:int): (int*PegOffsetValue) =
-    ReadSingleCaseDUDecimalField bs pos PegOffsetValue.PegOffsetValue
+    ReadFieldDecimal bs pos PegOffsetValue.PegOffsetValue
 
 
 // compound read
@@ -1403,11 +1403,11 @@ let ReadXmlData (bs:byte[]) (pos:int) : (int * XmlData) =
 
 
 let ReadSettlInstRefID (bs:byte[]) (pos:int): (int*SettlInstRefID) =
-    ReadSingleCaseDUStrField bs pos SettlInstRefID.SettlInstRefID
+    ReadFieldStr bs pos SettlInstRefID.SettlInstRefID
 
 
 let ReadNoRoutingIDs (bs:byte[]) (pos:int): (int*NoRoutingIDs) =
-    ReadSingleCaseDUIntField bs pos NoRoutingIDs.NoRoutingIDs
+    ReadFieldInt bs pos NoRoutingIDs.NoRoutingIDs
 
 
 let ReadRoutingType (bs:byte[]) (pos:int) : (int * RoutingType) =
@@ -1423,15 +1423,15 @@ let ReadRoutingType (bs:byte[]) (pos:int) : (int * RoutingType) =
 
 
 let ReadRoutingID (bs:byte[]) (pos:int): (int*RoutingID) =
-    ReadSingleCaseDUStrField bs pos RoutingID.RoutingID
+    ReadFieldStr bs pos RoutingID.RoutingID
 
 
 let ReadSpread (bs:byte[]) (pos:int): (int*Spread) =
-    ReadSingleCaseDUDecimalField bs pos Spread.Spread
+    ReadFieldDecimal bs pos Spread.Spread
 
 
 let ReadBenchmarkCurveCurrency (bs:byte[]) (pos:int): (int*BenchmarkCurveCurrency) =
-    ReadSingleCaseDUStrField bs pos BenchmarkCurveCurrency.BenchmarkCurveCurrency
+    ReadFieldStr bs pos BenchmarkCurveCurrency.BenchmarkCurveCurrency
 
 
 let ReadBenchmarkCurveName (bs:byte[]) (pos:int) : (int * BenchmarkCurveName) =
@@ -1455,47 +1455,47 @@ let ReadBenchmarkCurveName (bs:byte[]) (pos:int) : (int * BenchmarkCurveName) =
 
 
 let ReadBenchmarkCurvePoint (bs:byte[]) (pos:int): (int*BenchmarkCurvePoint) =
-    ReadSingleCaseDUStrField bs pos BenchmarkCurvePoint.BenchmarkCurvePoint
+    ReadFieldStr bs pos BenchmarkCurvePoint.BenchmarkCurvePoint
 
 
 let ReadCouponRate (bs:byte[]) (pos:int): (int*CouponRate) =
-    ReadSingleCaseDUDecimalField bs pos CouponRate.CouponRate
+    ReadFieldDecimal bs pos CouponRate.CouponRate
 
 
 let ReadCouponPaymentDate (bs:byte[]) (pos:int): (int*CouponPaymentDate) =
-    ReadSingleCaseDUStrField bs pos CouponPaymentDate.CouponPaymentDate
+    ReadFieldStr bs pos CouponPaymentDate.CouponPaymentDate
 
 
 let ReadIssueDate (bs:byte[]) (pos:int): (int*IssueDate) =
-    ReadSingleCaseDUStrField bs pos IssueDate.IssueDate
+    ReadFieldStr bs pos IssueDate.IssueDate
 
 
 let ReadRepurchaseTerm (bs:byte[]) (pos:int): (int*RepurchaseTerm) =
-    ReadSingleCaseDUIntField bs pos RepurchaseTerm.RepurchaseTerm
+    ReadFieldInt bs pos RepurchaseTerm.RepurchaseTerm
 
 
 let ReadRepurchaseRate (bs:byte[]) (pos:int): (int*RepurchaseRate) =
-    ReadSingleCaseDUDecimalField bs pos RepurchaseRate.RepurchaseRate
+    ReadFieldDecimal bs pos RepurchaseRate.RepurchaseRate
 
 
 let ReadFactor (bs:byte[]) (pos:int): (int*Factor) =
-    ReadSingleCaseDUDecimalField bs pos Factor.Factor
+    ReadFieldDecimal bs pos Factor.Factor
 
 
 let ReadTradeOriginationDate (bs:byte[]) (pos:int): (int*TradeOriginationDate) =
-    ReadSingleCaseDUStrField bs pos TradeOriginationDate.TradeOriginationDate
+    ReadFieldStr bs pos TradeOriginationDate.TradeOriginationDate
 
 
 let ReadExDate (bs:byte[]) (pos:int): (int*ExDate) =
-    ReadSingleCaseDUStrField bs pos ExDate.ExDate
+    ReadFieldStr bs pos ExDate.ExDate
 
 
 let ReadContractMultiplier (bs:byte[]) (pos:int): (int*ContractMultiplier) =
-    ReadSingleCaseDUDecimalField bs pos ContractMultiplier.ContractMultiplier
+    ReadFieldDecimal bs pos ContractMultiplier.ContractMultiplier
 
 
 let ReadNoStipulations (bs:byte[]) (pos:int): (int*NoStipulations) =
-    ReadSingleCaseDUIntField bs pos NoStipulations.NoStipulations
+    ReadFieldInt bs pos NoStipulations.NoStipulations
 
 
 let ReadStipulationType (bs:byte[]) (pos:int) : (int * StipulationType) =
@@ -1630,107 +1630,107 @@ let ReadYieldType (bs:byte[]) (pos:int) : (int * YieldType) =
 
 
 let ReadYield (bs:byte[]) (pos:int): (int*Yield) =
-    ReadSingleCaseDUDecimalField bs pos Yield.Yield
+    ReadFieldDecimal bs pos Yield.Yield
 
 
 let ReadTotalTakedown (bs:byte[]) (pos:int): (int*TotalTakedown) =
-    ReadSingleCaseDUDecimalField bs pos TotalTakedown.TotalTakedown
+    ReadFieldDecimal bs pos TotalTakedown.TotalTakedown
 
 
 let ReadConcession (bs:byte[]) (pos:int): (int*Concession) =
-    ReadSingleCaseDUDecimalField bs pos Concession.Concession
+    ReadFieldDecimal bs pos Concession.Concession
 
 
 let ReadRepoCollateralSecurityType (bs:byte[]) (pos:int): (int*RepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField bs pos RepoCollateralSecurityType.RepoCollateralSecurityType
+    ReadFieldInt bs pos RepoCollateralSecurityType.RepoCollateralSecurityType
 
 
 let ReadRedemptionDate (bs:byte[]) (pos:int): (int*RedemptionDate) =
-    ReadSingleCaseDUStrField bs pos RedemptionDate.RedemptionDate
+    ReadFieldStr bs pos RedemptionDate.RedemptionDate
 
 
 let ReadUnderlyingCouponPaymentDate (bs:byte[]) (pos:int): (int*UnderlyingCouponPaymentDate) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate
+    ReadFieldStr bs pos UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate
 
 
 let ReadUnderlyingIssueDate (bs:byte[]) (pos:int): (int*UnderlyingIssueDate) =
-    ReadSingleCaseDUStrField bs pos UnderlyingIssueDate.UnderlyingIssueDate
+    ReadFieldStr bs pos UnderlyingIssueDate.UnderlyingIssueDate
 
 
 let ReadUnderlyingRepoCollateralSecurityType (bs:byte[]) (pos:int): (int*UnderlyingRepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField bs pos UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
+    ReadFieldInt bs pos UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
 
 
 let ReadUnderlyingRepurchaseTerm (bs:byte[]) (pos:int): (int*UnderlyingRepurchaseTerm) =
-    ReadSingleCaseDUIntField bs pos UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm
+    ReadFieldInt bs pos UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm
 
 
 let ReadUnderlyingRepurchaseRate (bs:byte[]) (pos:int): (int*UnderlyingRepurchaseRate) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingRepurchaseRate.UnderlyingRepurchaseRate
+    ReadFieldDecimal bs pos UnderlyingRepurchaseRate.UnderlyingRepurchaseRate
 
 
 let ReadUnderlyingFactor (bs:byte[]) (pos:int): (int*UnderlyingFactor) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingFactor.UnderlyingFactor
+    ReadFieldDecimal bs pos UnderlyingFactor.UnderlyingFactor
 
 
 let ReadUnderlyingRedemptionDate (bs:byte[]) (pos:int): (int*UnderlyingRedemptionDate) =
-    ReadSingleCaseDUStrField bs pos UnderlyingRedemptionDate.UnderlyingRedemptionDate
+    ReadFieldStr bs pos UnderlyingRedemptionDate.UnderlyingRedemptionDate
 
 
 let ReadLegCouponPaymentDate (bs:byte[]) (pos:int): (int*LegCouponPaymentDate) =
-    ReadSingleCaseDUStrField bs pos LegCouponPaymentDate.LegCouponPaymentDate
+    ReadFieldStr bs pos LegCouponPaymentDate.LegCouponPaymentDate
 
 
 let ReadLegIssueDate (bs:byte[]) (pos:int): (int*LegIssueDate) =
-    ReadSingleCaseDUStrField bs pos LegIssueDate.LegIssueDate
+    ReadFieldStr bs pos LegIssueDate.LegIssueDate
 
 
 let ReadLegRepoCollateralSecurityType (bs:byte[]) (pos:int): (int*LegRepoCollateralSecurityType) =
-    ReadSingleCaseDUIntField bs pos LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
+    ReadFieldInt bs pos LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
 
 
 let ReadLegRepurchaseTerm (bs:byte[]) (pos:int): (int*LegRepurchaseTerm) =
-    ReadSingleCaseDUIntField bs pos LegRepurchaseTerm.LegRepurchaseTerm
+    ReadFieldInt bs pos LegRepurchaseTerm.LegRepurchaseTerm
 
 
 let ReadLegRepurchaseRate (bs:byte[]) (pos:int): (int*LegRepurchaseRate) =
-    ReadSingleCaseDUDecimalField bs pos LegRepurchaseRate.LegRepurchaseRate
+    ReadFieldDecimal bs pos LegRepurchaseRate.LegRepurchaseRate
 
 
 let ReadLegFactor (bs:byte[]) (pos:int): (int*LegFactor) =
-    ReadSingleCaseDUDecimalField bs pos LegFactor.LegFactor
+    ReadFieldDecimal bs pos LegFactor.LegFactor
 
 
 let ReadLegRedemptionDate (bs:byte[]) (pos:int): (int*LegRedemptionDate) =
-    ReadSingleCaseDUStrField bs pos LegRedemptionDate.LegRedemptionDate
+    ReadFieldStr bs pos LegRedemptionDate.LegRedemptionDate
 
 
 let ReadCreditRating (bs:byte[]) (pos:int): (int*CreditRating) =
-    ReadSingleCaseDUStrField bs pos CreditRating.CreditRating
+    ReadFieldStr bs pos CreditRating.CreditRating
 
 
 let ReadUnderlyingCreditRating (bs:byte[]) (pos:int): (int*UnderlyingCreditRating) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCreditRating.UnderlyingCreditRating
+    ReadFieldStr bs pos UnderlyingCreditRating.UnderlyingCreditRating
 
 
 let ReadLegCreditRating (bs:byte[]) (pos:int): (int*LegCreditRating) =
-    ReadSingleCaseDUStrField bs pos LegCreditRating.LegCreditRating
+    ReadFieldStr bs pos LegCreditRating.LegCreditRating
 
 
 let ReadTradedFlatSwitch (bs:byte[]) (pos:int): (int*TradedFlatSwitch) =
-    ReadSingleCaseDUBoolField bs pos TradedFlatSwitch.TradedFlatSwitch
+    ReadFieldBool bs pos TradedFlatSwitch.TradedFlatSwitch
 
 
 let ReadBasisFeatureDate (bs:byte[]) (pos:int): (int*BasisFeatureDate) =
-    ReadSingleCaseDUStrField bs pos BasisFeatureDate.BasisFeatureDate
+    ReadFieldStr bs pos BasisFeatureDate.BasisFeatureDate
 
 
 let ReadBasisFeaturePrice (bs:byte[]) (pos:int): (int*BasisFeaturePrice) =
-    ReadSingleCaseDUDecimalField bs pos BasisFeaturePrice.BasisFeaturePrice
+    ReadFieldDecimal bs pos BasisFeaturePrice.BasisFeaturePrice
 
 
 let ReadMDReqID (bs:byte[]) (pos:int): (int*MDReqID) =
-    ReadSingleCaseDUStrField bs pos MDReqID.MDReqID
+    ReadFieldStr bs pos MDReqID.MDReqID
 
 
 let ReadSubscriptionRequestType (bs:byte[]) (pos:int) : (int * SubscriptionRequestType) =
@@ -1745,7 +1745,7 @@ let ReadSubscriptionRequestType (bs:byte[]) (pos:int) : (int * SubscriptionReque
 
 
 let ReadMarketDepth (bs:byte[]) (pos:int): (int*MarketDepth) =
-    ReadSingleCaseDUIntField bs pos MarketDepth.MarketDepth
+    ReadFieldInt bs pos MarketDepth.MarketDepth
 
 
 let ReadMDUpdateType (bs:byte[]) (pos:int) : (int * MDUpdateType) =
@@ -1759,15 +1759,15 @@ let ReadMDUpdateType (bs:byte[]) (pos:int) : (int * MDUpdateType) =
 
 
 let ReadAggregatedBook (bs:byte[]) (pos:int): (int*AggregatedBook) =
-    ReadSingleCaseDUBoolField bs pos AggregatedBook.AggregatedBook
+    ReadFieldBool bs pos AggregatedBook.AggregatedBook
 
 
 let ReadNoMDEntryTypes (bs:byte[]) (pos:int): (int*NoMDEntryTypes) =
-    ReadSingleCaseDUIntField bs pos NoMDEntryTypes.NoMDEntryTypes
+    ReadFieldInt bs pos NoMDEntryTypes.NoMDEntryTypes
 
 
 let ReadNoMDEntries (bs:byte[]) (pos:int): (int*NoMDEntries) =
-    ReadSingleCaseDUIntField bs pos NoMDEntries.NoMDEntries
+    ReadFieldInt bs pos NoMDEntries.NoMDEntries
 
 
 let ReadMDEntryType (bs:byte[]) (pos:int) : (int * MDEntryType) =
@@ -1792,19 +1792,19 @@ let ReadMDEntryType (bs:byte[]) (pos:int) : (int * MDEntryType) =
 
 
 let ReadMDEntryPx (bs:byte[]) (pos:int): (int*MDEntryPx) =
-    ReadSingleCaseDUDecimalField bs pos MDEntryPx.MDEntryPx
+    ReadFieldDecimal bs pos MDEntryPx.MDEntryPx
 
 
 let ReadMDEntrySize (bs:byte[]) (pos:int): (int*MDEntrySize) =
-    ReadSingleCaseDUDecimalField bs pos MDEntrySize.MDEntrySize
+    ReadFieldDecimal bs pos MDEntrySize.MDEntrySize
 
 
 let ReadMDEntryDate (bs:byte[]) (pos:int): (int*MDEntryDate) =
-    ReadSingleCaseUTCDateField bs pos MDEntryDate.MDEntryDate
+    ReadFieldUTCDate bs pos MDEntryDate.MDEntryDate
 
 
 let ReadMDEntryTime (bs:byte[]) (pos:int): (int*MDEntryTime) =
-    ReadSingleCaseUTCTimeOnlyField bs pos MDEntryTime.MDEntryTime
+    ReadFieldUTCTimeOnly bs pos MDEntryTime.MDEntryTime
 
 
 let ReadTickDirection (bs:byte[]) (pos:int) : (int * TickDirection) =
@@ -1820,7 +1820,7 @@ let ReadTickDirection (bs:byte[]) (pos:int) : (int * TickDirection) =
 
 
 let ReadMDMkt (bs:byte[]) (pos:int): (int*MDMkt) =
-    ReadSingleCaseDUStrField bs pos MDMkt.MDMkt
+    ReadFieldStr bs pos MDMkt.MDMkt
 
 
 let ReadQuoteCondition (bs:byte[]) (pos:int) : (int * QuoteCondition) =
@@ -1866,7 +1866,7 @@ let ReadTradeCondition (bs:byte[]) (pos:int) : (int * TradeCondition) =
 
 
 let ReadMDEntryID (bs:byte[]) (pos:int): (int*MDEntryID) =
-    ReadSingleCaseDUStrField bs pos MDEntryID.MDEntryID
+    ReadFieldStr bs pos MDEntryID.MDEntryID
 
 
 let ReadMDUpdateAction (bs:byte[]) (pos:int) : (int * MDUpdateAction) =
@@ -1881,7 +1881,7 @@ let ReadMDUpdateAction (bs:byte[]) (pos:int) : (int * MDUpdateAction) =
 
 
 let ReadMDEntryRefID (bs:byte[]) (pos:int): (int*MDEntryRefID) =
-    ReadSingleCaseDUStrField bs pos MDEntryRefID.MDEntryRefID
+    ReadFieldStr bs pos MDEntryRefID.MDEntryRefID
 
 
 let ReadMDReqRejReason (bs:byte[]) (pos:int) : (int * MDReqRejReason) =
@@ -1906,15 +1906,15 @@ let ReadMDReqRejReason (bs:byte[]) (pos:int) : (int * MDReqRejReason) =
 
 
 let ReadMDEntryOriginator (bs:byte[]) (pos:int): (int*MDEntryOriginator) =
-    ReadSingleCaseDUStrField bs pos MDEntryOriginator.MDEntryOriginator
+    ReadFieldStr bs pos MDEntryOriginator.MDEntryOriginator
 
 
 let ReadLocationID (bs:byte[]) (pos:int): (int*LocationID) =
-    ReadSingleCaseDUStrField bs pos LocationID.LocationID
+    ReadFieldStr bs pos LocationID.LocationID
 
 
 let ReadDeskID (bs:byte[]) (pos:int): (int*DeskID) =
-    ReadSingleCaseDUStrField bs pos DeskID.DeskID
+    ReadFieldStr bs pos DeskID.DeskID
 
 
 let ReadDeleteReason (bs:byte[]) (pos:int) : (int * DeleteReason) =
@@ -1942,19 +1942,19 @@ let ReadOpenCloseSettlFlag (bs:byte[]) (pos:int) : (int * OpenCloseSettlFlag) =
 
 
 let ReadSellerDays (bs:byte[]) (pos:int): (int*SellerDays) =
-    ReadSingleCaseDUIntField bs pos SellerDays.SellerDays
+    ReadFieldInt bs pos SellerDays.SellerDays
 
 
 let ReadMDEntryBuyer (bs:byte[]) (pos:int): (int*MDEntryBuyer) =
-    ReadSingleCaseDUStrField bs pos MDEntryBuyer.MDEntryBuyer
+    ReadFieldStr bs pos MDEntryBuyer.MDEntryBuyer
 
 
 let ReadMDEntrySeller (bs:byte[]) (pos:int): (int*MDEntrySeller) =
-    ReadSingleCaseDUStrField bs pos MDEntrySeller.MDEntrySeller
+    ReadFieldStr bs pos MDEntrySeller.MDEntrySeller
 
 
 let ReadMDEntryPositionNo (bs:byte[]) (pos:int): (int*MDEntryPositionNo) =
-    ReadSingleCaseDUIntField bs pos MDEntryPositionNo.MDEntryPositionNo
+    ReadFieldInt bs pos MDEntryPositionNo.MDEntryPositionNo
 
 
 let ReadFinancialStatus (bs:byte[]) (pos:int) : (int * FinancialStatus) =
@@ -1981,19 +1981,19 @@ let ReadCorporateAction (bs:byte[]) (pos:int) : (int * CorporateAction) =
 
 
 let ReadDefBidSize (bs:byte[]) (pos:int): (int*DefBidSize) =
-    ReadSingleCaseDUDecimalField bs pos DefBidSize.DefBidSize
+    ReadFieldDecimal bs pos DefBidSize.DefBidSize
 
 
 let ReadDefOfferSize (bs:byte[]) (pos:int): (int*DefOfferSize) =
-    ReadSingleCaseDUDecimalField bs pos DefOfferSize.DefOfferSize
+    ReadFieldDecimal bs pos DefOfferSize.DefOfferSize
 
 
 let ReadNoQuoteEntries (bs:byte[]) (pos:int): (int*NoQuoteEntries) =
-    ReadSingleCaseDUIntField bs pos NoQuoteEntries.NoQuoteEntries
+    ReadFieldInt bs pos NoQuoteEntries.NoQuoteEntries
 
 
 let ReadNoQuoteSets (bs:byte[]) (pos:int): (int*NoQuoteSets) =
-    ReadSingleCaseDUIntField bs pos NoQuoteSets.NoQuoteSets
+    ReadFieldInt bs pos NoQuoteSets.NoQuoteSets
 
 
 let ReadQuoteStatus (bs:byte[]) (pos:int) : (int * QuoteStatus) =
@@ -2033,7 +2033,7 @@ let ReadQuoteCancelType (bs:byte[]) (pos:int) : (int * QuoteCancelType) =
 
 
 let ReadQuoteEntryID (bs:byte[]) (pos:int): (int*QuoteEntryID) =
-    ReadSingleCaseDUStrField bs pos QuoteEntryID.QuoteEntryID
+    ReadFieldStr bs pos QuoteEntryID.QuoteEntryID
 
 
 let ReadQuoteRejectReason (bs:byte[]) (pos:int) : (int * QuoteRejectReason) =
@@ -2066,7 +2066,7 @@ let ReadQuoteResponseLevel (bs:byte[]) (pos:int) : (int * QuoteResponseLevel) =
 
 
 let ReadQuoteSetID (bs:byte[]) (pos:int): (int*QuoteSetID) =
-    ReadSingleCaseDUStrField bs pos QuoteSetID.QuoteSetID
+    ReadFieldStr bs pos QuoteSetID.QuoteSetID
 
 
 let ReadQuoteRequestType (bs:byte[]) (pos:int) : (int * QuoteRequestType) =
@@ -2080,39 +2080,39 @@ let ReadQuoteRequestType (bs:byte[]) (pos:int) : (int * QuoteRequestType) =
 
 
 let ReadTotNoQuoteEntries (bs:byte[]) (pos:int): (int*TotNoQuoteEntries) =
-    ReadSingleCaseDUIntField bs pos TotNoQuoteEntries.TotNoQuoteEntries
+    ReadFieldInt bs pos TotNoQuoteEntries.TotNoQuoteEntries
 
 
 let ReadUnderlyingSecurityIDSource (bs:byte[]) (pos:int): (int*UnderlyingSecurityIDSource) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityIDSource.UnderlyingSecurityIDSource
+    ReadFieldStr bs pos UnderlyingSecurityIDSource.UnderlyingSecurityIDSource
 
 
 let ReadUnderlyingIssuer (bs:byte[]) (pos:int): (int*UnderlyingIssuer) =
-    ReadSingleCaseDUStrField bs pos UnderlyingIssuer.UnderlyingIssuer
+    ReadFieldStr bs pos UnderlyingIssuer.UnderlyingIssuer
 
 
 let ReadUnderlyingSecurityDesc (bs:byte[]) (pos:int): (int*UnderlyingSecurityDesc) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityDesc.UnderlyingSecurityDesc
+    ReadFieldStr bs pos UnderlyingSecurityDesc.UnderlyingSecurityDesc
 
 
 let ReadUnderlyingSecurityExchange (bs:byte[]) (pos:int): (int*UnderlyingSecurityExchange) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityExchange.UnderlyingSecurityExchange
+    ReadFieldStr bs pos UnderlyingSecurityExchange.UnderlyingSecurityExchange
 
 
 let ReadUnderlyingSecurityID (bs:byte[]) (pos:int): (int*UnderlyingSecurityID) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityID.UnderlyingSecurityID
+    ReadFieldStr bs pos UnderlyingSecurityID.UnderlyingSecurityID
 
 
 let ReadUnderlyingSecurityType (bs:byte[]) (pos:int): (int*UnderlyingSecurityType) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityType.UnderlyingSecurityType
+    ReadFieldStr bs pos UnderlyingSecurityType.UnderlyingSecurityType
 
 
 let ReadUnderlyingSymbol (bs:byte[]) (pos:int): (int*UnderlyingSymbol) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSymbol.UnderlyingSymbol
+    ReadFieldStr bs pos UnderlyingSymbol.UnderlyingSymbol
 
 
 let ReadUnderlyingSymbolSfx (bs:byte[]) (pos:int): (int*UnderlyingSymbolSfx) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSymbolSfx.UnderlyingSymbolSfx
+    ReadFieldStr bs pos UnderlyingSymbolSfx.UnderlyingSymbolSfx
 
 
 let ReadUnderlyingMaturityMonthYear (bs:byte[]) (pos:int): (int*UnderlyingMaturityMonthYear) =
@@ -2130,19 +2130,19 @@ let ReadUnderlyingPutOrCall (bs:byte[]) (pos:int) : (int * UnderlyingPutOrCall) 
 
 
 let ReadUnderlyingStrikePrice (bs:byte[]) (pos:int): (int*UnderlyingStrikePrice) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingStrikePrice.UnderlyingStrikePrice
+    ReadFieldDecimal bs pos UnderlyingStrikePrice.UnderlyingStrikePrice
 
 
 let ReadUnderlyingOptAttribute (bs:byte[]) (pos:int): (int*UnderlyingOptAttribute) =
-    ReadSingleCaseDUCharField bs pos UnderlyingOptAttribute.UnderlyingOptAttribute
+    ReadFieldChar bs pos UnderlyingOptAttribute.UnderlyingOptAttribute
 
 
 let ReadUnderlyingCurrency (bs:byte[]) (pos:int): (int*UnderlyingCurrency) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCurrency.UnderlyingCurrency
+    ReadFieldStr bs pos UnderlyingCurrency.UnderlyingCurrency
 
 
 let ReadSecurityReqID (bs:byte[]) (pos:int): (int*SecurityReqID) =
-    ReadSingleCaseDUStrField bs pos SecurityReqID.SecurityReqID
+    ReadFieldStr bs pos SecurityReqID.SecurityReqID
 
 
 let ReadSecurityRequestType (bs:byte[]) (pos:int) : (int * SecurityRequestType) =
@@ -2158,7 +2158,7 @@ let ReadSecurityRequestType (bs:byte[]) (pos:int) : (int * SecurityRequestType) 
 
 
 let ReadSecurityResponseID (bs:byte[]) (pos:int): (int*SecurityResponseID) =
-    ReadSingleCaseDUStrField bs pos SecurityResponseID.SecurityResponseID
+    ReadFieldStr bs pos SecurityResponseID.SecurityResponseID
 
 
 let ReadSecurityResponseType (bs:byte[]) (pos:int) : (int * SecurityResponseType) =
@@ -2176,11 +2176,11 @@ let ReadSecurityResponseType (bs:byte[]) (pos:int) : (int * SecurityResponseType
 
 
 let ReadSecurityStatusReqID (bs:byte[]) (pos:int): (int*SecurityStatusReqID) =
-    ReadSingleCaseDUStrField bs pos SecurityStatusReqID.SecurityStatusReqID
+    ReadFieldStr bs pos SecurityStatusReqID.SecurityStatusReqID
 
 
 let ReadUnsolicitedIndicator (bs:byte[]) (pos:int): (int*UnsolicitedIndicator) =
-    ReadSingleCaseDUBoolField bs pos UnsolicitedIndicator.UnsolicitedIndicator
+    ReadFieldBool bs pos UnsolicitedIndicator.UnsolicitedIndicator
 
 
 let ReadSecurityTradingStatus (bs:byte[]) (pos:int) : (int * SecurityTradingStatus) =
@@ -2229,27 +2229,27 @@ let ReadHaltReason (bs:byte[]) (pos:int) : (int * HaltReason) =
 
 
 let ReadInViewOfCommon (bs:byte[]) (pos:int): (int*InViewOfCommon) =
-    ReadSingleCaseDUBoolField bs pos InViewOfCommon.InViewOfCommon
+    ReadFieldBool bs pos InViewOfCommon.InViewOfCommon
 
 
 let ReadDueToRelated (bs:byte[]) (pos:int): (int*DueToRelated) =
-    ReadSingleCaseDUBoolField bs pos DueToRelated.DueToRelated
+    ReadFieldBool bs pos DueToRelated.DueToRelated
 
 
 let ReadBuyVolume (bs:byte[]) (pos:int): (int*BuyVolume) =
-    ReadSingleCaseDUDecimalField bs pos BuyVolume.BuyVolume
+    ReadFieldDecimal bs pos BuyVolume.BuyVolume
 
 
 let ReadSellVolume (bs:byte[]) (pos:int): (int*SellVolume) =
-    ReadSingleCaseDUDecimalField bs pos SellVolume.SellVolume
+    ReadFieldDecimal bs pos SellVolume.SellVolume
 
 
 let ReadHighPx (bs:byte[]) (pos:int): (int*HighPx) =
-    ReadSingleCaseDUDecimalField bs pos HighPx.HighPx
+    ReadFieldDecimal bs pos HighPx.HighPx
 
 
 let ReadLowPx (bs:byte[]) (pos:int): (int*LowPx) =
-    ReadSingleCaseDUDecimalField bs pos LowPx.LowPx
+    ReadFieldDecimal bs pos LowPx.LowPx
 
 
 let ReadAdjustment (bs:byte[]) (pos:int) : (int * Adjustment) =
@@ -2264,15 +2264,15 @@ let ReadAdjustment (bs:byte[]) (pos:int) : (int * Adjustment) =
 
 
 let ReadTradSesReqID (bs:byte[]) (pos:int): (int*TradSesReqID) =
-    ReadSingleCaseDUStrField bs pos TradSesReqID.TradSesReqID
+    ReadFieldStr bs pos TradSesReqID.TradSesReqID
 
 
 let ReadTradingSessionID (bs:byte[]) (pos:int): (int*TradingSessionID) =
-    ReadSingleCaseDUStrField bs pos TradingSessionID.TradingSessionID
+    ReadFieldStr bs pos TradingSessionID.TradingSessionID
 
 
 let ReadContraTrader (bs:byte[]) (pos:int): (int*ContraTrader) =
-    ReadSingleCaseDUStrField bs pos ContraTrader.ContraTrader
+    ReadFieldStr bs pos ContraTrader.ContraTrader
 
 
 let ReadTradSesMethod (bs:byte[]) (pos:int) : (int * TradSesMethod) =
@@ -2313,27 +2313,27 @@ let ReadTradSesStatus (bs:byte[]) (pos:int) : (int * TradSesStatus) =
 
 
 let ReadTradSesStartTime (bs:byte[]) (pos:int): (int*TradSesStartTime) =
-    ReadSingleCaseUTCTimestampField bs pos TradSesStartTime.TradSesStartTime
+    ReadFieldUTCTimestamp bs pos TradSesStartTime.TradSesStartTime
 
 
 let ReadTradSesOpenTime (bs:byte[]) (pos:int): (int*TradSesOpenTime) =
-    ReadSingleCaseUTCTimestampField bs pos TradSesOpenTime.TradSesOpenTime
+    ReadFieldUTCTimestamp bs pos TradSesOpenTime.TradSesOpenTime
 
 
 let ReadTradSesPreCloseTime (bs:byte[]) (pos:int): (int*TradSesPreCloseTime) =
-    ReadSingleCaseUTCTimestampField bs pos TradSesPreCloseTime.TradSesPreCloseTime
+    ReadFieldUTCTimestamp bs pos TradSesPreCloseTime.TradSesPreCloseTime
 
 
 let ReadTradSesCloseTime (bs:byte[]) (pos:int): (int*TradSesCloseTime) =
-    ReadSingleCaseUTCTimestampField bs pos TradSesCloseTime.TradSesCloseTime
+    ReadFieldUTCTimestamp bs pos TradSesCloseTime.TradSesCloseTime
 
 
 let ReadTradSesEndTime (bs:byte[]) (pos:int): (int*TradSesEndTime) =
-    ReadSingleCaseUTCTimestampField bs pos TradSesEndTime.TradSesEndTime
+    ReadFieldUTCTimestamp bs pos TradSesEndTime.TradSesEndTime
 
 
 let ReadNumberOfOrders (bs:byte[]) (pos:int): (int*NumberOfOrders) =
-    ReadSingleCaseDUIntField bs pos NumberOfOrders.NumberOfOrders
+    ReadFieldInt bs pos NumberOfOrders.NumberOfOrders
 
 
 let ReadMessageEncoding (bs:byte[]) (pos:int) : (int * MessageEncoding) =
@@ -2394,11 +2394,11 @@ let ReadEncodedUnderlyingSecurityDesc (bs:byte[]) (pos:int) : (int * EncodedUnde
 
 
 let ReadAllocPrice (bs:byte[]) (pos:int): (int*AllocPrice) =
-    ReadSingleCaseDUDecimalField bs pos AllocPrice.AllocPrice
+    ReadFieldDecimal bs pos AllocPrice.AllocPrice
 
 
 let ReadQuoteSetValidUntilTime (bs:byte[]) (pos:int): (int*QuoteSetValidUntilTime) =
-    ReadSingleCaseUTCTimestampField bs pos QuoteSetValidUntilTime.QuoteSetValidUntilTime
+    ReadFieldUTCTimestamp bs pos QuoteSetValidUntilTime.QuoteSetValidUntilTime
 
 
 let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) : (int * QuoteEntryRejectReason) =
@@ -2419,15 +2419,15 @@ let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) : (int * QuoteEntryRejectRe
 
 
 let ReadLastMsgSeqNumProcessed (bs:byte[]) (pos:int): (int*LastMsgSeqNumProcessed) =
-    ReadSingleCaseDUUint32Field bs pos LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
+    ReadFieldUint32 bs pos LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
 
 
 let ReadRefTagID (bs:byte[]) (pos:int): (int*RefTagID) =
-    ReadSingleCaseDUIntField bs pos RefTagID.RefTagID
+    ReadFieldInt bs pos RefTagID.RefTagID
 
 
 let ReadRefMsgType (bs:byte[]) (pos:int): (int*RefMsgType) =
-    ReadSingleCaseDUStrField bs pos RefMsgType.RefMsgType
+    ReadFieldStr bs pos RefMsgType.RefMsgType
 
 
 let ReadSessionRejectReason (bs:byte[]) (pos:int) : (int * SessionRejectReason) =
@@ -2468,15 +2468,15 @@ let ReadBidRequestTransType (bs:byte[]) (pos:int) : (int * BidRequestTransType) 
 
 
 let ReadContraBroker (bs:byte[]) (pos:int): (int*ContraBroker) =
-    ReadSingleCaseDUStrField bs pos ContraBroker.ContraBroker
+    ReadFieldStr bs pos ContraBroker.ContraBroker
 
 
 let ReadComplianceID (bs:byte[]) (pos:int): (int*ComplianceID) =
-    ReadSingleCaseDUStrField bs pos ComplianceID.ComplianceID
+    ReadFieldStr bs pos ComplianceID.ComplianceID
 
 
 let ReadSolicitedFlag (bs:byte[]) (pos:int): (int*SolicitedFlag) =
-    ReadSingleCaseDUBoolField bs pos SolicitedFlag.SolicitedFlag
+    ReadFieldBool bs pos SolicitedFlag.SolicitedFlag
 
 
 let ReadExecRestatementReason (bs:byte[]) (pos:int) : (int * ExecRestatementReason) =
@@ -2498,7 +2498,7 @@ let ReadExecRestatementReason (bs:byte[]) (pos:int) : (int * ExecRestatementReas
 
 
 let ReadBusinessRejectRefID (bs:byte[]) (pos:int): (int*BusinessRejectRefID) =
-    ReadSingleCaseDUStrField bs pos BusinessRejectRefID.BusinessRejectRefID
+    ReadFieldStr bs pos BusinessRejectRefID.BusinessRejectRefID
 
 
 let ReadBusinessRejectReason (bs:byte[]) (pos:int) : (int * BusinessRejectReason) =
@@ -2518,19 +2518,19 @@ let ReadBusinessRejectReason (bs:byte[]) (pos:int) : (int * BusinessRejectReason
 
 
 let ReadGrossTradeAmt (bs:byte[]) (pos:int): (int*GrossTradeAmt) =
-    ReadSingleCaseDUDecimalField bs pos GrossTradeAmt.GrossTradeAmt
+    ReadFieldDecimal bs pos GrossTradeAmt.GrossTradeAmt
 
 
 let ReadNoContraBrokers (bs:byte[]) (pos:int): (int*NoContraBrokers) =
-    ReadSingleCaseDUIntField bs pos NoContraBrokers.NoContraBrokers
+    ReadFieldInt bs pos NoContraBrokers.NoContraBrokers
 
 
 let ReadMaxMessageSize (bs:byte[]) (pos:int): (int*MaxMessageSize) =
-    ReadSingleCaseDUIntField bs pos MaxMessageSize.MaxMessageSize
+    ReadFieldInt bs pos MaxMessageSize.MaxMessageSize
 
 
 let ReadNoMsgTypes (bs:byte[]) (pos:int): (int*NoMsgTypes) =
-    ReadSingleCaseDUIntField bs pos NoMsgTypes.NoMsgTypes
+    ReadFieldInt bs pos NoMsgTypes.NoMsgTypes
 
 
 let ReadMsgDirection (bs:byte[]) (pos:int) : (int * MsgDirection) =
@@ -2544,11 +2544,11 @@ let ReadMsgDirection (bs:byte[]) (pos:int) : (int * MsgDirection) =
 
 
 let ReadNoTradingSessions (bs:byte[]) (pos:int): (int*NoTradingSessions) =
-    ReadSingleCaseDUIntField bs pos NoTradingSessions.NoTradingSessions
+    ReadFieldInt bs pos NoTradingSessions.NoTradingSessions
 
 
 let ReadTotalVolumeTraded (bs:byte[]) (pos:int): (int*TotalVolumeTraded) =
-    ReadSingleCaseDUDecimalField bs pos TotalVolumeTraded.TotalVolumeTraded
+    ReadFieldDecimal bs pos TotalVolumeTraded.TotalVolumeTraded
 
 
 let ReadDiscretionInst (bs:byte[]) (pos:int) : (int * DiscretionInst) =
@@ -2567,23 +2567,23 @@ let ReadDiscretionInst (bs:byte[]) (pos:int) : (int * DiscretionInst) =
 
 
 let ReadDiscretionOffsetValue (bs:byte[]) (pos:int): (int*DiscretionOffsetValue) =
-    ReadSingleCaseDUDecimalField bs pos DiscretionOffsetValue.DiscretionOffsetValue
+    ReadFieldDecimal bs pos DiscretionOffsetValue.DiscretionOffsetValue
 
 
 let ReadBidID (bs:byte[]) (pos:int): (int*BidID) =
-    ReadSingleCaseDUStrField bs pos BidID.BidID
+    ReadFieldStr bs pos BidID.BidID
 
 
 let ReadClientBidID (bs:byte[]) (pos:int): (int*ClientBidID) =
-    ReadSingleCaseDUStrField bs pos ClientBidID.ClientBidID
+    ReadFieldStr bs pos ClientBidID.ClientBidID
 
 
 let ReadListName (bs:byte[]) (pos:int): (int*ListName) =
-    ReadSingleCaseDUStrField bs pos ListName.ListName
+    ReadFieldStr bs pos ListName.ListName
 
 
 let ReadTotNoRelatedSym (bs:byte[]) (pos:int): (int*TotNoRelatedSym) =
-    ReadSingleCaseDUIntField bs pos TotNoRelatedSym.TotNoRelatedSym
+    ReadFieldInt bs pos TotNoRelatedSym.TotNoRelatedSym
 
 
 let ReadBidType (bs:byte[]) (pos:int) : (int * BidType) =
@@ -2598,19 +2598,19 @@ let ReadBidType (bs:byte[]) (pos:int) : (int * BidType) =
 
 
 let ReadNumTickets (bs:byte[]) (pos:int): (int*NumTickets) =
-    ReadSingleCaseDUIntField bs pos NumTickets.NumTickets
+    ReadFieldInt bs pos NumTickets.NumTickets
 
 
 let ReadSideValue1 (bs:byte[]) (pos:int): (int*SideValue1) =
-    ReadSingleCaseDUDecimalField bs pos SideValue1.SideValue1
+    ReadFieldDecimal bs pos SideValue1.SideValue1
 
 
 let ReadSideValue2 (bs:byte[]) (pos:int): (int*SideValue2) =
-    ReadSingleCaseDUDecimalField bs pos SideValue2.SideValue2
+    ReadFieldDecimal bs pos SideValue2.SideValue2
 
 
 let ReadNoBidDescriptors (bs:byte[]) (pos:int): (int*NoBidDescriptors) =
-    ReadSingleCaseDUIntField bs pos NoBidDescriptors.NoBidDescriptors
+    ReadFieldInt bs pos NoBidDescriptors.NoBidDescriptors
 
 
 let ReadBidDescriptorType (bs:byte[]) (pos:int) : (int * BidDescriptorType) =
@@ -2625,7 +2625,7 @@ let ReadBidDescriptorType (bs:byte[]) (pos:int) : (int * BidDescriptorType) =
 
 
 let ReadBidDescriptor (bs:byte[]) (pos:int): (int*BidDescriptor) =
-    ReadSingleCaseDUStrField bs pos BidDescriptor.BidDescriptor
+    ReadFieldStr bs pos BidDescriptor.BidDescriptor
 
 
 let ReadSideValueInd (bs:byte[]) (pos:int) : (int * SideValueInd) =
@@ -2639,31 +2639,31 @@ let ReadSideValueInd (bs:byte[]) (pos:int) : (int * SideValueInd) =
 
 
 let ReadLiquidityPctLow (bs:byte[]) (pos:int): (int*LiquidityPctLow) =
-    ReadSingleCaseDUDecimalField bs pos LiquidityPctLow.LiquidityPctLow
+    ReadFieldDecimal bs pos LiquidityPctLow.LiquidityPctLow
 
 
 let ReadLiquidityPctHigh (bs:byte[]) (pos:int): (int*LiquidityPctHigh) =
-    ReadSingleCaseDUDecimalField bs pos LiquidityPctHigh.LiquidityPctHigh
+    ReadFieldDecimal bs pos LiquidityPctHigh.LiquidityPctHigh
 
 
 let ReadLiquidityValue (bs:byte[]) (pos:int): (int*LiquidityValue) =
-    ReadSingleCaseDUDecimalField bs pos LiquidityValue.LiquidityValue
+    ReadFieldDecimal bs pos LiquidityValue.LiquidityValue
 
 
 let ReadEFPTrackingError (bs:byte[]) (pos:int): (int*EFPTrackingError) =
-    ReadSingleCaseDUDecimalField bs pos EFPTrackingError.EFPTrackingError
+    ReadFieldDecimal bs pos EFPTrackingError.EFPTrackingError
 
 
 let ReadFairValue (bs:byte[]) (pos:int): (int*FairValue) =
-    ReadSingleCaseDUDecimalField bs pos FairValue.FairValue
+    ReadFieldDecimal bs pos FairValue.FairValue
 
 
 let ReadOutsideIndexPct (bs:byte[]) (pos:int): (int*OutsideIndexPct) =
-    ReadSingleCaseDUDecimalField bs pos OutsideIndexPct.OutsideIndexPct
+    ReadFieldDecimal bs pos OutsideIndexPct.OutsideIndexPct
 
 
 let ReadValueOfFutures (bs:byte[]) (pos:int): (int*ValueOfFutures) =
-    ReadSingleCaseDUDecimalField bs pos ValueOfFutures.ValueOfFutures
+    ReadFieldDecimal bs pos ValueOfFutures.ValueOfFutures
 
 
 let ReadLiquidityIndType (bs:byte[]) (pos:int) : (int * LiquidityIndType) =
@@ -2679,19 +2679,19 @@ let ReadLiquidityIndType (bs:byte[]) (pos:int) : (int * LiquidityIndType) =
 
 
 let ReadWtAverageLiquidity (bs:byte[]) (pos:int): (int*WtAverageLiquidity) =
-    ReadSingleCaseDUDecimalField bs pos WtAverageLiquidity.WtAverageLiquidity
+    ReadFieldDecimal bs pos WtAverageLiquidity.WtAverageLiquidity
 
 
 let ReadExchangeForPhysical (bs:byte[]) (pos:int): (int*ExchangeForPhysical) =
-    ReadSingleCaseDUBoolField bs pos ExchangeForPhysical.ExchangeForPhysical
+    ReadFieldBool bs pos ExchangeForPhysical.ExchangeForPhysical
 
 
 let ReadOutMainCntryUIndex (bs:byte[]) (pos:int): (int*OutMainCntryUIndex) =
-    ReadSingleCaseDUDecimalField bs pos OutMainCntryUIndex.OutMainCntryUIndex
+    ReadFieldDecimal bs pos OutMainCntryUIndex.OutMainCntryUIndex
 
 
 let ReadCrossPercent (bs:byte[]) (pos:int): (int*CrossPercent) =
-    ReadSingleCaseDUDecimalField bs pos CrossPercent.CrossPercent
+    ReadFieldDecimal bs pos CrossPercent.CrossPercent
 
 
 let ReadProgRptReqs (bs:byte[]) (pos:int) : (int * ProgRptReqs) =
@@ -2706,7 +2706,7 @@ let ReadProgRptReqs (bs:byte[]) (pos:int) : (int * ProgRptReqs) =
 
 
 let ReadProgPeriodInterval (bs:byte[]) (pos:int): (int*ProgPeriodInterval) =
-    ReadSingleCaseDUIntField bs pos ProgPeriodInterval.ProgPeriodInterval
+    ReadFieldInt bs pos ProgPeriodInterval.ProgPeriodInterval
 
 
 let ReadIncTaxInd (bs:byte[]) (pos:int) : (int * IncTaxInd) =
@@ -2720,7 +2720,7 @@ let ReadIncTaxInd (bs:byte[]) (pos:int) : (int * IncTaxInd) =
 
 
 let ReadNumBidders (bs:byte[]) (pos:int): (int*NumBidders) =
-    ReadSingleCaseDUIntField bs pos NumBidders.NumBidders
+    ReadFieldInt bs pos NumBidders.NumBidders
 
 
 let ReadBidTradeType (bs:byte[]) (pos:int) : (int * BidTradeType) =
@@ -2757,15 +2757,15 @@ let ReadBasisPxType (bs:byte[]) (pos:int) : (int * BasisPxType) =
 
 
 let ReadNoBidComponents (bs:byte[]) (pos:int): (int*NoBidComponents) =
-    ReadSingleCaseDUIntField bs pos NoBidComponents.NoBidComponents
+    ReadFieldInt bs pos NoBidComponents.NoBidComponents
 
 
 let ReadCountry (bs:byte[]) (pos:int): (int*Country) =
-    ReadSingleCaseDUStrField bs pos Country.Country
+    ReadFieldStr bs pos Country.Country
 
 
 let ReadTotNoStrikes (bs:byte[]) (pos:int): (int*TotNoStrikes) =
-    ReadSingleCaseDUIntField bs pos TotNoStrikes.TotNoStrikes
+    ReadFieldInt bs pos TotNoStrikes.TotNoStrikes
 
 
 let ReadPriceType (bs:byte[]) (pos:int) : (int * PriceType) =
@@ -2788,15 +2788,15 @@ let ReadPriceType (bs:byte[]) (pos:int) : (int * PriceType) =
 
 
 let ReadDayOrderQty (bs:byte[]) (pos:int): (int*DayOrderQty) =
-    ReadSingleCaseDUDecimalField bs pos DayOrderQty.DayOrderQty
+    ReadFieldDecimal bs pos DayOrderQty.DayOrderQty
 
 
 let ReadDayCumQty (bs:byte[]) (pos:int): (int*DayCumQty) =
-    ReadSingleCaseDUDecimalField bs pos DayCumQty.DayCumQty
+    ReadFieldDecimal bs pos DayCumQty.DayCumQty
 
 
 let ReadDayAvgPx (bs:byte[]) (pos:int): (int*DayAvgPx) =
-    ReadSingleCaseDUDecimalField bs pos DayAvgPx.DayAvgPx
+    ReadFieldDecimal bs pos DayAvgPx.DayAvgPx
 
 
 let ReadGTBookingInst (bs:byte[]) (pos:int) : (int * GTBookingInst) =
@@ -2811,7 +2811,7 @@ let ReadGTBookingInst (bs:byte[]) (pos:int) : (int * GTBookingInst) =
 
 
 let ReadNoStrikes (bs:byte[]) (pos:int): (int*NoStrikes) =
-    ReadSingleCaseDUIntField bs pos NoStrikes.NoStrikes
+    ReadFieldInt bs pos NoStrikes.NoStrikes
 
 
 let ReadListStatusType (bs:byte[]) (pos:int) : (int * ListStatusType) =
@@ -2854,7 +2854,7 @@ let ReadListOrderStatus (bs:byte[]) (pos:int) : (int * ListOrderStatus) =
 
 
 let ReadExpireDate (bs:byte[]) (pos:int): (int*ExpireDate) =
-    ReadSingleCaseDUStrField bs pos ExpireDate.ExpireDate
+    ReadFieldStr bs pos ExpireDate.ExpireDate
 
 
 let ReadListExecInstType (bs:byte[]) (pos:int) : (int * ListExecInstType) =
@@ -2881,23 +2881,23 @@ let ReadCxlRejResponseTo (bs:byte[]) (pos:int) : (int * CxlRejResponseTo) =
 
 
 let ReadUnderlyingCouponRate (bs:byte[]) (pos:int): (int*UnderlyingCouponRate) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingCouponRate.UnderlyingCouponRate
+    ReadFieldDecimal bs pos UnderlyingCouponRate.UnderlyingCouponRate
 
 
 let ReadUnderlyingContractMultiplier (bs:byte[]) (pos:int): (int*UnderlyingContractMultiplier) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingContractMultiplier.UnderlyingContractMultiplier
+    ReadFieldDecimal bs pos UnderlyingContractMultiplier.UnderlyingContractMultiplier
 
 
 let ReadContraTradeQty (bs:byte[]) (pos:int): (int*ContraTradeQty) =
-    ReadSingleCaseDUDecimalField bs pos ContraTradeQty.ContraTradeQty
+    ReadFieldDecimal bs pos ContraTradeQty.ContraTradeQty
 
 
 let ReadContraTradeTime (bs:byte[]) (pos:int): (int*ContraTradeTime) =
-    ReadSingleCaseUTCTimestampField bs pos ContraTradeTime.ContraTradeTime
+    ReadFieldUTCTimestamp bs pos ContraTradeTime.ContraTradeTime
 
 
 let ReadLiquidityNumSecurities (bs:byte[]) (pos:int): (int*LiquidityNumSecurities) =
-    ReadSingleCaseDUIntField bs pos LiquidityNumSecurities.LiquidityNumSecurities
+    ReadFieldInt bs pos LiquidityNumSecurities.LiquidityNumSecurities
 
 
 let ReadMultiLegReportingType (bs:byte[]) (pos:int) : (int * MultiLegReportingType) =
@@ -2912,11 +2912,11 @@ let ReadMultiLegReportingType (bs:byte[]) (pos:int) : (int * MultiLegReportingTy
 
 
 let ReadStrikeTime (bs:byte[]) (pos:int): (int*StrikeTime) =
-    ReadSingleCaseUTCTimestampField bs pos StrikeTime.StrikeTime
+    ReadFieldUTCTimestamp bs pos StrikeTime.StrikeTime
 
 
 let ReadListStatusText (bs:byte[]) (pos:int): (int*ListStatusText) =
-    ReadSingleCaseDUStrField bs pos ListStatusText.ListStatusText
+    ReadFieldStr bs pos ListStatusText.ListStatusText
 
 
 // compound read
@@ -2951,11 +2951,11 @@ let ReadPartyIDSource (bs:byte[]) (pos:int) : (int * PartyIDSource) =
 
 
 let ReadPartyID (bs:byte[]) (pos:int): (int*PartyID) =
-    ReadSingleCaseDUStrField bs pos PartyID.PartyID
+    ReadFieldStr bs pos PartyID.PartyID
 
 
 let ReadNetChgPrevDay (bs:byte[]) (pos:int): (int*NetChgPrevDay) =
-    ReadSingleCaseDUDecimalField bs pos NetChgPrevDay.NetChgPrevDay
+    ReadFieldDecimal bs pos NetChgPrevDay.NetChgPrevDay
 
 
 let ReadPartyRole (bs:byte[]) (pos:int) : (int * PartyRole) =
@@ -3004,31 +3004,31 @@ let ReadPartyRole (bs:byte[]) (pos:int) : (int * PartyRole) =
 
 
 let ReadNoPartyIDs (bs:byte[]) (pos:int): (int*NoPartyIDs) =
-    ReadSingleCaseDUIntField bs pos NoPartyIDs.NoPartyIDs
+    ReadFieldInt bs pos NoPartyIDs.NoPartyIDs
 
 
 let ReadNoSecurityAltID (bs:byte[]) (pos:int): (int*NoSecurityAltID) =
-    ReadSingleCaseDUIntField bs pos NoSecurityAltID.NoSecurityAltID
+    ReadFieldInt bs pos NoSecurityAltID.NoSecurityAltID
 
 
 let ReadSecurityAltID (bs:byte[]) (pos:int): (int*SecurityAltID) =
-    ReadSingleCaseDUStrField bs pos SecurityAltID.SecurityAltID
+    ReadFieldStr bs pos SecurityAltID.SecurityAltID
 
 
 let ReadSecurityAltIDSource (bs:byte[]) (pos:int): (int*SecurityAltIDSource) =
-    ReadSingleCaseDUStrField bs pos SecurityAltIDSource.SecurityAltIDSource
+    ReadFieldStr bs pos SecurityAltIDSource.SecurityAltIDSource
 
 
 let ReadNoUnderlyingSecurityAltID (bs:byte[]) (pos:int): (int*NoUnderlyingSecurityAltID) =
-    ReadSingleCaseDUIntField bs pos NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID
+    ReadFieldInt bs pos NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID
 
 
 let ReadUnderlyingSecurityAltID (bs:byte[]) (pos:int): (int*UnderlyingSecurityAltID) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityAltID.UnderlyingSecurityAltID
+    ReadFieldStr bs pos UnderlyingSecurityAltID.UnderlyingSecurityAltID
 
 
 let ReadUnderlyingSecurityAltIDSource (bs:byte[]) (pos:int): (int*UnderlyingSecurityAltIDSource) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource
+    ReadFieldStr bs pos UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource
 
 
 let ReadProduct (bs:byte[]) (pos:int) : (int * Product) =
@@ -3053,19 +3053,19 @@ let ReadProduct (bs:byte[]) (pos:int) : (int * Product) =
 
 
 let ReadCFICode (bs:byte[]) (pos:int): (int*CFICode) =
-    ReadSingleCaseDUStrField bs pos CFICode.CFICode
+    ReadFieldStr bs pos CFICode.CFICode
 
 
 let ReadUnderlyingProduct (bs:byte[]) (pos:int): (int*UnderlyingProduct) =
-    ReadSingleCaseDUIntField bs pos UnderlyingProduct.UnderlyingProduct
+    ReadFieldInt bs pos UnderlyingProduct.UnderlyingProduct
 
 
 let ReadUnderlyingCFICode (bs:byte[]) (pos:int): (int*UnderlyingCFICode) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCFICode.UnderlyingCFICode
+    ReadFieldStr bs pos UnderlyingCFICode.UnderlyingCFICode
 
 
 let ReadTestMessageIndicator (bs:byte[]) (pos:int): (int*TestMessageIndicator) =
-    ReadSingleCaseDUBoolField bs pos TestMessageIndicator.TestMessageIndicator
+    ReadFieldBool bs pos TestMessageIndicator.TestMessageIndicator
 
 
 let ReadQuantityType (bs:byte[]) (pos:int) : (int * QuantityType) =
@@ -3085,11 +3085,11 @@ let ReadQuantityType (bs:byte[]) (pos:int) : (int * QuantityType) =
 
 
 let ReadBookingRefID (bs:byte[]) (pos:int): (int*BookingRefID) =
-    ReadSingleCaseDUStrField bs pos BookingRefID.BookingRefID
+    ReadFieldStr bs pos BookingRefID.BookingRefID
 
 
 let ReadIndividualAllocID (bs:byte[]) (pos:int): (int*IndividualAllocID) =
-    ReadSingleCaseDUStrField bs pos IndividualAllocID.IndividualAllocID
+    ReadFieldStr bs pos IndividualAllocID.IndividualAllocID
 
 
 let ReadRoundingDirection (bs:byte[]) (pos:int) : (int * RoundingDirection) =
@@ -3104,35 +3104,35 @@ let ReadRoundingDirection (bs:byte[]) (pos:int) : (int * RoundingDirection) =
 
 
 let ReadRoundingModulus (bs:byte[]) (pos:int): (int*RoundingModulus) =
-    ReadSingleCaseDUDecimalField bs pos RoundingModulus.RoundingModulus
+    ReadFieldDecimal bs pos RoundingModulus.RoundingModulus
 
 
 let ReadCountryOfIssue (bs:byte[]) (pos:int): (int*CountryOfIssue) =
-    ReadSingleCaseDUStrField bs pos CountryOfIssue.CountryOfIssue
+    ReadFieldStr bs pos CountryOfIssue.CountryOfIssue
 
 
 let ReadStateOrProvinceOfIssue (bs:byte[]) (pos:int): (int*StateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField bs pos StateOrProvinceOfIssue.StateOrProvinceOfIssue
+    ReadFieldStr bs pos StateOrProvinceOfIssue.StateOrProvinceOfIssue
 
 
 let ReadLocaleOfIssue (bs:byte[]) (pos:int): (int*LocaleOfIssue) =
-    ReadSingleCaseDUStrField bs pos LocaleOfIssue.LocaleOfIssue
+    ReadFieldStr bs pos LocaleOfIssue.LocaleOfIssue
 
 
 let ReadNoRegistDtls (bs:byte[]) (pos:int): (int*NoRegistDtls) =
-    ReadSingleCaseDUIntField bs pos NoRegistDtls.NoRegistDtls
+    ReadFieldInt bs pos NoRegistDtls.NoRegistDtls
 
 
 let ReadMailingDtls (bs:byte[]) (pos:int): (int*MailingDtls) =
-    ReadSingleCaseDUStrField bs pos MailingDtls.MailingDtls
+    ReadFieldStr bs pos MailingDtls.MailingDtls
 
 
 let ReadInvestorCountryOfResidence (bs:byte[]) (pos:int): (int*InvestorCountryOfResidence) =
-    ReadSingleCaseDUStrField bs pos InvestorCountryOfResidence.InvestorCountryOfResidence
+    ReadFieldStr bs pos InvestorCountryOfResidence.InvestorCountryOfResidence
 
 
 let ReadPaymentRef (bs:byte[]) (pos:int): (int*PaymentRef) =
-    ReadSingleCaseDUStrField bs pos PaymentRef.PaymentRef
+    ReadFieldStr bs pos PaymentRef.PaymentRef
 
 
 let ReadDistribPaymentMethod (bs:byte[]) (pos:int) : (int * DistribPaymentMethod) =
@@ -3156,11 +3156,11 @@ let ReadDistribPaymentMethod (bs:byte[]) (pos:int) : (int * DistribPaymentMethod
 
 
 let ReadCashDistribCurr (bs:byte[]) (pos:int): (int*CashDistribCurr) =
-    ReadSingleCaseDUStrField bs pos CashDistribCurr.CashDistribCurr
+    ReadFieldStr bs pos CashDistribCurr.CashDistribCurr
 
 
 let ReadCommCurrency (bs:byte[]) (pos:int): (int*CommCurrency) =
-    ReadSingleCaseDUStrField bs pos CommCurrency.CommCurrency
+    ReadFieldStr bs pos CommCurrency.CommCurrency
 
 
 let ReadCancellationRights (bs:byte[]) (pos:int) : (int * CancellationRights) =
@@ -3189,11 +3189,11 @@ let ReadMoneyLaunderingStatus (bs:byte[]) (pos:int) : (int * MoneyLaunderingStat
 
 
 let ReadMailingInst (bs:byte[]) (pos:int): (int*MailingInst) =
-    ReadSingleCaseDUStrField bs pos MailingInst.MailingInst
+    ReadFieldStr bs pos MailingInst.MailingInst
 
 
 let ReadTransBkdTime (bs:byte[]) (pos:int): (int*TransBkdTime) =
-    ReadSingleCaseUTCTimestampField bs pos TransBkdTime.TransBkdTime
+    ReadFieldUTCTimestamp bs pos TransBkdTime.TransBkdTime
 
 
 let ReadExecPriceType (bs:byte[]) (pos:int) : (int * ExecPriceType) =
@@ -3213,11 +3213,11 @@ let ReadExecPriceType (bs:byte[]) (pos:int) : (int * ExecPriceType) =
 
 
 let ReadExecPriceAdjustment (bs:byte[]) (pos:int): (int*ExecPriceAdjustment) =
-    ReadSingleCaseDUDecimalField bs pos ExecPriceAdjustment.ExecPriceAdjustment
+    ReadFieldDecimal bs pos ExecPriceAdjustment.ExecPriceAdjustment
 
 
 let ReadDateOfBirth (bs:byte[]) (pos:int): (int*DateOfBirth) =
-    ReadSingleCaseDUStrField bs pos DateOfBirth.DateOfBirth
+    ReadFieldStr bs pos DateOfBirth.DateOfBirth
 
 
 let ReadTradeReportTransType (bs:byte[]) (pos:int) : (int * TradeReportTransType) =
@@ -3234,19 +3234,19 @@ let ReadTradeReportTransType (bs:byte[]) (pos:int) : (int * TradeReportTransType
 
 
 let ReadCardHolderName (bs:byte[]) (pos:int): (int*CardHolderName) =
-    ReadSingleCaseDUStrField bs pos CardHolderName.CardHolderName
+    ReadFieldStr bs pos CardHolderName.CardHolderName
 
 
 let ReadCardNumber (bs:byte[]) (pos:int): (int*CardNumber) =
-    ReadSingleCaseDUStrField bs pos CardNumber.CardNumber
+    ReadFieldStr bs pos CardNumber.CardNumber
 
 
 let ReadCardExpDate (bs:byte[]) (pos:int): (int*CardExpDate) =
-    ReadSingleCaseDUStrField bs pos CardExpDate.CardExpDate
+    ReadFieldStr bs pos CardExpDate.CardExpDate
 
 
 let ReadCardIssNum (bs:byte[]) (pos:int): (int*CardIssNum) =
-    ReadSingleCaseDUStrField bs pos CardIssNum.CardIssNum
+    ReadFieldStr bs pos CardIssNum.CardIssNum
 
 
 let ReadPaymentMethod (bs:byte[]) (pos:int) : (int * PaymentMethod) =
@@ -3273,11 +3273,11 @@ let ReadPaymentMethod (bs:byte[]) (pos:int) : (int * PaymentMethod) =
 
 
 let ReadRegistAcctType (bs:byte[]) (pos:int): (int*RegistAcctType) =
-    ReadSingleCaseDUStrField bs pos RegistAcctType.RegistAcctType
+    ReadFieldStr bs pos RegistAcctType.RegistAcctType
 
 
 let ReadDesignation (bs:byte[]) (pos:int): (int*Designation) =
-    ReadSingleCaseDUStrField bs pos Designation.Designation
+    ReadFieldStr bs pos Designation.Designation
 
 
 let ReadTaxAdvantageType (bs:byte[]) (pos:int) : (int * TaxAdvantageType) =
@@ -3300,7 +3300,7 @@ let ReadTaxAdvantageType (bs:byte[]) (pos:int) : (int * TaxAdvantageType) =
 
 
 let ReadRegistRejReasonText (bs:byte[]) (pos:int): (int*RegistRejReasonText) =
-    ReadSingleCaseDUStrField bs pos RegistRejReasonText.RegistRejReasonText
+    ReadFieldStr bs pos RegistRejReasonText.RegistRejReasonText
 
 
 let ReadFundRenewWaiv (bs:byte[]) (pos:int) : (int * FundRenewWaiv) =
@@ -3314,35 +3314,35 @@ let ReadFundRenewWaiv (bs:byte[]) (pos:int) : (int * FundRenewWaiv) =
 
 
 let ReadCashDistribAgentName (bs:byte[]) (pos:int): (int*CashDistribAgentName) =
-    ReadSingleCaseDUStrField bs pos CashDistribAgentName.CashDistribAgentName
+    ReadFieldStr bs pos CashDistribAgentName.CashDistribAgentName
 
 
 let ReadCashDistribAgentCode (bs:byte[]) (pos:int): (int*CashDistribAgentCode) =
-    ReadSingleCaseDUStrField bs pos CashDistribAgentCode.CashDistribAgentCode
+    ReadFieldStr bs pos CashDistribAgentCode.CashDistribAgentCode
 
 
 let ReadCashDistribAgentAcctNumber (bs:byte[]) (pos:int): (int*CashDistribAgentAcctNumber) =
-    ReadSingleCaseDUStrField bs pos CashDistribAgentAcctNumber.CashDistribAgentAcctNumber
+    ReadFieldStr bs pos CashDistribAgentAcctNumber.CashDistribAgentAcctNumber
 
 
 let ReadCashDistribPayRef (bs:byte[]) (pos:int): (int*CashDistribPayRef) =
-    ReadSingleCaseDUStrField bs pos CashDistribPayRef.CashDistribPayRef
+    ReadFieldStr bs pos CashDistribPayRef.CashDistribPayRef
 
 
 let ReadCashDistribAgentAcctName (bs:byte[]) (pos:int): (int*CashDistribAgentAcctName) =
-    ReadSingleCaseDUStrField bs pos CashDistribAgentAcctName.CashDistribAgentAcctName
+    ReadFieldStr bs pos CashDistribAgentAcctName.CashDistribAgentAcctName
 
 
 let ReadCardStartDate (bs:byte[]) (pos:int): (int*CardStartDate) =
-    ReadSingleCaseDUStrField bs pos CardStartDate.CardStartDate
+    ReadFieldStr bs pos CardStartDate.CardStartDate
 
 
 let ReadPaymentDate (bs:byte[]) (pos:int): (int*PaymentDate) =
-    ReadSingleCaseDUStrField bs pos PaymentDate.PaymentDate
+    ReadFieldStr bs pos PaymentDate.PaymentDate
 
 
 let ReadPaymentRemitterID (bs:byte[]) (pos:int): (int*PaymentRemitterID) =
-    ReadSingleCaseDUStrField bs pos PaymentRemitterID.PaymentRemitterID
+    ReadFieldStr bs pos PaymentRemitterID.PaymentRemitterID
 
 
 let ReadRegistStatus (bs:byte[]) (pos:int) : (int * RegistStatus) =
@@ -3385,27 +3385,27 @@ let ReadRegistRejReasonCode (bs:byte[]) (pos:int) : (int * RegistRejReasonCode) 
 
 
 let ReadRegistRefID (bs:byte[]) (pos:int): (int*RegistRefID) =
-    ReadSingleCaseDUStrField bs pos RegistRefID.RegistRefID
+    ReadFieldStr bs pos RegistRefID.RegistRefID
 
 
 let ReadRegistDtls (bs:byte[]) (pos:int): (int*RegistDtls) =
-    ReadSingleCaseDUStrField bs pos RegistDtls.RegistDtls
+    ReadFieldStr bs pos RegistDtls.RegistDtls
 
 
 let ReadNoDistribInsts (bs:byte[]) (pos:int): (int*NoDistribInsts) =
-    ReadSingleCaseDUIntField bs pos NoDistribInsts.NoDistribInsts
+    ReadFieldInt bs pos NoDistribInsts.NoDistribInsts
 
 
 let ReadRegistEmail (bs:byte[]) (pos:int): (int*RegistEmail) =
-    ReadSingleCaseDUStrField bs pos RegistEmail.RegistEmail
+    ReadFieldStr bs pos RegistEmail.RegistEmail
 
 
 let ReadDistribPercentage (bs:byte[]) (pos:int): (int*DistribPercentage) =
-    ReadSingleCaseDUDecimalField bs pos DistribPercentage.DistribPercentage
+    ReadFieldDecimal bs pos DistribPercentage.DistribPercentage
 
 
 let ReadRegistID (bs:byte[]) (pos:int): (int*RegistID) =
-    ReadSingleCaseDUStrField bs pos RegistID.RegistID
+    ReadFieldStr bs pos RegistID.RegistID
 
 
 let ReadRegistTransType (bs:byte[]) (pos:int) : (int * RegistTransType) =
@@ -3420,11 +3420,11 @@ let ReadRegistTransType (bs:byte[]) (pos:int) : (int * RegistTransType) =
 
 
 let ReadExecValuationPoint (bs:byte[]) (pos:int): (int*ExecValuationPoint) =
-    ReadSingleCaseUTCTimestampField bs pos ExecValuationPoint.ExecValuationPoint
+    ReadFieldUTCTimestamp bs pos ExecValuationPoint.ExecValuationPoint
 
 
 let ReadOrderPercent (bs:byte[]) (pos:int): (int*OrderPercent) =
-    ReadSingleCaseDUDecimalField bs pos OrderPercent.OrderPercent
+    ReadFieldDecimal bs pos OrderPercent.OrderPercent
 
 
 let ReadOwnershipType (bs:byte[]) (pos:int) : (int * OwnershipType) =
@@ -3439,7 +3439,7 @@ let ReadOwnershipType (bs:byte[]) (pos:int) : (int * OwnershipType) =
 
 
 let ReadNoContAmts (bs:byte[]) (pos:int): (int*NoContAmts) =
-    ReadSingleCaseDUIntField bs pos NoContAmts.NoContAmts
+    ReadFieldInt bs pos NoContAmts.NoContAmts
 
 
 let ReadContAmtType (bs:byte[]) (pos:int) : (int * ContAmtType) =
@@ -3460,11 +3460,11 @@ let ReadContAmtType (bs:byte[]) (pos:int) : (int * ContAmtType) =
 
 
 let ReadContAmtValue (bs:byte[]) (pos:int): (int*ContAmtValue) =
-    ReadSingleCaseDUDecimalField bs pos ContAmtValue.ContAmtValue
+    ReadFieldDecimal bs pos ContAmtValue.ContAmtValue
 
 
 let ReadContAmtCurr (bs:byte[]) (pos:int): (int*ContAmtCurr) =
-    ReadSingleCaseDUStrField bs pos ContAmtCurr.ContAmtCurr
+    ReadFieldStr bs pos ContAmtCurr.ContAmtCurr
 
 
 let ReadOwnerType (bs:byte[]) (pos:int) : (int * OwnerType) =
@@ -3489,23 +3489,23 @@ let ReadOwnerType (bs:byte[]) (pos:int) : (int * OwnerType) =
 
 
 let ReadPartySubID (bs:byte[]) (pos:int): (int*PartySubID) =
-    ReadSingleCaseDUStrField bs pos PartySubID.PartySubID
+    ReadFieldStr bs pos PartySubID.PartySubID
 
 
 let ReadNestedPartyID (bs:byte[]) (pos:int): (int*NestedPartyID) =
-    ReadSingleCaseDUStrField bs pos NestedPartyID.NestedPartyID
+    ReadFieldStr bs pos NestedPartyID.NestedPartyID
 
 
 let ReadNestedPartyIDSource (bs:byte[]) (pos:int): (int*NestedPartyIDSource) =
-    ReadSingleCaseDUCharField bs pos NestedPartyIDSource.NestedPartyIDSource
+    ReadFieldChar bs pos NestedPartyIDSource.NestedPartyIDSource
 
 
 let ReadSecondaryClOrdID (bs:byte[]) (pos:int): (int*SecondaryClOrdID) =
-    ReadSingleCaseDUStrField bs pos SecondaryClOrdID.SecondaryClOrdID
+    ReadFieldStr bs pos SecondaryClOrdID.SecondaryClOrdID
 
 
 let ReadSecondaryExecID (bs:byte[]) (pos:int): (int*SecondaryExecID) =
-    ReadSingleCaseDUStrField bs pos SecondaryExecID.SecondaryExecID
+    ReadFieldStr bs pos SecondaryExecID.SecondaryExecID
 
 
 let ReadOrderCapacity (bs:byte[]) (pos:int) : (int * OrderCapacity) =
@@ -3588,19 +3588,19 @@ let ReadMassCancelRejectReason (bs:byte[]) (pos:int) : (int * MassCancelRejectRe
 
 
 let ReadTotalAffectedOrders (bs:byte[]) (pos:int): (int*TotalAffectedOrders) =
-    ReadSingleCaseDUIntField bs pos TotalAffectedOrders.TotalAffectedOrders
+    ReadFieldInt bs pos TotalAffectedOrders.TotalAffectedOrders
 
 
 let ReadNoAffectedOrders (bs:byte[]) (pos:int): (int*NoAffectedOrders) =
-    ReadSingleCaseDUIntField bs pos NoAffectedOrders.NoAffectedOrders
+    ReadFieldInt bs pos NoAffectedOrders.NoAffectedOrders
 
 
 let ReadAffectedOrderID (bs:byte[]) (pos:int): (int*AffectedOrderID) =
-    ReadSingleCaseDUStrField bs pos AffectedOrderID.AffectedOrderID
+    ReadFieldStr bs pos AffectedOrderID.AffectedOrderID
 
 
 let ReadAffectedSecondaryOrderID (bs:byte[]) (pos:int): (int*AffectedSecondaryOrderID) =
-    ReadSingleCaseDUStrField bs pos AffectedSecondaryOrderID.AffectedSecondaryOrderID
+    ReadFieldStr bs pos AffectedSecondaryOrderID.AffectedSecondaryOrderID
 
 
 let ReadQuoteType (bs:byte[]) (pos:int) : (int * QuoteType) =
@@ -3616,27 +3616,27 @@ let ReadQuoteType (bs:byte[]) (pos:int) : (int * QuoteType) =
 
 
 let ReadNestedPartyRole (bs:byte[]) (pos:int): (int*NestedPartyRole) =
-    ReadSingleCaseDUIntField bs pos NestedPartyRole.NestedPartyRole
+    ReadFieldInt bs pos NestedPartyRole.NestedPartyRole
 
 
 let ReadNoNestedPartyIDs (bs:byte[]) (pos:int): (int*NoNestedPartyIDs) =
-    ReadSingleCaseDUIntField bs pos NoNestedPartyIDs.NoNestedPartyIDs
+    ReadFieldInt bs pos NoNestedPartyIDs.NoNestedPartyIDs
 
 
 let ReadTotalAccruedInterestAmt (bs:byte[]) (pos:int): (int*TotalAccruedInterestAmt) =
-    ReadSingleCaseDUDecimalField bs pos TotalAccruedInterestAmt.TotalAccruedInterestAmt
+    ReadFieldDecimal bs pos TotalAccruedInterestAmt.TotalAccruedInterestAmt
 
 
 let ReadMaturityDate (bs:byte[]) (pos:int): (int*MaturityDate) =
-    ReadSingleCaseDUStrField bs pos MaturityDate.MaturityDate
+    ReadFieldStr bs pos MaturityDate.MaturityDate
 
 
 let ReadUnderlyingMaturityDate (bs:byte[]) (pos:int): (int*UnderlyingMaturityDate) =
-    ReadSingleCaseDUStrField bs pos UnderlyingMaturityDate.UnderlyingMaturityDate
+    ReadFieldStr bs pos UnderlyingMaturityDate.UnderlyingMaturityDate
 
 
 let ReadInstrRegistry (bs:byte[]) (pos:int): (int*InstrRegistry) =
-    ReadSingleCaseDUStrField bs pos InstrRegistry.InstrRegistry
+    ReadFieldStr bs pos InstrRegistry.InstrRegistry
 
 
 let ReadCashMargin (bs:byte[]) (pos:int) : (int * CashMargin) =
@@ -3651,7 +3651,7 @@ let ReadCashMargin (bs:byte[]) (pos:int) : (int * CashMargin) =
 
 
 let ReadNestedPartySubID (bs:byte[]) (pos:int): (int*NestedPartySubID) =
-    ReadSingleCaseDUStrField bs pos NestedPartySubID.NestedPartySubID
+    ReadFieldStr bs pos NestedPartySubID.NestedPartySubID
 
 
 let ReadScope (bs:byte[]) (pos:int) : (int * Scope) =
@@ -3666,11 +3666,11 @@ let ReadScope (bs:byte[]) (pos:int) : (int * Scope) =
 
 
 let ReadMDImplicitDelete (bs:byte[]) (pos:int): (int*MDImplicitDelete) =
-    ReadSingleCaseDUBoolField bs pos MDImplicitDelete.MDImplicitDelete
+    ReadFieldBool bs pos MDImplicitDelete.MDImplicitDelete
 
 
 let ReadCrossID (bs:byte[]) (pos:int): (int*CrossID) =
-    ReadSingleCaseDUStrField bs pos CrossID.CrossID
+    ReadFieldStr bs pos CrossID.CrossID
 
 
 let ReadCrossType (bs:byte[]) (pos:int) : (int * CrossType) =
@@ -3697,7 +3697,7 @@ let ReadCrossPrioritization (bs:byte[]) (pos:int) : (int * CrossPrioritization) 
 
 
 let ReadOrigCrossID (bs:byte[]) (pos:int): (int*OrigCrossID) =
-    ReadSingleCaseDUStrField bs pos OrigCrossID.OrigCrossID
+    ReadFieldStr bs pos OrigCrossID.OrigCrossID
 
 
 let ReadNoSides (bs:byte[]) (pos:int) : (int * NoSides) =
@@ -3711,27 +3711,27 @@ let ReadNoSides (bs:byte[]) (pos:int) : (int * NoSides) =
 
 
 let ReadUsername (bs:byte[]) (pos:int): (int*Username) =
-    ReadSingleCaseDUStrField bs pos Username.Username
+    ReadFieldStr bs pos Username.Username
 
 
 let ReadPassword (bs:byte[]) (pos:int): (int*Password) =
-    ReadSingleCaseDUStrField bs pos Password.Password
+    ReadFieldStr bs pos Password.Password
 
 
 let ReadNoLegs (bs:byte[]) (pos:int): (int*NoLegs) =
-    ReadSingleCaseDUIntField bs pos NoLegs.NoLegs
+    ReadFieldInt bs pos NoLegs.NoLegs
 
 
 let ReadLegCurrency (bs:byte[]) (pos:int): (int*LegCurrency) =
-    ReadSingleCaseDUStrField bs pos LegCurrency.LegCurrency
+    ReadFieldStr bs pos LegCurrency.LegCurrency
 
 
 let ReadTotNoSecurityTypes (bs:byte[]) (pos:int): (int*TotNoSecurityTypes) =
-    ReadSingleCaseDUIntField bs pos TotNoSecurityTypes.TotNoSecurityTypes
+    ReadFieldInt bs pos TotNoSecurityTypes.TotNoSecurityTypes
 
 
 let ReadNoSecurityTypes (bs:byte[]) (pos:int): (int*NoSecurityTypes) =
-    ReadSingleCaseDUIntField bs pos NoSecurityTypes.NoSecurityTypes
+    ReadFieldInt bs pos NoSecurityTypes.NoSecurityTypes
 
 
 let ReadSecurityListRequestType (bs:byte[]) (pos:int) : (int * SecurityListRequestType) =
@@ -3762,11 +3762,11 @@ let ReadSecurityRequestResult (bs:byte[]) (pos:int) : (int * SecurityRequestResu
 
 
 let ReadRoundLot (bs:byte[]) (pos:int): (int*RoundLot) =
-    ReadSingleCaseDUDecimalField bs pos RoundLot.RoundLot
+    ReadFieldDecimal bs pos RoundLot.RoundLot
 
 
 let ReadMinTradeVol (bs:byte[]) (pos:int): (int*MinTradeVol) =
-    ReadSingleCaseDUDecimalField bs pos MinTradeVol.MinTradeVol
+    ReadFieldDecimal bs pos MinTradeVol.MinTradeVol
 
 
 let ReadMultiLegRptTypeReq (bs:byte[]) (pos:int) : (int * MultiLegRptTypeReq) =
@@ -3781,15 +3781,15 @@ let ReadMultiLegRptTypeReq (bs:byte[]) (pos:int) : (int * MultiLegRptTypeReq) =
 
 
 let ReadLegPositionEffect (bs:byte[]) (pos:int): (int*LegPositionEffect) =
-    ReadSingleCaseDUCharField bs pos LegPositionEffect.LegPositionEffect
+    ReadFieldChar bs pos LegPositionEffect.LegPositionEffect
 
 
 let ReadLegCoveredOrUncovered (bs:byte[]) (pos:int): (int*LegCoveredOrUncovered) =
-    ReadSingleCaseDUIntField bs pos LegCoveredOrUncovered.LegCoveredOrUncovered
+    ReadFieldInt bs pos LegCoveredOrUncovered.LegCoveredOrUncovered
 
 
 let ReadLegPrice (bs:byte[]) (pos:int): (int*LegPrice) =
-    ReadSingleCaseDUDecimalField bs pos LegPrice.LegPrice
+    ReadFieldDecimal bs pos LegPrice.LegPrice
 
 
 let ReadTradSesStatusRejReason (bs:byte[]) (pos:int) : (int * TradSesStatusRejReason) =
@@ -3802,7 +3802,7 @@ let ReadTradSesStatusRejReason (bs:byte[]) (pos:int) : (int * TradSesStatusRejRe
 
 
 let ReadTradeRequestID (bs:byte[]) (pos:int): (int*TradeRequestID) =
-    ReadSingleCaseDUStrField bs pos TradeRequestID.TradeRequestID
+    ReadFieldStr bs pos TradeRequestID.TradeRequestID
 
 
 let ReadTradeRequestType (bs:byte[]) (pos:int) : (int * TradeRequestType) =
@@ -3819,15 +3819,15 @@ let ReadTradeRequestType (bs:byte[]) (pos:int) : (int * TradeRequestType) =
 
 
 let ReadPreviouslyReported (bs:byte[]) (pos:int): (int*PreviouslyReported) =
-    ReadSingleCaseDUBoolField bs pos PreviouslyReported.PreviouslyReported
+    ReadFieldBool bs pos PreviouslyReported.PreviouslyReported
 
 
 let ReadTradeReportID (bs:byte[]) (pos:int): (int*TradeReportID) =
-    ReadSingleCaseDUStrField bs pos TradeReportID.TradeReportID
+    ReadFieldStr bs pos TradeReportID.TradeReportID
 
 
 let ReadTradeReportRefID (bs:byte[]) (pos:int): (int*TradeReportRefID) =
-    ReadSingleCaseDUStrField bs pos TradeReportRefID.TradeReportRefID
+    ReadFieldStr bs pos TradeReportRefID.TradeReportRefID
 
 
 let ReadMatchStatus (bs:byte[]) (pos:int) : (int * MatchStatus) =
@@ -3842,15 +3842,15 @@ let ReadMatchStatus (bs:byte[]) (pos:int) : (int * MatchStatus) =
 
 
 let ReadMatchType (bs:byte[]) (pos:int): (int*MatchType) =
-    ReadSingleCaseDUStrField bs pos MatchType.MatchType
+    ReadFieldStr bs pos MatchType.MatchType
 
 
 let ReadOddLot (bs:byte[]) (pos:int): (int*OddLot) =
-    ReadSingleCaseDUBoolField bs pos OddLot.OddLot
+    ReadFieldBool bs pos OddLot.OddLot
 
 
 let ReadNoClearingInstructions (bs:byte[]) (pos:int): (int*NoClearingInstructions) =
-    ReadSingleCaseDUIntField bs pos NoClearingInstructions.NoClearingInstructions
+    ReadFieldInt bs pos NoClearingInstructions.NoClearingInstructions
 
 
 let ReadClearingInstruction (bs:byte[]) (pos:int) : (int * ClearingInstruction) =
@@ -3876,15 +3876,15 @@ let ReadClearingInstruction (bs:byte[]) (pos:int) : (int * ClearingInstruction) 
 
 
 let ReadTradeInputSource (bs:byte[]) (pos:int): (int*TradeInputSource) =
-    ReadSingleCaseDUStrField bs pos TradeInputSource.TradeInputSource
+    ReadFieldStr bs pos TradeInputSource.TradeInputSource
 
 
 let ReadTradeInputDevice (bs:byte[]) (pos:int): (int*TradeInputDevice) =
-    ReadSingleCaseDUStrField bs pos TradeInputDevice.TradeInputDevice
+    ReadFieldStr bs pos TradeInputDevice.TradeInputDevice
 
 
 let ReadNoDates (bs:byte[]) (pos:int): (int*NoDates) =
-    ReadSingleCaseDUIntField bs pos NoDates.NoDates
+    ReadFieldInt bs pos NoDates.NoDates
 
 
 let ReadAccountType (bs:byte[]) (pos:int) : (int * AccountType) =
@@ -3915,11 +3915,11 @@ let ReadCustOrderCapacity (bs:byte[]) (pos:int) : (int * CustOrderCapacity) =
 
 
 let ReadClOrdLinkID (bs:byte[]) (pos:int): (int*ClOrdLinkID) =
-    ReadSingleCaseDUStrField bs pos ClOrdLinkID.ClOrdLinkID
+    ReadFieldStr bs pos ClOrdLinkID.ClOrdLinkID
 
 
 let ReadMassStatusReqID (bs:byte[]) (pos:int): (int*MassStatusReqID) =
-    ReadSingleCaseDUStrField bs pos MassStatusReqID.MassStatusReqID
+    ReadFieldStr bs pos MassStatusReqID.MassStatusReqID
 
 
 let ReadMassStatusReqType (bs:byte[]) (pos:int) : (int * MassStatusReqType) =
@@ -3939,15 +3939,15 @@ let ReadMassStatusReqType (bs:byte[]) (pos:int) : (int * MassStatusReqType) =
 
 
 let ReadOrigOrdModTime (bs:byte[]) (pos:int): (int*OrigOrdModTime) =
-    ReadSingleCaseUTCTimestampField bs pos OrigOrdModTime.OrigOrdModTime
+    ReadFieldUTCTimestamp bs pos OrigOrdModTime.OrigOrdModTime
 
 
 let ReadLegSettlType (bs:byte[]) (pos:int): (int*LegSettlType) =
-    ReadSingleCaseDUCharField bs pos LegSettlType.LegSettlType
+    ReadFieldChar bs pos LegSettlType.LegSettlType
 
 
 let ReadLegSettlDate (bs:byte[]) (pos:int): (int*LegSettlDate) =
-    ReadSingleCaseDUStrField bs pos LegSettlDate.LegSettlDate
+    ReadFieldStr bs pos LegSettlDate.LegSettlDate
 
 
 let ReadDayBookingInst (bs:byte[]) (pos:int) : (int * DayBookingInst) =
@@ -3983,75 +3983,75 @@ let ReadPreallocMethod (bs:byte[]) (pos:int) : (int * PreallocMethod) =
 
 
 let ReadUnderlyingCountryOfIssue (bs:byte[]) (pos:int): (int*UnderlyingCountryOfIssue) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCountryOfIssue.UnderlyingCountryOfIssue
+    ReadFieldStr bs pos UnderlyingCountryOfIssue.UnderlyingCountryOfIssue
 
 
 let ReadUnderlyingStateOrProvinceOfIssue (bs:byte[]) (pos:int): (int*UnderlyingStateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField bs pos UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue
+    ReadFieldStr bs pos UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue
 
 
 let ReadUnderlyingLocaleOfIssue (bs:byte[]) (pos:int): (int*UnderlyingLocaleOfIssue) =
-    ReadSingleCaseDUStrField bs pos UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue
+    ReadFieldStr bs pos UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue
 
 
 let ReadUnderlyingInstrRegistry (bs:byte[]) (pos:int): (int*UnderlyingInstrRegistry) =
-    ReadSingleCaseDUStrField bs pos UnderlyingInstrRegistry.UnderlyingInstrRegistry
+    ReadFieldStr bs pos UnderlyingInstrRegistry.UnderlyingInstrRegistry
 
 
 let ReadLegCountryOfIssue (bs:byte[]) (pos:int): (int*LegCountryOfIssue) =
-    ReadSingleCaseDUStrField bs pos LegCountryOfIssue.LegCountryOfIssue
+    ReadFieldStr bs pos LegCountryOfIssue.LegCountryOfIssue
 
 
 let ReadLegStateOrProvinceOfIssue (bs:byte[]) (pos:int): (int*LegStateOrProvinceOfIssue) =
-    ReadSingleCaseDUStrField bs pos LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue
+    ReadFieldStr bs pos LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue
 
 
 let ReadLegLocaleOfIssue (bs:byte[]) (pos:int): (int*LegLocaleOfIssue) =
-    ReadSingleCaseDUStrField bs pos LegLocaleOfIssue.LegLocaleOfIssue
+    ReadFieldStr bs pos LegLocaleOfIssue.LegLocaleOfIssue
 
 
 let ReadLegInstrRegistry (bs:byte[]) (pos:int): (int*LegInstrRegistry) =
-    ReadSingleCaseDUStrField bs pos LegInstrRegistry.LegInstrRegistry
+    ReadFieldStr bs pos LegInstrRegistry.LegInstrRegistry
 
 
 let ReadLegSymbol (bs:byte[]) (pos:int): (int*LegSymbol) =
-    ReadSingleCaseDUStrField bs pos LegSymbol.LegSymbol
+    ReadFieldStr bs pos LegSymbol.LegSymbol
 
 
 let ReadLegSymbolSfx (bs:byte[]) (pos:int): (int*LegSymbolSfx) =
-    ReadSingleCaseDUStrField bs pos LegSymbolSfx.LegSymbolSfx
+    ReadFieldStr bs pos LegSymbolSfx.LegSymbolSfx
 
 
 let ReadLegSecurityID (bs:byte[]) (pos:int): (int*LegSecurityID) =
-    ReadSingleCaseDUStrField bs pos LegSecurityID.LegSecurityID
+    ReadFieldStr bs pos LegSecurityID.LegSecurityID
 
 
 let ReadLegSecurityIDSource (bs:byte[]) (pos:int): (int*LegSecurityIDSource) =
-    ReadSingleCaseDUStrField bs pos LegSecurityIDSource.LegSecurityIDSource
+    ReadFieldStr bs pos LegSecurityIDSource.LegSecurityIDSource
 
 
 let ReadNoLegSecurityAltID (bs:byte[]) (pos:int): (int*NoLegSecurityAltID) =
-    ReadSingleCaseDUIntField bs pos NoLegSecurityAltID.NoLegSecurityAltID
+    ReadFieldInt bs pos NoLegSecurityAltID.NoLegSecurityAltID
 
 
 let ReadLegSecurityAltID (bs:byte[]) (pos:int): (int*LegSecurityAltID) =
-    ReadSingleCaseDUStrField bs pos LegSecurityAltID.LegSecurityAltID
+    ReadFieldStr bs pos LegSecurityAltID.LegSecurityAltID
 
 
 let ReadLegSecurityAltIDSource (bs:byte[]) (pos:int): (int*LegSecurityAltIDSource) =
-    ReadSingleCaseDUStrField bs pos LegSecurityAltIDSource.LegSecurityAltIDSource
+    ReadFieldStr bs pos LegSecurityAltIDSource.LegSecurityAltIDSource
 
 
 let ReadLegProduct (bs:byte[]) (pos:int): (int*LegProduct) =
-    ReadSingleCaseDUIntField bs pos LegProduct.LegProduct
+    ReadFieldInt bs pos LegProduct.LegProduct
 
 
 let ReadLegCFICode (bs:byte[]) (pos:int): (int*LegCFICode) =
-    ReadSingleCaseDUStrField bs pos LegCFICode.LegCFICode
+    ReadFieldStr bs pos LegCFICode.LegCFICode
 
 
 let ReadLegSecurityType (bs:byte[]) (pos:int): (int*LegSecurityType) =
-    ReadSingleCaseDUStrField bs pos LegSecurityType.LegSecurityType
+    ReadFieldStr bs pos LegSecurityType.LegSecurityType
 
 
 let ReadLegMaturityMonthYear (bs:byte[]) (pos:int): (int*LegMaturityMonthYear) =
@@ -4059,31 +4059,31 @@ let ReadLegMaturityMonthYear (bs:byte[]) (pos:int): (int*LegMaturityMonthYear) =
 
 
 let ReadLegMaturityDate (bs:byte[]) (pos:int): (int*LegMaturityDate) =
-    ReadSingleCaseDUStrField bs pos LegMaturityDate.LegMaturityDate
+    ReadFieldStr bs pos LegMaturityDate.LegMaturityDate
 
 
 let ReadLegStrikePrice (bs:byte[]) (pos:int): (int*LegStrikePrice) =
-    ReadSingleCaseDUDecimalField bs pos LegStrikePrice.LegStrikePrice
+    ReadFieldDecimal bs pos LegStrikePrice.LegStrikePrice
 
 
 let ReadLegOptAttribute (bs:byte[]) (pos:int): (int*LegOptAttribute) =
-    ReadSingleCaseDUCharField bs pos LegOptAttribute.LegOptAttribute
+    ReadFieldChar bs pos LegOptAttribute.LegOptAttribute
 
 
 let ReadLegContractMultiplier (bs:byte[]) (pos:int): (int*LegContractMultiplier) =
-    ReadSingleCaseDUDecimalField bs pos LegContractMultiplier.LegContractMultiplier
+    ReadFieldDecimal bs pos LegContractMultiplier.LegContractMultiplier
 
 
 let ReadLegCouponRate (bs:byte[]) (pos:int): (int*LegCouponRate) =
-    ReadSingleCaseDUDecimalField bs pos LegCouponRate.LegCouponRate
+    ReadFieldDecimal bs pos LegCouponRate.LegCouponRate
 
 
 let ReadLegSecurityExchange (bs:byte[]) (pos:int): (int*LegSecurityExchange) =
-    ReadSingleCaseDUStrField bs pos LegSecurityExchange.LegSecurityExchange
+    ReadFieldStr bs pos LegSecurityExchange.LegSecurityExchange
 
 
 let ReadLegIssuer (bs:byte[]) (pos:int): (int*LegIssuer) =
-    ReadSingleCaseDUStrField bs pos LegIssuer.LegIssuer
+    ReadFieldStr bs pos LegIssuer.LegIssuer
 
 
 // compound read
@@ -4092,7 +4092,7 @@ let ReadEncodedLegIssuer (bs:byte[]) (pos:int) : (int * EncodedLegIssuer) =
 
 
 let ReadLegSecurityDesc (bs:byte[]) (pos:int): (int*LegSecurityDesc) =
-    ReadSingleCaseDUStrField bs pos LegSecurityDesc.LegSecurityDesc
+    ReadFieldStr bs pos LegSecurityDesc.LegSecurityDesc
 
 
 // compound read
@@ -4101,15 +4101,15 @@ let ReadEncodedLegSecurityDesc (bs:byte[]) (pos:int) : (int * EncodedLegSecurity
 
 
 let ReadLegRatioQty (bs:byte[]) (pos:int): (int*LegRatioQty) =
-    ReadSingleCaseDUDecimalField bs pos LegRatioQty.LegRatioQty
+    ReadFieldDecimal bs pos LegRatioQty.LegRatioQty
 
 
 let ReadLegSide (bs:byte[]) (pos:int): (int*LegSide) =
-    ReadSingleCaseDUCharField bs pos LegSide.LegSide
+    ReadFieldChar bs pos LegSide.LegSide
 
 
 let ReadTradingSessionSubID (bs:byte[]) (pos:int): (int*TradingSessionSubID) =
-    ReadSingleCaseDUStrField bs pos TradingSessionSubID.TradingSessionSubID
+    ReadFieldStr bs pos TradingSessionSubID.TradingSessionSubID
 
 
 let ReadAllocType (bs:byte[]) (pos:int) : (int * AllocType) =
@@ -4126,35 +4126,35 @@ let ReadAllocType (bs:byte[]) (pos:int) : (int * AllocType) =
 
 
 let ReadNoHops (bs:byte[]) (pos:int): (int*NoHops) =
-    ReadSingleCaseDUIntField bs pos NoHops.NoHops
+    ReadFieldInt bs pos NoHops.NoHops
 
 
 let ReadHopCompID (bs:byte[]) (pos:int): (int*HopCompID) =
-    ReadSingleCaseDUStrField bs pos HopCompID.HopCompID
+    ReadFieldStr bs pos HopCompID.HopCompID
 
 
 let ReadHopSendingTime (bs:byte[]) (pos:int): (int*HopSendingTime) =
-    ReadSingleCaseUTCTimestampField bs pos HopSendingTime.HopSendingTime
+    ReadFieldUTCTimestamp bs pos HopSendingTime.HopSendingTime
 
 
 let ReadHopRefID (bs:byte[]) (pos:int): (int*HopRefID) =
-    ReadSingleCaseDUUint32Field bs pos HopRefID.HopRefID
+    ReadFieldUint32 bs pos HopRefID.HopRefID
 
 
 let ReadMidPx (bs:byte[]) (pos:int): (int*MidPx) =
-    ReadSingleCaseDUDecimalField bs pos MidPx.MidPx
+    ReadFieldDecimal bs pos MidPx.MidPx
 
 
 let ReadBidYield (bs:byte[]) (pos:int): (int*BidYield) =
-    ReadSingleCaseDUDecimalField bs pos BidYield.BidYield
+    ReadFieldDecimal bs pos BidYield.BidYield
 
 
 let ReadMidYield (bs:byte[]) (pos:int): (int*MidYield) =
-    ReadSingleCaseDUDecimalField bs pos MidYield.MidYield
+    ReadFieldDecimal bs pos MidYield.MidYield
 
 
 let ReadOfferYield (bs:byte[]) (pos:int): (int*OfferYield) =
-    ReadSingleCaseDUDecimalField bs pos OfferYield.OfferYield
+    ReadFieldDecimal bs pos OfferYield.OfferYield
 
 
 let ReadClearingFeeIndicator (bs:byte[]) (pos:int) : (int * ClearingFeeIndicator) =
@@ -4174,11 +4174,11 @@ let ReadClearingFeeIndicator (bs:byte[]) (pos:int) : (int * ClearingFeeIndicator
 
 
 let ReadWorkingIndicator (bs:byte[]) (pos:int): (int*WorkingIndicator) =
-    ReadSingleCaseDUBoolField bs pos WorkingIndicator.WorkingIndicator
+    ReadFieldBool bs pos WorkingIndicator.WorkingIndicator
 
 
 let ReadLegLastPx (bs:byte[]) (pos:int): (int*LegLastPx) =
-    ReadSingleCaseDUDecimalField bs pos LegLastPx.LegLastPx
+    ReadFieldDecimal bs pos LegLastPx.LegLastPx
 
 
 let ReadPriorityIndicator (bs:byte[]) (pos:int) : (int * PriorityIndicator) =
@@ -4192,75 +4192,75 @@ let ReadPriorityIndicator (bs:byte[]) (pos:int) : (int * PriorityIndicator) =
 
 
 let ReadPriceImprovement (bs:byte[]) (pos:int): (int*PriceImprovement) =
-    ReadSingleCaseDUDecimalField bs pos PriceImprovement.PriceImprovement
+    ReadFieldDecimal bs pos PriceImprovement.PriceImprovement
 
 
 let ReadPrice2 (bs:byte[]) (pos:int): (int*Price2) =
-    ReadSingleCaseDUDecimalField bs pos Price2.Price2
+    ReadFieldDecimal bs pos Price2.Price2
 
 
 let ReadLastForwardPoints2 (bs:byte[]) (pos:int): (int*LastForwardPoints2) =
-    ReadSingleCaseDUDecimalField bs pos LastForwardPoints2.LastForwardPoints2
+    ReadFieldDecimal bs pos LastForwardPoints2.LastForwardPoints2
 
 
 let ReadBidForwardPoints2 (bs:byte[]) (pos:int): (int*BidForwardPoints2) =
-    ReadSingleCaseDUDecimalField bs pos BidForwardPoints2.BidForwardPoints2
+    ReadFieldDecimal bs pos BidForwardPoints2.BidForwardPoints2
 
 
 let ReadOfferForwardPoints2 (bs:byte[]) (pos:int): (int*OfferForwardPoints2) =
-    ReadSingleCaseDUDecimalField bs pos OfferForwardPoints2.OfferForwardPoints2
+    ReadFieldDecimal bs pos OfferForwardPoints2.OfferForwardPoints2
 
 
 let ReadRFQReqID (bs:byte[]) (pos:int): (int*RFQReqID) =
-    ReadSingleCaseDUStrField bs pos RFQReqID.RFQReqID
+    ReadFieldStr bs pos RFQReqID.RFQReqID
 
 
 let ReadMktBidPx (bs:byte[]) (pos:int): (int*MktBidPx) =
-    ReadSingleCaseDUDecimalField bs pos MktBidPx.MktBidPx
+    ReadFieldDecimal bs pos MktBidPx.MktBidPx
 
 
 let ReadMktOfferPx (bs:byte[]) (pos:int): (int*MktOfferPx) =
-    ReadSingleCaseDUDecimalField bs pos MktOfferPx.MktOfferPx
+    ReadFieldDecimal bs pos MktOfferPx.MktOfferPx
 
 
 let ReadMinBidSize (bs:byte[]) (pos:int): (int*MinBidSize) =
-    ReadSingleCaseDUDecimalField bs pos MinBidSize.MinBidSize
+    ReadFieldDecimal bs pos MinBidSize.MinBidSize
 
 
 let ReadMinOfferSize (bs:byte[]) (pos:int): (int*MinOfferSize) =
-    ReadSingleCaseDUDecimalField bs pos MinOfferSize.MinOfferSize
+    ReadFieldDecimal bs pos MinOfferSize.MinOfferSize
 
 
 let ReadQuoteStatusReqID (bs:byte[]) (pos:int): (int*QuoteStatusReqID) =
-    ReadSingleCaseDUStrField bs pos QuoteStatusReqID.QuoteStatusReqID
+    ReadFieldStr bs pos QuoteStatusReqID.QuoteStatusReqID
 
 
 let ReadLegalConfirm (bs:byte[]) (pos:int): (int*LegalConfirm) =
-    ReadSingleCaseDUBoolField bs pos LegalConfirm.LegalConfirm
+    ReadFieldBool bs pos LegalConfirm.LegalConfirm
 
 
 let ReadUnderlyingLastPx (bs:byte[]) (pos:int): (int*UnderlyingLastPx) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingLastPx.UnderlyingLastPx
+    ReadFieldDecimal bs pos UnderlyingLastPx.UnderlyingLastPx
 
 
 let ReadUnderlyingLastQty (bs:byte[]) (pos:int): (int*UnderlyingLastQty) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingLastQty.UnderlyingLastQty
+    ReadFieldDecimal bs pos UnderlyingLastQty.UnderlyingLastQty
 
 
 let ReadLegRefID (bs:byte[]) (pos:int): (int*LegRefID) =
-    ReadSingleCaseDUStrField bs pos LegRefID.LegRefID
+    ReadFieldStr bs pos LegRefID.LegRefID
 
 
 let ReadContraLegRefID (bs:byte[]) (pos:int): (int*ContraLegRefID) =
-    ReadSingleCaseDUStrField bs pos ContraLegRefID.ContraLegRefID
+    ReadFieldStr bs pos ContraLegRefID.ContraLegRefID
 
 
 let ReadSettlCurrBidFxRate (bs:byte[]) (pos:int): (int*SettlCurrBidFxRate) =
-    ReadSingleCaseDUDecimalField bs pos SettlCurrBidFxRate.SettlCurrBidFxRate
+    ReadFieldDecimal bs pos SettlCurrBidFxRate.SettlCurrBidFxRate
 
 
 let ReadSettlCurrOfferFxRate (bs:byte[]) (pos:int): (int*SettlCurrOfferFxRate) =
-    ReadSingleCaseDUDecimalField bs pos SettlCurrOfferFxRate.SettlCurrOfferFxRate
+    ReadFieldDecimal bs pos SettlCurrOfferFxRate.SettlCurrOfferFxRate
 
 
 let ReadQuoteRequestRejectReason (bs:byte[]) (pos:int) : (int * QuoteRequestRejectReason) =
@@ -4283,7 +4283,7 @@ let ReadQuoteRequestRejectReason (bs:byte[]) (pos:int) : (int * QuoteRequestReje
 
 
 let ReadSideComplianceID (bs:byte[]) (pos:int): (int*SideComplianceID) =
-    ReadSingleCaseDUStrField bs pos SideComplianceID.SideComplianceID
+    ReadFieldStr bs pos SideComplianceID.SideComplianceID
 
 
 let ReadAcctIDSource (bs:byte[]) (pos:int) : (int * AcctIDSource) =
@@ -4301,19 +4301,19 @@ let ReadAcctIDSource (bs:byte[]) (pos:int) : (int * AcctIDSource) =
 
 
 let ReadAllocAcctIDSource (bs:byte[]) (pos:int): (int*AllocAcctIDSource) =
-    ReadSingleCaseDUIntField bs pos AllocAcctIDSource.AllocAcctIDSource
+    ReadFieldInt bs pos AllocAcctIDSource.AllocAcctIDSource
 
 
 let ReadBenchmarkPrice (bs:byte[]) (pos:int): (int*BenchmarkPrice) =
-    ReadSingleCaseDUDecimalField bs pos BenchmarkPrice.BenchmarkPrice
+    ReadFieldDecimal bs pos BenchmarkPrice.BenchmarkPrice
 
 
 let ReadBenchmarkPriceType (bs:byte[]) (pos:int): (int*BenchmarkPriceType) =
-    ReadSingleCaseDUIntField bs pos BenchmarkPriceType.BenchmarkPriceType
+    ReadFieldInt bs pos BenchmarkPriceType.BenchmarkPriceType
 
 
 let ReadConfirmID (bs:byte[]) (pos:int): (int*ConfirmID) =
-    ReadSingleCaseDUStrField bs pos ConfirmID.ConfirmID
+    ReadFieldStr bs pos ConfirmID.ConfirmID
 
 
 let ReadConfirmStatus (bs:byte[]) (pos:int) : (int * ConfirmStatus) =
@@ -4355,87 +4355,87 @@ let ReadDeliveryForm (bs:byte[]) (pos:int) : (int * DeliveryForm) =
 
 
 let ReadLastParPx (bs:byte[]) (pos:int): (int*LastParPx) =
-    ReadSingleCaseDUDecimalField bs pos LastParPx.LastParPx
+    ReadFieldDecimal bs pos LastParPx.LastParPx
 
 
 let ReadNoLegAllocs (bs:byte[]) (pos:int): (int*NoLegAllocs) =
-    ReadSingleCaseDUIntField bs pos NoLegAllocs.NoLegAllocs
+    ReadFieldInt bs pos NoLegAllocs.NoLegAllocs
 
 
 let ReadLegAllocAccount (bs:byte[]) (pos:int): (int*LegAllocAccount) =
-    ReadSingleCaseDUStrField bs pos LegAllocAccount.LegAllocAccount
+    ReadFieldStr bs pos LegAllocAccount.LegAllocAccount
 
 
 let ReadLegIndividualAllocID (bs:byte[]) (pos:int): (int*LegIndividualAllocID) =
-    ReadSingleCaseDUStrField bs pos LegIndividualAllocID.LegIndividualAllocID
+    ReadFieldStr bs pos LegIndividualAllocID.LegIndividualAllocID
 
 
 let ReadLegAllocQty (bs:byte[]) (pos:int): (int*LegAllocQty) =
-    ReadSingleCaseDUDecimalField bs pos LegAllocQty.LegAllocQty
+    ReadFieldDecimal bs pos LegAllocQty.LegAllocQty
 
 
 let ReadLegAllocAcctIDSource (bs:byte[]) (pos:int): (int*LegAllocAcctIDSource) =
-    ReadSingleCaseDUStrField bs pos LegAllocAcctIDSource.LegAllocAcctIDSource
+    ReadFieldStr bs pos LegAllocAcctIDSource.LegAllocAcctIDSource
 
 
 let ReadLegSettlCurrency (bs:byte[]) (pos:int): (int*LegSettlCurrency) =
-    ReadSingleCaseDUStrField bs pos LegSettlCurrency.LegSettlCurrency
+    ReadFieldStr bs pos LegSettlCurrency.LegSettlCurrency
 
 
 let ReadLegBenchmarkCurveCurrency (bs:byte[]) (pos:int): (int*LegBenchmarkCurveCurrency) =
-    ReadSingleCaseDUStrField bs pos LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency
+    ReadFieldStr bs pos LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency
 
 
 let ReadLegBenchmarkCurveName (bs:byte[]) (pos:int): (int*LegBenchmarkCurveName) =
-    ReadSingleCaseDUStrField bs pos LegBenchmarkCurveName.LegBenchmarkCurveName
+    ReadFieldStr bs pos LegBenchmarkCurveName.LegBenchmarkCurveName
 
 
 let ReadLegBenchmarkCurvePoint (bs:byte[]) (pos:int): (int*LegBenchmarkCurvePoint) =
-    ReadSingleCaseDUStrField bs pos LegBenchmarkCurvePoint.LegBenchmarkCurvePoint
+    ReadFieldStr bs pos LegBenchmarkCurvePoint.LegBenchmarkCurvePoint
 
 
 let ReadLegBenchmarkPrice (bs:byte[]) (pos:int): (int*LegBenchmarkPrice) =
-    ReadSingleCaseDUDecimalField bs pos LegBenchmarkPrice.LegBenchmarkPrice
+    ReadFieldDecimal bs pos LegBenchmarkPrice.LegBenchmarkPrice
 
 
 let ReadLegBenchmarkPriceType (bs:byte[]) (pos:int): (int*LegBenchmarkPriceType) =
-    ReadSingleCaseDUIntField bs pos LegBenchmarkPriceType.LegBenchmarkPriceType
+    ReadFieldInt bs pos LegBenchmarkPriceType.LegBenchmarkPriceType
 
 
 let ReadLegBidPx (bs:byte[]) (pos:int): (int*LegBidPx) =
-    ReadSingleCaseDUDecimalField bs pos LegBidPx.LegBidPx
+    ReadFieldDecimal bs pos LegBidPx.LegBidPx
 
 
 let ReadLegIOIQty (bs:byte[]) (pos:int): (int*LegIOIQty) =
-    ReadSingleCaseDUStrField bs pos LegIOIQty.LegIOIQty
+    ReadFieldStr bs pos LegIOIQty.LegIOIQty
 
 
 let ReadNoLegStipulations (bs:byte[]) (pos:int): (int*NoLegStipulations) =
-    ReadSingleCaseDUIntField bs pos NoLegStipulations.NoLegStipulations
+    ReadFieldInt bs pos NoLegStipulations.NoLegStipulations
 
 
 let ReadLegOfferPx (bs:byte[]) (pos:int): (int*LegOfferPx) =
-    ReadSingleCaseDUDecimalField bs pos LegOfferPx.LegOfferPx
+    ReadFieldDecimal bs pos LegOfferPx.LegOfferPx
 
 
 let ReadLegOrderQty (bs:byte[]) (pos:int): (int*LegOrderQty) =
-    ReadSingleCaseDUDecimalField bs pos LegOrderQty.LegOrderQty
+    ReadFieldDecimal bs pos LegOrderQty.LegOrderQty
 
 
 let ReadLegPriceType (bs:byte[]) (pos:int): (int*LegPriceType) =
-    ReadSingleCaseDUIntField bs pos LegPriceType.LegPriceType
+    ReadFieldInt bs pos LegPriceType.LegPriceType
 
 
 let ReadLegQty (bs:byte[]) (pos:int): (int*LegQty) =
-    ReadSingleCaseDUDecimalField bs pos LegQty.LegQty
+    ReadFieldDecimal bs pos LegQty.LegQty
 
 
 let ReadLegStipulationType (bs:byte[]) (pos:int): (int*LegStipulationType) =
-    ReadSingleCaseDUStrField bs pos LegStipulationType.LegStipulationType
+    ReadFieldStr bs pos LegStipulationType.LegStipulationType
 
 
 let ReadLegStipulationValue (bs:byte[]) (pos:int): (int*LegStipulationValue) =
-    ReadSingleCaseDUStrField bs pos LegStipulationValue.LegStipulationValue
+    ReadFieldStr bs pos LegStipulationValue.LegStipulationValue
 
 
 let ReadLegSwapType (bs:byte[]) (pos:int) : (int * LegSwapType) =
@@ -4451,7 +4451,7 @@ let ReadLegSwapType (bs:byte[]) (pos:int) : (int * LegSwapType) =
 
 
 let ReadPool (bs:byte[]) (pos:int): (int*Pool) =
-    ReadSingleCaseDUStrField bs pos Pool.Pool
+    ReadFieldStr bs pos Pool.Pool
 
 
 let ReadQuotePriceType (bs:byte[]) (pos:int) : (int * QuotePriceType) =
@@ -4473,7 +4473,7 @@ let ReadQuotePriceType (bs:byte[]) (pos:int) : (int * QuotePriceType) =
 
 
 let ReadQuoteRespID (bs:byte[]) (pos:int): (int*QuoteRespID) =
-    ReadSingleCaseDUStrField bs pos QuoteRespID.QuoteRespID
+    ReadFieldStr bs pos QuoteRespID.QuoteRespID
 
 
 let ReadQuoteRespType (bs:byte[]) (pos:int) : (int * QuoteRespType) =
@@ -4491,35 +4491,35 @@ let ReadQuoteRespType (bs:byte[]) (pos:int) : (int * QuoteRespType) =
 
 
 let ReadQuoteQualifier (bs:byte[]) (pos:int): (int*QuoteQualifier) =
-    ReadSingleCaseDUCharField bs pos QuoteQualifier.QuoteQualifier
+    ReadFieldChar bs pos QuoteQualifier.QuoteQualifier
 
 
 let ReadYieldRedemptionDate (bs:byte[]) (pos:int): (int*YieldRedemptionDate) =
-    ReadSingleCaseDUStrField bs pos YieldRedemptionDate.YieldRedemptionDate
+    ReadFieldStr bs pos YieldRedemptionDate.YieldRedemptionDate
 
 
 let ReadYieldRedemptionPrice (bs:byte[]) (pos:int): (int*YieldRedemptionPrice) =
-    ReadSingleCaseDUDecimalField bs pos YieldRedemptionPrice.YieldRedemptionPrice
+    ReadFieldDecimal bs pos YieldRedemptionPrice.YieldRedemptionPrice
 
 
 let ReadYieldRedemptionPriceType (bs:byte[]) (pos:int): (int*YieldRedemptionPriceType) =
-    ReadSingleCaseDUIntField bs pos YieldRedemptionPriceType.YieldRedemptionPriceType
+    ReadFieldInt bs pos YieldRedemptionPriceType.YieldRedemptionPriceType
 
 
 let ReadBenchmarkSecurityID (bs:byte[]) (pos:int): (int*BenchmarkSecurityID) =
-    ReadSingleCaseDUStrField bs pos BenchmarkSecurityID.BenchmarkSecurityID
+    ReadFieldStr bs pos BenchmarkSecurityID.BenchmarkSecurityID
 
 
 let ReadReversalIndicator (bs:byte[]) (pos:int): (int*ReversalIndicator) =
-    ReadSingleCaseDUBoolField bs pos ReversalIndicator.ReversalIndicator
+    ReadFieldBool bs pos ReversalIndicator.ReversalIndicator
 
 
 let ReadYieldCalcDate (bs:byte[]) (pos:int): (int*YieldCalcDate) =
-    ReadSingleCaseDUStrField bs pos YieldCalcDate.YieldCalcDate
+    ReadFieldStr bs pos YieldCalcDate.YieldCalcDate
 
 
 let ReadNoPositions (bs:byte[]) (pos:int): (int*NoPositions) =
-    ReadSingleCaseDUIntField bs pos NoPositions.NoPositions
+    ReadFieldInt bs pos NoPositions.NoPositions
 
 
 let ReadPosType (bs:byte[]) (pos:int) : (int * PosType) =
@@ -4550,11 +4550,11 @@ let ReadPosType (bs:byte[]) (pos:int) : (int * PosType) =
 
 
 let ReadLongQty (bs:byte[]) (pos:int): (int*LongQty) =
-    ReadSingleCaseDUDecimalField bs pos LongQty.LongQty
+    ReadFieldDecimal bs pos LongQty.LongQty
 
 
 let ReadShortQty (bs:byte[]) (pos:int): (int*ShortQty) =
-    ReadSingleCaseDUDecimalField bs pos ShortQty.ShortQty
+    ReadFieldDecimal bs pos ShortQty.ShortQty
 
 
 let ReadPosQtyStatus (bs:byte[]) (pos:int) : (int * PosQtyStatus) =
@@ -4585,7 +4585,7 @@ let ReadPosAmtType (bs:byte[]) (pos:int) : (int * PosAmtType) =
 
 
 let ReadPosAmt (bs:byte[]) (pos:int): (int*PosAmt) =
-    ReadSingleCaseDUDecimalField bs pos PosAmt.PosAmt
+    ReadFieldDecimal bs pos PosAmt.PosAmt
 
 
 let ReadPosTransType (bs:byte[]) (pos:int) : (int * PosTransType) =
@@ -4602,11 +4602,11 @@ let ReadPosTransType (bs:byte[]) (pos:int) : (int * PosTransType) =
 
 
 let ReadPosReqID (bs:byte[]) (pos:int): (int*PosReqID) =
-    ReadSingleCaseDUStrField bs pos PosReqID.PosReqID
+    ReadFieldStr bs pos PosReqID.PosReqID
 
 
 let ReadNoUnderlyings (bs:byte[]) (pos:int): (int*NoUnderlyings) =
-    ReadSingleCaseDUIntField bs pos NoUnderlyings.NoUnderlyings
+    ReadFieldInt bs pos NoUnderlyings.NoUnderlyings
 
 
 let ReadPosMaintAction (bs:byte[]) (pos:int) : (int * PosMaintAction) =
@@ -4621,23 +4621,23 @@ let ReadPosMaintAction (bs:byte[]) (pos:int) : (int * PosMaintAction) =
 
 
 let ReadOrigPosReqRefID (bs:byte[]) (pos:int): (int*OrigPosReqRefID) =
-    ReadSingleCaseDUStrField bs pos OrigPosReqRefID.OrigPosReqRefID
+    ReadFieldStr bs pos OrigPosReqRefID.OrigPosReqRefID
 
 
 let ReadPosMaintRptRefID (bs:byte[]) (pos:int): (int*PosMaintRptRefID) =
-    ReadSingleCaseDUStrField bs pos PosMaintRptRefID.PosMaintRptRefID
+    ReadFieldStr bs pos PosMaintRptRefID.PosMaintRptRefID
 
 
 let ReadClearingBusinessDate (bs:byte[]) (pos:int): (int*ClearingBusinessDate) =
-    ReadSingleCaseDUStrField bs pos ClearingBusinessDate.ClearingBusinessDate
+    ReadFieldStr bs pos ClearingBusinessDate.ClearingBusinessDate
 
 
 let ReadSettlSessID (bs:byte[]) (pos:int): (int*SettlSessID) =
-    ReadSingleCaseDUStrField bs pos SettlSessID.SettlSessID
+    ReadFieldStr bs pos SettlSessID.SettlSessID
 
 
 let ReadSettlSessSubID (bs:byte[]) (pos:int): (int*SettlSessSubID) =
-    ReadSingleCaseDUStrField bs pos SettlSessSubID.SettlSessSubID
+    ReadFieldStr bs pos SettlSessSubID.SettlSessSubID
 
 
 let ReadAdjustmentType (bs:byte[]) (pos:int) : (int * AdjustmentType) =
@@ -4653,15 +4653,15 @@ let ReadAdjustmentType (bs:byte[]) (pos:int) : (int * AdjustmentType) =
 
 
 let ReadContraryInstructionIndicator (bs:byte[]) (pos:int): (int*ContraryInstructionIndicator) =
-    ReadSingleCaseDUBoolField bs pos ContraryInstructionIndicator.ContraryInstructionIndicator
+    ReadFieldBool bs pos ContraryInstructionIndicator.ContraryInstructionIndicator
 
 
 let ReadPriorSpreadIndicator (bs:byte[]) (pos:int): (int*PriorSpreadIndicator) =
-    ReadSingleCaseDUBoolField bs pos PriorSpreadIndicator.PriorSpreadIndicator
+    ReadFieldBool bs pos PriorSpreadIndicator.PriorSpreadIndicator
 
 
 let ReadPosMaintRptID (bs:byte[]) (pos:int): (int*PosMaintRptID) =
-    ReadSingleCaseDUStrField bs pos PosMaintRptID.PosMaintRptID
+    ReadFieldStr bs pos PosMaintRptID.PosMaintRptID
 
 
 let ReadPosMaintStatus (bs:byte[]) (pos:int) : (int * PosMaintStatus) =
@@ -4711,11 +4711,11 @@ let ReadResponseTransportType (bs:byte[]) (pos:int) : (int * ResponseTransportTy
 
 
 let ReadResponseDestination (bs:byte[]) (pos:int): (int*ResponseDestination) =
-    ReadSingleCaseDUStrField bs pos ResponseDestination.ResponseDestination
+    ReadFieldStr bs pos ResponseDestination.ResponseDestination
 
 
 let ReadTotalNumPosReports (bs:byte[]) (pos:int): (int*TotalNumPosReports) =
-    ReadSingleCaseDUIntField bs pos TotalNumPosReports.TotalNumPosReports
+    ReadFieldInt bs pos TotalNumPosReports.TotalNumPosReports
 
 
 let ReadPosReqResult (bs:byte[]) (pos:int) : (int * PosReqResult) =
@@ -4744,7 +4744,7 @@ let ReadPosReqStatus (bs:byte[]) (pos:int) : (int * PosReqStatus) =
 
 
 let ReadSettlPrice (bs:byte[]) (pos:int): (int*SettlPrice) =
-    ReadSingleCaseDUDecimalField bs pos SettlPrice.SettlPrice
+    ReadFieldDecimal bs pos SettlPrice.SettlPrice
 
 
 let ReadSettlPriceType (bs:byte[]) (pos:int) : (int * SettlPriceType) =
@@ -4758,51 +4758,51 @@ let ReadSettlPriceType (bs:byte[]) (pos:int) : (int * SettlPriceType) =
 
 
 let ReadUnderlyingSettlPrice (bs:byte[]) (pos:int): (int*UnderlyingSettlPrice) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingSettlPrice.UnderlyingSettlPrice
+    ReadFieldDecimal bs pos UnderlyingSettlPrice.UnderlyingSettlPrice
 
 
 let ReadUnderlyingSettlPriceType (bs:byte[]) (pos:int): (int*UnderlyingSettlPriceType) =
-    ReadSingleCaseDUIntField bs pos UnderlyingSettlPriceType.UnderlyingSettlPriceType
+    ReadFieldInt bs pos UnderlyingSettlPriceType.UnderlyingSettlPriceType
 
 
 let ReadPriorSettlPrice (bs:byte[]) (pos:int): (int*PriorSettlPrice) =
-    ReadSingleCaseDUDecimalField bs pos PriorSettlPrice.PriorSettlPrice
+    ReadFieldDecimal bs pos PriorSettlPrice.PriorSettlPrice
 
 
 let ReadNoQuoteQualifiers (bs:byte[]) (pos:int): (int*NoQuoteQualifiers) =
-    ReadSingleCaseDUIntField bs pos NoQuoteQualifiers.NoQuoteQualifiers
+    ReadFieldInt bs pos NoQuoteQualifiers.NoQuoteQualifiers
 
 
 let ReadAllocSettlCurrency (bs:byte[]) (pos:int): (int*AllocSettlCurrency) =
-    ReadSingleCaseDUStrField bs pos AllocSettlCurrency.AllocSettlCurrency
+    ReadFieldStr bs pos AllocSettlCurrency.AllocSettlCurrency
 
 
 let ReadAllocSettlCurrAmt (bs:byte[]) (pos:int): (int*AllocSettlCurrAmt) =
-    ReadSingleCaseDUDecimalField bs pos AllocSettlCurrAmt.AllocSettlCurrAmt
+    ReadFieldDecimal bs pos AllocSettlCurrAmt.AllocSettlCurrAmt
 
 
 let ReadInterestAtMaturity (bs:byte[]) (pos:int): (int*InterestAtMaturity) =
-    ReadSingleCaseDUDecimalField bs pos InterestAtMaturity.InterestAtMaturity
+    ReadFieldDecimal bs pos InterestAtMaturity.InterestAtMaturity
 
 
 let ReadLegDatedDate (bs:byte[]) (pos:int): (int*LegDatedDate) =
-    ReadSingleCaseDUStrField bs pos LegDatedDate.LegDatedDate
+    ReadFieldStr bs pos LegDatedDate.LegDatedDate
 
 
 let ReadLegPool (bs:byte[]) (pos:int): (int*LegPool) =
-    ReadSingleCaseDUStrField bs pos LegPool.LegPool
+    ReadFieldStr bs pos LegPool.LegPool
 
 
 let ReadAllocInterestAtMaturity (bs:byte[]) (pos:int): (int*AllocInterestAtMaturity) =
-    ReadSingleCaseDUDecimalField bs pos AllocInterestAtMaturity.AllocInterestAtMaturity
+    ReadFieldDecimal bs pos AllocInterestAtMaturity.AllocInterestAtMaturity
 
 
 let ReadAllocAccruedInterestAmt (bs:byte[]) (pos:int): (int*AllocAccruedInterestAmt) =
-    ReadSingleCaseDUDecimalField bs pos AllocAccruedInterestAmt.AllocAccruedInterestAmt
+    ReadFieldDecimal bs pos AllocAccruedInterestAmt.AllocAccruedInterestAmt
 
 
 let ReadDeliveryDate (bs:byte[]) (pos:int): (int*DeliveryDate) =
-    ReadSingleCaseDUStrField bs pos DeliveryDate.DeliveryDate
+    ReadFieldStr bs pos DeliveryDate.DeliveryDate
 
 
 let ReadAssignmentMethod (bs:byte[]) (pos:int) : (int * AssignmentMethod) =
@@ -4816,11 +4816,11 @@ let ReadAssignmentMethod (bs:byte[]) (pos:int) : (int * AssignmentMethod) =
 
 
 let ReadAssignmentUnit (bs:byte[]) (pos:int): (int*AssignmentUnit) =
-    ReadSingleCaseDUDecimalField bs pos AssignmentUnit.AssignmentUnit
+    ReadFieldDecimal bs pos AssignmentUnit.AssignmentUnit
 
 
 let ReadOpenInterest (bs:byte[]) (pos:int): (int*OpenInterest) =
-    ReadSingleCaseDUDecimalField bs pos OpenInterest.OpenInterest
+    ReadFieldDecimal bs pos OpenInterest.OpenInterest
 
 
 let ReadExerciseMethod (bs:byte[]) (pos:int) : (int * ExerciseMethod) =
@@ -4834,7 +4834,7 @@ let ReadExerciseMethod (bs:byte[]) (pos:int) : (int * ExerciseMethod) =
 
 
 let ReadTotNumTradeReports (bs:byte[]) (pos:int): (int*TotNumTradeReports) =
-    ReadSingleCaseDUIntField bs pos TotNumTradeReports.TotNumTradeReports
+    ReadFieldInt bs pos TotNumTradeReports.TotNumTradeReports
 
 
 let ReadTradeRequestResult (bs:byte[]) (pos:int) : (int * TradeRequestResult) =
@@ -4891,71 +4891,71 @@ let ReadSideMultiLegReportingType (bs:byte[]) (pos:int) : (int * SideMultiLegRep
 
 
 let ReadNoPosAmt (bs:byte[]) (pos:int): (int*NoPosAmt) =
-    ReadSingleCaseDUIntField bs pos NoPosAmt.NoPosAmt
+    ReadFieldInt bs pos NoPosAmt.NoPosAmt
 
 
 let ReadAutoAcceptIndicator (bs:byte[]) (pos:int): (int*AutoAcceptIndicator) =
-    ReadSingleCaseDUBoolField bs pos AutoAcceptIndicator.AutoAcceptIndicator
+    ReadFieldBool bs pos AutoAcceptIndicator.AutoAcceptIndicator
 
 
 let ReadAllocReportID (bs:byte[]) (pos:int): (int*AllocReportID) =
-    ReadSingleCaseDUStrField bs pos AllocReportID.AllocReportID
+    ReadFieldStr bs pos AllocReportID.AllocReportID
 
 
 let ReadNoNested2PartyIDs (bs:byte[]) (pos:int): (int*NoNested2PartyIDs) =
-    ReadSingleCaseDUIntField bs pos NoNested2PartyIDs.NoNested2PartyIDs
+    ReadFieldInt bs pos NoNested2PartyIDs.NoNested2PartyIDs
 
 
 let ReadNested2PartyID (bs:byte[]) (pos:int): (int*Nested2PartyID) =
-    ReadSingleCaseDUStrField bs pos Nested2PartyID.Nested2PartyID
+    ReadFieldStr bs pos Nested2PartyID.Nested2PartyID
 
 
 let ReadNested2PartyIDSource (bs:byte[]) (pos:int): (int*Nested2PartyIDSource) =
-    ReadSingleCaseDUCharField bs pos Nested2PartyIDSource.Nested2PartyIDSource
+    ReadFieldChar bs pos Nested2PartyIDSource.Nested2PartyIDSource
 
 
 let ReadNested2PartyRole (bs:byte[]) (pos:int): (int*Nested2PartyRole) =
-    ReadSingleCaseDUIntField bs pos Nested2PartyRole.Nested2PartyRole
+    ReadFieldInt bs pos Nested2PartyRole.Nested2PartyRole
 
 
 let ReadNested2PartySubID (bs:byte[]) (pos:int): (int*Nested2PartySubID) =
-    ReadSingleCaseDUStrField bs pos Nested2PartySubID.Nested2PartySubID
+    ReadFieldStr bs pos Nested2PartySubID.Nested2PartySubID
 
 
 let ReadBenchmarkSecurityIDSource (bs:byte[]) (pos:int): (int*BenchmarkSecurityIDSource) =
-    ReadSingleCaseDUStrField bs pos BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
+    ReadFieldStr bs pos BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
 
 
 let ReadSecuritySubType (bs:byte[]) (pos:int): (int*SecuritySubType) =
-    ReadSingleCaseDUStrField bs pos SecuritySubType.SecuritySubType
+    ReadFieldStr bs pos SecuritySubType.SecuritySubType
 
 
 let ReadUnderlyingSecuritySubType (bs:byte[]) (pos:int): (int*UnderlyingSecuritySubType) =
-    ReadSingleCaseDUStrField bs pos UnderlyingSecuritySubType.UnderlyingSecuritySubType
+    ReadFieldStr bs pos UnderlyingSecuritySubType.UnderlyingSecuritySubType
 
 
 let ReadLegSecuritySubType (bs:byte[]) (pos:int): (int*LegSecuritySubType) =
-    ReadSingleCaseDUStrField bs pos LegSecuritySubType.LegSecuritySubType
+    ReadFieldStr bs pos LegSecuritySubType.LegSecuritySubType
 
 
 let ReadAllowableOneSidednessPct (bs:byte[]) (pos:int): (int*AllowableOneSidednessPct) =
-    ReadSingleCaseDUDecimalField bs pos AllowableOneSidednessPct.AllowableOneSidednessPct
+    ReadFieldDecimal bs pos AllowableOneSidednessPct.AllowableOneSidednessPct
 
 
 let ReadAllowableOneSidednessValue (bs:byte[]) (pos:int): (int*AllowableOneSidednessValue) =
-    ReadSingleCaseDUDecimalField bs pos AllowableOneSidednessValue.AllowableOneSidednessValue
+    ReadFieldDecimal bs pos AllowableOneSidednessValue.AllowableOneSidednessValue
 
 
 let ReadAllowableOneSidednessCurr (bs:byte[]) (pos:int): (int*AllowableOneSidednessCurr) =
-    ReadSingleCaseDUStrField bs pos AllowableOneSidednessCurr.AllowableOneSidednessCurr
+    ReadFieldStr bs pos AllowableOneSidednessCurr.AllowableOneSidednessCurr
 
 
 let ReadNoTrdRegTimestamps (bs:byte[]) (pos:int): (int*NoTrdRegTimestamps) =
-    ReadSingleCaseDUIntField bs pos NoTrdRegTimestamps.NoTrdRegTimestamps
+    ReadFieldInt bs pos NoTrdRegTimestamps.NoTrdRegTimestamps
 
 
 let ReadTrdRegTimestamp (bs:byte[]) (pos:int): (int*TrdRegTimestamp) =
-    ReadSingleCaseUTCTimestampField bs pos TrdRegTimestamp.TrdRegTimestamp
+    ReadFieldUTCTimestamp bs pos TrdRegTimestamp.TrdRegTimestamp
 
 
 let ReadTrdRegTimestampType (bs:byte[]) (pos:int) : (int * TrdRegTimestampType) =
@@ -4972,11 +4972,11 @@ let ReadTrdRegTimestampType (bs:byte[]) (pos:int) : (int * TrdRegTimestampType) 
 
 
 let ReadTrdRegTimestampOrigin (bs:byte[]) (pos:int): (int*TrdRegTimestampOrigin) =
-    ReadSingleCaseDUStrField bs pos TrdRegTimestampOrigin.TrdRegTimestampOrigin
+    ReadFieldStr bs pos TrdRegTimestampOrigin.TrdRegTimestampOrigin
 
 
 let ReadConfirmRefID (bs:byte[]) (pos:int): (int*ConfirmRefID) =
-    ReadSingleCaseDUStrField bs pos ConfirmRefID.ConfirmRefID
+    ReadFieldStr bs pos ConfirmRefID.ConfirmRefID
 
 
 let ReadConfirmType (bs:byte[]) (pos:int) : (int * ConfirmType) =
@@ -5013,19 +5013,19 @@ let ReadBookingType (bs:byte[]) (pos:int) : (int * BookingType) =
 
 
 let ReadIndividualAllocRejCode (bs:byte[]) (pos:int): (int*IndividualAllocRejCode) =
-    ReadSingleCaseDUIntField bs pos IndividualAllocRejCode.IndividualAllocRejCode
+    ReadFieldInt bs pos IndividualAllocRejCode.IndividualAllocRejCode
 
 
 let ReadSettlInstMsgID (bs:byte[]) (pos:int): (int*SettlInstMsgID) =
-    ReadSingleCaseDUStrField bs pos SettlInstMsgID.SettlInstMsgID
+    ReadFieldStr bs pos SettlInstMsgID.SettlInstMsgID
 
 
 let ReadNoSettlInst (bs:byte[]) (pos:int): (int*NoSettlInst) =
-    ReadSingleCaseDUIntField bs pos NoSettlInst.NoSettlInst
+    ReadFieldInt bs pos NoSettlInst.NoSettlInst
 
 
 let ReadLastUpdateTime (bs:byte[]) (pos:int): (int*LastUpdateTime) =
-    ReadSingleCaseUTCTimestampField bs pos LastUpdateTime.LastUpdateTime
+    ReadFieldUTCTimestamp bs pos LastUpdateTime.LastUpdateTime
 
 
 let ReadAllocSettlInstType (bs:byte[]) (pos:int) : (int * AllocSettlInstType) =
@@ -5042,27 +5042,27 @@ let ReadAllocSettlInstType (bs:byte[]) (pos:int) : (int * AllocSettlInstType) =
 
 
 let ReadNoSettlPartyIDs (bs:byte[]) (pos:int): (int*NoSettlPartyIDs) =
-    ReadSingleCaseDUIntField bs pos NoSettlPartyIDs.NoSettlPartyIDs
+    ReadFieldInt bs pos NoSettlPartyIDs.NoSettlPartyIDs
 
 
 let ReadSettlPartyID (bs:byte[]) (pos:int): (int*SettlPartyID) =
-    ReadSingleCaseDUStrField bs pos SettlPartyID.SettlPartyID
+    ReadFieldStr bs pos SettlPartyID.SettlPartyID
 
 
 let ReadSettlPartyIDSource (bs:byte[]) (pos:int): (int*SettlPartyIDSource) =
-    ReadSingleCaseDUCharField bs pos SettlPartyIDSource.SettlPartyIDSource
+    ReadFieldChar bs pos SettlPartyIDSource.SettlPartyIDSource
 
 
 let ReadSettlPartyRole (bs:byte[]) (pos:int): (int*SettlPartyRole) =
-    ReadSingleCaseDUIntField bs pos SettlPartyRole.SettlPartyRole
+    ReadFieldInt bs pos SettlPartyRole.SettlPartyRole
 
 
 let ReadSettlPartySubID (bs:byte[]) (pos:int): (int*SettlPartySubID) =
-    ReadSingleCaseDUStrField bs pos SettlPartySubID.SettlPartySubID
+    ReadFieldStr bs pos SettlPartySubID.SettlPartySubID
 
 
 let ReadSettlPartySubIDType (bs:byte[]) (pos:int): (int*SettlPartySubIDType) =
-    ReadSingleCaseDUIntField bs pos SettlPartySubIDType.SettlPartySubIDType
+    ReadFieldInt bs pos SettlPartySubIDType.SettlPartySubIDType
 
 
 let ReadDlvyInstType (bs:byte[]) (pos:int) : (int * DlvyInstType) =
@@ -5088,15 +5088,15 @@ let ReadTerminationType (bs:byte[]) (pos:int) : (int * TerminationType) =
 
 
 let ReadNextExpectedMsgSeqNum (bs:byte[]) (pos:int): (int*NextExpectedMsgSeqNum) =
-    ReadSingleCaseDUUint32Field bs pos NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
+    ReadFieldUint32 bs pos NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
 
 
 let ReadOrdStatusReqID (bs:byte[]) (pos:int): (int*OrdStatusReqID) =
-    ReadSingleCaseDUStrField bs pos OrdStatusReqID.OrdStatusReqID
+    ReadFieldStr bs pos OrdStatusReqID.OrdStatusReqID
 
 
 let ReadSettlInstReqID (bs:byte[]) (pos:int): (int*SettlInstReqID) =
-    ReadSingleCaseDUStrField bs pos SettlInstReqID.SettlInstReqID
+    ReadFieldStr bs pos SettlInstReqID.SettlInstReqID
 
 
 let ReadSettlInstReqRejCode (bs:byte[]) (pos:int) : (int * SettlInstReqRejCode) =
@@ -5112,7 +5112,7 @@ let ReadSettlInstReqRejCode (bs:byte[]) (pos:int) : (int * SettlInstReqRejCode) 
 
 
 let ReadSecondaryAllocID (bs:byte[]) (pos:int): (int*SecondaryAllocID) =
-    ReadSingleCaseDUStrField bs pos SecondaryAllocID.SecondaryAllocID
+    ReadFieldStr bs pos SecondaryAllocID.SecondaryAllocID
 
 
 let ReadAllocReportType (bs:byte[]) (pos:int) : (int * AllocReportType) =
@@ -5128,7 +5128,7 @@ let ReadAllocReportType (bs:byte[]) (pos:int) : (int * AllocReportType) =
 
 
 let ReadAllocReportRefID (bs:byte[]) (pos:int): (int*AllocReportRefID) =
-    ReadSingleCaseDUStrField bs pos AllocReportRefID.AllocReportRefID
+    ReadFieldStr bs pos AllocReportRefID.AllocReportRefID
 
 
 let ReadAllocCancReplaceReason (bs:byte[]) (pos:int) : (int * AllocCancReplaceReason) =
@@ -5142,7 +5142,7 @@ let ReadAllocCancReplaceReason (bs:byte[]) (pos:int) : (int * AllocCancReplaceRe
 
 
 let ReadCopyMsgIndicator (bs:byte[]) (pos:int): (int*CopyMsgIndicator) =
-    ReadSingleCaseDUBoolField bs pos CopyMsgIndicator.CopyMsgIndicator
+    ReadFieldBool bs pos CopyMsgIndicator.CopyMsgIndicator
 
 
 let ReadAllocAccountType (bs:byte[]) (pos:int) : (int * AllocAccountType) =
@@ -5161,39 +5161,39 @@ let ReadAllocAccountType (bs:byte[]) (pos:int) : (int * AllocAccountType) =
 
 
 let ReadOrderAvgPx (bs:byte[]) (pos:int): (int*OrderAvgPx) =
-    ReadSingleCaseDUDecimalField bs pos OrderAvgPx.OrderAvgPx
+    ReadFieldDecimal bs pos OrderAvgPx.OrderAvgPx
 
 
 let ReadOrderBookingQty (bs:byte[]) (pos:int): (int*OrderBookingQty) =
-    ReadSingleCaseDUDecimalField bs pos OrderBookingQty.OrderBookingQty
+    ReadFieldDecimal bs pos OrderBookingQty.OrderBookingQty
 
 
 let ReadNoSettlPartySubIDs (bs:byte[]) (pos:int): (int*NoSettlPartySubIDs) =
-    ReadSingleCaseDUIntField bs pos NoSettlPartySubIDs.NoSettlPartySubIDs
+    ReadFieldInt bs pos NoSettlPartySubIDs.NoSettlPartySubIDs
 
 
 let ReadNoPartySubIDs (bs:byte[]) (pos:int): (int*NoPartySubIDs) =
-    ReadSingleCaseDUIntField bs pos NoPartySubIDs.NoPartySubIDs
+    ReadFieldInt bs pos NoPartySubIDs.NoPartySubIDs
 
 
 let ReadPartySubIDType (bs:byte[]) (pos:int): (int*PartySubIDType) =
-    ReadSingleCaseDUIntField bs pos PartySubIDType.PartySubIDType
+    ReadFieldInt bs pos PartySubIDType.PartySubIDType
 
 
 let ReadNoNestedPartySubIDs (bs:byte[]) (pos:int): (int*NoNestedPartySubIDs) =
-    ReadSingleCaseDUIntField bs pos NoNestedPartySubIDs.NoNestedPartySubIDs
+    ReadFieldInt bs pos NoNestedPartySubIDs.NoNestedPartySubIDs
 
 
 let ReadNestedPartySubIDType (bs:byte[]) (pos:int): (int*NestedPartySubIDType) =
-    ReadSingleCaseDUIntField bs pos NestedPartySubIDType.NestedPartySubIDType
+    ReadFieldInt bs pos NestedPartySubIDType.NestedPartySubIDType
 
 
 let ReadNoNested2PartySubIDs (bs:byte[]) (pos:int): (int*NoNested2PartySubIDs) =
-    ReadSingleCaseDUIntField bs pos NoNested2PartySubIDs.NoNested2PartySubIDs
+    ReadFieldInt bs pos NoNested2PartySubIDs.NoNested2PartySubIDs
 
 
 let ReadNested2PartySubIDType (bs:byte[]) (pos:int): (int*Nested2PartySubIDType) =
-    ReadSingleCaseDUIntField bs pos Nested2PartySubIDType.Nested2PartySubIDType
+    ReadFieldInt bs pos Nested2PartySubIDType.Nested2PartySubIDType
 
 
 let ReadAllocIntermedReqType (bs:byte[]) (pos:int) : (int * AllocIntermedReqType) =
@@ -5211,19 +5211,19 @@ let ReadAllocIntermedReqType (bs:byte[]) (pos:int) : (int * AllocIntermedReqType
 
 
 let ReadUnderlyingPx (bs:byte[]) (pos:int): (int*UnderlyingPx) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingPx.UnderlyingPx
+    ReadFieldDecimal bs pos UnderlyingPx.UnderlyingPx
 
 
 let ReadPriceDelta (bs:byte[]) (pos:int): (int*PriceDelta) =
-    ReadSingleCaseDUDecimalField bs pos PriceDelta.PriceDelta
+    ReadFieldDecimal bs pos PriceDelta.PriceDelta
 
 
 let ReadApplQueueMax (bs:byte[]) (pos:int): (int*ApplQueueMax) =
-    ReadSingleCaseDUIntField bs pos ApplQueueMax.ApplQueueMax
+    ReadFieldInt bs pos ApplQueueMax.ApplQueueMax
 
 
 let ReadApplQueueDepth (bs:byte[]) (pos:int): (int*ApplQueueDepth) =
-    ReadSingleCaseDUIntField bs pos ApplQueueDepth.ApplQueueDepth
+    ReadFieldInt bs pos ApplQueueDepth.ApplQueueDepth
 
 
 let ReadApplQueueResolution (bs:byte[]) (pos:int) : (int * ApplQueueResolution) =
@@ -5251,15 +5251,15 @@ let ReadApplQueueAction (bs:byte[]) (pos:int) : (int * ApplQueueAction) =
 
 
 let ReadNoAltMDSource (bs:byte[]) (pos:int): (int*NoAltMDSource) =
-    ReadSingleCaseDUIntField bs pos NoAltMDSource.NoAltMDSource
+    ReadFieldInt bs pos NoAltMDSource.NoAltMDSource
 
 
 let ReadAltMDSourceID (bs:byte[]) (pos:int): (int*AltMDSourceID) =
-    ReadSingleCaseDUStrField bs pos AltMDSourceID.AltMDSourceID
+    ReadFieldStr bs pos AltMDSourceID.AltMDSourceID
 
 
 let ReadSecondaryTradeReportID (bs:byte[]) (pos:int): (int*SecondaryTradeReportID) =
-    ReadSingleCaseDUStrField bs pos SecondaryTradeReportID.SecondaryTradeReportID
+    ReadFieldStr bs pos SecondaryTradeReportID.SecondaryTradeReportID
 
 
 let ReadAvgPxIndicator (bs:byte[]) (pos:int) : (int * AvgPxIndicator) =
@@ -5274,27 +5274,27 @@ let ReadAvgPxIndicator (bs:byte[]) (pos:int) : (int * AvgPxIndicator) =
 
 
 let ReadTradeLinkID (bs:byte[]) (pos:int): (int*TradeLinkID) =
-    ReadSingleCaseDUStrField bs pos TradeLinkID.TradeLinkID
+    ReadFieldStr bs pos TradeLinkID.TradeLinkID
 
 
 let ReadOrderInputDevice (bs:byte[]) (pos:int): (int*OrderInputDevice) =
-    ReadSingleCaseDUStrField bs pos OrderInputDevice.OrderInputDevice
+    ReadFieldStr bs pos OrderInputDevice.OrderInputDevice
 
 
 let ReadUnderlyingTradingSessionID (bs:byte[]) (pos:int): (int*UnderlyingTradingSessionID) =
-    ReadSingleCaseDUStrField bs pos UnderlyingTradingSessionID.UnderlyingTradingSessionID
+    ReadFieldStr bs pos UnderlyingTradingSessionID.UnderlyingTradingSessionID
 
 
 let ReadUnderlyingTradingSessionSubID (bs:byte[]) (pos:int): (int*UnderlyingTradingSessionSubID) =
-    ReadSingleCaseDUStrField bs pos UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID
+    ReadFieldStr bs pos UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID
 
 
 let ReadTradeLegRefID (bs:byte[]) (pos:int): (int*TradeLegRefID) =
-    ReadSingleCaseDUStrField bs pos TradeLegRefID.TradeLegRefID
+    ReadFieldStr bs pos TradeLegRefID.TradeLegRefID
 
 
 let ReadExchangeRule (bs:byte[]) (pos:int): (int*ExchangeRule) =
-    ReadSingleCaseDUStrField bs pos ExchangeRule.ExchangeRule
+    ReadFieldStr bs pos ExchangeRule.ExchangeRule
 
 
 let ReadTradeAllocIndicator (bs:byte[]) (pos:int) : (int * TradeAllocIndicator) =
@@ -5338,27 +5338,27 @@ let ReadTrdType (bs:byte[]) (pos:int) : (int * TrdType) =
 
 
 let ReadTrdSubType (bs:byte[]) (pos:int): (int*TrdSubType) =
-    ReadSingleCaseDUIntField bs pos TrdSubType.TrdSubType
+    ReadFieldInt bs pos TrdSubType.TrdSubType
 
 
 let ReadTransferReason (bs:byte[]) (pos:int): (int*TransferReason) =
-    ReadSingleCaseDUStrField bs pos TransferReason.TransferReason
+    ReadFieldStr bs pos TransferReason.TransferReason
 
 
 let ReadAsgnReqID (bs:byte[]) (pos:int): (int*AsgnReqID) =
-    ReadSingleCaseDUStrField bs pos AsgnReqID.AsgnReqID
+    ReadFieldStr bs pos AsgnReqID.AsgnReqID
 
 
 let ReadTotNumAssignmentReports (bs:byte[]) (pos:int): (int*TotNumAssignmentReports) =
-    ReadSingleCaseDUIntField bs pos TotNumAssignmentReports.TotNumAssignmentReports
+    ReadFieldInt bs pos TotNumAssignmentReports.TotNumAssignmentReports
 
 
 let ReadAsgnRptID (bs:byte[]) (pos:int): (int*AsgnRptID) =
-    ReadSingleCaseDUStrField bs pos AsgnRptID.AsgnRptID
+    ReadFieldStr bs pos AsgnRptID.AsgnRptID
 
 
 let ReadThresholdAmount (bs:byte[]) (pos:int): (int*ThresholdAmount) =
-    ReadSingleCaseDUDecimalField bs pos ThresholdAmount.ThresholdAmount
+    ReadFieldDecimal bs pos ThresholdAmount.ThresholdAmount
 
 
 let ReadPegMoveType (bs:byte[]) (pos:int) : (int * PegMoveType) =
@@ -5405,7 +5405,7 @@ let ReadPegRoundDirection (bs:byte[]) (pos:int) : (int * PegRoundDirection) =
 
 
 let ReadPeggedPrice (bs:byte[]) (pos:int): (int*PeggedPrice) =
-    ReadSingleCaseDUDecimalField bs pos PeggedPrice.PeggedPrice
+    ReadFieldDecimal bs pos PeggedPrice.PeggedPrice
 
 
 let ReadPegScope (bs:byte[]) (pos:int) : (int * PegScope) =
@@ -5464,7 +5464,7 @@ let ReadDiscretionRoundDirection (bs:byte[]) (pos:int) : (int * DiscretionRoundD
 
 
 let ReadDiscretionPrice (bs:byte[]) (pos:int): (int*DiscretionPrice) =
-    ReadSingleCaseDUDecimalField bs pos DiscretionPrice.DiscretionPrice
+    ReadFieldDecimal bs pos DiscretionPrice.DiscretionPrice
 
 
 let ReadDiscretionScope (bs:byte[]) (pos:int) : (int * DiscretionScope) =
@@ -5480,19 +5480,19 @@ let ReadDiscretionScope (bs:byte[]) (pos:int) : (int * DiscretionScope) =
 
 
 let ReadTargetStrategy (bs:byte[]) (pos:int): (int*TargetStrategy) =
-    ReadSingleCaseDUIntField bs pos TargetStrategy.TargetStrategy
+    ReadFieldInt bs pos TargetStrategy.TargetStrategy
 
 
 let ReadTargetStrategyParameters (bs:byte[]) (pos:int): (int*TargetStrategyParameters) =
-    ReadSingleCaseDUStrField bs pos TargetStrategyParameters.TargetStrategyParameters
+    ReadFieldStr bs pos TargetStrategyParameters.TargetStrategyParameters
 
 
 let ReadParticipationRate (bs:byte[]) (pos:int): (int*ParticipationRate) =
-    ReadSingleCaseDUDecimalField bs pos ParticipationRate.ParticipationRate
+    ReadFieldDecimal bs pos ParticipationRate.ParticipationRate
 
 
 let ReadTargetStrategyPerformance (bs:byte[]) (pos:int): (int*TargetStrategyPerformance) =
-    ReadSingleCaseDUDecimalField bs pos TargetStrategyPerformance.TargetStrategyPerformance
+    ReadFieldDecimal bs pos TargetStrategyPerformance.TargetStrategyPerformance
 
 
 let ReadLastLiquidityInd (bs:byte[]) (pos:int) : (int * LastLiquidityInd) =
@@ -5507,7 +5507,7 @@ let ReadLastLiquidityInd (bs:byte[]) (pos:int) : (int * LastLiquidityInd) =
 
 
 let ReadPublishTrdIndicator (bs:byte[]) (pos:int): (int*PublishTrdIndicator) =
-    ReadSingleCaseDUBoolField bs pos PublishTrdIndicator.PublishTrdIndicator
+    ReadFieldBool bs pos PublishTrdIndicator.PublishTrdIndicator
 
 
 let ReadShortSaleReason (bs:byte[]) (pos:int) : (int * ShortSaleReason) =
@@ -5535,7 +5535,7 @@ let ReadQtyType (bs:byte[]) (pos:int) : (int * QtyType) =
 
 
 let ReadSecondaryTrdType (bs:byte[]) (pos:int): (int*SecondaryTrdType) =
-    ReadSingleCaseDUIntField bs pos SecondaryTrdType.SecondaryTrdType
+    ReadFieldInt bs pos SecondaryTrdType.SecondaryTrdType
 
 
 let ReadTradeReportType (bs:byte[]) (pos:int) : (int * TradeReportType) =
@@ -5565,31 +5565,31 @@ let ReadAllocNoOrdersType (bs:byte[]) (pos:int) : (int * AllocNoOrdersType) =
 
 
 let ReadSharedCommission (bs:byte[]) (pos:int): (int*SharedCommission) =
-    ReadSingleCaseDUDecimalField bs pos SharedCommission.SharedCommission
+    ReadFieldDecimal bs pos SharedCommission.SharedCommission
 
 
 let ReadConfirmReqID (bs:byte[]) (pos:int): (int*ConfirmReqID) =
-    ReadSingleCaseDUStrField bs pos ConfirmReqID.ConfirmReqID
+    ReadFieldStr bs pos ConfirmReqID.ConfirmReqID
 
 
 let ReadAvgParPx (bs:byte[]) (pos:int): (int*AvgParPx) =
-    ReadSingleCaseDUDecimalField bs pos AvgParPx.AvgParPx
+    ReadFieldDecimal bs pos AvgParPx.AvgParPx
 
 
 let ReadReportedPx (bs:byte[]) (pos:int): (int*ReportedPx) =
-    ReadSingleCaseDUDecimalField bs pos ReportedPx.ReportedPx
+    ReadFieldDecimal bs pos ReportedPx.ReportedPx
 
 
 let ReadNoCapacities (bs:byte[]) (pos:int): (int*NoCapacities) =
-    ReadSingleCaseDUIntField bs pos NoCapacities.NoCapacities
+    ReadFieldInt bs pos NoCapacities.NoCapacities
 
 
 let ReadOrderCapacityQty (bs:byte[]) (pos:int): (int*OrderCapacityQty) =
-    ReadSingleCaseDUDecimalField bs pos OrderCapacityQty.OrderCapacityQty
+    ReadFieldDecimal bs pos OrderCapacityQty.OrderCapacityQty
 
 
 let ReadNoEvents (bs:byte[]) (pos:int): (int*NoEvents) =
-    ReadSingleCaseDUIntField bs pos NoEvents.NoEvents
+    ReadFieldInt bs pos NoEvents.NoEvents
 
 
 let ReadEventType (bs:byte[]) (pos:int) : (int * EventType) =
@@ -5606,23 +5606,23 @@ let ReadEventType (bs:byte[]) (pos:int) : (int * EventType) =
 
 
 let ReadEventDate (bs:byte[]) (pos:int): (int*EventDate) =
-    ReadSingleCaseDUStrField bs pos EventDate.EventDate
+    ReadFieldStr bs pos EventDate.EventDate
 
 
 let ReadEventPx (bs:byte[]) (pos:int): (int*EventPx) =
-    ReadSingleCaseDUDecimalField bs pos EventPx.EventPx
+    ReadFieldDecimal bs pos EventPx.EventPx
 
 
 let ReadEventText (bs:byte[]) (pos:int): (int*EventText) =
-    ReadSingleCaseDUStrField bs pos EventText.EventText
+    ReadFieldStr bs pos EventText.EventText
 
 
 let ReadPctAtRisk (bs:byte[]) (pos:int): (int*PctAtRisk) =
-    ReadSingleCaseDUDecimalField bs pos PctAtRisk.PctAtRisk
+    ReadFieldDecimal bs pos PctAtRisk.PctAtRisk
 
 
 let ReadNoInstrAttrib (bs:byte[]) (pos:int): (int*NoInstrAttrib) =
-    ReadSingleCaseDUIntField bs pos NoInstrAttrib.NoInstrAttrib
+    ReadFieldInt bs pos NoInstrAttrib.NoInstrAttrib
 
 
 let ReadInstrAttribType (bs:byte[]) (pos:int) : (int * InstrAttribType) =
@@ -5657,79 +5657,79 @@ let ReadInstrAttribType (bs:byte[]) (pos:int) : (int * InstrAttribType) =
 
 
 let ReadInstrAttribValue (bs:byte[]) (pos:int): (int*InstrAttribValue) =
-    ReadSingleCaseDUStrField bs pos InstrAttribValue.InstrAttribValue
+    ReadFieldStr bs pos InstrAttribValue.InstrAttribValue
 
 
 let ReadDatedDate (bs:byte[]) (pos:int): (int*DatedDate) =
-    ReadSingleCaseDUStrField bs pos DatedDate.DatedDate
+    ReadFieldStr bs pos DatedDate.DatedDate
 
 
 let ReadInterestAccrualDate (bs:byte[]) (pos:int): (int*InterestAccrualDate) =
-    ReadSingleCaseDUStrField bs pos InterestAccrualDate.InterestAccrualDate
+    ReadFieldStr bs pos InterestAccrualDate.InterestAccrualDate
 
 
 let ReadCPProgram (bs:byte[]) (pos:int): (int*CPProgram) =
-    ReadSingleCaseDUIntField bs pos CPProgram.CPProgram
+    ReadFieldInt bs pos CPProgram.CPProgram
 
 
 let ReadCPRegType (bs:byte[]) (pos:int): (int*CPRegType) =
-    ReadSingleCaseDUStrField bs pos CPRegType.CPRegType
+    ReadFieldStr bs pos CPRegType.CPRegType
 
 
 let ReadUnderlyingCPProgram (bs:byte[]) (pos:int): (int*UnderlyingCPProgram) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCPProgram.UnderlyingCPProgram
+    ReadFieldStr bs pos UnderlyingCPProgram.UnderlyingCPProgram
 
 
 let ReadUnderlyingCPRegType (bs:byte[]) (pos:int): (int*UnderlyingCPRegType) =
-    ReadSingleCaseDUStrField bs pos UnderlyingCPRegType.UnderlyingCPRegType
+    ReadFieldStr bs pos UnderlyingCPRegType.UnderlyingCPRegType
 
 
 let ReadUnderlyingQty (bs:byte[]) (pos:int): (int*UnderlyingQty) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingQty.UnderlyingQty
+    ReadFieldDecimal bs pos UnderlyingQty.UnderlyingQty
 
 
 let ReadTrdMatchID (bs:byte[]) (pos:int): (int*TrdMatchID) =
-    ReadSingleCaseDUStrField bs pos TrdMatchID.TrdMatchID
+    ReadFieldStr bs pos TrdMatchID.TrdMatchID
 
 
 let ReadSecondaryTradeReportRefID (bs:byte[]) (pos:int): (int*SecondaryTradeReportRefID) =
-    ReadSingleCaseDUStrField bs pos SecondaryTradeReportRefID.SecondaryTradeReportRefID
+    ReadFieldStr bs pos SecondaryTradeReportRefID.SecondaryTradeReportRefID
 
 
 let ReadUnderlyingDirtyPrice (bs:byte[]) (pos:int): (int*UnderlyingDirtyPrice) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingDirtyPrice.UnderlyingDirtyPrice
+    ReadFieldDecimal bs pos UnderlyingDirtyPrice.UnderlyingDirtyPrice
 
 
 let ReadUnderlyingEndPrice (bs:byte[]) (pos:int): (int*UnderlyingEndPrice) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingEndPrice.UnderlyingEndPrice
+    ReadFieldDecimal bs pos UnderlyingEndPrice.UnderlyingEndPrice
 
 
 let ReadUnderlyingStartValue (bs:byte[]) (pos:int): (int*UnderlyingStartValue) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingStartValue.UnderlyingStartValue
+    ReadFieldDecimal bs pos UnderlyingStartValue.UnderlyingStartValue
 
 
 let ReadUnderlyingCurrentValue (bs:byte[]) (pos:int): (int*UnderlyingCurrentValue) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingCurrentValue.UnderlyingCurrentValue
+    ReadFieldDecimal bs pos UnderlyingCurrentValue.UnderlyingCurrentValue
 
 
 let ReadUnderlyingEndValue (bs:byte[]) (pos:int): (int*UnderlyingEndValue) =
-    ReadSingleCaseDUDecimalField bs pos UnderlyingEndValue.UnderlyingEndValue
+    ReadFieldDecimal bs pos UnderlyingEndValue.UnderlyingEndValue
 
 
 let ReadNoUnderlyingStips (bs:byte[]) (pos:int): (int*NoUnderlyingStips) =
-    ReadSingleCaseDUIntField bs pos NoUnderlyingStips.NoUnderlyingStips
+    ReadFieldInt bs pos NoUnderlyingStips.NoUnderlyingStips
 
 
 let ReadUnderlyingStipType (bs:byte[]) (pos:int): (int*UnderlyingStipType) =
-    ReadSingleCaseDUStrField bs pos UnderlyingStipType.UnderlyingStipType
+    ReadFieldStr bs pos UnderlyingStipType.UnderlyingStipType
 
 
 let ReadUnderlyingStipValue (bs:byte[]) (pos:int): (int*UnderlyingStipValue) =
-    ReadSingleCaseDUStrField bs pos UnderlyingStipValue.UnderlyingStipValue
+    ReadFieldStr bs pos UnderlyingStipValue.UnderlyingStipValue
 
 
 let ReadMaturityNetMoney (bs:byte[]) (pos:int): (int*MaturityNetMoney) =
-    ReadSingleCaseDUDecimalField bs pos MaturityNetMoney.MaturityNetMoney
+    ReadFieldDecimal bs pos MaturityNetMoney.MaturityNetMoney
 
 
 let ReadMiscFeeBasis (bs:byte[]) (pos:int) : (int * MiscFeeBasis) =
@@ -5744,15 +5744,15 @@ let ReadMiscFeeBasis (bs:byte[]) (pos:int) : (int * MiscFeeBasis) =
 
 
 let ReadTotNoAllocs (bs:byte[]) (pos:int): (int*TotNoAllocs) =
-    ReadSingleCaseDUIntField bs pos TotNoAllocs.TotNoAllocs
+    ReadFieldInt bs pos TotNoAllocs.TotNoAllocs
 
 
 let ReadLastFragment (bs:byte[]) (pos:int): (int*LastFragment) =
-    ReadSingleCaseDUBoolField bs pos LastFragment.LastFragment
+    ReadFieldBool bs pos LastFragment.LastFragment
 
 
 let ReadCollReqID (bs:byte[]) (pos:int): (int*CollReqID) =
-    ReadSingleCaseDUStrField bs pos CollReqID.CollReqID
+    ReadFieldStr bs pos CollReqID.CollReqID
 
 
 let ReadCollAsgnReason (bs:byte[]) (pos:int) : (int * CollAsgnReason) =
@@ -5788,27 +5788,27 @@ let ReadCollInquiryQualifier (bs:byte[]) (pos:int) : (int * CollInquiryQualifier
 
 
 let ReadNoTrades (bs:byte[]) (pos:int): (int*NoTrades) =
-    ReadSingleCaseDUIntField bs pos NoTrades.NoTrades
+    ReadFieldInt bs pos NoTrades.NoTrades
 
 
 let ReadMarginRatio (bs:byte[]) (pos:int): (int*MarginRatio) =
-    ReadSingleCaseDUDecimalField bs pos MarginRatio.MarginRatio
+    ReadFieldDecimal bs pos MarginRatio.MarginRatio
 
 
 let ReadMarginExcess (bs:byte[]) (pos:int): (int*MarginExcess) =
-    ReadSingleCaseDUDecimalField bs pos MarginExcess.MarginExcess
+    ReadFieldDecimal bs pos MarginExcess.MarginExcess
 
 
 let ReadTotalNetValue (bs:byte[]) (pos:int): (int*TotalNetValue) =
-    ReadSingleCaseDUDecimalField bs pos TotalNetValue.TotalNetValue
+    ReadFieldDecimal bs pos TotalNetValue.TotalNetValue
 
 
 let ReadCashOutstanding (bs:byte[]) (pos:int): (int*CashOutstanding) =
-    ReadSingleCaseDUDecimalField bs pos CashOutstanding.CashOutstanding
+    ReadFieldDecimal bs pos CashOutstanding.CashOutstanding
 
 
 let ReadCollAsgnID (bs:byte[]) (pos:int): (int*CollAsgnID) =
-    ReadSingleCaseDUStrField bs pos CollAsgnID.CollAsgnID
+    ReadFieldStr bs pos CollAsgnID.CollAsgnID
 
 
 let ReadCollAsgnTransType (bs:byte[]) (pos:int) : (int * CollAsgnTransType) =
@@ -5825,7 +5825,7 @@ let ReadCollAsgnTransType (bs:byte[]) (pos:int) : (int * CollAsgnTransType) =
 
 
 let ReadCollRespID (bs:byte[]) (pos:int): (int*CollRespID) =
-    ReadSingleCaseDUStrField bs pos CollRespID.CollRespID
+    ReadFieldStr bs pos CollRespID.CollRespID
 
 
 let ReadCollAsgnRespType (bs:byte[]) (pos:int) : (int * CollAsgnRespType) =
@@ -5856,15 +5856,15 @@ let ReadCollAsgnRejectReason (bs:byte[]) (pos:int) : (int * CollAsgnRejectReason
 
 
 let ReadCollAsgnRefID (bs:byte[]) (pos:int): (int*CollAsgnRefID) =
-    ReadSingleCaseDUStrField bs pos CollAsgnRefID.CollAsgnRefID
+    ReadFieldStr bs pos CollAsgnRefID.CollAsgnRefID
 
 
 let ReadCollRptID (bs:byte[]) (pos:int): (int*CollRptID) =
-    ReadSingleCaseDUStrField bs pos CollRptID.CollRptID
+    ReadFieldStr bs pos CollRptID.CollRptID
 
 
 let ReadCollInquiryID (bs:byte[]) (pos:int): (int*CollInquiryID) =
-    ReadSingleCaseDUStrField bs pos CollInquiryID.CollInquiryID
+    ReadFieldStr bs pos CollInquiryID.CollInquiryID
 
 
 let ReadCollStatus (bs:byte[]) (pos:int) : (int * CollStatus) =
@@ -5881,35 +5881,35 @@ let ReadCollStatus (bs:byte[]) (pos:int) : (int * CollStatus) =
 
 
 let ReadTotNumReports (bs:byte[]) (pos:int): (int*TotNumReports) =
-    ReadSingleCaseDUIntField bs pos TotNumReports.TotNumReports
+    ReadFieldInt bs pos TotNumReports.TotNumReports
 
 
 let ReadLastRptRequested (bs:byte[]) (pos:int): (int*LastRptRequested) =
-    ReadSingleCaseDUBoolField bs pos LastRptRequested.LastRptRequested
+    ReadFieldBool bs pos LastRptRequested.LastRptRequested
 
 
 let ReadAgreementDesc (bs:byte[]) (pos:int): (int*AgreementDesc) =
-    ReadSingleCaseDUStrField bs pos AgreementDesc.AgreementDesc
+    ReadFieldStr bs pos AgreementDesc.AgreementDesc
 
 
 let ReadAgreementID (bs:byte[]) (pos:int): (int*AgreementID) =
-    ReadSingleCaseDUStrField bs pos AgreementID.AgreementID
+    ReadFieldStr bs pos AgreementID.AgreementID
 
 
 let ReadAgreementDate (bs:byte[]) (pos:int): (int*AgreementDate) =
-    ReadSingleCaseDUStrField bs pos AgreementDate.AgreementDate
+    ReadFieldStr bs pos AgreementDate.AgreementDate
 
 
 let ReadStartDate (bs:byte[]) (pos:int): (int*StartDate) =
-    ReadSingleCaseDUStrField bs pos StartDate.StartDate
+    ReadFieldStr bs pos StartDate.StartDate
 
 
 let ReadEndDate (bs:byte[]) (pos:int): (int*EndDate) =
-    ReadSingleCaseDUStrField bs pos EndDate.EndDate
+    ReadFieldStr bs pos EndDate.EndDate
 
 
 let ReadAgreementCurrency (bs:byte[]) (pos:int): (int*AgreementCurrency) =
-    ReadSingleCaseDUStrField bs pos AgreementCurrency.AgreementCurrency
+    ReadFieldStr bs pos AgreementCurrency.AgreementCurrency
 
 
 let ReadDeliveryType (bs:byte[]) (pos:int) : (int * DeliveryType) =
@@ -5925,19 +5925,19 @@ let ReadDeliveryType (bs:byte[]) (pos:int) : (int * DeliveryType) =
 
 
 let ReadEndAccruedInterestAmt (bs:byte[]) (pos:int): (int*EndAccruedInterestAmt) =
-    ReadSingleCaseDUDecimalField bs pos EndAccruedInterestAmt.EndAccruedInterestAmt
+    ReadFieldDecimal bs pos EndAccruedInterestAmt.EndAccruedInterestAmt
 
 
 let ReadStartCash (bs:byte[]) (pos:int): (int*StartCash) =
-    ReadSingleCaseDUDecimalField bs pos StartCash.StartCash
+    ReadFieldDecimal bs pos StartCash.StartCash
 
 
 let ReadEndCash (bs:byte[]) (pos:int): (int*EndCash) =
-    ReadSingleCaseDUDecimalField bs pos EndCash.EndCash
+    ReadFieldDecimal bs pos EndCash.EndCash
 
 
 let ReadUserRequestID (bs:byte[]) (pos:int): (int*UserRequestID) =
-    ReadSingleCaseDUStrField bs pos UserRequestID.UserRequestID
+    ReadFieldStr bs pos UserRequestID.UserRequestID
 
 
 let ReadUserRequestType (bs:byte[]) (pos:int) : (int * UserRequestType) =
@@ -5953,7 +5953,7 @@ let ReadUserRequestType (bs:byte[]) (pos:int) : (int * UserRequestType) =
 
 
 let ReadNewPassword (bs:byte[]) (pos:int): (int*NewPassword) =
-    ReadSingleCaseDUStrField bs pos NewPassword.NewPassword
+    ReadFieldStr bs pos NewPassword.NewPassword
 
 
 let ReadUserStatus (bs:byte[]) (pos:int) : (int * UserStatus) =
@@ -5971,7 +5971,7 @@ let ReadUserStatus (bs:byte[]) (pos:int) : (int * UserStatus) =
 
 
 let ReadUserStatusText (bs:byte[]) (pos:int): (int*UserStatusText) =
-    ReadSingleCaseDUStrField bs pos UserStatusText.UserStatusText
+    ReadFieldStr bs pos UserStatusText.UserStatusText
 
 
 let ReadStatusValue (bs:byte[]) (pos:int) : (int * StatusValue) =
@@ -5987,27 +5987,27 @@ let ReadStatusValue (bs:byte[]) (pos:int) : (int * StatusValue) =
 
 
 let ReadStatusText (bs:byte[]) (pos:int): (int*StatusText) =
-    ReadSingleCaseDUStrField bs pos StatusText.StatusText
+    ReadFieldStr bs pos StatusText.StatusText
 
 
 let ReadRefCompID (bs:byte[]) (pos:int): (int*RefCompID) =
-    ReadSingleCaseDUStrField bs pos RefCompID.RefCompID
+    ReadFieldStr bs pos RefCompID.RefCompID
 
 
 let ReadRefSubID (bs:byte[]) (pos:int): (int*RefSubID) =
-    ReadSingleCaseDUStrField bs pos RefSubID.RefSubID
+    ReadFieldStr bs pos RefSubID.RefSubID
 
 
 let ReadNetworkResponseID (bs:byte[]) (pos:int): (int*NetworkResponseID) =
-    ReadSingleCaseDUStrField bs pos NetworkResponseID.NetworkResponseID
+    ReadFieldStr bs pos NetworkResponseID.NetworkResponseID
 
 
 let ReadNetworkRequestID (bs:byte[]) (pos:int): (int*NetworkRequestID) =
-    ReadSingleCaseDUStrField bs pos NetworkRequestID.NetworkRequestID
+    ReadFieldStr bs pos NetworkRequestID.NetworkRequestID
 
 
 let ReadLastNetworkResponseID (bs:byte[]) (pos:int): (int*LastNetworkResponseID) =
-    ReadSingleCaseDUStrField bs pos LastNetworkResponseID.LastNetworkResponseID
+    ReadFieldStr bs pos LastNetworkResponseID.LastNetworkResponseID
 
 
 let ReadNetworkRequestType (bs:byte[]) (pos:int) : (int * NetworkRequestType) =
@@ -6023,7 +6023,7 @@ let ReadNetworkRequestType (bs:byte[]) (pos:int) : (int * NetworkRequestType) =
 
 
 let ReadNoCompIDs (bs:byte[]) (pos:int): (int*NoCompIDs) =
-    ReadSingleCaseDUIntField bs pos NoCompIDs.NoCompIDs
+    ReadFieldInt bs pos NoCompIDs.NoCompIDs
 
 
 let ReadNetworkStatusResponseType (bs:byte[]) (pos:int) : (int * NetworkStatusResponseType) =
@@ -6037,7 +6037,7 @@ let ReadNetworkStatusResponseType (bs:byte[]) (pos:int) : (int * NetworkStatusRe
 
 
 let ReadNoCollInquiryQualifier (bs:byte[]) (pos:int): (int*NoCollInquiryQualifier) =
-    ReadSingleCaseDUIntField bs pos NoCollInquiryQualifier.NoCollInquiryQualifier
+    ReadFieldInt bs pos NoCollInquiryQualifier.NoCollInquiryQualifier
 
 
 let ReadTrdRptStatus (bs:byte[]) (pos:int) : (int * TrdRptStatus) =
@@ -6062,15 +6062,15 @@ let ReadAffirmStatus (bs:byte[]) (pos:int) : (int * AffirmStatus) =
 
 
 let ReadUnderlyingStrikeCurrency (bs:byte[]) (pos:int): (int*UnderlyingStrikeCurrency) =
-    ReadSingleCaseDUStrField bs pos UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
+    ReadFieldStr bs pos UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
 
 
 let ReadLegStrikeCurrency (bs:byte[]) (pos:int): (int*LegStrikeCurrency) =
-    ReadSingleCaseDUStrField bs pos LegStrikeCurrency.LegStrikeCurrency
+    ReadFieldStr bs pos LegStrikeCurrency.LegStrikeCurrency
 
 
 let ReadTimeBracket (bs:byte[]) (pos:int): (int*TimeBracket) =
-    ReadSingleCaseDUStrField bs pos TimeBracket.TimeBracket
+    ReadFieldStr bs pos TimeBracket.TimeBracket
 
 
 let ReadCollAction (bs:byte[]) (pos:int) : (int * CollAction) =
@@ -6117,35 +6117,35 @@ let ReadCollInquiryResult (bs:byte[]) (pos:int) : (int * CollInquiryResult) =
 
 
 let ReadStrikeCurrency (bs:byte[]) (pos:int): (int*StrikeCurrency) =
-    ReadSingleCaseDUStrField bs pos StrikeCurrency.StrikeCurrency
+    ReadFieldStr bs pos StrikeCurrency.StrikeCurrency
 
 
 let ReadNoNested3PartyIDs (bs:byte[]) (pos:int): (int*NoNested3PartyIDs) =
-    ReadSingleCaseDUIntField bs pos NoNested3PartyIDs.NoNested3PartyIDs
+    ReadFieldInt bs pos NoNested3PartyIDs.NoNested3PartyIDs
 
 
 let ReadNested3PartyID (bs:byte[]) (pos:int): (int*Nested3PartyID) =
-    ReadSingleCaseDUStrField bs pos Nested3PartyID.Nested3PartyID
+    ReadFieldStr bs pos Nested3PartyID.Nested3PartyID
 
 
 let ReadNested3PartyIDSource (bs:byte[]) (pos:int): (int*Nested3PartyIDSource) =
-    ReadSingleCaseDUCharField bs pos Nested3PartyIDSource.Nested3PartyIDSource
+    ReadFieldChar bs pos Nested3PartyIDSource.Nested3PartyIDSource
 
 
 let ReadNested3PartyRole (bs:byte[]) (pos:int): (int*Nested3PartyRole) =
-    ReadSingleCaseDUIntField bs pos Nested3PartyRole.Nested3PartyRole
+    ReadFieldInt bs pos Nested3PartyRole.Nested3PartyRole
 
 
 let ReadNoNested3PartySubIDs (bs:byte[]) (pos:int): (int*NoNested3PartySubIDs) =
-    ReadSingleCaseDUIntField bs pos NoNested3PartySubIDs.NoNested3PartySubIDs
+    ReadFieldInt bs pos NoNested3PartySubIDs.NoNested3PartySubIDs
 
 
 let ReadNested3PartySubID (bs:byte[]) (pos:int): (int*Nested3PartySubID) =
-    ReadSingleCaseDUStrField bs pos Nested3PartySubID.Nested3PartySubID
+    ReadFieldStr bs pos Nested3PartySubID.Nested3PartySubID
 
 
 let ReadNested3PartySubIDType (bs:byte[]) (pos:int): (int*Nested3PartySubIDType) =
-    ReadSingleCaseDUIntField bs pos Nested3PartySubIDType.Nested3PartySubIDType
+    ReadFieldInt bs pos Nested3PartySubIDType.Nested3PartySubIDType
 
 
 let ReadLegContractSettlMonth (bs:byte[]) (pos:int): (int*LegContractSettlMonth) =
@@ -6153,6 +6153,6 @@ let ReadLegContractSettlMonth (bs:byte[]) (pos:int): (int*LegContractSettlMonth)
 
 
 let ReadLegInterestAccrualDate (bs:byte[]) (pos:int): (int*LegInterestAccrualDate) =
-    ReadSingleCaseDUStrField bs pos LegInterestAccrualDate.LegInterestAccrualDate
+    ReadFieldStr bs pos LegInterestAccrualDate.LegInterestAccrualDate
 
 
