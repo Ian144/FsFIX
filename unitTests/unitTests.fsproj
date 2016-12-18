@@ -84,11 +84,11 @@
     <Compile Include="UTCTimestampTests.fs" />
     <Compile Include="UTCDateTests.fs" />
     <Compile Include="UTCTimeOnlyTests.fs" />
+    <Compile Include="TZOffsetTests.fs" />
     <Compile Include="TZTimeOnlyTests.fs" />
     <Compile Include="MonthYearTests.fs" />
     <Content Include="App.config" />
     <None Include="paket.references" />
-    <Compile Include="TZOffsetTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

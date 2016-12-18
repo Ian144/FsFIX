@@ -27,17 +27,32 @@ let bufSize = 1024 * 82 // so as not to go into the LOH
 
 
 // strings stored in FIX do not contain field terminators, 
-//let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
+// let genAlphaChar = Gen.choose(32,255) |> Gen.map char 
 let genAlphaChar = Gen.choose(65,90) |> Gen.map char 
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 4)
+            let! len = Gen.choose(4, 8)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
 
 let genChar = Gen.choose(32,255) |> Gen.map char 
+
+
+// FIX specifies decimals contain a max of 15 decimal places, allowing fscheck to generate decimals with more DP than this will create errors.
+// Adapted from fscheck code.
+let genDecimal15dp =
+    gen {
+        let! lo = Arb.generate
+        let! mid = Arb.generate
+        let! hi = Arb.generate
+        let! isNegative = Arb.generate
+        let! scale = Gen.choose(0, 28) |> Gen.map byte
+        let d1 = System.Decimal(lo, mid, hi, isNegative, scale)
+        return System.Math.Round(d1, 15)
+    }
+    
 
 
 type ArbOverrides() =
@@ -48,12 +63,13 @@ type ArbOverrides() =
     static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
     static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
     static member MonthYear()       = Arb.fromGen genMonthYear
+    static member Decimal15dp       = Arb.fromGen genDecimal15dp
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 1000,
-        EndSize = 4,
+        EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
         )
@@ -142,10 +158,11 @@ let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn 
 [<FsFixPropertyTest>]
 let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriteFuncs.WriteMDEntryTime Fix44.FieldReadFuncs.ReadMDEntryTime
 
+
 // a very slow test due to the large number of Field DU instances
 // will re-enable this test occasionally
-//[<FsFixPropertyTest>]
-//let AllFields (fieldIn:FIXField) = WriteReadTest fieldIn WriteField ReadField
+[<FsFixPropertyTest>]
+let AllFields (fieldIn:FIXField) = WriteReadTest fieldIn WriteField ReadField
 
 
 
@@ -178,9 +195,6 @@ let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadTest usIn WriteInstrumentL
 
 
 
-
-
-
 let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->int->int*'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
@@ -195,28 +209,5 @@ let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCI
 [<FsFixPropertyTest>]
 let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage
 
-
-//
-//
-//[<FsFixPropertyTest>]
-//let CompoundItem (ciIn:FIXGroup) =
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = WriteCITest  bs 0 ciIn
-//    let posR, ciOut =  ReadCITest ciIn bs 0
-//    posW =! posR
-//    ciIn =! ciOut
-//
-//
-//
-//[<FsFixPropertyTest>]
-//let Message (msg:FIXMessage) =
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = WriteMessage bs 0 msg
-//    let posR, msgOut = ReadMessage msg bs 0
-//    posW =! posR
-//    msg =! msgOut
-//
-//
-//
 
 

@@ -34,7 +34,7 @@ type ToBytes private () =
     static member Convert (str:string) = sToB str
     static member Convert (ii:int32)   = sprintf "%d" ii |> sToB     
     static member Convert (ui:uint32)  = sprintf "%d" ui |> sToB     
-    static member Convert (dd:decimal) = sprintf "%.32f" dd |> sToB  // see http://www.onixs.biz/fix-dictionary/4.4/
+    static member Convert (dd:decimal) = sprintf "%.15f" dd |> sToB  // see http://www.onixs.biz/fix-dictionary/4.4/
     static member Convert (bb:bool)    = if bb then "Y"B else "N"B
     static member Convert (bs:byte []) = bs
     
