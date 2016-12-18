@@ -84,6 +84,7 @@ let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> cor
 
 let private getSingleCaseDUReadFuncString (fieldType:string) =
     match fieldType with
+    | "uint32"          -> "ReadSingleCaseDUUint32Field"
     | "int"             -> "ReadSingleCaseDUIntField"
     | "decimal"         -> "ReadSingleCaseDUDecimalField"
     | "bool"            -> "ReadSingleCaseDUBoolField"
@@ -102,6 +103,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
 let private getSingleCaseDUWriteFuncString (fieldType:string) =
     match fieldType with
     | "int"             -> "WriteFieldInt"
+    | "uint32"          -> "WriteFieldUint32"
     | "decimal"         -> "WriteFieldDecimal"
     | "bool"            -> "WriteFieldBool"
     | "char"            -> "WriteFieldChar"
@@ -163,15 +165,15 @@ let private createFieldTypes (field:SimpleField) =
     | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
     | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MonthYear"
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
-    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // todo: store numingroup as a uint?
+    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICE",                  true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICEOFFSET",            true    -> makeSingleCaseDU fieldName tag "decimal"
     | "QTY",                    true    -> makeSingleCaseDU fieldName tag "decimal"
-    | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "int"     // todo: represent seqnum as a uint?
+    | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "uint32"
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
 //    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
-//    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTIMESTAMP" // todo: not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
+//    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTimestamp" // todo: not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"

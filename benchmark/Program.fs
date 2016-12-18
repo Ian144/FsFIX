@@ -54,7 +54,7 @@ type BenchmarkWriteLogon () =
     member val MsgType:MsgType = MsgType.Logon
     member val SenderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
     member val TargetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
-    member val MsgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99
+    member val MsgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
     member val SendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
 
 
@@ -63,7 +63,7 @@ type BenchmarkWriteLogon () =
         HeartBtInt = HeartBtInt.HeartBtInt 30
         RawData = RawData.RawData "some data, some more data"B |> Option.Some
         ResetSeqNumFlag = ResetSeqNumFlag.ResetSeqNumFlag false |> Option.Some
-        NextExpectedMsgSeqNum = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum 99 |> Option.Some
+        NextExpectedMsgSeqNum = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum 99u |> Option.Some
         MaxMessageSize = MaxMessageSize.MaxMessageSize 256 |> Option.Some
         NoMsgTypesGrp = Option.None
         TestMessageIndicator = TestMessageIndicator.TestMessageIndicator true |> Option.Some

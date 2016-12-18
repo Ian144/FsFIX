@@ -48,7 +48,7 @@ let ReadAvgPx (bs:byte[]) (pos:int): (int*AvgPx) =
 
 
 let ReadBeginSeqNo (bs:byte[]) (pos:int): (int*BeginSeqNo) =
-    ReadSingleCaseDUIntField bs pos BeginSeqNo.BeginSeqNo
+    ReadSingleCaseDUUint32Field bs pos BeginSeqNo.BeginSeqNo
 
 
 let ReadBeginString (bs:byte[]) (pos:int): (int*BeginString) =
@@ -94,7 +94,7 @@ let ReadCurrency (bs:byte[]) (pos:int): (int*Currency) =
 
 
 let ReadEndSeqNo (bs:byte[]) (pos:int): (int*EndSeqNo) =
-    ReadSingleCaseDUIntField bs pos EndSeqNo.EndSeqNo
+    ReadSingleCaseDUUint32Field bs pos EndSeqNo.EndSeqNo
 
 
 let ReadExecID (bs:byte[]) (pos:int): (int*ExecID) =
@@ -255,7 +255,7 @@ let ReadLinesOfText (bs:byte[]) (pos:int): (int*LinesOfText) =
 
 
 let ReadMsgSeqNum (bs:byte[]) (pos:int): (int*MsgSeqNum) =
-    ReadSingleCaseDUIntField bs pos MsgSeqNum.MsgSeqNum
+    ReadSingleCaseDUUint32Field bs pos MsgSeqNum.MsgSeqNum
 
 
 let ReadMsgType (bs:byte[]) (pos:int) : (int * MsgType) =
@@ -360,7 +360,7 @@ let ReadMsgType (bs:byte[]) (pos:int) : (int * MsgType) =
 
 
 let ReadNewSeqNo (bs:byte[]) (pos:int): (int*NewSeqNo) =
-    ReadSingleCaseDUIntField bs pos NewSeqNo.NewSeqNo
+    ReadSingleCaseDUUint32Field bs pos NewSeqNo.NewSeqNo
 
 
 let ReadOrderID (bs:byte[]) (pos:int): (int*OrderID) =
@@ -442,7 +442,7 @@ let ReadPrice (bs:byte[]) (pos:int): (int*Price) =
 
 
 let ReadRefSeqNum (bs:byte[]) (pos:int): (int*RefSeqNum) =
-    ReadSingleCaseDUIntField bs pos RefSeqNum.RefSeqNum
+    ReadSingleCaseDUUint32Field bs pos RefSeqNum.RefSeqNum
 
 
 let ReadSecurityID (bs:byte[]) (pos:int): (int*SecurityID) =
@@ -2419,7 +2419,7 @@ let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) : (int * QuoteEntryRejectRe
 
 
 let ReadLastMsgSeqNumProcessed (bs:byte[]) (pos:int): (int*LastMsgSeqNumProcessed) =
-    ReadSingleCaseDUIntField bs pos LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
+    ReadSingleCaseDUUint32Field bs pos LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
 
 
 let ReadRefTagID (bs:byte[]) (pos:int): (int*RefTagID) =
@@ -4138,7 +4138,7 @@ let ReadHopSendingTime (bs:byte[]) (pos:int): (int*HopSendingTime) =
 
 
 let ReadHopRefID (bs:byte[]) (pos:int): (int*HopRefID) =
-    ReadSingleCaseDUIntField bs pos HopRefID.HopRefID
+    ReadSingleCaseDUUint32Field bs pos HopRefID.HopRefID
 
 
 let ReadMidPx (bs:byte[]) (pos:int): (int*MidPx) =
@@ -5088,7 +5088,7 @@ let ReadTerminationType (bs:byte[]) (pos:int) : (int * TerminationType) =
 
 
 let ReadNextExpectedMsgSeqNum (bs:byte[]) (pos:int): (int*NextExpectedMsgSeqNum) =
-    ReadSingleCaseDUIntField bs pos NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
+    ReadSingleCaseDUUint32Field bs pos NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
 
 
 let ReadOrdStatusReqID (bs:byte[]) (pos:int): (int*OrdStatusReqID) =

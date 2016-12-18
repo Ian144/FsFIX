@@ -14,6 +14,14 @@ let ReadSingleCaseDUIntField (bs:byte[]) (pos:int) fldCtor =
     pos2, fld
 
 
+let ReadSingleCaseDUUint32Field (bs:byte[]) (pos:int) fldCtor =
+    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
+    //let tmp2 = System.BitConverter.ToUInt32 (valIn, 0)
+    let tmp = Conversions.bytesToUInt32 valIn
+    let fld = fldCtor tmp
+    pos2, fld
+
+
 let ReadSingleCaseDUCharField (bs:byte[]) (pos:int) fldCtor =
     let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos
     let cc =
@@ -104,6 +112,17 @@ let inline WriteFieldInt (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int 
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
     let pos2 = pos + tag.Length
     let valBytes = Conversions.ToBytes.Convert(vv)
+    Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
+    let pos3 = pos2 + valBytes.Length
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
+
+
+let inline WriteFieldUint32 (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
+    let vv = (^T :(member Value:uint32) fieldIn)
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let valBytes = Conversions.ToBytes.Convert vv
     Buffer.BlockCopy (valBytes, 0, bs, pos2, valBytes.Length)
     let pos3 = pos2 + valBytes.Length
     bs.[pos3] <- 1uy // write the SOH field delimeter

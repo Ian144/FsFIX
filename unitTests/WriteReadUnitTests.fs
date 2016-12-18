@@ -15,7 +15,18 @@ open Fix44.MsgWriteFuncs
 
 
 
-
+[<Fact>]
+let NoHopsGrp () = 
+    let bs = Array.zeroCreate<byte> 1024
+    let xIn:NoHopsGrp = {
+                HopCompID = HopCompID "RWTM"
+                HopSendingTime = None
+                HopRefID = Some (HopRefID 0u)
+                }
+    let posW = WriteNoHopsGrp  bs 0 xIn
+    let posR, xOut = ReadNoHopsGrp bs 0
+    xIn =! xOut
+    posW =! posR    
 
 
 

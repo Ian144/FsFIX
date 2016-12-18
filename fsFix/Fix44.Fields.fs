@@ -39,7 +39,7 @@ type AvgPx =
 
 
 type BeginSeqNo =
-    |BeginSeqNo of int
+    |BeginSeqNo of uint32
      member x.Value = let (BeginSeqNo v) = x in v
 
 
@@ -88,7 +88,7 @@ type Currency =
 
 
 type EndSeqNo =
-    |EndSeqNo of int
+    |EndSeqNo of uint32
      member x.Value = let (EndSeqNo v) = x in v
 
 
@@ -229,7 +229,7 @@ type LinesOfText =
 
 
 type MsgSeqNum =
-    |MsgSeqNum of int
+    |MsgSeqNum of uint32
      member x.Value = let (MsgSeqNum v) = x in v
 
 
@@ -330,7 +330,7 @@ type MsgType =
 
 
 type NewSeqNo =
-    |NewSeqNo of int
+    |NewSeqNo of uint32
      member x.Value = let (NewSeqNo v) = x in v
 
 
@@ -409,7 +409,7 @@ type Price =
 
 
 type RefSeqNum =
-    |RefSeqNum of int
+    |RefSeqNum of uint32
      member x.Value = let (RefSeqNum v) = x in v
 
 
@@ -2294,7 +2294,7 @@ type QuoteEntryRejectReason =
 
 
 type LastMsgSeqNumProcessed =
-    |LastMsgSeqNumProcessed of int
+    |LastMsgSeqNumProcessed of uint32
      member x.Value = let (LastMsgSeqNumProcessed v) = x in v
 
 
@@ -3870,7 +3870,7 @@ type HopSendingTime =
 
 
 type HopRefID =
-    |HopRefID of int
+    |HopRefID of uint32
      member x.Value = let (HopRefID v) = x in v
 
 
@@ -4762,7 +4762,7 @@ type TerminationType =
 
 
 type NextExpectedMsgSeqNum =
-    |NextExpectedMsgSeqNum of int
+    |NextExpectedMsgSeqNum of uint32
      member x.Value = let (NextExpectedMsgSeqNum v) = x in v
 
 

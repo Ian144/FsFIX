@@ -75,7 +75,7 @@ let WriteAvgPx (dest:byte []) (pos:int) (valIn:AvgPx) : int =
 
 
 let WriteBeginSeqNo (dest:byte []) (pos:int) (valIn:BeginSeqNo) : int = 
-    WriteFieldInt dest pos "7="B valIn
+    WriteFieldUint32 dest pos "7="B valIn
 
 
 let WriteBeginString (dest:byte []) (pos:int) (valIn:BeginString) : int = 
@@ -147,7 +147,7 @@ let WriteCurrency (dest:byte []) (pos:int) (valIn:Currency) : int =
 
 
 let WriteEndSeqNo (dest:byte []) (pos:int) (valIn:EndSeqNo) : int = 
-    WriteFieldInt dest pos "16="B valIn
+    WriteFieldUint32 dest pos "16="B valIn
 
 
 let WriteExecID (dest:byte []) (pos:int) (valIn:ExecID) : int = 
@@ -649,7 +649,7 @@ let WriteLinesOfText (dest:byte []) (pos:int) (valIn:LinesOfText) : int =
 
 
 let WriteMsgSeqNum (dest:byte []) (pos:int) (valIn:MsgSeqNum) : int = 
-    WriteFieldInt dest pos "34="B valIn
+    WriteFieldUint32 dest pos "34="B valIn
 
 
 let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
@@ -1215,7 +1215,7 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
 
 
 let WriteNewSeqNo (dest:byte []) (pos:int) (valIn:NewSeqNo) : int = 
-    WriteFieldInt dest pos "36="B valIn
+    WriteFieldUint32 dest pos "36="B valIn
 
 
 let WriteOrderID (dest:byte []) (pos:int) (valIn:OrderID) : int = 
@@ -1479,7 +1479,7 @@ let WritePrice (dest:byte []) (pos:int) (valIn:Price) : int =
 
 
 let WriteRefSeqNum (dest:byte []) (pos:int) (valIn:RefSeqNum) : int = 
-    WriteFieldInt dest pos "45="B valIn
+    WriteFieldUint32 dest pos "45="B valIn
 
 
 let WriteSecurityID (dest:byte []) (pos:int) (valIn:SecurityID) : int = 
@@ -6188,7 +6188,7 @@ let WriteQuoteEntryRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:QuoteE
 
 
 let WriteLastMsgSeqNumProcessed (dest:byte []) (pos:int) (valIn:LastMsgSeqNumProcessed) : int = 
-    WriteFieldInt dest pos "369="B valIn
+    WriteFieldUint32 dest pos "369="B valIn
 
 
 let WriteRefTagID (dest:byte []) (pos:int) (valIn:RefTagID) : int = 
@@ -9843,7 +9843,7 @@ let WriteHopSendingTime (dest:byte []) (pos:int) (valIn:HopSendingTime) : int =
 
 
 let WriteHopRefID (dest:byte []) (pos:int) (valIn:HopRefID) : int = 
-    WriteFieldInt dest pos "630="B valIn
+    WriteFieldUint32 dest pos "630="B valIn
 
 
 let WriteMidPx (dest:byte []) (pos:int) (valIn:MidPx) : int = 
@@ -11519,7 +11519,7 @@ let WriteTerminationType (dest:byte array) (nextFreeIdx:int) (xxIn:TerminationTy
 
 
 let WriteNextExpectedMsgSeqNum (dest:byte []) (pos:int) (valIn:NextExpectedMsgSeqNum) : int = 
-    WriteFieldInt dest pos "789="B valIn
+    WriteFieldUint32 dest pos "789="B valIn
 
 
 let WriteOrdStatusReqID (dest:byte []) (pos:int) (valIn:OrdStatusReqID) : int = 
