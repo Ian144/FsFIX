@@ -165,7 +165,7 @@ let private createFieldTypes (field:SimpleField) =
     | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
     | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MonthYear"
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
-    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"
+    | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // leaving this as an 'int' as array and list (used to hold group instances) indexing funcs take ints not uints, may review this decision
     | "PERCENTAGE",             true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICE",                  true    -> makeSingleCaseDU fieldName tag "decimal"
     | "PRICEOFFSET",            true    -> makeSingleCaseDU fieldName tag "decimal"

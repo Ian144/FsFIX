@@ -170,7 +170,7 @@ let private genMonthYearYYYYMMWW =
         gen {
             let! yy = Gen.choose(0, 9999)
             let! mm = Gen.choose(1, 12)
-            let! (ww:MonthYear.Week) = Gen.elements [MonthYear.Week.W1; MonthYear.Week.W2; MonthYear.Week.W3; MonthYear.Week.W4; MonthYear.Week.W5 ]
+            let! (ww:MonthYear.Week) = Arb.generate
             return MonthYear.MakeMonthYear.Make(yy, mm, ww)
         }
 
