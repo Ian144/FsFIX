@@ -34,7 +34,7 @@ let WriteMessage
     let innerLen = writerFunc tmpBuf 0 msg
 
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
-    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> BodyLength)
+    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
     let nextFreeIdx = WriteMsgType dest nextFreeIdx msgType
     let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
     let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
@@ -86,7 +86,7 @@ let WriteMessageDU
     let innerLen = Fix44.MessageDU.WriteMessage tmpBuf 0 msg
 
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
-    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> BodyLength)
+    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
     let nextFreeIdx = WriteTag dest nextFreeIdx tag
     let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
     let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
@@ -124,11 +124,12 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
 
     let (BodyLength len) = bodyLen
-    System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
+    let iLen = len |> int
+    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
     
-    let calcedCheckSum = CalcCheckSum innerBuf len 
+    let calcedCheckSum = CalcCheckSum innerBuf iLen
 
-    let pos = pos + len
+    let pos = pos + iLen
     let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then
@@ -155,11 +156,13 @@ let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->
     let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
 
     let (BodyLength len) = bodyLen
-    System.Buffer.BlockCopy(src, pos, innerBuf, 0, len)
-    
-    let calcedCheckSum = CalcCheckSum innerBuf len 
+    let iLen = len |> int
 
-    let pos = pos + len
+    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
+    
+    let calcedCheckSum = CalcCheckSum innerBuf iLen
+    let pos = pos + iLen
+
     let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then

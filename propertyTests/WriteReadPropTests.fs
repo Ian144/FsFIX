@@ -52,7 +52,9 @@ let genDecimal15dp =
         let d1 = System.Decimal(lo, mid, hi, isNegative, scale)
         return System.Math.Round(d1, 15)
     }
-    
+
+
+
 
 
 type ArbOverrides() =
@@ -63,7 +65,7 @@ type ArbOverrides() =
     static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
     static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
     static member MonthYear()       = Arb.fromGen genMonthYear
-    static member Decimal15dp       = Arb.fromGen genDecimal15dp
+    static member Decimal15dp       = Arb.fromGenShrink (genDecimal15dp, Arb.shrink)
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(

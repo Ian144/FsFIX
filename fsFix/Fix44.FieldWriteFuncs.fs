@@ -83,7 +83,7 @@ let WriteBeginString (dest:byte []) (pos:int) (valIn:BeginString) : int =
 
 
 let WriteBodyLength (dest:byte []) (pos:int) (valIn:BodyLength) : int = 
-    WriteFieldInt dest pos "9="B valIn
+    WriteFieldUint32 dest pos "9="B valIn
 
 
 let WriteCheckSum (dest:byte []) (pos:int) (valIn:CheckSum) : int = 
@@ -6474,7 +6474,7 @@ let WriteNoContraBrokers (dest:byte []) (pos:int) (valIn:NoContraBrokers) : int 
 
 
 let WriteMaxMessageSize (dest:byte []) (pos:int) (valIn:MaxMessageSize) : int = 
-    WriteFieldInt dest pos "383="B valIn
+    WriteFieldUint32 dest pos "383="B valIn
 
 
 let WriteNoMsgTypes (dest:byte []) (pos:int) (valIn:NoMsgTypes) : int = 

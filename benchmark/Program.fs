@@ -50,7 +50,7 @@ type BenchmarkWriteLogon () =
 
 
     member val BeginString:BeginString = BeginString.BeginString "FIX.4.4"
-    member val BodyLength:BodyLength = BodyLength.BodyLength 99
+    member val BodyLength:BodyLength = BodyLength.BodyLength 99u
     member val MsgType:MsgType = MsgType.Logon
     member val SenderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
     member val TargetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
@@ -64,7 +64,7 @@ type BenchmarkWriteLogon () =
         RawData = RawData.RawData "some data, some more data"B |> Option.Some
         ResetSeqNumFlag = ResetSeqNumFlag.ResetSeqNumFlag false |> Option.Some
         NextExpectedMsgSeqNum = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum 99u |> Option.Some
-        MaxMessageSize = MaxMessageSize.MaxMessageSize 256 |> Option.Some
+        MaxMessageSize = MaxMessageSize.MaxMessageSize 256u |> Option.Some
         NoMsgTypesGrp = Option.None
         TestMessageIndicator = TestMessageIndicator.TestMessageIndicator true |> Option.Some
         Username = Option.None

@@ -56,7 +56,7 @@ let ReadBeginString (bs:byte[]) (pos:int): (int*BeginString) =
 
 
 let ReadBodyLength (bs:byte[]) (pos:int): (int*BodyLength) =
-    ReadFieldInt bs pos BodyLength.BodyLength
+    ReadFieldUint32 bs pos BodyLength.BodyLength
 
 
 let ReadCheckSum (bs:byte[]) (pos:int): (int*CheckSum) =
@@ -2526,7 +2526,7 @@ let ReadNoContraBrokers (bs:byte[]) (pos:int): (int*NoContraBrokers) =
 
 
 let ReadMaxMessageSize (bs:byte[]) (pos:int): (int*MaxMessageSize) =
-    ReadFieldInt bs pos MaxMessageSize.MaxMessageSize
+    ReadFieldUint32 bs pos MaxMessageSize.MaxMessageSize
 
 
 let ReadNoMsgTypes (bs:byte[]) (pos:int): (int*NoMsgTypes) =

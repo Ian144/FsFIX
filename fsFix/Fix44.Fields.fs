@@ -49,7 +49,7 @@ type BeginString =
 
 
 type BodyLength =
-    |BodyLength of int
+    |BodyLength of uint32
      member x.Value = let (BodyLength v) = x in v
 
 
@@ -2390,7 +2390,7 @@ type NoContraBrokers =
 
 
 type MaxMessageSize =
-    |MaxMessageSize of int
+    |MaxMessageSize of uint32
      member x.Value = let (MaxMessageSize v) = x in v
 
 
