@@ -4,6 +4,7 @@ open System
 open Conversions
 
 open UTCDateTime
+open LocalMktDate
 
 
 // todo: microbenchmark inlining these read funcs
@@ -73,6 +74,13 @@ let ReadFieldUTCDate (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
     let dt = UTCDateTime.readUTCDate bs pos pos2
     pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+
+let ReadFieldLocalMktDate (bs:byte[]) (pos:int) fldCtor =
+    let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
+    let dt = LocalMktDate.readLocalMktDate bs pos pos2
+    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+
+
 
 let ReadFieldUTCTimestamp (bs:byte[]) (pos:int) fldCtor =
     let pos2 = FIXBufUtils.findNextFieldTermOrEnd bs pos
@@ -193,6 +201,13 @@ let inline WriteFieldUTCDate (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : 
     bs.[pos3] <- 1uy // write the SOH field delimeter
     pos3 + 1 // +1 to move past the delimeter
 
+let inline WriteFieldLocalMktDate (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
+    let tm = (^T :(member Value:LocalMktDate) fieldIn)
+    Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)
+    let pos2 = pos + tag.Length
+    let pos3 =  LocalMktDate.writeLocalMktDate tm bs pos2
+    bs.[pos3] <- 1uy // write the SOH field delimeter
+    pos3 + 1 // +1 to move past the delimeter
 
 let inline WriteFieldUTCTimestamp (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let tm = (^T :(member Value:UTCTimestamp) fieldIn)

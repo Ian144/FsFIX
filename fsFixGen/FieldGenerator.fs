@@ -96,6 +96,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "UTCTimestamp"    -> "ReadFieldUTCTimestamp" 
     | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
     | "MonthYear"       -> "ReadFieldMonthYear"
+    | "LocalMktDate"    -> "ReadFieldLocalMktDate"
     | _                 -> failwith "unknown type name"
 
 
@@ -114,6 +115,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "UTCTimestamp"    -> "WriteFieldUTCTimestamp"
     | "TZTimeOnly"      -> "WriteFieldTZTimeOnly"
     | "MonthYear"       -> "WriteFieldMonthYear"
+    | "LocalMktDate"    -> "WriteFieldLocalMktDate"
     | _                 -> failwith "unknown type name"
 
 
@@ -162,7 +164,7 @@ let private createFieldTypes (field:SimpleField) =
     | "INT",                    true    -> makeSingleCaseDU fieldName tag "int"
     | "LANGUAGE",               true    -> makeSingleCaseDU fieldName tag "string"
     | "LENGTH",                 true    -> makeSingleCaseDU fieldName tag "uint32"
-    | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "string" // todo: storing LOCALMKTDATE as string, use appropriate type (use NODA TIME - what does quickfixJ use?)
+    | "LOCALMKTDATE",           true    -> makeSingleCaseDU fieldName tag "LocalMktDate"
     | "MONTHYEAR",              true    -> makeSingleCaseDU fieldName tag "MonthYear"
     | "MULTIPLECHARVALUE",      true    -> makeSingleCaseDU fieldName tag "string"
     | "NUMINGROUP",             true    -> makeSingleCaseDU fieldName tag "int"     // leaving this as an 'int' as array and list (used to hold group instances) indexing funcs take ints not uints, may review this decision
