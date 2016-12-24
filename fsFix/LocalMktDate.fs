@@ -9,7 +9,7 @@ type LocalMktDate = private LocalMktDate of Year:int * Month:int * Day:int
 
 
 let MakeLocalMktDate (yy:int, mm:int, dd:int) : LocalMktDate = 
-    if validate_yyyyMMdd (yy, mm, dd) then
+    if validate_yyyyMMdd (yy, mm, dd) |> not then
         let msg = sprintf "failwith invalid LocalMktDate, y:%d, m:%d, d:%d" yy mm dd
         failwith msg
     LocalMktDate ( yy, mm, dd )

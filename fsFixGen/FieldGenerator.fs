@@ -155,8 +155,8 @@ let private createFieldTypes (field:SimpleField) =
     | "AMT",                    true    -> makeSingleCaseDU fieldName tag "decimal"
     | "BOOLEAN",                true    -> makeSingleCaseDU fieldName tag "bool"
     | "CHAR",                   true    -> makeSingleCaseDU fieldName tag "char"
-    | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string"  // todo: create country single-case DU
-    | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"  // todo: create currency single-case DU
+    | "COUNTRY",                true    -> makeSingleCaseDU fieldName tag "string" 
+    | "CURRENCY",               true    -> makeSingleCaseDU fieldName tag "string"
     | "DATA",                   true    -> makeSingleCaseDU fieldName tag "byte []"
 //    | "DAYOFMONTH",             true    -> makeSingleCaseDU fieldName tag "DayOfMonth"     // not in FIX4.4
     | "EXCHANGE",               true    -> makeSingleCaseDU fieldName tag "string"
@@ -282,7 +282,7 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
 let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swWriteFuncs:StreamWriter) (swFieldDU:StreamWriter) =
     sw.WriteLine "module Fix44.Fields"
     sw.WriteLine ""
-    sw.WriteLine ""
+    sw.WriteLine "open LocalMktDate"
     sw.WriteLine "open UTCDateTime"
     sw.WriteLine "open MonthYear"
     sw.WriteLine ""

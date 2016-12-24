@@ -176,3 +176,10 @@ let private genMonthYearYYYYMMWW =
 
 let genMonthYear = Gen.frequency [1, genMonthYearYYYYMM; 1,genMonthYearYYYYMMDD; 1, genMonthYearYYYYMMWW]
 
+let genLocalMktDate = 
+        gen {
+            let! yy = Gen.choose(0, 9999)
+            let! mm = Gen.choose(1, 12)
+            let! dd = Gen.choose(1, 31)
+            return LocalMktDate.MakeLocalMktDate(yy, mm, dd)
+        }
