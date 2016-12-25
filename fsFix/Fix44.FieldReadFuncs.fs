@@ -2618,7 +2618,7 @@ let ReadBidDescriptorType (bs:byte[]) (pos:int) : (int * BidDescriptorType) =
     let fld = 
         match valIn with
         |"1"B -> BidDescriptorType.Sector
-        |"2"B -> BidDescriptorType.CCountry
+        |"2"B -> BidDescriptorType.Ccountry
         |"3"B -> BidDescriptorType.Index
         | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
     pos2, fld

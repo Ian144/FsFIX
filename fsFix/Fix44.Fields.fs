@@ -2477,7 +2477,7 @@ type NoBidDescriptors =
 
 type BidDescriptorType =
     | Sector
-    | CCountry
+    | Ccountry
     | Index
 
 

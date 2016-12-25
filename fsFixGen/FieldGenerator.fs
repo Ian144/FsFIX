@@ -180,7 +180,7 @@ let private createFieldTypes (field:SimpleField) =
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"
     | "XMLDATA",                true    -> makeSingleCaseDU fieldName tag "string"
-    | "INT",                    false   -> createFieldDUWithValues fieldName tag values //todo: INT, CHAR, BOOLEAN etc currently sent and recieved as strings for multicase variants with a value, is this correct
+    | "INT",                    false   -> createFieldDUWithValues fieldName tag values
     | "CHAR",                   false   -> createFieldDUWithValues fieldName tag values
     | "BOOLEAN",                false   -> createFieldDUWithValues fieldName tag values
     | "STRING",                 false   -> createFieldDUWithValues fieldName tag values

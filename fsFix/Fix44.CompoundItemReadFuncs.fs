@@ -521,6 +521,25 @@ let ReadNoMiscFeesGrp (bs:byte []) (pos:int) : int * NoMiscFeesGrp  =
 
 
 // group
+let ReadTradeCaptureReportNoAllocsGrp (bs:byte []) (pos:int) : int * TradeCaptureReportNoAllocsGrp  =
+    let pos, allocAccount = ReadField bs pos "ReadTradeCaptureReportNoAllocs" "79"B ReadAllocAccount
+    let pos, allocAcctIDSource = ReadOptionalField bs pos "661"B  ReadAllocAcctIDSource
+    let pos, allocSettlCurrency = ReadOptionalField bs pos "736"B  ReadAllocSettlCurrency
+    let pos, individualAllocID = ReadOptionalField bs pos "467"B  ReadIndividualAllocID
+    let pos, noNested2PartyIDsGrp = ReadOptionalGroup bs pos "756"B ReadNoNested2PartyIDsGrp
+    let pos, allocQty = ReadOptionalField bs pos "80"B  ReadAllocQty
+    let ci:TradeCaptureReportNoAllocsGrp = {
+        AllocAccount = allocAccount
+        AllocAcctIDSource = allocAcctIDSource
+        AllocSettlCurrency = allocSettlCurrency
+        IndividualAllocID = individualAllocID
+        NoNested2PartyIDsGrp = noNested2PartyIDsGrp
+        AllocQty = allocQty
+    }
+    pos, ci
+
+
+// group
 let ReadTradeCaptureReportNoSidesGrp (bs:byte []) (pos:int) : int * TradeCaptureReportNoSidesGrp  =
     let pos, side = ReadField bs pos "ReadTradeCaptureReportNoSides" "54"B ReadSide
     let pos, orderID = ReadField bs pos "ReadTradeCaptureReportNoSides" "37"B ReadOrderID
@@ -579,6 +598,7 @@ let ReadTradeCaptureReportNoSidesGrp (bs:byte []) (pos:int) : int * TradeCapture
     let pos, tradeAllocIndicator = ReadOptionalField bs pos "826"B  ReadTradeAllocIndicator
     let pos, preallocMethod = ReadOptionalField bs pos "591"B  ReadPreallocMethod
     let pos, allocID = ReadOptionalField bs pos "70"B  ReadAllocID
+    let pos, tradeCaptureReportNoAllocsGrp = ReadOptionalGroup bs pos "78"B ReadTradeCaptureReportNoAllocsGrp
     let ci:TradeCaptureReportNoSidesGrp = {
         Side = side
         OrderID = orderID
@@ -637,6 +657,7 @@ let ReadTradeCaptureReportNoSidesGrp (bs:byte []) (pos:int) : int * TradeCapture
         TradeAllocIndicator = tradeAllocIndicator
         PreallocMethod = preallocMethod
         AllocID = allocID
+        TradeCaptureReportNoAllocsGrp = tradeCaptureReportNoAllocsGrp
     }
     pos, ci
 

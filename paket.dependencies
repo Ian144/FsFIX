@@ -4,3 +4,4 @@ nuget FsCheck
 nuget FsCheck.Xunit
 nuget Unquote
 nuget xunit
+github connamara/quickfixn spec/fix/FIX44.xml

@@ -15,7 +15,3 @@ let lCaseFirstChar (str:string) =
     let chrs = str.ToCharArray ()
     chrs.[0] <- System.Char.ToLower chrs.[0]
     new string (chrs)
-
-
-
-let MkOutpath flName = sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName

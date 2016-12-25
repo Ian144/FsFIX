@@ -6617,7 +6617,7 @@ let WriteBidDescriptorType (dest:byte array) (nextFreeIdx:int) (xxIn:BidDescript
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BidDescriptorType.CCountry ->
+    | BidDescriptorType.Ccountry ->
         let tag = "399=2"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length

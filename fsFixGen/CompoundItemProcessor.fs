@@ -12,7 +12,7 @@ open FIXGenTypes
 ///    ensure groups first item is always required
 ///    ensure components that are the first item of a group have a first item that is required
 /// sort the groups and components so that dependents appear before dependee's, so that when they are all written to a source file 
-let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg list) (lenFieldNames:Set<string>) = 
+let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component list) (msgs:Msg list) (lenFieldNames:Set<string>) = 
 
     let cmpNameMap = components |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
@@ -47,7 +47,7 @@ let Process (hdr:Header) (trl:Trailer) (components:Component list) (msgs:Msg lis
     let hdrAfterGroupMerge = {hdr with HItems = hdrItemsAfterGroupMerge}
     
     printfn "generating header and trailer F# types"
-    use swHdrTrlr = new StreamWriter (Utils.MkOutpath "Fix44.HeaderTrailer.fs")
+    use swHdrTrlr = new StreamWriter (hdrTrlPath)
     HeaderTrailerGenerator.genHeader swHdrTrlr hdrAfterGroupMerge trl
 
     printfn "updating messages to use merged groups"  

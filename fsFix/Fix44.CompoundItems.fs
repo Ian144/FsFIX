@@ -277,6 +277,16 @@ type NoMiscFeesGrp = {
     }
 
 // group
+type TradeCaptureReportNoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NoNested2PartyIDsGrp: NoNested2PartyIDsGrp list option // group
+    AllocQty: AllocQty option
+    }
+
+// group
 type TradeCaptureReportNoSidesGrp = {
     Side: Side
     OrderID: OrderID
@@ -335,6 +345,7 @@ type TradeCaptureReportNoSidesGrp = {
     TradeAllocIndicator: TradeAllocIndicator option
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
+    TradeCaptureReportNoAllocsGrp: TradeCaptureReportNoAllocsGrp list option // group
     }
 
 // group

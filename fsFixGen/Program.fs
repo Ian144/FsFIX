@@ -11,21 +11,31 @@ open FieldGenerator
 
 
 
-
-let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixn\spec\fix\FIX44.xml"""
-
-
+// fix spec downloaded by paket from the quickfixn github repo
+let fixSpecXmlFile = "FIX44.xml"
 
 [<EntryPoint>]
-let main _ = 
+let main args = 
+
+    if args.Length = 0 then
+        failwith "must specify output dir for generated F#"
+    
+    let outDir = args.[0]
+
+    //let MkOutpath flName = sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
+    let makeOutpath flName = sprintf """%sfsFix\%s""" outDir flName
+    
+
+
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)
     let doc = XDocument.Parse fixXml
 
     let xpthFields = doc.XPathSelectElement "fix/fields"
-    use swFixFields = new StreamWriter (Utils.MkOutpath "Fix44.Fields.fs")
-    use swFieldReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.FieldReadFuncs.fs")
-    use swFieldWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.FieldWriteFuncs.fs")
-    use swFieldDU = new StreamWriter (Utils.MkOutpath "Fix44.FieldDU.fs")
+    let tmp = (makeOutpath "Fix44.Fields.fs")
+    use swFixFields = new StreamWriter (makeOutpath "Fix44.Fields.fs")
+    use swFieldReadFuncs = new StreamWriter (makeOutpath "Fix44.FieldReadFuncs.fs")
+    use swFieldWriteFuncs = new StreamWriter (makeOutpath "Fix44.FieldWriteFuncs.fs")
+    use swFieldDU = new StreamWriter (makeOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"
     let fields = FieldGenerator.ParseFieldData xpthFields 
@@ -57,17 +67,19 @@ let main _ =
     let xpthMsgs = doc.XPathSelectElement "fix/messages"
     let msgs = MessageGenerator.Read xpthMsgs
 
-    let hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, componentNameMap = CompoundItemProcessor.Process hdr trl components msgs lenFieldNames
+       
+    let hdrTrlPath = makeOutpath "Fix44.HeaderTrailer.fs"
+    let hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, componentNameMap = CompoundItemProcessor.Process hdr trl hdrTrlPath components msgs lenFieldNames
 
     printfn "generating group and component writing functions"
-    use swCompoundItems = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItems.fs")
-    use swCompoundItemDU = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemDU.fs")
+    use swCompoundItems = new StreamWriter (makeOutpath "Fix44.CompoundItems.fs")
+    use swCompoundItemDU = new StreamWriter (makeOutpath "Fix44.CompoundItemDU.fs")
     CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
-    use swGroupWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemWriteFuncs.fs")
+    use swGroupWriteFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemWriteFuncs.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
     printfn "generating group and component reading functions"
-    use swGroupReadFuncs = new StreamWriter (Utils.MkOutpath "Fix44.CompoundItemReadFuncs.fs")
+    use swGroupReadFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemReadFuncs.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 
@@ -77,19 +89,19 @@ let main _ =
             yield {msg with Items = items2} ]
 
     printfn "generating F# message definitions"
-    use swMsgs = new StreamWriter (Utils.MkOutpath "Fix44.Messages.fs")
+    use swMsgs = new StreamWriter (makeOutpath "Fix44.Messages.fs")
     MessageGenerator.Gen msgsx swMsgs
 
     printfn "generating message writer funcs"
-    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgWriteFuncs.fs")
+    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgWriteFuncs.fs")
     MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     printfn "generating message reader funcs"
-    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MsgReadFuncs.fs")
+    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgReadFuncs.fs")
     MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     printfn "generating message DU"
-    use swMsgWriteFuncs = new StreamWriter (Utils.MkOutpath "Fix44.MessageDU.fs")
+    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MessageDU.fs")
     MessageGenerator.GenMessageDU msgsx swMsgWriteFuncs
 
     0 // exit code
