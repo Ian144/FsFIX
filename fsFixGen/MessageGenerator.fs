@@ -191,3 +191,14 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ss1
     sw.WriteLine ss2
     sw.WriteLine ss3
+
+
+    sw.WriteLine ""
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+
+    sw.WriteLine "let GetTag (msg:FIXMessage) ="
+    sw.WriteLine "    match msg with"
+    let xs = msgs |> List.map (fun msg -> sprintf "    | %s _   -> \"%s\"B" msg.MName msg.Tag )
+    xs |> List.iter sw.WriteLine
