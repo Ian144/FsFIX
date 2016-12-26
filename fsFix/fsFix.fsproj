@@ -68,7 +68,7 @@
     <Compile Include="Fix44.MsgReadFuncs.fs" />
     <Compile Include="Fix44.HeaderTrailer.fs" />
     <Compile Include="Fix44.MessageDU.fs" />
-    <Compile Include="WriterUtils.fs" />
+    <Compile Include="MsgReadWrite.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

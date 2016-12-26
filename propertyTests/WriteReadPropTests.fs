@@ -104,7 +104,7 @@ let MessageWithHeaderTrailer
         (msg:FIXMessage) =
     let buf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize // todo: think of better names
-    let posW = WriterUtils.WriteMessageDU 
+    let posW = MsgReadWrite.WriteMessageDU 
                                 tmpBuf 
                                 buf 
                                 0 
@@ -115,7 +115,7 @@ let MessageWithHeaderTrailer
                                 sendingTime
                                 msg
     let tmpBuf2 = Array.zeroCreate<byte> bufSize
-    let posR, msgOut = WriterUtils.ReadMessage buf tmpBuf2
+    let posR, msgOut = MsgReadWrite.ReadMessage buf tmpBuf2
     msg =! msgOut
     posW =! posR
 
