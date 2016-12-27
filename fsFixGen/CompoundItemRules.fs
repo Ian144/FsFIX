@@ -41,10 +41,9 @@ let private isFirstItemRequired (cmp:Component) : bool =
     cmp.Items.Head |> FIXItem.getIsRequired
 
 
-// if neccessary this will create a new component with a first item that is required
-// the name of the new component will be that of the original component suffixed with FG
-// a new group will reference the ...FG component
-// the orginal component will be left unaffected
+// If neccessary this will create a new component with a first item that is required.
+// The name of the new component will be that of the original component suffixed with FG,
+// a new group will reference the ...FG component, the orginal component will be left unaffected.
 let ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired (cmpNameMap:Map<ComponentName,Component>) (cmpItem:CompoundItem) : CompoundItem list =
     match cmpItem with 
     | Component _   ->  [cmpItem]
