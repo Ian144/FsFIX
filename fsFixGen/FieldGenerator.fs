@@ -361,9 +361,9 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
 
 
     swFieldDU.WriteLine  "type FIXField ="
-    fieldData |> Seq.iter (fun fd ->
+    fieldData |> Seq.iter (fun fld ->
             let str =
-                match fd with
+                match fld with
                 | SimpleField sfld      ->   sprintf "    | %s of %s" sfld.Name sfld.Name
                 | CompoundField cfld    ->   sprintf "    | %s of %s" cfld.Name cfld.Name
             swFieldDU.WriteLine str
@@ -374,9 +374,9 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine  "let WriteField dest nextFreeIdx fixField ="
     swFieldDU.WriteLine  "    match fixField with"
-    fieldData |> Seq.iter (fun fd ->
+    fieldData |> Seq.iter (fun fld ->
             let str =
-                match fd with
+                match fld with
                 | SimpleField fd      ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField" fd.Name fd.Name
                 | CompoundField fd    ->   sprintf "    | %s fixField -> Write%s dest nextFreeIdx fixField // compound field" fd.Name fd.Name
             swFieldDU.WriteLine str

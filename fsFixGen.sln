@@ -24,8 +24,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsXUnit", "prope
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestConsole", "propertyTest2\propertyTestConsole.fsproj", "{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyXUnitTestProject2", "DummyXUnitTestProject2\DummyXUnitTestProject2.csproj", "{0D755A64-0BB9-4780-9021-77A8743C9C9E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,10 +58,6 @@ Global
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
