@@ -24,16 +24,16 @@ let private getGroupComment (cmpNameMap:Map<ComponentName,Component>) (grp:Group
                                     let fstInnerItem = cmp.Items.Head
                                     match cr.Required,  FIXItem.getIsRequired fstInnerItem with
                                     | Required, true        -> "// group"
-                                    | Required, false       -> "// group 1st ############# component: required, first: notRequired"
-                                    | NotRequired, true     -> "// group"// 1st ############# component: notRequired, first: required"
-                                    | NotRequired, false    -> "// group ############# component: notRequired, first: notRequired"
+                                    | Required, false       -> "// group 1st component: required, first: notRequired"
+                                    | NotRequired, true     -> "// group"// 1st component: notRequired, first: required"
+                                    | NotRequired, false    -> "// group component: notRequired, first: notRequired"
     | FIXItem.FieldRef  fr      ->  match fr.Required with
                                     | Required.Required     -> "// group"
-                                    | Required.NotRequired  -> "// group ############# first field not required"
+                                    | Required.NotRequired  -> "// group, first field not required"
     | FIXItem.Group     gg      ->  let hd = gg.Items.Head
                                     match FIXItem.getIsRequired hd with
                                     | true  -> "// group"
-                                    | false -> "// group 1st is group @@@@@@@@@@@ first item is not required"
+                                    | false -> "// group 1st is group, first item is not required"
 
 
 let private writeGroup (cmpNameMap:Map<ComponentName,Component>) (grp:Group) (sw:StreamWriter) = 
