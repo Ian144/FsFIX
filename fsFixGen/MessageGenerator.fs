@@ -45,14 +45,14 @@ let Gen (msgs:Msg list) (sw:StreamWriter) =
 
 let private makeParamStr (fi:FIXItem) =
     let typeName = fi |> FIXItem.getName
-    let valName  = typeName |> StrUtils.lCaseFirstChar
+    let valName  = typeName |> StringEx.lCaseFirstChar
     sprintf "(%s:%s)" valName typeName
 
 
 let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
     let name = msg.MName
     let paramStr = requiredHdrItems |> List.map makeParamStr
-    let allParamStr = paramStr |> StrUtils.join " "
+    let allParamStr = paramStr |> StringEx.join " "
     let funcSig = sprintf "let Write%s (dest:byte []) (nextFreeIdx:int) %s (xx:%s) = " name allParamStr name
     funcSig
 
@@ -61,7 +61,7 @@ let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
 let private genFieldInitStrs (items:FIXItem list) =
     items |> List.map (fun fi -> 
         let fieldName = fi |> FIXItem.getNameLN
-        let varName = fieldName |> StrUtils.lCaseFirstChar |> CommonGenerator.fixYield
+        let varName = fieldName |> StringEx.lCaseFirstChar |> CommonGenerator.fixYield
         sprintf "        %s = %s" fieldName varName )
 
 

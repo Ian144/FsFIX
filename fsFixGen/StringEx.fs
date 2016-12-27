@@ -1,5 +1,5 @@
 ﻿[<RequireQualifiedAccess>]
-module StrUtils
+module StringEx
 
 
 

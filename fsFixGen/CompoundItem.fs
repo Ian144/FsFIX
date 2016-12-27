@@ -46,7 +46,7 @@ let getName (ci:CompoundItem) =
     match ci with
     | CompoundItem.Component cmp    ->  let (ComponentName nm) = cmp.CName
                                         nm
-    | CompoundItem.Group grp        ->  let (GroupLongName ln) = GroupUtils.makeLongName grp
+    | CompoundItem.Group grp        ->  let (GroupLongName ln) = Group.makeLongName grp
                                         ln
 
 // a string suffixed onto names in generated code
@@ -67,7 +67,7 @@ let getNameAndTypeStr (ci:CompoundItem) =
     match ci with
     | CompoundItem.Component cmp    ->  let (ComponentName nm) = cmp.CName
                                         sprintf "component: %s" nm
-    | CompoundItem.Group grp        ->  let (GroupLongName ln) = GroupUtils.makeLongName grp
+    | CompoundItem.Group grp        ->  let (GroupLongName ln) = Group.makeLongName grp
                                         sprintf "    group: %s" ln    
 
 let getCompOrGroupStr (ci:CompoundItem) =

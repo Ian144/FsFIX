@@ -27,7 +27,7 @@ let rec filter (predicate:FIXItem -> bool) (xs:FIXItem list) : FIXItem list =
 
 let updateItemIfMergeableGroup (grpMergeMap:Map<GroupLongName,Group>) (item:FIXItem) =
     match item with
-    | FIXItem.Group grp         ->  let longName = GroupUtils.makeLongName grp
+    | FIXItem.Group grp         ->  let longName = Group.makeLongName grp
                                     if grpMergeMap.ContainsKey longName then
                                         let grp = {grpMergeMap.[longName] with Required = grp.Required} 
                                         FIXItem.Group grp
@@ -59,7 +59,7 @@ let getNameLN (fi:FIXItem) =
     | FIXItem.FieldRef fld      ->  fld.FName
     | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
                                     nm
-    | FIXItem.Group grp         ->  let (GroupLongName nm) = GroupUtils.makeLongName grp
+    | FIXItem.Group grp         ->  let (GroupLongName nm) = Group.makeLongName grp
                                     sprintf "%sGrp" nm
 
 let getIsRequired (fi:FIXItem) =

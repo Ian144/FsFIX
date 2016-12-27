@@ -40,7 +40,7 @@ let private writeGroup (cmpNameMap:Map<ComponentName,Component>) (grp:Group) (sw
     sw.WriteLine ""
     let comment = getGroupComment cmpNameMap grp
     sw.WriteLine comment
-    let (GroupLongName grpName) = GroupUtils.makeLongName grp // merged groups have an empty parent list, so the long name is correct
+    let (GroupLongName grpName) = Group.makeLongName grp // merged groups have an empty parent list, so the long name is correct
     let ss = sprintf "type %sGrp = {" grpName
     sw.WriteLine ss
     grp.Items |> (CommonGenerator.writeFIXItemList sw)
@@ -75,7 +75,7 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
 
     let groups = cmpItems |> CompoundItem.extractGroups
     swCompItemDU.WriteLine  "type FIXGroup ="
-    let names = groups |> List.map GroupUtils.makeLongName|> List.sort 
+    let names = groups |> List.map Group.makeLongName|> List.sort 
     names |> List.iter (fun grpLngName ->
             let (GroupLongName strName) = grpLngName
             let ss  = sprintf "    | %sGrp of %sGrp" strName strName
@@ -140,7 +140,7 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
 let private genFieldInitStrs (items:FIXItem list) =
     items |> List.map (fun fi -> 
         let fieldName = fi |> FIXItem.getNameLN
-        let varName = fieldName |> StrUtils.lCaseFirstChar |> CommonGenerator.fixYield
+        let varName = fieldName |> StringEx.lCaseFirstChar |> CommonGenerator.fixYield
         sprintf "        %s = %s" fieldName varName )
 
 

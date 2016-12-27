@@ -1,5 +1,5 @@
 ﻿[<RequireQualifiedAccess>]
-module GroupUtils
+module Group
 
 open FIXGenTypes
 
@@ -27,7 +27,7 @@ let makeLongName (grp:Group) : GroupLongName =
     let parents = grp.Parents 
     let groupName = grp.GName
     let subNames = parents @ [groupName] |> List.toArray
-    let tmp = StrUtils.join "" subNames
+    let tmp = StringEx.join "" subNames
     GroupLongName tmp
 
 

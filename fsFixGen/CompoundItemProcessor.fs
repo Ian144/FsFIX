@@ -25,7 +25,7 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     let allGrps = CompoundItem.extractGroups allCompoundItems
 
     printfn "merge groups where possible"
-    let groupMerges = GroupUtils.makeMergeMap allGrps     // a map of group long name (a compound name based on its parentage) to a merge target
+    let groupMerges = Group.makeMergeMap allGrps     // a map of group long name (a compound name based on its parentage) to a merge target
     
     printfn "groups merges found"
     groupMerges |> List.sortBy (fun (ln,_) -> ln) |> List.iter (fun (GroupLongName ln,grp) -> printfn "    group merge: %s -> %s" ln grp.GName)

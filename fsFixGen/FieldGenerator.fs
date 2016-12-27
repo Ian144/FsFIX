@@ -23,7 +23,7 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:Fie
         yield (sprintf "        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter")
         yield (sprintf "        nextFreeIdx2 + 1 // +1 to include the delimeter")
     ]
-    lines  |> StrUtils.join "\n"
+    lines  |> StringEx.join "\n"
 
 
 
@@ -39,12 +39,12 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
             yield          "        | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
             yield  sprintf "    pos2, fld"
     ]    
-    StrUtils.join "\n" lines
+    StringEx.join "\n" lines
 
 
 let private createFieldDUWithValues (typeName:string) (fixTag:uint32) (values:FieldDUCase list) =
     let typeStr = sprintf "type %s =" typeName
-    let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> StrUtils.join "\n"
+    let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> StringEx.join "\n"
     let typeStr = sprintf "%s\n%s" typeStr caseStr
     let readerFunc = makeMultiCaseDUReaderFunc typeName values
     let writerFunc = createFieldDUWriterFunc typeName fixTag values
@@ -59,7 +59,7 @@ let private correctDUCaseNames (strIn:string) =
         sprintf "%c%s" ff (s.Substring(1))
     strIn.Split('_')
     |> Array.map (fun ss -> ss.ToLower() |> upperCaseFirst)
-    |> StrUtils.join ""
+    |> StringEx.join ""
 
 
 
@@ -126,7 +126,7 @@ let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (
             sprintf "let Write%s (dest:byte []) (pos:int) (valIn:%s) : int = " fieldName fieldName
             sprintf "    %s dest pos \"%d=\"B valIn" writeFunc fixTag
     ]
-    StrUtils.join "\n" lines
+    StringEx.join "\n" lines
 
 
 let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
@@ -135,7 +135,7 @@ let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
             sprintf "let Read%s (bs:byte[]) (pos:int): (int*%s) =" fieldName fieldName
             sprintf "    %s bs pos %s.%s" readFunc fieldName fieldName
     ]    
-    StrUtils.join "\n" lines
+    StringEx.join "\n" lines
 
 
 let private makeSingleCaseDU (fieldName:string) (tag:uint32) (innerType:string) =
@@ -265,7 +265,7 @@ let private createLenDataFieldReadFunction (fld:CompoundField) =
             sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" fld.Name fld.Name
             sprintf "    ReadLengthDataCompoundField (bs:byte[]) (pos:int) \"%d\"B %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
     ]
-    StrUtils.join "\n" lines
+    StringEx.join "\n" lines
 
 
 let private createLenDataFieldWriteFunction (fld:CompoundField) =
@@ -274,7 +274,7 @@ let private createLenDataFieldWriteFunction (fld:CompoundField) =
             sprintf "let Write%s (dest:byte []) (pos:int) (fld:%s) : int =" fld.Name fld.Name
             sprintf "    WriteFieldLengthData dest pos \"%d=\"B \"%d=\"B fld" fld.LenField.Tag fld.DataField.Tag
         ]
-    StrUtils.join "\n" lines
+    StringEx.join "\n" lines
 
 
 
