@@ -158,12 +158,12 @@ let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  WriteReadTest tm TZDateTime.write
 
 
 [<FsFixPropertyTest>]
-let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadTest msg Fix44.MsgWriteFuncs.WriteUserRequest Fix44.MsgReadFuncs.ReadUserRequest
+let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadTest msg Fix44.MsgWriters.WriteUserRequest Fix44.MsgReaders.ReadUserRequest
 
 
 // msg containing a 'NoSides' group
 [<FsFixPropertyTest>]
-let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = WriteReadTest msg Fix44.MsgWriteFuncs.WriteNewOrderCross Fix44.MsgReadFuncs.ReadNewOrderCross
+let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = WriteReadTest msg Fix44.MsgWriters.WriteNewOrderCross Fix44.MsgReaders.ReadNewOrderCross
 
 
 [<FsFixPropertyTest>]

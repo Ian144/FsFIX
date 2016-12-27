@@ -1,6 +1,6 @@
 ﻿open Fix44.Fields
 open Fix44.Messages
-open Fix44.MsgWriteFuncs
+open Fix44.MsgWriters
 
 
 
@@ -78,7 +78,7 @@ type BenchmarkWriteLogon () =
     [<Benchmark>]
     member this.WriteLogonMsg () =
         let nextFreeIdx =
-            Fix44.MsgWriteFuncs.WriteLogon
+            Fix44.MsgWriters.WriteLogon
                 this.Dst
                 0
 //                this.BeginString
@@ -95,7 +95,7 @@ type BenchmarkWriteLogon () =
     [<Benchmark>]
     member this.WriteLogonMsg2 () =
         let nextFreeIdx =
-            Fix44.MsgWriteFuncs.WriteLogon
+            Fix44.MsgWriters.WriteLogon
                 this.Dst
                 0
 //                this.BeginString

@@ -1,4 +1,4 @@
-module Fix44.MsgReadFuncs
+module Fix44.MsgReaders
 
 open OneOrTwo
 open ReaderUtils

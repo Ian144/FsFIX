@@ -82,7 +82,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
     let requiredHdrFields, optionalHdrFields = hdrItems |> List.partition FIXItem.getIsRequired
 
     // generate the group write functions todo: generate group read funcs
-    sw.WriteLine "module Fix44.MsgWriteFuncs"
+    sw.WriteLine "module Fix44.MsgWriters"
     sw.WriteLine ""
     sw.WriteLine "open OneOrTwo"
     sw.WriteLine "open Fix44.Fields"
@@ -114,7 +114,7 @@ let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
 let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (hdrItems:FIXItem list) (xs:Msg list) (sw:StreamWriter) =
     // let requiredHdrFields, optionalHdrFields = hdrItems |> List.partition FIXItem.getIsRequired
     // generate the group write functions todo: generate group read funcs
-    sw.WriteLine "module Fix44.MsgReadFuncs"
+    sw.WriteLine "module Fix44.MsgReaders"
     sw.WriteLine ""
     sw.WriteLine "open OneOrTwo"
     sw.WriteLine "open ReaderUtils"
@@ -136,8 +136,8 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine "module Fix44.MessageDU"
     sw.WriteLine ""
     sw.WriteLine "open Fix44.Messages"
-    sw.WriteLine "open Fix44.MsgWriteFuncs"
-    sw.WriteLine "open Fix44.MsgReadFuncs"
+    sw.WriteLine "open Fix44.MsgWriters"
+    sw.WriteLine "open Fix44.MsgReaders"
     sw.WriteLine ""
     sw.WriteLine ""
 

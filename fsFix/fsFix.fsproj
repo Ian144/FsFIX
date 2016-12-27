@@ -64,10 +64,10 @@
     <Compile Include="Fix44.CompoundItemReaders.fs" />
     <Compile Include="Fix44.CompoundItemDU.fs" />
     <Compile Include="Fix44.Messages.fs" />
-    <Compile Include="Fix44.MsgWriteFuncs.fs" />
-    <Compile Include="Fix44.MsgReadFuncs.fs" />
-    <Compile Include="Fix44.HeaderTrailer.fs" />
+    <Compile Include="Fix44.MsgWriters.fs" />
+    <Compile Include="Fix44.MsgReaders.fs" />
     <Compile Include="Fix44.MessageDU.fs" />
+    <Compile Include="Fix44.HeaderTrailer.fs" />
     <Compile Include="MsgReadWrite.fs" />
   </ItemGroup>
   <PropertyGroup>

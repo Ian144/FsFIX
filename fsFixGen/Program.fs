@@ -93,11 +93,11 @@ let main args =
     MessageGenerator.Gen msgsx swMsgs
 
     printfn "generating message writer funcs"
-    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgWriteFuncs.fs")
+    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgWriters.fs")
     MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     printfn "generating message reader funcs"
-    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgReadFuncs.fs")
+    use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgReaders.fs")
     MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
 
     printfn "generating message DU"

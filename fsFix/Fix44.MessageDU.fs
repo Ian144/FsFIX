@@ -1,8 +1,8 @@
 module Fix44.MessageDU
 
 open Fix44.Messages
-open Fix44.MsgWriteFuncs
-open Fix44.MsgReadFuncs
+open Fix44.MsgWriters
+open Fix44.MsgReaders
 
 
 type FIXMessage =

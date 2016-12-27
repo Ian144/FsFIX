@@ -1,4 +1,4 @@
-module Fix44.MsgWriteFuncs
+module Fix44.MsgWriters
 
 open OneOrTwo
 open Fix44.Fields

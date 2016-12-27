@@ -80,7 +80,7 @@
     <Compile Include="ReadTagValueFromStreamTests.fs" />
     <Compile Include="FieldWriteTests.fs" />
     <Compile Include="FieldReadTests.fs" />
-    <Compile Include="WriteReadUnitTests.fs" />
+    <Compile Include="WriteReadRoundtripUnitTests.fs" />
     <Compile Include="UTCTimestampTests.fs" />
     <Compile Include="UTCDateTests.fs" />
     <Compile Include="UTCTimeOnlyTests.fs" />

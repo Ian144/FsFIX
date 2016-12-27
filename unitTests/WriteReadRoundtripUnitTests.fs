@@ -8,8 +8,8 @@ open Fix44.CompoundItems
 open Fix44.CompoundItemReaders
 open Fix44.CompoundItemWriters
 open Fix44.Messages
-open Fix44.MsgReadFuncs
-open Fix44.MsgWriteFuncs
+open Fix44.MsgReaders
+open Fix44.MsgWriters
 
 
 
