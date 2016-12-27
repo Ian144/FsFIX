@@ -40,7 +40,7 @@ let ``single field then checksum then another field, should not read last field`
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamEx.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 2 // the 3rd field should be ignored, the first two must be read
     test<@ expectedNumTagValues = tagVals.Length @>
     Assert.Equal (2, tagVals.Length) 
@@ -64,7 +64,7 @@ let ``two fields then checksum then another field, should not read last field`` 
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamEx.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -89,7 +89,7 @@ let ``RawDataLength then RawData containing field terminator`` () =
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamEx.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -112,7 +112,7 @@ let ``RawDataLength then RawData containing tag-value separator`` () =
     use ms = new MemoryStream ()
     ms.Write (inBuf, 0, inBuf.Length)
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
-    let tagVals = StreamUtils.ReadTagValuesUntilChecksum ms
+    let tagVals = StreamEx.ReadTagValuesUntilChecksum ms
     let expectedNumTagValues = 3
     test<@ expectedNumTagValues = tagVals.Length @>
     let tv1 = tagVals |> Array.head
@@ -189,7 +189,7 @@ let ``read msg`` () =
     ms.Seek(0L, SeekOrigin.Begin) |> ignore
 
     
-    let output = StreamUtils.ReadMsgBytes ms
+    let output = StreamEx.ReadMsgBytes ms
     body =! output
 
 

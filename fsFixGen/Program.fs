@@ -75,11 +75,11 @@ let main args =
     use swCompoundItems = new StreamWriter (makeOutpath "Fix44.CompoundItems.fs")
     use swCompoundItemDU = new StreamWriter (makeOutpath "Fix44.CompoundItemDU.fs")
     CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
-    use swGroupWriteFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemWriteFuncs.fs")
+    use swGroupWriteFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemWriters.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 
     printfn "generating group and component reading functions"
-    use swGroupReadFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemReadFuncs.fs")
+    use swGroupReadFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemReaders.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 

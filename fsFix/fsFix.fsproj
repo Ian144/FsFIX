@@ -52,7 +52,7 @@
     <Compile Include="TZDateTime.fs" />
     <Compile Include="UTCDateTime.fs" />
     <Compile Include="MonthYear.fs" />
-    <Compile Include="StreamUtils.fs" />
+    <Compile Include="StreamEx.fs" />
     <Compile Include="ReaderUtils.fs" />
     <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
@@ -60,8 +60,8 @@
     <Compile Include="Fix44.FieldWriters.fs" />
     <Compile Include="Fix44.FieldDU.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
-    <Compile Include="Fix44.CompoundItemWriteFuncs.fs" />
-    <Compile Include="Fix44.CompoundItemReadFuncs.fs" />
+    <Compile Include="Fix44.CompoundItemWriters.fs" />
+    <Compile Include="Fix44.CompoundItemReaders.fs" />
     <Compile Include="Fix44.CompoundItemDU.fs" />
     <Compile Include="Fix44.Messages.fs" />
     <Compile Include="Fix44.MsgWriteFuncs.fs" />

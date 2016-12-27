@@ -15,7 +15,7 @@ open Fix44.FieldReaders
 open Fix44.FieldDU
 
 open Fix44.CompoundItems
-open Fix44.CompoundItemWriteFuncs
+open Fix44.CompoundItemWriters
 open Fix44.CompoundItemDU
 open Fix44.MessageDU
 
@@ -184,31 +184,31 @@ let AllFields (fieldIn:FIXField) = WriteReadTest fieldIn WriteField ReadField
 
 
 [<FsFixPropertyTest>]
-let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadTest grpIn WriteNoCapacitiesGrp Fix44.CompoundItemReadFuncs.ReadNoCapacitiesGrp
+let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadTest grpIn WriteNoCapacitiesGrp Fix44.CompoundItemReaders.ReadNoCapacitiesGrp
 
 
 
 [<FsFixPropertyTest>]
-let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReadFuncs.ReadNoUnderlyingStipsGrp
+let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReaders.ReadNoUnderlyingStipsGrp
 
 
 
 [<FsFixPropertyTest>]
-let UnderlyingStipulations (usIn:UnderlyingStipulations) = WriteReadTest usIn WriteUnderlyingStipulations Fix44.CompoundItemReadFuncs.ReadUnderlyingStipulations
+let UnderlyingStipulations (usIn:UnderlyingStipulations) = WriteReadTest usIn WriteUnderlyingStipulations Fix44.CompoundItemReaders.ReadUnderlyingStipulations
         
 
 
 [<FsFixPropertyTest>]
-let UnderlyingInstument (usIn:UnderlyingInstrument) = WriteReadTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReadFuncs.ReadUnderlyingInstrument
+let UnderlyingInstument (usIn:UnderlyingInstrument) = WriteReadTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReaders.ReadUnderlyingInstrument
 
 
 
 [<FsFixPropertyTest>]
-let NoSidesGrp (gIn:NoSidesGrp) = WriteReadTest gIn WriteNoSidesGrp Fix44.CompoundItemReadFuncs.ReadNoSidesGrp
+let NoSidesGrp (gIn:NoSidesGrp) = WriteReadTest gIn WriteNoSidesGrp Fix44.CompoundItemReaders.ReadNoSidesGrp
 
 
 [<FsFixPropertyTest>]
-let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadTest usIn WriteInstrumentLegFG Fix44.CompoundItemReadFuncs.ReadInstrumentLegFG
+let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadTest usIn WriteInstrumentLegFG Fix44.CompoundItemReaders.ReadInstrumentLegFG
 
 
 

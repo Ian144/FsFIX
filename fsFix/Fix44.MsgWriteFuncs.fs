@@ -4,7 +4,7 @@ open OneOrTwo
 open Fix44.Fields
 open Fix44.FieldWriters
 open Fix44.CompoundItems
-open Fix44.CompoundItemWriteFuncs
+open Fix44.CompoundItemWriters
 open Fix44.Messages
 
 

@@ -5,7 +5,7 @@ open ReaderUtils
 open Fix44.Fields
 open Fix44.FieldReaders
 open Fix44.CompoundItems
-open Fix44.CompoundItemReadFuncs
+open Fix44.CompoundItemReaders
 open Fix44.Messages
 
 

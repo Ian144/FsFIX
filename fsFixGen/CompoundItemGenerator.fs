@@ -68,8 +68,8 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine "module Fix44.CompoundItemDU"
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine "open Fix44.CompoundItems"
-    swCompItemDU.WriteLine "open Fix44.CompoundItemWriteFuncs"
-    swCompItemDU.WriteLine "open Fix44.CompoundItemReadFuncs"
+    swCompItemDU.WriteLine "open Fix44.CompoundItemWriters"
+    swCompItemDU.WriteLine "open Fix44.CompoundItemReaders"
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
@@ -126,7 +126,7 @@ let private genCompoundItemWriter (sw:StreamWriter) (ci:CompoundItem) =
 
 
 let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
-    sw.WriteLine "module Fix44.CompoundItemWriteFuncs"
+    sw.WriteLine "module Fix44.CompoundItemWriters"
     sw.WriteLine ""
     sw.WriteLine "open Fix44.Fields"
     sw.WriteLine "open Fix44.FieldWriters"
@@ -166,7 +166,7 @@ let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:
 
 
 let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (xs:CompoundItem list) (sw:StreamWriter) =
-    sw.WriteLine "module Fix44.CompoundItemReadFuncs"
+    sw.WriteLine "module Fix44.CompoundItemReaders"
     sw.WriteLine ""
     sw.WriteLine "open ReaderUtils"
     sw.WriteLine "open Fix44.Fields"

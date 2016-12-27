@@ -1,5 +1,5 @@
 ﻿[<RequireQualifiedAccess>]
-module StreamUtils
+module StreamEx
 
 open System.IO
 

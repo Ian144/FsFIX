@@ -1,8 +1,8 @@
 module Fix44.CompoundItemDU
 
 open Fix44.CompoundItems
-open Fix44.CompoundItemWriteFuncs
-open Fix44.CompoundItemReadFuncs
+open Fix44.CompoundItemWriters
+open Fix44.CompoundItemReaders
 
 
 type FIXGroup =
