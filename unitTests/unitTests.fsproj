@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="TestUtils.fs" />
-    <Compile Include="ReadTagValueFromStreamTests.fs" />
     <Compile Include="FieldWriteTests.fs" />
     <Compile Include="FieldReadTests.fs" />
     <Compile Include="WriteReadRoundtripUnitTests.fs" />

@@ -52,7 +52,6 @@
     <Compile Include="TZDateTime.fs" />
     <Compile Include="UTCDateTime.fs" />
     <Compile Include="MonthYear.fs" />
-    <Compile Include="StreamEx.fs" />
     <Compile Include="ReaderUtils.fs" />
     <Compile Include="FieldFuncs.fs" />
     <Compile Include="Fix44.Fields.fs" />
