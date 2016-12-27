@@ -24,7 +24,6 @@ let main args =
 
     //let MkOutpath flName = sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
     let makeOutpath flName = sprintf """%sfsFix\%s""" outDir flName
-    
 
 
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)

@@ -238,14 +238,14 @@ let MergeLenFields (fields:SimpleField list) =
 let ParseFieldData (parentXL:XElement) : SimpleField list =
     let fieldsXL = parentXL.XPathSelectElements "field"
     [   for fieldXL in fieldsXL do
-        let fldNumber = ParsingFuncs.gas fieldXL "number" |> System.Convert.ToUInt32
-        let name = ParsingFuncs.gas fieldXL "name"
-        let fldType = ParsingFuncs.gas fieldXL "type"
+        let fldNumber = FIXSpecReader.GetAttributeStr fieldXL "number" |> System.Convert.ToUInt32
+        let name = FIXSpecReader.GetAttributeStr fieldXL "name"
+        let fldType = FIXSpecReader.GetAttributeStr fieldXL "type"
         let valuesXLs = fieldXL.XPathSelectElements "value"
         let values =
             [   for valueXL in valuesXLs do
-                let desc = ParsingFuncs.gas valueXL "description"
-                let eenum = ParsingFuncs.gas valueXL "enum"
+                let desc = FIXSpecReader.GetAttributeStr valueXL "description"
+                let eenum = FIXSpecReader.GetAttributeStr valueXL "enum"
                 let duName = correctDUNames desc
                 yield {Description = duName; Case = eenum}  ]
         yield {Tag = fldNumber; Name = name; Type = fldType; Values = values}

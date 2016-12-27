@@ -12,10 +12,10 @@ open FIXGenTypes
 let Read (parentXL:XElement) =
     let msgsXL = parentXL.XPathSelectElements "message"
     [   for msgXL in msgsXL do
-        let msgName = ParsingFuncs.gas msgXL "name" 
-        let msgType = ParsingFuncs.gas msgXL "msgtype"
-        let msgCat = ParsingFuncs.gas msgXL "msgcat"
-        let items = ParsingFuncs.ReadItems [msgName] msgXL
+        let msgName = FIXSpecReader.GetAttributeStr msgXL "name" 
+        let msgType = FIXSpecReader.GetAttributeStr msgXL "msgtype"
+        let msgCat = FIXSpecReader.GetAttributeStr msgXL "msgcat"
+        let items = FIXSpecReader.ReadItems [msgName] msgXL
         yield {MName = msgName; Tag = msgType; Cat = msgCat; Items = items}
     ]
 

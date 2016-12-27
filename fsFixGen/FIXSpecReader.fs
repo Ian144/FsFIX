@@ -1,5 +1,5 @@
 ﻿[<RequireQualifiedAccess>]
-module ParsingFuncs
+module FIXSpecReader
 
 open System.Xml.Linq
 
@@ -9,12 +9,11 @@ open FIXGenTypes
 
 
 
-let GetAttrString (xl:XElement) (name:string) = 
+
+let GetAttributeStr (xl:XElement) (name:string) = 
     let xname = XName.Get name
     let tmp = xl.Attribute xname
     tmp.Value
-
-let gas = GetAttrString
 
 
 let MkRequired (str:string) =
@@ -25,14 +24,14 @@ let MkRequired (str:string) =
 
 
 let rec ReadGroup (parents:string list) (el:XElement) =
-    let reqStr = gas el "required"
+    let reqStr = GetAttributeStr el "required"
     let req = MkRequired reqStr
-    let name = gas el "name"
+    let name = GetAttributeStr el "name"
     let items = ReadItems parents el
     { GName = name; Parents = parents; Required = req; Items = items}
 
 
-// create a FIXItem from field, component or group XML element
+// create a FIXItem from field, component or group XML element, from fix spec xml of the form below
 //    <field name="TransactTime" required="N" />
 //    <component name="SpreadOrBenchmarkCurveData" required="N" />
 //    <group name="NoRoutingIDs" required="N">
@@ -43,12 +42,12 @@ let rec ReadGroup (parents:string list) (el:XElement) =
 // not a total function, fails fast if FIX xml cannot be parsed
 and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
     let itemTypeStr = el.Name.ToString()
-    let reqStr = gas el "required"
+    let reqStr = GetAttributeStr el "required"
     let req = MkRequired reqStr
     match itemTypeStr with
-    | "field"       ->  let fName =  gas el "name"
+    | "field"       ->  let fName =  GetAttributeStr el "name"
                         FIXItem.FieldRef {FName = fName; Required = req}
-    | "component"   ->  let cmpName =  gas el "name" |> ComponentName
+    | "component"   ->  let cmpName =  GetAttributeStr el "name" |> ComponentName
                         FIXItem.ComponentRef {CRName=cmpName; Required=req}
     | "group"       ->  let grp = ReadGroup parents el
                         FIXItem.Group grp

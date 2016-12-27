@@ -7,13 +7,13 @@ open FIXGenTypes
 
 
 let ReadHeader (excludeFieldNames:Set<string>) (xl:XElement) : Header =
-    let items = ParsingFuncs.ReadItems ["Header"] xl |> List.filter (FIXItem.excludeFieldsFilter excludeFieldNames)
+    let items = FIXSpecReader.ReadItems ["Header"] xl |> List.filter (FIXItem.excludeFieldsFilter excludeFieldNames)
     {HItems = items}
 
 
 
 let ReadTrailer (excludeFieldNames:Set<string>) (xl:XElement)  =
-    let items = ParsingFuncs.ReadItems ["Trailer"] xl |> List.filter (FIXItem.excludeFieldsFilter excludeFieldNames)
+    let items = FIXSpecReader.ReadItems ["Trailer"] xl |> List.filter (FIXItem.excludeFieldsFilter excludeFieldNames)
     {TItems = items}
 
 

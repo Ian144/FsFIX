@@ -12,8 +12,8 @@ open FIXGenTypes
 let Read (parentXL:XElement) =
     let compsXL = parentXL.XPathSelectElements "component"
     [   for compXL in compsXL do
-        let compName = ParsingFuncs.gas compXL "name" 
-        let items = ParsingFuncs.ReadItems [compName] compXL
+        let compName = FIXSpecReader.GetAttributeStr compXL "name" 
+        let items = FIXSpecReader.ReadItems [compName] compXL
         yield {CName = ComponentName compName; Items = items}
     ]
 

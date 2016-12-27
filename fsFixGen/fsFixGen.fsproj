@@ -58,7 +58,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="StringEx.fs" />
     <Compile Include="FIXGenTypes.fs" />
-    <Compile Include="ParsingFuncs.fs" />
+    <Compile Include="FIXSpecReader.fs" />
     <Compile Include="FieldGenerator.fs" />
     <Compile Include="Group.fs" />
     <Compile Include="CompoundItem.fs" />
