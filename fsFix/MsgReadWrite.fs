@@ -116,8 +116,8 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
     
 //    let pos, msgType        = ReadMsgType pos src
-    let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep src pos
-    let pos, tag            = FIXBufUtils.readValAfterTagValSep src tagValSepPos
+    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep src pos
+    let pos, tag            = FIXBuf.readValAfterTagValSep src tagValSepPos
     
     let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
     let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
@@ -149,8 +149,8 @@ let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->
     let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
     
 //    let pos, msgType        = ReadMsgType pos src
-    let tagValSepPos        = 1 + FIXBufUtils.findNextTagValSep src pos 
-    let pos, tag            = FIXBufUtils.readValAfterTagValSep src tagValSepPos// need to bounce from a runtime value to a compile time generic instance, is using a DU unavoidable??
+    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep src pos 
+    let pos, tag            = FIXBuf.readValAfterTagValSep src tagValSepPos// need to bounce from a runtime value to a compile time generic instance, is using a DU unavoidable??
     let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
     let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
     let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum

@@ -1,4 +1,4 @@
-﻿module FIXBufUtils
+﻿module FIXBuf
 
 open System
 

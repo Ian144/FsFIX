@@ -81,7 +81,7 @@ let inline private readNonUTC (isPos:bool) (bs:byte[]) (pos:int) =
         
 
 let readTZOffset (bs:byte[]) (pos:int) =
-    let nextFieldSepOrEnd = FIXBufUtils.findNextFieldTermOrEnd bs pos
+    let nextFieldSepOrEnd = FIXBuf.findNextFieldTermOrEnd bs pos
     if bs.[pos] = 90uy then // next byte is a 'Z', meaning UTC offset
         (pos+1), TZOffset.UTC
     elif bs.[pos] = 43uy then // positive offset

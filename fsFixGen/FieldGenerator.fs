@@ -31,7 +31,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
             yield  sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" typeName typeName 
-            yield  sprintf "    let pos2, valIn = FIXBufUtils.readValAfterTagValSep bs pos"
+            yield  sprintf "    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos"
             yield  sprintf "    let fld = "
             yield  sprintf "        match valIn with"
             yield! values |> List.map (fun vv -> 
@@ -388,7 +388,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
     swFieldDU.WriteLine  "let ReadField (bs:byte[]) (pos:int) ="
-    swFieldDU.WriteLine  "    let pos2, tag = FIXBufUtils.readTag bs pos"
+    swFieldDU.WriteLine  "    let pos2, tag = FIXBuf.readTag bs pos"
     swFieldDU.WriteLine  "    match tag with"
     fieldData |> Seq.iter (fun fd ->
             let ss =

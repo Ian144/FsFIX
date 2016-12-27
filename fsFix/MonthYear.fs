@@ -77,7 +77,7 @@ let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
 
 
 let read (bs:byte[]) (pos:int) : int*MonthYear =
-    let endPos = FIXBufUtils.findNextFieldTermOrEnd bs pos
+    let endPos = FIXBuf.findNextFieldTermOrEnd bs pos
     match endPos - pos with
     | 6 -> // YYYYMM
         let yy = DateTimeUtils.bytes4ToInt bs pos

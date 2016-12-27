@@ -134,7 +134,7 @@ let WriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->in
 let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int*'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
-    let posSep = FIXBufUtils.findNextTagValSep bs 0
+    let posSep = FIXBuf.findNextTagValSep bs 0
     let posR, tOut = readFunc bs (posSep+1)
     tIn =! tOut
     posW =! posR

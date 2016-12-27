@@ -1815,7 +1815,7 @@ let WriteField dest nextFreeIdx fixField =
 
 // todo consider replacing ReadFields match statement with lookup in a map
 let ReadField (bs:byte[]) (pos:int) =
-    let pos2, tag = FIXBufUtils.readTag bs pos
+    let pos2, tag = FIXBuf.readTag bs pos
     match tag with
     | "1"B ->
         let pos3, fld = ReadAccount bs pos2 

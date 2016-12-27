@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		Parallel2.runsettings = Parallel2.runsettings
-		scratch.txt = scratch.txt
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFix", "fsFix\fsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
