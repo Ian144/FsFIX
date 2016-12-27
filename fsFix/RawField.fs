@@ -1,4 +1,4 @@
-﻿module FieldFuncs
+﻿module RawField
 
 open System
 open Conversions
@@ -137,7 +137,6 @@ let inline WriteFieldUint32 (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : i
     pos3 + 1 // +1 to move past the delimeter
 
 
-// todo: how could one func replace the WriteFieldXXX funcs
 let inline WriteFieldChar (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let cc = (^T :(member Value:char) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)

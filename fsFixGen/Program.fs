@@ -11,7 +11,7 @@ open FieldGenerator
 
 
 
-// fix spec downloaded by paket from the quickfixn github repo
+// FIX spec downloaded by paket from the quickfixn github repo
 let fixSpecXmlFile = "FIX44.xml"
 
 [<EntryPoint>]
@@ -60,7 +60,7 @@ let main args =
 
     printfn "reading components"
     let xpthMsgs = doc.XPathSelectElement "fix/components"
-    let components = ComponentGenerator.Read xpthMsgs
+    let components = ComponentReader.Read xpthMsgs
 
     printfn "reading messages"
     let xpthMsgs = doc.XPathSelectElement "fix/messages"

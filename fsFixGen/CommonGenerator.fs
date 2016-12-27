@@ -140,7 +140,7 @@ let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<Comp
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
                                             | Required     ->  genReadGroup varName longName parentName tag 
-                                            | NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup bs pos \"%d\"B Read%sGrp" varName tag longName ] //todo: there are no optional 'NoSides' groups in fix 4.4, this may change in other version
+                                            | NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup bs pos \"%d\"B Read%sGrp" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
 

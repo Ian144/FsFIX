@@ -85,7 +85,7 @@ type ArbOverrides() =
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10,
+        MaxTest = 100,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -103,7 +103,7 @@ let MessageWithHeaderTrailer
         (sendingTime:SendingTime) 
         (msg:FIXMessage) =
     let buf = Array.zeroCreate<byte> bufSize
-    let tmpBuf = Array.zeroCreate<byte> bufSize // todo: think of better names
+    let tmpBuf = Array.zeroCreate<byte> bufSize
     let posW = MsgReadWrite.WriteMessageDU 
                                 tmpBuf 
                                 buf 

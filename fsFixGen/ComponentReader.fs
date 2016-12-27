@@ -1,4 +1,4 @@
-﻿module ComponentGenerator
+﻿module ComponentReader
 
 
 open System.Xml.Linq
@@ -7,7 +7,6 @@ open FIXGenTypes
 
 
 
-//todo: this file is not doing generation, give it a different name
 
 let Read (parentXL:XElement) =
     let compsXL = parentXL.XPathSelectElements "component"

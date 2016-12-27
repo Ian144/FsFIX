@@ -14,7 +14,8 @@ let CalcCheckSum (buf:byte[]) (len:int) =
     let mutable (sum:byte) = 0uy
     for ctr = 0 to (len - 1) do // len is the 'next free index', so it is not included in the checksum calc
         sum <- sum + buf.[ctr]
-    //todo: there may be a much better way that sprintf and string conversion for writing the checksum, checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
+    //todo: consider a more direct conversion than sprintf
+    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
     (sprintf "%03d" sum) |> CheckSum 
 
 

@@ -308,7 +308,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swReadFuncs.WriteLine "open System.IO"
     swReadFuncs.WriteLine "open Fix44.Fields"
     swReadFuncs.WriteLine "open Conversions"
-    swReadFuncs.WriteLine "open FieldFuncs"
+    swReadFuncs.WriteLine "open RawField"
     swReadFuncs.WriteLine ""
     swReadFuncs.WriteLine ""
 
@@ -332,7 +332,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swWriteFuncs.WriteLine "open System.IO"
     swWriteFuncs.WriteLine "open Fix44.Fields"
     swWriteFuncs.WriteLine "open Conversions"
-    swWriteFuncs.WriteLine "open FieldFuncs"
+    swWriteFuncs.WriteLine "open RawField"
     swWriteFuncs.WriteLine ""
     swWriteFuncs.WriteLine ""
 

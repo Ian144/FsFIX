@@ -57,7 +57,6 @@ let private makeFuncSig (requiredHdrItems:FIXItem list) (msg:Msg) =
     funcSig
 
 
-// todo: put both versions of this in CommonGenerator
 let private genFieldInitStrs (items:FIXItem list) =
     items |> List.map (fun fi -> 
         let fieldName = fi |> FIXItem.getNameLN

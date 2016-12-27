@@ -5,7 +5,7 @@ open System
 open System.IO
 open Fix44.Fields
 open Conversions
-open FieldFuncs
+open RawField
 
 
 let WriteAccount (dest:byte []) (pos:int) (valIn:Account) : int = 

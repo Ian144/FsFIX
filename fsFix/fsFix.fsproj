@@ -53,7 +53,7 @@
     <Compile Include="UTCDateTime.fs" />
     <Compile Include="MonthYear.fs" />
     <Compile Include="ReaderUtils.fs" />
-    <Compile Include="FieldFuncs.fs" />
+    <Compile Include="RawField.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReaders.fs" />
     <Compile Include="Fix44.FieldWriters.fs" />
