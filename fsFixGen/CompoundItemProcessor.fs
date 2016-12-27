@@ -9,9 +9,9 @@ open FIXGenTypes
 /// merge identical groups
 /// apply the merges to messages, components and the header
 /// apply rules to groups
-///    ensure groups first item is always required
+///    ensure the first item in a group required (to aid parsing)
 ///    ensure components that are the first item of a group have a first item that is required
-/// sort the groups and components so that dependents appear before dependee's, so that when they are all written to a source file 
+/// sort the groups and components so that dependents appear before dependee's, so that generated F# compiles
 let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component list) (msgs:Msg list) (lenFieldNames:Set<string>) = 
 
     let cmpNameMap = components |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
