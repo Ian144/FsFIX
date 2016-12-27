@@ -301,7 +301,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
         )
     
     // write the field read functions
-    swReadFuncs.WriteLine "module Fix44.FieldReadFuncs"
+    swReadFuncs.WriteLine "module Fix44.FieldReaders"
     swReadFuncs.WriteLine ""
     swReadFuncs.WriteLine ""
     swReadFuncs.WriteLine "open System"
@@ -325,7 +325,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
         )
 
     // write the field write functions
-    swWriteFuncs.WriteLine "module Fix44.FieldWriteFuncs"
+    swWriteFuncs.WriteLine "module Fix44.FieldWriters"
     swWriteFuncs.WriteLine ""
     swWriteFuncs.WriteLine ""
     swWriteFuncs.WriteLine "open System"
@@ -354,8 +354,8 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine "open Fix44.Fields"
-    swFieldDU.WriteLine "open Fix44.FieldReadFuncs"
-    swFieldDU.WriteLine "open Fix44.FieldWriteFuncs"
+    swFieldDU.WriteLine "open Fix44.FieldReaders"
+    swFieldDU.WriteLine "open Fix44.FieldWriters"
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine ""
 

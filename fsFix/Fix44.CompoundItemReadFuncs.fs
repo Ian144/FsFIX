@@ -2,7 +2,7 @@ module Fix44.CompoundItemReadFuncs
 
 open ReaderUtils
 open Fix44.Fields
-open Fix44.FieldReadFuncs
+open Fix44.FieldReaders
 open Fix44.CompoundItems
 
 

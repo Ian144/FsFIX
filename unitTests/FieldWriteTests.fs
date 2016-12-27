@@ -4,8 +4,8 @@ open Xunit
 open Swensen.Unquote
 
 open Fix44.Fields
-open Fix44.FieldReadFuncs
-open Fix44.FieldWriteFuncs
+open Fix44.FieldReaders
+open Fix44.FieldWriters
 
 
 

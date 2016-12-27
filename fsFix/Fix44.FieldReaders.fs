@@ -1,4 +1,4 @@
-module Fix44.FieldReadFuncs
+module Fix44.FieldReaders
 
 
 open System

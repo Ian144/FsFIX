@@ -9,8 +9,8 @@ open Swensen.Unquote
 
 
 open Fix44.Fields
-open Fix44.FieldWriteFuncs
-open Fix44.FieldReadFuncs
+open Fix44.FieldWriters
+open Fix44.FieldReaders
 
 open Fix44.FieldDU
 
@@ -167,13 +167,13 @@ let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = WriteReadTest msg Fix4
 
 
 [<FsFixPropertyTest>]
-let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn Fix44.FieldWriteFuncs.WritePosMaintRptID Fix44.FieldReadFuncs.ReadPosMaintRptID
+let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn Fix44.FieldWriters.WritePosMaintRptID Fix44.FieldReaders.ReadPosMaintRptID
 
 
 
 // MDEntryTime wraps UTCTimeOnly
 [<FsFixPropertyTest>]
-let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriteFuncs.WriteMDEntryTime Fix44.FieldReadFuncs.ReadMDEntryTime
+let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteMDEntryTime Fix44.FieldReaders.ReadMDEntryTime
 
 
 // a very slow test due to the large number of Field DU instances

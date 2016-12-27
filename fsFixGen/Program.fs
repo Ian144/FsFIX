@@ -33,8 +33,8 @@ let main args =
     let xpthFields = doc.XPathSelectElement "fix/fields"
     let tmp = (makeOutpath "Fix44.Fields.fs")
     use swFixFields = new StreamWriter (makeOutpath "Fix44.Fields.fs")
-    use swFieldReadFuncs = new StreamWriter (makeOutpath "Fix44.FieldReadFuncs.fs")
-    use swFieldWriteFuncs = new StreamWriter (makeOutpath "Fix44.FieldWriteFuncs.fs")
+    use swFieldReadFuncs = new StreamWriter (makeOutpath "Fix44.FieldReaders.fs")
+    use swFieldWriteFuncs = new StreamWriter (makeOutpath "Fix44.FieldWriters.fs")
     use swFieldDU = new StreamWriter (makeOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"

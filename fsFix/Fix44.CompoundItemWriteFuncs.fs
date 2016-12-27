@@ -1,7 +1,7 @@
 module Fix44.CompoundItemWriteFuncs
 
 open Fix44.Fields
-open Fix44.FieldWriteFuncs
+open Fix44.FieldWriters
 open Fix44.CompoundItems
 
 

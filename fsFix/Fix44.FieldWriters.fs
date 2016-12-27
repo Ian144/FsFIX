@@ -1,4 +1,4 @@
-module Fix44.FieldWriteFuncs
+module Fix44.FieldWriters
 
 
 open System

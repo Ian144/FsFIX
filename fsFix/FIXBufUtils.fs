@@ -29,7 +29,7 @@ let findNextFieldTerm (bs:byte[]) (pos:int) = findNext bs pos 1uy
 let findNextTagValSep (bs:byte[]) (pos:int) = findNext bs pos 61uy
 
 /// returns the index of first char after the field value and the value itself
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
+/// checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 let readValAfterTagValSep (bs:byte[]) (pos:int) =
     // byte value of '=' is 61
     if bs.[pos-1] <> 61uy then failwith "readValAfterFieldSep, prev byte is not a tag value separator"
@@ -41,7 +41,7 @@ let readValAfterTagValSep (bs:byte[]) (pos:int) =
     fldTermPos + 1, bsVal
 
 /// used for reading the data component of length+data paired fields, the data component may contain field deliminators
-/// assumes and checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
+/// checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 /// returns the index of first char after the field value and the value itself
 let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
     // byte value of '=' is 61, of field delim is 1
@@ -52,7 +52,7 @@ let readNBytesVal (pos:int) (count:int) (bs:byte[]) =
     pos+count+1, bsVal
 
 
-// assumes and checks that the prevByte points to a field delimitor
+// checks that the prevByte points to a field delimitor
 let readTagAfterFieldDelim (bs:byte[]) (pos:int) =
     if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
     let tagValSepPos = findNextTagValSep bs pos
