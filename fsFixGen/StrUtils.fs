@@ -1,12 +1,12 @@
 ﻿[<RequireQualifiedAccess>]
-module Utils
+module StrUtils
 
 
 
 open System
 
 
-let joinStrs (sep:string) (ss:string seq) =
+let join (sep:string) (ss:string seq) =
     String.Join( sep, ss)
 
 

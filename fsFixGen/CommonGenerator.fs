@@ -112,7 +112,7 @@ let fixYield (ss:string) =
 
 
 let private genReadGroup (varName:string) (longName:string) (parentName:string) (tag:uint32)  = 
-    let varName = Utils.lCaseFirstChar longName
+    let varName = StrUtils.lCaseFirstChar longName
     let isNoSides = longName.Contains "NoSides"
     if isNoSides then   // return a literal list of strings
         [   sprintf "    let pos, %sGrp = ReadNoSidesGroup bs pos \"Read%s\" \"%d\"B Read%sGrp" varName parentName tag longName ]
@@ -127,17 +127,17 @@ let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<Comp
         let tag = FIXItem.getTag fieldNameMap compNameMap item
         match item with
         | FIXItem.FieldRef fld          ->  let name = fld.FName
-                                            let varName = Utils.lCaseFirstChar name |> fixYield
+                                            let varName = StrUtils.lCaseFirstChar name |> fixYield
                                             match fld.Required with
                                             | Required     ->  [   sprintf "    let pos, %s = ReadField bs pos \"Read%s\" \"%d\"B Read%s" varName parentName tag name ]
                                             | NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField bs pos \"%d\"B  Read%s" varName tag name ]
         | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
-                                            let varName = Utils.lCaseFirstChar name
+                                            let varName = StrUtils.lCaseFirstChar name
                                             match cmpRef.Required with
                                             | Required      ->  [   sprintf "    let pos, %s = ReadComponent bs pos \"Read%s component\" Read%s" varName name name ]
                                             | NotRequired   ->  [   sprintf "    let pos, %s = ReadOptionalComponent bs pos \"%d\"B Read%s" varName tag name ]
         | FIXItem.Group grp             ->  let (GroupLongName longName) = GroupUtils.makeLongName grp
-                                            let varName = Utils.lCaseFirstChar longName
+                                            let varName = StrUtils.lCaseFirstChar longName
                                             match grp.Required with
                                             | Required     ->  genReadGroup varName longName parentName tag 
                                             | NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup bs pos \"%d\"B Read%sGrp" varName tag longName ] //todo: there are no optional 'NoSides' groups in fix 4.4, this may change in other version

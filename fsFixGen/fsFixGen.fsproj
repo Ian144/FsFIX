@@ -56,12 +56,12 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Utils.fs" />
+    <Compile Include="StrUtils.fs" />
     <Compile Include="FIXGenTypes.fs" />
     <Compile Include="ParsingFuncs.fs" />
     <Compile Include="FieldGenerator.fs" />
     <Compile Include="GroupFuncs.fs" />
-    <Compile Include="CompoundItemFuncs.fs" />
+    <Compile Include="CompoundItem.fs" />
     <Compile Include="DependencyConstraintSolver.fs" />
     <Compile Include="FIXItemFuncs.fs" />
     <Compile Include="CompoundItemRules.fs" />

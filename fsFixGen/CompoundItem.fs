@@ -1,5 +1,5 @@
 ﻿[<RequireQualifiedAccess>]
-module CompoundItemFuncs
+module CompoundItem
 
 open FIXGenTypes
 

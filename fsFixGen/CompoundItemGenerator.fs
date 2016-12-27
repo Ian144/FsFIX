@@ -73,7 +73,7 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
-    let groups = cmpItems |> CompoundItemFuncs.extractGroups
+    let groups = cmpItems |> CompoundItem.extractGroups
     swCompItemDU.WriteLine  "type FIXGroup ="
     let names = groups |> List.map GroupUtils.makeLongName|> List.sort 
     names |> List.iter (fun grpLngName ->
@@ -110,10 +110,10 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
 
 
 let private genCompoundItemWriter (sw:StreamWriter) (ci:CompoundItem) =
-    let name = CompoundItemFuncs.getName ci
-    let suffix = CompoundItemFuncs.getNameSuffix ci
-    let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
-    let items = CompoundItemFuncs.getItems ci
+    let name = CompoundItem.getName ci
+    let suffix = CompoundItem.getNameSuffix ci
+    let compOrGroup = CompoundItem.getCompOrGroupStr ci
+    let items = CompoundItem.getItems ci
     sw.WriteLine (sprintf "// %s" compOrGroup)
     let funcSig = sprintf "let Write%s%s (dest:byte []) (nextFreeIdx:int) (xx:%s%s) =" name suffix name suffix
     sw.WriteLine funcSig
@@ -140,17 +140,17 @@ let GenWriteFuncs (groups:CompoundItem list) (sw:StreamWriter) =
 let private genFieldInitStrs (items:FIXItem list) =
     items |> List.map (fun fi -> 
         let fieldName = fi |> FIXItem.getNameLN
-        let varName = fieldName |> Utils.lCaseFirstChar |> CommonGenerator.fixYield
+        let varName = fieldName |> StrUtils.lCaseFirstChar |> CommonGenerator.fixYield
         sprintf "        %s = %s" fieldName varName )
 
 
 
 let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>)  (sw:StreamWriter) (ci:CompoundItem) = 
-    let name = CompoundItemFuncs.getName ci
-    let suffix = CompoundItemFuncs.getNameSuffix ci
+    let name = CompoundItem.getName ci
+    let suffix = CompoundItem.getNameSuffix ci
     let typeName = sprintf "%s%s" name suffix
-    let compOrGroup = CompoundItemFuncs.getCompOrGroupStr ci
-    let items = CompoundItemFuncs.getItems ci
+    let compOrGroup = CompoundItem.getCompOrGroupStr ci
+    let items = CompoundItem.getItems ci
     sw.WriteLine (sprintf "// %s" compOrGroup)
     let funcSig = sprintf "let Read%s (bs:byte []) (pos:int) : int * %s  =" typeName typeName
     sw.WriteLine funcSig

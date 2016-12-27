@@ -8,10 +8,10 @@ open FIXGenTypes
 // compoundItems must be flattened by this stage, so there is no need to recurse into the compoundItem trees
 let private makeConstraints (componentNameMap:Map<ComponentName,Component>) (compoundItems:CompoundItem list) = 
     [   for itm in compoundItems do
-        let subItms = itm |> CompoundItemFuncs.getSubCompoundItems componentNameMap
+        let subItms = itm |> CompoundItem.getSubCompoundItems componentNameMap
         for subItm in subItms do
-        let itemName = CompoundItemFuncs.getName itm
-        let subItemName = CompoundItemFuncs.getName subItm
+        let itemName = CompoundItem.getName itm
+        let subItemName = CompoundItem.getName subItm
         yield (itemName, subItemName) ]
 
 
@@ -54,7 +54,7 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>
 
     // an unconstrained group is one that is not in the constrained group set
     let unConstrained =  compoundItems 
-                            |> List.filter (fun ci ->   let name = CompoundItemFuncs.getName ci
+                            |> List.filter (fun ci ->   let name = CompoundItem.getName ci
                                                         constrainedSet |> (Set.contains name) |> not)
 
     // The dependency tree is represented a Map<string, string list> where the strings are group names
@@ -73,7 +73,7 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>
     // make a map of item name to item
     let nameToItemMap = 
             compoundItems 
-            |> List.map (fun ci -> (CompoundItemFuncs.getName ci), ci)
+            |> List.map (fun ci -> (CompoundItem.getName ci), ci)
             |> Map.ofList
 
 

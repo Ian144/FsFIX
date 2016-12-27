@@ -17,12 +17,12 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     let cmpNameMap = components |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
     printfn "collate all groups"
-    let headerTrailerCompoundItems = CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap (hdr.HItems @ trl.TItems)
+    let headerTrailerCompoundItems = CompoundItem.recursivelyGetAllCompoundItems cmpNameMap (hdr.HItems @ trl.TItems)
     let msgCompoundItems = 
         [   for msg in msgs do
-            yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMap msg.Items    ]
+            yield! CompoundItem.recursivelyGetAllCompoundItems cmpNameMap msg.Items    ]
     let allCompoundItems = headerTrailerCompoundItems @ msgCompoundItems
-    let allGrps = CompoundItemFuncs.extractGroups allCompoundItems
+    let allGrps = CompoundItem.extractGroups allCompoundItems
 
     printfn "merge groups where possible"
     let groupMerges = GroupUtils.makeMergeMap allGrps     // a map of group long name (a compound name based on its parentage) to a merge target
@@ -60,10 +60,10 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
 
     let msgCompoundItemsAfterGroupMerge = 
         [   for msg in msgsAfterGroupMerge do
-            yield! CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
+            yield! CompoundItem.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge msg.Items    ]
         |> List.distinct 
     
-    let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItemFuncs.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
+    let hdrCompoundItemsAfterGroupMerge = hdrAfterGroupMerge.HItems |> CompoundItem.recursivelyGetAllCompoundItems cmpNameMapAfterGroupMerge
     
     let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
 
@@ -74,13 +74,13 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
 
 
-    let compMap4 = allCompItems4 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
+    let compMap4 = allCompItems4 |> CompoundItem.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
 
     printfn "COMPONENT RULE: if an optional component contains just a single optional group then replace the component with the group"
     let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup compMap4)
 
-    let compMap5 = allCompItems5 |> CompoundItemFuncs.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
+    let compMap5 = allCompItems5 |> CompoundItem.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
     printfn "COMPONENT RULE: promote optional components to required if they contain only optional items"
     let allCompItems6 = allCompItems5 |> List.map (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems compMap5)
@@ -89,7 +89,7 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     let allCompItemsProcessed = allCompItems6
 
     let cmpNameMapAfterGroupRulesApplied = allCompItemsProcessed
-                                        |> CompoundItemFuncs.extractComponents 
+                                        |> CompoundItem.extractComponents 
                                         |> List.map (fun cmp -> cmp.CName, cmp)
                                         |> Map.ofList
 
@@ -100,7 +100,7 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     
     printfn "groups and components in dependency order"    
     constrainedCompoundItemsInDepOrder
-        |> List.map CompoundItemFuncs.getNameAndTypeStr
+        |> List.map CompoundItem.getNameAndTypeStr
         |> List.iter (printfn "    %s")
 
     hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterGroupRulesApplied
