@@ -6,10 +6,12 @@ open Fix44.CompoundItems
 
 
 
+//admin
 type Heartbeat = {
     TestReqID: TestReqID option
     }
 
+//admin
 type Logon = {
     EncryptMethod: EncryptMethod
     HeartBtInt: HeartBtInt
@@ -23,15 +25,18 @@ type Logon = {
     Password: Password option
     }
 
+//admin
 type TestRequest = {
     TestReqID: TestReqID
     }
 
+//admin
 type ResendRequest = {
     BeginSeqNo: BeginSeqNo
     EndSeqNo: EndSeqNo
     }
 
+//admin
 type Reject = {
     RefSeqNum: RefSeqNum
     RefTagID: RefTagID option
@@ -41,16 +46,19 @@ type Reject = {
     EncodedText: EncodedText option
     }
 
+//admin
 type SequenceReset = {
     GapFillFlag: GapFillFlag option
     NewSeqNo: NewSeqNo
     }
 
+//admin
 type Logout = {
     Text: Text option
     EncodedText: EncodedText option
     }
 
+//app
 type BusinessMessageReject = {
     RefSeqNum: RefSeqNum option
     RefMsgType: RefMsgType
@@ -60,6 +68,7 @@ type BusinessMessageReject = {
     EncodedText: EncodedText option
     }
 
+//app
 type UserRequest = {
     UserRequestID: UserRequestID
     UserRequestType: UserRequestType
@@ -69,6 +78,7 @@ type UserRequest = {
     RawData: RawData option
     }
 
+//app
 type UserResponse = {
     UserRequestID: UserRequestID
     Username: Username
@@ -76,6 +86,7 @@ type UserResponse = {
     UserStatusText: UserStatusText option
     }
 
+//app
 type Advertisement = {
     AdvId: AdvId
     AdvTransType: AdvTransType
@@ -98,6 +109,7 @@ type Advertisement = {
     TradingSessionSubID: TradingSessionSubID option
     }
 
+//app
 type IndicationOfInterest = {
     IOIid: IOIid
     IOITransType: IOITransType
@@ -127,6 +139,7 @@ type IndicationOfInterest = {
     YieldData: YieldData // component
     }
 
+//app
 type News = {
     OrigTime: OrigTime option
     Urgency: Urgency option
@@ -141,6 +154,7 @@ type News = {
     RawData: RawData option
     }
 
+//app
 type Email = {
     EmailThreadID: EmailThreadID
     EmailType: EmailType
@@ -157,6 +171,7 @@ type Email = {
     RawData: RawData option
     }
 
+//app
 type QuoteRequest = {
     QuoteReqID: QuoteReqID
     RFQReqID: RFQReqID option
@@ -167,6 +182,7 @@ type QuoteRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type QuoteResponse = {
     QuoteRespID: QuoteRespID
     QuoteID: QuoteID option
@@ -230,6 +246,7 @@ type QuoteResponse = {
     YieldData: YieldData // component
     }
 
+//app
 type QuoteRequestReject = {
     QuoteReqID: QuoteReqID
     RFQReqID: RFQReqID option
@@ -250,12 +267,14 @@ type QuoteRequestReject = {
     EncodedText: EncodedText option
     }
 
+//app
 type RFQRequest = {
     RFQReqID: RFQReqID
     RFQRequestNoRelatedSymGrp: RFQRequestNoRelatedSymGrp list // group
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type Quote = {
     QuoteReqID: QuoteReqID option
     QuoteID: QuoteID
@@ -317,6 +336,7 @@ type Quote = {
     EncodedText: EncodedText option
     }
 
+//app
 type QuoteCancel = {
     QuoteReqID: QuoteReqID option
     QuoteID: QuoteID
@@ -331,6 +351,7 @@ type QuoteCancel = {
     NoQuoteEntriesGrp: NoQuoteEntriesGrp list option // group
     }
 
+//app
 type QuoteStatusRequest = {
     QuoteStatusReqID: QuoteStatusReqID option
     QuoteID: QuoteID option
@@ -347,6 +368,7 @@ type QuoteStatusRequest = {
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type QuoteStatusReport = {
     QuoteStatusReqID: QuoteStatusReqID option
     QuoteReqID: QuoteReqID option
@@ -410,6 +432,7 @@ type QuoteStatusReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type MassQuote = {
     QuoteReqID: QuoteReqID option
     QuoteID: QuoteID
@@ -424,6 +447,7 @@ type MassQuote = {
     NoQuoteSetsGrp: NoQuoteSetsGrp list // group
     }
 
+//app
 type MassQuoteAcknowledgement = {
     QuoteReqID: QuoteReqID option
     QuoteID: QuoteID option
@@ -440,6 +464,7 @@ type MassQuoteAcknowledgement = {
     MassQuoteAcknowledgementNoQuoteSetsGrp: MassQuoteAcknowledgementNoQuoteSetsGrp list option // group
     }
 
+//app
 type MarketDataRequest = {
     MDReqID: MDReqID
     SubscriptionRequestType: SubscriptionRequestType
@@ -456,6 +481,7 @@ type MarketDataRequest = {
     ApplQueueMax: ApplQueueMax option
     }
 
+//app
 type MarketDataSnapshotFullRefresh = {
     MDReqID: MDReqID option
     Instrument: Instrument // component
@@ -469,6 +495,7 @@ type MarketDataSnapshotFullRefresh = {
     ApplQueueResolution: ApplQueueResolution option
     }
 
+//app
 type MarketDataIncrementalRefresh = {
     MDReqID: MDReqID option
     MarketDataIncrementalRefreshNoMDEntriesGrp: MarketDataIncrementalRefreshNoMDEntriesGrp list // group
@@ -476,6 +503,7 @@ type MarketDataIncrementalRefresh = {
     ApplQueueResolution: ApplQueueResolution option
     }
 
+//app
 type MarketDataRequestReject = {
     MDReqID: MDReqID
     MDReqRejReason: MDReqRejReason option
@@ -484,6 +512,7 @@ type MarketDataRequestReject = {
     EncodedText: EncodedText option
     }
 
+//app
 type SecurityDefinitionRequest = {
     SecurityReqID: SecurityReqID
     SecurityRequestType: SecurityRequestType
@@ -500,6 +529,7 @@ type SecurityDefinitionRequest = {
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type SecurityDefinition = {
     SecurityReqID: SecurityReqID
     SecurityResponseID: SecurityResponseID
@@ -518,6 +548,7 @@ type SecurityDefinition = {
     MinTradeVol: MinTradeVol option
     }
 
+//app
 type SecurityTypeRequest = {
     SecurityReqID: SecurityReqID
     Text: Text option
@@ -529,6 +560,7 @@ type SecurityTypeRequest = {
     SecuritySubType: SecuritySubType option
     }
 
+//app
 type SecurityTypes = {
     SecurityReqID: SecurityReqID
     SecurityResponseID: SecurityResponseID
@@ -543,6 +575,7 @@ type SecurityTypes = {
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type SecurityListRequest = {
     SecurityReqID: SecurityReqID
     SecurityListRequestType: SecurityListRequestType
@@ -559,6 +592,7 @@ type SecurityListRequest = {
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type SecurityList = {
     SecurityReqID: SecurityReqID
     SecurityResponseID: SecurityResponseID
@@ -568,6 +602,7 @@ type SecurityList = {
     SecurityListNoRelatedSymGrp: SecurityListNoRelatedSymGrp list option // group
     }
 
+//app
 type DerivativeSecurityListRequest = {
     SecurityReqID: SecurityReqID
     SecurityListRequestType: SecurityListRequestType
@@ -581,6 +616,7 @@ type DerivativeSecurityListRequest = {
     SubscriptionRequestType: SubscriptionRequestType option
     }
 
+//app
 type DerivativeSecurityList = {
     SecurityReqID: SecurityReqID
     SecurityResponseID: SecurityResponseID
@@ -591,6 +627,7 @@ type DerivativeSecurityList = {
     DerivativeSecurityListNoRelatedSymGrp: DerivativeSecurityListNoRelatedSymGrp list option // group
     }
 
+//app
 type SecurityStatusRequest = {
     SecurityStatusReqID: SecurityStatusReqID
     Instrument: Instrument // component
@@ -603,6 +640,7 @@ type SecurityStatusRequest = {
     TradingSessionSubID: TradingSessionSubID option
     }
 
+//app
 type SecurityStatus = {
     SecurityStatusReqID: SecurityStatusReqID option
     Instrument: Instrument // component
@@ -630,6 +668,7 @@ type SecurityStatus = {
     EncodedText: EncodedText option
     }
 
+//app
 type TradingSessionStatusRequest = {
     TradSesReqID: TradSesReqID
     TradingSessionID: TradingSessionID option
@@ -639,6 +678,7 @@ type TradingSessionStatusRequest = {
     SubscriptionRequestType: SubscriptionRequestType
     }
 
+//app
 type TradingSessionStatus = {
     TradSesReqID: TradSesReqID option
     TradingSessionID: TradingSessionID
@@ -658,6 +698,7 @@ type TradingSessionStatus = {
     EncodedText: EncodedText option
     }
 
+//app
 type NewOrderSingle = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
@@ -736,6 +777,7 @@ type NewOrderSingle = {
     Designation: Designation option
     }
 
+//app
 type ExecutionReport = {
     OrderID: OrderID
     SecondaryOrderID: SecondaryOrderID option
@@ -876,6 +918,7 @@ type ExecutionReport = {
     NoMiscFeesGrp: NoMiscFeesGrp list option // group
     }
 
+//app
 type DontKnowTrade = {
     OrderID: OrderID
     SecondaryOrderID: SecondaryOrderID option
@@ -892,6 +935,7 @@ type DontKnowTrade = {
     EncodedText: EncodedText option
     }
 
+//app
 type OrderCancelReplaceRequest = {
     OrderID: OrderID option
     Parties: Parties // component
@@ -969,6 +1013,7 @@ type OrderCancelReplaceRequest = {
     Designation: Designation option
     }
 
+//app
 type OrderCancelRequest = {
     OrigClOrdID: OrigClOrdID
     OrderID: OrderID option
@@ -992,6 +1037,7 @@ type OrderCancelRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type OrderCancelReject = {
     OrderID: OrderID
     SecondaryOrderID: SecondaryOrderID option
@@ -1015,6 +1061,7 @@ type OrderCancelReject = {
     EncodedText: EncodedText option
     }
 
+//app
 type OrderStatusRequest = {
     OrderID: OrderID option
     ClOrdID: ClOrdID
@@ -1030,6 +1077,7 @@ type OrderStatusRequest = {
     Side: Side
     }
 
+//app
 type OrderMassCancelRequest = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
@@ -1044,6 +1092,7 @@ type OrderMassCancelRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type OrderMassCancelReport = {
     ClOrdID: ClOrdID option
     SecondaryClOrdID: SecondaryClOrdID option
@@ -1064,6 +1113,7 @@ type OrderMassCancelReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type OrderMassStatusRequest = {
     MassStatusReqID: MassStatusReqID
     MassStatusReqType: MassStatusReqType
@@ -1077,6 +1127,7 @@ type OrderMassStatusRequest = {
     Side: Side option
     }
 
+//app
 type NewOrderCross = {
     CrossID: CrossID
     CrossType: CrossType
@@ -1125,6 +1176,7 @@ type NewOrderCross = {
     Designation: Designation option
     }
 
+//app
 type CrossOrderCancelReplaceRequest = {
     OrderID: OrderID option
     CrossID: CrossID
@@ -1175,6 +1227,7 @@ type CrossOrderCancelReplaceRequest = {
     Designation: Designation option
     }
 
+//app
 type CrossOrderCancelRequest = {
     OrderID: OrderID option
     CrossID: CrossID
@@ -1188,6 +1241,7 @@ type CrossOrderCancelRequest = {
     TransactTime: TransactTime
     }
 
+//app
 type NewOrderMultileg = {
     ClOrdID: ClOrdID
     SecondaryClOrdID: SecondaryClOrdID option
@@ -1261,6 +1315,7 @@ type NewOrderMultileg = {
     MultiLegRptTypeReq: MultiLegRptTypeReq option
     }
 
+//app
 type MultilegOrderCancelReplaceRequest = {
     OrderID: OrderID option
     OrigClOrdID: OrigClOrdID
@@ -1337,6 +1392,7 @@ type MultilegOrderCancelReplaceRequest = {
     MultiLegRptTypeReq: MultiLegRptTypeReq option
     }
 
+//app
 type BidRequest = {
     BidID: BidID option
     ClientBidID: ClientBidID
@@ -1368,12 +1424,14 @@ type BidRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type BidResponse = {
     BidID: BidID option
     ClientBidID: ClientBidID option
     BidResponseNoBidComponentsGrp: BidResponseNoBidComponentsGrp list // group
     }
 
+//app
 type NewOrderList = {
     ListID: ListID
     BidID: BidID option
@@ -1395,6 +1453,7 @@ type NewOrderList = {
     NewOrderListNoOrdersGrp: NewOrderListNoOrdersGrp list // group
     }
 
+//app
 type ListStrikePrice = {
     ListID: ListID
     TotNoStrikes: TotNoStrikes
@@ -1403,6 +1462,7 @@ type ListStrikePrice = {
     ListStrikePriceNoUnderlyingsGrp: ListStrikePriceNoUnderlyingsGrp list option // group
     }
 
+//app
 type ListStatus = {
     ListID: ListID
     ListStatusType: ListStatusType
@@ -1417,6 +1477,7 @@ type ListStatus = {
     ListStatusNoOrdersGrp: ListStatusNoOrdersGrp list // group
     }
 
+//app
 type ListExecute = {
     ListID: ListID
     ClientBidID: ClientBidID option
@@ -1426,6 +1487,7 @@ type ListExecute = {
     EncodedText: EncodedText option
     }
 
+//app
 type ListCancelRequest = {
     ListID: ListID
     TransactTime: TransactTime
@@ -1435,12 +1497,14 @@ type ListCancelRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type ListStatusRequest = {
     ListID: ListID
     Text: Text option
     EncodedText: EncodedText option
     }
 
+//app
 type AllocationInstruction = {
     AllocID: AllocID
     AllocTransType: AllocTransType
@@ -1506,6 +1570,7 @@ type AllocationInstruction = {
     AllocationInstructionNoAllocsGrp: AllocationInstructionNoAllocsGrp list option // group
     }
 
+//app
 type AllocationInstructionAck = {
     AllocID: AllocID
     Parties: Parties // component
@@ -1524,6 +1589,7 @@ type AllocationInstructionAck = {
     AllocationInstructionAckNoAllocsGrp: AllocationInstructionAckNoAllocsGrp list option // group
     }
 
+//app
 type AllocationReport = {
     AllocReportID: AllocReportID
     AllocID: AllocID option
@@ -1593,6 +1659,7 @@ type AllocationReport = {
     AllocationReportNoAllocsGrp: AllocationReportNoAllocsGrp list // group
     }
 
+//app
 type AllocationReportAck = {
     AllocReportID: AllocReportID
     AllocID: AllocID
@@ -1612,6 +1679,7 @@ type AllocationReportAck = {
     AllocationReportAckNoAllocsGrp: AllocationReportAckNoAllocsGrp list option // group
     }
 
+//app
 type Confirmation = {
     ConfirmID: ConfirmID
     ConfirmRefID: ConfirmRefID option
@@ -1679,6 +1747,7 @@ type Confirmation = {
     NoMiscFeesGrp: NoMiscFeesGrp list option // group
     }
 
+//app
 type ConfirmationAck = {
     ConfirmID: ConfirmID
     TradeDate: TradeDate
@@ -1690,6 +1759,7 @@ type ConfirmationAck = {
     EncodedText: EncodedText option
     }
 
+//app
 type ConfirmationRequest = {
     ConfirmReqID: ConfirmReqID
     ConfirmType: ConfirmType
@@ -1705,6 +1775,7 @@ type ConfirmationRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type SettlementInstructions = {
     SettlInstMsgID: SettlInstMsgID
     SettlInstReqID: SettlInstReqID option
@@ -1718,6 +1789,7 @@ type SettlementInstructions = {
     NoSettlInstGrp: NoSettlInstGrp list option // group
     }
 
+//app
 type SettlementInstructionRequest = {
     SettlInstReqID: SettlInstReqID
     TransactTime: TransactTime
@@ -1736,6 +1808,7 @@ type SettlementInstructionRequest = {
     StandInstDbID: StandInstDbID option
     }
 
+//app
 type TradeCaptureReportRequest = {
     TradeRequestID: TradeRequestID
     TradeRequestType: TradeRequestType
@@ -1774,6 +1847,7 @@ type TradeCaptureReportRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type TradeCaptureReportRequestAck = {
     TradeRequestID: TradeRequestID
     TradeRequestType: TradeRequestType
@@ -1791,6 +1865,7 @@ type TradeCaptureReportRequestAck = {
     EncodedText: EncodedText option
     }
 
+//app
 type TradeCaptureReport = {
     TradeReportID: TradeReportID
     TradeReportTransType: TradeReportTransType option
@@ -1851,6 +1926,7 @@ type TradeCaptureReport = {
     ShortSaleReason: ShortSaleReason option
     }
 
+//app
 type TradeCaptureReportAck = {
     TradeReportID: TradeReportID
     TradeReportTransType: TradeReportTransType option
@@ -1890,6 +1966,7 @@ type TradeCaptureReportAck = {
     TradeCaptureReportAckNoAllocsGrp: TradeCaptureReportAckNoAllocsGrp list option // group
     }
 
+//app
 type RegistrationInstructions = {
     RegistID: RegistID
     RegistTransType: RegistTransType
@@ -1905,6 +1982,7 @@ type RegistrationInstructions = {
     NoDistribInstsGrp: NoDistribInstsGrp list option // group
     }
 
+//app
 type RegistrationInstructionsResponse = {
     RegistID: RegistID
     RegistTransType: RegistTransType
@@ -1918,6 +1996,7 @@ type RegistrationInstructionsResponse = {
     RegistRejReasonText: RegistRejReasonText option
     }
 
+//app
 type PositionMaintenanceRequest = {
     PosReqID: PosReqID
     PosTransType: PosTransType
@@ -1946,6 +2025,7 @@ type PositionMaintenanceRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type PositionMaintenanceReport = {
     PosMaintRptID: PosMaintRptID
     PosTransType: PosTransType
@@ -1975,6 +2055,7 @@ type PositionMaintenanceReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type RequestForPositions = {
     PosReqID: PosReqID
     PosReqType: PosReqType
@@ -1999,6 +2080,7 @@ type RequestForPositions = {
     EncodedText: EncodedText option
     }
 
+//app
 type RequestForPositionsAck = {
     PosMaintRptID: PosMaintRptID
     PosReqID: PosReqID option
@@ -2020,6 +2102,7 @@ type RequestForPositionsAck = {
     EncodedText: EncodedText option
     }
 
+//app
 type PositionReport = {
     PosMaintRptID: PosMaintRptID
     PosReqID: PosReqID option
@@ -2050,6 +2133,7 @@ type PositionReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type AssignmentReport = {
     AsgnRptID: AsgnRptID
     TotNumAssignmentReports: TotNumAssignmentReports option
@@ -2080,6 +2164,7 @@ type AssignmentReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type CollateralRequest = {
     CollReqID: CollReqID
     CollAsgnReason: CollAsgnReason
@@ -2126,6 +2211,7 @@ type CollateralRequest = {
     EncodedText: EncodedText option
     }
 
+//app
 type CollateralAssignment = {
     CollAsgnID: CollAsgnID
     CollReqID: CollReqID option
@@ -2176,6 +2262,7 @@ type CollateralAssignment = {
     EncodedText: EncodedText option
     }
 
+//app
 type CollateralResponse = {
     CollRespID: CollRespID
     CollAsgnID: CollAsgnID
@@ -2221,6 +2308,7 @@ type CollateralResponse = {
     EncodedText: EncodedText option
     }
 
+//app
 type CollateralReport = {
     CollRptID: CollRptID
     CollInquiryID: CollInquiryID option
@@ -2269,6 +2357,7 @@ type CollateralReport = {
     EncodedText: EncodedText option
     }
 
+//app
 type CollateralInquiry = {
     CollInquiryID: CollInquiryID option
     NoCollInquiryQualifierGrp: NoCollInquiryQualifierGrp list option // group
@@ -2316,12 +2405,14 @@ type CollateralInquiry = {
     EncodedText: EncodedText option
     }
 
+//app
 type NetworkStatusRequest = {
     NetworkRequestType: NetworkRequestType
     NetworkRequestID: NetworkRequestID
     NoCompIDsGrp: NoCompIDsGrp list option // group
     }
 
+//app
 type NetworkStatusResponse = {
     NetworkStatusResponseType: NetworkStatusResponseType
     NetworkRequestID: NetworkRequestID option
@@ -2330,6 +2421,7 @@ type NetworkStatusResponse = {
     NetworkStatusResponseNoCompIDsGrp: NetworkStatusResponseNoCompIDsGrp list // group
     }
 
+//app
 type CollateralInquiryAck = {
     CollInquiryID: CollInquiryID
     CollInquiryStatus: CollInquiryStatus

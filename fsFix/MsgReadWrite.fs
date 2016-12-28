@@ -10,6 +10,9 @@ open Fix44.MessageDU
 
 
 
+
+
+
 let CalcCheckSum (buf:byte[]) (len:int) =
     let mutable (sum:byte) = 0uy
     for ctr = 0 to (len - 1) do // len is the 'next free index', so it is not included in the checksum calc
@@ -85,15 +88,15 @@ let WriteMessageDU
 
     let tag = Fix44.MessageDU.GetTag msg
 
-    let innerLen = Fix44.MessageDU.WriteMessage tmpBuf 0 msg
+    let nextFreeIdxInner = WriteTag tmpBuf 0 tag
+    let nextFreeIdxInner = WriteSenderCompID tmpBuf nextFreeIdxInner senderCompID
+    let nextFreeIdxInner = WriteTargetCompID tmpBuf nextFreeIdxInner targetCompID
+    let nextFreeIdxInner = WriteMsgSeqNum tmpBuf nextFreeIdxInner msgSeqNum
+    let nextFreeIdxInner = WriteSendingTime tmpBuf nextFreeIdxInner sendingTime
+    let innerLen = Fix44.MessageDU.WriteMessage tmpBuf nextFreeIdxInner msg
 
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
     let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
-    let nextFreeIdx = WriteTag dest nextFreeIdx tag
-    let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
-    let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
-    let nextFreeIdx = WriteMsgSeqNum dest nextFreeIdx msgSeqNum
-    let nextFreeIdx = WriteSendingTime dest nextFreeIdx sendingTime
 
     System.Buffer.BlockCopy(tmpBuf, 0, dest, nextFreeIdx, innerLen)
     let nextFreeIdx = nextFreeIdx + innerLen
@@ -104,7 +107,7 @@ let WriteMessageDU
     //    <field name="CheckSum" required="Y" />    
     //  </trailer>
     // CheckSum is defined in fix44.xml as a string field, but will always be a three digit number
-    let checksum = CalcCheckSum tmpBuf innerLen 
+    let checksum = CalcCheckSum dest nextFreeIdx
     let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum 
     nextFreeIdx
 

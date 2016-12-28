@@ -23,6 +23,7 @@ let Read (parentXL:XElement) =
 
 let private writeMsg (sw:StreamWriter) (msg:Msg)  = 
     sw.WriteLine ""
+    sw.WriteLine (sprintf "//%s" msg.Cat)
     let ss = sprintf "type %s = {" msg.MName
     sw.Write ss
     sw.WriteLine ""

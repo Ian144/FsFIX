@@ -24,6 +24,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsXUnit", "prope
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestConsole", "propertyTest2\propertyTestConsole.fsproj", "{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleTradeClient", "SimpleTradeClient\SimpleTradeClient.fsproj", "{83C58B4D-B689-414A-97DA-E901E4535161}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83C58B4D-B689-414A-97DA-E901E4535161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C58B4D-B689-414A-97DA-E901E4535161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C58B4D-B689-414A-97DA-E901E4535161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C58B4D-B689-414A-97DA-E901E4535161}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
