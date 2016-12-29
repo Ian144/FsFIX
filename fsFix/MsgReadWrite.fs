@@ -119,6 +119,12 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let pos, beginString    = ReaderUtils.ReadField src pos "ReadBeginString" "8"B  ReadBeginString
     let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
     
+    // TODO: this is crap, replace this with a version that uses ArraySeg
+    let (BodyLength len) = bodyLen
+    let iLen = len |> int
+    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
+    let calcedCheckSum = CalcCheckSum innerBuf 0
+
 //    let pos, msgType        = ReadMsgType pos src
     let tagValSepPos        = 1 + FIXBuf.findNextTagValSep src pos
     let pos, tag            = FIXBuf.readValAfterTagValSep src tagValSepPos
@@ -128,20 +134,16 @@ let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
     let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
     let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
 
-    let (BodyLength len) = bodyLen
-    let iLen = len |> int
-    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
-    
-    let calcedCheckSum = CalcCheckSum innerBuf iLen
+    let pos, msg = ReadMessageDU tag src pos // reading from the inner buffer, so its pos is not the one to be returned
+       
 
-    let pos = pos + iLen
     let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
 
-    let _, msg = ReadMessageDU tag innerBuf 0 // reading from the inner buffer, so its pos is not the one to be returned
+    
     pos, msg
     
 

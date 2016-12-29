@@ -13,9 +13,55 @@ open Fix44.MsgWriters
 
 
 
-
-
 [<Fact>]
+let MessageWithHeaderTrailerUnit () =
+    let bufSize = 4096
+    let beginString = BeginString "NMNXPPML"
+    let senderCompID = SenderCompID "UPGLIM"
+    let targetCompID = TargetCompID "WKOPJXBC"
+    let msgSeqNum = MsgSeqNum 0u
+    let stn = UTCDateTime.MakeUTCTimestamp.Make(2016, 12, 29, 19, 09, 00)
+    let sendingTime = SendingTime stn
+    let ttm = UTCDateTime.MakeUTCTimestamp.Make(2016, 12, 29, 19, 09, 00)
+    let msg =  {    AllocID = AllocID "XRFGK"
+                    Parties = {NoPartyIDsGrp = None}
+                    SecondaryAllocID = None
+                    TradeDate = None
+                    TransactTime = TransactTime ttm
+                    AllocStatus = RejectedByIntermediary
+                    AllocRejCode = None
+                    AllocType = None
+                    AllocIntermedReqType = None
+                    MatchStatus = None
+                    Product = None
+                    SecurityType = None
+                    Text = None
+                    EncodedText = None
+                    AllocationInstructionAckNoAllocsGrp = None} |> Fix44.MessageDU.AllocationInstructionAck
+
+
+    let buf = Array.zeroCreate<byte> bufSize
+    let tmpBuf = Array.zeroCreate<byte> bufSize
+    let posW = MsgReadWrite.WriteMessageDU 
+                                tmpBuf 
+                                buf 
+                                0 
+                                beginString 
+                                senderCompID
+                                targetCompID
+                                msgSeqNum
+                                sendingTime
+                                msg
+    let tmpBuf2 = Array.zeroCreate<byte> bufSize
+    let posR, msgOut = MsgReadWrite.ReadMessage buf tmpBuf2
+    msg =! msgOut
+    posW =! posR
+
+
+
+
+
+
 let NoHopsGrp () = 
     let bs = Array.zeroCreate<byte> 1024
     let xIn:NoHopsGrp = {
