@@ -1,7 +1,7 @@
 ﻿module MsgReadWrite
 
 
-
+open System
 open Fix44.Fields
 open Fix44.FieldWriters
 open Fix44.FieldReaders
@@ -20,6 +20,16 @@ let CalcCheckSum (buf:byte[]) (len:int) =
     //todo: consider a more direct conversion than sprintf
     // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
     (sprintf "%03d" sum) |> CheckSum 
+
+
+let CalcCheckSum2 (buf:byte[]) (pos:int)  (len:int) =
+    let mutable (sum:byte) = 0uy
+    for ctr = pos to (pos + len - 2) do // -2 so as to not include the field divider before the checksum field
+        sum <- sum + buf.[ctr]
+    //todo: consider a more direct conversion than sprintf
+    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
+    (sprintf "%03d" sum) |> CheckSum 
+
 
 
 let WriteMessage
@@ -114,70 +124,49 @@ let WriteMessageDU
 
 
 
-let ReadMessage (src:byte []) (innerBuf:byte []) : int * FIXMessage =
-    let pos = 0
-    let pos, beginString    = ReaderUtils.ReadField src pos "ReadBeginString" "8"B  ReadBeginString
-    let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
+// quickfix executor replies to a logon msg by returning a logon msg with the fields in this order
+// 8=FIX.4.4
+// 9=70
+// 35=A
+// 34=1
+// 49=EXECUTOR
+// 52=20161231-07:17:23.037
+// 56=CLIENT1
+// 98=0
+// 108=30
+// 10=090
+
+let ReadMessage (bs:byte []) : int * FIXMessage =
     
-    // TODO: this is crap, replace this with a version that uses ArraySeg
-    let (BodyLength len) = bodyLen
-    let iLen = len |> int
-    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
-    let calcedCheckSum = CalcCheckSum innerBuf 0
+    let ss = System.Text.Encoding.UTF8.GetString bs
+    
+    let pos = 0
+    let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
+    let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
+
+    let (BodyLength ulen) = bodyLen
+    let len = ulen |> int
+    let calcedCheckSum = CalcCheckSum2 bs pos len
 
 //    let pos, msgType        = ReadMsgType pos src
-    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep src pos
-    let pos, tag            = FIXBuf.readValAfterTagValSep src tagValSepPos
-    
-    let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
-    let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
-    let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
-    let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
+    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
+    let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
 
-    let pos, msg = ReadMessageDU tag src pos // reading from the inner buffer, so its pos is not the one to be returned
-       
+    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum    
+    let pos, senderCompID   = ReaderUtils.ReadField bs pos "ReadSenderCompID" "49"B  ReadSenderCompID
+    let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
+    let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
 
-    let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
+    let pos, msg = ReadMessageDU tag bs pos // reading from the inner buffer, so its pos is not the one to be returned
+
+    let pos, receivedCheckSum   = ReaderUtils.ReadField bs pos "ReadCheckSum" "10"B  ReadCheckSum
 
     if calcedCheckSum <> receivedCheckSum then
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
-
-    
+   
     pos, msg
-    
 
-
-
-let ReadMessageGeneric (src:byte []) (innerBuf:byte [])  (readFunc:int->byte[]->int*'t) : int * 't =
-    let pos = 0
-    let pos, beginString    = ReaderUtils.ReadField src pos "ReadBeginString" "8"B  ReadBeginString
-    let pos, bodyLen        = ReaderUtils.ReadField src pos "ReadBodyLength" "9"B  ReadBodyLength
-    
-//    let pos, msgType        = ReadMsgType pos src
-    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep src pos 
-    let pos, tag            = FIXBuf.readValAfterTagValSep src tagValSepPos// need to bounce from a runtime value to a compile time generic instance, is using a DU unavoidable??
-    let pos, senderCompID   = ReaderUtils.ReadField src pos "ReadSenderCompID" "49"B  ReadSenderCompID
-    let pos, targetCompID   = ReaderUtils.ReadField src pos "ReadTargetCompID" "56"B  ReadTargetCompID
-    let pos, seqNum         = ReaderUtils.ReadField src pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
-    let pos, sendTime       = ReaderUtils.ReadField src pos "ReadSendingTime"  "52"B  ReadSendingTime
-
-    let (BodyLength len) = bodyLen
-    let iLen = len |> int
-
-    System.Buffer.BlockCopy(src, pos, innerBuf, 0, iLen)
-    
-    let calcedCheckSum = CalcCheckSum innerBuf iLen
-    let pos = pos + iLen
-
-    let pos, receivedCheckSum   = ReaderUtils.ReadField src pos "ReadCheckSum" "10"B  ReadCheckSum
-
-    if calcedCheckSum <> receivedCheckSum then
-        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-        failwith msg
-
-    let _, msg = readFunc 0 innerBuf // reading from the inner buffer, so its pos is not the one to be returned
-    pos, msg
 
 
 

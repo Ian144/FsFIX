@@ -6,7 +6,9 @@
 let ReadField (bs:byte[]) (pos:int) (ss:string) (expectedTag:byte[]) readFunc = 
     let pos2, tag = FIXBuf.readTag bs pos
     if tag <> expectedTag then 
-        let msg = sprintf "when reading %s: expected tag: %A, actual: %A" ss expectedTag tag
+        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
+        let sActTag = System.Text.Encoding.UTF8.GetString tag
+        let msg = sprintf "when reading %s: expected tag: %s, actual: %s" ss sExpTag sActTag
         failwith msg
     let pos3, fld = readFunc bs pos2
     pos3, fld

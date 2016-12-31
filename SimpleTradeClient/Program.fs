@@ -101,8 +101,10 @@ let main argv =
                                 msgSeqNum
                                 sendingTime
                                 logonMsg
-                                
-    let arraySeg = System.ArraySegment(buf, 0, posW)
+
+    // C:\Users\Ian\Documents\Src\dotnet451\Source\ndp\clr\src\BCL\System\ArraySegment.cs                                
+//    let arraySeg = System.ArraySegment(buf, 0, posW)
+    //let xx = arraySeg.[0]
 
     let host = "localhost"
     let port = 5001
@@ -114,10 +116,9 @@ let main argv =
 
 
     let bufOut = Array.zeroCreate<byte> 2048
-    let bufOutInner = Array.zeroCreate<byte> 2048
     let ii = strm.Read (bufOut, 0, 2048)
 
-    let posR, msgOut = MsgReadWrite.ReadMessage bufOut bufOutInner
+    let posR, msgOut = MsgReadWrite.ReadMessage bufOut
 
     let ss = System.Console.ReadLine()
 

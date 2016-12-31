@@ -52,8 +52,7 @@ let MessageWithHeaderTrailerUnit () =
                                 msgSeqNum
                                 sendingTime
                                 msg
-    let tmpBuf2 = Array.zeroCreate<byte> bufSize
-    let posR, msgOut = MsgReadWrite.ReadMessage buf tmpBuf2
+    let posR, msgOut = MsgReadWrite.ReadMessage buf
     msg =! msgOut
     posW =! posR
 
