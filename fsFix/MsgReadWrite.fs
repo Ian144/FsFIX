@@ -10,67 +10,33 @@ open Fix44.MessageDU
 
 
 
-
-
-
-let CalcCheckSum (buf:byte[]) (len:int) =
+let CalcCheckSum (bs:byte[]) (pos:int) (len:int) =
     let mutable (sum:byte) = 0uy
-    for ctr = 0 to (len - 1) do // len is the 'next free index', so it is not included in the checksum calc
-        sum <- sum + buf.[ctr]
+    for ctr = pos to (pos + len - 1) do // len is the 'next free index', so it is not included in the checksum calc
+        sum <- sum + bs.[ctr]
     //todo: consider a more direct conversion than sprintf
-    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
-    (sprintf "%03d" sum) |> CheckSum 
-
-
-let CalcCheckSum2 (buf:byte[]) (pos:int)  (len:int) =
-    let mutable (sum:byte) = 0uy
-    for ctr = pos to (pos + len - 2) do // -2 so as to not include the field divider before the checksum field
-        sum <- sum + buf.[ctr]
-    //todo: consider a more direct conversion than sprintf
-    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
-    (sprintf "%03d" sum) |> CheckSum 
+    (sprintf "%03d" sum) |> CheckSum     // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a strings
 
 
 
-let WriteMessage
-        (tmpBuf:byte []) 
-        (dest:byte []) 
-        (nextFreeIdx:int) 
-        (beginString:BeginString) 
-        (msgType:MsgType) 
-        (senderCompID:SenderCompID) 
-        (targetCompID:TargetCompID) 
-        (msgSeqNum:MsgSeqNum) 
-        (sendingTime:SendingTime) 
-        (writerFunc:byte[]->int->'M->int)
-        (msg:'M) =
-
-    // write the msg, but not header or trailer, to a tmp buffer then calc the checksum 
-    let innerLen = writerFunc tmpBuf 0 msg
-
-    let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
-    let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
-    let nextFreeIdx = WriteMsgType dest nextFreeIdx msgType
-    let nextFreeIdx = WriteSenderCompID dest nextFreeIdx senderCompID
-    let nextFreeIdx = WriteTargetCompID dest nextFreeIdx targetCompID
-    let nextFreeIdx = WriteMsgSeqNum dest nextFreeIdx msgSeqNum
-    let nextFreeIdx = WriteSendingTime dest nextFreeIdx sendingTime
-
-    System.Buffer.BlockCopy(tmpBuf, 0, dest, nextFreeIdx, innerLen)
-    let nextFreeIdx = nextFreeIdx + innerLen
-
-    //  <trailer>
-    //    <field name="SignatureLength" required="N" />
-    //    <field name="Signature" required="N" />
-    //    <field name="CheckSum" required="Y" />    
-    //  </trailer>
-    // CheckSum is defined in fix44.xml as a string field, but will always be a three digit number
-    let checksum = CalcCheckSum tmpBuf innerLen 
-    let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum 
-    nextFreeIdx
-
-
-
+//let CalcCheckSum (bs:byte[]) (pos:int) (len:int) =
+//
+//    let tmpBs = Array.zeroCreate<byte> len
+//    Array.Copy (bs, pos, tmpBs, 0, len)
+//    let ss = System.Text.Encoding.UTF8.GetString tmpBs
+//    Diagnostics.Debug.WriteLine ss
+//    Diagnostics.Debug.WriteLine ""
+//
+//    let mutable (sum:byte) = 0uy
+//    for ctr = pos to (pos + len - 1) do // len is the 'next free index', so it is not included in the checksum calc
+//        sum <- sum + bs.[ctr]
+//        let msg = sprintf "%d, " sum
+//        Diagnostics.Debug.Write msg
+//    
+//    Diagnostics.Debug.WriteLine ""
+//    //todo: consider a more direct conversion than sprintf
+//    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
+//    (sprintf "%03d" sum) |> CheckSum 
 
 
 
@@ -80,9 +46,6 @@ let WriteTag (dest:byte[]) (nextFreeIdx:int) (msgTag:byte[]) : int =
     let nextFreeIdx2 = nextFreeIdx + tag.Length
     dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
     nextFreeIdx2 + 1 // +1 to go to the index one past the SOH field delimeter
-
-
-
 
 
 let WriteMessageDU
@@ -99,25 +62,30 @@ let WriteMessageDU
     let tag = Fix44.MessageDU.GetTag msg
 
     let nextFreeIdxInner = WriteTag tmpBuf 0 tag
-    let nextFreeIdxInner = WriteSenderCompID tmpBuf nextFreeIdxInner senderCompID
-    let nextFreeIdxInner = WriteTargetCompID tmpBuf nextFreeIdxInner targetCompID
     let nextFreeIdxInner = WriteMsgSeqNum tmpBuf nextFreeIdxInner msgSeqNum
-    let nextFreeIdxInner = WriteSendingTime tmpBuf nextFreeIdxInner sendingTime
+    let nextFreeIdxInner = WriteSenderCompID tmpBuf nextFreeIdxInner senderCompID
+    let nextFreeIdxInner = WriteSendingTime tmpBuf nextFreeIdxInner sendingTime    
+    let nextFreeIdxInner = WriteTargetCompID tmpBuf nextFreeIdxInner targetCompID
+    
     let innerLen = Fix44.MessageDU.WriteMessage tmpBuf nextFreeIdxInner msg
 
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
     let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
 
     System.Buffer.BlockCopy(tmpBuf, 0, dest, nextFreeIdx, innerLen)
+
+    let checksum = CalcCheckSum tmpBuf 0 (innerLen - 1) // -1 so as to not include the final field seperator
+
     let nextFreeIdx = nextFreeIdx + innerLen
 
+    // no sending optional signature fields in the trailer atm
     //  <trailer>
     //    <field name="SignatureLength" required="N" />
     //    <field name="Signature" required="N" />
     //    <field name="CheckSum" required="Y" />    
     //  </trailer>
     // CheckSum is defined in fix44.xml as a string field, but will always be a three digit number
-    let checksum = CalcCheckSum dest nextFreeIdx
+    
     let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum 
     nextFreeIdx
 
@@ -146,8 +114,9 @@ let ReadMessage (bs:byte []) : int * FIXMessage =
 
     let (BodyLength ulen) = bodyLen
     let len = ulen |> int
-    let calcedCheckSum = CalcCheckSum2 bs pos len
+    let calcedCheckSum = CalcCheckSum bs pos (len - 1) 
 
+// the generated readMsgType function returns a MsgType DU case which is not used for dispatching
 //    let pos, msgType        = ReadMsgType pos src
     let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
     let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
