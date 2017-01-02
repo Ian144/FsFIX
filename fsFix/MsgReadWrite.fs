@@ -83,9 +83,7 @@ let WriteMessageDU
 // 10=090
 
 let ReadMessage (bs:byte []) : int * FIXMessage =
-    
-    let ss = System.Text.Encoding.UTF8.GetString bs
-    
+
     let pos = 0
     let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
     let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
@@ -100,7 +98,7 @@ let ReadMessage (bs:byte []) : int * FIXMessage =
     let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
     let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
 
-    let pos, msg = ReadMessageDU tag bs pos // reading from the inner buffer, so its pos is not the one to be returned
+    let pos, msg = ReadMessageDU tag bs pos
 
     let (BodyLength ulen) = bodyLen
     let len = ulen |> int
