@@ -1,5 +1,4 @@
-﻿open System.Net
-open System.Net.Sockets
+﻿open System.Net.Sockets
 
 open Fix44.Messages
 open Fix44.Fields
@@ -9,53 +8,8 @@ open Fix44.Fields
 
 
 
-//type Logon = {
-//    EncryptMethod: EncryptMethod
-//    HeartBtInt: HeartBtInt
-//    RawData: RawData option
-//    ResetSeqNumFlag: ResetSeqNumFlag option
-//    NextExpectedMsgSeqNum: NextExpectedMsgSeqNum option
-//    MaxMessageSize: MaxMessageSize option
-//    NoMsgTypesGrp: NoMsgTypesGrp list option // group
-//    TestMessageIndicator: TestMessageIndicator option
-//    Username: Username option
-//    Password: Password option
-//    }
-
-
-
-
-
-//let MessageWithHeaderTrailer 
-//        (beginString:BeginString) 
-//        (senderCompID:SenderCompID) 
-//        (targetCompID:TargetCompID) 
-//        (msgSeqNum:MsgSeqNum) 
-//        (sendingTime:SendingTime) 
-//        (msg:FIXMessage) =
-//    let buf = Array.zeroCreate<byte> bufSize
-//    let tmpBuf = Array.zeroCreate<byte> bufSize
-//    let posW = MsgReadWrite.WriteMessageDU 
-//                                tmpBuf 
-//                                buf 
-//                                0 
-//                                beginString 
-//                                senderCompID
-//                                targetCompID
-//                                msgSeqNum
-//                                sendingTime
-//                                msg
-//    let tmpBuf2 = Array.zeroCreate<byte> bufSize
-//    let posR, msgOut = MsgReadWrite.ReadMessage buf tmpBuf2
-//    msg =! msgOut
-//    posW =! posR
-//
-
-
-
-
 [<EntryPoint>]
-let main argv = 
+let main argv_ = 
 
     let logon =  {
         EncryptMethod = EncryptMethod.NoneOther
@@ -72,21 +26,17 @@ let main argv =
     
     let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 
-
-
     let utcNow = System.DateTime.UtcNow
 
     let beginString = BeginString "FIX.4.4"
     let senderCompID = SenderCompID "CLIENT1"
-    let targetCompID = TargetCompID "EXECUTOR"
+//    let targetCompID = TargetCompID "EXECUTOR"
+    let targetCompID = TargetCompID "SIMPLE"
     let msgSeqNum = MsgSeqNum 1u
-    let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second)
+    let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
     let sendingTime = SendingTime ts
 
     
-
-
-
     let tmpBuf = Array.zeroCreate<byte> 2048
     let buf = Array.zeroCreate<byte> 2048
 
@@ -111,27 +61,29 @@ let main argv =
     let client = new TcpClient() 
     client.Connect (host, port)
     let strm = client.GetStream()
-    let xx = strm.Write (buf, 0, posW)
+    do strm.Write (buf, 0, posW)
     printfn "write complete"
-
 
     let bufOut = Array.zeroCreate<byte> 2048
     let ii = strm.Read (bufOut, 0, 2048)
-
     let posR, msgOut = MsgReadWrite.ReadMessage bufOut
 
-    let ss = System.Console.ReadLine()
 
 
-//    let xx = 
+//    let asyncRequestResponse = 
 //        async{
 //            do! client.ConnectAsync (host, port) |> Async.AwaitTask
 //            let strm = client.GetStream()
-//            do! strm.AsyncWrite (buf, posW)
-//            printfn "async write complete"
-//            return 0    
-//        } |>  Async.RunSynchronously
-//
+//            do! strm.AsyncWrite (buf, 0, posW)
+//            let! numRead = strm.AsyncRead (bufOut, 0, 2048)
+//            let posR, msgOut = MsgReadWrite.ReadMessage bufOut
+//            return msgOut    
+//        }
+//    let replyMsg = asyncRequestResponse |> Async.RunSynchronously
+
+
+    let ss = System.Console.ReadLine()
+
 
 
     0 // return an integer exit code

@@ -19,27 +19,6 @@ let CalcCheckSum (bs:byte[]) (pos:int) (len:int) =
 
 
 
-//let CalcCheckSum (bs:byte[]) (pos:int) (len:int) =
-//
-//    let tmpBs = Array.zeroCreate<byte> len
-//    Array.Copy (bs, pos, tmpBs, 0, len)
-//    let ss = System.Text.Encoding.UTF8.GetString tmpBs
-//    Diagnostics.Debug.WriteLine ss
-//    Diagnostics.Debug.WriteLine ""
-//
-//    let mutable (sum:byte) = 0uy
-//    for ctr = pos to (pos + len - 1) do // len is the 'next free index', so it is not included in the checksum calc
-//        sum <- sum + bs.[ctr]
-//        let msg = sprintf "%d, " sum
-//        Diagnostics.Debug.Write msg
-//    
-//    Diagnostics.Debug.WriteLine ""
-//    //todo: consider a more direct conversion than sprintf
-//    // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a string
-//    (sprintf "%03d" sum) |> CheckSum 
-
-
-
 let WriteTag (dest:byte[]) (nextFreeIdx:int) (msgTag:byte[]) : int = 
     let tag =  [|yield! "35="B; yield! msgTag|]
     System.Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -60,7 +39,6 @@ let WriteMessageDU
         (msg:FIXMessage) =
 
     let tag = Fix44.MessageDU.GetTag msg
-
     let nextFreeIdxInner = WriteTag tmpBuf 0 tag
     let nextFreeIdxInner = WriteMsgSeqNum tmpBuf nextFreeIdxInner msgSeqNum
     let nextFreeIdxInner = WriteSenderCompID tmpBuf nextFreeIdxInner senderCompID
@@ -68,17 +46,17 @@ let WriteMessageDU
     let nextFreeIdxInner = WriteTargetCompID tmpBuf nextFreeIdxInner targetCompID
     
     let innerLen = Fix44.MessageDU.WriteMessage tmpBuf nextFreeIdxInner msg
-
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
     let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
 
     System.Buffer.BlockCopy(tmpBuf, 0, dest, nextFreeIdx, innerLen)
-
-    let checksum = CalcCheckSum tmpBuf 0 (innerLen - 1) // -1 so as to not include the final field seperator
-
     let nextFreeIdx = nextFreeIdx + innerLen
 
-    // no sending optional signature fields in the trailer atm
+    let checksum = CalcCheckSum dest 0 nextFreeIdx
+    let ss = System.Text.Encoding.UTF8.GetString dest
+
+
+    // not sending optional signature fields in the trailer, this may change
     //  <trailer>
     //    <field name="SignatureLength" required="N" />
     //    <field name="Signature" required="N" />
@@ -86,7 +64,7 @@ let WriteMessageDU
     //  </trailer>
     // CheckSum is defined in fix44.xml as a string field, but will always be a three digit number
     
-    let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum 
+    let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum
     nextFreeIdx
 
 
@@ -112,21 +90,21 @@ let ReadMessage (bs:byte []) : int * FIXMessage =
     let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
     let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
 
-    let (BodyLength ulen) = bodyLen
-    let len = ulen |> int
-    let calcedCheckSum = CalcCheckSum bs pos (len - 1) 
-
-// the generated readMsgType function returns a MsgType DU case which is not used for dispatching
-//    let pos, msgType        = ReadMsgType pos src
+    // the generated readMsgType function returns a MsgType DU case which is not used for dispatching
+    //let _, msgType        = ReaderUtils.ReadField bs pos "ReadMsgType"    "35"B  ReadMsgType
     let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
     let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
 
-    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum    
+    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
     let pos, senderCompID   = ReaderUtils.ReadField bs pos "ReadSenderCompID" "49"B  ReadSenderCompID
     let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
     let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
 
     let pos, msg = ReadMessageDU tag bs pos // reading from the inner buffer, so its pos is not the one to be returned
+
+    let (BodyLength ulen) = bodyLen
+    let len = ulen |> int
+    let calcedCheckSum = CalcCheckSum bs 0 pos
 
     let pos, receivedCheckSum   = ReaderUtils.ReadField bs pos "ReadCheckSum" "10"B  ReadCheckSum
 
