@@ -70,29 +70,25 @@ let main argv_ =
 
     let bufOut = Array.zeroCreate<byte> 2048
     let ii = strm.Read (bufOut, 0, 2048)
-    let strReceived = (System.Text.Encoding.UTF8.GetString bufOut).Substring(0, ii)
+    let strReceived = FIXBuf.toS bufOut ii
     printfn "logon reply: %s" strReceived
     let posR, logonMsgOut = MsgReadWrite.ReadMessage bufOut
 
-
     while true do
-
         printfn "press any key to send news msg"
         let ss = System.Console.ReadKey()
-
-
         let tmpBuf2 = Array.zeroCreate<byte> 2048
         let buf2 = Array.zeroCreate<byte> 2048
         seqNum <- seqNum + 1u
         let msgSeqNumNews = MsgSeqNum seqNum
         let posWnews = MsgReadWrite.WriteMessageDU tmpBuf2 buf2 0 beginString senderCompID targetCompID msgSeqNumNews sendingTime newsMsg
-        let strSendNews = (System.Text.Encoding.UTF8.GetString buf2).Substring(0, posWnews)
+        let strSendNews = FIXBuf.toS buf2 posWnews
         do strm.Write (buf2, 0, posWnews)
         printfn "   send: %s" strSendNews
         
         let buf3 = Array.zeroCreate<byte> 2048
         let ii3 = strm.Read (buf3, 0, 2048)
-        let strReceivedNews = (System.Text.Encoding.UTF8.GetString buf3).Substring(0, ii3)
+        let strReceivedNews = FIXBuf.toS buf2 ii3
         printfn "received: %s" strReceivedNews
         //let posR, newsMsgOut = MsgReadWrite.ReadMessage buf3
 
@@ -107,10 +103,6 @@ let main argv_ =
 //                return msgOut    
 //            }
 //        let replyMsg = asyncRequestResponse |> Async.RunSynchronously
-
-        printfn "press any key"
-        let ss = System.Console.ReadKey()
-        printfn ""
         ()
 
 

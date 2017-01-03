@@ -1,13 +1,20 @@
-﻿module FIXBuf
+﻿[<RequireQualifiedAccess>]
+module FIXBuf
 
 open System
 
 
-let findNextOrEnd (bs:byte[]) (pos:int) (bb:byte) =
+
+// converts a byte array, usually containing a FIX msg, to a reasonably readable string
+let toS (bs:byte[]) (pos:int) = (System.Text.Encoding.UTF8.GetString bs).Substring(0, pos)
+
+
+
+let findNextOrEnd (bs:byte[]) (pos:int) (bytesToFind:byte) =
     let mutable found = false
     let mutable ctr = pos
     while (ctr < bs.Length && (not found)) do
-        if bs.[ctr] = bb then
+        if bs.[ctr] = bytesToFind then
             found <- true
         else
             ctr <- ctr + 1
@@ -15,11 +22,11 @@ let findNextOrEnd (bs:byte[]) (pos:int) (bb:byte) =
 
 let findNextFieldTermOrEnd (bs:byte[]) (pos:int) = findNextOrEnd bs pos 1uy
 
-let findNext (bs:byte[]) (pos:int) (bb:byte) =
+let findNext (bs:byte[]) (pos:int) (bytesToFind:byte) =
     let mutable found = false
     let mutable ctr = pos
     while (ctr < bs.Length && (not found)) do
-        if bs.[ctr] = bb then
+        if bs.[ctr] = bytesToFind then
             found <- true
         else
             ctr <- ctr + 1
