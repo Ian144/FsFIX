@@ -46,8 +46,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
     <Compile Include="Conversions.fs" />
-    <Compile Include="FIXBuf.fs" />    
-    <Compile Include="FIXBufSplitter.fs" />
+    <Compile Include="FIXBuf.fs" />
+    <Compile Include="FIXBufIndex.fs" />
     <Compile Include="DateTimeUtils.fs" />
     <Compile Include="LocalMktDate.fs" />
     <Compile Include="TZDateTime.fs" />
