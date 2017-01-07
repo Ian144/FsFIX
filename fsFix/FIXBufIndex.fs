@@ -33,52 +33,50 @@ type FieldPos =
         ss
 
 
-
-
-
-let convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
-    let tmp = Array.zeroCreate<byte> 4 // todo: consider passing tmp array in as a param, can then reuse
+let castTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
     let tagLen = tagEnd - tagBeg
     match tagLen with
-    | 1     ->  tmp.[0] <- bs.[tagBeg]
-    | 2     ->  tmp.[0] <- bs.[tagBeg]
-                tmp.[1] <- bs.[tagBeg+1]
-    | 3     ->  tmp.[0] <- bs.[tagBeg]
-                tmp.[1] <- bs.[tagBeg+1]
-                tmp.[2] <- bs.[tagBeg+2]
-    | 4     ->  tmp.[0] <- bs.[tagBeg]
-                tmp.[1] <- bs.[tagBeg+1]
-                tmp.[2] <- bs.[tagBeg+2]
-                tmp.[3] <- bs.[tagBeg+3]
+    | 1     ->   int( bs.[tagBeg] )
+    | 2     ->  (int( bs.[tagBeg] ) <<< 8 ) +  int( bs.[tagBeg+1] )
+    | 3     ->  (int( bs.[tagBeg] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg+2] ) 
+    | 4     ->  (int( bs.[tagBeg] ) <<< 24) + (int( bs.[tagBeg+1] ) <<< 16) + (int( bs.[tagBeg+2] ) <<< 8) + int( bs.[tagBeg+3] ) 
     | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 2 or 3" tagBeg tagEnd
                 failwith msg
-    System.BitConverter.ToInt32 (tmp, 0)
 
 
 
+
+// i.e. is the len field, assuming 'data' always follows 'len' (unparseable otherwise?) 
+let IsLenDataCompoundTag (tagInt:int) = 
+    tagInt = 13625
+
+
+// todo: consider inlining, this returns a reference type (would i have to manually inline to avoid the ref type??)
 let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) = 
-    let tagValSep = FIXBuf.findNextTagValSep bs pos
-    let tagInt = convTagToInt bs pos tagValSep
-    let fldBeg = tagValSep + 1
-    let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
-    let fldLen = nextFldOrEnd - fldBeg
-    let fp = new FieldPos(tagInt, fldBeg, fldLen)
-    nextFldOrEnd + 1, fp
+    let tagValSepPos = FIXBuf.findNextTagValSep bs pos
+    let fldBeg = tagValSepPos + 1
+    let tagInt = castTagToInt bs pos tagValSepPos
+    if IsLenDataCompoundTag tagInt then
+        // eat the next field, including the tag value
+        // assuming that it is the correct data field, this will be checked when the msg is read    
+        let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs (tagValSepPos+1)
+        let dataFieldLen = Conversions.bytesToInt32 lenBytes
+        // not reading the data field tag here
+        let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
+        let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen
+        let compoundFieldLen = endDataFieldPos - fldBeg
+        let fp = new FieldPos(tagInt, fldBeg, compoundFieldLen)        
+        endDataFieldPos + 1, fp
+    else
+        let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
+        let fldLen = nextFldOrEnd - fldBeg
+        let fp = new FieldPos(tagInt, fldBeg, fldLen)
+        nextFldOrEnd + 1, fp
 
-// create large array of empty FieldPos's
-let Index (bs:byte[]) : FieldPos[] =
-    let mutable countFieldSep = 0
-    
-    for ctr i= 0 to (bs.Length - 1) do
-        // if next tag is a len+data then read len and jump to end of data
 
-        if bs.[ctr] = 1uy then
-            countFieldSep <- countFieldSep + 1
-    let numFields = countFieldSep + 1
-
-    // todo: is this creating objects? 
-    let fieldIndex = Array.zeroCreate<FieldPos> numFields 
-
+// returns the last index array cell that was populated
+let Index (fieldIndex:FieldPos[]) (bs:byte[]) =
+    Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0
     let mutable ctr = 0
     while pos < bs.Length do
@@ -86,14 +84,13 @@ let Index (bs:byte[]) : FieldPos[] =
         pos <- pos2
         fieldIndex.[ctr] <- fp
         ctr <- ctr + 1
-    fieldIndex
-
+    ctr
 
 
 // used for roundtrip property testing, if the index cant be used to reconstruct the original array then something is broken
-let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) : byte [] =
-    let lastIndexElementIdx = index.Length - 1
-    let lastEl = index.[lastIndexElementIdx]
+let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : byte [] =
+    let index = index |> Array.take indexEnd
+    let lastEl = index.[indexEnd-1]
     let reconLen = lastEl.Pos + lastEl.Len
     let reconBuf = Array.zeroCreate<byte> reconLen
 

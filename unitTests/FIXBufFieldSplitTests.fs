@@ -26,11 +26,12 @@ let ``index simple FIX buf, including len+data field RawData`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
     let fixBuf = "95=5|96=xx|xx|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
 
-    let actualIndex = FIXBufIndexer.Index fixBuf
+    let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    FIXBufIndexer.Index indexArr fixBuf
     
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 13625, 3, 1) // rawdata len
-        FIXBufIndexer.FieldPos( 13881, 8, 5) // rawdata body
+        FIXBufIndexer.FieldPos( 13625, 3, 9) // rawdata len 
+//        FIXBufIndexer.FieldPos( 13881, 8, 5) // rawdata body
         FIXBufIndexer.FieldPos( 56, 2, 7)
         FIXBufIndexer.FieldPos( 57, 12, 2)
         FIXBufIndexer.FieldPos( 13619, 18, 1)
@@ -43,7 +44,7 @@ let ``index simple FIX buf, including len+data field RawData`` () =
         FIXBufIndexer.FieldPos( 12337, 79, 3)
         |]
 
-    expectedIndex =! actualIndex
+    expectedIndex =! indexArr
 
 
 
@@ -52,8 +53,11 @@ let ``index simple FIX buf, including len+data field RawData`` () =
 let ``reconstruct FIX buf from index, contains len+data fields`` () =
     // 95=5|96=xx|xx contains the field seperator
     let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|95=5|96=xx|xx|108=30|10=157"B |> Array.map convFieldSep
-    let index = FIXBufIndexer.Index fixBuf
-    let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf index
+    let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf indexArr indexEnd
+//    let s1 = FIXBuf.toS fixBuf fixBuf.Length
+//    let s2 = FIXBuf.toS fixBuf2 fixBuf2.Length
     fixBuf =! fixBuf2
 
 
@@ -61,8 +65,8 @@ let ``reconstruct FIX buf from index, contains len+data fields`` () =
 [<Fact>]
 let ``index simple FIX buf, no len+data fields`` () =
     let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
-
-    let actualIndex = FIXBufIndexer.Index fixBuf
+    let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
     
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 56, 2, 7)
@@ -77,13 +81,16 @@ let ``index simple FIX buf, no len+data fields`` () =
         FIXBufIndexer.FieldPos( 12337, 79, 3)
         |]
 
-    expectedIndex =! actualIndex
+    let actual = indexArr |> Array.take indexEnd
+
+    expectedIndex =! actual
 
 
 
 [<Fact>]
 let ``reconstruct FIX buf from index, no len+data fields`` () =
     let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
-    let index = FIXBufIndexer.Index fixBuf
-    let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf index
+    let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf indexArr indexEnd
     fixBuf =! fixBuf2
