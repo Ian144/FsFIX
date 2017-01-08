@@ -21,10 +21,10 @@ let convFieldSep (bb:byte) =
 [<Fact>]
 let ``index FIX buf, including len+data field RawData with data containing only 5 tag-value seperators`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
-    let fixBuf = "95=5|96======|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "95=5|96======|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 11 // len+data field counts as one
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
         FIXBufIndexer.FieldPos( 56, 16, 7)
@@ -48,10 +48,10 @@ let ``index FIX buf, including len+data field RawData with data containing only 
 [<Fact>]
 let ``index FIX buf, including len+data field RawData with data containing only 5 field seperators`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
-    let fixBuf = "95=5|96=||||||8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "95=5|96=||||||8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 11 // len+data field counts as one
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
         FIXBufIndexer.FieldPos( 56, 16, 7)
@@ -73,10 +73,10 @@ let ``index FIX buf, including len+data field RawData with data containing only 
 [<Fact>]
 let ``index FIX buf, including len+data field RawData with data containing a tag-value seperator`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
-    let fixBuf = "95=5|96=xx=xx|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "95=5|96=xx=xx|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 11 // len+data field counts as one
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
         FIXBufIndexer.FieldPos( 56, 16, 7)
@@ -99,10 +99,10 @@ let ``index FIX buf, including len+data field RawData with data containing a tag
 [<Fact>]
 let ``index FIX buf, including len+data field RawData with data containing a field seperator`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
-    let fixBuf = "95=5|96=xx|xx|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "95=5|96=xx|xx|8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 11 // len+data field counts as one
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
         FIXBufIndexer.FieldPos( 56, 16, 7)
@@ -126,9 +126,9 @@ let ``index FIX buf, including len+data field RawData with data containing a fie
 [<Fact>]
 let ``reconstruct FIX buf from index, contains len+data fields with data field containing a field seperator`` () =
     // 95=5|96=xx|xx contains the field seperator
-    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|95=5|96=xx|xx|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|95=5|96=xx|xx|108=30|10=157|"B |> Array.map convFieldSep
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf indexArr indexEnd
 //    let s1 = FIXBuf.toS fixBuf fixBuf.Length
 //    let s2 = FIXBuf.toS fixBuf2 fixBuf2.Length
@@ -138,10 +138,10 @@ let ``reconstruct FIX buf from index, contains len+data fields with data field c
 
 [<Fact>]
 let ``index simple FIX buf, no len+data fields`` () =
-    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 10
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
 
     let expectedIndex = [|  
         FIXBufIndexer.FieldPos( 56, 2, 7)
@@ -164,8 +164,8 @@ let ``index simple FIX buf, no len+data fields`` () =
 
 [<Fact>]
 let ``reconstruct FIX buf from index, no len+data fields`` () =
-    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157"B |> Array.map convFieldSep
+    let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
-    let indexEnd = FIXBufIndexer.Index indexArr fixBuf
+    let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let fixBuf2 = FIXBufIndexer.reconstructFromIndex fixBuf indexArr indexEnd
     fixBuf =! fixBuf2

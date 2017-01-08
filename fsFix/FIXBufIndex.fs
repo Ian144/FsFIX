@@ -33,11 +33,11 @@ type FieldPos =
         ss
 
 
-let castTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
+let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
     let tagLen = tagEnd - tagBeg
     match tagLen with
     | 1     ->   int( bs.[tagBeg] )
-    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msg is at the higher indice
+    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msb is at the higher indice
     | 3     ->  (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) 
     | 4     ->  (int( bs.[tagBeg+3] ) <<< 24) + (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg] ) <<< 8) + int( bs.[tagBeg] ) 
     | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
@@ -45,16 +45,34 @@ let castTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
 
 
 
-// i.e. is the len field, assuming 'data' always follows 'len' (unparseable otherwise?) 
-let IsLenDataCompoundTag (tagInt:int) = 
-    tagInt = 13625
-
+// i.e. is the tag that of the first field of a len+data field pair
+// these ints match the tags of FIX4.4 len+data fields only
+// todo: this should be generated for each fix version
+let inline IsLenDataCompoundTag (tagInt:int) = 
+    match tagInt with
+    | 13113 -> true     // signature
+    | 12345 -> true     // secureData
+    | 13625 -> true     // rawData
+    | 3289394 -> true   // xmlData
+    | 3683379 -> true   // encodedIssuer
+    | 3159347 -> true   // encodedSecurityDesc
+    | 3290419 -> true   // encodedListExecInst
+    | 3421491 -> true   // encodedText
+    | 3552563 -> true   // encodedSubject
+    | 3683635 -> true   // encodedHeadline
+    | 3159603 -> true   // encodedAllocText
+    | 3290675 -> true   // encodedUnderlyingIssuer
+    | 3421747 -> true   // encodedUnderlyingSecurityDesc
+    | 3486772 -> true   // encodedListStatusText
+    | 3682614 -> true   // encodedLegIssuer
+    | 3224118 -> true   // encodedLegSecurityDesc
+    | _       -> false
 
 // todo: consider inlining, this returns a reference type (would i have to manually inline to avoid the ref type??)
 let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) = 
     let tagValSepPos = FIXBuf.findNextTagValSep bs pos
     let fldBeg = tagValSepPos + 1
-    let tagInt = castTagToInt bs pos tagValSepPos
+    let tagInt = convTagToInt bs pos tagValSepPos
     if IsLenDataCompoundTag tagInt then
         // eat the next field, including the tag value
         // assuming that it is the correct data field, this will be checked when the msg is read    
@@ -73,11 +91,11 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
 
 
 // returns the last index array cell that was populated
-let Index (fieldIndex:FieldPos[]) (bs:byte[]) =
+let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0
     let mutable ctr = 0
-    while pos < bs.Length do
+    while pos < posEnd do
         let pos2, fp = makeIndexField bs pos
         pos <- pos2
         fieldIndex.[ctr] <- fp
@@ -85,11 +103,11 @@ let Index (fieldIndex:FieldPos[]) (bs:byte[]) =
     ctr
 
 
-// used for roundtrip property testing, if the index cant be used to reconstruct the original array then something is broken
+// used for roundtrip property testing, if the index cant be used to reconstruct the original FIX buf then something is broken
 let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : byte [] =
     let index = index |> Array.take indexEnd
     let lastEl = index.[indexEnd-1]
-    let reconLen = lastEl.Pos + lastEl.Len
+    let reconLen = lastEl.Pos + lastEl.Len + 1 // +1 to leave room for the final field seperator
     let reconBuf = Array.zeroCreate<byte> reconLen
 
     for fp in index do
@@ -107,8 +125,7 @@ let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : by
 
         // field seperator
         let fldSepPos = fp.Pos + fp.Len
-        if fldSepPos < reconLen then
-            reconBuf.[fldSepPos] <- 1uy
+        reconBuf.[fldSepPos] <- 1uy
     reconBuf
 
 
