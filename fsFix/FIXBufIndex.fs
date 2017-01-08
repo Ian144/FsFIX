@@ -28,20 +28,40 @@ type FieldPos =
     override this.ToString() =
         let bs2 = convIntToTagBytes this.Tag
         let tagStr = System.Text.Encoding.UTF8.GetString bs2
-        let ss = sprintf "%s, %d-%d" tagStr this.Pos this.Len
+        let ss = sprintf "%s-%d-%d" tagStr this.Pos this.Len
 //        let ss = sprintf "FIXBufIndexer.FieldPos(%d, %d, %d)" this.Tag this.Pos this.Len
         ss
 
 
-let castTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
+let castTagToIntx (bs:byte[]) (tagBeg:int) (tagEnd:int) =
     let tagLen = tagEnd - tagBeg
     match tagLen with
     | 1     ->   int( bs.[tagBeg] )
     | 2     ->  (int( bs.[tagBeg] ) <<< 8 ) +  int( bs.[tagBeg+1] )
     | 3     ->  (int( bs.[tagBeg] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg+2] ) 
     | 4     ->  (int( bs.[tagBeg] ) <<< 24) + (int( bs.[tagBeg+1] ) <<< 16) + (int( bs.[tagBeg+2] ) <<< 8) + int( bs.[tagBeg+3] ) 
+    | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
+                failwith msg
+
+
+
+let castTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
+    let tmp = Array.zeroCreate<byte> 4 
+    let tagLen = tagEnd - tagBeg
+    match tagLen with
+    | 1     ->  tmp.[0] <- bs.[tagBeg]
+    | 2     ->  tmp.[0] <- bs.[tagBeg]
+                tmp.[1] <- bs.[tagBeg+1]
+    | 3     ->  tmp.[0] <- bs.[tagBeg]
+                tmp.[1] <- bs.[tagBeg+1]
+                tmp.[2] <- bs.[tagBeg+2]
+    | 4     ->  tmp.[0] <- bs.[tagBeg]
+                tmp.[1] <- bs.[tagBeg+1]
+                tmp.[2] <- bs.[tagBeg+2]
+                tmp.[3] <- bs.[tagBeg+3]
     | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 2 or 3" tagBeg tagEnd
                 failwith msg
+    System.BitConverter.ToInt32 (tmp, 0)
 
 
 
@@ -61,9 +81,8 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
         // assuming that it is the correct data field, this will be checked when the msg is read    
         let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs (tagValSepPos+1)
         let dataFieldLen = Conversions.bytesToInt32 lenBytes
-        // not reading the data field tag here
         let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
-        let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen
+        let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
         let compoundFieldLen = endDataFieldPos - fldBeg
         let fp = new FieldPos(tagInt, fldBeg, compoundFieldLen)        
         endDataFieldPos + 1, fp
