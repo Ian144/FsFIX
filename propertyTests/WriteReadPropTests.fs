@@ -122,6 +122,12 @@ let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn 
 let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteMDEntryTime Fix44.FieldReaders.ReadMDEntryTime
 
 
+// RawData is a compound len+data field, the data portion of which may contain field or tag-value seperators
+[<FsFixPropertyTest>]
+let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawData
+
+
+
 // a very slow test due to the large number of Field DU instances
 // will re-enable this test occasionally
 [<FsFixPropertyTest>]

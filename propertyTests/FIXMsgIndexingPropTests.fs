@@ -7,17 +7,17 @@ open Xunit
 open FsCheck
 open FsCheck.Xunit
 open Swensen.Unquote
-open Fix44.MessageDU
+
 open Generators
 open Fix44.Messages
 open Fix44.Fields
-
+open Fix44.MessageDU
 
 
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100000,
+        MaxTest = 100,
         EndSize = 8,
         Verbose = false
 //        QuietOnSuccess = true
@@ -73,7 +73,6 @@ let ``reconstruct FIX message buf with header and trailer``
     let fixBuf2 = Array.zeroCreate<byte> posW
     Array.Copy(fixBuf, fixBuf2, posW)
     fixBuf2 =! reconstructedFIXBuf
-
 
 
     

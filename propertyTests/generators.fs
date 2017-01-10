@@ -21,8 +21,14 @@ let genAlphaString =
 let genChar = Gen.choose(32,255) |> Gen.map char 
 
 
-// FIX specifies decimals contain a max of 15 decimal places, allowing fscheck to generate decimals with more DP than this will create errors.
-// Adapted from fscheck code.
+let genByteMain = Gen.choose(0, 255) |> Gen.map byte
+let genByteFieldSeperator = Gen.constant 1uy
+let genByteTagValueSeperator = Gen.constant 61uy
+
+// generate byte arrays with lots of tag-value and field seperators
+let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
+
+
 let genDecimal15dp =
     gen {
         let! lo = Arb.generate
@@ -50,6 +56,7 @@ let genCountry =
 
 
 type ArbOverrides() =
+    static member Byte()            = Arb.fromGen genByte
     static member Char()            = Arb.fromGen genChar
     static member String()          = Arb.fromGen genAlphaString
     static member UTCTimeOnly()     = Arb.fromGen genUTCTimeOnly

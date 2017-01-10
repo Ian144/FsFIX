@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dummyUnitTestProj", "UnitTe
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsXUnit", "propertyTests\propertyTestsXUnit.fsproj", "{D23D2990-8937-4EDB-9B71-F39FED8893B7}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestConsole", "propertyTest2\propertyTestConsole.fsproj", "{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsConsole", "propertyTest2\propertyTestsConsole.fsproj", "{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleTradeClient", "SimpleTradeClient\SimpleTradeClient.fsproj", "{83C58B4D-B689-414A-97DA-E901E4535161}"
 EndProject
