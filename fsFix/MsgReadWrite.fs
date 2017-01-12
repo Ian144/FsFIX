@@ -82,6 +82,33 @@ let WriteMessageDU
 // 108=30
 // 10=090
 
+//let ReadMessage (bs:byte []) : int * FIXMessage =
+//
+//    let pos = 0
+//    let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
+//    let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
+//
+//    // the generated readMsgType function returns a MsgType DU case which is not used for dispatching
+//    //let _, msgType        = ReaderUtils.ReadField bs pos "ReadMsgType"    "35"B  ReadMsgType
+//    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
+//    let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
+//
+//    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
+//    let pos, senderCompID   = ReaderUtils.ReadField bs pos "ReadSenderCompID" "49"B  ReadSenderCompID
+//    let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
+//    let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
+//    let pos, msg = ReadMessageDU tag bs pos
+//    let (BodyLength ulen) = bodyLen
+//    let len = ulen |> int
+//    let calcedCheckSum = CalcCheckSum bs 0 pos
+//    let pos, receivedCheckSum   = ReaderUtils.ReadField bs pos "ReadCheckSum" "10"B  ReadCheckSum
+//    if calcedCheckSum <> receivedCheckSum then
+//        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+//        failwith msg
+//    pos, msg
+
+
+
 let ReadMessage (bs:byte []) : int * FIXMessage =
 
     let pos = 0
@@ -98,7 +125,13 @@ let ReadMessage (bs:byte []) : int * FIXMessage =
     let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
     let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
 
-    let pos, msg = ReadMessageDU tag bs pos
+
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256 // todo, make this a parameter 
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs pos // pos should be after the last header 
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+
+
+    let pos, msg = ReadMessageDUIndex tag bs pos index
 
     let (BodyLength ulen) = bodyLen
     let len = ulen |> int
@@ -109,10 +142,5 @@ let ReadMessage (bs:byte []) : int * FIXMessage =
     if calcedCheckSum <> receivedCheckSum then
         let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
         failwith msg
-   
+
     pos, msg
-
-
-
-
-    

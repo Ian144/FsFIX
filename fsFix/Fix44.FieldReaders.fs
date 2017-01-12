@@ -755,6 +755,21 @@ let ReadEncryptMethod (bs:byte[]) (pos:int) : (int * EncryptMethod) =
     pos2, fld
 
 
+let ReadEncryptMethodIdx (bs:byte[]) (pos:int) (len:int): EncryptMethod =
+    //let valIn = FIXBuf.readValAfterTagValSep bs pos len
+    let valTag = FIXBufIndexer.convTagToInt bs pos (pos+len)
+    match valTag with
+    |48 -> EncryptMethod.NoneOther
+    |49 -> EncryptMethod.Pkcs
+    |50 -> EncryptMethod.Des
+    |51 -> EncryptMethod.PkcsDes
+    |52 -> EncryptMethod.PgpDes
+    |53 -> EncryptMethod.PgpDesMd5
+    |54 -> EncryptMethod.PemDesMd5
+    | x -> let msg = sprintf "ReadEncryptMethod unknown fix tag: %A" x
+           failwith msg
+
+
 let ReadStopPx (bs:byte[]) (pos:int): (int*StopPx) =
     ReadFieldDecimal bs pos StopPx.StopPx
 

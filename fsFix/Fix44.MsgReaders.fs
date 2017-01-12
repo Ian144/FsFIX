@@ -17,6 +17,35 @@ let ReadHeartbeat (bs:byte []) (pos:int) : int * Heartbeat  =
     pos, ci
 
 
+
+let ReadLogonIdx (bs:byte []) (index:FIXBufIndexer.FixBufIndex) (pos:int) : int * Logon  =
+    let tag98 = 14393
+    let encryptMethod = ReadFieldIdx bs index tag98 ReadEncryptMethodIdx
+    let pos, heartBtInt = ReadField bs pos "ReadLogon" "108"B ReadHeartBtInt
+    let pos, rawData = ReadOptionalField bs pos "95"B  ReadRawData
+    let pos, resetSeqNumFlag = ReadOptionalField bs pos "141"B  ReadResetSeqNumFlag
+    let pos, nextExpectedMsgSeqNum = ReadOptionalField bs pos "789"B  ReadNextExpectedMsgSeqNum
+    let pos, maxMessageSize = ReadOptionalField bs pos "383"B  ReadMaxMessageSize
+    let pos, noMsgTypesGrp = ReadOptionalGroup bs pos "384"B ReadNoMsgTypesGrp
+    let pos, testMessageIndicator = ReadOptionalField bs pos "464"B  ReadTestMessageIndicator
+    let pos, username = ReadOptionalField bs pos "553"B  ReadUsername
+    let pos, password = ReadOptionalField bs pos "554"B  ReadPassword
+    let ci:Logon = {
+        EncryptMethod = encryptMethod
+        HeartBtInt = heartBtInt
+        RawData = rawData
+        ResetSeqNumFlag = resetSeqNumFlag
+        NextExpectedMsgSeqNum = nextExpectedMsgSeqNum
+        MaxMessageSize = maxMessageSize
+        NoMsgTypesGrp = noMsgTypesGrp
+        TestMessageIndicator = testMessageIndicator
+        Username = username
+        Password = password
+    }
+    pos, ci
+
+
+
 let ReadLogon (bs:byte []) (pos:int) : int * Logon  =
     let pos, encryptMethod = ReadField bs pos "ReadLogon" "98"B ReadEncryptMethod
     let pos, heartBtInt = ReadField bs pos "ReadLogon" "108"B ReadHeartBtInt

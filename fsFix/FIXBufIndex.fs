@@ -32,6 +32,14 @@ type FieldPos =
 //        let ss = sprintf "FIXBufIndexer.FieldPos(%d, %d, %d)" this.Tag this.Pos this.Len
         ss
 
+[< NoComparison; NoEquality>]
+type FixBufIndex =
+   struct 
+      val mutable EndPos: int
+      val FieldPosArr: FieldPos[] // elements of this array are immutable
+      new(endPos: int, fieldPosArr: FieldPos[]) = { EndPos = endPos; FieldPosArr = fieldPosArr }
+   end
+
 
 let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
     let tagLen = tagEnd - tagBeg
