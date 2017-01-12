@@ -28,6 +28,20 @@ let ReadEncryptMethodIdx (bs:byte[]) (pos:int) (len:int): EncryptMethod =
            failwith msg
 
 
+// a possible iterim impl, until code generation creates the tagInts
+let ReadEncryptMethodIdx2 (bs:byte[]) (pos:int) (len:int): EncryptMethod  =
+    let tagBs = Array.zeroCreate<byte> len
+    Array.Copy( bs, pos, tagBs, 0, len)
+    match tagBs with
+    |"0"B -> EncryptMethod.NoneOther
+    |"1"B -> EncryptMethod.Pkcs
+    |"2"B -> EncryptMethod.Des
+    |"3"B -> EncryptMethod.PkcsDes
+    |"4"B -> EncryptMethod.PgpDes
+    |"5"B -> EncryptMethod.PgpDesMd5
+    |"6"B -> EncryptMethod.PemDesMd5
+    | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
+
 
 
 let ReadAccount (bs:byte[]) (pos:int): (int*Account) =

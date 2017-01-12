@@ -3,16 +3,6 @@
 
 
 
-let ReadField (bs:byte[]) (pos:int) (ss:string) (expectedTag:byte[]) readFunc = 
-    let pos2, tag = FIXBuf.readTag bs pos
-    if tag <> expectedTag then 
-        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
-        let sActTag = System.Text.Encoding.UTF8.GetString tag
-        let msg = sprintf "when reading %s: expected tag: %s, actual: %s" ss sExpTag sActTag
-        failwith msg
-    let pos3, fld = readFunc bs pos2
-    pos3, fld
-
 
 
 let ReadFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
@@ -26,6 +16,54 @@ let ReadFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) read
     readFunc bs fpData.Pos fpData.Len
 
 
+let ReadOptionalFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
+    let fieldPosArr = index.FieldPosArr
+    let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
+    if tagIdx = -1 then 
+        Option.None
+    else
+        let fpData = fieldPosArr.[tagIdx]
+        let fld = readFunc bs fpData.Pos fpData.Len
+        Option.Some fld
+
+
+// the int that readFunc returns is the consecutively next index pos in the index array 
+// todo, consider replacing the accumulating list with an array
+let rec readGrpInnerIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (nextFieldIndexPos:int) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp) =
+    match recursionCount with
+    | 0u    ->  nextFieldIndexPos, (acc |> List.rev)
+    | _     ->  let nextFieldIndexPos2, grpInstance = readFunc bs index nextFieldIndexPos 
+                readGrpInnerIdx bs index nextFieldIndexPos2 (grpInstance::acc) (recursionCount-1u) readFunc
+
+
+// the tagInt is the tag of the "number group repeats" field, which can be anywhere in the buffer/index
+// the rest of the group fields must come consecutively after this point
+let ReadGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:int) readFunc =
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIndex = FIXBufIndexer.FindFieldIdx index numFieldTagInt
+    if numFieldIndex = -1 then 
+//        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
+        let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
+        failwith msg
+    let numFieldData = fieldPosArr.[numFieldIndex]
+    let numRepeats = Conversions.bytesToUInt32Idx bs numFieldData.Pos numFieldData.Len
+    readGrpInnerIdx bs index numFieldIndex [] numRepeats readFunc
+
+
+
+
+
+
+
+let ReadField (bs:byte[]) (pos:int) (ss:string) (expectedTag:byte[]) readFunc = 
+    let pos2, tag = FIXBuf.readTag bs pos
+    if tag <> expectedTag then 
+        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
+        let sActTag = System.Text.Encoding.UTF8.GetString tag
+        let msg = sprintf "when reading %s: expected tag: %s, actual: %s" ss sExpTag sActTag
+        failwith msg
+    let pos3, fld = readFunc bs pos2
+    pos3, fld
 
 
 let ReadOptionalField (bs:byte[]) (pos:int) (expectedTag:byte[]) readFunc : int * 'b option = 
@@ -40,7 +78,7 @@ let ReadOptionalField (bs:byte[]) (pos:int) (expectedTag:byte[]) readFunc : int 
 
 
 
-let rec readGrpInner (bs:byte[]) (pos:int) (acc: 'grp list)(recursionCount:uint32) (readFunc: byte [] -> int -> int * 'grp) =
+let rec readGrpInner (bs:byte[]) (pos:int) (acc: 'grp list) (recursionCount:uint32) (readFunc: byte [] -> int -> int * 'grp) =
     match recursionCount with
     | 0u    ->  pos, (acc |> List.rev)
     | _     ->  let pos2, grpInstance = readFunc bs pos 
