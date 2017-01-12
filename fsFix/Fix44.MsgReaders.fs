@@ -20,8 +20,9 @@ let ReadHeartbeat (bs:byte []) (pos:int) : int * Heartbeat  =
 
 let ReadLogonIdx (bs:byte []) (index:FIXBufIndexer.FixBufIndex) (pos:int) : int * Logon  =
     let tag98 = 14393
+    let tag108= 3682353
     let encryptMethod = ReadFieldIdx bs index tag98 ReadEncryptMethodIdx
-    let pos, heartBtInt = ReadField bs pos "ReadLogon" "108"B ReadHeartBtInt
+    let heartBtInt = ReadFieldIdx bs index tag108 ReadHeartBtIntIdx
     let pos, rawData = ReadOptionalField bs pos "95"B  ReadRawData
     let pos, resetSeqNumFlag = ReadOptionalField bs pos "141"B  ReadResetSeqNumFlag
     let pos, nextExpectedMsgSeqNum = ReadOptionalField bs pos "789"B  ReadNextExpectedMsgSeqNum

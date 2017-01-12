@@ -2,8 +2,48 @@
 
 open System
 
-let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
+let bytesToStrIdx bs pos len = System.Text.Encoding.UTF8.GetString (bs, pos, len)
+
+// UTF-8 is a variable length encoding with a minimum of 8 bits per character. Characters with higher code points will take up to 32 bits, hence the len
+// replace with an impl that does not allocate a tmp array
+let bytesToCharIdx bs pos len = 
+    let cs = System.Text.Encoding.UTF8.GetChars(bs, pos, len)
+    if cs.Length <> 1 then
+        let msg = sprintf "should be single char at pos: %d, len: %d" pos len
+        failwith msg
+    cs.[0]
+
+// todo: replace with an impl the reads the int directly from the byte array without a tmp string
+let bytesToInt32Idx bs pos len =
+    let ss = bytesToStrIdx bs pos len
+    System.Convert.ToInt32 ss
+
+
+// todo: replace with an impl the reads the uint directly from the byte array without a tmp string
+let bytesToUInt32Idx bs pos len =
+    let ss = bytesToStrIdx bs pos len
+    System.Convert.ToUInt32 ss
+
+let bytesToBoolIdx (bs:byte[]) (pos:int) =
+    match bs.[pos] with
+    | 89uy ->  false // N
+    | 78uy ->  true  // Y
+    | _ ->  failwith (sprintf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]) 
+
+// todo: replace with impl that reads the decimal directly with the tmp string
+let bytesToDecimalIdx (bs:byte[]) pos len = 
+    let ss = bytesToStrIdx bs pos len
+    match Decimal.TryParse(ss) with
+    | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
+    | true, dd  -> dd
+
+
+
+
+
+
+let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
 
 let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
 

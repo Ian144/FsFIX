@@ -41,6 +41,18 @@ type FixBufIndex =
    end
 
 
+let FindFieldIdx (index:FixBufIndex) (tagInt:int) =
+    let mutable ctr = 0
+    let mutable foundPos = -1
+    let fieldPosArr = index.FieldPosArr
+    while (foundPos = -1) do
+        if tagInt = fieldPosArr.[ctr].Tag then
+            foundPos <- ctr
+        ctr <- ctr + 1
+    foundPos
+
+
+
 let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
     let tagLen = tagEnd - tagBeg
     match tagLen with

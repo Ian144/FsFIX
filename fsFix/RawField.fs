@@ -7,12 +7,90 @@ open UTCDateTime
 open LocalMktDate
 
 
-// todo: microbenchmark inlining these read funcs
+
+
+
+// todo: microbenchmark inlining these read funcs OR manually inline them
+let ReadFieldIntIdx bs pos len fldCtor =
+    Conversions.bytesToInt32Idx bs pos len |> fldCtor
+
+
+let ReadFieldUIntIdx bs pos len fldCtor =
+    Conversions.bytesToUInt32Idx bs pos len |> fldCtor
+
+
+let ReadFieldCharIdx bs pos len fldCtor =
+    Conversions.bytesToCharIdx bs pos len |> fldCtor
+
+
+let ReadFieldDecimalIdx bs pos len fldCtor =
+    Conversions.bytesToDecimalIdx bs pos len |> fldCtor
+
+
+let ReadFieldBoolIdx bs pos fldCtor =
+    Conversions.bytesToBoolIdx bs pos |> fldCtor
+
+
+let ReadFieldStrIdx bs pos len fldCtor =
+    Conversions.bytesToStrIdx bs pos len |> fldCtor
+
+let ReadFieldDataIdx bs pos len fldCtor =
+    let subArray = Array.zeroCreate<byte> len
+    Array.Copy(bs, pos, subArray, 0, len)
+    fldCtor subArray
+
+
+let ReadFieldUTCTimeOnlyIdx bs pos len fldCtor =
+    UTCDateTime.readUTCTimeOnly bs pos (pos+len) |> fldCtor
+
+
+let ReadFieldUTCDateIdx bs pos len fldCtor =
+    UTCDateTime.readUTCDate bs pos (pos+len) |> fldCtor
+
+
+let ReadFieldLocalMktDateIdx bs pos len fldCtor =
+    LocalMktDate.readLocalMktDate bs pos (pos+len) |> fldCtor
+
+
+let ReadFieldUTCTimestampIdx bs pos len fldCtor =
+    UTCDateTime.readUTCTimestamp bs pos (pos+len) |> fldCtor
+
+
+// not used in FIX4.4, so not tested at the time of writing
+// TZDateTime.readTZTimeOnly has been tested
+let ReadFieldTZTimeOnlyIdx bs pos (len:int) fldCtor = 
+    TZDateTime.readTZTimeOnly bs pos |> fldCtor
+
+
+let ReadFieldMonthYearIdx bs pos (len:int) fldCtor =
+    MonthYear.read bs pos |> fldCtor
+    
+
+// pos is pointing to the
+let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (len:int) (strTagExpected:byte[]) fldCtor =
+    let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs pos
+    let strLen = Conversions.bytesToInt32 lenBytes
+    // the len has been read, next read the string
+    // the tag read-in must match the expected tag
+    let strFieldBegin, strTagBytes = FIXBuf.readTagAfterFieldDelim bs nextFieldBeg
+    if strTagExpected <> strTagBytes then failwith "ReadLengthDataCompoundField, unexpected string field tag"
+    let nextFieldTermPos2, bs = FIXBuf.readNBytesVal strFieldBegin strLen bs
+    nextFieldTermPos2, fldCtor bs
+
+
+
+
+
+
+
+//----------------
+
 let ReadFieldInt (bs:byte[]) (pos:int) fldCtor =
     let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
     let tmp = Conversions.bytesToInt32 valIn
     let fld = fldCtor tmp
     pos2, fld
+
 
 
 let ReadFieldUint32 (bs:byte[]) (pos:int) fldCtor =

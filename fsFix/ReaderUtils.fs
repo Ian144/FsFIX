@@ -14,23 +14,13 @@ let ReadField (bs:byte[]) (pos:int) (ss:string) (expectedTag:byte[]) readFunc =
     pos3, fld
 
 
-let FindFieldIdx (index:FIXBufIndexer.FixBufIndex) (tagInt:int) =
-    let mutable ctr = 0
-    let mutable foundPos = -1
-    let fieldPosArr = index.FieldPosArr
-    while (foundPos = -1) do
-        if tagInt = fieldPosArr.[ctr].Tag then
-            foundPos <- ctr
-        ctr <- ctr + 1
-    foundPos
 
 let ReadFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
     let fieldPosArr = index.FieldPosArr
-    let tagIdx = FindFieldIdx index tagInt
-    if tagIdx = - 1 then 
+    let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
+    if tagIdx = -1 then 
 //        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
-//        let sActTag = System.Text.Encoding.UTF8.GetString tag
-        let msg = sprintf "when reading field: expected tag: %s, actual: %s"  "ZZZZ" "ZZZZ"
+        let msg = sprintf "field not found, tag: %s" "XXX"
         failwith msg
     let fpData = fieldPosArr.[tagIdx]
     readFunc bs fpData.Pos fpData.Len
