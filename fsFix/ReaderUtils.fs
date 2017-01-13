@@ -27,7 +27,7 @@ let ReadOptionalFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:i
         Option.Some fld
 
 
-// the int that readFunc returns is the consecutively next index pos in the index array 
+// the int that readFunc returns is the consecutively next index pos in the FIX buffer field index array 
 // todo, consider replacing the accumulating list with an array
 let rec readGrpInnerIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (nextFieldIndexPos:int) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp) =
     match recursionCount with
@@ -42,7 +42,6 @@ let ReadGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:i
     let fieldPosArr = index.FieldPosArr
     let numFieldIndex = FIXBufIndexer.FindFieldIdx index numFieldTagInt
     if numFieldIndex = -1 then 
-//        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
         let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
         failwith msg
     let numFieldData = fieldPosArr.[numFieldIndex]
@@ -52,6 +51,54 @@ let ReadGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:i
 
 
 
+let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:int) readFunc =
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIndex = FIXBufIndexer.FindFieldIdx index numFieldTagInt
+    if numFieldIndex = -1 then 
+        let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
+        failwith msg
+    let numFieldData = fieldPosArr.[numFieldIndex]
+    let numRepeats = Conversions.bytesToUInt32Idx bs numFieldData.Pos numFieldData.Len
+    match numRepeats with
+    | 1u  -> let pos4, grp = readFunc bs index (numFieldIndex+1) // the group must start after the num field
+             OneOrTwo.One grp
+    | 2u  -> let nextFieldIndex, grp1 = readFunc bs index (numFieldIndex+1) // the group must start after the num field
+             let _, grp2 = readFunc bs index nextFieldIndex
+             OneOrTwo.Two (grp1, grp2)
+    | x   -> failwith (sprintf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %A"  x)
+
+
+
+let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:int) (pos:int) (numFieldTag:byte[]) readFunc: 'grp list option =
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index numFieldTagInt
+    if numFieldIdx = -1 then 
+        Option.None // the optional group is not present
+    else
+        // the optional group is present, so read the number of repeats, then read each instance of the repeating group
+        let fpData = fieldPosArr.[numFieldIdx]
+        let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
+        let firstGrpFieldIdx = numFieldIdx + 1 // group fields follow the num group repeats field
+        let _, gs = readGrpInnerIdx bs index firstGrpFieldIdx [] numRepeats readFunc
+        Option.Some gs
+
+
+let ReadComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc = 
+    readFunc bs index
+
+
+// the first field of an optional component is required, so the component is present if the first field is present
+let ReadOptionalComponent (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTagInt
+    if numFieldIdx = -1 then 
+        Option.None // the optional component is not present
+    else
+        let comp = readFunc bs index
+        Option.Some comp
+
+
+//------------------------------------------------------------------------------------------------------------------
 
 
 
