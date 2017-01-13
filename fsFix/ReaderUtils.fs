@@ -88,7 +88,7 @@ let ReadComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc =
 
 
 // the first field of an optional component is required, so the component is present if the first field is present
-let ReadOptionalComponent (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
+let ReadOptionalComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
     let fieldPosArr = index.FieldPosArr
     let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTagInt
     if numFieldIdx = -1 then 
