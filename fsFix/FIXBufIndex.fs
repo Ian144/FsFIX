@@ -36,6 +36,7 @@ type FieldPos =
 type FixBufIndex =
    struct 
       val mutable EndPos: int
+      val mutable LastReadIdx: int 
       val FieldPosArr: FieldPos[] // elements of this array are immutable
       new(endPos: int, fieldPosArr: FieldPos[]) = { EndPos = endPos; FieldPosArr = fieldPosArr }
    end

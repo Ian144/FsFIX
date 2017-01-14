@@ -100,7 +100,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
 let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
     let funcSig = sprintf "let Read%s (bs:byte []) (pos:int) : int * %s  =" msg.MName msg.MName
     sw.WriteLine funcSig
-    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName msg.Items
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdx fieldNameMap compNameMap msg.MName msg.Items
     readFIXItemStrs |> List.iter sw.WriteLine
     let fieldInitStrs = genFieldInitStrs msg.Items
     sw.WriteLine (sprintf "    let ci:%s = {" msg.MName)

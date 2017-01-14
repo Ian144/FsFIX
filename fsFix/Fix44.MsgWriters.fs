@@ -36,7 +36,7 @@ let WriteLogon (dest:byte []) (nextFreeIdx:int)  (xx:Logon) =
 
 
 // tag: 1
-let WriteTestRequest (dest:byte []) (nextFreeIdx:int) (xx:TestRequest) = 
+let WriteTestRequest (dest:byte []) (nextFreeIdx:int)  (xx:TestRequest) = 
     let nextFreeIdx = WriteTestReqID dest nextFreeIdx xx.TestReqID
     nextFreeIdx
 

@@ -5,26 +5,60 @@
 
 
 
-let ReadFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
+
+
+// https://software.intel.com/en-us/articles/branch-and-loop-reorganization-to-prevent-mispredicts
+// Static branch prediction is used when there is no data collected by the microprocessor when it encounters a branch, which is typically the first time a branch is encountered. 
+// The rules are simple:
+//  A forward branch defaults to not taken
+//  A backward branch defaults to taken
+// In order to effectively write your code to take advantage of these rules, when writing if-else or switch statements, check the most common cases first and work progressively 
+// down to the least common.
+
+
+let ReadFieldIdx bs (index:FIXBufIndexer.FixBufIndex) tagInt readFunc = 
     let fieldPosArr = index.FieldPosArr
     let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
-    if tagIdx = -1 then 
-//        let sExpTag = System.Text.Encoding.UTF8.GetString expectedTag
+    if tagIdx <> -1 then 
+        let fpData = fieldPosArr.[tagIdx]
+        readFunc bs fpData.Pos fpData.Len
+    else
         let msg = sprintf "field not found, tag: %s" "XXX"
         failwith msg
-    let fpData = fieldPosArr.[tagIdx]
-    readFunc bs fpData.Pos fpData.Len
+
+
+// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+let ReadFieldIdxOrdered  (_:bool) bs (index:FIXBufIndexer.FixBufIndex) tagInt readFunc =
+    let nextFieldIdx = index.LastReadIdx
+    let fpData = index.FieldPosArr.[nextFieldIdx]
+    if fpData.Tag = tagInt then
+        readFunc bs fpData.Pos fpData.Len // this is the expected case
+    else
+        let msg = sprintf "field not found, tag: %d at field pos: %d" tagInt nextFieldIdx
+        failwith msg
 
 
 let ReadOptionalFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
     let fieldPosArr = index.FieldPosArr
     let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
-    if tagIdx = -1 then 
+    if tagIdx = -1 then // no preference as two wether the common case is Option.None or not
         Option.None
     else
         let fpData = fieldPosArr.[tagIdx]
         let fld = readFunc bs fpData.Pos fpData.Len
         Option.Some fld
+
+// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+let ReadOptionalFieldIdxOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
+    let nextFieldIdx = index.LastReadIdx
+    let fpData = index.FieldPosArr.[nextFieldIdx]
+    if fpData.Tag = tagInt then // no preference as two wether the common case is Option.None or not
+        let fld = readFunc bs fpData.Pos fpData.Len
+        Option.Some fld
+    else
+        Option.None
+
+
 
 
 // the int that readFunc returns is the consecutively next index pos in the FIX buffer field index array 
@@ -69,9 +103,9 @@ let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldT
 
 
 
-let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:int) (pos:int) (numFieldTag:byte[]) readFunc: 'grp list option =
+let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
     let fieldPosArr = index.FieldPosArr
-    let numFieldIdx = FIXBufIndexer.FindFieldIdx index numFieldTagInt
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index numFieldTag
     if numFieldIdx = -1 then 
         Option.None // the optional group is not present
     else
@@ -96,6 +130,24 @@ let ReadOptionalComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firs
     else
         let comp = readFunc bs index
         Option.Some comp
+
+// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+let ReadComponentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc = 
+    readFunc bb bs index
+
+// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+// the first field of an optional component is required, so the component is present if the first field is present
+let ReadOptionalComponentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTagInt
+    if numFieldIdx = -1 then 
+        Option.None // the optional component is not present
+    else
+        let comp = readFunc bb bs index
+        Option.Some comp
+
+
+
 
 
 //------------------------------------------------------------------------------------------------------------------
