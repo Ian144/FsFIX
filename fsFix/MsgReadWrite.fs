@@ -109,38 +109,37 @@ let WriteMessageDU
 
 
 
-let ReadMessage (bs:byte []) : int * FIXMessage =
+let ReadMessage (bs:byte []) : FIXMessage =
 
-    let pos = 0
-    let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
-    let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256 // todo, make index size a parameter 
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs bs.Length // todo: this should be the last populated array index, not the array len
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    
+
+    // magic numbers are FIX field tags
+    let beginString    = ReaderUtils.ReadFieldIdxOrdered true bs index 8 ReadBeginStringIdx
+    let bodyLen        = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
 
     // the generated readMsgType function returns a MsgType DU case which is not used for dispatching
-    //let _, msgType        = ReaderUtils.ReadField bs pos "ReadMsgType"    "35"B  ReadMsgType
-    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
+    //let _, msgType        = ReaderUtils.ReadField bs index "ReadMsgType"    "35"B  ReadMsgType
+    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs 999
     let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
 
-    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
-    let pos, senderCompID   = ReaderUtils.ReadField bs pos "ReadSenderCompID" "49"B  ReadSenderCompID
-    let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
-    let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
+    let seqNum         = ReaderUtils.ReadFieldIdxOrdered true bs index 34 ReadMsgSeqNumIdx
+    let senderCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 49 ReadSenderCompIDIdx
+    let sendTime       = ReaderUtils.ReadFieldIdxOrdered true bs index 52 ReadSendingTimeIdx
+    let targetCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 56 ReadTargetCompIDIdx
 
-
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256 // todo, make this a parameter 
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs pos // pos should be after the last header 
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-
-
-    let pos, msg = ReadMessageDUIndex tag bs pos index
+    let msg = ReadMessageDU tag bs index
 
     let (BodyLength ulen) = bodyLen
     let len = ulen |> int
     let calcedCheckSum = CalcCheckSum bs 0 pos
 
-    let pos, receivedCheckSum   = ReaderUtils.ReadField bs pos "ReadCheckSum" "10"B  ReadCheckSum
+    let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
 
-    if calcedCheckSum <> receivedCheckSum then
-        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-        failwith msg
-
-    pos, msg
+    if calcedCheckSum = receivedCheckSum then
+        msg
+    else
+        let errMsg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+        failwith errMsg

@@ -432,16 +432,17 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
 
 
 
-//    swFieldDU.WriteLine ""
-//    swFieldDU.WriteLine ""
-//    swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-//    swFieldDU.WriteLine  "let ReadField (bs:byte[]) (pos:int) ="
-//    swFieldDU.WriteLine  "    let pos2, tag = FIXBuf.readTag bs pos"
-//    swFieldDU.WriteLine  "    match tag with"
-//    fieldData |> Seq.iter (fun fd ->
-//            let ss =
-//                match fd with
-//                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s bs pos2 \n        pos3, fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
-//                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let pos3, fld = Read%s bs pos2 \n        pos3, fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
-//            swFieldDU.WriteLine ss )
-//    swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine ""
+    swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
+    swFieldDU.WriteLine  "let ReadField (bs:byte[]) (pos:int) ="
+    swFieldDU.WriteLine  "    let pos2, tag = FIXBuf.readTag bs pos"
+    swFieldDU.WriteLine  "    let len = bs.Length - pos2"
+    swFieldDU.WriteLine  "    match tag with"
+    fieldData |> Seq.iter (fun fd ->
+            let ss =
+                match fd with
+                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
+            swFieldDU.WriteLine ss )
+    swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "

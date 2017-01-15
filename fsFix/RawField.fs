@@ -34,7 +34,7 @@ let ReadFieldBoolIdx bs pos (len:int) fldCtor =
 let ReadFieldStrIdx bs pos len fldCtor =
     Conversions.bytesToStrIdx bs pos len |> fldCtor
 
-// todo: ReadFieldDataIdx allocates
+// todo: ReadFieldDataIdx allocates, can this be safely avoided, maybe using an ArraySegment?
 let ReadFieldDataIdx bs pos len fldCtor =
     let subArray = Array.zeroCreate<byte> len
     Array.Copy(bs, pos, subArray, 0, len)
@@ -42,27 +42,27 @@ let ReadFieldDataIdx bs pos len fldCtor =
 
 
 let ReadFieldUTCTimeOnlyIdx bs pos len fldCtor =
-    UTCDateTime.readUTCTimeOnly bs pos (pos+len) |> fldCtor
+    UTCDateTime.readUTCTimeOnly bs pos len |> fldCtor
 
 
 let ReadFieldUTCDateIdx bs pos len fldCtor =
-    UTCDateTime.readUTCDate bs pos (pos+len) |> fldCtor
+    UTCDateTime.readUTCDate bs pos len |> fldCtor
 
 
 let ReadFieldLocalMktDateIdx bs pos len fldCtor =
-    LocalMktDate.readLocalMktDate bs pos (pos+len) |> fldCtor
+    LocalMktDate.readLocalMktDate bs pos len |> fldCtor
 
 
 let ReadFieldUTCTimestampIdx bs pos len fldCtor =
-    UTCDateTime.readUTCTimestamp bs pos (pos+len) |> fldCtor
+    UTCDateTime.readUTCTimestamp bs pos len |> fldCtor
 
 
 let ReadFieldTZTimeOnlyIdx bs pos (len:int) fldCtor = 
-    TZDateTime.readTZTimeOnly bs pos |> fldCtor
+    TZDateTime.readTZTimeOnly bs pos len |> fldCtor
 
 
 let ReadFieldMonthYearIdx bs pos (len:int) fldCtor =
-    MonthYear.read bs pos |> fldCtor
+    MonthYear.read bs pos len |> fldCtor
     
 
 // pos is pointing to the the begining of the length value

@@ -107,7 +107,7 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
         nextFldOrEnd + 1, fp
 
 
-// returns the last index array cell that was populated
+// returns the index one after the last populated
 let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0
@@ -117,7 +117,7 @@ let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
         pos <- pos2
         fieldIndex.[ctr] <- fp
         ctr <- ctr + 1
-    ctr
+    ctr+1
 
 
 // used for roundtrip property testing, if the index cant be used to reconstruct the original FIX buf then something is broken

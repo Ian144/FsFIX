@@ -176,15 +176,11 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
 
 
     // create the 'ReadMessage' DU function that keys off a msg tag
-    sw.WriteLine "let ReadMessageDU (tag:byte []) bs pos ="
+    sw.WriteLine "let ReadMessageDU tag bs (index:FIXBufIndexer.FixBufIndex) ="
     sw.WriteLine "    match tag with"
     msgs |> List.iter (fun msg ->
-                let ss1  = sprintf "    | \"%s\"B   ->" msg.Tag
-                let ss2  = sprintf "        let pos, msg = Read%s bs pos" msg.MName
-                let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" msg.MName
-                sw.WriteLine ss1
-                sw.WriteLine ss2
-                sw.WriteLine ss3 ) // end List.iter
+                let ss = sprintf "    | \"%s\"B   ->  Read%s bs index |> FIXMessage.%s"  msg.Tag msg.MName msg.MName
+                sw.WriteLine ss )
     let ss1  = "    | invalidTag   ->"
     let ss2  = "        let ss = sprintf \"received unknown message type tag: %A\" invalidTag"
     let ss3  = "        failwith ss"

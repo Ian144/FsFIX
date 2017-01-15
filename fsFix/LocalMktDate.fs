@@ -24,6 +24,6 @@ let writeLocalMktDate (dt:LocalMktDate) (bs:byte[]) (pos:int) : int =
                                         write2ByteInt bs (pos + 6) dd
                                         pos + 8
 
-let readLocalMktDate (bs:byte[]) (begPos:int) (endPos:int)  : LocalMktDate =
-    let yyyy, mm, dd = readYYYYmmDDints bs begPos
+let readLocalMktDate (bs:byte[]) (pos:int) (len:int) : LocalMktDate =
+    let yyyy, mm, dd = readYYYYmmDDints bs pos
     MakeLocalMktDate (yyyy, mm, dd)                    

@@ -72,7 +72,8 @@ let main argv_ =
     let ii = strm.Read (bufOut, 0, 2048)
     let strReceived = FIXBuf.toS bufOut ii
     printfn "logon reply: %s" strReceived
-    let posR, logonMsgOut = MsgReadWrite.ReadMessage bufOut
+    
+    let logonMsgReply = MsgReadWrite.ReadMessage bufOut
 
     while true do
         printfn "press any key to send news msg"

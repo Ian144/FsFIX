@@ -98,11 +98,11 @@ let writeUTCTimeOnly (tm:UTCTimeOnly) (bs:byte[]) (pos:int) : int =
             pos + 12
 
 
-let readUTCTimeOnly (bs:byte[]) (begPos:int) (endPos:int) : UTCTimeOnly =
-    match (endPos - begPos) with
-    | 8     ->  let hh, mm, ss = readHHMMSSints bs begPos
+let readUTCTimeOnly (bs:byte[]) (pos:int) (len:int) : UTCTimeOnly =
+    match len with
+    | 8     ->  let hh, mm, ss = readHHMMSSints bs pos
                 MakeUTCTimeOnly.Make (hh, mm, ss)
-    | 12    ->  let hh, mm, ss, ms = readHHMMSSMS bs begPos
+    | 12    ->  let hh, mm, ss, ms = readHHMMSSMS bs pos
                 MakeUTCTimeOnly.Make (hh, mm, ss, ms)
     | _     ->  failwith "corrupt serialised UTCTimeOnly"
 
@@ -124,8 +124,8 @@ let writeUTCDate (dt:UTCDate) (bs:byte[]) (pos:int) : int =
         write2ByteInt bs (pos + 6) dd
         pos + 8
 
-let readUTCDate (bs:byte[]) (begPos:int) (endPos:int)  : UTCDate =
-    let yyyy, mm, dd = readYYYYmmDDints bs begPos
+let readUTCDate (bs:byte[]) (pos:int) (len:int)  : UTCDate =
+    let yyyy, mm, dd = readYYYYmmDDints bs pos
     MakeUTCDate (yyyy, mm, dd)
 
 
@@ -160,8 +160,8 @@ let writeUTCTimestamp (tm:UTCTimestamp) (bs:byte[]) (pos:int) : int =
             pos + 21
 
 
-let readUTCTimestamp (bs:byte[]) (begPos:int) (endPos:int) : UTCTimestamp =
-    match (endPos - begPos) with
+let readUTCTimestamp (bs:byte[]) (begPos:int) (len:int) : UTCTimestamp =
+    match len with
     | 17    ->  let yy, mth, dd, hh, mm, ss = readTimestampInts bs begPos
                 MakeUTCTimestamp.Make (yy, mth, dd, hh, mm, ss)
     | 21    ->  let yy, mth, dd, hh, mm, ss, ms = readTimestampMsInts bs begPos

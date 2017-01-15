@@ -152,17 +152,15 @@ let inline private findOffsetMarker (bs:byte[]) (pos:int) =
         failwith "could not find offset market in TZTimeOnly"
 
 
-let readTZTimeOnly (bs:byte[]) (pos:int) =
+let readTZTimeOnly (bs:byte[]) (pos:int) (len:int) =
     let offSetMarkerPos = findOffsetMarker bs pos
     match offSetMarkerPos with 
     | 5 ->  let hh, mm = FIXDateTime.readHHMMints bs pos
             let posOut, offset = readTZOffset bs (pos+5)
-            let tm = MakeTZTimeOnly.Make (offset, hh, mm)
-            posOut, tm
+            MakeTZTimeOnly.Make (offset, hh, mm)
     | 8 ->  let hh, mm, ss = FIXDateTime.readHHMMSSints bs pos
             let posOut, offset = readTZOffset bs (pos+8)
-            let tm = MakeTZTimeOnly.Make (offset, hh, mm, ss)
-            posOut, tm
+            MakeTZTimeOnly.Make (offset, hh, mm, ss)
     | _ ->  failwith "invalid offset marker reading TZTimeOnly"
 
 

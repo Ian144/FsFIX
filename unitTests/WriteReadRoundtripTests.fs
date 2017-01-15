@@ -52,11 +52,8 @@ let MessageWithHeaderTrailerUnit () =
                                 msgSeqNum
                                 sendingTime
                                 msg
-    let posR, msgOut = MsgReadWrite.ReadMessage buf
+    let msgOut = MsgReadWrite.ReadMessage buf
     msg =! msgOut
-    posW =! posR
-
-
 
 
 
@@ -69,9 +66,11 @@ let NoHopsGrp () =
                 HopRefID = Some (HopRefID 0u)
                 }
     let posW = WriteNoHopsGrp  bs 0 xIn
-    let posR, xOut = ReadNoHopsGrp bs 0
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let xOut = ReadNoHopsGrpIdx bs index
     xIn =! xOut
-    posW =! posR    
 
 
 
@@ -121,9 +120,12 @@ let InstrumentLegFG () =
                 LegContractSettlMonth = None
                 LegInterestAccrualDate = None}
     let posW = WriteInstrumentLegFG  bs 0 xIn
-    let posR, xOut = ReadInstrumentLegFG bs 0
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let xOut = ReadInstrumentLegFGIdx bs index
     xIn =! xOut
-    posW =! posR
+
 
 
 
@@ -174,9 +176,12 @@ let InstrumentLegFG2 () =
                 LegContractSettlMonth = Some (legContractSettlMonth)
                 LegInterestAccrualDate = None}
     let posW = WriteInstrumentLegFG  bs 0 xIn
-    let posR, xOut = ReadInstrumentLegFG bs 0
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let xOut = ReadInstrumentLegFGIdx bs index
     xIn =! xOut
-    posW =! posR
+    
 
 
 
@@ -214,8 +219,10 @@ let MassQuoteNoQuoteEntriesGrp () =
                     Currency = None    } 
 
     let posW = WriteMassQuoteNoQuoteEntriesGrp  bs 0 xIn
-    let posR, xOut = ReadMassQuoteNoQuoteEntriesGrp bs 0
-    posW =! posR
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let xOut = ReadMassQuoteNoQuoteEntriesGrpIdx bs index
     xIn =! xOut
 
 
@@ -271,6 +278,8 @@ let MarketDataIncrementalRefreshNoMDEntriesGrp () =
            Text = None;
            EncodedText = None;}
     let posW = WriteMarketDataIncrementalRefreshNoMDEntriesGrp  bs 0 xIn
-    let posR, xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrp bs 0
-    posW =! posR
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx bs index
     xIn =! xOut

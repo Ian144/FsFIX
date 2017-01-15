@@ -95,17 +95,17 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
-//    // create the 'TestReadCompound' DU function, used only in property based tests
-//    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) bs pos ="
-//    swCompItemDU.WriteLine "    match selector with"
-//    names |> List.iter (fun grpLngName ->
-//                let (GroupLongName strName) = grpLngName
-//                let ss1  = sprintf "    | %sGrp _ ->" strName
-//                let ss2  = sprintf "        let pos, grp = Read%sGrpIdx bs pos" strName
-//                let ss3 =  sprintf "        pos, grp |> FIXGroup.%sGrp" strName
-//                swCompItemDU.WriteLine ss1
-//                swCompItemDU.WriteLine ss2
-//                swCompItemDU.WriteLine ss3 ) // end List.iter
+    // create the 'TestReadCompound' DU function, used only in property based tests
+    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) bs (index:FIXBufIndexer.FixBufIndex) ="
+    swCompItemDU.WriteLine "    match selector with"
+    names |> List.iter (fun grpLngName ->
+                let (GroupLongName strName) = grpLngName
+                let ss1  = sprintf "    | %sGrp _ ->" strName
+                let ss2  = sprintf "        let grp = Read%sGrpIdx bs index" strName
+                let ss3 =  sprintf "        grp |> FIXGroup.%sGrp" strName
+                swCompItemDU.WriteLine ss1
+                swCompItemDU.WriteLine ss2
+                swCompItemDU.WriteLine ss3 ) // end List.iter
 
 
 
