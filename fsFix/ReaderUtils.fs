@@ -21,6 +21,7 @@ let ReadFieldIdx bs (index:FIXBufIndexer.FixBufIndex) tagInt readFunc =
     let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
     if tagIdx <> -1 then 
         let fpData = fieldPosArr.[tagIdx]
+        index.LastReadIdx <- tagIdx
         readFunc bs fpData.Pos fpData.Len
     else
         let msg = sprintf "field not found, tag: %s" "XXX"
@@ -29,9 +30,10 @@ let ReadFieldIdx bs (index:FIXBufIndexer.FixBufIndex) tagInt readFunc =
 
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadFieldIdxOrdered  (_:bool) bs (index:FIXBufIndexer.FixBufIndex) tagInt readFunc =
-    let nextFieldIdx = index.LastReadIdx
+    let nextFieldIdx = index.LastReadIdx + 1
     let fpData = index.FieldPosArr.[nextFieldIdx]
     if fpData.Tag = tagInt then
+        index.LastReadIdx <- nextFieldIdx
         readFunc bs fpData.Pos fpData.Len // this is the expected case
     else
         let msg = sprintf "field not found, tag: %d at field pos: %d" tagInt nextFieldIdx
@@ -41,22 +43,25 @@ let ReadFieldIdxOrdered  (_:bool) bs (index:FIXBufIndexer.FixBufIndex) tagInt re
 let ReadOptionalFieldIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
     let fieldPosArr = index.FieldPosArr
     let tagIdx = FIXBufIndexer.FindFieldIdx index tagInt
-    if tagIdx = -1 then // no preference as two wether the common case is Option.None or not
+    if tagIdx = -1 then // no preference as to wether the common case is Option.None or not
         Option.None
     else
+        index.LastReadIdx <- tagIdx
         let fpData = fieldPosArr.[tagIdx]
         let fld = readFunc bs fpData.Pos fpData.Len
         Option.Some fld
 
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadOptionalFieldIdxOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tagInt:int) readFunc = 
-    let nextFieldIdx = index.LastReadIdx
+    let nextFieldIdx = index.LastReadIdx + 1
     let fpData = index.FieldPosArr.[nextFieldIdx]
-    if fpData.Tag = tagInt then // no preference as two wether the common case is Option.None or not
+    if fpData.Tag = tagInt then // no preference as to wether the common case is Option.None or not
+        index.LastReadIdx <- nextFieldIdx
         let fld = readFunc bs fpData.Pos fpData.Len
         Option.Some fld
     else
         Option.None
+
 
 
 
@@ -66,7 +71,7 @@ let ReadOptionalFieldIdxOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 let rec readGrpInnerIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (nextFieldIndexPos:int) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp) =
     match recursionCount with
     | 0u    ->  nextFieldIndexPos, (acc |> List.rev)
-    | _     ->  let nextFieldIndexPos2, grpInstance = readFunc bs index nextFieldIndexPos 
+    | _     ->  let nextFieldIndexPos2, grpInstance = readFunc bs index nextFieldIndexPos // the bool is a dummy, to enforce calling 'ordered read' field and component read functions (i.e. its a compile error for a non ordered read function to be called)
                 readGrpInnerIdx bs index nextFieldIndexPos2 (grpInstance::acc) (recursionCount-1u) readFunc
 
 
@@ -103,7 +108,7 @@ let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldT
 
 
 
-let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
+let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) (readFunc:byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp): 'grp list option =
     let fieldPosArr = index.FieldPosArr
     let numFieldIdx = FIXBufIndexer.FindFieldIdx index numFieldTag
     if numFieldIdx = -1 then 
@@ -111,6 +116,7 @@ let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numField
     else
         // the optional group is present, so read the number of repeats, then read each instance of the repeating group
         let fpData = fieldPosArr.[numFieldIdx]
+        index.LastReadIdx <- numFieldIdx
         let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
         let firstGrpFieldIdx = numFieldIdx + 1 // group fields follow the num group repeats field
         let _, gs = readGrpInnerIdx bs index firstGrpFieldIdx [] numRepeats readFunc
@@ -131,20 +137,21 @@ let ReadOptionalComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firs
         let comp = readFunc bs index
         Option.Some comp
 
+
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadComponentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc = 
     readFunc bb bs index
 
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
-// the first field of an optional component is required, so the component is present if the first field is present
+// the first field of an optional component is required (code generation always sets this to be the case, ignoring FIX spec xml), so the component is present if the first field is present
 let ReadOptionalComponentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
-    let fieldPosArr = index.FieldPosArr
-    let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTagInt
-    if numFieldIdx = -1 then 
-        Option.None // the optional component is not present
-    else
+    let nextFieldIdx = index.LastReadIdx + 1
+    let fpData = index.FieldPosArr.[nextFieldIdx]
+    if fpData.Tag = firstFieldTagInt then 
         let comp = readFunc bb bs index
         Option.Some comp
+    else
+        Option.None // the optional component is not present
 
 
 

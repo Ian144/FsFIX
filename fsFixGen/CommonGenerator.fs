@@ -176,7 +176,27 @@ let genItemListReaderStrsIdx (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
 
 
 
-
+// 'ordered' in that the fields, components and sub-groups of a group must be read in order
+let genItemListReaderStrsIdxOrdered (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
+    items |> List.collect (fun item ->
+        let tag = FIXItem.getTag fieldNameMap compNameMap item
+        match item with
+        | FIXItem.FieldRef fld          ->  let name = fld.FName
+                                            let varName = StringEx.lCaseFirstChar name |> fixYield
+                                            match fld.Required with
+                                            | Required     ->  [   sprintf "    let %s = ReadFieldIdxOrdered true bs index %d Read%sIdx" varName tag name ]
+                                            | NotRequired  ->  [   sprintf "    let %s = ReadOptionalFieldIdxOrdered true bs index %d Read%sIdx" varName tag name ]
+        | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
+                                            let varName = StringEx.lCaseFirstChar name
+                                            match cmpRef.Required with
+                                            | Required      ->  [   sprintf "    let %s = ReadComponentIdxOrdered true bs index Read%sIdx" varName name ]
+                                            | NotRequired   ->  [   sprintf "    let %s = ReadOptionalComponentIdxOrdered true bs index %d Read%sIdx" varName tag name ]
+        | FIXItem.Group grp             ->  let (GroupLongName longName) = Group.makeLongName grp
+                                            let varName = StringEx.lCaseFirstChar longName
+                                            match grp.Required with
+                                            | Required     ->  genReadGroupIdx varName longName parentName tag 
+                                            | NotRequired  ->  [   sprintf "    let %sGrpIdx = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
+        ) // end List.collect
 
 
 

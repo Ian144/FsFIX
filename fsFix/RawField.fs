@@ -57,8 +57,6 @@ let ReadFieldUTCTimestampIdx bs pos len fldCtor =
     UTCDateTime.readUTCTimestamp bs pos (pos+len) |> fldCtor
 
 
-// not used in FIX4.4, so not tested at the time of writing
-// TZDateTime.readTZTimeOnly has been tested
 let ReadFieldTZTimeOnlyIdx bs pos (len:int) fldCtor = 
     TZDateTime.readTZTimeOnly bs pos |> fldCtor
 

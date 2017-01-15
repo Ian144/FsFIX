@@ -28,18 +28,14 @@ type FieldPos =
     override this.ToString() =
         let bs2 = convIntToTagBytes this.Tag
         let tagStr = System.Text.Encoding.UTF8.GetString bs2
-        let ss = sprintf "%s-%d-%d" tagStr this.Pos this.Len
-//        let ss = sprintf "FIXBufIndexer.FieldPos(%d, %d, %d)" this.Tag this.Pos this.Len
-        ss
+        sprintf "%s-%d-%d" tagStr this.Pos this.Len
+
 
 [< NoComparison; NoEquality>]
-type FixBufIndex =
-   struct 
-      val mutable EndPos: int
-      val mutable LastReadIdx: int 
-      val FieldPosArr: FieldPos[] // elements of this array are immutable
-      new(endPos: int, fieldPosArr: FieldPos[]) = { EndPos = endPos; FieldPosArr = fieldPosArr }
-   end
+type FixBufIndex (endPos: int, fieldPosArr: FieldPos[]) =
+    member this.EndPos = endPos
+    member this.FieldPosArr = fieldPosArr
+    member val LastReadIdx = -1 with get,set
 
 
 let FindFieldIdx (index:FixBufIndex) (tagInt:int) =

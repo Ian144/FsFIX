@@ -174,7 +174,7 @@ let private genCompoundItemReaderIdx (fieldNameMap:Map<string,Field>) (compNameM
     sw.WriteLine (sprintf "// %s" compOrGroup)
     let funcSig = sprintf "let Read%sIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : %s =" typeName typeName
     sw.WriteLine funcSig
-    let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdx fieldNameMap compNameMap name items
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdxOrdered fieldNameMap compNameMap name items
     readFIXItemStrs |> List.iter sw.WriteLine
     let fieldInitStrs = genFieldInitStrs items
     sw.WriteLine (sprintf "    let ci:%s = {" typeName)

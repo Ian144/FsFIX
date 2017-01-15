@@ -28,7 +28,7 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:Fie
 
 
 let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list) =
-    let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
+    let readerFuncErrMsg = sprintf "Read%s unknown case tag:" typeName
     let lines = [
             yield  sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" typeName typeName 
             yield  sprintf "    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos"
