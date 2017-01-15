@@ -124,9 +124,9 @@ let private genReadGroupIdx (varName:string) (longName:string) (parentName:strin
     let varName = StringEx.lCaseFirstChar longName
     let isNoSides = longName.Contains "NoSides"
     if isNoSides then   // return a literal list of strings
-        [   sprintf "    let %sGrp = ReadNoSidesGroupIdx bs index tag%d \"Read%s\" Read%sGrpIdx" varName tag parentName longName ]
+        [   sprintf "    let %sGrp = ReadNoSidesGroupIdx bs index %d Read%sGrpIdx" varName tag longName ]
     else
-        [   sprintf "    let %sGrp = ReadGroupIdx bs index tag%d \"Read%s\"  Read%sGrpIdx" varName tag parentName longName ]
+        [   sprintf "    let %sGrp = ReadGroupIdx bs index %d Read%sGrpIdx" varName tag longName ]
 
 
 
@@ -171,7 +171,7 @@ let genItemListReaderStrsIdx (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
                                             | Required     ->  genReadGroupIdx varName longName parentName tag 
-                                            | NotRequired  ->  [   sprintf "    let %sGrpIdx = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
+                                            | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
 
@@ -189,13 +189,13 @@ let genItemListReaderStrsIdxOrdered (fieldNameMap:Map<string,Field>) (compNameMa
         | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
                                             let varName = StringEx.lCaseFirstChar name
                                             match cmpRef.Required with
-                                            | Required      ->  [   sprintf "    let %s = ReadComponentIdxOrdered true bs index Read%sIdx" varName name ]
-                                            | NotRequired   ->  [   sprintf "    let %s = ReadOptionalComponentIdxOrdered true bs index %d Read%sIdx" varName tag name ]
+                                            | Required      ->  [   sprintf "    let %s = ReadComponentIdxOrdered true bs index Read%sIdxOrdered" varName name ]
+                                            | NotRequired   ->  [   sprintf "    let %s = ReadOptionalComponentIdxOrdered true bs index %d Read%sIdxOrdered" varName tag name ]
         | FIXItem.Group grp             ->  let (GroupLongName longName) = Group.makeLongName grp
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
                                             | Required     ->  genReadGroupIdx varName longName parentName tag 
-                                            | NotRequired  ->  [   sprintf "    let %sGrpIdx = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
+                                            | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
 

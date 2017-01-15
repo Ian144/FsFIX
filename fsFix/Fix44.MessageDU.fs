@@ -198,284 +198,284 @@ let WriteMessage dest nextFreeIdx msg =
 
 
 
-let ReadMessage (selector:FIXMessage) bs pos =
+let ReadMessage selector bs (index:FIXBufIndexer.FixBufIndex) =
     match selector with
     | Advertisement _ ->
-        let pos, msg = ReadAdvertisement  bs pos
-        pos, msg |> FIXMessage.Advertisement
+        let msg = ReadAdvertisement bs index
+        msg |> FIXMessage.Advertisement
     | AllocationInstruction _ ->
-        let pos, msg = ReadAllocationInstruction  bs pos
-        pos, msg |> FIXMessage.AllocationInstruction
+        let msg = ReadAllocationInstruction bs index
+        msg |> FIXMessage.AllocationInstruction
     | AllocationInstructionAck _ ->
-        let pos, msg = ReadAllocationInstructionAck  bs pos
-        pos, msg |> FIXMessage.AllocationInstructionAck
+        let msg = ReadAllocationInstructionAck bs index
+        msg |> FIXMessage.AllocationInstructionAck
     | AllocationReport _ ->
-        let pos, msg = ReadAllocationReport  bs pos
-        pos, msg |> FIXMessage.AllocationReport
+        let msg = ReadAllocationReport bs index
+        msg |> FIXMessage.AllocationReport
     | AllocationReportAck _ ->
-        let pos, msg = ReadAllocationReportAck  bs pos
-        pos, msg |> FIXMessage.AllocationReportAck
+        let msg = ReadAllocationReportAck bs index
+        msg |> FIXMessage.AllocationReportAck
     | AssignmentReport _ ->
-        let pos, msg = ReadAssignmentReport  bs pos
-        pos, msg |> FIXMessage.AssignmentReport
+        let msg = ReadAssignmentReport bs index
+        msg |> FIXMessage.AssignmentReport
     | BidRequest _ ->
-        let pos, msg = ReadBidRequest  bs pos
-        pos, msg |> FIXMessage.BidRequest
+        let msg = ReadBidRequest bs index
+        msg |> FIXMessage.BidRequest
     | BidResponse _ ->
-        let pos, msg = ReadBidResponse  bs pos
-        pos, msg |> FIXMessage.BidResponse
+        let msg = ReadBidResponse bs index
+        msg |> FIXMessage.BidResponse
     | BusinessMessageReject _ ->
-        let pos, msg = ReadBusinessMessageReject  bs pos
-        pos, msg |> FIXMessage.BusinessMessageReject
+        let msg = ReadBusinessMessageReject bs index
+        msg |> FIXMessage.BusinessMessageReject
     | CollateralAssignment _ ->
-        let pos, msg = ReadCollateralAssignment  bs pos
-        pos, msg |> FIXMessage.CollateralAssignment
+        let msg = ReadCollateralAssignment bs index
+        msg |> FIXMessage.CollateralAssignment
     | CollateralInquiry _ ->
-        let pos, msg = ReadCollateralInquiry  bs pos
-        pos, msg |> FIXMessage.CollateralInquiry
+        let msg = ReadCollateralInquiry bs index
+        msg |> FIXMessage.CollateralInquiry
     | CollateralInquiryAck _ ->
-        let pos, msg = ReadCollateralInquiryAck  bs pos
-        pos, msg |> FIXMessage.CollateralInquiryAck
+        let msg = ReadCollateralInquiryAck bs index
+        msg |> FIXMessage.CollateralInquiryAck
     | CollateralReport _ ->
-        let pos, msg = ReadCollateralReport  bs pos
-        pos, msg |> FIXMessage.CollateralReport
+        let msg = ReadCollateralReport bs index
+        msg |> FIXMessage.CollateralReport
     | CollateralRequest _ ->
-        let pos, msg = ReadCollateralRequest  bs pos
-        pos, msg |> FIXMessage.CollateralRequest
+        let msg = ReadCollateralRequest bs index
+        msg |> FIXMessage.CollateralRequest
     | CollateralResponse _ ->
-        let pos, msg = ReadCollateralResponse  bs pos
-        pos, msg |> FIXMessage.CollateralResponse
+        let msg = ReadCollateralResponse bs index
+        msg |> FIXMessage.CollateralResponse
     | Confirmation _ ->
-        let pos, msg = ReadConfirmation  bs pos
-        pos, msg |> FIXMessage.Confirmation
+        let msg = ReadConfirmation bs index
+        msg |> FIXMessage.Confirmation
     | ConfirmationAck _ ->
-        let pos, msg = ReadConfirmationAck  bs pos
-        pos, msg |> FIXMessage.ConfirmationAck
+        let msg = ReadConfirmationAck bs index
+        msg |> FIXMessage.ConfirmationAck
     | ConfirmationRequest _ ->
-        let pos, msg = ReadConfirmationRequest  bs pos
-        pos, msg |> FIXMessage.ConfirmationRequest
+        let msg = ReadConfirmationRequest bs index
+        msg |> FIXMessage.ConfirmationRequest
     | CrossOrderCancelReplaceRequest _ ->
-        let pos, msg = ReadCrossOrderCancelReplaceRequest  bs pos
-        pos, msg |> FIXMessage.CrossOrderCancelReplaceRequest
+        let msg = ReadCrossOrderCancelReplaceRequest bs index
+        msg |> FIXMessage.CrossOrderCancelReplaceRequest
     | CrossOrderCancelRequest _ ->
-        let pos, msg = ReadCrossOrderCancelRequest  bs pos
-        pos, msg |> FIXMessage.CrossOrderCancelRequest
+        let msg = ReadCrossOrderCancelRequest bs index
+        msg |> FIXMessage.CrossOrderCancelRequest
     | DerivativeSecurityList _ ->
-        let pos, msg = ReadDerivativeSecurityList  bs pos
-        pos, msg |> FIXMessage.DerivativeSecurityList
+        let msg = ReadDerivativeSecurityList bs index
+        msg |> FIXMessage.DerivativeSecurityList
     | DerivativeSecurityListRequest _ ->
-        let pos, msg = ReadDerivativeSecurityListRequest  bs pos
-        pos, msg |> FIXMessage.DerivativeSecurityListRequest
+        let msg = ReadDerivativeSecurityListRequest bs index
+        msg |> FIXMessage.DerivativeSecurityListRequest
     | DontKnowTrade _ ->
-        let pos, msg = ReadDontKnowTrade  bs pos
-        pos, msg |> FIXMessage.DontKnowTrade
+        let msg = ReadDontKnowTrade bs index
+        msg |> FIXMessage.DontKnowTrade
     | Email _ ->
-        let pos, msg = ReadEmail  bs pos
-        pos, msg |> FIXMessage.Email
+        let msg = ReadEmail bs index
+        msg |> FIXMessage.Email
     | ExecutionReport _ ->
-        let pos, msg = ReadExecutionReport  bs pos
-        pos, msg |> FIXMessage.ExecutionReport
+        let msg = ReadExecutionReport bs index
+        msg |> FIXMessage.ExecutionReport
     | Heartbeat _ ->
-        let pos, msg = ReadHeartbeat  bs pos
-        pos, msg |> FIXMessage.Heartbeat
+        let msg = ReadHeartbeat bs index
+        msg |> FIXMessage.Heartbeat
     | IndicationOfInterest _ ->
-        let pos, msg = ReadIndicationOfInterest  bs pos
-        pos, msg |> FIXMessage.IndicationOfInterest
+        let msg = ReadIndicationOfInterest bs index
+        msg |> FIXMessage.IndicationOfInterest
     | ListCancelRequest _ ->
-        let pos, msg = ReadListCancelRequest  bs pos
-        pos, msg |> FIXMessage.ListCancelRequest
+        let msg = ReadListCancelRequest bs index
+        msg |> FIXMessage.ListCancelRequest
     | ListExecute _ ->
-        let pos, msg = ReadListExecute  bs pos
-        pos, msg |> FIXMessage.ListExecute
+        let msg = ReadListExecute bs index
+        msg |> FIXMessage.ListExecute
     | ListStatus _ ->
-        let pos, msg = ReadListStatus  bs pos
-        pos, msg |> FIXMessage.ListStatus
+        let msg = ReadListStatus bs index
+        msg |> FIXMessage.ListStatus
     | ListStatusRequest _ ->
-        let pos, msg = ReadListStatusRequest  bs pos
-        pos, msg |> FIXMessage.ListStatusRequest
+        let msg = ReadListStatusRequest bs index
+        msg |> FIXMessage.ListStatusRequest
     | ListStrikePrice _ ->
-        let pos, msg = ReadListStrikePrice  bs pos
-        pos, msg |> FIXMessage.ListStrikePrice
+        let msg = ReadListStrikePrice bs index
+        msg |> FIXMessage.ListStrikePrice
     | Logon _ ->
-        let pos, msg = ReadLogon  bs pos
-        pos, msg |> FIXMessage.Logon
+        let msg = ReadLogon bs index
+        msg |> FIXMessage.Logon
     | Logout _ ->
-        let pos, msg = ReadLogout  bs pos
-        pos, msg |> FIXMessage.Logout
+        let msg = ReadLogout bs index
+        msg |> FIXMessage.Logout
     | MarketDataIncrementalRefresh _ ->
-        let pos, msg = ReadMarketDataIncrementalRefresh  bs pos
-        pos, msg |> FIXMessage.MarketDataIncrementalRefresh
+        let msg = ReadMarketDataIncrementalRefresh bs index
+        msg |> FIXMessage.MarketDataIncrementalRefresh
     | MarketDataRequest _ ->
-        let pos, msg = ReadMarketDataRequest  bs pos
-        pos, msg |> FIXMessage.MarketDataRequest
+        let msg = ReadMarketDataRequest bs index
+        msg |> FIXMessage.MarketDataRequest
     | MarketDataRequestReject _ ->
-        let pos, msg = ReadMarketDataRequestReject  bs pos
-        pos, msg |> FIXMessage.MarketDataRequestReject
+        let msg = ReadMarketDataRequestReject bs index
+        msg |> FIXMessage.MarketDataRequestReject
     | MarketDataSnapshotFullRefresh _ ->
-        let pos, msg = ReadMarketDataSnapshotFullRefresh  bs pos
-        pos, msg |> FIXMessage.MarketDataSnapshotFullRefresh
+        let msg = ReadMarketDataSnapshotFullRefresh bs index
+        msg |> FIXMessage.MarketDataSnapshotFullRefresh
     | MassQuote _ ->
-        let pos, msg = ReadMassQuote  bs pos
-        pos, msg |> FIXMessage.MassQuote
+        let msg = ReadMassQuote bs index
+        msg |> FIXMessage.MassQuote
     | MassQuoteAcknowledgement _ ->
-        let pos, msg = ReadMassQuoteAcknowledgement  bs pos
-        pos, msg |> FIXMessage.MassQuoteAcknowledgement
+        let msg = ReadMassQuoteAcknowledgement bs index
+        msg |> FIXMessage.MassQuoteAcknowledgement
     | MultilegOrderCancelReplaceRequest _ ->
-        let pos, msg = ReadMultilegOrderCancelReplaceRequest  bs pos
-        pos, msg |> FIXMessage.MultilegOrderCancelReplaceRequest
+        let msg = ReadMultilegOrderCancelReplaceRequest bs index
+        msg |> FIXMessage.MultilegOrderCancelReplaceRequest
     | NetworkStatusRequest _ ->
-        let pos, msg = ReadNetworkStatusRequest  bs pos
-        pos, msg |> FIXMessage.NetworkStatusRequest
+        let msg = ReadNetworkStatusRequest bs index
+        msg |> FIXMessage.NetworkStatusRequest
     | NetworkStatusResponse _ ->
-        let pos, msg = ReadNetworkStatusResponse  bs pos
-        pos, msg |> FIXMessage.NetworkStatusResponse
+        let msg = ReadNetworkStatusResponse bs index
+        msg |> FIXMessage.NetworkStatusResponse
     | NewOrderCross _ ->
-        let pos, msg = ReadNewOrderCross  bs pos
-        pos, msg |> FIXMessage.NewOrderCross
+        let msg = ReadNewOrderCross bs index
+        msg |> FIXMessage.NewOrderCross
     | NewOrderList _ ->
-        let pos, msg = ReadNewOrderList  bs pos
-        pos, msg |> FIXMessage.NewOrderList
+        let msg = ReadNewOrderList bs index
+        msg |> FIXMessage.NewOrderList
     | NewOrderMultileg _ ->
-        let pos, msg = ReadNewOrderMultileg  bs pos
-        pos, msg |> FIXMessage.NewOrderMultileg
+        let msg = ReadNewOrderMultileg bs index
+        msg |> FIXMessage.NewOrderMultileg
     | NewOrderSingle _ ->
-        let pos, msg = ReadNewOrderSingle  bs pos
-        pos, msg |> FIXMessage.NewOrderSingle
+        let msg = ReadNewOrderSingle bs index
+        msg |> FIXMessage.NewOrderSingle
     | News _ ->
-        let pos, msg = ReadNews  bs pos
-        pos, msg |> FIXMessage.News
+        let msg = ReadNews bs index
+        msg |> FIXMessage.News
     | OrderCancelReject _ ->
-        let pos, msg = ReadOrderCancelReject  bs pos
-        pos, msg |> FIXMessage.OrderCancelReject
+        let msg = ReadOrderCancelReject bs index
+        msg |> FIXMessage.OrderCancelReject
     | OrderCancelReplaceRequest _ ->
-        let pos, msg = ReadOrderCancelReplaceRequest  bs pos
-        pos, msg |> FIXMessage.OrderCancelReplaceRequest
+        let msg = ReadOrderCancelReplaceRequest bs index
+        msg |> FIXMessage.OrderCancelReplaceRequest
     | OrderCancelRequest _ ->
-        let pos, msg = ReadOrderCancelRequest  bs pos
-        pos, msg |> FIXMessage.OrderCancelRequest
+        let msg = ReadOrderCancelRequest bs index
+        msg |> FIXMessage.OrderCancelRequest
     | OrderMassCancelReport _ ->
-        let pos, msg = ReadOrderMassCancelReport  bs pos
-        pos, msg |> FIXMessage.OrderMassCancelReport
+        let msg = ReadOrderMassCancelReport bs index
+        msg |> FIXMessage.OrderMassCancelReport
     | OrderMassCancelRequest _ ->
-        let pos, msg = ReadOrderMassCancelRequest  bs pos
-        pos, msg |> FIXMessage.OrderMassCancelRequest
+        let msg = ReadOrderMassCancelRequest bs index
+        msg |> FIXMessage.OrderMassCancelRequest
     | OrderMassStatusRequest _ ->
-        let pos, msg = ReadOrderMassStatusRequest  bs pos
-        pos, msg |> FIXMessage.OrderMassStatusRequest
+        let msg = ReadOrderMassStatusRequest bs index
+        msg |> FIXMessage.OrderMassStatusRequest
     | OrderStatusRequest _ ->
-        let pos, msg = ReadOrderStatusRequest  bs pos
-        pos, msg |> FIXMessage.OrderStatusRequest
+        let msg = ReadOrderStatusRequest bs index
+        msg |> FIXMessage.OrderStatusRequest
     | PositionMaintenanceReport _ ->
-        let pos, msg = ReadPositionMaintenanceReport  bs pos
-        pos, msg |> FIXMessage.PositionMaintenanceReport
+        let msg = ReadPositionMaintenanceReport bs index
+        msg |> FIXMessage.PositionMaintenanceReport
     | PositionMaintenanceRequest _ ->
-        let pos, msg = ReadPositionMaintenanceRequest  bs pos
-        pos, msg |> FIXMessage.PositionMaintenanceRequest
+        let msg = ReadPositionMaintenanceRequest bs index
+        msg |> FIXMessage.PositionMaintenanceRequest
     | PositionReport _ ->
-        let pos, msg = ReadPositionReport  bs pos
-        pos, msg |> FIXMessage.PositionReport
+        let msg = ReadPositionReport bs index
+        msg |> FIXMessage.PositionReport
     | Quote _ ->
-        let pos, msg = ReadQuote  bs pos
-        pos, msg |> FIXMessage.Quote
+        let msg = ReadQuote bs index
+        msg |> FIXMessage.Quote
     | QuoteCancel _ ->
-        let pos, msg = ReadQuoteCancel  bs pos
-        pos, msg |> FIXMessage.QuoteCancel
+        let msg = ReadQuoteCancel bs index
+        msg |> FIXMessage.QuoteCancel
     | QuoteRequest _ ->
-        let pos, msg = ReadQuoteRequest  bs pos
-        pos, msg |> FIXMessage.QuoteRequest
+        let msg = ReadQuoteRequest bs index
+        msg |> FIXMessage.QuoteRequest
     | QuoteRequestReject _ ->
-        let pos, msg = ReadQuoteRequestReject  bs pos
-        pos, msg |> FIXMessage.QuoteRequestReject
+        let msg = ReadQuoteRequestReject bs index
+        msg |> FIXMessage.QuoteRequestReject
     | QuoteResponse _ ->
-        let pos, msg = ReadQuoteResponse  bs pos
-        pos, msg |> FIXMessage.QuoteResponse
+        let msg = ReadQuoteResponse bs index
+        msg |> FIXMessage.QuoteResponse
     | QuoteStatusReport _ ->
-        let pos, msg = ReadQuoteStatusReport  bs pos
-        pos, msg |> FIXMessage.QuoteStatusReport
+        let msg = ReadQuoteStatusReport bs index
+        msg |> FIXMessage.QuoteStatusReport
     | QuoteStatusRequest _ ->
-        let pos, msg = ReadQuoteStatusRequest  bs pos
-        pos, msg |> FIXMessage.QuoteStatusRequest
+        let msg = ReadQuoteStatusRequest bs index
+        msg |> FIXMessage.QuoteStatusRequest
     | RFQRequest _ ->
-        let pos, msg = ReadRFQRequest  bs pos
-        pos, msg |> FIXMessage.RFQRequest
+        let msg = ReadRFQRequest bs index
+        msg |> FIXMessage.RFQRequest
     | RegistrationInstructions _ ->
-        let pos, msg = ReadRegistrationInstructions  bs pos
-        pos, msg |> FIXMessage.RegistrationInstructions
+        let msg = ReadRegistrationInstructions bs index
+        msg |> FIXMessage.RegistrationInstructions
     | RegistrationInstructionsResponse _ ->
-        let pos, msg = ReadRegistrationInstructionsResponse  bs pos
-        pos, msg |> FIXMessage.RegistrationInstructionsResponse
+        let msg = ReadRegistrationInstructionsResponse bs index
+        msg |> FIXMessage.RegistrationInstructionsResponse
     | Reject _ ->
-        let pos, msg = ReadReject  bs pos
-        pos, msg |> FIXMessage.Reject
+        let msg = ReadReject bs index
+        msg |> FIXMessage.Reject
     | RequestForPositions _ ->
-        let pos, msg = ReadRequestForPositions  bs pos
-        pos, msg |> FIXMessage.RequestForPositions
+        let msg = ReadRequestForPositions bs index
+        msg |> FIXMessage.RequestForPositions
     | RequestForPositionsAck _ ->
-        let pos, msg = ReadRequestForPositionsAck  bs pos
-        pos, msg |> FIXMessage.RequestForPositionsAck
+        let msg = ReadRequestForPositionsAck bs index
+        msg |> FIXMessage.RequestForPositionsAck
     | ResendRequest _ ->
-        let pos, msg = ReadResendRequest  bs pos
-        pos, msg |> FIXMessage.ResendRequest
+        let msg = ReadResendRequest bs index
+        msg |> FIXMessage.ResendRequest
     | SecurityDefinition _ ->
-        let pos, msg = ReadSecurityDefinition  bs pos
-        pos, msg |> FIXMessage.SecurityDefinition
+        let msg = ReadSecurityDefinition bs index
+        msg |> FIXMessage.SecurityDefinition
     | SecurityDefinitionRequest _ ->
-        let pos, msg = ReadSecurityDefinitionRequest  bs pos
-        pos, msg |> FIXMessage.SecurityDefinitionRequest
+        let msg = ReadSecurityDefinitionRequest bs index
+        msg |> FIXMessage.SecurityDefinitionRequest
     | SecurityList _ ->
-        let pos, msg = ReadSecurityList  bs pos
-        pos, msg |> FIXMessage.SecurityList
+        let msg = ReadSecurityList bs index
+        msg |> FIXMessage.SecurityList
     | SecurityListRequest _ ->
-        let pos, msg = ReadSecurityListRequest  bs pos
-        pos, msg |> FIXMessage.SecurityListRequest
+        let msg = ReadSecurityListRequest bs index
+        msg |> FIXMessage.SecurityListRequest
     | SecurityStatus _ ->
-        let pos, msg = ReadSecurityStatus  bs pos
-        pos, msg |> FIXMessage.SecurityStatus
+        let msg = ReadSecurityStatus bs index
+        msg |> FIXMessage.SecurityStatus
     | SecurityStatusRequest _ ->
-        let pos, msg = ReadSecurityStatusRequest  bs pos
-        pos, msg |> FIXMessage.SecurityStatusRequest
+        let msg = ReadSecurityStatusRequest bs index
+        msg |> FIXMessage.SecurityStatusRequest
     | SecurityTypeRequest _ ->
-        let pos, msg = ReadSecurityTypeRequest  bs pos
-        pos, msg |> FIXMessage.SecurityTypeRequest
+        let msg = ReadSecurityTypeRequest bs index
+        msg |> FIXMessage.SecurityTypeRequest
     | SecurityTypes _ ->
-        let pos, msg = ReadSecurityTypes  bs pos
-        pos, msg |> FIXMessage.SecurityTypes
+        let msg = ReadSecurityTypes bs index
+        msg |> FIXMessage.SecurityTypes
     | SequenceReset _ ->
-        let pos, msg = ReadSequenceReset  bs pos
-        pos, msg |> FIXMessage.SequenceReset
+        let msg = ReadSequenceReset bs index
+        msg |> FIXMessage.SequenceReset
     | SettlementInstructionRequest _ ->
-        let pos, msg = ReadSettlementInstructionRequest  bs pos
-        pos, msg |> FIXMessage.SettlementInstructionRequest
+        let msg = ReadSettlementInstructionRequest bs index
+        msg |> FIXMessage.SettlementInstructionRequest
     | SettlementInstructions _ ->
-        let pos, msg = ReadSettlementInstructions  bs pos
-        pos, msg |> FIXMessage.SettlementInstructions
+        let msg = ReadSettlementInstructions bs index
+        msg |> FIXMessage.SettlementInstructions
     | TestRequest _ ->
-        let pos, msg = ReadTestRequest  bs pos
-        pos, msg |> FIXMessage.TestRequest
+        let msg = ReadTestRequest bs index
+        msg |> FIXMessage.TestRequest
     | TradeCaptureReport _ ->
-        let pos, msg = ReadTradeCaptureReport  bs pos
-        pos, msg |> FIXMessage.TradeCaptureReport
+        let msg = ReadTradeCaptureReport bs index
+        msg |> FIXMessage.TradeCaptureReport
     | TradeCaptureReportAck _ ->
-        let pos, msg = ReadTradeCaptureReportAck  bs pos
-        pos, msg |> FIXMessage.TradeCaptureReportAck
+        let msg = ReadTradeCaptureReportAck bs index
+        msg |> FIXMessage.TradeCaptureReportAck
     | TradeCaptureReportRequest _ ->
-        let pos, msg = ReadTradeCaptureReportRequest  bs pos
-        pos, msg |> FIXMessage.TradeCaptureReportRequest
+        let msg = ReadTradeCaptureReportRequest bs index
+        msg |> FIXMessage.TradeCaptureReportRequest
     | TradeCaptureReportRequestAck _ ->
-        let pos, msg = ReadTradeCaptureReportRequestAck  bs pos
-        pos, msg |> FIXMessage.TradeCaptureReportRequestAck
+        let msg = ReadTradeCaptureReportRequestAck bs index
+        msg |> FIXMessage.TradeCaptureReportRequestAck
     | TradingSessionStatus _ ->
-        let pos, msg = ReadTradingSessionStatus  bs pos
-        pos, msg |> FIXMessage.TradingSessionStatus
+        let msg = ReadTradingSessionStatus bs index
+        msg |> FIXMessage.TradingSessionStatus
     | TradingSessionStatusRequest _ ->
-        let pos, msg = ReadTradingSessionStatusRequest  bs pos
-        pos, msg |> FIXMessage.TradingSessionStatusRequest
+        let msg = ReadTradingSessionStatusRequest bs index
+        msg |> FIXMessage.TradingSessionStatusRequest
     | UserRequest _ ->
-        let pos, msg = ReadUserRequest  bs pos
-        pos, msg |> FIXMessage.UserRequest
+        let msg = ReadUserRequest bs index
+        msg |> FIXMessage.UserRequest
     | UserResponse _ ->
-        let pos, msg = ReadUserResponse  bs pos
-        pos, msg |> FIXMessage.UserResponse
+        let msg = ReadUserResponse bs index
+        msg |> FIXMessage.UserResponse
 
 
 

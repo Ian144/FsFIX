@@ -95,17 +95,17 @@ let Gen (cmpNameMap:Map<ComponentName,Component>) (cmpItems:CompoundItem list) (
     swCompItemDU.WriteLine ""
     swCompItemDU.WriteLine ""
 
-    // create the 'TestReadCompound' DU function, used only in property based tests
-    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) bs pos ="
-    swCompItemDU.WriteLine "    match selector with"
-    names |> List.iter (fun grpLngName ->
-                let (GroupLongName strName) = grpLngName
-                let ss1  = sprintf "    | %sGrp _ ->" strName
-                let ss2  = sprintf "        let pos, grp = Read%sGrp bs pos" strName
-                let ss3 =  sprintf "        pos, grp |> FIXGroup.%sGrp" strName
-                swCompItemDU.WriteLine ss1
-                swCompItemDU.WriteLine ss2
-                swCompItemDU.WriteLine ss3 ) // end List.iter
+//    // create the 'TestReadCompound' DU function, used only in property based tests
+//    swCompItemDU.WriteLine "let ReadCITest (selector:FIXGroup) bs pos ="
+//    swCompItemDU.WriteLine "    match selector with"
+//    names |> List.iter (fun grpLngName ->
+//                let (GroupLongName strName) = grpLngName
+//                let ss1  = sprintf "    | %sGrp _ ->" strName
+//                let ss2  = sprintf "        let pos, grp = Read%sGrpIdx bs pos" strName
+//                let ss3 =  sprintf "        pos, grp |> FIXGroup.%sGrp" strName
+//                swCompItemDU.WriteLine ss1
+//                swCompItemDU.WriteLine ss2
+//                swCompItemDU.WriteLine ss3 ) // end List.iter
 
 
 
@@ -145,56 +145,56 @@ let private genFieldInitStrs (items:FIXItem list) =
 
 
 
-let private genCompoundItemReader (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (ci:CompoundItem) =
-    let name = CompoundItem.getName ci
-    let suffix = CompoundItem.getNameSuffix ci
-    let typeName = sprintf "%s%s" name suffix
-    let compOrGroup = CompoundItem.getCompOrGroupStr ci
-    let items = CompoundItem.getItems ci
-    sw.WriteLine (sprintf "// %s" compOrGroup)
-    let funcSig = sprintf "let Read%s (bs:byte[]) (pos:int) : int * %s =" typeName typeName
-    sw.WriteLine funcSig
-    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap name items
-    readFIXItemStrs |> List.iter sw.WriteLine
-    let fieldInitStrs = genFieldInitStrs items
-    sw.WriteLine (sprintf "    let ci:%s = {" typeName)
-    fieldInitStrs |> List.iter sw.WriteLine
-    sw.WriteLine "    }"
-    sw.WriteLine "    pos, ci"
-    sw.WriteLine ""
-    sw.WriteLine ""
-
-
+ 
 let private genCompoundItemReaderIdx (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (ci:CompoundItem) =
     let name = CompoundItem.getName ci
-    let suffix = CompoundItem.getNameSuffix ci
-    let typeName = sprintf "%s%s" name suffix
-    let compOrGroup = CompoundItem.getCompOrGroupStr ci
     let items = CompoundItem.getItems ci
-    sw.WriteLine (sprintf "// %s" compOrGroup)
-    let funcSig = sprintf "let Read%sIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : %s =" typeName typeName
-    sw.WriteLine funcSig
-    let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdxOrdered fieldNameMap compNameMap name items
-    readFIXItemStrs |> List.iter sw.WriteLine
-    let fieldInitStrs = genFieldInitStrs items
-    sw.WriteLine (sprintf "    let ci:%s = {" typeName)
-    fieldInitStrs |> List.iter sw.WriteLine
-    sw.WriteLine "    }"
-    sw.WriteLine "    ci"
-    sw.WriteLine ""
-    sw.WriteLine ""
+    match ci with
+    | CompoundItem.Group grp ->
+        let typeName =  sprintf "%sGrp" name 
+        sw.WriteLine "// group"
+        let funcSig = sprintf "let Read%sIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : %s =" typeName typeName
+        sw.WriteLine funcSig
+        let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdxOrdered fieldNameMap compNameMap name items // all group sub-item reads are ordered
+        readFIXItemStrs |> List.iter sw.WriteLine
+        let fieldInitStrs = genFieldInitStrs items
+        sw.WriteLine (sprintf "    let ci:%s = {" typeName)
+        fieldInitStrs |> List.iter sw.WriteLine
+        sw.WriteLine "    }"
+        sw.WriteLine "    ci"
+        sw.WriteLine ""
+        sw.WriteLine ""
 
+    | CompoundItem.Component cmp    -> 
+        let typeName = name
+        let items = CompoundItem.getItems ci
+        // generate a reader that does not expect sequentially ordered fields, used when the component is not inside a group
+        sw.WriteLine "// component, random access reader"
+        let funcSig = sprintf "let Read%sIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : %s =" typeName typeName
+        sw.WriteLine funcSig
+        let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdx fieldNameMap compNameMap name items
+        readFIXItemStrs |> List.iter sw.WriteLine
+        let fieldInitStrs = genFieldInitStrs items
+        sw.WriteLine (sprintf "    let ci:%s = {" typeName)
+        fieldInitStrs |> List.iter sw.WriteLine
+        sw.WriteLine "    }"
+        sw.WriteLine "    ci"
+        sw.WriteLine ""
+        sw.WriteLine ""
+        // generate a reader that expects the field order to be sequential, used when the component is part of a group
+        sw.WriteLine "// component, ordered reader i.e. fields are in sequential order in the FIX buffer"
+        let funcSig = sprintf "let Read%sIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : %s =" typeName typeName
+        sw.WriteLine funcSig
+        let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdxOrdered fieldNameMap compNameMap name items
+        readFIXItemStrs |> List.iter sw.WriteLine
+        let fieldInitStrs = genFieldInitStrs items
+        sw.WriteLine (sprintf "    let ci:%s = {" typeName)
+        fieldInitStrs |> List.iter sw.WriteLine
+        sw.WriteLine "    }"
+        sw.WriteLine "    ci"
+        sw.WriteLine ""
+        sw.WriteLine ""
 
-let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (xs:CompoundItem list) (sw:StreamWriter) =
-    sw.WriteLine "module Fix44.CompoundItemReaders"
-    sw.WriteLine ""
-    sw.WriteLine "open ReaderUtils"
-    sw.WriteLine "open Fix44.Fields"
-    sw.WriteLine "open Fix44.FieldReaders"
-    sw.WriteLine "open Fix44.CompoundItems"
-    sw.WriteLine ""
-    sw.WriteLine ""
-    xs |> List.iter (genCompoundItemReader fieldNameMap compNameMap sw)  
 
 
 

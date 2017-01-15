@@ -68,11 +68,11 @@ let ReadOptionalFieldIdxOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 // the int that readFunc returns is the consecutively next index pos in the FIX buffer field index array 
 // todo, consider replacing the accumulating list with an array
-let rec readGrpInnerIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (nextFieldIndexPos:int) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp) =
+let rec readGrpInnerIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.FixBufIndex->'grp) =
     match recursionCount with
-    | 0u    ->  nextFieldIndexPos, (acc |> List.rev)
-    | _     ->  let nextFieldIndexPos2, grpInstance = readFunc bs index nextFieldIndexPos // the bool is a dummy, to enforce calling 'ordered read' field and component read functions (i.e. its a compile error for a non ordered read function to be called)
-                readGrpInnerIdx bs index nextFieldIndexPos2 (grpInstance::acc) (recursionCount-1u) readFunc
+    | 0u    ->  acc |> List.rev // without this the last group in the fix buffer would be first in the list, todo: fix this possible perf issue
+    | _     ->  let grpInstance = readFunc bs index
+                readGrpInnerIdx bs index (grpInstance::acc) (recursionCount-1u) readFunc
 
 
 // the tagInt is the tag of the "number group repeats" field, which can be anywhere in the buffer/index
@@ -84,8 +84,9 @@ let ReadGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTagInt:i
         let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
         failwith msg
     let numFieldData = fieldPosArr.[numFieldIndex]
+    index.LastReadIdx <- numFieldIndex
     let numRepeats = Conversions.bytesToUInt32Idx bs numFieldData.Pos numFieldData.Len
-    readGrpInnerIdx bs index numFieldIndex [] numRepeats readFunc
+    readGrpInnerIdx bs index [] numRepeats readFunc
 
 
 
@@ -97,18 +98,19 @@ let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldT
         let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
         failwith msg
     let numFieldData = fieldPosArr.[numFieldIndex]
+    index.LastReadIdx <- numFieldIndex
     let numRepeats = Conversions.bytesToUInt32Idx bs numFieldData.Pos numFieldData.Len
     match numRepeats with
-    | 1u  -> let pos4, grp = readFunc bs index (numFieldIndex+1) // the group must start after the num field
+    | 1u  -> let grp = readFunc bs index // the group must start after the num field
              OneOrTwo.One grp
-    | 2u  -> let nextFieldIndex, grp1 = readFunc bs index (numFieldIndex+1) // the group must start after the num field
-             let _, grp2 = readFunc bs index nextFieldIndex
+    | 2u  -> let grp1 = readFunc bs index
+             let grp2 = readFunc bs index
              OneOrTwo.Two (grp1, grp2)
-    | x   -> failwith (sprintf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %A"  x)
+    | x   -> failwith (sprintf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x)
 
 
 
-let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) (readFunc:byte[]->FIXBufIndexer.FixBufIndex->int->int*'grp): 'grp list option =
+let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
     let fieldPosArr = index.FieldPosArr
     let numFieldIdx = FIXBufIndexer.FindFieldIdx index numFieldTag
     if numFieldIdx = -1 then 
@@ -118,8 +120,7 @@ let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numField
         let fpData = fieldPosArr.[numFieldIdx]
         index.LastReadIdx <- numFieldIdx
         let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
-        let firstGrpFieldIdx = numFieldIdx + 1 // group fields follow the num group repeats field
-        let _, gs = readGrpInnerIdx bs index firstGrpFieldIdx [] numRepeats readFunc
+        let gs = readGrpInnerIdx bs index [] numRepeats readFunc
         Option.Some gs
 
 
@@ -129,7 +130,6 @@ let ReadComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc =
 
 // the first field of an optional component is required, so the component is present if the first field is present
 let ReadOptionalComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTagInt:int) readFunc =
-    let fieldPosArr = index.FieldPosArr
     let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTagInt
     if numFieldIdx = -1 then 
         Option.None // the optional component is not present

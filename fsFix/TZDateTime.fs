@@ -1,6 +1,6 @@
 ﻿module TZDateTime
 
-open DateTimeUtils
+open FIXDateTime
 
 
 
@@ -66,7 +66,7 @@ type MakeTZOffset private () =
 let inline private readNonUTC (isPos:bool) (bs:byte[]) (pos:int) =
     let isHHmm = bs.Length > (pos+3) && bs.[pos+3] = 58uy // if there is a ':' 3 chars hence
     if isHHmm then
-        let hh, mm = DateTimeUtils.readHHMMints bs (pos+1)
+        let hh, mm = FIXDateTime.readHHMMints bs (pos+1)
         match isPos with
         | true  -> pos+6, MakeTZOffset.Make (43uy, hh, mm)
         | false -> pos+6, MakeTZOffset.Make (45uy, hh, mm)
@@ -98,20 +98,20 @@ let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
     match offSet with 
     | UTC                       ->  bs.[pos] <- 90uy; (pos + 1)     // write Z
     | PosOffsetHH hh            ->  bs.[pos] <- 43uy                // write +
-                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    FIXDateTime.write2ByteInt bs (pos+1) hh
                                     (pos + 3)
     | NegOffsetHH hh            ->  bs.[pos] <- 45uy                // write -
-                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    FIXDateTime.write2ByteInt bs (pos+1) hh
                                     (pos + 3)
     | NegOffsetHHmm (hh, mm)    ->  bs.[pos] <- 45uy
-                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    FIXDateTime.write2ByteInt bs (pos+1) hh
                                     bs.[pos+3] <- 58uy
-                                    DateTimeUtils.write2ByteInt bs (pos+4) mm
+                                    FIXDateTime.write2ByteInt bs (pos+4) mm
                                     (pos + 6)
     | PosOffsetHHmm (hh, mm)    ->  bs.[pos] <- 43uy
-                                    DateTimeUtils.write2ByteInt bs (pos+1) hh
+                                    FIXDateTime.write2ByteInt bs (pos+1) hh
                                     bs.[pos+3] <- 58uy
-                                    DateTimeUtils.write2ByteInt bs (pos+4) mm
+                                    FIXDateTime.write2ByteInt bs (pos+4) mm
                                     (pos + 6)
 
 
@@ -155,11 +155,11 @@ let inline private findOffsetMarker (bs:byte[]) (pos:int) =
 let readTZTimeOnly (bs:byte[]) (pos:int) =
     let offSetMarkerPos = findOffsetMarker bs pos
     match offSetMarkerPos with 
-    | 5 ->  let hh, mm = DateTimeUtils.readHHMMints bs pos
+    | 5 ->  let hh, mm = FIXDateTime.readHHMMints bs pos
             let posOut, offset = readTZOffset bs (pos+5)
             let tm = MakeTZTimeOnly.Make (offset, hh, mm)
             posOut, tm
-    | 8 ->  let hh, mm, ss = DateTimeUtils.readHHMMSSints bs pos
+    | 8 ->  let hh, mm, ss = FIXDateTime.readHHMMSSints bs pos
             let posOut, offset = readTZOffset bs (pos+8)
             let tm = MakeTZTimeOnly.Make (offset, hh, mm, ss)
             posOut, tm

@@ -98,7 +98,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
 
 
 let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
-    let funcSig = sprintf "let Read%s (bs:byte []) (pos:int) : int * %s  =" msg.MName msg.MName
+    let funcSig = sprintf "let Read%s (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =" msg.MName
     sw.WriteLine funcSig
     let readFIXItemStrs = CommonGenerator.genItemListReaderStrsIdx fieldNameMap compNameMap msg.MName msg.Items
     readFIXItemStrs |> List.iter sw.WriteLine
@@ -106,7 +106,7 @@ let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
     sw.WriteLine (sprintf "    let ci:%s = {" msg.MName)
     fieldInitStrs |> List.iter sw.WriteLine
     sw.WriteLine "    }"
-    sw.WriteLine "    pos, ci"
+    sw.WriteLine "    ci"
     sw.WriteLine ""
     sw.WriteLine ""
 
@@ -161,12 +161,12 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
 
     // create the 'TestReadMessage DU function, probably will only used in property based tests
-    sw.WriteLine "let ReadMessage (selector:FIXMessage) bs pos ="
+    sw.WriteLine "let ReadMessage selector bs (index:FIXBufIndexer.FixBufIndex) ="
     sw.WriteLine "    match selector with"
     names |> List.iter (fun strName ->
                 let ss1  = sprintf "    | %s _ ->" strName
-                let ss2  = sprintf "        let pos, msg = Read%s  bs pos" strName
-                let ss3 =  sprintf "        pos, msg |> FIXMessage.%s" strName
+                let ss2  = sprintf "        let msg = Read%s bs index" strName
+                let ss3 =  sprintf "        msg |> FIXMessage.%s" strName
                 sw.WriteLine ss1
                 sw.WriteLine ss2
                 sw.WriteLine ss3 ) // end List.iter

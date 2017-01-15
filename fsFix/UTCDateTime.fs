@@ -1,6 +1,6 @@
 ﻿module UTCDateTime
 
-open DateTimeUtils
+open FIXDateTime
 
 
 

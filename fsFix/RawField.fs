@@ -78,112 +78,111 @@ let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (len:int) (strTagExpect
 
 
 
-//----------------
 
-let ReadFieldInt (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    let tmp = Conversions.bytesToInt32 valIn
-    let fld = fldCtor tmp
-    pos2, fld
-
-
-
-let ReadFieldUint32 (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    //let tmp2 = System.BitConverter.ToUInt32 (valIn, 0)
-    let tmp = Conversions.bytesToUInt32 valIn
-    let fld = fldCtor tmp
-    pos2, fld
-
-
-let ReadFieldChar (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    let cc =
-        match valIn.Length with
-        | 1 ->  valIn.[0] |> char
-        | n ->  let msg = sprintf "invalid length for char field: %d" n
-                failwith msg
-    pos2, fldCtor cc
-
-
-
-let ReadFieldDecimal (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    let tmp = Conversions.bytesToDecimal valIn
-    let fld = fldCtor tmp
-    pos2, fld 
-
-
-
-
-let ReadFieldBool (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    let tmp = Conversions.bytesToBool valIn
-    let fld = fldCtor tmp
-    pos2, fld 
-
-
-
-let ReadFieldStr (bs:byte[]) (pos:int) fldCtor =
-    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
-    let tmp = Conversions.bytesToStr valIn
-    let fld = fldCtor tmp
-    pos2, fld
-
-
-let ReadFieldData (bs:byte[]) (pos:int) fldCtor =
-    let pos2, bs = FIXBuf.readValAfterTagValSep bs pos
-    let fld = fldCtor bs
-    pos2, fld
-
-
-let ReadFieldUTCTimeOnly (bs:byte[]) (pos:int) fldCtor =
-    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let tm = UTCDateTime.readUTCTimeOnly bs pos pos2
-    pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-
-let ReadFieldUTCDate (bs:byte[]) (pos:int) fldCtor =
-    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let dt = UTCDateTime.readUTCDate bs pos pos2
-    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-let ReadFieldLocalMktDate (bs:byte[]) (pos:int) fldCtor =
-    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let dt = LocalMktDate.readLocalMktDate bs pos pos2
-    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-
-
-let ReadFieldUTCTimestamp (bs:byte[]) (pos:int) fldCtor =
-    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let dt = UTCDateTime.readUTCTimestamp bs pos pos2
-    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-// not used in FIX4.4, so not tested at the time of writing
-// TZDateTime.readTZTimeOnly has been tested
-let ReadSingleCaseTZTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
-    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let dt = TZDateTime.readTZTimeOnly bs pos //pos2
-    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-
-let ReadFieldMonthYear (bs:byte[]) (pos:int) fldCtor =
+//let ReadFieldInt (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    let tmp = Conversions.bytesToInt32 valIn
+//    let fld = fldCtor tmp
+//    pos2, fld
+//
+//
+//
+//let ReadFieldUint32 (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    //let tmp2 = System.BitConverter.ToUInt32 (valIn, 0)
+//    let tmp = Conversions.bytesToUInt32 valIn
+//    let fld = fldCtor tmp
+//    pos2, fld
+//
+//
+//let ReadFieldChar (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    let cc =
+//        match valIn.Length with
+//        | 1 ->  valIn.[0] |> char
+//        | n ->  let msg = sprintf "invalid length for char field: %d" n
+//                failwith msg
+//    pos2, fldCtor cc
+//
+//
+//
+//let ReadFieldDecimal (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    let tmp = Conversions.bytesToDecimal valIn
+//    let fld = fldCtor tmp
+//    pos2, fld 
+//
+//
+//
+//
+//let ReadFieldBool (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    let tmp = Conversions.bytesToBool valIn
+//    let fld = fldCtor tmp
+//    pos2, fld 
+//
+//
+//
+//let ReadFieldStr (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos
+//    let tmp = Conversions.bytesToStr valIn
+//    let fld = fldCtor tmp
+//    pos2, fld
+//
+//
+//let ReadFieldData (bs:byte[]) (pos:int) fldCtor =
+//    let pos2, bs = FIXBuf.readValAfterTagValSep bs pos
+//    let fld = fldCtor bs
+//    pos2, fld
+//
+//
+//let ReadFieldUTCTimeOnly (bs:byte[]) (pos:int) fldCtor =
 //    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
-    let pos2, dt = MonthYear.read bs pos //pos2
-    pos2 + 1, fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
-
-
-// all compound fields are of type data (i.e. byte[])
-let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (strTagExpected:byte[]) fldCtor =
-    let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs pos
-    let strLen = Conversions.bytesToInt32 lenBytes
-    // the len has been read, next read the string
-    // the tag read-in must match the expected tag
-    let strFieldBegin, strTagBytes = FIXBuf.readTagAfterFieldDelim bs nextFieldBeg
-    if strTagExpected <> strTagBytes then failwith "ReadLengthDataCompoundField, unexpected string field tag"
-    let nextFieldTermPos2, bs = FIXBuf.readNBytesVal strFieldBegin strLen bs
-    nextFieldTermPos2, fldCtor bs
+//    let tm = UTCDateTime.readUTCTimeOnly bs pos pos2
+//    pos2 + 1,  fldCtor tm // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//
+//let ReadFieldUTCDate (bs:byte[]) (pos:int) fldCtor =
+//    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
+//    let dt = UTCDateTime.readUTCDate bs pos pos2
+//    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//let ReadFieldLocalMktDate (bs:byte[]) (pos:int) fldCtor =
+//    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
+//    let dt = LocalMktDate.readLocalMktDate bs pos pos2
+//    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//
+//
+//let ReadFieldUTCTimestamp (bs:byte[]) (pos:int) fldCtor =
+//    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
+//    let dt = UTCDateTime.readUTCTimestamp bs pos pos2
+//    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//// not used in FIX4.4, so not tested at the time of writing
+//// TZDateTime.readTZTimeOnly has been tested
+//let ReadSingleCaseTZTimeOnlyField (bs:byte[]) (pos:int) fldCtor =
+//    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
+//    let dt = TZDateTime.readTZTimeOnly bs pos //pos2
+//    pos2 + 1,  fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//
+//let ReadFieldMonthYear (bs:byte[]) (pos:int) fldCtor =
+////    let pos2 = FIXBuf.findNextFieldTermOrEnd bs pos
+//    let pos2, dt = MonthYear.read bs pos //pos2
+//    pos2 + 1, fldCtor dt // +1 to move one past the field terminator (it does not matter if the 'endPos' is past the end of the array, it is similar to an end() iterator in C++ STL)
+//
+//
+//// all compound fields are of type data (i.e. byte[])
+//let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (strTagExpected:byte[]) fldCtor =
+//    let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs pos
+//    let strLen = Conversions.bytesToInt32 lenBytes
+//    // the len has been read, next read the string
+//    // the tag read-in must match the expected tag
+//    let strFieldBegin, strTagBytes = FIXBuf.readTagAfterFieldDelim bs nextFieldBeg
+//    if strTagExpected <> strTagBytes then failwith "ReadLengthDataCompoundField, unexpected string field tag"
+//    let nextFieldTermPos2, bs = FIXBuf.readNBytesVal strFieldBegin strLen bs
+//    nextFieldTermPos2, fldCtor bs
 
 
 

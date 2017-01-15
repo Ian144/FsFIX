@@ -1,6 +1,6 @@
 ﻿module MonthYear
 
-open DateTimeUtils
+open FIXDateTime
 
 
 
@@ -23,9 +23,6 @@ type MonthYear = private
                     | YYYYMM of yy:int * mth:int
                     | YYYYMMDD of yy:int * mth:int * dd:int
                     | YYYYMMWW of yy:int * mth:int * ww:Week
-
-
-
 
 
 
@@ -76,25 +73,25 @@ let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
 
 
 
-let read (bs:byte[]) (pos:int) : int*MonthYear =
+let read (bs:byte[]) (pos:int) : MonthYear =
     let endPos = FIXBuf.findNextFieldTermOrEnd bs pos
     match endPos - pos with
     | 6 -> // YYYYMM
-        let yy = DateTimeUtils.bytes4ToInt bs pos
-        let mm = DateTimeUtils.bytes2ToInt bs (pos+4)
-        pos+6, MakeMonthYear.Make (yy,mm)
+        let yy = FIXDateTime.bytes4ToInt bs pos
+        let mm = FIXDateTime.bytes2ToInt bs (pos+4)
+        MakeMonthYear.Make (yy,mm)
     | 8 -> // YYYYMMDD OR // YYYYMMDD 
         match bs.[pos+6] with
         | 119uy -> // YYYYMMDD 
-            let yy = DateTimeUtils.bytes4ToInt bs pos
-            let mm = DateTimeUtils.bytes2ToInt bs (pos+4)
+            let yy = FIXDateTime.bytes4ToInt bs pos
+            let mm = FIXDateTime.bytes2ToInt bs (pos+4)
             let ww = readWeek bs (pos+6)
-            pos+8, MakeMonthYear.Make (yy,mm,ww)
+            MakeMonthYear.Make (yy,mm,ww)
         | n     -> // // YYYYMMDD 
-            let yy = DateTimeUtils.bytes4ToInt bs pos
-            let mm = DateTimeUtils.bytes2ToInt bs (pos+4)
-            let dd = DateTimeUtils.bytes2ToInt bs (pos+6)
-            pos+8, MakeMonthYear.Make (yy,mm,dd)
+            let yy = FIXDateTime.bytes4ToInt bs pos
+            let mm = FIXDateTime.bytes2ToInt bs (pos+4)
+            let dd = FIXDateTime.bytes2ToInt bs (pos+6)
+            MakeMonthYear.Make (yy,mm,dd)
     | n -> let msg = sprintf "invalid field length for MonthYear: %d" n
            failwith msg 
 

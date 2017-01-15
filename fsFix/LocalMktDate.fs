@@ -1,6 +1,6 @@
 ﻿module LocalMktDate
 
-open DateTimeUtils
+open FIXDateTime
 
 
 
