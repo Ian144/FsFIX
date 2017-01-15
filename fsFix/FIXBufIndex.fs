@@ -117,7 +117,7 @@ let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
         pos <- pos2
         fieldIndex.[ctr] <- fp
         ctr <- ctr + 1
-    ctr+1
+    ctr
 
 
 // used for roundtrip property testing, if the index cant be used to reconstruct the original FIX buf then something is broken

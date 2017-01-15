@@ -32,8 +32,8 @@ let bufSize = 1024 * 82 // so as not to go into the LOH
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        EndSize = 8,
+        MaxTest = 10,
+        EndSize = 4,
         Verbose = false
 //        QuietOnSuccess = true
         )
@@ -110,7 +110,8 @@ let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) readF
 
 
 [<FsFixPropertyTest>]
-let monthYear (tm:MonthYear.MonthYear) = WriteReadTestAppendFieldTerm tm MonthYear.write MonthYear.read
+let monthYear (tm:MonthYear.MonthYear) = 
+    WriteReadTestAppendFieldTerm tm MonthYear.write MonthYear.read
 
 
 [<FsFixPropertyTest>]
@@ -144,13 +145,13 @@ let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldW
 
 // a very slow test due to the large number of Field DU instances
 // will disable/enable this test as required
-[<FsFixPropertyTest>]
-let AllFields (tIn:FIXField) = 
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = WriteField bs 0 tIn
-    let posSep = FIXBuf.findNextTagValSep bs 0
-    let tOut = ReadField bs (posSep+1) 
-    tIn =! tOut
+//[<FsFixPropertyTest>]
+//let AllFields (tIn:FIXField) = 
+//    let bs = Array.zeroCreate<byte> bufSize
+//    let posW = WriteField bs 0 tIn
+//    let posSep = FIXBuf.findNextTagValSep bs 0
+//    let tOut = ReadField bs (posSep+1) 
+//    tIn =! tOut
 
 
 
@@ -194,12 +195,12 @@ let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t
     tIn =! tOut
 
 
-[<FsFixPropertyTest>]
-let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest 
-
-
-[<FsFixPropertyTest>]
-let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage 
-
-
+//[<FsFixPropertyTest>]
+//let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest 
+//
+//
+//[<FsFixPropertyTest>]
+//let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage 
+//
+//
 
