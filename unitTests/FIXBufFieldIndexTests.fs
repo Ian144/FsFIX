@@ -26,17 +26,17 @@ let ``index FIX buf, including len+data field RawData with data containing only 
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
     let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
-        FIXBufIndexer.FieldPos( 56, 16, 7)
-        FIXBufIndexer.FieldPos( 57, 26, 2)
-        FIXBufIndexer.FieldPos( 13619, 32, 1)
-        FIXBufIndexer.FieldPos( 14644, 37, 4)
-        FIXBufIndexer.FieldPos( 13877, 45, 6)
-        FIXBufIndexer.FieldPos( 13363, 55, 1)
-        FIXBufIndexer.FieldPos( 12853, 60, 17)
-        FIXBufIndexer.FieldPos( 14393, 81, 1)
-        FIXBufIndexer.FieldPos( 3682353, 87, 2)
-        FIXBufIndexer.FieldPos( 12337, 93, 3)
+        FIXBufIndexer.FieldPos( 95, 3, 10) // rawdata len 
+        FIXBufIndexer.FieldPos( 8, 16, 7)
+        FIXBufIndexer.FieldPos( 9, 26, 2)
+        FIXBufIndexer.FieldPos( 35, 32, 1)
+        FIXBufIndexer.FieldPos( 49, 37, 4)
+        FIXBufIndexer.FieldPos( 56, 45, 6)
+        FIXBufIndexer.FieldPos( 34, 55, 1)
+        FIXBufIndexer.FieldPos( 52, 60, 17)
+        FIXBufIndexer.FieldPos( 98, 81, 1)
+        FIXBufIndexer.FieldPos( 108, 87, 2)
+        FIXBufIndexer.FieldPos( 10, 93, 3)
         |]
 
     numFields =! indexEnd
@@ -46,24 +46,24 @@ let ``index FIX buf, including len+data field RawData with data containing only 
 
 
 [<Fact>]
-let ``index FIX buf, including len+data field RawData with data containing only 5 field seperators`` () =
+let ``index FIX buf, including len+data field RawData with data containing 5 field seperators`` () =
     // 95=5|96=xx|xx contains the field seperator (between xx's), position should not matter
     let fixBuf = "95=5|96=||||||8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep
     let numFields = 11 // len+data field counts as one
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
     let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
-        FIXBufIndexer.FieldPos( 56, 16, 7)
-        FIXBufIndexer.FieldPos( 57, 26, 2)
-        FIXBufIndexer.FieldPos( 13619, 32, 1)
-        FIXBufIndexer.FieldPos( 14644, 37, 4)
-        FIXBufIndexer.FieldPos( 13877, 45, 6)
-        FIXBufIndexer.FieldPos( 13363, 55, 1)
-        FIXBufIndexer.FieldPos( 12853, 60, 17)
-        FIXBufIndexer.FieldPos( 14393, 81, 1)
-        FIXBufIndexer.FieldPos( 3682353, 87, 2)
-        FIXBufIndexer.FieldPos( 12337, 93, 3)
+        FIXBufIndexer.FieldPos( 95, 3, 10) // rawdata len 
+        FIXBufIndexer.FieldPos( 8, 16, 7)
+        FIXBufIndexer.FieldPos( 9, 26, 2)
+        FIXBufIndexer.FieldPos( 35, 32, 1)
+        FIXBufIndexer.FieldPos( 49, 37, 4)
+        FIXBufIndexer.FieldPos( 56, 45, 6)
+        FIXBufIndexer.FieldPos( 34, 55, 1)
+        FIXBufIndexer.FieldPos( 52, 60, 17)
+        FIXBufIndexer.FieldPos( 98, 81, 1)
+        FIXBufIndexer.FieldPos( 108, 87, 2)
+        FIXBufIndexer.FieldPos( 10, 93, 3)
         |]
 
     numFields =! indexEnd
@@ -78,17 +78,17 @@ let ``index FIX buf, including len+data field RawData with data containing a tag
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
     let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
-        FIXBufIndexer.FieldPos( 56, 16, 7)
-        FIXBufIndexer.FieldPos( 57, 26, 2)
-        FIXBufIndexer.FieldPos( 13619, 32, 1)
-        FIXBufIndexer.FieldPos( 14644, 37, 4)
-        FIXBufIndexer.FieldPos( 13877, 45, 6)
-        FIXBufIndexer.FieldPos( 13363, 55, 1)
-        FIXBufIndexer.FieldPos( 12853, 60, 17)
-        FIXBufIndexer.FieldPos( 14393, 81, 1)
-        FIXBufIndexer.FieldPos( 3682353, 87, 2)
-        FIXBufIndexer.FieldPos( 12337, 93, 3)
+        FIXBufIndexer.FieldPos( 95, 3, 10) // rawdata len 
+        FIXBufIndexer.FieldPos( 8, 16, 7)
+        FIXBufIndexer.FieldPos( 9, 26, 2)
+        FIXBufIndexer.FieldPos( 35, 32, 1)
+        FIXBufIndexer.FieldPos( 49, 37, 4)
+        FIXBufIndexer.FieldPos( 56, 45, 6)
+        FIXBufIndexer.FieldPos( 34, 55, 1)
+        FIXBufIndexer.FieldPos( 52, 60, 17)
+        FIXBufIndexer.FieldPos( 98, 81, 1)
+        FIXBufIndexer.FieldPos( 108, 87, 2)
+        FIXBufIndexer.FieldPos( 10, 93, 3)
         |]
 
     numFields =! indexEnd
@@ -104,17 +104,17 @@ let ``index FIX buf, including len+data field RawData with data containing a fie
     let indexArr = Array.zeroCreate<FIXBufIndexer.FieldPos> numFields // the expected length
     let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 13625, 3, 10) // rawdata len 
-        FIXBufIndexer.FieldPos( 56, 16, 7)
-        FIXBufIndexer.FieldPos( 57, 26, 2)
-        FIXBufIndexer.FieldPos( 13619, 32, 1)
-        FIXBufIndexer.FieldPos( 14644, 37, 4)
-        FIXBufIndexer.FieldPos( 13877, 45, 6)
-        FIXBufIndexer.FieldPos( 13363, 55, 1)
-        FIXBufIndexer.FieldPos( 12853, 60, 17)
-        FIXBufIndexer.FieldPos( 14393, 81, 1)
-        FIXBufIndexer.FieldPos( 3682353, 87, 2)
-        FIXBufIndexer.FieldPos( 12337, 93, 3)
+        FIXBufIndexer.FieldPos( 95, 3, 10) // rawdata len 
+        FIXBufIndexer.FieldPos( 8, 16, 7)
+        FIXBufIndexer.FieldPos( 9, 26, 2)
+        FIXBufIndexer.FieldPos( 35, 32, 1)
+        FIXBufIndexer.FieldPos( 49, 37, 4)
+        FIXBufIndexer.FieldPos( 56, 45, 6)
+        FIXBufIndexer.FieldPos( 34, 55, 1)
+        FIXBufIndexer.FieldPos( 52, 60, 17)
+        FIXBufIndexer.FieldPos( 98, 81, 1)
+        FIXBufIndexer.FieldPos( 108, 87, 2)
+        FIXBufIndexer.FieldPos( 10, 93, 3)
         |]
 
     numFields =! indexEnd
@@ -144,16 +144,16 @@ let ``index simple FIX buf, no len+data fields`` () =
     let indexEnd = FIXBufIndexer.Index indexArr fixBuf fixBuf.Length
 
     let expectedIndex = [|  
-        FIXBufIndexer.FieldPos( 56, 2, 7)
-        FIXBufIndexer.FieldPos( 57, 12, 2)
-        FIXBufIndexer.FieldPos( 13619, 18, 1)
-        FIXBufIndexer.FieldPos( 14644, 23, 4)
-        FIXBufIndexer.FieldPos( 13877, 31, 6)
-        FIXBufIndexer.FieldPos( 13363, 41, 1)
-        FIXBufIndexer.FieldPos( 12853, 46, 17)
-        FIXBufIndexer.FieldPos( 14393, 67, 1)
-        FIXBufIndexer.FieldPos( 3682353, 73, 2)
-        FIXBufIndexer.FieldPos( 12337, 79, 3)
+        FIXBufIndexer.FieldPos( 8, 2, 7)
+        FIXBufIndexer.FieldPos( 9, 12, 2)
+        FIXBufIndexer.FieldPos( 35, 18, 1)
+        FIXBufIndexer.FieldPos( 49, 23, 4)
+        FIXBufIndexer.FieldPos( 56, 31, 6)
+        FIXBufIndexer.FieldPos( 34, 41, 1)
+        FIXBufIndexer.FieldPos( 52, 46, 17)
+        FIXBufIndexer.FieldPos( 98, 67, 1)
+        FIXBufIndexer.FieldPos( 108, 73, 2)
+        FIXBufIndexer.FieldPos( 10, 79, 3)
         |]
 
 

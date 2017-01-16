@@ -27,8 +27,8 @@ let bytesToUInt32Idx bs pos len =
 
 let bytesToBoolIdx (bs:byte[]) (pos:int) =
     match bs.[pos] with
-    | 89uy ->  false // N
-    | 78uy ->  true  // Y
+    | 89uy ->  true  // Y
+    | 78uy ->  false  // N
     | _ ->  failwith (sprintf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]) 
 
 // todo: replace with impl that reads the decimal directly with the tmp string

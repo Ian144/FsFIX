@@ -219,7 +219,7 @@ let MassQuoteNoQuoteEntriesGrp () =
                     Currency = None    } 
 
     let posW = WriteMassQuoteNoQuoteEntriesGrp  bs 0 xIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2 //todo: allowing probe for the next optional field to look past endPos/end of the index, is there a better way to do this
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
     let xOut = ReadMassQuoteNoQuoteEntriesGrpIdx bs index

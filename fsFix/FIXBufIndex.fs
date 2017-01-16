@@ -11,10 +11,13 @@ open System
 
 
 
-let convIntToTagBytes (tagInt:int) = 
-    let bs = System.BitConverter.GetBytes tagInt
-    bs |> Array.filter (fun bb -> bb <> 0uy)
+//let convIntToTagBytes (tagInt:int) = 
+//    let bs = System.BitConverter.GetBytes tagInt
+//    bs |> Array.filter (fun bb -> bb <> 0uy)
 
+let convIntToTagBytes (tag:int) = 
+    let ss = sprintf "%d" tag
+    System.Text.Encoding.UTF8.GetBytes( ss)
 
 // the msg index should not be an array of value types, do not the reference chasing and cache misses, hence FieldPos is a struct
 type FieldPos =

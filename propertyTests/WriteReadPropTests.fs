@@ -72,8 +72,8 @@ let MessageWithHeaderTrailer
 let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->FIXBufIndexer.FixBufIndex->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs bs.Length
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex(indexEnd, fieldPosArr)
     let tOut = readFunc bs index
     tIn =! tOut
@@ -81,8 +81,8 @@ let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
 
 let WriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->int->int->'t) =
     let bs = Array.zeroCreate<byte> bufSize
-    writeFunc bs 0 tIn |> ignore
-    let tOut = readFunc bs 0 bs.Length
+    let posW = writeFunc bs 0 tIn
+    let tOut = readFunc bs 0 posW
     tIn =! tOut
 
 
@@ -92,8 +92,9 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
     let posSep = FIXBuf.findNextTagValSep bs 0
-    let len = bs.Length - (posSep+1)
-    let tOut = readFunc bs (posSep+1) len
+    let len = posW - (posSep + 2)
+    let posB = posSep + 1
+    let tOut = readFunc bs posB len
     tIn =! tOut
 
 
@@ -103,7 +104,7 @@ let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) readF
     let posW = writeFunc bs 0 tIn
     bs.[posW] <- 1uy
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs bs.Length
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let fpData = fieldPosArr.[0]
     let tOut = readFunc bs fpData.Pos fpData.Len
     tIn =! tOut
@@ -111,7 +112,7 @@ let WriteReadTestAppendFieldTerm (tIn:'t) (writeFunc:byte[]->int->'t->int) readF
 
 [<FsFixPropertyTest>]
 let monthYear (tm:MonthYear.MonthYear) = 
-    WriteReadTestAppendFieldTerm tm MonthYear.write MonthYear.read
+    WriteReadTest tm MonthYear.write MonthYear.read
 
 
 [<FsFixPropertyTest>]
