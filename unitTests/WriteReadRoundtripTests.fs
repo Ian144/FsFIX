@@ -52,7 +52,7 @@ let MessageWithHeaderTrailerUnit () =
                                 msgSeqNum
                                 sendingTime
                                 msg
-    let msgOut = MsgReadWrite.ReadMessage buf
+    let msgOut = MsgReadWrite.ReadMessage buf posW
     msg =! msgOut
 
 
@@ -120,7 +120,7 @@ let InstrumentLegFG () =
                 LegContractSettlMonth = None
                 LegInterestAccrualDate = None}
     let posW = WriteInstrumentLegFG  bs 0 xIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
     let xOut = ReadInstrumentLegFGIdx bs index
@@ -176,7 +176,7 @@ let InstrumentLegFG2 () =
                 LegContractSettlMonth = Some (legContractSettlMonth)
                 LegInterestAccrualDate = None}
     let posW = WriteInstrumentLegFG  bs 0 xIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
     let xOut = ReadInstrumentLegFGIdx bs index
@@ -278,7 +278,7 @@ let MarketDataIncrementalRefreshNoMDEntriesGrp () =
            Text = None;
            EncodedText = None;}
     let posW = WriteMarketDataIncrementalRefreshNoMDEntriesGrp  bs 0 xIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
     let xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx bs index

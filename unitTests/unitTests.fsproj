@@ -76,7 +76,7 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="FIXBufFieldSplitTests.fs" />
+    <Compile Include="FIXBufFieldIndexTests.fs" />
     <Compile Include="FieldReadTests.fs" />
     <Compile Include="WriteReadRoundtripTests.fs" />
     <Compile Include="UTCTimestampTests.fs" />

@@ -26,9 +26,7 @@ type FieldPos =
    end
     // this member func is for developer convenience, it should not be called in performance critical code
     override this.ToString() =
-        let bs2 = convIntToTagBytes this.Tag
-        let tagStr = System.Text.Encoding.UTF8.GetString bs2
-        sprintf "%s-%d-%d" tagStr this.Pos this.Len
+        sprintf "%d-%d-%d" this.Tag this.Pos this.Len
 
 
 [< NoComparison; NoEquality>]
@@ -38,28 +36,39 @@ type FixBufIndex (endPos: int, fieldPosArr: FieldPos[]) =
     member val LastReadIdx = -1 with get,set
 
 
-let FindFieldIdx (index:FixBufIndex) (tagInt:int) =
+let FindFieldIdx (index:FixBufIndex) (indexEnd:int) (tagRequired:int) =
     let mutable ctr = 0
     let mutable foundPos = -1
     let fieldPosArr = index.FieldPosArr
-    while (foundPos = -1) do
-        if tagInt = fieldPosArr.[ctr].Tag then
+    while (foundPos = -1) && (ctr < indexEnd) do
+        if tagRequired <> fieldPosArr.[ctr].Tag then
+            ctr <- ctr + 1
+        else
             foundPos <- ctr
-        ctr <- ctr + 1
     foundPos
 
 
+// in the case of non-field tags that contain alpha chars
+//let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
+//    let tagLen = tagEnd - tagBeg
+//    match tagLen with
+//    | 1     ->   int( bs.[tagBeg] )
+//    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msb is at the higher indice
+//    | 3     ->  (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) 
+//    | 4     ->  (int( bs.[tagBeg+3] ) <<< 24) + (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg] ) <<< 8) + int( bs.[tagBeg] ) 
+//    | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
+//                failwith msg
 
-let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
-    let tagLen = tagEnd - tagBeg
-    match tagLen with
-    | 1     ->   int( bs.[tagBeg] )
-    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msb is at the higher indice
-    | 3     ->  (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) 
-    | 4     ->  (int( bs.[tagBeg+3] ) <<< 24) + (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg] ) <<< 8) + int( bs.[tagBeg] ) 
-    | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
-                failwith msg
 
+let convTagToInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
+    let len = tagEnd - tagBeg
+    match len with
+    | 1 ->  int(bs.[tagBeg+0] - 48uy)
+    | 2 ->  int(bs.[tagBeg+0] - 48uy) * 10   + int(bs.[tagBeg+1] - 48uy)
+    | 3 ->  int(bs.[tagBeg+0] - 48uy) * 100  + int(bs.[tagBeg+1] - 48uy) * 10  + int(bs.[tagBeg+2] - 48uy)
+    | 4 ->  int(bs.[tagBeg+0] - 48uy) * 1000 + int(bs.[tagBeg+1] - 48uy) * 100 + int(bs.[tagBeg+2] - 48uy) * 10 + int(bs.[tagBeg+3] - 48uy)
+    | n ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
+            failwith msg  
 
 
 // i.e. is the tag that of the first field of a len+data field pair
@@ -67,23 +76,25 @@ let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
 // todo: this should be generated for each fix version
 let inline IsLenDataCompoundTag (tagInt:int) = 
     match tagInt with
-    | 13113 -> true     // signature
-    | 12345 -> true     // secureData
-    | 13625 -> true     // rawData
-    | 3289394 -> true   // xmlData
-    | 3683379 -> true   // encodedIssuer
-    | 3159347 -> true   // encodedSecurityDesc
-    | 3290419 -> true   // encodedListExecInst
-    | 3421491 -> true   // encodedText
-    | 3552563 -> true   // encodedSubject
-    | 3683635 -> true   // encodedHeadline
-    | 3159603 -> true   // encodedAllocText
-    | 3290675 -> true   // encodedUnderlyingIssuer
-    | 3421747 -> true   // encodedUnderlyingSecurityDesc
-    | 3486772 -> true   // encodedListStatusText
-    | 3682614 -> true   // encodedLegIssuer
-    | 3224118 -> true   // encodedLegSecurityDesc
-    | _       -> false
+    | 93  -> true // Signature
+    | 90  -> true // SecureData
+    | 95  -> true // RawData
+    | 212 -> true // XmlData
+    | 348 -> true // EncodedIssuer
+    | 350 -> true // EncodedSecurityDesc
+    | 352 -> true // EncodedListExecInst
+    | 354 -> true // EncodedText
+    | 356 -> true // EncodedSubject
+    | 358 -> true // EncodedHeadline
+    | 360 -> true // EncodedAllocText
+    | 362 -> true // EncodedUnderlyingIssuer
+    | 364 -> true // EncodedUnderlyingSecurityDesc
+    | 445 -> true // EncodedListStatusText
+    | 618 -> true // EncodedLegIssuer
+    | 621 -> true // EncodedLegSecurityDesc
+    | _   -> false
+
+
 
 // todo: consider inlining, this returns a reference type (would i have to manually inline to avoid the ref type??)
 let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) = 

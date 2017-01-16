@@ -61,7 +61,7 @@ let MessageWithHeaderTrailer
                                 msgSeqNum
                                 sendingTime
                                 msg
-    let msgOut = MsgReadWrite.ReadMessage buf
+    let msgOut = MsgReadWrite.ReadMessage buf posW
     msg =! msgOut
     //todo: check that all field index entries have been read
 
@@ -195,12 +195,12 @@ let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t
     tIn =! tOut
 
 
-//[<FsFixPropertyTest>]
-//let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest 
-//
-//
-//[<FsFixPropertyTest>]
-//let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage 
-//
-//
+[<FsFixPropertyTest>]
+let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest 
+
+
+[<FsFixPropertyTest>]
+let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage 
+
+
 

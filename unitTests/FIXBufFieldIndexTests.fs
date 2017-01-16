@@ -1,4 +1,4 @@
-﻿module FIXBufIndexer.Test
+﻿module FIXBufIndexerTest
 
 open Xunit
 open Swensen.Unquote

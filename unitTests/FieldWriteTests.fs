@@ -1,4 +1,4 @@
-﻿module FieldWrite.Test
+﻿module FieldWriteTest
 
 open Xunit
 open Swensen.Unquote
