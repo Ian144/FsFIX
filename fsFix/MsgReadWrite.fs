@@ -82,33 +82,6 @@ let WriteMessageDU
 // 108=30
 // 10=090
 
-//let ReadMessage (bs:byte []) : int * FIXMessage =
-//
-//    let pos = 0
-//    let pos, beginString    = ReaderUtils.ReadField bs pos "ReadBeginString" "8"B  ReadBeginString
-//    let pos, bodyLen        = ReaderUtils.ReadField bs pos "ReadBodyLength" "9"B  ReadBodyLength
-//
-//    // the generated readMsgType function returns a MsgType DU case which is not used for dispatching
-//    //let _, msgType        = ReaderUtils.ReadField bs pos "ReadMsgType"    "35"B  ReadMsgType
-//    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs pos
-//    let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
-//
-//    let pos, seqNum         = ReaderUtils.ReadField bs pos "ReadMsgSeqNum"    "34"B  ReadMsgSeqNum
-//    let pos, senderCompID   = ReaderUtils.ReadField bs pos "ReadSenderCompID" "49"B  ReadSenderCompID
-//    let pos, sendTime       = ReaderUtils.ReadField bs pos "ReadSendingTime"  "52"B  ReadSendingTime
-//    let pos, targetCompID   = ReaderUtils.ReadField bs pos "ReadTargetCompID" "56"B  ReadTargetCompID
-//    let pos, msg = ReadMessageDU tag bs pos
-//    let (BodyLength ulen) = bodyLen
-//    let len = ulen |> int
-//    let calcedCheckSum = CalcCheckSum bs 0 pos
-//    let pos, receivedCheckSum   = ReaderUtils.ReadField bs pos "ReadCheckSum" "10"B  ReadCheckSum
-//    if calcedCheckSum <> receivedCheckSum then
-//        let msg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-//        failwith msg
-//    pos, msg
-
-
-
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256 // todo, make index size a parameter 
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
@@ -116,7 +89,7 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions
     let beginString    = ReaderUtils.ReadFieldIdxOrdered true bs index 8 ReadBeginStringIdx
-    let bodyLen        = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
+    let (BodyLength uBodyLen) = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
     let msgTag         = ReaderUtils.ReadFieldIdxOrdered true bs index 35 ReadMsgTypeIdx
     let seqNum         = ReaderUtils.ReadFieldIdxOrdered true bs index 34 ReadMsgSeqNumIdx
     let senderCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 49 ReadSenderCompIDIdx
@@ -125,18 +98,13 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
 
     let msg = ReadMessageDU msgTag bs index
 
-
+    let bodyLenFpDataIdx = FIXBufIndexer.FindFieldIdx index indexEnd 9
+    let bodyLenFpData = fieldPosArr.[bodyLenFpDataIdx]
+    let bodyLen = uBodyLen |> int
+    let bodyBeginPos = bodyLenFpData.Pos + bodyLenFpData.Len
+    let bodyEndPos = bodyBeginPos + bodyLen
+    let calcedCheckSum = CalcCheckSum bs bodyBeginPos bodyEndPos
     let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
-
-    let targeCompFieldData = FIXBufIndexer.FindFieldIdx index 10
-//    let bodyBegin = 
-
-    let (BodyLength ulen) = bodyLen
-    let len = ulen |> int
-    let calcedCheckSum = CalcCheckSum bs 0 pos
-
-    
-
     if calcedCheckSum = receivedCheckSum then
         msg
     else
