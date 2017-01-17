@@ -178,7 +178,8 @@ let UnderlyingInstument (usIn:UnderlyingInstrument) = WriteReadIndexTest usIn Wr
 
 
 [<FsFixPropertyTest>]
-let NoSidesGrp (gIn:NoSidesGrp) = WriteReadIndexTest gIn WriteNoSidesGrp Fix44.CompoundItemReaders.ReadNoSidesGrpIdx
+let NoSidesGrp (gIn:NoSidesGrp) = 
+    WriteReadIndexTest gIn WriteNoSidesGrp Fix44.CompoundItemReaders.ReadNoSidesGrpIdx
 
 
 [<FsFixPropertyTest>]

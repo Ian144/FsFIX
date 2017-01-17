@@ -5,14 +5,15 @@ open System
 
 let bytesToStrIdx bs pos len = System.Text.Encoding.UTF8.GetString (bs, pos, len)
 
-// UTF-8 is a variable length encoding with a minimum of 8 bits per character. Characters with higher code points will take up to 32 bits, hence the len
-// replace with an impl that does not allocate a tmp array
-let bytesToCharIdx bs pos len = 
-    let cs = System.Text.Encoding.UTF8.GetChars(bs, pos, len)
-    if cs.Length <> 1 then
+let bytesToCharIdx (bs:byte[]) pos len = 
+    //let cs = System.Text.Encoding.UTF8.GetChars(bs, pos, len)
+    if len = 1 then
+        let b = bs.[pos]
+        char (b)
+    else
         let msg = sprintf "should be single char at pos: %d, len: %d" pos len
         failwith msg
-    cs.[0]
+
 
 // todo: replace with an impl the reads the int directly from the byte array without a tmp string
 let bytesToInt32Idx bs pos len =

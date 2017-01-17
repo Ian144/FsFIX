@@ -110,33 +110,32 @@ let WriteMessageDU
 
 
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
-
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256 // todo, make index size a parameter 
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    
 
-    // magic numbers are FIX field tags
+    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions
     let beginString    = ReaderUtils.ReadFieldIdxOrdered true bs index 8 ReadBeginStringIdx
     let bodyLen        = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
-
-    // the generated readMsgType function returns a MsgType DU case which is not used for dispatching
-    //let _, msgType        = ReaderUtils.ReadField bs index "ReadMsgType"    "35"B  ReadMsgType
-    let tagValSepPos        = 1 + FIXBuf.findNextTagValSep bs 999
-    let pos, tag            = FIXBuf.readValAfterTagValSep bs tagValSepPos
-
+    let msgTag         = ReaderUtils.ReadFieldIdxOrdered true bs index 35 ReadMsgTypeIdx
     let seqNum         = ReaderUtils.ReadFieldIdxOrdered true bs index 34 ReadMsgSeqNumIdx
     let senderCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 49 ReadSenderCompIDIdx
     let sendTime       = ReaderUtils.ReadFieldIdxOrdered true bs index 52 ReadSendingTimeIdx
     let targetCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 56 ReadTargetCompIDIdx
 
-    let msg = ReadMessageDU tag bs index
+    let msg = ReadMessageDU msgTag bs index
+
+
+    let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
+
+    let targeCompFieldData = FIXBufIndexer.FindFieldIdx index 10
+//    let bodyBegin = 
 
     let (BodyLength ulen) = bodyLen
     let len = ulen |> int
     let calcedCheckSum = CalcCheckSum bs 0 pos
 
-    let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
+    
 
     if calcedCheckSum = receivedCheckSum then
         msg
