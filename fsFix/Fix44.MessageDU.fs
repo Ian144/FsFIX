@@ -498,7 +498,7 @@ let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex
     | Fix44.Fields.MsgType.QuoteRequest   ->  ReadQuoteRequest bs index |> FIXMessage.QuoteRequest
     | Fix44.Fields.MsgType.QuoteResponse   ->  ReadQuoteResponse bs index |> FIXMessage.QuoteResponse
     | Fix44.Fields.MsgType.QuoteRequestReject   ->  ReadQuoteRequestReject bs index |> FIXMessage.QuoteRequestReject
-    | Fix44.Fields.MsgType.RfqRequest   ->  ReadRFQRequest bs index |> FIXMessage.RFQRequest
+    | Fix44.Fields.MsgType.RFQRequest   ->  ReadRFQRequest bs index |> FIXMessage.RFQRequest
     | Fix44.Fields.MsgType.Quote   ->  ReadQuote bs index |> FIXMessage.Quote
     | Fix44.Fields.MsgType.QuoteCancel   ->  ReadQuoteCancel bs index |> FIXMessage.QuoteCancel
     | Fix44.Fields.MsgType.QuoteStatusRequest   ->  ReadQuoteStatusRequest bs index |> FIXMessage.QuoteStatusRequest
@@ -521,7 +521,7 @@ let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex
     | Fix44.Fields.MsgType.SecurityStatus   ->  ReadSecurityStatus bs index |> FIXMessage.SecurityStatus
     | Fix44.Fields.MsgType.TradingSessionStatusRequest   ->  ReadTradingSessionStatusRequest bs index |> FIXMessage.TradingSessionStatusRequest
     | Fix44.Fields.MsgType.TradingSessionStatus   ->  ReadTradingSessionStatus bs index |> FIXMessage.TradingSessionStatus
-    | Fix44.Fields.MsgType.OrderSingle   ->  ReadNewOrderSingle bs index |> FIXMessage.NewOrderSingle
+    | Fix44.Fields.MsgType.NewOrderSingle   ->  ReadNewOrderSingle bs index |> FIXMessage.NewOrderSingle
     | Fix44.Fields.MsgType.ExecutionReport   ->  ReadExecutionReport bs index |> FIXMessage.ExecutionReport
     | Fix44.Fields.MsgType.DontKnowTrade   ->  ReadDontKnowTrade bs index |> FIXMessage.DontKnowTrade
     | Fix44.Fields.MsgType.OrderCancelReplaceRequest   ->  ReadOrderCancelReplaceRequest bs index |> FIXMessage.OrderCancelReplaceRequest
@@ -535,10 +535,10 @@ let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex
     | Fix44.Fields.MsgType.CrossOrderCancelReplaceRequest   ->  ReadCrossOrderCancelReplaceRequest bs index |> FIXMessage.CrossOrderCancelReplaceRequest
     | Fix44.Fields.MsgType.CrossOrderCancelRequest   ->  ReadCrossOrderCancelRequest bs index |> FIXMessage.CrossOrderCancelRequest
     | Fix44.Fields.MsgType.NewOrderMultileg   ->  ReadNewOrderMultileg bs index |> FIXMessage.NewOrderMultileg
-    | Fix44.Fields.MsgType.MultilegOrderCancelReplace   ->  ReadMultilegOrderCancelReplaceRequest bs index |> FIXMessage.MultilegOrderCancelReplaceRequest
+    | Fix44.Fields.MsgType.MultilegOrderCancelReplaceRequest   ->  ReadMultilegOrderCancelReplaceRequest bs index |> FIXMessage.MultilegOrderCancelReplaceRequest
     | Fix44.Fields.MsgType.BidRequest   ->  ReadBidRequest bs index |> FIXMessage.BidRequest
     | Fix44.Fields.MsgType.BidResponse   ->  ReadBidResponse bs index |> FIXMessage.BidResponse
-    | Fix44.Fields.MsgType.OrderList   ->  ReadNewOrderList bs index |> FIXMessage.NewOrderList
+    | Fix44.Fields.MsgType.NewOrderList   ->  ReadNewOrderList bs index |> FIXMessage.NewOrderList
     | Fix44.Fields.MsgType.ListStrikePrice   ->  ReadListStrikePrice bs index |> FIXMessage.ListStrikePrice
     | Fix44.Fields.MsgType.ListStatus   ->  ReadListStatus bs index |> FIXMessage.ListStatus
     | Fix44.Fields.MsgType.ListExecute   ->  ReadListExecute bs index |> FIXMessage.ListExecute
@@ -573,6 +573,9 @@ let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex
     | Fix44.Fields.MsgType.NetworkStatusRequest   ->  ReadNetworkStatusRequest bs index |> FIXMessage.NetworkStatusRequest
     | Fix44.Fields.MsgType.NetworkStatusResponse   ->  ReadNetworkStatusResponse bs index |> FIXMessage.NetworkStatusResponse
     | Fix44.Fields.MsgType.CollateralInquiryAck   ->  ReadCollateralInquiryAck bs index |> FIXMessage.CollateralInquiryAck
+    | invalidTag   ->
+        let ss = sprintf "received unknown message type tag: %A" invalidTag
+        failwith ss
 
 
 

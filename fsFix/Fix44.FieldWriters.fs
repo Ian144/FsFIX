@@ -732,13 +732,13 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MsgType.OrderSingle ->
+    | MsgType.NewOrderSingle ->
         let tag = "35=D"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MsgType.OrderList ->
+    | MsgType.NewOrderList ->
         let tag = "35=E"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1020,7 +1020,7 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MsgType.MultilegOrderCancelReplace ->
+    | MsgType.MultilegOrderCancelReplaceRequest ->
         let tag = "35=AC"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
@@ -1050,7 +1050,7 @@ let WriteMsgType (dest:byte array) (nextFreeIdx:int) (xxIn:MsgType) : int =
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MsgType.RfqRequest ->
+    | MsgType.RFQRequest ->
         let tag = "35=AH"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length

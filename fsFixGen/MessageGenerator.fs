@@ -193,6 +193,14 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
                 //let ss = sprintf "    | \"%s\"B   ->  Read%s bs index |> FIXMessage.%s"  msg.Tag msg.MName msg.MName
                 let ss = sprintf "    | Fix44.Fields.MsgType.%s   ->  Read%s bs index |> FIXMessage.%s"  msg.MName msg.MName msg.MName
                 sw.WriteLine ss )
+    let ss1  = "    | invalidTag   ->"
+    let ss2  = "        // FIX4.4.xml (the quickfix.net version at least) does not define and XMLMessage, for which there is a Fix44.Fields.MsgType DU case"
+    let ss2  = "        let ss = sprintf \"received unknown message type tag: %A\" invalidTag"
+    let ss3  = "        failwith ss"
+    sw.WriteLine ss1
+    sw.WriteLine ss2
+    sw.WriteLine ss3
+
     sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine ""

@@ -247,8 +247,8 @@ type MsgType =
     | Logon
     | News
     | Email
-    | OrderSingle
-    | OrderList
+    | NewOrderSingle
+    | NewOrderList
     | OrderCancelRequest
     | OrderCancelReplaceRequest
     | OrderStatusRequest
@@ -295,12 +295,12 @@ type MsgType =
     | DerivativeSecurityListRequest
     | DerivativeSecurityList
     | NewOrderMultileg
-    | MultilegOrderCancelReplace
+    | MultilegOrderCancelReplaceRequest
     | TradeCaptureReportRequest
     | TradeCaptureReport
     | OrderMassStatusRequest
     | QuoteRequestReject
-    | RfqRequest
+    | RFQRequest
     | QuoteStatusReport
     | QuoteResponse
     | Confirmation

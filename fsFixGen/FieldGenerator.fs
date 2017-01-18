@@ -88,31 +88,38 @@ let private prefixNumericCaseNames (ss:string) =
 
 let private correctNone (ss:string) =
     match ss with
-    | "None"    -> "NNone"
+    | "None"    -> "NNone" // so as not confused with Option.None
     | _         -> ss
 
 
+let private matchMsgTypeTagToFieldNameFIX44 (ss:string) =
+    match ss with
+    |"RfqRequest"                        -> "RFQRequest"
+    |"OrderSingle"                       -> "NewOrderSingle" 
+    |"MultilegOrderCancelReplace"        -> "MultilegOrderCancelReplaceRequest" 
+    |"OrderList"                         -> "NewOrderList"
+    | ss                                 -> ss
 
 
-let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> correctNone
+let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> correctNone >> matchMsgTypeTagToFieldNameFIX44
 
 
-let private getSingleCaseDUReadFuncString (fieldType:string) =
-    match fieldType with
-    | "uint32"          -> "ReadFieldUint32"
-    | "int"             -> "ReadFieldInt"
-    | "decimal"         -> "ReadFieldDecimal"
-    | "bool"            -> "ReadFieldBool"
-    | "char"            -> "ReadFieldChar"
-    | "string"          -> "ReadFieldStr"
-    | "byte []"         -> "ReadFieldData"
-    | "UTCTimeOnly"     -> "ReadFieldUTCTimeOnly"
-    | "UTCDate"         -> "ReadFieldUTCDate"
-    | "UTCTimestamp"    -> "ReadFieldUTCTimestamp" 
-    | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
-    | "MonthYear"       -> "ReadFieldMonthYear"
-    | "LocalMktDate"    -> "ReadFieldLocalMktDate"
-    | _                 -> failwith "unknown type name"
+//let private getSingleCaseDUReadFuncString (fieldType:string) =
+//    match fieldType with
+//    | "uint32"          -> "ReadFieldUint32"
+//    | "int"             -> "ReadFieldInt"
+//    | "decimal"         -> "ReadFieldDecimal"
+//    | "bool"            -> "ReadFieldBool"
+//    | "char"            -> "ReadFieldChar"
+//    | "string"          -> "ReadFieldStr"
+//    | "byte []"         -> "ReadFieldData"
+//    | "UTCTimeOnly"     -> "ReadFieldUTCTimeOnly"
+//    | "UTCDate"         -> "ReadFieldUTCDate"
+//    | "UTCTimestamp"    -> "ReadFieldUTCTimestamp" 
+//    | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
+//    | "MonthYear"       -> "ReadFieldMonthYear"
+//    | "LocalMktDate"    -> "ReadFieldLocalMktDate"
+//    | _                 -> failwith "unknown type name"
 
 
 let private getSingleCaseDUReadFuncStringIdx (fieldType:string) =
@@ -162,13 +169,13 @@ let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (
     StringEx.join "\n" lines
 
 
-let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
-    let readFunc = getSingleCaseDUReadFuncString wrappedType
-    let lines = [
-            sprintf "let Read%s (bs:byte[]) (pos:int): (int*%s) =" fieldName fieldName
-            sprintf "    %s bs pos %s.%s" readFunc fieldName fieldName
-    ]    
-    StringEx.join "\n" lines
+//let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
+//    let readFunc = getSingleCaseDUReadFuncString wrappedType
+//    let lines = [
+//            sprintf "let Read%s (bs:byte[]) (pos:int): (int*%s) =" fieldName fieldName
+//            sprintf "    %s bs pos %s.%s" readFunc fieldName fieldName
+//    ]    
+//    StringEx.join "\n" lines
 
 
 let private makeSingleCaseDUReaderFuncIdx (wrappedType:string) (fieldName:string) =

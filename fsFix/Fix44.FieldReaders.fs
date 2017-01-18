@@ -266,8 +266,8 @@ let ReadMsgTypeIdx (bs:byte[]) (pos:int) (len:int): MsgType =
     |"A"B -> MsgType.Logon
     |"B"B -> MsgType.News
     |"C"B -> MsgType.Email
-    |"D"B -> MsgType.OrderSingle
-    |"E"B -> MsgType.OrderList
+    |"D"B -> MsgType.NewOrderSingle
+    |"E"B -> MsgType.NewOrderList
     |"F"B -> MsgType.OrderCancelRequest
     |"G"B -> MsgType.OrderCancelReplaceRequest
     |"H"B -> MsgType.OrderStatusRequest
@@ -314,12 +314,12 @@ let ReadMsgTypeIdx (bs:byte[]) (pos:int) (len:int): MsgType =
     |"z"B -> MsgType.DerivativeSecurityListRequest
     |"AA"B -> MsgType.DerivativeSecurityList
     |"AB"B -> MsgType.NewOrderMultileg
-    |"AC"B -> MsgType.MultilegOrderCancelReplace
+    |"AC"B -> MsgType.MultilegOrderCancelReplaceRequest
     |"AD"B -> MsgType.TradeCaptureReportRequest
     |"AE"B -> MsgType.TradeCaptureReport
     |"AF"B -> MsgType.OrderMassStatusRequest
     |"AG"B -> MsgType.QuoteRequestReject
-    |"AH"B -> MsgType.RfqRequest
+    |"AH"B -> MsgType.RFQRequest
     |"AI"B -> MsgType.QuoteStatusReport
     |"AJ"B -> MsgType.QuoteResponse
     |"AK"B -> MsgType.Confirmation
