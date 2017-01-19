@@ -195,7 +195,7 @@ let genItemListReaderStrsIdxOrdered (fieldNameMap:Map<string,Field>) (compNameMa
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
                                             | Required     ->  genReadGroupIdx varName longName parentName tag 
-                                            | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroupIdx bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
+                                            | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroupIdxOrdered bs index %d Read%sGrpIdx" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
 

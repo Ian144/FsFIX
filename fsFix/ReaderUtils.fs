@@ -111,6 +111,16 @@ let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldT
 
 
 
+let ReadOptionalGroupIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
+    let nextFieldIdx = index.LastReadIdx + 1
+    let fpData = index.FieldPosArr.[nextFieldIdx]
+    if fpData.Tag = numFieldTag then
+        let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
+        readGrpInnerIdx bs index [] numRepeats readFunc |> Option.Some
+    else
+        Option.None // the optional group is not present
+
+
 let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
     let fieldPosArr = index.FieldPosArr
     let numFieldIdx = FIXBufIndexer.FindFieldIdx index index.EndPos numFieldTag
@@ -120,7 +130,7 @@ let ReadOptionalGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numField
         // the optional group is present, so read the number of repeats, then read each instance of the repeating group
         let fpData = fieldPosArr.[numFieldIdx]
         index.LastReadIdx <- numFieldIdx
-        let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
+        let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len
         let gs = readGrpInnerIdx bs index [] numRepeats readFunc
         Option.Some gs
 
