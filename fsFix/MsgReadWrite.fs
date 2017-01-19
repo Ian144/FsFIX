@@ -89,7 +89,7 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions
     let beginString    = ReaderUtils.ReadFieldIdxOrdered true bs index 8 ReadBeginStringIdx
-    let (BodyLength uBodyLen) = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
+    let bodyLen        = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
     let msgTag         = ReaderUtils.ReadFieldIdxOrdered true bs index 35 ReadMsgTypeIdx
     let seqNum         = ReaderUtils.ReadFieldIdxOrdered true bs index 34 ReadMsgSeqNumIdx
     let senderCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 49 ReadSenderCompIDIdx
@@ -98,12 +98,10 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
 
     let msg = ReadMessageDU msgTag bs index
 
-    let bodyLenFpDataIdx = FIXBufIndexer.FindFieldIdx index indexEnd 9
-    let bodyLenFpData = fieldPosArr.[bodyLenFpDataIdx]
-    let bodyLen = uBodyLen |> int
-    let bodyBeginPos = bodyLenFpData.Pos + bodyLenFpData.Len
-    let bodyEndPos = bodyBeginPos + bodyLen
-    let calcedCheckSum = CalcCheckSum bs bodyBeginPos bodyEndPos
+    let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
+    let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
+    let checksumTagPlusDelimLen = 3
+    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
     let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
     if calcedCheckSum = receivedCheckSum then
         msg
