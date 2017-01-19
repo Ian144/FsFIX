@@ -112,9 +112,10 @@ let ReadNoSidesGroupIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldT
 
 
 let ReadOptionalGroupIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) readFunc: 'grp list option =
-    let nextFieldIdx = index.LastReadIdx + 1
+    let nextFieldIdx = index.LastReadIdx + 1 // if the group exists the num field must be here
     let fpData = index.FieldPosArr.[nextFieldIdx]
     if fpData.Tag = numFieldTag then
+        index.LastReadIdx <- nextFieldIdx
         let numRepeats = Conversions.bytesToUInt32Idx bs fpData.Pos fpData.Len        
         readGrpInnerIdx bs index [] numRepeats readFunc |> Option.Some
     else
