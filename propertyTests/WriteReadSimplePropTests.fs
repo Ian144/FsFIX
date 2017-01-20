@@ -18,7 +18,7 @@ let bufSize = 1024 * 4
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10000, // simple, i.e. a single field or date+time value a faster for fscheck to create so MaxTest and EndSize can be higher
+        MaxTest = 100, // simple, i.e. a single field or date+time value a faster for fscheck to create so MaxTest and EndSize can be higher
         EndSize = 1000,
         Verbose = false,
         QuietOnSuccess = true
@@ -67,24 +67,23 @@ let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldW
 
 
 
-type FsFixSlowPropertyTest() =
+type SlowPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10,
+        MaxTest = 1,
         EndSize = 2,
         Verbose = false,
         QuietOnSuccess = true
         )
 
 
-// a very slow test due to the large number of Field DU instances
+
 // will disable/enable this test as required
-[<FsFixSlowPropertyTest>]
+[<SlowPropertyTest>]
 let AllFields (tIn:Fix44.FieldDU.FIXField) = 
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldDU.WriteField bs 0 tIn
-    let posSep = FIXBuf.findNextTagValSep bs 0
-    let tOut = Fix44.FieldDU.ReadField bs (posSep+1) // +1 to move past the tag-value seperator
+    let tOut = Fix44.FieldDU.ReadField bs 0
     tIn =! tOut
 
 

@@ -136,6 +136,7 @@ let ``reconstruct FIX buf from index, contains len+data fields with data field c
 
 
 
+
 [<Fact>]
 let ``index simple FIX buf, no len+data fields`` () =
     let fixBuf = "8=FIX.4.4|9=61|35=A|49=FUND|56=BROKER|34=1|52=20170104-06:22:00|98=0|108=30|10=157|"B |> Array.map convFieldSep

@@ -298,11 +298,9 @@ let NoSidesGrp () =
                          {  PartyID = PartyID "MGDCHFI"
                             PartyIDSource = None
                             PartyRole = None
-                            NoPartySubIDsGrp = None}    // becomes Some []
+                            NoPartySubIDsGrp = None}
     
-    let noPartyIDsGrp =  [ ptyId1Grp1; ptyId1Grp2 ] |> Option.Some // broken
-//    let noPartyIDsGrp =  [ ptyId1Grp1 ] |> Option.Some - works
-//    let noPartyIDsGrp =  [ ptyId1Grp2 ] |> Option.Some - works
+    let noPartyIDsGrp =  [ ptyId1Grp1; ptyId1Grp2 ] |> Option.Some 
 
     let xIn:NoSidesGrp = 
                 {Side = AsDefined
@@ -356,21 +354,17 @@ let NoSidesGrp () =
 [<Fact>]
 let NoPartyIDsGrp () =
     let bs = Array.zeroCreate<byte> 1024
-
     let ptyId1Grp1:NoPartyIDsGrp = 
                 {   PartyID = PartyID "HLFCBGEH"
                     PartyIDSource = None
                     PartyRole = None
                     NoPartySubIDsGrp = Some []} 
-
     let ptyId1Grp2:NoPartyIDsGrp = 
                          {  PartyID = PartyID "MGDCHFI"
                             PartyIDSource = None
                             PartyRole = None
                             NoPartySubIDsGrp = None}
-
     let ptyIdGrp = ptyId1Grp1
-
     let posW = WriteNoPartyIDsGrp  bs 0 ptyIdGrp
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 128
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
@@ -381,10 +375,32 @@ let NoPartyIDsGrp () =
 
 
 [<Fact>]
-let EncodedHeadline () =
+let EncodedHeadline1 () =
     let bs = Array.zeroCreate<byte> 1024
     let eh = EncodedHeadline [||] |> Fix44.FieldDU.EncodedHeadline
     let posW = Fix44.FieldDU.WriteField bs 0 eh
     let ehOut = Fix44.FieldDU.ReadField bs 0
     eh =! ehOut
     
+
+
+[<Fact>]
+let EncodedHeadline2 () =
+    let bs = Array.zeroCreate<byte> 1024
+    let eh = EncodedHeadline [||] 
+    let posW = Fix44.FieldWriters.WriteEncodedHeadline bs 0 eh
+    let pos2, tag = FIXBuf.readTag bs 0
+    let len = bs.Length - pos2
+    let ehOut = Fix44.FieldReaders.ReadEncodedHeadlineIdx bs pos2 len
+    eh =! ehOut
+
+
+
+
+[<Fact>]
+let EncodedHeadline3 () =
+    let bs = Array.zeroCreate<byte> 1024
+    let eh = EncodedHeadline [||] |> Fix44.FieldDU.EncodedHeadline
+    let posW = Fix44.FieldDU.WriteField bs 0 eh
+    let ehOut = Fix44.FieldDU.ReadField bs 0
+    eh =! ehOut
