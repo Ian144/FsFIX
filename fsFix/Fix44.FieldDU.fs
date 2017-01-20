@@ -908,7 +908,7 @@ type FIXField =
     | LegContractSettlMonth of LegContractSettlMonth
     | LegInterestAccrualDate of LegInterestAccrualDate
 
-// only used for property based testing
+
 let WriteField dest nextFreeIdx fixField =
     match fixField with
     | Account fixField -> WriteAccount dest nextFreeIdx fixField
@@ -1813,14 +1813,14 @@ let WriteField dest nextFreeIdx fixField =
     | LegInterestAccrualDate fixField -> WriteLegInterestAccrualDate dest nextFreeIdx fixField
 
 
-// only used for property based testing, can generate random but valid fields of any type, and have them dispatched to the correct reading function
+// this function is only used in property based testing
 let ReadField (bs:byte[]) (pos:int) =
-    let posSep = FIXBuf.findNextTagValSep bs pos
-    let pos2 = posSep + 1
-    let tag = FIXBufIndexer.convTagToInt bs pos (posSep - pos)
-    let posEnd = FIXBuf.findNextFieldTermOrEnd bs pos2
-    let len = posEnd - pos2
-    match tag with
+   let posSep = FIXBuf.findNextTagValSep bs pos
+   let pos2 = posSep + 1
+   let tag = FIXBufIndexer.convTagToInt bs pos (posSep - pos)
+   let posEnd = FIXBuf.findNextFieldTermOrEnd bs pos2
+   let len = posEnd - pos2
+   match tag with
     | 1 ->
         let fld = ReadAccountIdx bs pos2 len
         fld |> FIXField.Account

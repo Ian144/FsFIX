@@ -15,12 +15,12 @@ let bufSize = 1024 * 4
 
     
 
-type FsFixPropertyTest() =
+type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100, // simple, i.e. a single field or date+time value a faster for fscheck to create so MaxTest and EndSize can be higher
+        MaxTest = 10000, // simple, i.e. a single specific field or date+time value is faster for fscheck to create so MaxTest and EndSize can be higher
         EndSize = 1000,
-        Verbose = false,
+        Verbose = true,
         QuietOnSuccess = true
         )
 
@@ -33,11 +33,11 @@ let WriteReadTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->in
     tIn =! tOut
 
 
-[<FsFixPropertyTest>]
+[<PropTest>]
 let monthYear (tm:MonthYear.MonthYear) =  WriteReadTest tm MonthYear.write MonthYear.read
 
 
-[<FsFixPropertyTest>]
+[<PropTest>]
 let dtTZTimeOnly (tm:TZDateTime.TZTimeOnly) =  WriteReadTest tm TZDateTime.writeTZTimeOnly TZDateTime.readTZTimeOnly
 
 
@@ -53,25 +53,31 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) readFunc =
 
 
 
-[<FsFixPropertyTest>]
-let PosMaintRptID (fldIn:Fix44.Fields.PosMaintRptID) = WriteReadFieldTest fldIn Fix44.FieldWriters.WritePosMaintRptID Fix44.FieldReaders.ReadPosMaintRptIDIdx
+[<PropTest>]
+let PosMaintRptID (fldIn:Fix44.Fields. PosMaintRptID) = 
+    WriteReadFieldTest fldIn Fix44.FieldWriters.WritePosMaintRptID Fix44.FieldReaders.ReadPosMaintRptIDIdx
 
 // MDEntryTime wraps UTCTimeOnly
-[<FsFixPropertyTest>]
+[<PropTest>]
 let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteMDEntryTime Fix44.FieldReaders.ReadMDEntryTimeIdx
 
 
 // RawData is a compound len+data field, the data portion of which may contain field or tag-value seperators
-[<FsFixPropertyTest>]
+[<PropTest>]
 let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawDataIdx
 
 
 
-type SlowPropertyTest() =
+[<PropTest>]
+let SecurityRequestType (fldIn:Fix44.Fields.SecurityRequestType) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteSecurityRequestType Fix44.FieldReaders.ReadSecurityRequestTypeIdx
+
+
+
+type PropTest2() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1,
-        EndSize = 2,
+        MaxTest = 10000,
+        EndSize = 16,
         Verbose = false,
         QuietOnSuccess = true
         )
@@ -79,7 +85,7 @@ type SlowPropertyTest() =
 
 
 // will disable/enable this test as required
-[<SlowPropertyTest>]
+[<PropTest2>]
 let AllFields (tIn:Fix44.FieldDU.FIXField) = 
     let bs = Array.zeroCreate<byte> bufSize
     let posW = Fix44.FieldDU.WriteField bs 0 tIn

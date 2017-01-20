@@ -441,15 +441,18 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
 
     swFieldDU.WriteLine ""
     swFieldDU.WriteLine ""
-    swFieldDU.WriteLine "// todo consider replacing ReadFields match statement with lookup in a map"
-    swFieldDU.WriteLine  "let ReadField (bs:byte[]) (pos:int) ="
-    swFieldDU.WriteLine  "    let pos2, tag = FIXBuf.readTag bs pos"
-    swFieldDU.WriteLine  "    let len = bs.Length - pos2"
-    swFieldDU.WriteLine  "    match tag with"
+    swFieldDU.WriteLine "// this function is only used in property based testing"
+    swFieldDU.WriteLine "let ReadField (bs:byte[]) (pos:int) ="
+    swFieldDU.WriteLine "   let posSep = FIXBuf.findNextTagValSep bs pos"
+    swFieldDU.WriteLine "   let pos2 = posSep + 1"
+    swFieldDU.WriteLine "   let tag = FIXBufIndexer.convTagToInt bs pos (posSep - pos)"
+    swFieldDU.WriteLine "   let posEnd = FIXBuf.findNextFieldTermOrEnd bs pos2"
+    swFieldDU.WriteLine "   let len = posEnd - pos2"
+    swFieldDU.WriteLine "   match tag with"
     fieldData |> Seq.iter (fun fd ->
             let ss =
                 match fd with
-                | SimpleField fd      ->   sprintf "    | \"%d\"B ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "    | \"%d\"B ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
+                | SimpleField fd      ->   sprintf "    | %d ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | %d ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
             swFieldDU.WriteLine ss )
     swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "
