@@ -61,9 +61,10 @@
     <Content Include="App.config" />
     <Compile Include="DateTimeGenerators.fs" />
     <Compile Include="Generators.fs" />
-    <Compile Include="WriteReadPropTests.fs" />
+    <Compile Include="WriteReadSimplePropTests.fs" />
     <Compile Include="FIXMsgIndexingPropTests.fs" />
     <None Include="paket.references" />
+    <Compile Include="WriteReadCompoundPropTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RunSettings>
 	<RunConfiguration>
-		<MaxCpuCount>0</MaxCpuCount>
+		<MaxCpuCount>8</MaxCpuCount>
 	</RunConfiguration>
 </RunSettings>

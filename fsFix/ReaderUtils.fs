@@ -142,7 +142,7 @@ let ReadComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) readFunc =
 
 // the first field of an optional component is required, so the component is present if the first field is present
 let ReadOptionalComponentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (firstFieldTag:int) readFunc =
-    let numFieldIdx = FIXBufIndexer.FindFieldIdx index firstFieldTag index.EndPos
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index index.EndPos firstFieldTag
     if numFieldIdx = -1 then 
         Option.None // the optional component is not present
     else

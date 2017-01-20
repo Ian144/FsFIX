@@ -11,13 +11,6 @@ open System
 
 
 
-//let convIntToTagBytes (tagInt:int) = 
-//    let bs = System.BitConverter.GetBytes tagInt
-//    bs |> Array.filter (fun bb -> bb <> 0uy)
-
-let convIntToTagBytes (tag:int) = 
-    let ss = sprintf "%d" tag
-    System.Text.Encoding.UTF8.GetBytes( ss)
 
 // the msg index should not be an array of value types, do not the reference chasing and cache misses, hence FieldPos is a struct
 type FieldPos =
@@ -134,12 +127,17 @@ let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     ctr
 
 
+
 // used for roundtrip property testing, if the index cant be used to reconstruct the original FIX buf then something is broken
 let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : byte [] =
     let index = index |> Array.take indexEnd
     let lastEl = index.[indexEnd-1]
     let reconLen = lastEl.Pos + lastEl.Len + 1 // +1 to leave room for the final field seperator
     let reconBuf = Array.zeroCreate<byte> reconLen
+
+    let convIntToTagBytes (tag:int) = 
+        let ss = sprintf "%d" tag
+        System.Text.Encoding.UTF8.GetBytes( ss)
 
     for fp in index do
         // tag

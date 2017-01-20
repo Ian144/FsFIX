@@ -355,7 +355,7 @@ let NoSidesGrp () =
 
 [<Fact>]
 let NoPartyIDsGrp () =
-    let bs = Array.zeroCreate<byte> 1024    
+    let bs = Array.zeroCreate<byte> 1024
 
     let ptyId1Grp1:NoPartyIDsGrp = 
                 {   PartyID = PartyID "HLFCBGEH"
@@ -377,3 +377,14 @@ let NoPartyIDsGrp () =
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
     let xOut = ReadNoPartyIDsGrpIdx bs index
     ptyIdGrp =! xOut
+
+
+
+[<Fact>]
+let EncodedHeadline () =
+    let bs = Array.zeroCreate<byte> 1024
+    let eh = EncodedHeadline [||] |> Fix44.FieldDU.EncodedHeadline
+    let posW = Fix44.FieldDU.WriteField bs 0 eh
+    let ehOut = Fix44.FieldDU.ReadField bs 0
+    eh =! ehOut
+    
