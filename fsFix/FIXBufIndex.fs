@@ -101,7 +101,7 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
         // eat the next field, i.e. data field, including the tag
         let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
         let len = fieldTerm - (tagValSepPos+1)
-        let dataFieldLen = Conversions.bytesToInt32Idx bs (tagValSepPos+1) len
+        let dataFieldLen = Conversions.bytesToInt32 bs (tagValSepPos+1) len
         let nextFieldBeg = fieldTerm + 1
         let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
         let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end

@@ -12,27 +12,27 @@ open LocalMktDate
 
 // todo: microbenchmark inlining these read funcs OR manually inline them
 let ReadFieldIntIdx bs pos len fldCtor =
-    Conversions.bytesToInt32Idx bs pos len |> fldCtor
+    Conversions.bytesToInt32 bs pos len |> fldCtor
 
 
 let ReadFieldUIntIdx bs pos len fldCtor =
-    Conversions.bytesToUInt32Idx bs pos len |> fldCtor
+    Conversions.bytesToUInt32 bs pos len |> fldCtor
 
 
 let ReadFieldCharIdx bs pos len fldCtor =
-    Conversions.bytesToCharIdx bs pos len |> fldCtor
+    Conversions.bytesToChar bs pos len |> fldCtor
 
 
 let ReadFieldDecimalIdx bs pos len fldCtor =
-    Conversions.bytesToDecimalIdx bs pos len |> fldCtor
+    Conversions.bytesToDecimal bs pos len |> fldCtor
 
 
 let ReadFieldBoolIdx bs pos (len:int) fldCtor =
-    Conversions.bytesToBoolIdx bs pos |> fldCtor
+    Conversions.bytesToBool bs pos |> fldCtor
 
 
 let ReadFieldStrIdx bs pos len fldCtor =
-    Conversions.bytesToStrIdx bs pos len |> fldCtor
+    Conversions.bytesToStr bs pos len |> fldCtor
 
 // todo: ReadFieldDataIdx allocates, can this be safely avoided, maybe using an ArraySegment?
 let ReadFieldDataIdx bs pos len fldCtor =
@@ -68,7 +68,7 @@ let ReadFieldMonthYearIdx bs pos (len:int) fldCtor =
 // pos is pointing to the the begining of the length value
 let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (lenREMOVEME:int) (dataTagExpected:byte[]) fldCtor =
     let lengthFieldTermPos = FIXBuf.findNextFieldTermOrEnd bs pos
-    let dataFieldLength = Conversions.bytesToInt32Idx bs pos (lengthFieldTermPos - pos)
+    let dataFieldLength = Conversions.bytesToInt32 bs pos (lengthFieldTermPos - pos)
 
     let dataTagPos = lengthFieldTermPos + 1
     // the length of the data has been read, next read the data

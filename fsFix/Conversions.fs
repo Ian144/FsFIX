@@ -3,9 +3,10 @@
 open System
 
 
-let bytesToStrIdx bs pos len = System.Text.Encoding.UTF8.GetString (bs, pos, len)
+let bytesToStr bs pos len = System.Text.Encoding.UTF8.GetString (bs, pos, len)
 
-let bytesToCharIdx (bs:byte[]) pos len = 
+// todo: UTF8 chars may be more than one byte long, deal with this
+let bytesToChar (bs:byte[]) pos len = 
     //let cs = System.Text.Encoding.UTF8.GetChars(bs, pos, len)
     if len = 1 then
         let b = bs.[pos]
@@ -16,25 +17,25 @@ let bytesToCharIdx (bs:byte[]) pos len =
 
 
 // todo: replace with an impl the reads the int directly from the byte array without a tmp string
-let bytesToInt32Idx bs pos len =
-    let ss = bytesToStrIdx bs pos len
+let bytesToInt32 bs pos len =
+    let ss = bytesToStr bs pos len
     System.Convert.ToInt32 ss
 
 
 // todo: replace with an impl the reads the uint directly from the byte array without a tmp string
-let bytesToUInt32Idx bs pos len =
-    let ss = bytesToStrIdx bs pos len
+let bytesToUInt32 bs pos len =
+    let ss = bytesToStr bs pos len
     System.Convert.ToUInt32 ss
 
-let bytesToBoolIdx (bs:byte[]) (pos:int) =
+let bytesToBool (bs:byte[]) (pos:int) =
     match bs.[pos] with
     | 89uy ->  true  // Y
     | 78uy ->  false  // N
     | _ ->  failwith (sprintf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]) 
 
 // todo: replace with impl that reads the decimal directly with the tmp string
-let bytesToDecimalIdx (bs:byte[]) pos len = 
-    let ss = bytesToStrIdx bs pos len
+let bytesToDecimal (bs:byte[]) pos len = 
+    let ss = bytesToStr bs pos len
     match Decimal.TryParse(ss) with
     | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
     | true, dd  -> dd

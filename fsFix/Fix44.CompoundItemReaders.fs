@@ -8,7 +8,7 @@ open Fix44.CompoundItems
 
 // group
 let ReadNoUnderlyingSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingSecurityAltIDGrp =
-    let underlyingSecurityAltID = ReadFieldIdxOrdered true bs index 458 ReadUnderlyingSecurityAltIDIdx
+    let underlyingSecurityAltID = ReadFieldOrdered true bs index 458 ReadUnderlyingSecurityAltIDIdx
     let underlyingSecurityAltIDSource = ReadOptionalFieldIdxOrdered true bs index 459 ReadUnderlyingSecurityAltIDSourceIdx
     let ci:NoUnderlyingSecurityAltIDGrp = {
         UnderlyingSecurityAltID = underlyingSecurityAltID
@@ -19,7 +19,7 @@ let ReadNoUnderlyingSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufI
 
 // group
 let ReadNoUnderlyingStipsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingStipsGrp =
-    let underlyingStipType = ReadFieldIdxOrdered true bs index 888 ReadUnderlyingStipTypeIdx
+    let underlyingStipType = ReadFieldOrdered true bs index 888 ReadUnderlyingStipTypeIdx
     let underlyingStipValue = ReadOptionalFieldIdxOrdered true bs index 889 ReadUnderlyingStipValueIdx
     let ci:NoUnderlyingStipsGrp = {
         UnderlyingStipType = underlyingStipType
@@ -30,7 +30,7 @@ let ReadNoUnderlyingStipsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 // component, random access reader
 let ReadUnderlyingInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
-    let underlyingSymbol                     = ReadFieldIdx bs index 311 ReadUnderlyingSymbolIdx
+    let underlyingSymbol                     = ReadField bs index 311 ReadUnderlyingSymbolIdx
     let underlyingSymbolSfx                  = ReadOptionalFieldIdx bs index 312 ReadUnderlyingSymbolSfxIdx
     let underlyingSecurityID                 = ReadOptionalFieldIdx bs index 309 ReadUnderlyingSecurityIDIdx
     let underlyingSecurityIDSource           = ReadOptionalFieldIdx bs index 305 ReadUnderlyingSecurityIDSourceIdx
@@ -127,7 +127,7 @@ let ReadUnderlyingInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
 let ReadUnderlyingInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
-    let underlyingSymbol                     = ReadFieldIdxOrdered         true bs index 311 ReadUnderlyingSymbolIdx
+    let underlyingSymbol                     = ReadFieldOrdered         true bs index 311 ReadUnderlyingSymbolIdx
     let underlyingSymbolSfx                  = ReadOptionalFieldIdxOrdered true bs index 312 ReadUnderlyingSymbolSfxIdx
     let underlyingSecurityID                 = ReadOptionalFieldIdxOrdered true bs index 309 ReadUnderlyingSecurityIDIdx
     let underlyingSecurityIDSource           = ReadOptionalFieldIdxOrdered true bs index 305 ReadUnderlyingSecurityIDSourceIdx
@@ -258,8 +258,8 @@ let ReadCollateralRequestNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 // group
 let ReadPositionReportNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionReportNoUnderlyingsGrp =
     let underlyingInstrument = ReadComponentIdxOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let underlyingSettlPrice = ReadFieldIdxOrdered true bs index 732 ReadUnderlyingSettlPriceIdx
-    let underlyingSettlPriceType = ReadFieldIdxOrdered true bs index 733 ReadUnderlyingSettlPriceTypeIdx
+    let underlyingSettlPrice = ReadFieldOrdered true bs index 732 ReadUnderlyingSettlPriceIdx
+    let underlyingSettlPriceType = ReadFieldOrdered true bs index 733 ReadUnderlyingSettlPriceTypeIdx
     let ci:PositionReportNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         UnderlyingSettlPrice = underlyingSettlPrice
@@ -270,7 +270,7 @@ let ReadPositionReportNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 // group
 let ReadNoNestedPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartySubIDsGrp =
-    let nestedPartySubID = ReadFieldIdxOrdered true bs index 545 ReadNestedPartySubIDIdx
+    let nestedPartySubID = ReadFieldOrdered true bs index 545 ReadNestedPartySubIDIdx
     let nestedPartySubIDType = ReadOptionalFieldIdxOrdered true bs index 805 ReadNestedPartySubIDTypeIdx
     let ci:NoNestedPartySubIDsGrp = {
         NestedPartySubID = nestedPartySubID
@@ -281,7 +281,7 @@ let ReadNoNestedPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
 
 // group
 let ReadNoNestedPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartyIDsGrp =
-    let nestedPartyID          = ReadFieldIdxOrdered true bs index 524 ReadNestedPartyIDIdx
+    let nestedPartyID          = ReadFieldOrdered true bs index 524 ReadNestedPartyIDIdx
     let nestedPartyIDSource    = ReadOptionalFieldIdxOrdered true bs index 525 ReadNestedPartyIDSourceIdx
     let nestedPartyRole        = ReadOptionalFieldIdxOrdered true bs index 538 ReadNestedPartyRoleIdx
     let noNestedPartySubIDsGrp = ReadOptionalGroupIdxOrdered true bs index 804 ReadNoNestedPartySubIDsGrpIdx
@@ -296,7 +296,7 @@ let ReadNoNestedPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 // group
 let ReadNoPositionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPositionsGrp =
-    let posType = ReadFieldIdxOrdered true bs index 703 ReadPosTypeIdx
+    let posType = ReadFieldOrdered true bs index 703 ReadPosTypeIdx
     let longQty = ReadOptionalFieldIdxOrdered true bs index 704 ReadLongQtyIdx
     let shortQty = ReadOptionalFieldIdxOrdered true bs index 705 ReadShortQtyIdx
     let posQtyStatus = ReadOptionalFieldIdxOrdered true bs index 706 ReadPosQtyStatusIdx
@@ -331,7 +331,7 @@ let ReadPositionQtyIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufI
 
 // group
 let ReadNoRegistDtlsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRegistDtlsGrp =
-    let registDtls = ReadFieldIdxOrdered true bs index 509 ReadRegistDtlsIdx
+    let registDtls = ReadFieldOrdered true bs index 509 ReadRegistDtlsIdx
     let registEmail = ReadOptionalFieldIdxOrdered true bs index 511 ReadRegistEmailIdx
     let mailingDtls = ReadOptionalFieldIdxOrdered true bs index 474 ReadMailingDtlsIdx
     let mailingInst = ReadOptionalFieldIdxOrdered true bs index 482 ReadMailingInstIdx
@@ -354,7 +354,7 @@ let ReadNoRegistDtlsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoReg
 
 // group
 let ReadNoNested2PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartySubIDsGrp =
-    let nested2PartySubID = ReadFieldIdxOrdered true bs index 760 ReadNested2PartySubIDIdx
+    let nested2PartySubID = ReadFieldOrdered true bs index 760 ReadNested2PartySubIDIdx
     let nested2PartySubIDType = ReadOptionalFieldIdxOrdered true bs index 807 ReadNested2PartySubIDTypeIdx
     let ci:NoNested2PartySubIDsGrp = {
         Nested2PartySubID = nested2PartySubID
@@ -365,7 +365,7 @@ let ReadNoNested2PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 // group
 let ReadNoNested2PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartyIDsGrp =
-    let nested2PartyID = ReadFieldIdxOrdered true bs index 757 ReadNested2PartyIDIdx
+    let nested2PartyID = ReadFieldOrdered true bs index 757 ReadNested2PartyIDIdx
     let nested2PartyIDSource = ReadOptionalFieldIdxOrdered true bs index 758 ReadNested2PartyIDSourceIdx
     let nested2PartyRole = ReadOptionalFieldIdxOrdered true bs index 759 ReadNested2PartyRoleIdx
     let noNested2PartySubIDsGrp = ReadOptionalGroupIdxOrdered true bs index 806 ReadNoNested2PartySubIDsGrpIdx
@@ -380,7 +380,7 @@ let ReadNoNested2PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 // group
 let ReadTradeCaptureReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportAckNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocSettlCurrency = ReadOptionalFieldIdxOrdered true bs index 736 ReadAllocSettlCurrencyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -399,7 +399,7 @@ let ReadTradeCaptureReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fix
 
 // group
 let ReadNoLegSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegSecurityAltIDGrp =
-    let legSecurityAltID = ReadFieldIdxOrdered true bs index 605 ReadLegSecurityAltIDIdx
+    let legSecurityAltID = ReadFieldOrdered true bs index 605 ReadLegSecurityAltIDIdx
     let legSecurityAltIDSource = ReadOptionalFieldIdxOrdered true bs index 606 ReadLegSecurityAltIDSourceIdx
     let ci:NoLegSecurityAltIDGrp = {
         LegSecurityAltID = legSecurityAltID
@@ -410,7 +410,7 @@ let ReadNoLegSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 // component, random access reader
 let ReadInstrumentLegFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
-    let legSymbol = ReadFieldIdx bs index 600 ReadLegSymbolIdx
+    let legSymbol = ReadField bs index 600 ReadLegSymbolIdx
     let legSymbolSfx = ReadOptionalFieldIdx bs index 601 ReadLegSymbolSfxIdx
     let legSecurityID = ReadOptionalFieldIdx bs index 602 ReadLegSecurityIDIdx
     let legSecurityIDSource = ReadOptionalFieldIdx bs index 603 ReadLegSecurityIDSourceIdx
@@ -497,7 +497,7 @@ let ReadInstrumentLegFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instr
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
 let ReadInstrumentLegFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
-    let legSymbol = ReadFieldIdxOrdered true bs index 600 ReadLegSymbolIdx
+    let legSymbol = ReadFieldOrdered true bs index 600 ReadLegSymbolIdx
     let legSymbolSfx = ReadOptionalFieldIdxOrdered true bs index 601 ReadLegSymbolSfxIdx
     let legSecurityID = ReadOptionalFieldIdxOrdered true bs index 602 ReadLegSecurityIDIdx
     let legSecurityIDSource = ReadOptionalFieldIdxOrdered true bs index 603 ReadLegSecurityIDSourceIdx
@@ -584,7 +584,7 @@ let ReadInstrumentLegFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fix
 
 // group
 let ReadNoLegStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegStipulationsGrp =
-    let legStipulationType = ReadFieldIdxOrdered true bs index 688 ReadLegStipulationTypeIdx
+    let legStipulationType = ReadFieldOrdered true bs index 688 ReadLegStipulationTypeIdx
     let legStipulationValue = ReadOptionalFieldIdxOrdered true bs index 689 ReadLegStipulationValueIdx
     let ci:NoLegStipulationsGrp = {
         LegStipulationType = legStipulationType
@@ -626,7 +626,7 @@ let ReadTradeCaptureReportAckNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 // group
 let ReadNoPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartySubIDsGrp =
-    let partySubID = ReadFieldIdxOrdered true bs index 523 ReadPartySubIDIdx
+    let partySubID = ReadFieldOrdered true bs index 523 ReadPartySubIDIdx
     let partySubIDType = ReadOptionalFieldIdxOrdered true bs index 803 ReadPartySubIDTypeIdx
     let ci:NoPartySubIDsGrp = {
         PartySubID = partySubID
@@ -637,7 +637,7 @@ let ReadNoPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPa
 
 // group
 let ReadNoPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartyIDsGrp =
-    let partyID = ReadFieldIdxOrdered true bs index 448 ReadPartyIDIdx
+    let partyID = ReadFieldOrdered true bs index 448 ReadPartyIDIdx
     let partyIDSource = ReadOptionalFieldIdxOrdered true bs index 447 ReadPartyIDSourceIdx
     let partyRole = ReadOptionalFieldIdxOrdered true bs index 452 ReadPartyRoleIdx
     let noPartySubIDsGrp = ReadOptionalGroupIdxOrdered true bs index 802 ReadNoPartySubIDsGrpIdx
@@ -652,7 +652,7 @@ let ReadNoPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoParty
 
 // group
 let ReadNoClearingInstructionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoClearingInstructionsGrp =
-    let clearingInstruction = ReadFieldIdxOrdered true bs index 577 ReadClearingInstructionIdx
+    let clearingInstruction = ReadFieldOrdered true bs index 577 ReadClearingInstructionIdx
     let ci:NoClearingInstructionsGrp = {
         ClearingInstruction = clearingInstruction
     }
@@ -691,7 +691,7 @@ let ReadCommissionDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 // group
 let ReadNoContAmtsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContAmtsGrp =
-    let contAmtType = ReadFieldIdxOrdered true bs index 519 ReadContAmtTypeIdx
+    let contAmtType = ReadFieldOrdered true bs index 519 ReadContAmtTypeIdx
     let contAmtValue = ReadOptionalFieldIdxOrdered true bs index 520 ReadContAmtValueIdx
     let contAmtCurr = ReadOptionalFieldIdxOrdered true bs index 521 ReadContAmtCurrIdx
     let ci:NoContAmtsGrp = {
@@ -704,7 +704,7 @@ let ReadNoContAmtsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContA
 
 // group
 let ReadNoStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStipulationsGrp =
-    let stipulationType = ReadFieldIdxOrdered true bs index 233 ReadStipulationTypeIdx
+    let stipulationType = ReadFieldOrdered true bs index 233 ReadStipulationTypeIdx
     let stipulationValue = ReadOptionalFieldIdxOrdered true bs index 234 ReadStipulationValueIdx
     let ci:NoStipulationsGrp = {
         StipulationType = stipulationType
@@ -715,7 +715,7 @@ let ReadNoStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoS
 
 // group
 let ReadNoMiscFeesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMiscFeesGrp =
-    let miscFeeAmt = ReadFieldIdxOrdered true bs index 137 ReadMiscFeeAmtIdx
+    let miscFeeAmt = ReadFieldOrdered true bs index 137 ReadMiscFeeAmtIdx
     let miscFeeCurr = ReadOptionalFieldIdxOrdered true bs index 138 ReadMiscFeeCurrIdx
     let miscFeeType = ReadOptionalFieldIdxOrdered true bs index 139 ReadMiscFeeTypeIdx
     let miscFeeBasis = ReadOptionalFieldIdxOrdered true bs index 891 ReadMiscFeeBasisIdx
@@ -730,7 +730,7 @@ let ReadNoMiscFeesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMiscF
 
 // group
 let ReadTradeCaptureReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocSettlCurrency = ReadOptionalFieldIdxOrdered true bs index 736 ReadAllocSettlCurrencyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -749,8 +749,8 @@ let ReadTradeCaptureReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 // group
 let ReadTradeCaptureReportNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoSidesGrp =
-    let side = ReadFieldIdxOrdered true bs index 54 ReadSideIdx
-    let orderID = ReadFieldIdxOrdered true bs index 37 ReadOrderIDIdx
+    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
+    let orderID = ReadFieldOrdered true bs index 37 ReadOrderIDIdx
     let secondaryOrderID = ReadOptionalFieldIdxOrdered true bs index 198 ReadSecondaryOrderIDIdx
     let clOrdID = ReadOptionalFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
@@ -903,8 +903,8 @@ let ReadTradeCaptureReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 // group
 let ReadNoPosAmtGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPosAmtGrp =
-    let posAmtType = ReadFieldIdxOrdered true bs index 707 ReadPosAmtTypeIdx
-    let posAmt = ReadFieldIdxOrdered true bs index 708 ReadPosAmtIdx
+    let posAmtType = ReadFieldOrdered true bs index 707 ReadPosAmtTypeIdx
+    let posAmt = ReadFieldOrdered true bs index 708 ReadPosAmtIdx
     let ci:NoPosAmtGrp = {
         PosAmtType = posAmtType
         PosAmt = posAmt
@@ -932,7 +932,7 @@ let ReadPositionAmountDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.
 
 // group
 let ReadNoSettlPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartySubIDsGrp =
-    let settlPartySubID = ReadFieldIdxOrdered true bs index 785 ReadSettlPartySubIDIdx
+    let settlPartySubID = ReadFieldOrdered true bs index 785 ReadSettlPartySubIDIdx
     let settlPartySubIDType = ReadOptionalFieldIdxOrdered true bs index 786 ReadSettlPartySubIDTypeIdx
     let ci:NoSettlPartySubIDsGrp = {
         SettlPartySubID = settlPartySubID
@@ -943,7 +943,7 @@ let ReadNoSettlPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 // group
 let ReadNoSettlPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartyIDsGrp =
-    let settlPartyID = ReadFieldIdxOrdered true bs index 782 ReadSettlPartyIDIdx
+    let settlPartyID = ReadFieldOrdered true bs index 782 ReadSettlPartyIDIdx
     let settlPartyIDSource = ReadOptionalFieldIdxOrdered true bs index 783 ReadSettlPartyIDSourceIdx
     let settlPartyRole = ReadOptionalFieldIdxOrdered true bs index 784 ReadSettlPartyRoleIdx
     let noSettlPartySubIDsGrp = ReadOptionalGroupIdxOrdered true bs index 801 ReadNoSettlPartySubIDsGrpIdx
@@ -958,7 +958,7 @@ let ReadNoSettlPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadNoDlvyInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDlvyInstGrp =
-    let settlInstSource = ReadFieldIdxOrdered true bs index 165 ReadSettlInstSourceIdx
+    let settlInstSource = ReadFieldOrdered true bs index 165 ReadSettlInstSourceIdx
     let dlvyInstType = ReadOptionalFieldIdxOrdered true bs index 787 ReadDlvyInstTypeIdx
     let noSettlPartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 781 ReadNoSettlPartyIDsGrpIdx
     let ci:NoDlvyInstGrp = {
@@ -1005,7 +1005,7 @@ let ReadSettlInstructionsDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndex
 
 // group
 let ReadNoSettlInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlInstGrp =
-    let settlInstID = ReadFieldIdxOrdered true bs index 162 ReadSettlInstIDIdx
+    let settlInstID = ReadFieldOrdered true bs index 162 ReadSettlInstIDIdx
     let settlInstTransType = ReadOptionalFieldIdxOrdered true bs index 163 ReadSettlInstTransTypeIdx
     let settlInstRefID = ReadOptionalFieldIdxOrdered true bs index 214 ReadSettlInstRefIDIdx
     let noPartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 453 ReadNoPartyIDsGrpIdx
@@ -1054,7 +1054,7 @@ let ReadNoSettlInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSett
 
 // group
 let ReadNoTrdRegTimestampsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTrdRegTimestampsGrp =
-    let trdRegTimestamp = ReadFieldIdxOrdered true bs index 769 ReadTrdRegTimestampIdx
+    let trdRegTimestamp = ReadFieldOrdered true bs index 769 ReadTrdRegTimestampIdx
     let trdRegTimestampType = ReadOptionalFieldIdxOrdered true bs index 770 ReadTrdRegTimestampTypeIdx
     let trdRegTimestampOrigin = ReadOptionalFieldIdxOrdered true bs index 771 ReadTrdRegTimestampOriginIdx
     let ci:NoTrdRegTimestampsGrp = {
@@ -1085,11 +1085,11 @@ let ReadTrdRegTimestampsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fi
 
 // group
 let ReadAllocationReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let matchStatus = ReadOptionalFieldIdxOrdered true bs index 573 ReadMatchStatusIdx
     let allocPrice = ReadOptionalFieldIdxOrdered true bs index 366 ReadAllocPriceIdx
-    let allocQty = ReadFieldIdxOrdered true bs index 80 ReadAllocQtyIdx
+    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQtyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
     let processCode = ReadOptionalFieldIdxOrdered true bs index 81 ReadProcessCodeIdx
     let noNestedPartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
@@ -1148,7 +1148,7 @@ let ReadAllocationReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 // group
 let ReadAllocationInstructionNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let matchStatus = ReadOptionalFieldIdxOrdered true bs index 573 ReadMatchStatusIdx
     let allocPrice = ReadOptionalFieldIdxOrdered true bs index 366 ReadAllocPriceIdx
@@ -1235,7 +1235,7 @@ let ReadSettlPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 // group
 let ReadNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoOrdersGrp =
-    let clOrdID = ReadFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
     let orderID = ReadOptionalFieldIdxOrdered true bs index 37 ReadOrderIDIdx
     let secondaryOrderID = ReadOptionalFieldIdxOrdered true bs index 198 ReadSecondaryOrderIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
@@ -1265,7 +1265,7 @@ let ReadListStrikePriceNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixB
     let clOrdID = ReadOptionalFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
     let side = ReadOptionalFieldIdxOrdered true bs index 54 ReadSideIdx
-    let price = ReadFieldIdxOrdered true bs index 44 ReadPriceIdx
+    let price = ReadFieldOrdered true bs index 44 ReadPriceIdx
     let currency = ReadOptionalFieldIdxOrdered true bs index 15 ReadCurrencyIdx
     let text = ReadOptionalFieldIdxOrdered true bs index 58 ReadTextIdx
     let encodedText = ReadOptionalFieldIdxOrdered true bs index 354 ReadEncodedTextIdx
@@ -1285,7 +1285,7 @@ let ReadListStrikePriceNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixB
 
 // group
 let ReadNoSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityAltIDGrp =
-    let securityAltID = ReadFieldIdxOrdered true bs index 455 ReadSecurityAltIDIdx
+    let securityAltID = ReadFieldOrdered true bs index 455 ReadSecurityAltIDIdx
     let securityAltIDSource = ReadOptionalFieldIdxOrdered true bs index 456 ReadSecurityAltIDSourceIdx
     let ci:NoSecurityAltIDGrp = {
         SecurityAltID = securityAltID
@@ -1296,7 +1296,7 @@ let ReadNoSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadNoEventsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoEventsGrp =
-    let eventType = ReadFieldIdxOrdered true bs index 865 ReadEventTypeIdx
+    let eventType = ReadFieldOrdered true bs index 865 ReadEventTypeIdx
     let eventDate = ReadOptionalFieldIdxOrdered true bs index 866 ReadEventDateIdx
     let eventPx = ReadOptionalFieldIdxOrdered true bs index 867 ReadEventPxIdx
     let eventText = ReadOptionalFieldIdxOrdered true bs index 868 ReadEventTextIdx
@@ -1311,7 +1311,7 @@ let ReadNoEventsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoEventsG
 
 // component, random access reader
 let ReadInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
-    let symbol = ReadFieldIdx bs index 55 ReadSymbolIdx
+    let symbol = ReadField bs index 55 ReadSymbolIdx
     let symbolSfx = ReadOptionalFieldIdx bs index 65 ReadSymbolSfxIdx
     let securityID = ReadOptionalFieldIdx bs index 48 ReadSecurityIDIdx
     let securityIDSource = ReadOptionalFieldIdx bs index 22 ReadSecurityIDSourceIdx
@@ -1400,7 +1400,7 @@ let ReadInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
 let ReadInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
-    let symbol = ReadFieldIdxOrdered true bs index 55 ReadSymbolIdx
+    let symbol = ReadFieldOrdered true bs index 55 ReadSymbolIdx
     let symbolSfx = ReadOptionalFieldIdxOrdered true bs index 65 ReadSymbolSfxIdx
     let securityID = ReadOptionalFieldIdxOrdered true bs index 48 ReadSecurityIDIdx
     let securityIDSource = ReadOptionalFieldIdxOrdered true bs index 22 ReadSecurityIDSourceIdx
@@ -1498,7 +1498,7 @@ let ReadNoStrikesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStrike
 
 // group
 let ReadNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocSettlCurrency = ReadOptionalFieldIdxOrdered true bs index 736 ReadAllocSettlCurrencyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -1517,7 +1517,7 @@ let ReadNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAllocsG
 
 // group
 let ReadNoTradingSessionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradingSessionsGrp =
-    let tradingSessionID = ReadFieldIdxOrdered true bs index 336 ReadTradingSessionIDIdx
+    let tradingSessionID = ReadFieldOrdered true bs index 336 ReadTradingSessionIDIdx
     let tradingSessionSubID = ReadOptionalFieldIdxOrdered true bs index 625 ReadTradingSessionSubIDIdx
     let ci:NoTradingSessionsGrp = {
         TradingSessionID = tradingSessionID
@@ -1735,9 +1735,9 @@ let ReadDiscretionInstructionsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufInde
 
 // group
 let ReadNewOrderListNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderListNoOrdersGrp =
-    let clOrdID = ReadFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let listSeqNo = ReadFieldIdxOrdered true bs index 67 ReadListSeqNoIdx
+    let listSeqNo = ReadFieldOrdered true bs index 67 ReadListSeqNoIdx
     let clOrdLinkID = ReadOptionalFieldIdxOrdered true bs index 583 ReadClOrdLinkIDIdx
     let settlInstMode = ReadOptionalFieldIdxOrdered true bs index 160 ReadSettlInstModeIdx
     let noPartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 453 ReadNoPartyIDsGrpIdx
@@ -1765,7 +1765,7 @@ let ReadNewOrderListNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
     let instrument = ReadComponentIdxOrdered true bs index ReadInstrumentIdxOrdered
     let noUnderlyingsGrp = ReadOptionalGroupIdxOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
     let prevClosePx = ReadOptionalFieldIdxOrdered true bs index 140 ReadPrevClosePxIdx
-    let side = ReadFieldIdxOrdered true bs index 54 ReadSideIdx
+    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
     let sideValueInd = ReadOptionalFieldIdxOrdered true bs index 401 ReadSideValueIndIdx
     let locateReqd = ReadOptionalFieldIdxOrdered true bs index 114 ReadLocateReqdIdx
     let transactTime = ReadOptionalFieldIdxOrdered true bs index 60 ReadTransactTimeIdx
@@ -1890,7 +1890,7 @@ let ReadNewOrderListNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 // component, random access reader
 let ReadCommissionDataFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
-    let commission = ReadFieldIdx bs index 12 ReadCommissionIdx
+    let commission = ReadField bs index 12 ReadCommissionIdx
     let commType = ReadOptionalFieldIdx bs index 13 ReadCommTypeIdx
     let commCurrency = ReadOptionalFieldIdx bs index 479 ReadCommCurrencyIdx
     let fundRenewWaiv = ReadOptionalFieldIdx bs index 497 ReadFundRenewWaivIdx
@@ -1905,7 +1905,7 @@ let ReadCommissionDataFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Comm
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
 let ReadCommissionDataFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
-    let commission = ReadFieldIdxOrdered true bs index 12 ReadCommissionIdx
+    let commission = ReadFieldOrdered true bs index 12 ReadCommissionIdx
     let commType = ReadOptionalFieldIdxOrdered true bs index 13 ReadCommTypeIdx
     let commCurrency = ReadOptionalFieldIdxOrdered true bs index 479 ReadCommCurrencyIdx
     let fundRenewWaiv = ReadOptionalFieldIdxOrdered true bs index 497 ReadFundRenewWaivIdx
@@ -1955,7 +1955,7 @@ let ReadBidResponseNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 // group
 let ReadNoLegAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegAllocsGrp =
-    let legAllocAccount = ReadFieldIdxOrdered true bs index 671 ReadLegAllocAccountIdx
+    let legAllocAccount = ReadFieldOrdered true bs index 671 ReadLegAllocAccountIdx
     let legIndividualAllocID = ReadOptionalFieldIdxOrdered true bs index 672 ReadLegIndividualAllocIDIdx
     let noNested2PartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
     let legAllocQty = ReadOptionalFieldIdxOrdered true bs index 673 ReadLegAllocQtyIdx
@@ -2005,7 +2005,7 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufI
 
 // group
 let ReadNoNested3PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartySubIDsGrp =
-    let nested3PartySubID = ReadFieldIdxOrdered true bs index 953 ReadNested3PartySubIDIdx
+    let nested3PartySubID = ReadFieldOrdered true bs index 953 ReadNested3PartySubIDIdx
     let nested3PartySubIDType = ReadOptionalFieldIdxOrdered true bs index 954 ReadNested3PartySubIDTypeIdx
     let ci:NoNested3PartySubIDsGrp = {
         Nested3PartySubID = nested3PartySubID
@@ -2016,7 +2016,7 @@ let ReadNoNested3PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 // group
 let ReadNoNested3PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartyIDsGrp =
-    let nested3PartyID = ReadFieldIdxOrdered true bs index 949 ReadNested3PartyIDIdx
+    let nested3PartyID = ReadFieldOrdered true bs index 949 ReadNested3PartyIDIdx
     let nested3PartyIDSource = ReadOptionalFieldIdxOrdered true bs index 950 ReadNested3PartyIDSourceIdx
     let nested3PartyRole = ReadOptionalFieldIdxOrdered true bs index 951 ReadNested3PartyRoleIdx
     let noNested3PartySubIDsGrp = ReadOptionalGroupIdxOrdered true bs index 952 ReadNoNested3PartySubIDsGrpIdx
@@ -2031,7 +2031,7 @@ let ReadNoNested3PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 // group
 let ReadMultilegOrderCancelReplaceRequestNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MultilegOrderCancelReplaceRequestNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocSettlCurrency = ReadOptionalFieldIdxOrdered true bs index 736 ReadAllocSettlCurrencyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -2099,7 +2099,7 @@ let ReadNestedParties2IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 // group
 let ReadNewOrderMultilegNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderMultilegNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocSettlCurrency = ReadOptionalFieldIdxOrdered true bs index 736 ReadAllocSettlCurrencyIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -2136,9 +2136,9 @@ let ReadNestedParties3IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 // group
 let ReadCrossOrderCancelRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelRequestNoSidesGrp =
-    let side = ReadFieldIdxOrdered true bs index 54 ReadSideIdx
-    let origClOrdID = ReadFieldIdxOrdered true bs index 41 ReadOrigClOrdIDIdx
-    let clOrdID = ReadFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
+    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
     let clOrdLinkID = ReadOptionalFieldIdxOrdered true bs index 583 ReadClOrdLinkIDIdx
     let origOrdModTime = ReadOptionalFieldIdxOrdered true bs index 586 ReadOrigOrdModTimeIdx
@@ -2169,9 +2169,9 @@ let ReadCrossOrderCancelRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 // group
 let ReadCrossOrderCancelReplaceRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelReplaceRequestNoSidesGrp =
-    let side = ReadFieldIdxOrdered true bs index 54 ReadSideIdx
-    let origClOrdID = ReadFieldIdxOrdered true bs index 41 ReadOrigClOrdIDIdx
-    let clOrdID = ReadFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
+    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
     let clOrdLinkID = ReadOptionalFieldIdxOrdered true bs index 583 ReadClOrdLinkIDIdx
     let origOrdModTime = ReadOptionalFieldIdxOrdered true bs index 586 ReadOrigOrdModTimeIdx
@@ -2244,8 +2244,8 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufInd
 
 // group
 let ReadNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSidesGrp =
-    let side = ReadFieldIdxOrdered true bs index 54 ReadSideIdx
-    let clOrdID = ReadFieldIdxOrdered true bs index 11 ReadClOrdIDIdx
+    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
     let clOrdLinkID = ReadOptionalFieldIdxOrdered true bs index 583 ReadClOrdLinkIDIdx
     let noPartyIDsGrp = ReadOptionalGroupIdxOrdered true bs index 453 ReadNoPartyIDsGrpIdx
@@ -2346,7 +2346,7 @@ let ReadExecutionReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex
 
 // group
 let ReadNoInstrAttribGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoInstrAttribGrp =
-    let instrAttribType = ReadFieldIdxOrdered true bs index 871 ReadInstrAttribTypeIdx
+    let instrAttribType = ReadFieldOrdered true bs index 871 ReadInstrAttribTypeIdx
     let instrAttribValue = ReadOptionalFieldIdxOrdered true bs index 872 ReadInstrAttribValueIdx
     let ci:NoInstrAttribGrp = {
         InstrAttribType = instrAttribType
@@ -2557,7 +2557,7 @@ let ReadSecurityListNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 // group
 let ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MarketDataIncrementalRefreshNoMDEntriesGrp =
-    let mDUpdateAction = ReadFieldIdxOrdered true bs index 279 ReadMDUpdateActionIdx
+    let mDUpdateAction = ReadFieldOrdered true bs index 279 ReadMDUpdateActionIdx
     let deleteReason = ReadOptionalFieldIdxOrdered true bs index 285 ReadDeleteReasonIdx
     let mDEntryType = ReadOptionalFieldIdxOrdered true bs index 269 ReadMDEntryTypeIdx
     let mDEntryID = ReadOptionalFieldIdxOrdered true bs index 278 ReadMDEntryIDIdx
@@ -2661,7 +2661,7 @@ let ReadMarketDataRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fix
 
 // group
 let ReadMassQuoteAcknowledgementNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteEntriesGrp =
-    let quoteEntryID = ReadFieldIdxOrdered true bs index 299 ReadQuoteEntryIDIdx
+    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
     let instrument = ReadOptionalComponentIdxOrdered true bs index 55 ReadInstrumentIdxOrdered
     let noLegsGrp = ReadOptionalGroupIdxOrdered true bs index 555 ReadNoLegsGrpIdx
     let bidPx = ReadOptionalFieldIdxOrdered true bs index 132 ReadBidPxIdx
@@ -2722,7 +2722,7 @@ let ReadMassQuoteAcknowledgementNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIn
 
 // group
 let ReadMassQuoteAcknowledgementNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteSetsGrp =
-    let quoteSetID = ReadFieldIdxOrdered true bs index 302 ReadQuoteSetIDIdx
+    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetIDIdx
     let underlyingInstrument = ReadOptionalComponentIdxOrdered true bs index 311 ReadUnderlyingInstrumentIdxOrdered
     let totNoQuoteEntries = ReadOptionalFieldIdxOrdered true bs index 304 ReadTotNoQuoteEntriesIdx
     let lastFragment = ReadOptionalFieldIdxOrdered true bs index 893 ReadLastFragmentIdx
@@ -2739,7 +2739,7 @@ let ReadMassQuoteAcknowledgementNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndex
 
 // group
 let ReadMassQuoteNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteNoQuoteEntriesGrp =
-    let quoteEntryID = ReadFieldIdxOrdered true bs index 299 ReadQuoteEntryIDIdx
+    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
     let instrument = ReadOptionalComponentIdxOrdered true bs index 55 ReadInstrumentIdxOrdered
     let noLegsGrp = ReadOptionalGroupIdxOrdered true bs index 555 ReadNoLegsGrpIdx
     let bidPx = ReadOptionalFieldIdxOrdered true bs index 132 ReadBidPxIdx
@@ -2798,10 +2798,10 @@ let ReadMassQuoteNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 // group
 let ReadNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteSetsGrp =
-    let quoteSetID = ReadFieldIdxOrdered true bs index 302 ReadQuoteSetIDIdx
+    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetIDIdx
     let underlyingInstrument = ReadOptionalComponentIdxOrdered true bs index 311 ReadUnderlyingInstrumentIdxOrdered
     let quoteSetValidUntilTime = ReadOptionalFieldIdxOrdered true bs index 367 ReadQuoteSetValidUntilTimeIdx
-    let totNoQuoteEntries = ReadFieldIdxOrdered true bs index 304 ReadTotNoQuoteEntriesIdx
+    let totNoQuoteEntries = ReadFieldOrdered true bs index 304 ReadTotNoQuoteEntriesIdx
     let lastFragment = ReadOptionalFieldIdxOrdered true bs index 893 ReadLastFragmentIdx
     let massQuoteNoQuoteEntriesGrp = ReadGroupIdx bs index 295 ReadMassQuoteNoQuoteEntriesGrpIdx
     let ci:NoQuoteSetsGrp = {
@@ -3031,7 +3031,7 @@ let ReadQuoteRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 // group
 let ReadNoQuoteQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteQualifiersGrp =
-    let quoteQualifier = ReadFieldIdxOrdered true bs index 695 ReadQuoteQualifierIdx
+    let quoteQualifier = ReadFieldOrdered true bs index 695 ReadQuoteQualifierIdx
     let ci:NoQuoteQualifiersGrp = {
         QuoteQualifier = quoteQualifier
     }
@@ -3410,7 +3410,7 @@ let ReadInstrumentLegIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 // group
 let ReadNoMsgTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMsgTypesGrp =
-    let refMsgType = ReadFieldIdxOrdered true bs index 372 ReadRefMsgTypeIdx
+    let refMsgType = ReadFieldOrdered true bs index 372 ReadRefMsgTypeIdx
     let msgDirection = ReadOptionalFieldIdxOrdered true bs index 385 ReadMsgDirectionIdx
     let ci:NoMsgTypesGrp = {
         RefMsgType = refMsgType
@@ -3421,7 +3421,7 @@ let ReadNoMsgTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMsgTy
 
 // group
 let ReadNoIOIQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoIOIQualifiersGrp =
-    let iOIQualifier = ReadFieldIdxOrdered true bs index 104 ReadIOIQualifierIdx
+    let iOIQualifier = ReadFieldOrdered true bs index 104 ReadIOIQualifierIdx
     let ci:NoIOIQualifiersGrp = {
         IOIQualifier = iOIQualifier
     }
@@ -3430,7 +3430,7 @@ let ReadNoIOIQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadNoRoutingIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRoutingIDsGrp =
-    let routingType = ReadFieldIdxOrdered true bs index 216 ReadRoutingTypeIdx
+    let routingType = ReadFieldOrdered true bs index 216 ReadRoutingTypeIdx
     let routingID = ReadOptionalFieldIdxOrdered true bs index 217 ReadRoutingIDIdx
     let ci:NoRoutingIDsGrp = {
         RoutingType = routingType
@@ -3441,7 +3441,7 @@ let ReadNoRoutingIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRou
 
 // group
 let ReadLinesOfTextGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LinesOfTextGrp =
-    let text = ReadFieldIdxOrdered true bs index 58 ReadTextIdx
+    let text = ReadFieldOrdered true bs index 58 ReadTextIdx
     let encodedText = ReadOptionalFieldIdxOrdered true bs index 354 ReadEncodedTextIdx
     let ci:LinesOfTextGrp = {
         Text = text
@@ -3452,7 +3452,7 @@ let ReadLinesOfTextGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LinesO
 
 // group
 let ReadNoMDEntryTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntryTypesGrp =
-    let mDEntryType = ReadFieldIdxOrdered true bs index 269 ReadMDEntryTypeIdx
+    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryTypeIdx
     let ci:NoMDEntryTypesGrp = {
         MDEntryType = mDEntryType
     }
@@ -3461,7 +3461,7 @@ let ReadNoMDEntryTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoM
 
 // group
 let ReadNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntriesGrp =
-    let mDEntryType = ReadFieldIdxOrdered true bs index 269 ReadMDEntryTypeIdx
+    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryTypeIdx
     let mDEntryPx = ReadOptionalFieldIdxOrdered true bs index 270 ReadMDEntryPxIdx
     let currency = ReadOptionalFieldIdxOrdered true bs index 15 ReadCurrencyIdx
     let mDEntrySize = ReadOptionalFieldIdxOrdered true bs index 271 ReadMDEntrySizeIdx
@@ -3532,7 +3532,7 @@ let ReadNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEn
 
 // group
 let ReadNoAltMDSourceGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAltMDSourceGrp =
-    let altMDSourceID = ReadFieldIdxOrdered true bs index 817 ReadAltMDSourceIDIdx
+    let altMDSourceID = ReadFieldOrdered true bs index 817 ReadAltMDSourceIDIdx
     let ci:NoAltMDSourceGrp = {
         AltMDSourceID = altMDSourceID
     }
@@ -3541,7 +3541,7 @@ let ReadNoAltMDSourceGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAl
 
 // group
 let ReadNoSecurityTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityTypesGrp =
-    let securityType = ReadFieldIdxOrdered true bs index 167 ReadSecurityTypeIdx
+    let securityType = ReadFieldOrdered true bs index 167 ReadSecurityTypeIdx
     let securitySubType = ReadOptionalFieldIdxOrdered true bs index 762 ReadSecuritySubTypeIdx
     let product = ReadOptionalFieldIdxOrdered true bs index 460 ReadProductIdx
     let cFICode = ReadOptionalFieldIdxOrdered true bs index 461 ReadCFICodeIdx
@@ -3556,7 +3556,7 @@ let ReadNoSecurityTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadNoContraBrokersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContraBrokersGrp =
-    let contraBroker = ReadFieldIdxOrdered true bs index 375 ReadContraBrokerIdx
+    let contraBroker = ReadFieldOrdered true bs index 375 ReadContraBrokerIdx
     let contraTrader = ReadOptionalFieldIdxOrdered true bs index 337 ReadContraTraderIdx
     let contraTradeQty = ReadOptionalFieldIdxOrdered true bs index 437 ReadContraTradeQtyIdx
     let contraTradeTime = ReadOptionalFieldIdxOrdered true bs index 438 ReadContraTradeTimeIdx
@@ -3573,7 +3573,7 @@ let ReadNoContraBrokersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadNoAffectedOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAffectedOrdersGrp =
-    let origClOrdID = ReadFieldIdxOrdered true bs index 41 ReadOrigClOrdIDIdx
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
     let affectedOrderID = ReadOptionalFieldIdxOrdered true bs index 535 ReadAffectedOrderIDIdx
     let affectedSecondaryOrderID = ReadOptionalFieldIdxOrdered true bs index 536 ReadAffectedSecondaryOrderIDIdx
     let ci:NoAffectedOrdersGrp = {
@@ -3586,7 +3586,7 @@ let ReadNoAffectedOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 // group
 let ReadNoBidDescriptorsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidDescriptorsGrp =
-    let bidDescriptorType = ReadFieldIdxOrdered true bs index 399 ReadBidDescriptorTypeIdx
+    let bidDescriptorType = ReadFieldOrdered true bs index 399 ReadBidDescriptorTypeIdx
     let bidDescriptor = ReadOptionalFieldIdxOrdered true bs index 400 ReadBidDescriptorIdx
     let sideValueInd = ReadOptionalFieldIdxOrdered true bs index 401 ReadSideValueIndIdx
     let liquidityValue = ReadOptionalFieldIdxOrdered true bs index 404 ReadLiquidityValueIdx
@@ -3615,7 +3615,7 @@ let ReadNoBidDescriptorsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 // group
 let ReadNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidComponentsGrp =
-    let listID = ReadFieldIdxOrdered true bs index 66 ReadListIDIdx
+    let listID = ReadFieldOrdered true bs index 66 ReadListIDIdx
     let side = ReadOptionalFieldIdxOrdered true bs index 54 ReadSideIdx
     let tradingSessionID = ReadOptionalFieldIdxOrdered true bs index 336 ReadTradingSessionIDIdx
     let tradingSessionSubID = ReadOptionalFieldIdxOrdered true bs index 625 ReadTradingSessionSubIDIdx
@@ -3640,14 +3640,14 @@ let ReadNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 // group
 let ReadListStatusNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ListStatusNoOrdersGrp =
-    let clOrdID          = ReadFieldIdxOrdered         true bs index 11  ReadClOrdIDIdx
+    let clOrdID          = ReadFieldOrdered         true bs index 11  ReadClOrdIDIdx
     let secondaryClOrdID = ReadOptionalFieldIdxOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let cumQty           = ReadFieldIdxOrdered         true bs index 14  ReadCumQtyIdx
-    let ordStatus        = ReadFieldIdxOrdered         true bs index 39  ReadOrdStatusIdx
+    let cumQty           = ReadFieldOrdered         true bs index 14  ReadCumQtyIdx
+    let ordStatus        = ReadFieldOrdered         true bs index 39  ReadOrdStatusIdx
     let workingIndicator = ReadOptionalFieldIdxOrdered true bs index 636 ReadWorkingIndicatorIdx
-    let leavesQty        = ReadFieldIdxOrdered         true bs index 151 ReadLeavesQtyIdx
-    let cxlQty           = ReadFieldIdxOrdered         true bs index 84  ReadCxlQtyIdx
-    let avgPx            = ReadFieldIdxOrdered         true bs index 6   ReadAvgPxIdx
+    let leavesQty        = ReadFieldOrdered         true bs index 151 ReadLeavesQtyIdx
+    let cxlQty           = ReadFieldOrdered         true bs index 84  ReadCxlQtyIdx
+    let avgPx            = ReadFieldOrdered         true bs index 6   ReadAvgPxIdx
     let ordRejReason     = ReadOptionalFieldIdxOrdered true bs index 103 ReadOrdRejReasonIdx
     let text             = ReadOptionalFieldIdxOrdered true bs index 58  ReadTextIdx
     let encodedText      = ReadOptionalFieldIdxOrdered true bs index 354 ReadEncodedTextIdx
@@ -3669,7 +3669,7 @@ let ReadListStatusNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 // group
 let ReadAllocationInstructionNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoExecsGrp =
-    let lastQty = ReadFieldIdxOrdered true bs index 32 ReadLastQtyIdx
+    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQtyIdx
     let execID = ReadOptionalFieldIdxOrdered true bs index 17 ReadExecIDIdx
     let secondaryExecID = ReadOptionalFieldIdxOrdered true bs index 527 ReadSecondaryExecIDIdx
     let lastPx = ReadOptionalFieldIdxOrdered true bs index 31 ReadLastPxIdx
@@ -3688,7 +3688,7 @@ let ReadAllocationInstructionNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixB
 
 // group
 let ReadAllocationInstructionAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionAckNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocPrice = ReadOptionalFieldIdxOrdered true bs index 366 ReadAllocPriceIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -3709,7 +3709,7 @@ let ReadAllocationInstructionAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.
 
 // group
 let ReadAllocationReportNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoExecsGrp =
-    let lastQty = ReadFieldIdxOrdered true bs index 32 ReadLastQtyIdx
+    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQtyIdx
     let execID = ReadOptionalFieldIdxOrdered true bs index 17 ReadExecIDIdx
     let secondaryExecID = ReadOptionalFieldIdxOrdered true bs index 527 ReadSecondaryExecIDIdx
     let lastPx = ReadOptionalFieldIdxOrdered true bs index 31 ReadLastPxIdx
@@ -3728,7 +3728,7 @@ let ReadAllocationReportNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 // group
 let ReadAllocationReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportAckNoAllocsGrp =
-    let allocAccount = ReadFieldIdxOrdered true bs index 79 ReadAllocAccountIdx
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
     let allocAcctIDSource = ReadOptionalFieldIdxOrdered true bs index 661 ReadAllocAcctIDSourceIdx
     let allocPrice = ReadOptionalFieldIdxOrdered true bs index 366 ReadAllocPriceIdx
     let individualAllocID = ReadOptionalFieldIdxOrdered true bs index 467 ReadIndividualAllocIDIdx
@@ -3749,9 +3749,9 @@ let ReadAllocationReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 // group
 let ReadNoCapacitiesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCapacitiesGrp =
-    let orderCapacity = ReadFieldIdxOrdered true bs index 528 ReadOrderCapacityIdx
+    let orderCapacity = ReadFieldOrdered true bs index 528 ReadOrderCapacityIdx
     let orderRestrictions = ReadOptionalFieldIdxOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let orderCapacityQty = ReadFieldIdxOrdered true bs index 863 ReadOrderCapacityQtyIdx
+    let orderCapacityQty = ReadFieldOrdered true bs index 863 ReadOrderCapacityQtyIdx
     let ci:NoCapacitiesGrp = {
         OrderCapacity = orderCapacity
         OrderRestrictions = orderRestrictions
@@ -3762,7 +3762,7 @@ let ReadNoCapacitiesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCap
 
 // group
 let ReadNoDatesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDatesGrp =
-    let tradeDate = ReadFieldIdxOrdered true bs index 75 ReadTradeDateIdx
+    let tradeDate = ReadFieldOrdered true bs index 75 ReadTradeDateIdx
     let transactTime = ReadOptionalFieldIdxOrdered true bs index 60 ReadTransactTimeIdx
     let ci:NoDatesGrp = {
         TradeDate = tradeDate
@@ -3773,7 +3773,7 @@ let ReadNoDatesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDatesGrp
 
 // group
 let ReadNoDistribInstsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDistribInstsGrp =
-    let distribPaymentMethod = ReadFieldIdxOrdered true bs index 477 ReadDistribPaymentMethodIdx
+    let distribPaymentMethod = ReadFieldOrdered true bs index 477 ReadDistribPaymentMethodIdx
     let distribPercentage = ReadOptionalFieldIdxOrdered true bs index 512 ReadDistribPercentageIdx
     let cashDistribCurr = ReadOptionalFieldIdxOrdered true bs index 478 ReadCashDistribCurrIdx
     let cashDistribAgentName = ReadOptionalFieldIdxOrdered true bs index 498 ReadCashDistribAgentNameIdx
@@ -3796,7 +3796,7 @@ let ReadNoDistribInstsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoD
 
 // group
 let ReadNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoExecsGrp =
-    let execID = ReadFieldIdxOrdered true bs index 17 ReadExecIDIdx
+    let execID = ReadFieldOrdered true bs index 17 ReadExecIDIdx
     let ci:NoExecsGrp = {
         ExecID = execID
     }
@@ -3805,7 +3805,7 @@ let ReadNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoExecsGrp
 
 // group
 let ReadNoTradesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradesGrp =
-    let tradeReportID = ReadFieldIdxOrdered true bs index 571 ReadTradeReportIDIdx
+    let tradeReportID = ReadFieldOrdered true bs index 571 ReadTradeReportIDIdx
     let secondaryTradeReportID = ReadOptionalFieldIdxOrdered true bs index 818 ReadSecondaryTradeReportIDIdx
     let ci:NoTradesGrp = {
         TradeReportID = tradeReportID
@@ -3816,7 +3816,7 @@ let ReadNoTradesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradesG
 
 // group
 let ReadNoCollInquiryQualifierGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCollInquiryQualifierGrp =
-    let collInquiryQualifier = ReadFieldIdxOrdered true bs index 896 ReadCollInquiryQualifierIdx
+    let collInquiryQualifier = ReadFieldOrdered true bs index 896 ReadCollInquiryQualifierIdx
     let ci:NoCollInquiryQualifierGrp = {
         CollInquiryQualifier = collInquiryQualifier
     }
@@ -3825,7 +3825,7 @@ let ReadNoCollInquiryQualifierGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInde
 
 // group
 let ReadNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCompIDsGrp =
-    let refCompID = ReadFieldIdxOrdered true bs index 930 ReadRefCompIDIdx
+    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompIDIdx
     let refSubID = ReadOptionalFieldIdxOrdered true bs index 931 ReadRefSubIDIdx
     let locationID = ReadOptionalFieldIdxOrdered true bs index 283 ReadLocationIDIdx
     let deskID = ReadOptionalFieldIdxOrdered true bs index 284 ReadDeskIDIdx
@@ -3840,7 +3840,7 @@ let ReadNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCompID
 
 // group
 let ReadNetworkStatusResponseNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NetworkStatusResponseNoCompIDsGrp =
-    let refCompID = ReadFieldIdxOrdered true bs index 930 ReadRefCompIDIdx
+    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompIDIdx
     let refSubID = ReadOptionalFieldIdxOrdered true bs index 931 ReadRefSubIDIdx
     let locationID = ReadOptionalFieldIdxOrdered true bs index 283 ReadLocationIDIdx
     let deskID = ReadOptionalFieldIdxOrdered true bs index 284 ReadDeskIDIdx
@@ -3859,7 +3859,7 @@ let ReadNetworkStatusResponseNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 // group
 let ReadNoHopsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoHopsGrp =
-    let hopCompID = ReadFieldIdxOrdered true bs index 628 ReadHopCompIDIdx
+    let hopCompID = ReadFieldOrdered true bs index 628 ReadHopCompIDIdx
     let hopSendingTime = ReadOptionalFieldIdxOrdered true bs index 629 ReadHopSendingTimeIdx
     let hopRefID = ReadOptionalFieldIdxOrdered true bs index 630 ReadHopRefIDIdx
     let ci:NoHopsGrp = {

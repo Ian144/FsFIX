@@ -88,13 +88,13 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions
-    let beginString    = ReaderUtils.ReadFieldIdxOrdered true bs index 8 ReadBeginStringIdx
-    let bodyLen        = ReaderUtils.ReadFieldIdxOrdered true bs index 9 ReadBodyLengthIdx
-    let msgTag         = ReaderUtils.ReadFieldIdxOrdered true bs index 35 ReadMsgTypeIdx
-    let seqNum         = ReaderUtils.ReadFieldIdxOrdered true bs index 34 ReadMsgSeqNumIdx
-    let senderCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 49 ReadSenderCompIDIdx
-    let sendTime       = ReaderUtils.ReadFieldIdxOrdered true bs index 52 ReadSendingTimeIdx
-    let targetCompID   = ReaderUtils.ReadFieldIdxOrdered true bs index 56 ReadTargetCompIDIdx
+    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginStringIdx
+    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLengthIdx
+    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgTypeIdx
+    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNumIdx
+    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompIDIdx
+    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTimeIdx
+    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompIDIdx
 
     let msg = ReadMessageDU msgTag bs index
 
@@ -102,7 +102,7 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
     let checksumTagPlusDelimLen = 3
     let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
-    let receivedCheckSum   = ReaderUtils.ReadFieldIdx bs index 10 ReadCheckSumIdx
+    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSumIdx
     if calcedCheckSum = receivedCheckSum then
         msg
     else
