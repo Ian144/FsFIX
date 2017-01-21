@@ -91,8 +91,8 @@ let main argv_ =
         let ii3 = strm.Read (buf3, 0, 2048)
         let strReceivedNews = FIXBuf.toS buf2 ii3
         printfn "received: %s" strReceivedNews
-        //let posR, newsMsgOut = MsgReadWrite.ReadMessage buf3
-
+        let newsMsgOut = MsgReadWrite.ReadMessage buf3 ii3
+        printfn "receieved: %A" newsMsgOut
 
 //        let asyncRequestResponse = 
 //            async{

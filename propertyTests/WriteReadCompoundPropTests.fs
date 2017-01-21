@@ -21,8 +21,8 @@ type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 100,
-        EndSize = 2,
-        Verbose = true,
+        EndSize = 4,
+        Verbose = false,
         QuietOnSuccess = true
         )
 
@@ -33,7 +33,7 @@ type PropTestSlow() =
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 100,
         EndSize = 2,
-        Verbose = true,
+        Verbose = false,
         QuietOnSuccess = true
         )
 
@@ -76,22 +76,36 @@ let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     let tOut = readFunc bs index
     tIn =! tOut
 
+
 [<PropTest>]
 let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadIndexTest msg Fix44.MsgWriters.WriteUserRequest Fix44.MsgReaders.ReadUserRequest
 
 //// msg containing a 'NoSides' group
 [<PropTestSlow>]
 let msgNewOrderCross (msg:Fix44.Messages.NewOrderCross) = 
-//    printfn "%A" msg
-//    printfn "------------------------------------------------------------------------------------------------" 
     WriteReadIndexTest msg Fix44.MsgWriters.WriteNewOrderCross Fix44.MsgReaders.ReadNewOrderCross
-
 
 [<PropTest>]
 let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadIndexTest grpIn WriteNoCapacitiesGrp Fix44.CompoundItemReaders.ReadNoCapacitiesGrpIdx
 
 [<PropTest>]
 let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadIndexTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReaders.ReadNoUnderlyingStipsGrpIdx
+
+
+let WriteReadIndexOrderedTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:bool->byte[]->FIXBufIndexer.FixBufIndex->'t) =
+    let bs = Array.zeroCreate<byte> bufSize
+    let posW = writeFunc bs 0 tIn
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let index = FIXBufIndexer.FixBufIndex(indexEnd, fieldPosArr)
+    let tOut = readFunc true bs index
+    tIn =! tOut
+
+
+
+[<PropTest>]
+let UnderlyingInstrument (usIn:UnderlyingInstrument ) = WriteReadIndexOrderedTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReaders.ReadUnderlyingInstrumentIdxOrdered
+
 
 [<PropTest>]
 let UnderlyingStipulations (usIn:UnderlyingStipulations) = WriteReadIndexTest usIn WriteUnderlyingStipulations Fix44.CompoundItemReaders.ReadUnderlyingStipulationsIdx
