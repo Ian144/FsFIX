@@ -44,11 +44,11 @@ let bytesToDecimalIdx (bs:byte[]) pos len =
 
 
 
-let bytesToStr bs = System.Text.Encoding.UTF8.GetString(bs)
+let bytesToStrRename bs = System.Text.Encoding.UTF8.GetString(bs)
 
-let bytesToInt32 = bytesToStr >> System.Convert.ToInt32 
+let bytesToInt32x = bytesToStrRename >> System.Convert.ToInt32 
 
-let bytesToUInt32 = bytesToStr >> System.Convert.ToUInt32
+let bytesToUInt32 = bytesToStrRename >> System.Convert.ToUInt32
 
 
 let bytesToBool (bs:byte[]) =
@@ -58,8 +58,8 @@ let bytesToBool (bs:byte[]) =
     | _ ->  failwith (sprintf "invalid value for bool field: %A" bs) 
     
 
-let bytesToDecimal (bs:byte[]) = 
-    let ss = bs |> bytesToStr
+let bytesToDecimalRename (bs:byte[]) = 
+    let ss = bs |> bytesToStrRename
     match Decimal.TryParse(ss) with
     | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
     | true, dd  -> dd

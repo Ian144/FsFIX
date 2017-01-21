@@ -66,14 +66,16 @@ let ReadFieldMonthYearIdx bs pos (len:int) fldCtor =
     
 
 // pos is pointing to the the begining of the length value
-let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (len:int) (dataTagExpected:byte[]) fldCtor =
-    let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs pos
-    let lenXXX = Conversions.bytesToInt32 lenBytes
-    // the len has been read, next read the string
+let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (lenREMOVEME:int) (dataTagExpected:byte[]) fldCtor =
+    let lengthFieldTermPos = FIXBuf.findNextFieldTermOrEnd bs pos
+    let dataFieldLength = Conversions.bytesToInt32Idx bs pos (lengthFieldTermPos - pos)
+
+    let dataTagPos = lengthFieldTermPos + 1
+    // the length of the data has been read, next read the data
     // the tag read-in must match the expected tag
-    let dataFieldBegin, dataTagBtyes = FIXBuf.readTagAfterFieldDelim bs nextFieldBeg
-    if dataTagExpected = dataTagBtyes then
-        let _, bs = FIXBuf.readNBytesVal dataFieldBegin lenXXX bs
+    let dataPos, dataTagBytes = FIXBuf.readTagAfterFieldDelim bs dataTagPos
+    if dataTagExpected = dataTagBytes then
+        let _, bs = FIXBuf.readNBytesVal dataPos dataFieldLength bs
         fldCtor bs
     else
         failwith "ReadLengthDataCompoundField, unexpected string field tag" //todo: add a better error msg

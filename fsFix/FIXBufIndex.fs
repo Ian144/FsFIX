@@ -98,10 +98,11 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
     let fldBeg = tagValSepPos + 1
     let tagInt = convTagToInt bs pos tagValSepPos
     if IsLenDataCompoundTag tagInt then
-        // eat the next field, including the tag value
-        // assuming that it is the correct data field, this will be checked when the msg is read    
-        let nextFieldBeg, lenBytes = FIXBuf.readValAfterTagValSep bs (tagValSepPos+1)
-        let dataFieldLen = Conversions.bytesToInt32 lenBytes
+        // eat the next field, i.e. data field, including the tag
+        let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
+        let len = fieldTerm - (tagValSepPos+1)
+        let dataFieldLen = Conversions.bytesToInt32Idx bs (tagValSepPos+1) len
+        let nextFieldBeg = fieldTerm + 1
         let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
         let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
         let compoundFieldLen = endDataFieldPos - fldBeg
