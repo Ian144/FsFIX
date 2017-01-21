@@ -12,8 +12,7 @@ let bytesToChar (bs:byte[]) pos len =
         let b = bs.[pos]
         char (b)
     else
-        let msg = sprintf "should be single char at pos: %d, len: %d" pos len
-        failwith msg
+        failwithf "should be single char at pos: %d, len: %d" pos len
 
 
 // todo: replace with an impl the reads the int directly from the byte array without a tmp string
@@ -31,13 +30,13 @@ let bytesToBool (bs:byte[]) (pos:int) =
     match bs.[pos] with
     | 89uy ->  true  // Y
     | 78uy ->  false  // N
-    | _ ->  failwith (sprintf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]) 
+    | _ ->  failwithf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]
 
 // todo: replace with impl that reads the decimal directly with the tmp string
 let bytesToDecimal (bs:byte[]) pos len = 
     let ss = bytesToStr bs pos len
     match Decimal.TryParse(ss) with
-    | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
+    | false, _  -> failwithf "invalid value for decimal field: %s" ss
     | true, dd  -> dd
 
 

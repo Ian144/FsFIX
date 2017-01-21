@@ -1548,4 +1548,131 @@ type NoBidComponentsGrp = {
     NetGrossInd: NetGrossInd option
     SettlType: SettlType option
     SettlDate: SettlDate option
-    Accou
+    Account: Account option
+    AcctIDSource: AcctIDSource option
+    }
+
+// group
+type ListStatusNoOrdersGrp = {
+    ClOrdID: ClOrdID
+    SecondaryClOrdID: SecondaryClOrdID option
+    CumQty: CumQty
+    OrdStatus: OrdStatus
+    WorkingIndicator: WorkingIndicator option
+    LeavesQty: LeavesQty
+    CxlQty: CxlQty
+    AvgPx: AvgPx
+    OrdRejReason: OrdRejReason option
+    Text: Text option
+    EncodedText: EncodedText option
+    }
+
+// group
+type AllocationInstructionNoExecsGrp = {
+    LastQty: LastQty
+    ExecID: ExecID option
+    SecondaryExecID: SecondaryExecID option
+    LastPx: LastPx option
+    LastParPx: LastParPx option
+    LastCapacity: LastCapacity option
+    }
+
+// group
+type AllocationInstructionAckNoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    }
+
+// group
+type AllocationReportNoExecsGrp = {
+    LastQty: LastQty
+    ExecID: ExecID option
+    SecondaryExecID: SecondaryExecID option
+    LastPx: LastPx option
+    LastParPx: LastParPx option
+    LastCapacity: LastCapacity option
+    }
+
+// group
+type AllocationReportAckNoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocPrice: AllocPrice option
+    IndividualAllocID: IndividualAllocID option
+    IndividualAllocRejCode: IndividualAllocRejCode option
+    AllocText: AllocText option
+    EncodedAllocText: EncodedAllocText option
+    }
+
+// group
+type NoCapacitiesGrp = {
+    OrderCapacity: OrderCapacity
+    OrderRestrictions: OrderRestrictions option
+    OrderCapacityQty: OrderCapacityQty
+    }
+
+// group
+type NoDatesGrp = {
+    TradeDate: TradeDate
+    TransactTime: TransactTime option
+    }
+
+// group
+type NoDistribInstsGrp = {
+    DistribPaymentMethod: DistribPaymentMethod
+    DistribPercentage: DistribPercentage option
+    CashDistribCurr: CashDistribCurr option
+    CashDistribAgentName: CashDistribAgentName option
+    CashDistribAgentCode: CashDistribAgentCode option
+    CashDistribAgentAcctNumber: CashDistribAgentAcctNumber option
+    CashDistribPayRef: CashDistribPayRef option
+    CashDistribAgentAcctName: CashDistribAgentAcctName option
+    }
+
+// group
+type NoExecsGrp = {
+    ExecID: ExecID
+    }
+
+// group
+type NoTradesGrp = {
+    TradeReportID: TradeReportID
+    SecondaryTradeReportID: SecondaryTradeReportID option
+    }
+
+// group
+type NoCollInquiryQualifierGrp = {
+    CollInquiryQualifier: CollInquiryQualifier
+    }
+
+// group
+type NoCompIDsGrp = {
+    RefCompID: RefCompID
+    RefSubID: RefSubID option
+    LocationID: LocationID option
+    DeskID: DeskID option
+    }
+
+// group
+type NetworkStatusResponseNoCompIDsGrp = {
+    RefCompID: RefCompID
+    RefSubID: RefSubID option
+    LocationID: LocationID option
+    DeskID: DeskID option
+    StatusValue: StatusValue option
+    StatusText: StatusText option
+    }
+
+// group
+type NoHopsGrp = {
+    HopCompID: HopCompID
+    HopSendingTime: HopSendingTime option
+    HopRefID: HopRefID option
+    }
+
+

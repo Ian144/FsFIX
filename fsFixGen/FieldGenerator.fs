@@ -36,7 +36,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
             yield  sprintf "    match tagBs with"
             yield! values |> List.map (fun vv -> 
                    sprintf "    |\"%s\"B -> %s.%s" vv.Case typeName vv.Description )
-            yield          "    | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
+            yield          "    | x -> failwithf \"" + readerFuncErrMsg + " %A\"  x" // the failure case (nested stringformatting makes this difficult to code with a sprintf)
     ]    
     StringEx.join "\n" lines
 
@@ -105,7 +105,7 @@ let private getSingleCaseDUReadFuncString (fieldType:string) =
     | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
     | "MonthYear"       -> "ReadFieldMonthYear"
     | "LocalMktDate"    -> "ReadFieldLocalMktDate"
-    | _                 -> failwith "unknown type name"
+    | _                 -> failwithf "unknown type name: %s" fieldType
 
 
 
@@ -124,7 +124,7 @@ let private getSingleCaseDUWriteFuncString (fieldType:string) =
     | "TZTimeOnly"      -> "WriteFieldTZTimeOnly"
     | "MonthYear"       -> "WriteFieldMonthYear"
     | "LocalMktDate"    -> "WriteFieldLocalMktDate"
-    | _                 -> failwith "unknown type name"
+    | _                 -> failwithf "unknown type name: %s" fieldType
 
 
 
@@ -197,8 +197,7 @@ let private createFieldTypes (field:SimpleField) =
     | "MULTIPLESTRINGVALUE",    false   -> createFieldDUWithValues fieldName tag values
     | "MULTIPLEVALUESTRING",    false   -> createFieldDUWithValues fieldName tag values    // required for 4.4
     | "NUMINGROUP",             false   -> createFieldDUWithValues fieldName tag values
-    | _                                 -> let msg = sprintf "NOT IMPLEMENTED %s - %s" fieldName fieldType
-                                           failwith msg
+    | _                                 -> failwithf "NOT IMPLEMENTED %s - %s" fieldName fieldType
 
 
 
@@ -407,4 +406,4 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
                 | SimpleField fd      ->   sprintf "    | %d ->\n        let fld = Read%s bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
                 | CompoundField fd    ->   sprintf "    | %d ->\n        let fld = Read%s bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
             swFieldDU.WriteLine ss )
-    swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "
+    swFieldDU.WriteLine "    |  n  -> failwithf \"FIXField invalid tag: %d\" n"

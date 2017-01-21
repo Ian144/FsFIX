@@ -576,8 +576,8 @@ let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex
     | Fix44.Fields.MsgType.NetworkStatusResponse   ->  ReadNetworkStatusResponse bs index |> FIXMessage.NetworkStatusResponse
     | Fix44.Fields.MsgType.CollateralInquiryAck   ->  ReadCollateralInquiryAck bs index |> FIXMessage.CollateralInquiryAck
     | invalidTag   ->
-        let ss = sprintf "received unknown message type tag: %A" invalidTag
-        failwith ss
+        // FIX4.4.xml (the quickfix.net version at least) does not define and XMLMessage, for which there is a Fix44.Fields.MsgType DU case
+        failwithf "received unknown message type tag: %A" invalidTag
 
 
 

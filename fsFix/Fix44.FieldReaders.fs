@@ -30,7 +30,7 @@ let ReadAdvSide (bs:byte[]) (pos:int) (len:int): AdvSide =
     |"S"B -> AdvSide.Sell
     |"X"B -> AdvSide.Cross
     |"T"B -> AdvSide.Trade
-    | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAdvSide unknown fix tag: %A"  x
 
 
 let ReadAdvTransType (bs:byte[]) (pos:int) (len:int): AdvTransType =
@@ -40,7 +40,7 @@ let ReadAdvTransType (bs:byte[]) (pos:int) (len:int): AdvTransType =
     |"N"B -> AdvTransType.New
     |"C"B -> AdvTransType.Cancel
     |"R"B -> AdvTransType.Replace
-    | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAdvTransType unknown fix tag: %A"  x
 
 
 let ReadAvgPx (bs:byte[]) (pos:int) (len:int): AvgPx =
@@ -81,7 +81,7 @@ let ReadCommType (bs:byte[]) (pos:int) (len:int): CommType =
     |"4"B -> CommType.PercentageWaivedCashDiscount
     |"5"B -> CommType.PercentageWaivedEnhancedUnits
     |"6"B -> CommType.PointsPerBondOrOrContract
-    | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCommType unknown fix tag: %A"  x
 
 
 let ReadCumQty (bs:byte[]) (pos:int) (len:int): CumQty =
@@ -145,7 +145,7 @@ let ReadExecInst (bs:byte[]) (pos:int) (len:int): ExecInst =
     |"c"B -> ExecInst.IgnorePriceValidityChecks
     |"d"B -> ExecInst.PegToLimitPrice
     |"e"B -> ExecInst.WorkToTargetStrategy
-    | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExecInst unknown fix tag: %A"  x
 
 
 let ReadExecRefID (bs:byte[]) (pos:int) (len:int): ExecRefID =
@@ -159,7 +159,7 @@ let ReadHandlInst (bs:byte[]) (pos:int) (len:int): HandlInst =
     |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
     |"2"B -> HandlInst.AutomatedExecutionOrderPublic
     |"3"B -> HandlInst.ManualOrder
-    | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadHandlInst unknown fix tag: %A"  x
 
 
 let ReadSecurityIDSource (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
@@ -185,7 +185,7 @@ let ReadSecurityIDSource (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
     |"H"B -> SecurityIDSource.ClearingHouseClearingOrganization
     |"I"B -> SecurityIDSource.IsdaFpmlProductSpecification
     |"J"B -> SecurityIDSource.OptionsPriceReportingAuthority
-    | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityIDSource unknown fix tag: %A"  x
 
 
 let ReadIOIid (bs:byte[]) (pos:int) (len:int): IOIid =
@@ -199,7 +199,7 @@ let ReadIOIQltyInd (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
     |"L"B -> IOIQltyInd.Low
     |"M"B -> IOIQltyInd.Medium
     |"H"B -> IOIQltyInd.High
-    | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadIOIQltyInd unknown fix tag: %A"  x
 
 
 let ReadIOIRefID (bs:byte[]) (pos:int) (len:int): IOIRefID =
@@ -217,7 +217,7 @@ let ReadIOITransType (bs:byte[]) (pos:int) (len:int): IOITransType =
     |"N"B -> IOITransType.New
     |"C"B -> IOITransType.Cancel
     |"R"B -> IOITransType.Replace
-    | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadIOITransType unknown fix tag: %A"  x
 
 
 let ReadLastCapacity (bs:byte[]) (pos:int) (len:int): LastCapacity =
@@ -228,7 +228,7 @@ let ReadLastCapacity (bs:byte[]) (pos:int) (len:int): LastCapacity =
     |"2"B -> LastCapacity.CrossAsAgent
     |"3"B -> LastCapacity.CrossAsPrincipal
     |"4"B -> LastCapacity.Principal
-    | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadLastCapacity unknown fix tag: %A"  x
 
 
 let ReadLastMkt (bs:byte[]) (pos:int) (len:int): LastMkt =
@@ -348,7 +348,7 @@ let ReadMsgType (bs:byte[]) (pos:int) (len:int): MsgType =
     |"BF"B -> MsgType.UserResponse
     |"BG"B -> MsgType.CollateralInquiryAck
     |"BH"B -> MsgType.ConfirmationRequest
-    | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMsgType unknown fix tag: %A"  x
 
 
 let ReadNewSeqNo (bs:byte[]) (pos:int) (len:int): NewSeqNo =
@@ -382,7 +382,7 @@ let ReadOrdStatus (bs:byte[]) (pos:int) (len:int): OrdStatus =
     |"C"B -> OrdStatus.Expired
     |"D"B -> OrdStatus.AcceptedForBidding
     |"E"B -> OrdStatus.PendingReplace
-    | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOrdStatus unknown fix tag: %A"  x
 
 
 let ReadOrdType (bs:byte[]) (pos:int) (len:int): OrdType =
@@ -412,7 +412,7 @@ let ReadOrdType (bs:byte[]) (pos:int) (len:int): OrdType =
     |"L"B -> OrdType.PreviousFundValuationPoint
     |"M"B -> OrdType.NextFundValuationPoint
     |"P"B -> OrdType.Pegged
-    | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOrdType unknown fix tag: %A"  x
 
 
 let ReadOrigClOrdID (bs:byte[]) (pos:int) (len:int): OrigClOrdID =
@@ -475,7 +475,7 @@ let ReadSide (bs:byte[]) (pos:int) (len:int): Side =
     |"E"B -> Side.Redeem
     |"F"B -> Side.Lend
     |"G"B -> Side.Borrow
-    | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSide unknown fix tag: %A"  x
 
 
 let ReadSymbol (bs:byte[]) (pos:int) (len:int): Symbol =
@@ -506,7 +506,7 @@ let ReadTimeInForce (bs:byte[]) (pos:int) (len:int): TimeInForce =
     |"5"B -> TimeInForce.GoodTillCrossing
     |"6"B -> TimeInForce.GoodTillDate
     |"7"B -> TimeInForce.AtTheClose
-    | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTimeInForce unknown fix tag: %A"  x
 
 
 let ReadTransactTime (bs:byte[]) (pos:int) (len:int): TransactTime =
@@ -520,7 +520,7 @@ let ReadUrgency (bs:byte[]) (pos:int) (len:int): Urgency =
     |"0"B -> Urgency.Normal
     |"1"B -> Urgency.Flash
     |"2"B -> Urgency.Background
-    | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadUrgency unknown fix tag: %A"  x
 
 
 let ReadValidUntilTime (bs:byte[]) (pos:int) (len:int): ValidUntilTime =
@@ -541,7 +541,7 @@ let ReadSettlType (bs:byte[]) (pos:int) (len:int): SettlType =
     |"7"B -> SettlType.WhenAndIfIssued
     |"8"B -> SettlType.SellersOption
     |"9"B -> SettlType.TPlus5
-    | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlType unknown fix tag: %A"  x
 
 
 let ReadSettlDate (bs:byte[]) (pos:int) (len:int): SettlDate =
@@ -554,7 +554,7 @@ let ReadSymbolSfx (bs:byte[]) (pos:int) (len:int): SymbolSfx =
     match tagBs with
     |"WI"B -> SymbolSfx.WhenIssued
     |"CD"B -> SymbolSfx.AEucpWithLumpSumInterest
-    | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSymbolSfx unknown fix tag: %A"  x
 
 
 let ReadListID (bs:byte[]) (pos:int) (len:int): ListID =
@@ -584,7 +584,7 @@ let ReadAllocTransType (bs:byte[]) (pos:int) (len:int): AllocTransType =
     |"0"B -> AllocTransType.New
     |"1"B -> AllocTransType.Replace
     |"2"B -> AllocTransType.Cancel
-    | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocTransType unknown fix tag: %A"  x
 
 
 let ReadRefAllocID (bs:byte[]) (pos:int) (len:int): RefAllocID =
@@ -611,7 +611,7 @@ let ReadPositionEffect (bs:byte[]) (pos:int) (len:int): PositionEffect =
     |"C"B -> PositionEffect.Close
     |"R"B -> PositionEffect.Rolled
     |"F"B -> PositionEffect.Fifo
-    | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPositionEffect unknown fix tag: %A"  x
 
 
 let ReadNoAllocs (bs:byte[]) (pos:int) (len:int): NoAllocs =
@@ -637,7 +637,7 @@ let ReadProcessCode (bs:byte[]) (pos:int) (len:int): ProcessCode =
     |"4"B -> ProcessCode.SoftDollarStepIn
     |"5"B -> ProcessCode.SoftDollarStepOut
     |"6"B -> ProcessCode.PlanSponsor
-    | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadProcessCode unknown fix tag: %A"  x
 
 
 let ReadNoRpts (bs:byte[]) (pos:int) (len:int): NoRpts =
@@ -666,7 +666,7 @@ let ReadAllocStatus (bs:byte[]) (pos:int) (len:int): AllocStatus =
     |"3"B -> AllocStatus.Received
     |"4"B -> AllocStatus.Incomplete
     |"5"B -> AllocStatus.RejectedByIntermediary
-    | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocStatus unknown fix tag: %A"  x
 
 
 let ReadAllocRejCode (bs:byte[]) (pos:int) (len:int): AllocRejCode =
@@ -687,7 +687,7 @@ let ReadAllocRejCode (bs:byte[]) (pos:int) (len:int): AllocRejCode =
     |"11"B -> AllocRejCode.MismatchedDataValue
     |"12"B -> AllocRejCode.UnknownClordid
     |"13"B -> AllocRejCode.WarehouseRequestRejected
-    | x -> failwith (sprintf "ReadAllocRejCode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocRejCode unknown fix tag: %A"  x
 
 
 // compound read
@@ -707,7 +707,7 @@ let ReadEmailType (bs:byte[]) (pos:int) (len:int): EmailType =
     |"0"B -> EmailType.New
     |"1"B -> EmailType.Reply
     |"2"B -> EmailType.AdminReply
-    | x -> failwith (sprintf "ReadEmailType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadEmailType unknown fix tag: %A"  x
 
 
 // compound read
@@ -730,7 +730,7 @@ let ReadEncryptMethod (bs:byte[]) (pos:int) (len:int): EncryptMethod =
     |"4"B -> EncryptMethod.PgpDes
     |"5"B -> EncryptMethod.PgpDesMd5
     |"6"B -> EncryptMethod.PemDesMd5
-    | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadEncryptMethod unknown fix tag: %A"  x
 
 
 let ReadStopPx (bs:byte[]) (pos:int) (len:int): StopPx =
@@ -753,7 +753,7 @@ let ReadCxlRejReason (bs:byte[]) (pos:int) (len:int): CxlRejReason =
     |"5"B -> CxlRejReason.OrigordmodtimeDidNotMatchLastTransacttimeOfOrder
     |"6"B -> CxlRejReason.DuplicateClordidReceived
     |"99"B -> CxlRejReason.Other
-    | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCxlRejReason unknown fix tag: %A"  x
 
 
 let ReadOrdRejReason (bs:byte[]) (pos:int) (len:int): OrdRejReason =
@@ -777,7 +777,7 @@ let ReadOrdRejReason (bs:byte[]) (pos:int) (len:int): OrdRejReason =
     |"14"B -> OrdRejReason.IncorrectAllocatedQuantity
     |"15"B -> OrdRejReason.UnknownAccount
     |"99"B -> OrdRejReason.Other
-    | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOrdRejReason unknown fix tag: %A"  x
 
 
 let ReadIOIQualifier (bs:byte[]) (pos:int) (len:int): IOIQualifier =
@@ -802,7 +802,7 @@ let ReadIOIQualifier (bs:byte[]) (pos:int) (len:int): IOIQualifier =
     |"X"B -> IOIQualifier.CrossingOpportunity
     |"Y"B -> IOIQualifier.AtTheMidpoint
     |"Z"B -> IOIQualifier.PreOpen
-    | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadIOIQualifier unknown fix tag: %A"  x
 
 
 let ReadWaveNo (bs:byte[]) (pos:int) (len:int): WaveNo =
@@ -896,7 +896,7 @@ let ReadDKReason (bs:byte[]) (pos:int) (len:int): DKReason =
     |"E"B -> DKReason.PriceExceedsLimit
     |"F"B -> DKReason.CalculationDifference
     |"Z"B -> DKReason.Other
-    | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDKReason unknown fix tag: %A"  x
 
 
 let ReadDeliverToCompID (bs:byte[]) (pos:int) (len:int): DeliverToCompID =
@@ -959,7 +959,7 @@ let ReadMiscFeeType (bs:byte[]) (pos:int) (len:int): MiscFeeType =
     |"10"B -> MiscFeeType.PerTransaction
     |"11"B -> MiscFeeType.Conversion
     |"12"B -> MiscFeeType.Agent
-    | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMiscFeeType unknown fix tag: %A"  x
 
 
 let ReadPrevClosePx (bs:byte[]) (pos:int) (len:int): PrevClosePx =
@@ -1025,7 +1025,7 @@ let ReadExecType (bs:byte[]) (pos:int) (len:int): ExecType =
     |"G"B -> ExecType.TradeCorrect
     |"H"B -> ExecType.TradeCancel
     |"I"B -> ExecType.OrderStatus
-    | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExecType unknown fix tag: %A"  x
 
 
 let ReadLeavesQty (bs:byte[]) (pos:int) (len:int): LeavesQty =
@@ -1054,7 +1054,7 @@ let ReadSettlCurrFxRateCalc (bs:byte[]) (pos:int) (len:int): SettlCurrFxRateCalc
     match tagBs with
     |"M"B -> SettlCurrFxRateCalc.Multiply
     |"D"B -> SettlCurrFxRateCalc.Divide
-    | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x
 
 
 let ReadNumDaysInterest (bs:byte[]) (pos:int) (len:int): NumDaysInterest =
@@ -1077,7 +1077,7 @@ let ReadSettlInstMode (bs:byte[]) (pos:int) (len:int): SettlInstMode =
     |"1"B -> SettlInstMode.StandingInstructionsProvided
     |"4"B -> SettlInstMode.SpecificOrderForASingleAccount
     |"5"B -> SettlInstMode.RequestReject
-    | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlInstMode unknown fix tag: %A"  x
 
 
 let ReadAllocText (bs:byte[]) (pos:int) (len:int): AllocText =
@@ -1096,7 +1096,7 @@ let ReadSettlInstTransType (bs:byte[]) (pos:int) (len:int): SettlInstTransType =
     |"C"B -> SettlInstTransType.Cancel
     |"R"B -> SettlInstTransType.Replace
     |"T"B -> SettlInstTransType.Restate
-    | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlInstTransType unknown fix tag: %A"  x
 
 
 let ReadEmailThreadID (bs:byte[]) (pos:int) (len:int): EmailThreadID =
@@ -1110,7 +1110,7 @@ let ReadSettlInstSource (bs:byte[]) (pos:int) (len:int): SettlInstSource =
     |"1"B -> SettlInstSource.BrokersInstructions
     |"2"B -> SettlInstSource.InstitutionsInstructions
     |"3"B -> SettlInstSource.Investor
-    | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlInstSource unknown fix tag: %A"  x
 
 
 let ReadSecurityType (bs:byte[]) (pos:int) (len:int): SecurityType =
@@ -1211,7 +1211,7 @@ let ReadSecurityType (bs:byte[]) (pos:int) (len:int): SecurityType =
     |"MLEG"B -> SecurityType.MultiLegInstrument
     |"NONE"B -> SecurityType.NoSecurityType
     |"?"B -> SecurityType.Wildcard
-    | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityType unknown fix tag: %A"  x
 
 
 let ReadEffectiveTime (bs:byte[]) (pos:int) (len:int): EffectiveTime =
@@ -1227,7 +1227,7 @@ let ReadStandInstDbType (bs:byte[]) (pos:int) (len:int): StandInstDbType =
     |"2"B -> StandInstDbType.ThomsonAlert
     |"3"B -> StandInstDbType.AGlobalCustodian
     |"4"B -> StandInstDbType.Accountnet
-    | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadStandInstDbType unknown fix tag: %A"  x
 
 
 let ReadStandInstDbName (bs:byte[]) (pos:int) (len:int): StandInstDbName =
@@ -1246,7 +1246,7 @@ let ReadSettlDeliveryType (bs:byte[]) (pos:int) (len:int): SettlDeliveryType =
     |"1"B -> SettlDeliveryType.Free
     |"2"B -> SettlDeliveryType.TriParty
     |"3"B -> SettlDeliveryType.HoldInCustody
-    | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlDeliveryType unknown fix tag: %A"  x
 
 
 let ReadBidSpotRate (bs:byte[]) (pos:int) (len:int): BidSpotRate =
@@ -1291,7 +1291,7 @@ let ReadAllocLinkType (bs:byte[]) (pos:int) (len:int): AllocLinkType =
     match tagBs with
     |"0"B -> AllocLinkType.FXNetting
     |"1"B -> AllocLinkType.FXSwap
-    | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocLinkType unknown fix tag: %A"  x
 
 
 let ReadSecondaryOrderID (bs:byte[]) (pos:int) (len:int): SecondaryOrderID =
@@ -1312,7 +1312,7 @@ let ReadPutOrCall (bs:byte[]) (pos:int) (len:int): PutOrCall =
     match tagBs with
     |"0"B -> PutOrCall.Put
     |"1"B -> PutOrCall.Call
-    | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPutOrCall unknown fix tag: %A"  x
 
 
 let ReadStrikePrice (bs:byte[]) (pos:int) (len:int): StrikePrice =
@@ -1325,7 +1325,7 @@ let ReadCoveredOrUncovered (bs:byte[]) (pos:int) (len:int): CoveredOrUncovered =
     match tagBs with
     |"0"B -> CoveredOrUncovered.Covered
     |"1"B -> CoveredOrUncovered.Uncovered
-    | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCoveredOrUncovered unknown fix tag: %A"  x
 
 
 let ReadOptAttribute (bs:byte[]) (pos:int) (len:int): OptAttribute =
@@ -1347,7 +1347,7 @@ let ReadAllocHandlInst (bs:byte[]) (pos:int) (len:int): AllocHandlInst =
     |"1"B -> AllocHandlInst.Match
     |"2"B -> AllocHandlInst.Forward
     |"3"B -> AllocHandlInst.ForwardAndMatch
-    | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocHandlInst unknown fix tag: %A"  x
 
 
 let ReadMaxShow (bs:byte[]) (pos:int) (len:int): MaxShow =
@@ -1379,7 +1379,7 @@ let ReadRoutingType (bs:byte[]) (pos:int) (len:int): RoutingType =
     |"2"B -> RoutingType.TargetList
     |"3"B -> RoutingType.BlockFirm
     |"4"B -> RoutingType.BlockList
-    | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadRoutingType unknown fix tag: %A"  x
 
 
 let ReadRoutingID (bs:byte[]) (pos:int) (len:int): RoutingID =
@@ -1410,7 +1410,7 @@ let ReadBenchmarkCurveName (bs:byte[]) (pos:int) (len:int): BenchmarkCurveName =
     |"EONIA"B -> BenchmarkCurveName.Eonia
     |"SONIA"B -> BenchmarkCurveName.Sonia
     |"EUREPO"B -> BenchmarkCurveName.Eurepo
-    | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBenchmarkCurveName unknown fix tag: %A"  x
 
 
 let ReadBenchmarkCurvePoint (bs:byte[]) (pos:int) (len:int): BenchmarkCurvePoint =
@@ -1520,7 +1520,7 @@ let ReadStipulationType (bs:byte[]) (pos:int) (len:int): StipulationType =
     |"PPC"B -> StipulationType.PercentOfProspectusPrepaymentCurve
     |"MHP"B -> StipulationType.PercentOfManufacturedHousingPrepaymentCurve
     |"HEP"B -> StipulationType.FinalCprOfHomeEquityPrepaymentCurve
-    | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadStipulationType unknown fix tag: %A"  x
 
 
 let ReadStipulationValue (bs:byte[]) (pos:int) (len:int): StipulationValue =
@@ -1541,7 +1541,7 @@ let ReadStipulationValue (bs:byte[]) (pos:int) (len:int): StipulationValue =
     |"SP"B -> StipulationValue.SpecialPrice
     |"TR"B -> StipulationValue.ReportForEuropeanEquityMarketSecurities
     |"GD"B -> StipulationValue.GuaranteedDelivery
-    | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadStipulationValue unknown fix tag: %A"  x
 
 
 let ReadYieldType (bs:byte[]) (pos:int) (len:int): YieldType =
@@ -1582,7 +1582,7 @@ let ReadYieldType (bs:byte[]) (pos:int) (len:int): YieldType =
     |"TRUE"B -> YieldType.TrueYield
     |"VALUE1_32"B -> YieldType.YieldValueOf132
     |"WORST"B -> YieldType.YieldToWorst
-    | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadYieldType unknown fix tag: %A"  x
 
 
 let ReadYield (bs:byte[]) (pos:int) (len:int): Yield =
@@ -1696,7 +1696,7 @@ let ReadSubscriptionRequestType (bs:byte[]) (pos:int) (len:int): SubscriptionReq
     |"0"B -> SubscriptionRequestType.Snapshot
     |"1"B -> SubscriptionRequestType.SnapshotPlusUpdates
     |"2"B -> SubscriptionRequestType.DisablePreviousSnapshotPlusUpdateRequest
-    | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSubscriptionRequestType unknown fix tag: %A"  x
 
 
 let ReadMarketDepth (bs:byte[]) (pos:int) (len:int): MarketDepth =
@@ -1709,7 +1709,7 @@ let ReadMDUpdateType (bs:byte[]) (pos:int) (len:int): MDUpdateType =
     match tagBs with
     |"0"B -> MDUpdateType.FullRefresh
     |"1"B -> MDUpdateType.IncrementalRefresh
-    | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMDUpdateType unknown fix tag: %A"  x
 
 
 let ReadAggregatedBook (bs:byte[]) (pos:int) (len:int): AggregatedBook =
@@ -1741,7 +1741,7 @@ let ReadMDEntryType (bs:byte[]) (pos:int) (len:int): MDEntryType =
     |"A"B -> MDEntryType.Imbalance
     |"B"B -> MDEntryType.TradeVolume
     |"C"B -> MDEntryType.OpenInterest
-    | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMDEntryType unknown fix tag: %A"  x
 
 
 let ReadMDEntryPx (bs:byte[]) (pos:int) (len:int): MDEntryPx =
@@ -1768,7 +1768,7 @@ let ReadTickDirection (bs:byte[]) (pos:int) (len:int): TickDirection =
     |"1"B -> TickDirection.ZeroPlusTick
     |"2"B -> TickDirection.MinusTick
     |"3"B -> TickDirection.ZeroMinusTick
-    | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTickDirection unknown fix tag: %A"  x
 
 
 let ReadMDMkt (bs:byte[]) (pos:int) (len:int): MDMkt =
@@ -1788,7 +1788,7 @@ let ReadQuoteCondition (bs:byte[]) (pos:int) (len:int): QuoteCondition =
     |"G"B -> QuoteCondition.Depth
     |"H"B -> QuoteCondition.FastTrading
     |"I"B -> QuoteCondition.NonFirm
-    | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteCondition unknown fix tag: %A"  x
 
 
 let ReadTradeCondition (bs:byte[]) (pos:int) (len:int): TradeCondition =
@@ -1812,7 +1812,7 @@ let ReadTradeCondition (bs:byte[]) (pos:int) (len:int): TradeCondition =
     |"P"B -> TradeCondition.ImbalanceMoreBuyers
     |"Q"B -> TradeCondition.ImbalanceMoreSellers
     |"R"B -> TradeCondition.OpeningPrice
-    | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeCondition unknown fix tag: %A"  x
 
 
 let ReadMDEntryID (bs:byte[]) (pos:int) (len:int): MDEntryID =
@@ -1826,7 +1826,7 @@ let ReadMDUpdateAction (bs:byte[]) (pos:int) (len:int): MDUpdateAction =
     |"0"B -> MDUpdateAction.New
     |"1"B -> MDUpdateAction.Change
     |"2"B -> MDUpdateAction.Delete
-    | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMDUpdateAction unknown fix tag: %A"  x
 
 
 let ReadMDEntryRefID (bs:byte[]) (pos:int) (len:int): MDEntryRefID =
@@ -1850,7 +1850,7 @@ let ReadMDReqRejReason (bs:byte[]) (pos:int) (len:int): MDReqRejReason =
     |"A"B -> MDReqRejReason.UnsupportedScope
     |"B"B -> MDReqRejReason.UnsupportedOpenclosesettleflag
     |"C"B -> MDReqRejReason.UnsupportedMdimplicitdelete
-    | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMDReqRejReason unknown fix tag: %A"  x
 
 
 let ReadMDEntryOriginator (bs:byte[]) (pos:int) (len:int): MDEntryOriginator =
@@ -1871,7 +1871,7 @@ let ReadDeleteReason (bs:byte[]) (pos:int) (len:int): DeleteReason =
     match tagBs with
     |"0"B -> DeleteReason.CancelationTradeBust
     |"1"B -> DeleteReason.Error
-    | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDeleteReason unknown fix tag: %A"  x
 
 
 let ReadOpenCloseSettlFlag (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFlag =
@@ -1884,7 +1884,7 @@ let ReadOpenCloseSettlFlag (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFlag =
     |"3"B -> OpenCloseSettlFlag.ExpectedEntry
     |"4"B -> OpenCloseSettlFlag.EntryFromPreviousBusinessDay
     |"5"B -> OpenCloseSettlFlag.TheoreticalPriceValue
-    | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x
 
 
 let ReadSellerDays (bs:byte[]) (pos:int) (len:int): SellerDays =
@@ -1909,7 +1909,7 @@ let ReadFinancialStatus (bs:byte[]) (pos:int) (len:int): FinancialStatus =
     match tagBs with
     |"1"B -> FinancialStatus.Bankrupt
     |"2"B -> FinancialStatus.PendingDelisting
-    | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadFinancialStatus unknown fix tag: %A"  x
 
 
 let ReadCorporateAction (bs:byte[]) (pos:int) (len:int): CorporateAction =
@@ -1921,7 +1921,7 @@ let ReadCorporateAction (bs:byte[]) (pos:int) (len:int): CorporateAction =
     |"C"B -> CorporateAction.ExRights
     |"D"B -> CorporateAction.New
     |"E"B -> CorporateAction.ExInterest
-    | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCorporateAction unknown fix tag: %A"  x
 
 
 let ReadDefBidSize (bs:byte[]) (pos:int) (len:int): DefBidSize =
@@ -1960,7 +1960,7 @@ let ReadQuoteStatus (bs:byte[]) (pos:int) (len:int): QuoteStatus =
     |"13"B -> QuoteStatus.CrossMarketWarning
     |"14"B -> QuoteStatus.CanceledDueToLockMarket
     |"15"B -> QuoteStatus.CanceledDueToCrossMarket
-    | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteStatus unknown fix tag: %A"  x
 
 
 let ReadQuoteCancelType (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
@@ -1971,7 +1971,7 @@ let ReadQuoteCancelType (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
     |"2"B -> QuoteCancelType.CancelForSecurityType
     |"3"B -> QuoteCancelType.CancelForUnderlyingSymbol
     |"4"B -> QuoteCancelType.CancelAllQuotes
-    | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteCancelType unknown fix tag: %A"  x
 
 
 let ReadQuoteEntryID (bs:byte[]) (pos:int) (len:int): QuoteEntryID =
@@ -1992,7 +1992,7 @@ let ReadQuoteRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRejectReason =
     |"8"B -> QuoteRejectReason.InvalidPrice
     |"9"B -> QuoteRejectReason.NotAuthorizedToQuoteSecurity
     |"99"B -> QuoteRejectReason.Other
-    | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteRejectReason unknown fix tag: %A"  x
 
 
 let ReadQuoteResponseLevel (bs:byte[]) (pos:int) (len:int): QuoteResponseLevel =
@@ -2002,7 +2002,7 @@ let ReadQuoteResponseLevel (bs:byte[]) (pos:int) (len:int): QuoteResponseLevel =
     |"0"B -> QuoteResponseLevel.NoAcknowledgement
     |"1"B -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
     |"2"B -> QuoteResponseLevel.AcknowledgeEachQuoteMessages
-    | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteResponseLevel unknown fix tag: %A"  x
 
 
 let ReadQuoteSetID (bs:byte[]) (pos:int) (len:int): QuoteSetID =
@@ -2015,7 +2015,7 @@ let ReadQuoteRequestType (bs:byte[]) (pos:int) (len:int): QuoteRequestType =
     match tagBs with
     |"1"B -> QuoteRequestType.Manual
     |"2"B -> QuoteRequestType.Automatic
-    | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteRequestType unknown fix tag: %A"  x
 
 
 let ReadTotNoQuoteEntries (bs:byte[]) (pos:int) (len:int): TotNoQuoteEntries =
@@ -2064,7 +2064,7 @@ let ReadUnderlyingPutOrCall (bs:byte[]) (pos:int) (len:int): UnderlyingPutOrCall
     match tagBs with
     |"0"B -> UnderlyingPutOrCall.Put
     |"1"B -> UnderlyingPutOrCall.Call
-    | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x
 
 
 let ReadUnderlyingStrikePrice (bs:byte[]) (pos:int) (len:int): UnderlyingStrikePrice =
@@ -2091,7 +2091,7 @@ let ReadSecurityRequestType (bs:byte[]) (pos:int) (len:int): SecurityRequestType
     |"1"B -> SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided
     |"2"B -> SecurityRequestType.RequestListSecurityTypes
     |"3"B -> SecurityRequestType.RequestListSecurities
-    | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityRequestType unknown fix tag: %A"  x
 
 
 let ReadSecurityResponseID (bs:byte[]) (pos:int) (len:int): SecurityResponseID =
@@ -2108,7 +2108,7 @@ let ReadSecurityResponseType (bs:byte[]) (pos:int) (len:int): SecurityResponseTy
     |"4"B -> SecurityResponseType.ListOfSecuritiesReturnedPerRequest
     |"5"B -> SecurityResponseType.RejectSecurityProposal
     |"6"B -> SecurityResponseType.CanNotMatchSelectionCriteria
-    | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityResponseType unknown fix tag: %A"  x
 
 
 let ReadSecurityStatusReqID (bs:byte[]) (pos:int) (len:int): SecurityStatusReqID =
@@ -2146,7 +2146,7 @@ let ReadSecurityTradingStatus (bs:byte[]) (pos:int) (len:int): SecurityTradingSt
     |"21"B -> SecurityTradingStatus.PreOpen
     |"22"B -> SecurityTradingStatus.OpeningRotation
     |"23"B -> SecurityTradingStatus.FastMarket
-    | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityTradingStatus unknown fix tag: %A"  x
 
 
 let ReadHaltReason (bs:byte[]) (pos:int) (len:int): HaltReason =
@@ -2159,7 +2159,7 @@ let ReadHaltReason (bs:byte[]) (pos:int) (len:int): HaltReason =
     |"D"B -> HaltReason.NewsDissemination
     |"E"B -> HaltReason.OrderInflux
     |"M"B -> HaltReason.AdditionalInformation
-    | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadHaltReason unknown fix tag: %A"  x
 
 
 let ReadInViewOfCommon (bs:byte[]) (pos:int) (len:int): InViewOfCommon =
@@ -2193,7 +2193,7 @@ let ReadAdjustment (bs:byte[]) (pos:int) (len:int): Adjustment =
     |"1"B -> Adjustment.Cancel
     |"2"B -> Adjustment.Error
     |"3"B -> Adjustment.Correction
-    | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAdjustment unknown fix tag: %A"  x
 
 
 let ReadTradSesReqID (bs:byte[]) (pos:int) (len:int): TradSesReqID =
@@ -2215,7 +2215,7 @@ let ReadTradSesMethod (bs:byte[]) (pos:int) (len:int): TradSesMethod =
     |"1"B -> TradSesMethod.Electronic
     |"2"B -> TradSesMethod.OpenOutcry
     |"3"B -> TradSesMethod.TwoParty
-    | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradSesMethod unknown fix tag: %A"  x
 
 
 let ReadTradSesMode (bs:byte[]) (pos:int) (len:int): TradSesMode =
@@ -2225,7 +2225,7 @@ let ReadTradSesMode (bs:byte[]) (pos:int) (len:int): TradSesMode =
     |"1"B -> TradSesMode.Testing
     |"2"B -> TradSesMode.Simulated
     |"3"B -> TradSesMode.Production
-    | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradSesMode unknown fix tag: %A"  x
 
 
 let ReadTradSesStatus (bs:byte[]) (pos:int) (len:int): TradSesStatus =
@@ -2239,7 +2239,7 @@ let ReadTradSesStatus (bs:byte[]) (pos:int) (len:int): TradSesStatus =
     |"4"B -> TradSesStatus.PreOpen
     |"5"B -> TradSesStatus.PreClose
     |"6"B -> TradSesStatus.RequestRejected
-    | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradSesStatus unknown fix tag: %A"  x
 
 
 let ReadTradSesStartTime (bs:byte[]) (pos:int) (len:int): TradSesStartTime =
@@ -2274,7 +2274,7 @@ let ReadMessageEncoding (bs:byte[]) (pos:int) (len:int): MessageEncoding =
     |"EUC-JP"B -> MessageEncoding.EucJp
     |"SHIFT_JIS"B -> MessageEncoding.ShiftJis
     |"UTF-8"B -> MessageEncoding.Utf8
-    | x -> failwith (sprintf "ReadMessageEncoding unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMessageEncoding unknown fix tag: %A"  x
 
 
 // compound read
@@ -2343,7 +2343,7 @@ let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) (len:int): QuoteEntryReject
     |"7"B -> QuoteEntryRejectReason.InvalidBidAskSpread
     |"8"B -> QuoteEntryRejectReason.InvalidPrice
     |"9"B -> QuoteEntryRejectReason.NotAuthorizedToQuoteSecurity
-    | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x
 
 
 let ReadLastMsgSeqNumProcessed (bs:byte[]) (pos:int) (len:int): LastMsgSeqNumProcessed =
@@ -2381,7 +2381,7 @@ let ReadSessionRejectReason (bs:byte[]) (pos:int) (len:int): SessionRejectReason
     |"16"B -> SessionRejectReason.IncorrectNumingroupCountForRepeatingGroup
     |"17"B -> SessionRejectReason.NonDataValueIncludesFieldDelimiter
     |"99"B -> SessionRejectReason.Other
-    | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSessionRejectReason unknown fix tag: %A"  x
 
 
 let ReadBidRequestTransType (bs:byte[]) (pos:int) (len:int): BidRequestTransType =
@@ -2390,7 +2390,7 @@ let ReadBidRequestTransType (bs:byte[]) (pos:int) (len:int): BidRequestTransType
     match tagBs with
     |"N"B -> BidRequestTransType.New
     |"C"B -> BidRequestTransType.Cancel
-    | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBidRequestTransType unknown fix tag: %A"  x
 
 
 let ReadContraBroker (bs:byte[]) (pos:int) (len:int): ContraBroker =
@@ -2419,7 +2419,7 @@ let ReadExecRestatementReason (bs:byte[]) (pos:int) (len:int): ExecRestatementRe
     |"7"B -> ExecRestatementReason.CancelOnSystemFailure
     |"8"B -> ExecRestatementReason.MarketOption
     |"9"B -> ExecRestatementReason.CanceledNotBest
-    | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExecRestatementReason unknown fix tag: %A"  x
 
 
 let ReadBusinessRejectRefID (bs:byte[]) (pos:int) (len:int): BusinessRejectRefID =
@@ -2438,7 +2438,7 @@ let ReadBusinessRejectReason (bs:byte[]) (pos:int) (len:int): BusinessRejectReas
     |"5"B -> BusinessRejectReason.ConditionallyRequiredFieldMissing
     |"6"B -> BusinessRejectReason.NotAuthorized
     |"7"B -> BusinessRejectReason.DelivertoFirmNotAvailableAtThisTime
-    | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBusinessRejectReason unknown fix tag: %A"  x
 
 
 let ReadGrossTradeAmt (bs:byte[]) (pos:int) (len:int): GrossTradeAmt =
@@ -2463,7 +2463,7 @@ let ReadMsgDirection (bs:byte[]) (pos:int) (len:int): MsgDirection =
     match tagBs with
     |"S"B -> MsgDirection.Send
     |"R"B -> MsgDirection.Receive
-    | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMsgDirection unknown fix tag: %A"  x
 
 
 let ReadNoTradingSessions (bs:byte[]) (pos:int) (len:int): NoTradingSessions =
@@ -2485,7 +2485,7 @@ let ReadDiscretionInst (bs:byte[]) (pos:int) (len:int): DiscretionInst =
     |"4"B -> DiscretionInst.RelatedToMidpointPrice
     |"5"B -> DiscretionInst.RelatedToLastTradePrice
     |"6"B -> DiscretionInst.RelatedToVwap
-    | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionInst unknown fix tag: %A"  x
 
 
 let ReadDiscretionOffsetValue (bs:byte[]) (pos:int) (len:int): DiscretionOffsetValue =
@@ -2515,7 +2515,7 @@ let ReadBidType (bs:byte[]) (pos:int) (len:int): BidType =
     |"1"B -> BidType.NonDisclosed
     |"2"B -> BidType.DisclosedStyle
     |"3"B -> BidType.NoBiddingProcess
-    | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBidType unknown fix tag: %A"  x
 
 
 let ReadNumTickets (bs:byte[]) (pos:int) (len:int): NumTickets =
@@ -2541,7 +2541,7 @@ let ReadBidDescriptorType (bs:byte[]) (pos:int) (len:int): BidDescriptorType =
     |"1"B -> BidDescriptorType.Sector
     |"2"B -> BidDescriptorType.Ccountry
     |"3"B -> BidDescriptorType.Index
-    | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBidDescriptorType unknown fix tag: %A"  x
 
 
 let ReadBidDescriptor (bs:byte[]) (pos:int) (len:int): BidDescriptor =
@@ -2554,7 +2554,7 @@ let ReadSideValueInd (bs:byte[]) (pos:int) (len:int): SideValueInd =
     match tagBs with
     |"1"B -> SideValueInd.Sidevalue1
     |"2"B -> SideValueInd.Sidevalue2
-    | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSideValueInd unknown fix tag: %A"  x
 
 
 let ReadLiquidityPctLow (bs:byte[]) (pos:int) (len:int): LiquidityPctLow =
@@ -2593,7 +2593,7 @@ let ReadLiquidityIndType (bs:byte[]) (pos:int) (len:int): LiquidityIndType =
     |"2"B -> LiquidityIndType.TwentydayMovingAverage
     |"3"B -> LiquidityIndType.NormalMarketSize
     |"4"B -> LiquidityIndType.Other
-    | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadLiquidityIndType unknown fix tag: %A"  x
 
 
 let ReadWtAverageLiquidity (bs:byte[]) (pos:int) (len:int): WtAverageLiquidity =
@@ -2619,7 +2619,7 @@ let ReadProgRptReqs (bs:byte[]) (pos:int) (len:int): ProgRptReqs =
     |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
     |"2"B -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
     |"3"B -> ProgRptReqs.RealTimeExecutionReports
-    | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadProgRptReqs unknown fix tag: %A"  x
 
 
 let ReadProgPeriodInterval (bs:byte[]) (pos:int) (len:int): ProgPeriodInterval =
@@ -2632,7 +2632,7 @@ let ReadIncTaxInd (bs:byte[]) (pos:int) (len:int): IncTaxInd =
     match tagBs with
     |"1"B -> IncTaxInd.Net
     |"2"B -> IncTaxInd.Gross
-    | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadIncTaxInd unknown fix tag: %A"  x
 
 
 let ReadNumBidders (bs:byte[]) (pos:int) (len:int): NumBidders =
@@ -2647,7 +2647,7 @@ let ReadBidTradeType (bs:byte[]) (pos:int) (len:int): BidTradeType =
     |"G"B -> BidTradeType.VwapGuarantee
     |"A"B -> BidTradeType.Agency
     |"J"B -> BidTradeType.GuaranteedClose
-    | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBidTradeType unknown fix tag: %A"  x
 
 
 let ReadBasisPxType (bs:byte[]) (pos:int) (len:int): BasisPxType =
@@ -2667,7 +2667,7 @@ let ReadBasisPxType (bs:byte[]) (pos:int) (len:int): BasisPxType =
     |"C"B -> BasisPxType.Strike
     |"D"B -> BasisPxType.Open
     |"Z"B -> BasisPxType.Others
-    | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBasisPxType unknown fix tag: %A"  x
 
 
 let ReadNoBidComponents (bs:byte[]) (pos:int) (len:int): NoBidComponents =
@@ -2697,7 +2697,7 @@ let ReadPriceType (bs:byte[]) (pos:int) (len:int): PriceType =
     |"9"B -> PriceType.Yield
     |"10"B -> PriceType.FixedCabinetTradePrice
     |"11"B -> PriceType.VariableCabinetTradePrice
-    | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPriceType unknown fix tag: %A"  x
 
 
 let ReadDayOrderQty (bs:byte[]) (pos:int) (len:int): DayOrderQty =
@@ -2719,7 +2719,7 @@ let ReadGTBookingInst (bs:byte[]) (pos:int) (len:int): GTBookingInst =
     |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
     |"1"B -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
     |"2"B -> GTBookingInst.AccumulateUntilVerballyNotifiedOtherwise
-    | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadGTBookingInst unknown fix tag: %A"  x
 
 
 let ReadNoStrikes (bs:byte[]) (pos:int) (len:int): NoStrikes =
@@ -2736,7 +2736,7 @@ let ReadListStatusType (bs:byte[]) (pos:int) (len:int): ListStatusType =
     |"4"B -> ListStatusType.Execstarted
     |"5"B -> ListStatusType.Alldone
     |"6"B -> ListStatusType.Alert
-    | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadListStatusType unknown fix tag: %A"  x
 
 
 let ReadNetGrossInd (bs:byte[]) (pos:int) (len:int): NetGrossInd =
@@ -2745,7 +2745,7 @@ let ReadNetGrossInd (bs:byte[]) (pos:int) (len:int): NetGrossInd =
     match tagBs with
     |"1"B -> NetGrossInd.Net
     |"2"B -> NetGrossInd.Gross
-    | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadNetGrossInd unknown fix tag: %A"  x
 
 
 let ReadListOrderStatus (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
@@ -2759,7 +2759,7 @@ let ReadListOrderStatus (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
     |"5"B -> ListOrderStatus.Alert
     |"6"B -> ListOrderStatus.AllDone
     |"7"B -> ListOrderStatus.Reject
-    | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadListOrderStatus unknown fix tag: %A"  x
 
 
 let ReadExpireDate (bs:byte[]) (pos:int) (len:int): ExpireDate =
@@ -2775,7 +2775,7 @@ let ReadListExecInstType (bs:byte[]) (pos:int) (len:int): ListExecInstType =
     |"3"B -> ListExecInstType.ExchangeSwitchCivOrderSellDriven
     |"4"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashTopUp
     |"5"B -> ListExecInstType.ExchangeSwitchCivOrderBuyDrivenCashWithdraw
-    | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadListExecInstType unknown fix tag: %A"  x
 
 
 let ReadCxlRejResponseTo (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
@@ -2784,7 +2784,7 @@ let ReadCxlRejResponseTo (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
     match tagBs with
     |"1"B -> CxlRejResponseTo.OrderCancelRequest
     |"2"B -> CxlRejResponseTo.OrderCancelReplaceRequest
-    | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCxlRejResponseTo unknown fix tag: %A"  x
 
 
 let ReadUnderlyingCouponRate (bs:byte[]) (pos:int) (len:int): UnderlyingCouponRate =
@@ -2814,7 +2814,7 @@ let ReadMultiLegReportingType (bs:byte[]) (pos:int) (len:int): MultiLegReporting
     |"1"B -> MultiLegReportingType.SingleSecurity
     |"2"B -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
     |"3"B -> MultiLegReportingType.MultiLegSecurity
-    | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMultiLegReportingType unknown fix tag: %A"  x
 
 
 let ReadStrikeTime (bs:byte[]) (pos:int) (len:int): StrikeTime =
@@ -2852,7 +2852,7 @@ let ReadPartyIDSource (bs:byte[]) (pos:int) (len:int): PartyIDSource =
     |"9"B -> PartyIDSource.AustralianBusinessNumber
     |"A"B -> PartyIDSource.AustralianTaxFileNumber
     |"I"B -> PartyIDSource.DirectedBroker
-    | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPartyIDSource unknown fix tag: %A"  x
 
 
 let ReadPartyID (bs:byte[]) (pos:int) (len:int): PartyID =
@@ -2904,7 +2904,7 @@ let ReadPartyRole (bs:byte[]) (pos:int) (len:int): PartyRole =
     |"36"B -> PartyRole.EnteringTrader
     |"37"B -> PartyRole.ContraTrader
     |"38"B -> PartyRole.PositionAccount
-    | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPartyRole unknown fix tag: %A"  x
 
 
 let ReadNoPartyIDs (bs:byte[]) (pos:int) (len:int): NoPartyIDs =
@@ -2952,7 +2952,7 @@ let ReadProduct (bs:byte[]) (pos:int) (len:int): Product =
     |"11"B -> Product.Municipal
     |"12"B -> Product.Other
     |"13"B -> Product.Financing
-    | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadProduct unknown fix tag: %A"  x
 
 
 let ReadCFICode (bs:byte[]) (pos:int) (len:int): CFICode =
@@ -2983,7 +2983,7 @@ let ReadQuantityType (bs:byte[]) (pos:int) (len:int): QuantityType =
     |"6"B -> QuantityType.Contracts
     |"7"B -> QuantityType.Other
     |"8"B -> QuantityType.Par
-    | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuantityType unknown fix tag: %A"  x
 
 
 let ReadBookingRefID (bs:byte[]) (pos:int) (len:int): BookingRefID =
@@ -3001,7 +3001,7 @@ let ReadRoundingDirection (bs:byte[]) (pos:int) (len:int): RoundingDirection =
     |"0"B -> RoundingDirection.RoundToNearest
     |"1"B -> RoundingDirection.RoundDown
     |"2"B -> RoundingDirection.RoundUp
-    | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadRoundingDirection unknown fix tag: %A"  x
 
 
 let ReadRoundingModulus (bs:byte[]) (pos:int) (len:int): RoundingModulus =
@@ -3052,7 +3052,7 @@ let ReadDistribPaymentMethod (bs:byte[]) (pos:int) (len:int): DistribPaymentMeth
     |"10"B -> DistribPaymentMethod.Bpay
     |"11"B -> DistribPaymentMethod.HighValueClearingSystem
     |"12"B -> DistribPaymentMethod.ReinvestInFund
-    | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDistribPaymentMethod unknown fix tag: %A"  x
 
 
 let ReadCashDistribCurr (bs:byte[]) (pos:int) (len:int): CashDistribCurr =
@@ -3071,7 +3071,7 @@ let ReadCancellationRights (bs:byte[]) (pos:int) (len:int): CancellationRights =
     |"N"B -> CancellationRights.NoExecutionOnly
     |"M"B -> CancellationRights.NoWaiverAgreement
     |"O"B -> CancellationRights.NoInstitutional
-    | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCancellationRights unknown fix tag: %A"  x
 
 
 let ReadMoneyLaunderingStatus (bs:byte[]) (pos:int) (len:int): MoneyLaunderingStatus =
@@ -3083,7 +3083,7 @@ let ReadMoneyLaunderingStatus (bs:byte[]) (pos:int) (len:int): MoneyLaunderingSt
     |"1"B -> MoneyLaunderingStatus.ExemptBelowTheLimit
     |"2"B -> MoneyLaunderingStatus.ExemptClientMoneyTypeExemption
     |"3"B -> MoneyLaunderingStatus.ExemptAuthorisedCreditOrFinancialInstitution
-    | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x
 
 
 let ReadMailingInst (bs:byte[]) (pos:int) (len:int): MailingInst =
@@ -3106,7 +3106,7 @@ let ReadExecPriceType (bs:byte[]) (pos:int) (len:int): ExecPriceType =
     |"P"B -> ExecPriceType.OfferPriceMinusAdjustmentPercent
     |"Q"B -> ExecPriceType.OfferPriceMinusAdjustmentAmount
     |"S"B -> ExecPriceType.SinglePrice
-    | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExecPriceType unknown fix tag: %A"  x
 
 
 let ReadExecPriceAdjustment (bs:byte[]) (pos:int) (len:int): ExecPriceAdjustment =
@@ -3126,7 +3126,7 @@ let ReadTradeReportTransType (bs:byte[]) (pos:int) (len:int): TradeReportTransTy
     |"2"B -> TradeReportTransType.Replace
     |"3"B -> TradeReportTransType.Release
     |"4"B -> TradeReportTransType.Reverse
-    | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeReportTransType unknown fix tag: %A"  x
 
 
 let ReadCardHolderName (bs:byte[]) (pos:int) (len:int): CardHolderName =
@@ -3164,7 +3164,7 @@ let ReadPaymentMethod (bs:byte[]) (pos:int) (len:int): PaymentMethod =
     |"13"B -> PaymentMethod.AchCredit
     |"14"B -> PaymentMethod.Bpay
     |"15"B -> PaymentMethod.HighValueClearingSystem
-    | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPaymentMethod unknown fix tag: %A"  x
 
 
 let ReadRegistAcctType (bs:byte[]) (pos:int) (len:int): RegistAcctType =
@@ -3190,7 +3190,7 @@ let ReadTaxAdvantageType (bs:byte[]) (pos:int) (len:int): TaxAdvantageType =
     |"8"B -> TaxAdvantageType.AssetTransfer
     |"9"B -> TaxAdvantageType.EmployeePriorYear
     |"999"B -> TaxAdvantageType.Other
-    | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTaxAdvantageType unknown fix tag: %A"  x
 
 
 let ReadRegistRejReasonText (bs:byte[]) (pos:int) (len:int): RegistRejReasonText =
@@ -3203,7 +3203,7 @@ let ReadFundRenewWaiv (bs:byte[]) (pos:int) (len:int): FundRenewWaiv =
     match tagBs with
     |"Y"B -> FundRenewWaiv.Yes
     |"N"B -> FundRenewWaiv.No
-    | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadFundRenewWaiv unknown fix tag: %A"  x
 
 
 let ReadCashDistribAgentName (bs:byte[]) (pos:int) (len:int): CashDistribAgentName =
@@ -3246,7 +3246,7 @@ let ReadRegistStatus (bs:byte[]) (pos:int) (len:int): RegistStatus =
     |"R"B -> RegistStatus.Rejected
     |"H"B -> RegistStatus.Held
     |"N"B -> RegistStatus.Reminder
-    | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadRegistStatus unknown fix tag: %A"  x
 
 
 let ReadRegistRejReasonCode (bs:byte[]) (pos:int) (len:int): RegistRejReasonCode =
@@ -3272,7 +3272,7 @@ let ReadRegistRejReasonCode (bs:byte[]) (pos:int) (len:int): RegistRejReasonCode
     |"17"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentCode
     |"18"B -> RegistRejReasonCode.InvalidUnacceptableCashDistribAgentAcctNum
     |"99"B -> RegistRejReasonCode.Other
-    | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadRegistRejReasonCode unknown fix tag: %A"  x
 
 
 let ReadRegistRefID (bs:byte[]) (pos:int) (len:int): RegistRefID =
@@ -3306,7 +3306,7 @@ let ReadRegistTransType (bs:byte[]) (pos:int) (len:int): RegistTransType =
     |"0"B -> RegistTransType.New
     |"1"B -> RegistTransType.Replace
     |"2"B -> RegistTransType.Cancel
-    | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadRegistTransType unknown fix tag: %A"  x
 
 
 let ReadExecValuationPoint (bs:byte[]) (pos:int) (len:int): ExecValuationPoint =
@@ -3324,7 +3324,7 @@ let ReadOwnershipType (bs:byte[]) (pos:int) (len:int): OwnershipType =
     |"J"B -> OwnershipType.JointInvestors
     |"T"B -> OwnershipType.TenantsInCommon
     |"2"B -> OwnershipType.JointTrustees
-    | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOwnershipType unknown fix tag: %A"  x
 
 
 let ReadNoContAmts (bs:byte[]) (pos:int) (len:int): NoContAmts =
@@ -3344,7 +3344,7 @@ let ReadContAmtType (bs:byte[]) (pos:int) (len:int): ContAmtType =
     |"7"B -> ContAmtType.DilutionLevyAmount
     |"8"B -> ContAmtType.DilutionLevyPercent
     |"9"B -> ContAmtType.ExitChargeAmount
-    | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadContAmtType unknown fix tag: %A"  x
 
 
 let ReadContAmtValue (bs:byte[]) (pos:int) (len:int): ContAmtValue =
@@ -3372,7 +3372,7 @@ let ReadOwnerType (bs:byte[]) (pos:int) (len:int): OwnerType =
     |"11"B -> OwnerType.NonProfitOrganization
     |"12"B -> OwnerType.CorporateBody
     |"13"B -> OwnerType.Nominee
-    | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOwnerType unknown fix tag: %A"  x
 
 
 let ReadPartySubID (bs:byte[]) (pos:int) (len:int): PartySubID =
@@ -3405,7 +3405,7 @@ let ReadOrderCapacity (bs:byte[]) (pos:int) (len:int): OrderCapacity =
     |"P"B -> OrderCapacity.Principal
     |"R"B -> OrderCapacity.RisklessPrincipal
     |"W"B -> OrderCapacity.AgentForOtherMember
-    | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOrderCapacity unknown fix tag: %A"  x
 
 
 let ReadOrderRestrictions (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
@@ -3422,7 +3422,7 @@ let ReadOrderRestrictions (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
     |"8"B -> OrderRestrictions.ExternalMarketParticipant
     |"9"B -> OrderRestrictions.ExternalInterConnectedMarketLinkage
     |"A"B -> OrderRestrictions.RisklessArbitrage
-    | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadOrderRestrictions unknown fix tag: %A"  x
 
 
 let ReadMassCancelRequestType (bs:byte[]) (pos:int) (len:int): MassCancelRequestType =
@@ -3436,7 +3436,7 @@ let ReadMassCancelRequestType (bs:byte[]) (pos:int) (len:int): MassCancelRequest
     |"5"B -> MassCancelRequestType.CancelOrdersForASecuritytype
     |"6"B -> MassCancelRequestType.CancelOrdersForATradingSession
     |"7"B -> MassCancelRequestType.CancelAllOrders
-    | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMassCancelRequestType unknown fix tag: %A"  x
 
 
 let ReadMassCancelResponse (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
@@ -3451,7 +3451,7 @@ let ReadMassCancelResponse (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
     |"5"B -> MassCancelResponse.CancelOrdersForASecuritytype
     |"6"B -> MassCancelResponse.CancelOrdersForATradingSession
     |"7"B -> MassCancelResponse.CancelAllOrders
-    | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMassCancelResponse unknown fix tag: %A"  x
 
 
 let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelRejectReason =
@@ -3466,7 +3466,7 @@ let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelReject
     |"5"B -> MassCancelRejectReason.InvalidOrUnknownSecurityType
     |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
     |"99"B -> MassCancelRejectReason.Other
-    | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMassCancelRejectReason unknown fix tag: %A"  x
 
 
 let ReadTotalAffectedOrders (bs:byte[]) (pos:int) (len:int): TotalAffectedOrders =
@@ -3493,7 +3493,7 @@ let ReadQuoteType (bs:byte[]) (pos:int) (len:int): QuoteType =
     |"1"B -> QuoteType.Tradeable
     |"2"B -> QuoteType.RestrictedTradeable
     |"3"B -> QuoteType.Counter
-    | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteType unknown fix tag: %A"  x
 
 
 let ReadNestedPartyRole (bs:byte[]) (pos:int) (len:int): NestedPartyRole =
@@ -3527,7 +3527,7 @@ let ReadCashMargin (bs:byte[]) (pos:int) (len:int): CashMargin =
     |"1"B -> CashMargin.Cash
     |"2"B -> CashMargin.MarginOpen
     |"3"B -> CashMargin.MarginClose
-    | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCashMargin unknown fix tag: %A"  x
 
 
 let ReadNestedPartySubID (bs:byte[]) (pos:int) (len:int): NestedPartySubID =
@@ -3541,7 +3541,7 @@ let ReadScope (bs:byte[]) (pos:int) (len:int): Scope =
     |"1"B -> Scope.Local
     |"2"B -> Scope.National
     |"3"B -> Scope.Global
-    | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadScope unknown fix tag: %A"  x
 
 
 let ReadMDImplicitDelete (bs:byte[]) (pos:int) (len:int): MDImplicitDelete =
@@ -3560,7 +3560,7 @@ let ReadCrossType (bs:byte[]) (pos:int) (len:int): CrossType =
     |"2"B -> CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled
     |"3"B -> CrossType.CrossTradeWhichIsPartiallyExecutedWithTheUnfilledPortionsRemainingActive
     |"4"B -> CrossType.CrossTradeIsExecutedWithExistingOrdersWithTheSamePrice
-    | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCrossType unknown fix tag: %A"  x
 
 
 let ReadCrossPrioritization (bs:byte[]) (pos:int) (len:int): CrossPrioritization =
@@ -3570,7 +3570,7 @@ let ReadCrossPrioritization (bs:byte[]) (pos:int) (len:int): CrossPrioritization
     |"0"B -> CrossPrioritization.NNone
     |"1"B -> CrossPrioritization.BuySideIsPrioritized
     |"2"B -> CrossPrioritization.SellSideIsPrioritized
-    | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCrossPrioritization unknown fix tag: %A"  x
 
 
 let ReadOrigCrossID (bs:byte[]) (pos:int) (len:int): OrigCrossID =
@@ -3583,7 +3583,7 @@ let ReadNoSides (bs:byte[]) (pos:int) (len:int): NoSides =
     match tagBs with
     |"1"B -> NoSides.OneSide
     |"2"B -> NoSides.BothSides
-    | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadNoSides unknown fix tag: %A"  x
 
 
 let ReadUsername (bs:byte[]) (pos:int) (len:int): Username =
@@ -3619,7 +3619,7 @@ let ReadSecurityListRequestType (bs:byte[]) (pos:int) (len:int): SecurityListReq
     |"2"B -> SecurityListRequestType.Product
     |"3"B -> SecurityListRequestType.Tradingsessionid
     |"4"B -> SecurityListRequestType.AllSecurities
-    | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityListRequestType unknown fix tag: %A"  x
 
 
 let ReadSecurityRequestResult (bs:byte[]) (pos:int) (len:int): SecurityRequestResult =
@@ -3632,7 +3632,7 @@ let ReadSecurityRequestResult (bs:byte[]) (pos:int) (len:int): SecurityRequestRe
     |"3"B -> SecurityRequestResult.NotAuthorizedToRetrieveInstrumentData
     |"4"B -> SecurityRequestResult.InstrumentDataTemporarilyUnavailable
     |"5"B -> SecurityRequestResult.RequestForInstrumentDataNotSupported
-    | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSecurityRequestResult unknown fix tag: %A"  x
 
 
 let ReadRoundLot (bs:byte[]) (pos:int) (len:int): RoundLot =
@@ -3650,7 +3650,7 @@ let ReadMultiLegRptTypeReq (bs:byte[]) (pos:int) (len:int): MultiLegRptTypeReq =
     |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
     |"1"B -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
     |"2"B -> MultiLegRptTypeReq.ReportByInstrumentLegsBelongingToTheMultilegSecurityOnly
-    | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x
 
 
 let ReadLegPositionEffect (bs:byte[]) (pos:int) (len:int): LegPositionEffect =
@@ -3670,7 +3670,7 @@ let ReadTradSesStatusRejReason (bs:byte[]) (pos:int) (len:int): TradSesStatusRej
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
     |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
-    | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradSesStatusRejReason unknown fix tag: %A"  x
 
 
 let ReadTradeRequestID (bs:byte[]) (pos:int) (len:int): TradeRequestID =
@@ -3686,7 +3686,7 @@ let ReadTradeRequestType (bs:byte[]) (pos:int) (len:int): TradeRequestType =
     |"2"B -> TradeRequestType.UnmatchedTradesThatMatchCriteria
     |"3"B -> TradeRequestType.UnreportedTradesThatMatchCriteria
     |"4"B -> TradeRequestType.AdvisoriesThatMatchCriteria
-    | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeRequestType unknown fix tag: %A"  x
 
 
 let ReadPreviouslyReported (bs:byte[]) (pos:int) (len:int): PreviouslyReported =
@@ -3708,7 +3708,7 @@ let ReadMatchStatus (bs:byte[]) (pos:int) (len:int): MatchStatus =
     |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
     |"1"B -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
     |"2"B -> MatchStatus.AdvisoryOrAlert
-    | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMatchStatus unknown fix tag: %A"  x
 
 
 let ReadMatchType (bs:byte[]) (pos:int) (len:int): MatchType =
@@ -3741,7 +3741,7 @@ let ReadClearingInstruction (bs:byte[]) (pos:int) (len:int): ClearingInstruction
     |"11"B -> ClearingInstruction.QualifiedServiceRepresentative
     |"12"B -> ClearingInstruction.CustomerTrade
     |"13"B -> ClearingInstruction.SelfClearing
-    | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadClearingInstruction unknown fix tag: %A"  x
 
 
 let ReadTradeInputSource (bs:byte[]) (pos:int) (len:int): TradeInputSource =
@@ -3767,7 +3767,7 @@ let ReadAccountType (bs:byte[]) (pos:int) (len:int): AccountType =
     |"6"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
     |"7"B -> AccountType.AccountIsHouseTraderAndIsCrossMargined
     |"8"B -> AccountType.JointBackofficeAccount
-    | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAccountType unknown fix tag: %A"  x
 
 
 let ReadCustOrderCapacity (bs:byte[]) (pos:int) (len:int): CustOrderCapacity =
@@ -3778,7 +3778,7 @@ let ReadCustOrderCapacity (bs:byte[]) (pos:int) (len:int): CustOrderCapacity =
     |"2"B -> CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount
     |"3"B -> CustOrderCapacity.MemberTradingForAnotherMember
     |"4"B -> CustOrderCapacity.AllOther
-    | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCustOrderCapacity unknown fix tag: %A"  x
 
 
 let ReadClOrdLinkID (bs:byte[]) (pos:int) (len:int): ClOrdLinkID =
@@ -3801,7 +3801,7 @@ let ReadMassStatusReqType (bs:byte[]) (pos:int) (len:int): MassStatusReqType =
     |"6"B -> MassStatusReqType.StatusForOrdersForATradingSession
     |"7"B -> MassStatusReqType.StatusForAllOrders
     |"8"B -> MassStatusReqType.StatusForOrdersForAPartyid
-    | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMassStatusReqType unknown fix tag: %A"  x
 
 
 let ReadOrigOrdModTime (bs:byte[]) (pos:int) (len:int): OrigOrdModTime =
@@ -3823,7 +3823,7 @@ let ReadDayBookingInst (bs:byte[]) (pos:int) (len:int): DayBookingInst =
     |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
     |"1"B -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
     |"2"B -> DayBookingInst.Accumulate
-    | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDayBookingInst unknown fix tag: %A"  x
 
 
 let ReadBookingUnit (bs:byte[]) (pos:int) (len:int): BookingUnit =
@@ -3833,7 +3833,7 @@ let ReadBookingUnit (bs:byte[]) (pos:int) (len:int): BookingUnit =
     |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
     |"1"B -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
     |"2"B -> BookingUnit.AggregateExecutionsForThisSymbolSideAndSettlementDate
-    | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBookingUnit unknown fix tag: %A"  x
 
 
 let ReadPreallocMethod (bs:byte[]) (pos:int) (len:int): PreallocMethod =
@@ -3842,7 +3842,7 @@ let ReadPreallocMethod (bs:byte[]) (pos:int) (len:int): PreallocMethod =
     match tagBs with
     |"0"B -> PreallocMethod.ProRata
     |"1"B -> PreallocMethod.DoNotProRata
-    | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPreallocMethod unknown fix tag: %A"  x
 
 
 let ReadUnderlyingCountryOfIssue (bs:byte[]) (pos:int) (len:int): UnderlyingCountryOfIssue =
@@ -3984,7 +3984,7 @@ let ReadAllocType (bs:byte[]) (pos:int) (len:int): AllocType =
     |"5"B -> AllocType.ReadyToBookSingleOrder
     |"7"B -> AllocType.WarehouseInstruction
     |"8"B -> AllocType.RequestToIntermediary
-    | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocType unknown fix tag: %A"  x
 
 
 let ReadNoHops (bs:byte[]) (pos:int) (len:int): NoHops =
@@ -4031,7 +4031,7 @@ let ReadClearingFeeIndicator (bs:byte[]) (pos:int) (len:int): ClearingFeeIndicat
     |"I"B -> ClearingFeeIndicator.GimIdemAndComMembershipInterestHolders
     |"L"B -> ClearingFeeIndicator.LesseeAnd106fEmployees
     |"M"B -> ClearingFeeIndicator.AllOtherOwnershipTypes
-    | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadClearingFeeIndicator unknown fix tag: %A"  x
 
 
 let ReadWorkingIndicator (bs:byte[]) (pos:int) (len:int): WorkingIndicator =
@@ -4048,7 +4048,7 @@ let ReadPriorityIndicator (bs:byte[]) (pos:int) (len:int): PriorityIndicator =
     match tagBs with
     |"0"B -> PriorityIndicator.PriorityUnchanged
     |"1"B -> PriorityIndicator.LostPriorityAsResultOfOrderChange
-    | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPriorityIndicator unknown fix tag: %A"  x
 
 
 let ReadPriceImprovement (bs:byte[]) (pos:int) (len:int): PriceImprovement =
@@ -4138,7 +4138,7 @@ let ReadQuoteRequestRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRequestRe
     |"9"B -> QuoteRequestRejectReason.NoInventory
     |"10"B -> QuoteRequestRejectReason.Pass
     |"99"B -> QuoteRequestRejectReason.Other
-    | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x
 
 
 let ReadSideComplianceID (bs:byte[]) (pos:int) (len:int): SideComplianceID =
@@ -4155,7 +4155,7 @@ let ReadAcctIDSource (bs:byte[]) (pos:int) (len:int): AcctIDSource =
     |"4"B -> AcctIDSource.Omgeo
     |"5"B -> AcctIDSource.DtccCode
     |"99"B -> AcctIDSource.Other
-    | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAcctIDSource unknown fix tag: %A"  x
 
 
 let ReadAllocAcctIDSource (bs:byte[]) (pos:int) (len:int): AllocAcctIDSource =
@@ -4183,7 +4183,7 @@ let ReadConfirmStatus (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
     |"3"B -> ConfirmStatus.MissingSettlementInstructions
     |"4"B -> ConfirmStatus.Confirmed
     |"5"B -> ConfirmStatus.RequestRejected
-    | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadConfirmStatus unknown fix tag: %A"  x
 
 
 let ReadConfirmTransType (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
@@ -4193,7 +4193,7 @@ let ReadConfirmTransType (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
     |"0"B -> ConfirmTransType.New
     |"1"B -> ConfirmTransType.Replace
     |"2"B -> ConfirmTransType.Cancel
-    | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadConfirmTransType unknown fix tag: %A"  x
 
 
 let ReadContractSettlMonth (bs:byte[]) (pos:int) (len:int): ContractSettlMonth =
@@ -4206,7 +4206,7 @@ let ReadDeliveryForm (bs:byte[]) (pos:int) (len:int): DeliveryForm =
     match tagBs with
     |"1"B -> DeliveryForm.Bookentry
     |"2"B -> DeliveryForm.Bearer
-    | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDeliveryForm unknown fix tag: %A"  x
 
 
 let ReadLastParPx (bs:byte[]) (pos:int) (len:int): LastParPx =
@@ -4301,7 +4301,7 @@ let ReadLegSwapType (bs:byte[]) (pos:int) (len:int): LegSwapType =
     |"2"B -> LegSwapType.ModifiedDuration
     |"4"B -> LegSwapType.Risk
     |"5"B -> LegSwapType.Proceeds
-    | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadLegSwapType unknown fix tag: %A"  x
 
 
 let ReadPool (bs:byte[]) (pos:int) (len:int): Pool =
@@ -4322,7 +4322,7 @@ let ReadQuotePriceType (bs:byte[]) (pos:int) (len:int): QuotePriceType =
     |"8"B -> QuotePriceType.TedYield
     |"9"B -> QuotePriceType.YieldSpread
     |"10"B -> QuotePriceType.Yield
-    | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuotePriceType unknown fix tag: %A"  x
 
 
 let ReadQuoteRespID (bs:byte[]) (pos:int) (len:int): QuoteRespID =
@@ -4339,7 +4339,7 @@ let ReadQuoteRespType (bs:byte[]) (pos:int) (len:int): QuoteRespType =
     |"4"B -> QuoteRespType.Cover
     |"5"B -> QuoteRespType.DoneAway
     |"6"B -> QuoteRespType.Pass
-    | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQuoteRespType unknown fix tag: %A"  x
 
 
 let ReadQuoteQualifier (bs:byte[]) (pos:int) (len:int): QuoteQualifier =
@@ -4397,7 +4397,7 @@ let ReadPosType (bs:byte[]) (pos:int) (len:int): PosType =
     |"TOT"B -> PosType.TotalTransactionQty
     |"XM"B -> PosType.CrossMarginQty
     |"SPL"B -> PosType.IntegralSplit
-    | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosType unknown fix tag: %A"  x
 
 
 let ReadLongQty (bs:byte[]) (pos:int) (len:int): LongQty =
@@ -4415,7 +4415,7 @@ let ReadPosQtyStatus (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
     |"0"B -> PosQtyStatus.Submitted
     |"1"B -> PosQtyStatus.Accepted
     |"2"B -> PosQtyStatus.Rejected
-    | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosQtyStatus unknown fix tag: %A"  x
 
 
 let ReadPosAmtType (bs:byte[]) (pos:int) (len:int): PosAmtType =
@@ -4430,7 +4430,7 @@ let ReadPosAmtType (bs:byte[]) (pos:int) (len:int): PosAmtType =
     |"CRES"B -> PosAmtType.CashResidualAmount
     |"CASH"B -> PosAmtType.CashAmount
     |"VADJ"B -> PosAmtType.ValueAdjustedAmount
-    | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosAmtType unknown fix tag: %A"  x
 
 
 let ReadPosAmt (bs:byte[]) (pos:int) (len:int): PosAmt =
@@ -4446,7 +4446,7 @@ let ReadPosTransType (bs:byte[]) (pos:int) (len:int): PosTransType =
     |"3"B -> PosTransType.PositionAdjustment
     |"4"B -> PosTransType.PositionChangeSubmissionMarginDisposition
     |"5"B -> PosTransType.Pledge
-    | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosTransType unknown fix tag: %A"  x
 
 
 let ReadPosReqID (bs:byte[]) (pos:int) (len:int): PosReqID =
@@ -4464,7 +4464,7 @@ let ReadPosMaintAction (bs:byte[]) (pos:int) (len:int): PosMaintAction =
     |"1"B -> PosMaintAction.New
     |"2"B -> PosMaintAction.Replace
     |"3"B -> PosMaintAction.Cancel
-    | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosMaintAction unknown fix tag: %A"  x
 
 
 let ReadOrigPosReqRefID (bs:byte[]) (pos:int) (len:int): OrigPosReqRefID =
@@ -4495,7 +4495,7 @@ let ReadAdjustmentType (bs:byte[]) (pos:int) (len:int): AdjustmentType =
     |"1"B -> AdjustmentType.DeltaPlus
     |"2"B -> AdjustmentType.DeltaMinus
     |"3"B -> AdjustmentType.Final
-    | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAdjustmentType unknown fix tag: %A"  x
 
 
 let ReadContraryInstructionIndicator (bs:byte[]) (pos:int) (len:int): ContraryInstructionIndicator =
@@ -4519,7 +4519,7 @@ let ReadPosMaintStatus (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
     |"2"B -> PosMaintStatus.Rejected
     |"3"B -> PosMaintStatus.Completed
     |"4"B -> PosMaintStatus.CompletedWithWarnings
-    | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosMaintStatus unknown fix tag: %A"  x
 
 
 let ReadPosMaintResult (bs:byte[]) (pos:int) (len:int): PosMaintResult =
@@ -4529,7 +4529,7 @@ let ReadPosMaintResult (bs:byte[]) (pos:int) (len:int): PosMaintResult =
     |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
     |"1"B -> PosMaintResult.Rejected
     |"99"B -> PosMaintResult.Other
-    | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosMaintResult unknown fix tag: %A"  x
 
 
 let ReadPosReqType (bs:byte[]) (pos:int) (len:int): PosReqType =
@@ -4540,7 +4540,7 @@ let ReadPosReqType (bs:byte[]) (pos:int) (len:int): PosReqType =
     |"1"B -> PosReqType.Trades
     |"2"B -> PosReqType.Exercises
     |"3"B -> PosReqType.Assignments
-    | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosReqType unknown fix tag: %A"  x
 
 
 let ReadResponseTransportType (bs:byte[]) (pos:int) (len:int): ResponseTransportType =
@@ -4549,7 +4549,7 @@ let ReadResponseTransportType (bs:byte[]) (pos:int) (len:int): ResponseTransport
     match tagBs with
     |"0"B -> ResponseTransportType.Inband
     |"1"B -> ResponseTransportType.OutOfBand
-    | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadResponseTransportType unknown fix tag: %A"  x
 
 
 let ReadResponseDestination (bs:byte[]) (pos:int) (len:int): ResponseDestination =
@@ -4570,7 +4570,7 @@ let ReadPosReqResult (bs:byte[]) (pos:int) (len:int): PosReqResult =
     |"3"B -> PosReqResult.NotAuthorizedToRequestPositions
     |"4"B -> PosReqResult.RequestForPositionNotSupported
     |"99"B -> PosReqResult.Other
-    | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosReqResult unknown fix tag: %A"  x
 
 
 let ReadPosReqStatus (bs:byte[]) (pos:int) (len:int): PosReqStatus =
@@ -4580,7 +4580,7 @@ let ReadPosReqStatus (bs:byte[]) (pos:int) (len:int): PosReqStatus =
     |"0"B -> PosReqStatus.Completed
     |"1"B -> PosReqStatus.CompletedWithWarnings
     |"2"B -> PosReqStatus.Rejected
-    | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPosReqStatus unknown fix tag: %A"  x
 
 
 let ReadSettlPrice (bs:byte[]) (pos:int) (len:int): SettlPrice =
@@ -4593,7 +4593,7 @@ let ReadSettlPriceType (bs:byte[]) (pos:int) (len:int): SettlPriceType =
     match tagBs with
     |"1"B -> SettlPriceType.Final
     |"2"B -> SettlPriceType.Theoretical
-    | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlPriceType unknown fix tag: %A"  x
 
 
 let ReadUnderlyingSettlPrice (bs:byte[]) (pos:int) (len:int): UnderlyingSettlPrice =
@@ -4650,7 +4650,7 @@ let ReadAssignmentMethod (bs:byte[]) (pos:int) (len:int): AssignmentMethod =
     match tagBs with
     |"R"B -> AssignmentMethod.Random
     |"P"B -> AssignmentMethod.Prorata
-    | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAssignmentMethod unknown fix tag: %A"  x
 
 
 let ReadAssignmentUnit (bs:byte[]) (pos:int) (len:int): AssignmentUnit =
@@ -4667,7 +4667,7 @@ let ReadExerciseMethod (bs:byte[]) (pos:int) (len:int): ExerciseMethod =
     match tagBs with
     |"A"B -> ExerciseMethod.Automatic
     |"M"B -> ExerciseMethod.Manual
-    | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExerciseMethod unknown fix tag: %A"  x
 
 
 let ReadTotNumTradeReports (bs:byte[]) (pos:int) (len:int): TotNumTradeReports =
@@ -4687,7 +4687,7 @@ let ReadTradeRequestResult (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
     |"8"B -> TradeRequestResult.TraderequesttypeNotSupported
     |"9"B -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
     |"10"B -> TradeRequestResult.Yield
-    | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeRequestResult unknown fix tag: %A"  x
 
 
 let ReadTradeRequestStatus (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
@@ -4697,7 +4697,7 @@ let ReadTradeRequestStatus (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
     |"0"B -> TradeRequestStatus.Accepted
     |"1"B -> TradeRequestStatus.Completed
     |"2"B -> TradeRequestStatus.Rejected
-    | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeRequestStatus unknown fix tag: %A"  x
 
 
 let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportRejectReason =
@@ -4710,7 +4710,7 @@ let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportReje
     |"3"B -> TradeReportRejectReason.UnauthorizedToReportTrades
     |"4"B -> TradeReportRejectReason.InvalidTradeType
     |"10"B -> TradeReportRejectReason.Yield
-    | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeReportRejectReason unknown fix tag: %A"  x
 
 
 let ReadSideMultiLegReportingType (bs:byte[]) (pos:int) (len:int): SideMultiLegReportingType =
@@ -4720,7 +4720,7 @@ let ReadSideMultiLegReportingType (bs:byte[]) (pos:int) (len:int): SideMultiLegR
     |"1"B -> SideMultiLegReportingType.SingleSecurity
     |"2"B -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
     |"3"B -> SideMultiLegReportingType.MultiLegSecurity
-    | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSideMultiLegReportingType unknown fix tag: %A"  x
 
 
 let ReadNoPosAmt (bs:byte[]) (pos:int) (len:int): NoPosAmt =
@@ -4800,7 +4800,7 @@ let ReadTrdRegTimestampType (bs:byte[]) (pos:int) (len:int): TrdRegTimestampType
     |"3"B -> TrdRegTimestampType.TimeOut
     |"4"B -> TrdRegTimestampType.BrokerReceipt
     |"5"B -> TrdRegTimestampType.BrokerExecution
-    | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTrdRegTimestampType unknown fix tag: %A"  x
 
 
 let ReadTrdRegTimestampOrigin (bs:byte[]) (pos:int) (len:int): TrdRegTimestampOrigin =
@@ -4818,7 +4818,7 @@ let ReadConfirmType (bs:byte[]) (pos:int) (len:int): ConfirmType =
     |"1"B -> ConfirmType.Status
     |"2"B -> ConfirmType.Confirmation
     |"3"B -> ConfirmType.ConfirmationRequestRejected
-    | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadConfirmType unknown fix tag: %A"  x
 
 
 let ReadConfirmRejReason (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
@@ -4828,7 +4828,7 @@ let ReadConfirmRejReason (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
     |"1"B -> ConfirmRejReason.MismatchedAccount
     |"2"B -> ConfirmRejReason.MissingSettlementInstructions
     |"99"B -> ConfirmRejReason.Other
-    | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadConfirmRejReason unknown fix tag: %A"  x
 
 
 let ReadBookingType (bs:byte[]) (pos:int) (len:int): BookingType =
@@ -4838,7 +4838,7 @@ let ReadBookingType (bs:byte[]) (pos:int) (len:int): BookingType =
     |"0"B -> BookingType.RegularBooking
     |"1"B -> BookingType.Cfd
     |"2"B -> BookingType.TotalReturnSwap
-    | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadBookingType unknown fix tag: %A"  x
 
 
 let ReadIndividualAllocRejCode (bs:byte[]) (pos:int) (len:int): IndividualAllocRejCode =
@@ -4866,7 +4866,7 @@ let ReadAllocSettlInstType (bs:byte[]) (pos:int) (len:int): AllocSettlInstType =
     |"2"B -> AllocSettlInstType.FullDetailsProvided
     |"3"B -> AllocSettlInstType.SsiDbIdsProvided
     |"4"B -> AllocSettlInstType.PhoneForInstructions
-    | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocSettlInstType unknown fix tag: %A"  x
 
 
 let ReadNoSettlPartyIDs (bs:byte[]) (pos:int) (len:int): NoSettlPartyIDs =
@@ -4899,7 +4899,7 @@ let ReadDlvyInstType (bs:byte[]) (pos:int) (len:int): DlvyInstType =
     match tagBs with
     |"S"B -> DlvyInstType.Securities
     |"C"B -> DlvyInstType.Cash
-    | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDlvyInstType unknown fix tag: %A"  x
 
 
 let ReadTerminationType (bs:byte[]) (pos:int) (len:int): TerminationType =
@@ -4910,7 +4910,7 @@ let ReadTerminationType (bs:byte[]) (pos:int) (len:int): TerminationType =
     |"2"B -> TerminationType.Term
     |"3"B -> TerminationType.Flexible
     |"4"B -> TerminationType.Open
-    | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTerminationType unknown fix tag: %A"  x
 
 
 let ReadNextExpectedMsgSeqNum (bs:byte[]) (pos:int) (len:int): NextExpectedMsgSeqNum =
@@ -4933,7 +4933,7 @@ let ReadSettlInstReqRejCode (bs:byte[]) (pos:int) (len:int): SettlInstReqRejCode
     |"1"B -> SettlInstReqRejCode.UnknownAccount
     |"2"B -> SettlInstReqRejCode.NoMatchingSettlementInstructionsFound
     |"99"B -> SettlInstReqRejCode.Other
-    | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadSettlInstReqRejCode unknown fix tag: %A"  x
 
 
 let ReadSecondaryAllocID (bs:byte[]) (pos:int) (len:int): SecondaryAllocID =
@@ -4948,7 +4948,7 @@ let ReadAllocReportType (bs:byte[]) (pos:int) (len:int): AllocReportType =
     |"4"B -> AllocReportType.SellsideCalculatedWithoutPreliminary
     |"5"B -> AllocReportType.WarehouseRecap
     |"8"B -> AllocReportType.RequestToIntermediary
-    | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocReportType unknown fix tag: %A"  x
 
 
 let ReadAllocReportRefID (bs:byte[]) (pos:int) (len:int): AllocReportRefID =
@@ -4961,7 +4961,7 @@ let ReadAllocCancReplaceReason (bs:byte[]) (pos:int) (len:int): AllocCancReplace
     match tagBs with
     |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
     |"2"B -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
-    | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocCancReplaceReason unknown fix tag: %A"  x
 
 
 let ReadCopyMsgIndicator (bs:byte[]) (pos:int) (len:int): CopyMsgIndicator =
@@ -4979,7 +4979,7 @@ let ReadAllocAccountType (bs:byte[]) (pos:int) (len:int): AllocAccountType =
     |"6"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooksAndIsCrossMargined
     |"7"B -> AllocAccountType.AccountIsHouseTraderAndIsCrossMargined
     |"8"B -> AllocAccountType.JointBackofficeAccount
-    | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocAccountType unknown fix tag: %A"  x
 
 
 let ReadOrderAvgPx (bs:byte[]) (pos:int) (len:int): OrderAvgPx =
@@ -5028,7 +5028,7 @@ let ReadAllocIntermedReqType (bs:byte[]) (pos:int) (len:int): AllocIntermedReqTy
     |"4"B -> AllocIntermedReqType.Accept
     |"5"B -> AllocIntermedReqType.BlockLevelReject
     |"6"B -> AllocIntermedReqType.AccountLevelReject
-    | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocIntermedReqType unknown fix tag: %A"  x
 
 
 let ReadUnderlyingPx (bs:byte[]) (pos:int) (len:int): UnderlyingPx =
@@ -5055,7 +5055,7 @@ let ReadApplQueueResolution (bs:byte[]) (pos:int) (len:int): ApplQueueResolution
     |"1"B -> ApplQueueResolution.QueueFlushed
     |"2"B -> ApplQueueResolution.OverlayLast
     |"3"B -> ApplQueueResolution.EndSession
-    | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadApplQueueResolution unknown fix tag: %A"  x
 
 
 let ReadApplQueueAction (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
@@ -5066,7 +5066,7 @@ let ReadApplQueueAction (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
     |"1"B -> ApplQueueAction.QueueFlushed
     |"2"B -> ApplQueueAction.OverlayLast
     |"3"B -> ApplQueueAction.EndSession
-    | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadApplQueueAction unknown fix tag: %A"  x
 
 
 let ReadNoAltMDSource (bs:byte[]) (pos:int) (len:int): NoAltMDSource =
@@ -5088,7 +5088,7 @@ let ReadAvgPxIndicator (bs:byte[]) (pos:int) (len:int): AvgPxIndicator =
     |"0"B -> AvgPxIndicator.NoAveragePricing
     |"1"B -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
     |"2"B -> AvgPxIndicator.LastTradeInTheAveragePriceGroupIdentifiedByTheTradelinkid
-    | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAvgPxIndicator unknown fix tag: %A"  x
 
 
 let ReadTradeLinkID (bs:byte[]) (pos:int) (len:int): TradeLinkID =
@@ -5122,7 +5122,7 @@ let ReadTradeAllocIndicator (bs:byte[]) (pos:int) (len:int): TradeAllocIndicator
     |"0"B -> TradeAllocIndicator.AllocationNotRequired
     |"1"B -> TradeAllocIndicator.AllocationRequired
     |"2"B -> TradeAllocIndicator.UseAllocationProvidedWithTheTrade
-    | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeAllocIndicator unknown fix tag: %A"  x
 
 
 let ReadExpirationCycle (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
@@ -5131,7 +5131,7 @@ let ReadExpirationCycle (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
     match tagBs with
     |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
     |"1"B -> ExpirationCycle.ExpireOnTradingSessionOpen
-    | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadExpirationCycle unknown fix tag: %A"  x
 
 
 let ReadTrdType (bs:byte[]) (pos:int) (len:int): TrdType =
@@ -5149,7 +5149,7 @@ let ReadTrdType (bs:byte[]) (pos:int) (len:int): TrdType =
     |"8"B -> TrdType.LateBunchedTrade
     |"9"B -> TrdType.PriorReferencePriceTrade
     |"10"B -> TrdType.AfterHoursTrade
-    | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTrdType unknown fix tag: %A"  x
 
 
 let ReadTrdSubType (bs:byte[]) (pos:int) (len:int): TrdSubType =
@@ -5182,7 +5182,7 @@ let ReadPegMoveType (bs:byte[]) (pos:int) (len:int): PegMoveType =
     match tagBs with
     |"0"B -> PegMoveType.Floating
     |"1"B -> PegMoveType.Fixed
-    | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPegMoveType unknown fix tag: %A"  x
 
 
 let ReadPegOffsetType (bs:byte[]) (pos:int) (len:int): PegOffsetType =
@@ -5193,7 +5193,7 @@ let ReadPegOffsetType (bs:byte[]) (pos:int) (len:int): PegOffsetType =
     |"1"B -> PegOffsetType.BasisPoints
     |"2"B -> PegOffsetType.Ticks
     |"3"B -> PegOffsetType.PriceTierLevel
-    | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPegOffsetType unknown fix tag: %A"  x
 
 
 let ReadPegLimitType (bs:byte[]) (pos:int) (len:int): PegLimitType =
@@ -5203,7 +5203,7 @@ let ReadPegLimitType (bs:byte[]) (pos:int) (len:int): PegLimitType =
     |"0"B -> PegLimitType.OrBetter
     |"1"B -> PegLimitType.Strict
     |"2"B -> PegLimitType.OrWorse
-    | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPegLimitType unknown fix tag: %A"  x
 
 
 let ReadPegRoundDirection (bs:byte[]) (pos:int) (len:int): PegRoundDirection =
@@ -5212,7 +5212,7 @@ let ReadPegRoundDirection (bs:byte[]) (pos:int) (len:int): PegRoundDirection =
     match tagBs with
     |"1"B -> PegRoundDirection.MoreAggressive
     |"2"B -> PegRoundDirection.MorePassive
-    | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPegRoundDirection unknown fix tag: %A"  x
 
 
 let ReadPeggedPrice (bs:byte[]) (pos:int) (len:int): PeggedPrice =
@@ -5227,7 +5227,7 @@ let ReadPegScope (bs:byte[]) (pos:int) (len:int): PegScope =
     |"2"B -> PegScope.National
     |"3"B -> PegScope.Global
     |"4"B -> PegScope.NationalExcludingLocal
-    | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadPegScope unknown fix tag: %A"  x
 
 
 let ReadDiscretionMoveType (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
@@ -5236,7 +5236,7 @@ let ReadDiscretionMoveType (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
     match tagBs with
     |"0"B -> DiscretionMoveType.Floating
     |"1"B -> DiscretionMoveType.Fixed
-    | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionMoveType unknown fix tag: %A"  x
 
 
 let ReadDiscretionOffsetType (bs:byte[]) (pos:int) (len:int): DiscretionOffsetType =
@@ -5247,7 +5247,7 @@ let ReadDiscretionOffsetType (bs:byte[]) (pos:int) (len:int): DiscretionOffsetTy
     |"1"B -> DiscretionOffsetType.BasisPoints
     |"2"B -> DiscretionOffsetType.Ticks
     |"3"B -> DiscretionOffsetType.PriceTierLevel
-    | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionOffsetType unknown fix tag: %A"  x
 
 
 let ReadDiscretionLimitType (bs:byte[]) (pos:int) (len:int): DiscretionLimitType =
@@ -5257,7 +5257,7 @@ let ReadDiscretionLimitType (bs:byte[]) (pos:int) (len:int): DiscretionLimitType
     |"0"B -> DiscretionLimitType.OrBetter
     |"1"B -> DiscretionLimitType.Strict
     |"2"B -> DiscretionLimitType.OrWorse
-    | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionLimitType unknown fix tag: %A"  x
 
 
 let ReadDiscretionRoundDirection (bs:byte[]) (pos:int) (len:int): DiscretionRoundDirection =
@@ -5266,7 +5266,7 @@ let ReadDiscretionRoundDirection (bs:byte[]) (pos:int) (len:int): DiscretionRoun
     match tagBs with
     |"1"B -> DiscretionRoundDirection.MoreAggressive
     |"2"B -> DiscretionRoundDirection.MorePassive
-    | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionRoundDirection unknown fix tag: %A"  x
 
 
 let ReadDiscretionPrice (bs:byte[]) (pos:int) (len:int): DiscretionPrice =
@@ -5281,7 +5281,7 @@ let ReadDiscretionScope (bs:byte[]) (pos:int) (len:int): DiscretionScope =
     |"2"B -> DiscretionScope.National
     |"3"B -> DiscretionScope.Global
     |"4"B -> DiscretionScope.NationalExcludingLocal
-    | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDiscretionScope unknown fix tag: %A"  x
 
 
 let ReadTargetStrategy (bs:byte[]) (pos:int) (len:int): TargetStrategy =
@@ -5307,7 +5307,7 @@ let ReadLastLiquidityInd (bs:byte[]) (pos:int) (len:int): LastLiquidityInd =
     |"1"B -> LastLiquidityInd.AddedLiquidity
     |"2"B -> LastLiquidityInd.RemovedLiquidity
     |"3"B -> LastLiquidityInd.LiquidityRoutedOut
-    | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadLastLiquidityInd unknown fix tag: %A"  x
 
 
 let ReadPublishTrdIndicator (bs:byte[]) (pos:int) (len:int): PublishTrdIndicator =
@@ -5324,7 +5324,7 @@ let ReadShortSaleReason (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
     |"3"B -> ShortSaleReason.SellingCustomerSoldShortExempt
     |"4"B -> ShortSaleReason.QualifedServiceRepresentativeOrAutomaticGiveupContraSideSoldShort
     |"5"B -> ShortSaleReason.QsrOrAguContraSideSoldShortExempt
-    | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadShortSaleReason unknown fix tag: %A"  x
 
 
 let ReadQtyType (bs:byte[]) (pos:int) (len:int): QtyType =
@@ -5333,7 +5333,7 @@ let ReadQtyType (bs:byte[]) (pos:int) (len:int): QtyType =
     match tagBs with
     |"0"B -> QtyType.Units
     |"1"B -> QtyType.Contracts
-    | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadQtyType unknown fix tag: %A"  x
 
 
 let ReadSecondaryTrdType (bs:byte[]) (pos:int) (len:int): SecondaryTrdType =
@@ -5352,7 +5352,7 @@ let ReadTradeReportType (bs:byte[]) (pos:int) (len:int): TradeReportType =
     |"5"B -> TradeReportType.NoWas
     |"6"B -> TradeReportType.TradeReportCancel
     |"7"B -> TradeReportType.LockedInTradeBreak
-    | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTradeReportType unknown fix tag: %A"  x
 
 
 let ReadAllocNoOrdersType (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType =
@@ -5361,7 +5361,7 @@ let ReadAllocNoOrdersType (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType =
     match tagBs with
     |"0"B -> AllocNoOrdersType.NotSpecified
     |"1"B -> AllocNoOrdersType.ExplicitListProvided
-    | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAllocNoOrdersType unknown fix tag: %A"  x
 
 
 let ReadSharedCommission (bs:byte[]) (pos:int) (len:int): SharedCommission =
@@ -5401,7 +5401,7 @@ let ReadEventType (bs:byte[]) (pos:int) (len:int): EventType =
     |"3"B -> EventType.Tender
     |"4"B -> EventType.SinkingFundCall
     |"99"B -> EventType.Other
-    | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadEventType unknown fix tag: %A"  x
 
 
 let ReadEventDate (bs:byte[]) (pos:int) (len:int): EventDate =
@@ -5451,7 +5451,7 @@ let ReadInstrAttribType (bs:byte[]) (pos:int) (len:int): InstrAttribType =
     |"21"B -> InstrAttribType.CallableBelowMaturityValue
     |"22"B -> InstrAttribType.CallableWithoutNoticeByMailToHolderUnlessRegistered
     |"99"B -> InstrAttribType.Text
-    | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadInstrAttribType unknown fix tag: %A"  x
 
 
 let ReadInstrAttribValue (bs:byte[]) (pos:int) (len:int): InstrAttribValue =
@@ -5537,7 +5537,7 @@ let ReadMiscFeeBasis (bs:byte[]) (pos:int) (len:int): MiscFeeBasis =
     |"0"B -> MiscFeeBasis.Absolute
     |"1"B -> MiscFeeBasis.PerUnit
     |"2"B -> MiscFeeBasis.Percentage
-    | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadMiscFeeBasis unknown fix tag: %A"  x
 
 
 let ReadTotNoAllocs (bs:byte[]) (pos:int) (len:int): TotNoAllocs =
@@ -5564,7 +5564,7 @@ let ReadCollAsgnReason (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
     |"5"B -> CollAsgnReason.ForwardCollateralDemand
     |"6"B -> CollAsgnReason.EventOfDefault
     |"7"B -> CollAsgnReason.AdverseTaxEvent
-    | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollAsgnReason unknown fix tag: %A"  x
 
 
 let ReadCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): CollInquiryQualifier =
@@ -5579,7 +5579,7 @@ let ReadCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): CollInquiryQualifi
     |"5"B -> CollInquiryQualifier.PartiallyAssigned
     |"6"B -> CollInquiryQualifier.FullyAssigned
     |"7"B -> CollInquiryQualifier.OutstandingTrades
-    | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollInquiryQualifier unknown fix tag: %A"  x
 
 
 let ReadNoTrades (bs:byte[]) (pos:int) (len:int): NoTrades =
@@ -5615,7 +5615,7 @@ let ReadCollAsgnTransType (bs:byte[]) (pos:int) (len:int): CollAsgnTransType =
     |"2"B -> CollAsgnTransType.Cancel
     |"3"B -> CollAsgnTransType.Release
     |"4"B -> CollAsgnTransType.Reverse
-    | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollAsgnTransType unknown fix tag: %A"  x
 
 
 let ReadCollRespID (bs:byte[]) (pos:int) (len:int): CollRespID =
@@ -5630,7 +5630,7 @@ let ReadCollAsgnRespType (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
     |"1"B -> CollAsgnRespType.Accepted
     |"2"B -> CollAsgnRespType.Declined
     |"3"B -> CollAsgnRespType.Rejected
-    | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollAsgnRespType unknown fix tag: %A"  x
 
 
 let ReadCollAsgnRejectReason (bs:byte[]) (pos:int) (len:int): CollAsgnRejectReason =
@@ -5644,7 +5644,7 @@ let ReadCollAsgnRejectReason (bs:byte[]) (pos:int) (len:int): CollAsgnRejectReas
     |"4"B -> CollAsgnRejectReason.InvalidTypeOfCollateral
     |"5"B -> CollAsgnRejectReason.ExcessiveSubstitution
     |"99"B -> CollAsgnRejectReason.Other
-    | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollAsgnRejectReason unknown fix tag: %A"  x
 
 
 let ReadCollAsgnRefID (bs:byte[]) (pos:int) (len:int): CollAsgnRefID =
@@ -5668,7 +5668,7 @@ let ReadCollStatus (bs:byte[]) (pos:int) (len:int): CollStatus =
     |"2"B -> CollStatus.AssignmentProposed
     |"3"B -> CollStatus.Assigned
     |"4"B -> CollStatus.Challenged
-    | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadCollStatus unknown fix tag: %A"  x
 
 
 let ReadTotNumReports (bs:byte[]) (pos:int) (len:int): TotNumReports =
@@ -5711,7 +5711,7 @@ let ReadDeliveryType (bs:byte[]) (pos:int) (len:int): DeliveryType =
     |"1"B -> DeliveryType.Free
     |"2"B -> DeliveryType.TriParty
     |"3"B -> DeliveryType.HoldInCustody
-    | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadDeliveryType unknown fix tag: %A"  x
 
 
 let ReadEndAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): EndAccruedInterestAmt =
@@ -5738,7 +5738,7 @@ let ReadUserRequestType (bs:byte[]) (pos:int) (len:int): UserRequestType =
     |"2"B -> UserRequestType.Logoffuser
     |"3"B -> UserRequestType.Changepasswordforuser
     |"4"B -> UserRequestType.RequestIndividualUserStatus
-    | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadUserRequestType unknown fix tag: %A"  x
 
 
 let ReadNewPassword (bs:byte[]) (pos:int) (len:int): NewPassword =
@@ -5755,7 +5755,7 @@ let ReadUserStatus (bs:byte[]) (pos:int) (len:int): UserStatus =
     |"4"B -> UserStatus.PasswordIncorrect
     |"5"B -> UserStatus.PasswordChanged
     |"6"B -> UserStatus.Other
-    | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadUserStatus unknown fix tag: %A"  x
 
 
 let ReadUserStatusText (bs:byte[]) (pos:int) (len:int): UserStatusText =
@@ -5770,7 +5770,7 @@ let ReadStatusValue (bs:byte[]) (pos:int) (len:int): StatusValue =
     |"2"B -> StatusValue.NotConnectedDownExpectedUp
     |"3"B -> StatusValue.NotConnectedDownExpectedDown
     |"4"B -> StatusValue.InProcess
-    | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadStatusValue unknown fix tag: %A"  x
 
 
 let ReadStatusText (bs:byte[]) (pos:int) (len:int): StatusText =
@@ -5805,7 +5805,7 @@ let ReadNetworkRequestType (bs:byte[]) (pos:int) (len:int): NetworkRequestType =
     |"2"B -> NetworkRequestType.Subscribe
     |"4"B -> NetworkRequestType.StopSubscribing
     |"8"B -> NetworkRequestType.LevelOfDetail
-    | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadNetworkRequestType unknown fix tag: %A"  x
 
 
 let ReadNoCompIDs (bs:byte[]) (pos:int) (len:int): NoCompIDs =
@@ -5818,7 +5818,7 @@ let ReadNetworkStatusResponseType (bs:byte[]) (pos:int) (len:int): NetworkStatus
     match tagBs with
     |"1"B -> NetworkStatusResponseType.Full
     |"2"B -> NetworkStatusResponseType.IncrementalUpdate
-    | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadNetworkStatusResponseType unknown fix tag: %A"  x
 
 
 let ReadNoCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): NoCollInquiryQualifier =
@@ -5831,7 +5831,7 @@ let ReadTrdRptStatus (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
     match tagBs with
     |"0"B -> TrdRptStatus.Accepted
     |"1"B -> TrdRptStatus.Rejected
-    | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadTrdRptStatus unknown fix tag: %A"  x
 
 
 let ReadAffirmStatus (bs:byte[]) (pos:int) (len:int): AffirmStatus =
@@ -5841,11 +5841,98 @@ let ReadAffirmStatus (bs:byte[]) (pos:int) (len:int): AffirmStatus =
     |"1"B -> AffirmStatus.Received
     |"2"B -> AffirmStatus.ConfirmRejected
     |"3"B -> AffirmStatus.Affirmed
-    | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
+    | x -> failwithf "ReadAffirmStatus unknown fix tag: %A"  x
 
 
 let ReadUnderlyingStrikeCurrency (bs:byte[]) (pos:int) (len:int): UnderlyingStrikeCurrency =
     ReadFieldStr bs pos len UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
 
 
-let ReadLegStrikeCurrency (bs:b
+let ReadLegStrikeCurrency (bs:byte[]) (pos:int) (len:int): LegStrikeCurrency =
+    ReadFieldStr bs pos len LegStrikeCurrency.LegStrikeCurrency
+
+
+let ReadTimeBracket (bs:byte[]) (pos:int) (len:int): TimeBracket =
+    ReadFieldStr bs pos len TimeBracket.TimeBracket
+
+
+let ReadCollAction (bs:byte[]) (pos:int) (len:int): CollAction =
+    let tagBs = Array.zeroCreate<byte> len
+    Array.Copy( bs, pos, tagBs, 0, len)
+    match tagBs with
+    |"0"B -> CollAction.Retain
+    |"1"B -> CollAction.Add
+    |"2"B -> CollAction.Remove
+    | x -> failwithf "ReadCollAction unknown fix tag: %A"  x
+
+
+let ReadCollInquiryStatus (bs:byte[]) (pos:int) (len:int): CollInquiryStatus =
+    let tagBs = Array.zeroCreate<byte> len
+    Array.Copy( bs, pos, tagBs, 0, len)
+    match tagBs with
+    |"0"B -> CollInquiryStatus.Accepted
+    |"1"B -> CollInquiryStatus.AcceptedWithWarnings
+    |"2"B -> CollInquiryStatus.Completed
+    |"3"B -> CollInquiryStatus.CompletedWithWarnings
+    |"4"B -> CollInquiryStatus.Rejected
+    | x -> failwithf "ReadCollInquiryStatus unknown fix tag: %A"  x
+
+
+let ReadCollInquiryResult (bs:byte[]) (pos:int) (len:int): CollInquiryResult =
+    let tagBs = Array.zeroCreate<byte> len
+    Array.Copy( bs, pos, tagBs, 0, len)
+    match tagBs with
+    |"0"B -> CollInquiryResult.Successful
+    |"1"B -> CollInquiryResult.InvalidOrUnknownInstrument
+    |"2"B -> CollInquiryResult.InvalidOrUnknownCollateralType
+    |"3"B -> CollInquiryResult.InvalidParties
+    |"4"B -> CollInquiryResult.InvalidTransportTypeRequested
+    |"5"B -> CollInquiryResult.InvalidDestinationRequested
+    |"6"B -> CollInquiryResult.NoCollateralFoundForTheTradeSpecified
+    |"7"B -> CollInquiryResult.NoCollateralFoundForTheOrderSpecified
+    |"8"B -> CollInquiryResult.CollateralInquiryTypeNotSupported
+    |"9"B -> CollInquiryResult.UnauthorizedForCollateralInquiry
+    |"99"B -> CollInquiryResult.Other
+    | x -> failwithf "ReadCollInquiryResult unknown fix tag: %A"  x
+
+
+let ReadStrikeCurrency (bs:byte[]) (pos:int) (len:int): StrikeCurrency =
+    ReadFieldStr bs pos len StrikeCurrency.StrikeCurrency
+
+
+let ReadNoNested3PartyIDs (bs:byte[]) (pos:int) (len:int): NoNested3PartyIDs =
+    ReadFieldInt bs pos len NoNested3PartyIDs.NoNested3PartyIDs
+
+
+let ReadNested3PartyID (bs:byte[]) (pos:int) (len:int): Nested3PartyID =
+    ReadFieldStr bs pos len Nested3PartyID.Nested3PartyID
+
+
+let ReadNested3PartyIDSource (bs:byte[]) (pos:int) (len:int): Nested3PartyIDSource =
+    ReadFieldChar bs pos len Nested3PartyIDSource.Nested3PartyIDSource
+
+
+let ReadNested3PartyRole (bs:byte[]) (pos:int) (len:int): Nested3PartyRole =
+    ReadFieldInt bs pos len Nested3PartyRole.Nested3PartyRole
+
+
+let ReadNoNested3PartySubIDs (bs:byte[]) (pos:int) (len:int): NoNested3PartySubIDs =
+    ReadFieldInt bs pos len NoNested3PartySubIDs.NoNested3PartySubIDs
+
+
+let ReadNested3PartySubID (bs:byte[]) (pos:int) (len:int): Nested3PartySubID =
+    ReadFieldStr bs pos len Nested3PartySubID.Nested3PartySubID
+
+
+let ReadNested3PartySubIDType (bs:byte[]) (pos:int) (len:int): Nested3PartySubIDType =
+    ReadFieldInt bs pos len Nested3PartySubIDType.Nested3PartySubIDType
+
+
+let ReadLegContractSettlMonth (bs:byte[]) (pos:int) (len:int): LegContractSettlMonth =
+    ReadFieldMonthYear bs pos len LegContractSettlMonth.LegContractSettlMonth
+
+
+let ReadLegInterestAccrualDate (bs:byte[]) (pos:int) (len:int): LegInterestAccrualDate =
+    ReadFieldLocalMktDate bs pos len LegInterestAccrualDate.LegInterestAccrualDate
+
+

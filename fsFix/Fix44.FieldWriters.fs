@@ -13419,4 +13419,73 @@ let WriteCollInquiryResult (dest:byte array) (nextFreeIdx:int) (xxIn:CollInquiry
         nextFreeIdx2 + 1 // +1 to include the delimeter
     | CollInquiryResult.NoCollateralFoundForTheTradeSpecified ->
         let tag = "946=6"B
-   
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | CollInquiryResult.NoCollateralFoundForTheOrderSpecified ->
+        let tag = "946=7"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | CollInquiryResult.CollateralInquiryTypeNotSupported ->
+        let tag = "946=8"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | CollInquiryResult.UnauthorizedForCollateralInquiry ->
+        let tag = "946=9"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | CollInquiryResult.Other ->
+        let tag = "946=99"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+
+
+let WriteStrikeCurrency (dest:byte []) (pos:int) (valIn:StrikeCurrency) : int = 
+    WriteFieldStr dest pos "947="B valIn
+
+
+let WriteNoNested3PartyIDs (dest:byte []) (pos:int) (valIn:NoNested3PartyIDs) : int = 
+    WriteFieldInt dest pos "948="B valIn
+
+
+let WriteNested3PartyID (dest:byte []) (pos:int) (valIn:Nested3PartyID) : int = 
+    WriteFieldStr dest pos "949="B valIn
+
+
+let WriteNested3PartyIDSource (dest:byte []) (pos:int) (valIn:Nested3PartyIDSource) : int = 
+    WriteFieldChar dest pos "950="B valIn
+
+
+let WriteNested3PartyRole (dest:byte []) (pos:int) (valIn:Nested3PartyRole) : int = 
+    WriteFieldInt dest pos "951="B valIn
+
+
+let WriteNoNested3PartySubIDs (dest:byte []) (pos:int) (valIn:NoNested3PartySubIDs) : int = 
+    WriteFieldInt dest pos "952="B valIn
+
+
+let WriteNested3PartySubID (dest:byte []) (pos:int) (valIn:Nested3PartySubID) : int = 
+    WriteFieldStr dest pos "953="B valIn
+
+
+let WriteNested3PartySubIDType (dest:byte []) (pos:int) (valIn:Nested3PartySubIDType) : int = 
+    WriteFieldInt dest pos "954="B valIn
+
+
+let WriteLegContractSettlMonth (dest:byte []) (pos:int) (valIn:LegContractSettlMonth) : int = 
+    WriteFieldMonthYear dest pos "955="B valIn
+
+
+let WriteLegInterestAccrualDate (dest:byte []) (pos:int) (valIn:LegInterestAccrualDate) : int = 
+    WriteFieldLocalMktDate dest pos "956="B valIn
+
+

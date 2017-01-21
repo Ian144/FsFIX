@@ -35,18 +35,15 @@ type MakeMonthYear private () =
     static member Make (year,month) =
         match year, month with
         | yy, mm when validate_yyyyMM (yy,mm)       ->  YYYYMM (yy, mm)
-        | _                                         ->  let msg = sprintf "invalid MonthYear: %d-%d" year month
-                                                        failwith msg
+        | _                                         ->  failwithf "invalid MonthYear: %d-%d" year month
     static member Make (yy,mm,dd) =
         match (yy,mm,dd) with
         | yy, mm, dd when validate_yyyyMMdd (yy,mm,dd)  ->  YYYYMMDD (yy,mm,dd)
-        | _                                             ->  let msg = sprintf "invalid MonthYear: %d-%d-%d" yy mm dd
-                                                            failwith msg
+        | _                                             ->  failwithf "invalid MonthYear: %d-%d-%d" yy mm dd
     static member Make (yy,mm,ww) =
         match (yy, mm, ww) with
         | yy, mm, ww when validate_yyyyMM (yy, mm)  ->  YYYYMMWW (yy,mm,ww)
-        | _                                         ->  let msg = sprintf "invalid MonthYear: %d-%d-%A" yy mm ww
-                                                        failwith msg
+        | _                                         ->  failwithf "invalid MonthYear: %d-%d-%A" yy mm ww
 
 
 
@@ -59,8 +56,7 @@ let private readWeek (bs:byte[]) (pos:int) =
     | 119uy, 51uy   ->  W3
     | 119uy, 52uy   ->  W4
     | 119uy, 53uy   ->  W5
-    | _             ->  let msg = sprintf "invalid week %c-%c" (System.Convert.ToChar wByte) (System.Convert.ToChar nByte)
-                        failwith msg
+    | _             ->  failwithf "invalid week %c-%c" (System.Convert.ToChar wByte) (System.Convert.ToChar nByte)
 
 
 let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
@@ -91,8 +87,7 @@ let read (bs:byte[]) (pos:int) (len:int): MonthYear =
             let mm = FIXDateTime.bytes2ToInt bs (pos+4)
             let dd = FIXDateTime.bytes2ToInt bs (pos+6)
             MakeMonthYear.Make (yy,mm,dd)
-    | n -> let msg = sprintf "invalid field length for MonthYear: %d" n
-           failwith msg 
+    | n -> failwithf "invalid field length for MonthYear: %d" n
 
 
 

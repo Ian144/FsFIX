@@ -2318,4 +2318,98 @@ let WriteAllocationInstructionAckNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (x
 // group
 let WriteAllocationReportNoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportNoExecsGrp) =
     let nextFreeIdx = WriteLastQty dest nextFreeIdx xx.LastQty
-    let nextFreeIdx = Option.fold (Wri
+    let nextFreeIdx = Option.fold (WriteExecID dest) nextFreeIdx xx.ExecID
+    let nextFreeIdx = Option.fold (WriteSecondaryExecID dest) nextFreeIdx xx.SecondaryExecID
+    let nextFreeIdx = Option.fold (WriteLastPx dest) nextFreeIdx xx.LastPx
+    let nextFreeIdx = Option.fold (WriteLastParPx dest) nextFreeIdx xx.LastParPx
+    let nextFreeIdx = Option.fold (WriteLastCapacity dest) nextFreeIdx xx.LastCapacity
+    nextFreeIdx
+
+
+// group
+let WriteAllocationReportAckNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:AllocationReportAckNoAllocsGrp) =
+    let nextFreeIdx = WriteAllocAccount dest nextFreeIdx xx.AllocAccount
+    let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
+    let nextFreeIdx = Option.fold (WriteAllocPrice dest) nextFreeIdx xx.AllocPrice
+    let nextFreeIdx = Option.fold (WriteIndividualAllocID dest) nextFreeIdx xx.IndividualAllocID
+    let nextFreeIdx = Option.fold (WriteIndividualAllocRejCode dest) nextFreeIdx xx.IndividualAllocRejCode
+    let nextFreeIdx = Option.fold (WriteAllocText dest) nextFreeIdx xx.AllocText
+    let nextFreeIdx = Option.fold (WriteEncodedAllocText dest) nextFreeIdx xx.EncodedAllocText
+    nextFreeIdx
+
+
+// group
+let WriteNoCapacitiesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoCapacitiesGrp) =
+    let nextFreeIdx = WriteOrderCapacity dest nextFreeIdx xx.OrderCapacity
+    let nextFreeIdx = Option.fold (WriteOrderRestrictions dest) nextFreeIdx xx.OrderRestrictions
+    let nextFreeIdx = WriteOrderCapacityQty dest nextFreeIdx xx.OrderCapacityQty
+    nextFreeIdx
+
+
+// group
+let WriteNoDatesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoDatesGrp) =
+    let nextFreeIdx = WriteTradeDate dest nextFreeIdx xx.TradeDate
+    let nextFreeIdx = Option.fold (WriteTransactTime dest) nextFreeIdx xx.TransactTime
+    nextFreeIdx
+
+
+// group
+let WriteNoDistribInstsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoDistribInstsGrp) =
+    let nextFreeIdx = WriteDistribPaymentMethod dest nextFreeIdx xx.DistribPaymentMethod
+    let nextFreeIdx = Option.fold (WriteDistribPercentage dest) nextFreeIdx xx.DistribPercentage
+    let nextFreeIdx = Option.fold (WriteCashDistribCurr dest) nextFreeIdx xx.CashDistribCurr
+    let nextFreeIdx = Option.fold (WriteCashDistribAgentName dest) nextFreeIdx xx.CashDistribAgentName
+    let nextFreeIdx = Option.fold (WriteCashDistribAgentCode dest) nextFreeIdx xx.CashDistribAgentCode
+    let nextFreeIdx = Option.fold (WriteCashDistribAgentAcctNumber dest) nextFreeIdx xx.CashDistribAgentAcctNumber
+    let nextFreeIdx = Option.fold (WriteCashDistribPayRef dest) nextFreeIdx xx.CashDistribPayRef
+    let nextFreeIdx = Option.fold (WriteCashDistribAgentAcctName dest) nextFreeIdx xx.CashDistribAgentAcctName
+    nextFreeIdx
+
+
+// group
+let WriteNoExecsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoExecsGrp) =
+    let nextFreeIdx = WriteExecID dest nextFreeIdx xx.ExecID
+    nextFreeIdx
+
+
+// group
+let WriteNoTradesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoTradesGrp) =
+    let nextFreeIdx = WriteTradeReportID dest nextFreeIdx xx.TradeReportID
+    let nextFreeIdx = Option.fold (WriteSecondaryTradeReportID dest) nextFreeIdx xx.SecondaryTradeReportID
+    nextFreeIdx
+
+
+// group
+let WriteNoCollInquiryQualifierGrp (dest:byte []) (nextFreeIdx:int) (xx:NoCollInquiryQualifierGrp) =
+    let nextFreeIdx = WriteCollInquiryQualifier dest nextFreeIdx xx.CollInquiryQualifier
+    nextFreeIdx
+
+
+// group
+let WriteNoCompIDsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoCompIDsGrp) =
+    let nextFreeIdx = WriteRefCompID dest nextFreeIdx xx.RefCompID
+    let nextFreeIdx = Option.fold (WriteRefSubID dest) nextFreeIdx xx.RefSubID
+    let nextFreeIdx = Option.fold (WriteLocationID dest) nextFreeIdx xx.LocationID
+    let nextFreeIdx = Option.fold (WriteDeskID dest) nextFreeIdx xx.DeskID
+    nextFreeIdx
+
+
+// group
+let WriteNetworkStatusResponseNoCompIDsGrp (dest:byte []) (nextFreeIdx:int) (xx:NetworkStatusResponseNoCompIDsGrp) =
+    let nextFreeIdx = WriteRefCompID dest nextFreeIdx xx.RefCompID
+    let nextFreeIdx = Option.fold (WriteRefSubID dest) nextFreeIdx xx.RefSubID
+    let nextFreeIdx = Option.fold (WriteLocationID dest) nextFreeIdx xx.LocationID
+    let nextFreeIdx = Option.fold (WriteDeskID dest) nextFreeIdx xx.DeskID
+    let nextFreeIdx = Option.fold (WriteStatusValue dest) nextFreeIdx xx.StatusValue
+    let nextFreeIdx = Option.fold (WriteStatusText dest) nextFreeIdx xx.StatusText
+    nextFreeIdx
+
+
+// group
+let WriteNoHopsGrp (dest:byte []) (nextFreeIdx:int) (xx:NoHopsGrp) =
+    let nextFreeIdx = WriteHopCompID dest nextFreeIdx xx.HopCompID
+    let nextFreeIdx = Option.fold (WriteHopSendingTime dest) nextFreeIdx xx.HopSendingTime
+    let nextFreeIdx = Option.fold (WriteHopRefID dest) nextFreeIdx xx.HopRefID
+    nextFreeIdx
+
+

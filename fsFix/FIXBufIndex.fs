@@ -52,8 +52,7 @@ let FindFieldIdx (index:FixBufIndex) (indexEnd:int) (tagRequired:int) =
 //    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msb is at the higher indice
 //    | 3     ->  (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) 
 //    | 4     ->  (int( bs.[tagBeg+3] ) <<< 24) + (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg] ) <<< 8) + int( bs.[tagBeg] ) 
-//    | n     ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
-//                failwith msg
+//    | n     ->  failwith "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
 
 
 let convTagToInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
@@ -63,8 +62,7 @@ let convTagToInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
     | 2 ->  int(bs.[tagBeg+0] - 48uy) * 10   + int(bs.[tagBeg+1] - 48uy)
     | 3 ->  int(bs.[tagBeg+0] - 48uy) * 100  + int(bs.[tagBeg+1] - 48uy) * 10  + int(bs.[tagBeg+2] - 48uy)
     | 4 ->  int(bs.[tagBeg+0] - 48uy) * 1000 + int(bs.[tagBeg+1] - 48uy) * 100 + int(bs.[tagBeg+2] - 48uy) * 10 + int(bs.[tagBeg+3] - 48uy)
-    | n ->  let msg = sprintf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
-            failwith msg  
+    | n ->  failwithf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd 
 
 
 // i.e. is the tag that of the first field of a len+data field pair

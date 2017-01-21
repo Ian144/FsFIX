@@ -106,5 +106,4 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     if calcedCheckSum = receivedCheckSum then
         msg
     else
-        let errMsg = sprintf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-        failwith errMsg
+        failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum

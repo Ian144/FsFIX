@@ -24,8 +24,8 @@ let ReadField bs (index:FIXBufIndexer.FixBufIndex) tag readFunc =
         index.LastReadIdx <- tagIdx
         readFunc bs fpData.Pos fpData.Len
     else
-        let msg = sprintf "field not found, tag: %s" "XXX"
-        failwith msg
+        failwithf "field not found, tag: %s" "XXX"
+
 
 
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
@@ -36,8 +36,8 @@ let ReadFieldOrdered  (_:bool) bs (index:FIXBufIndexer.FixBufIndex) tag readFunc
         index.LastReadIdx <- nextFieldIdx
         readFunc bs fpData.Pos fpData.Len // this is the expected case
     else
-        let msg = sprintf "field not found, tag: %d at field pos: %d" tag nextFieldIdx
-        failwith msg
+        failwithf "field not found, tag: %d at field pos: %d" tag nextFieldIdx
+
 
 
 let ReadOptionalField (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (tag:int) readFunc = 
@@ -83,8 +83,8 @@ let ReadGroup (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:int) re
         let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
         readGrpInner bs index [] numRepeats readFunc
     else
-        let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
-        failwith msg
+        failwithf "group num field not found, tag: %d" numFieldTag
+
 
 
 
@@ -93,8 +93,8 @@ let ReadNoSidesGroup (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:
     let fieldPosArr = index.FieldPosArr
     let numFieldIndex = FIXBufIndexer.FindFieldIdx index index.EndPos numFieldTag
     if numFieldIndex = -1 then 
-        let msg = sprintf "group num field not found, tag: %s" "XXX" //todo: fix XXX
-        failwith msg
+        failwithf "group num field not found, tag: %d" numFieldTag
+
     let numFieldData = fieldPosArr.[numFieldIndex]
     index.LastReadIdx <- numFieldIndex
     let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
@@ -104,7 +104,7 @@ let ReadNoSidesGroup (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) (numFieldTag:
     | 2u  -> let grp1 = readFunc bs index
              let grp2 = readFunc bs index
              OneOrTwo.Two (grp1, grp2)
-    | x   -> failwith (sprintf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x)
+    | x   -> failwithf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x
 
 
 

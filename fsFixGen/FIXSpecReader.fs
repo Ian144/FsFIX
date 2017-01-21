@@ -20,7 +20,7 @@ let MkRequired (str:string) =
     match str with
     | "Y"   -> Required.Required
     | "N"   -> Required.NotRequired
-    | _     -> failwith (sprintf "invalid required string: %s" str)
+    | _     -> failwithf "invalid required string: %s" str
 
 
 let rec ReadGroup (parents:string list) (el:XElement) =
@@ -51,7 +51,7 @@ and ReadFIXItem (parents:string list) (el:XElement) : FIXItem =
                         FIXItem.ComponentRef {CRName=cmpName; Required=req}
     | "group"       ->  let grp = ReadGroup parents el
                         FIXItem.Group grp
-    | _             ->  failwith (sprintf "invalid msg item name: %s" itemTypeStr)
+    | _             ->  failwithf "invalid msg item name: %s" itemTypeStr
 
 and ReadItems (parents:string list) (parentXL:XElement) =
     [    for el in parentXL.Elements() do

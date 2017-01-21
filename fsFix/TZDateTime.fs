@@ -41,23 +41,21 @@ type MakeTZOffset private () =
     static member Make (dir:byte) = 
         match dir with 
         | 90uy  ->  TZOffset.UTC    // match 'Z'
-        | _     ->  let msg = sprintf "invalid TZOffset %c" (System.Convert.ToChar dir)
-                    failwith msg
+        | _     ->  failwithf "invalid TZOffset %c" (System.Convert.ToChar dir)
 
     static member Make (dir:byte, hh:int) = 
                     let valid = hh > 0 && hh <= 12 
                     match dir, valid with
                     | 43uy, true    ->  PosOffsetHH hh // +
                     | 45uy, true    ->  NegOffsetHH hh // -
-                    | _,    _       ->  let msg = sprintf "invalid TZOffset, %c-%d" (System.Convert.ToChar dir) hh
-                                        failwith msg
+                    | _,    _       ->  failwithf "invalid TZOffset, %c-%d" (System.Convert.ToChar dir) hh
     static member Make (dir:byte, hh:int, mm:int) = 
                     let valid = hh > 0 && hh <= 12 && mm >= 0 && mm < 60
                     match dir, valid with
                     | 43uy,  true   ->  PosOffsetHHmm ( hh, mm) // +
                     | 45uy,  true   ->  NegOffsetHHmm ( hh, mm) // -
-                    | _,    _       ->  let msg = sprintf "invalid TZOffset, %c-%d:%d" (System.Convert.ToChar dir) hh mm
-                                        failwith msg
+                    | _,    _       ->  failwithf "invalid TZOffset, %c-%d:%d" (System.Convert.ToChar dir) hh mm
+
 
 
 
@@ -89,8 +87,7 @@ let readTZOffset (bs:byte[]) (pos:int) =
     elif bs.[pos] = 45uy then // negative offset
         readNonUTC false bs pos
     else
-        let msg = sprintf "invalid TZOffset starting at pos: %d" pos
-        failwith msg
+        failwithf "invalid TZOffset starting at pos: %d" pos
 
 
 
@@ -123,15 +120,13 @@ type MakeTZTimeOnly private () =
         let valid = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59
         match valid with
         | true  -> TZTimeOnly (offset, hh, mm)
-        | false -> let msg = sprintf "invalid TZTimeOnly, %d:%d" hh mm
-                   failwith msg
+        | false -> failwithf "invalid TZTimeOnly, %d:%d" hh mm
                    
     static member Make (offset:TZOffset, hh:int, mm:int, ss:int) =
         let valid = hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 59
         match valid with
         | true  -> TZTimeOnlySS (offset, hh, mm, ss)
-        | false -> let msg = sprintf "invalid TZTimeOnly, %d:%d:%d" hh mm ss
-                   failwith msg
+        | false -> failwithf "invalid TZTimeOnly, %d:%d:%d" hh mm ss
                    
 
 
@@ -161,7 +156,7 @@ let readTZTimeOnly (bs:byte[]) (pos:int) (len:int) =
     | 8 ->  let hh, mm, ss = FIXDateTime.readHHMMSSints bs pos
             let posOut, offset = readTZOffset bs (pos+8)
             MakeTZTimeOnly.Make (offset, hh, mm, ss)
-    | _ ->  failwith "invalid offset marker reading TZTimeOnly"
+    | n ->  failwithf "invalid offset marker reading TZTimeOnly: %d" n
 
 
 let writeTZTimeOnly (bs:byte[]) (pos:int) (tm:TZTimeOnly) : int =
