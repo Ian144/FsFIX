@@ -7,9 +7,9 @@ open Fix44.CompoundItems
 
 
 // group
-let ReadNoUnderlyingSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingSecurityAltIDGrp =
-    let underlyingSecurityAltID = ReadFieldOrdered true bs index 458 ReadUnderlyingSecurityAltIDIdx
-    let underlyingSecurityAltIDSource = ReadOptionalFieldOrdered true bs index 459 ReadUnderlyingSecurityAltIDSourceIdx
+let ReadNoUnderlyingSecurityAltIDGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingSecurityAltIDGrp =
+    let underlyingSecurityAltID = ReadFieldOrdered true bs index 458 ReadUnderlyingSecurityAltID
+    let underlyingSecurityAltIDSource = ReadOptionalFieldOrdered true bs index 459 ReadUnderlyingSecurityAltIDSource
     let ci:NoUnderlyingSecurityAltIDGrp = {
         UnderlyingSecurityAltID = underlyingSecurityAltID
         UnderlyingSecurityAltIDSource = underlyingSecurityAltIDSource
@@ -18,9 +18,9 @@ let ReadNoUnderlyingSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufI
 
 
 // group
-let ReadNoUnderlyingStipsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingStipsGrp =
-    let underlyingStipType = ReadFieldOrdered true bs index 888 ReadUnderlyingStipTypeIdx
-    let underlyingStipValue = ReadOptionalFieldOrdered true bs index 889 ReadUnderlyingStipValueIdx
+let ReadNoUnderlyingStipsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingStipsGrp =
+    let underlyingStipType = ReadFieldOrdered true bs index 888 ReadUnderlyingStipType
+    let underlyingStipValue = ReadOptionalFieldOrdered true bs index 889 ReadUnderlyingStipValue
     let ci:NoUnderlyingStipsGrp = {
         UnderlyingStipType = underlyingStipType
         UnderlyingStipValue = underlyingStipValue
@@ -29,52 +29,52 @@ let ReadNoUnderlyingStipsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // component, random access reader
-let ReadUnderlyingInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
-    let underlyingSymbol                     = ReadField bs index 311 ReadUnderlyingSymbolIdx
-    let underlyingSymbolSfx                  = ReadOptionalField bs index 312 ReadUnderlyingSymbolSfxIdx
-    let underlyingSecurityID                 = ReadOptionalField bs index 309 ReadUnderlyingSecurityIDIdx
-    let underlyingSecurityIDSource           = ReadOptionalField bs index 305 ReadUnderlyingSecurityIDSourceIdx
-    let noUnderlyingSecurityAltIDGrp         = ReadOptionalGroup bs index 457 ReadNoUnderlyingSecurityAltIDGrpIdx
-    let underlyingProduct                    = ReadOptionalField bs index 462 ReadUnderlyingProductIdx
-    let underlyingCFICode                    = ReadOptionalField bs index 463 ReadUnderlyingCFICodeIdx
-    let underlyingSecurityType               = ReadOptionalField bs index 310 ReadUnderlyingSecurityTypeIdx
-    let underlyingSecuritySubType            = ReadOptionalField bs index 763 ReadUnderlyingSecuritySubTypeIdx
-    let underlyingMaturityMonthYear          = ReadOptionalField bs index 313 ReadUnderlyingMaturityMonthYearIdx
-    let underlyingMaturityDate               = ReadOptionalField bs index 542 ReadUnderlyingMaturityDateIdx
-    let underlyingPutOrCall                  = ReadOptionalField bs index 315 ReadUnderlyingPutOrCallIdx
-    let underlyingCouponPaymentDate          = ReadOptionalField bs index 241 ReadUnderlyingCouponPaymentDateIdx
-    let underlyingIssueDate                  = ReadOptionalField bs index 242 ReadUnderlyingIssueDateIdx
-    let underlyingRepoCollateralSecurityType = ReadOptionalField bs index 243 ReadUnderlyingRepoCollateralSecurityTypeIdx
-    let underlyingRepurchaseTerm             = ReadOptionalField bs index 244 ReadUnderlyingRepurchaseTermIdx
-    let underlyingRepurchaseRate             = ReadOptionalField bs index 245 ReadUnderlyingRepurchaseRateIdx
-    let underlyingFactor                     = ReadOptionalField bs index 246 ReadUnderlyingFactorIdx
-    let underlyingCreditRating               = ReadOptionalField bs index 256 ReadUnderlyingCreditRatingIdx
-    let underlyingInstrRegistry              = ReadOptionalField bs index 595 ReadUnderlyingInstrRegistryIdx
-    let underlyingCountryOfIssue             = ReadOptionalField bs index 592 ReadUnderlyingCountryOfIssueIdx
-    let underlyingStateOrProvinceOfIssue     = ReadOptionalField bs index 593 ReadUnderlyingStateOrProvinceOfIssueIdx
-    let underlyingLocaleOfIssue              = ReadOptionalField bs index 594 ReadUnderlyingLocaleOfIssueIdx
-    let underlyingRedemptionDate             = ReadOptionalField bs index 247 ReadUnderlyingRedemptionDateIdx
-    let underlyingStrikePrice                = ReadOptionalField bs index 316 ReadUnderlyingStrikePriceIdx
-    let underlyingStrikeCurrency             = ReadOptionalField bs index 941 ReadUnderlyingStrikeCurrencyIdx
-    let underlyingOptAttribute               = ReadOptionalField bs index 317 ReadUnderlyingOptAttributeIdx
-    let underlyingContractMultiplier         = ReadOptionalField bs index 436 ReadUnderlyingContractMultiplierIdx
-    let underlyingCouponRate                 = ReadOptionalField bs index 435 ReadUnderlyingCouponRateIdx
-    let underlyingSecurityExchange           = ReadOptionalField bs index 308 ReadUnderlyingSecurityExchangeIdx
-    let underlyingIssuer                     = ReadOptionalField bs index 306 ReadUnderlyingIssuerIdx
-    let encodedUnderlyingIssuer              = ReadOptionalField bs index 362 ReadEncodedUnderlyingIssuerIdx
-    let underlyingSecurityDesc               = ReadOptionalField bs index 307 ReadUnderlyingSecurityDescIdx
-    let encodedUnderlyingSecurityDesc        = ReadOptionalField bs index 364 ReadEncodedUnderlyingSecurityDescIdx
-    let underlyingCPProgram                  = ReadOptionalField bs index 877 ReadUnderlyingCPProgramIdx
-    let underlyingCPRegType                  = ReadOptionalField bs index 878 ReadUnderlyingCPRegTypeIdx
-    let underlyingCurrency                   = ReadOptionalField bs index 318 ReadUnderlyingCurrencyIdx
-    let underlyingQty                        = ReadOptionalField bs index 879 ReadUnderlyingQtyIdx
-    let underlyingPx                         = ReadOptionalField bs index 810 ReadUnderlyingPxIdx
-    let underlyingDirtyPrice                 = ReadOptionalField bs index 882 ReadUnderlyingDirtyPriceIdx
-    let underlyingEndPrice                   = ReadOptionalField bs index 883 ReadUnderlyingEndPriceIdx
-    let underlyingStartValue                 = ReadOptionalField bs index 884 ReadUnderlyingStartValueIdx
-    let underlyingCurrentValue               = ReadOptionalField bs index 885 ReadUnderlyingCurrentValueIdx
-    let underlyingEndValue                   = ReadOptionalField bs index 886 ReadUnderlyingEndValueIdx
-    let noUnderlyingStipsGrp                 = ReadOptionalGroup bs index 887 ReadNoUnderlyingStipsGrpIdx
+let ReadUnderlyingInstrument (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
+    let underlyingSymbol = ReadField bs index 311 ReadUnderlyingSymbol
+    let underlyingSymbolSfx = ReadOptionalField bs index 312 ReadUnderlyingSymbolSfx
+    let underlyingSecurityID = ReadOptionalField bs index 309 ReadUnderlyingSecurityID
+    let underlyingSecurityIDSource = ReadOptionalField bs index 305 ReadUnderlyingSecurityIDSource
+    let noUnderlyingSecurityAltIDGrp = ReadOptionalGroup bs index 457 ReadNoUnderlyingSecurityAltIDGrp
+    let underlyingProduct = ReadOptionalField bs index 462 ReadUnderlyingProduct
+    let underlyingCFICode = ReadOptionalField bs index 463 ReadUnderlyingCFICode
+    let underlyingSecurityType = ReadOptionalField bs index 310 ReadUnderlyingSecurityType
+    let underlyingSecuritySubType = ReadOptionalField bs index 763 ReadUnderlyingSecuritySubType
+    let underlyingMaturityMonthYear = ReadOptionalField bs index 313 ReadUnderlyingMaturityMonthYear
+    let underlyingMaturityDate = ReadOptionalField bs index 542 ReadUnderlyingMaturityDate
+    let underlyingPutOrCall = ReadOptionalField bs index 315 ReadUnderlyingPutOrCall
+    let underlyingCouponPaymentDate = ReadOptionalField bs index 241 ReadUnderlyingCouponPaymentDate
+    let underlyingIssueDate = ReadOptionalField bs index 242 ReadUnderlyingIssueDate
+    let underlyingRepoCollateralSecurityType = ReadOptionalField bs index 243 ReadUnderlyingRepoCollateralSecurityType
+    let underlyingRepurchaseTerm = ReadOptionalField bs index 244 ReadUnderlyingRepurchaseTerm
+    let underlyingRepurchaseRate = ReadOptionalField bs index 245 ReadUnderlyingRepurchaseRate
+    let underlyingFactor = ReadOptionalField bs index 246 ReadUnderlyingFactor
+    let underlyingCreditRating = ReadOptionalField bs index 256 ReadUnderlyingCreditRating
+    let underlyingInstrRegistry = ReadOptionalField bs index 595 ReadUnderlyingInstrRegistry
+    let underlyingCountryOfIssue = ReadOptionalField bs index 592 ReadUnderlyingCountryOfIssue
+    let underlyingStateOrProvinceOfIssue = ReadOptionalField bs index 593 ReadUnderlyingStateOrProvinceOfIssue
+    let underlyingLocaleOfIssue = ReadOptionalField bs index 594 ReadUnderlyingLocaleOfIssue
+    let underlyingRedemptionDate = ReadOptionalField bs index 247 ReadUnderlyingRedemptionDate
+    let underlyingStrikePrice = ReadOptionalField bs index 316 ReadUnderlyingStrikePrice
+    let underlyingStrikeCurrency = ReadOptionalField bs index 941 ReadUnderlyingStrikeCurrency
+    let underlyingOptAttribute = ReadOptionalField bs index 317 ReadUnderlyingOptAttribute
+    let underlyingContractMultiplier = ReadOptionalField bs index 436 ReadUnderlyingContractMultiplier
+    let underlyingCouponRate = ReadOptionalField bs index 435 ReadUnderlyingCouponRate
+    let underlyingSecurityExchange = ReadOptionalField bs index 308 ReadUnderlyingSecurityExchange
+    let underlyingIssuer = ReadOptionalField bs index 306 ReadUnderlyingIssuer
+    let encodedUnderlyingIssuer = ReadOptionalField bs index 362 ReadEncodedUnderlyingIssuer
+    let underlyingSecurityDesc = ReadOptionalField bs index 307 ReadUnderlyingSecurityDesc
+    let encodedUnderlyingSecurityDesc = ReadOptionalField bs index 364 ReadEncodedUnderlyingSecurityDesc
+    let underlyingCPProgram = ReadOptionalField bs index 877 ReadUnderlyingCPProgram
+    let underlyingCPRegType = ReadOptionalField bs index 878 ReadUnderlyingCPRegType
+    let underlyingCurrency = ReadOptionalField bs index 318 ReadUnderlyingCurrency
+    let underlyingQty = ReadOptionalField bs index 879 ReadUnderlyingQty
+    let underlyingPx = ReadOptionalField bs index 810 ReadUnderlyingPx
+    let underlyingDirtyPrice = ReadOptionalField bs index 882 ReadUnderlyingDirtyPrice
+    let underlyingEndPrice = ReadOptionalField bs index 883 ReadUnderlyingEndPrice
+    let underlyingStartValue = ReadOptionalField bs index 884 ReadUnderlyingStartValue
+    let underlyingCurrentValue = ReadOptionalField bs index 885 ReadUnderlyingCurrentValue
+    let underlyingEndValue = ReadOptionalField bs index 886 ReadUnderlyingEndValue
+    let noUnderlyingStipsGrp = ReadOptionalGroup bs index 887 ReadNoUnderlyingStipsGrp
     let ci:UnderlyingInstrument = {
         UnderlyingSymbol = underlyingSymbol
         UnderlyingSymbolSfx = underlyingSymbolSfx
@@ -126,52 +126,52 @@ let ReadUnderlyingInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadUnderlyingInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
-    let underlyingSymbol                     = ReadFieldOrdered         true bs index 311 ReadUnderlyingSymbolIdx
-    let underlyingSymbolSfx                  = ReadOptionalFieldOrdered true bs index 312 ReadUnderlyingSymbolSfxIdx
-    let underlyingSecurityID                 = ReadOptionalFieldOrdered true bs index 309 ReadUnderlyingSecurityIDIdx
-    let underlyingSecurityIDSource           = ReadOptionalFieldOrdered true bs index 305 ReadUnderlyingSecurityIDSourceIdx
-    let noUnderlyingSecurityAltIDGrp         = ReadOptionalGroupOrdered true bs index 457 ReadNoUnderlyingSecurityAltIDGrpIdx
-    let underlyingProduct                    = ReadOptionalFieldOrdered true bs index 462 ReadUnderlyingProductIdx
-    let underlyingCFICode                    = ReadOptionalFieldOrdered true bs index 463 ReadUnderlyingCFICodeIdx
-    let underlyingSecurityType               = ReadOptionalFieldOrdered true bs index 310 ReadUnderlyingSecurityTypeIdx
-    let underlyingSecuritySubType            = ReadOptionalFieldOrdered true bs index 763 ReadUnderlyingSecuritySubTypeIdx
-    let underlyingMaturityMonthYear          = ReadOptionalFieldOrdered true bs index 313 ReadUnderlyingMaturityMonthYearIdx
-    let underlyingMaturityDate               = ReadOptionalFieldOrdered true bs index 542 ReadUnderlyingMaturityDateIdx
-    let underlyingPutOrCall                  = ReadOptionalFieldOrdered true bs index 315 ReadUnderlyingPutOrCallIdx
-    let underlyingCouponPaymentDate          = ReadOptionalFieldOrdered true bs index 241 ReadUnderlyingCouponPaymentDateIdx
-    let underlyingIssueDate                  = ReadOptionalFieldOrdered true bs index 242 ReadUnderlyingIssueDateIdx
-    let underlyingRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 243 ReadUnderlyingRepoCollateralSecurityTypeIdx
-    let underlyingRepurchaseTerm             = ReadOptionalFieldOrdered true bs index 244 ReadUnderlyingRepurchaseTermIdx
-    let underlyingRepurchaseRate             = ReadOptionalFieldOrdered true bs index 245 ReadUnderlyingRepurchaseRateIdx
-    let underlyingFactor                     = ReadOptionalFieldOrdered true bs index 246 ReadUnderlyingFactorIdx
-    let underlyingCreditRating               = ReadOptionalFieldOrdered true bs index 256 ReadUnderlyingCreditRatingIdx
-    let underlyingInstrRegistry              = ReadOptionalFieldOrdered true bs index 595 ReadUnderlyingInstrRegistryIdx
-    let underlyingCountryOfIssue             = ReadOptionalFieldOrdered true bs index 592 ReadUnderlyingCountryOfIssueIdx
-    let underlyingStateOrProvinceOfIssue     = ReadOptionalFieldOrdered true bs index 593 ReadUnderlyingStateOrProvinceOfIssueIdx
-    let underlyingLocaleOfIssue              = ReadOptionalFieldOrdered true bs index 594 ReadUnderlyingLocaleOfIssueIdx
-    let underlyingRedemptionDate             = ReadOptionalFieldOrdered true bs index 247 ReadUnderlyingRedemptionDateIdx
-    let underlyingStrikePrice                = ReadOptionalFieldOrdered true bs index 316 ReadUnderlyingStrikePriceIdx
-    let underlyingStrikeCurrency             = ReadOptionalFieldOrdered true bs index 941 ReadUnderlyingStrikeCurrencyIdx
-    let underlyingOptAttribute               = ReadOptionalFieldOrdered true bs index 317 ReadUnderlyingOptAttributeIdx
-    let underlyingContractMultiplier         = ReadOptionalFieldOrdered true bs index 436 ReadUnderlyingContractMultiplierIdx
-    let underlyingCouponRate                 = ReadOptionalFieldOrdered true bs index 435 ReadUnderlyingCouponRateIdx
-    let underlyingSecurityExchange           = ReadOptionalFieldOrdered true bs index 308 ReadUnderlyingSecurityExchangeIdx
-    let underlyingIssuer                     = ReadOptionalFieldOrdered true bs index 306 ReadUnderlyingIssuerIdx
-    let encodedUnderlyingIssuer              = ReadOptionalFieldOrdered true bs index 362 ReadEncodedUnderlyingIssuerIdx
-    let underlyingSecurityDesc               = ReadOptionalFieldOrdered true bs index 307 ReadUnderlyingSecurityDescIdx
-    let encodedUnderlyingSecurityDesc        = ReadOptionalFieldOrdered true bs index 364 ReadEncodedUnderlyingSecurityDescIdx
-    let underlyingCPProgram                  = ReadOptionalFieldOrdered true bs index 877 ReadUnderlyingCPProgramIdx
-    let underlyingCPRegType                  = ReadOptionalFieldOrdered true bs index 878 ReadUnderlyingCPRegTypeIdx
-    let underlyingCurrency                   = ReadOptionalFieldOrdered true bs index 318 ReadUnderlyingCurrencyIdx
-    let underlyingQty                        = ReadOptionalFieldOrdered true bs index 879 ReadUnderlyingQtyIdx
-    let underlyingPx                         = ReadOptionalFieldOrdered true bs index 810 ReadUnderlyingPxIdx
-    let underlyingDirtyPrice                 = ReadOptionalFieldOrdered true bs index 882 ReadUnderlyingDirtyPriceIdx
-    let underlyingEndPrice                   = ReadOptionalFieldOrdered true bs index 883 ReadUnderlyingEndPriceIdx
-    let underlyingStartValue                 = ReadOptionalFieldOrdered true bs index 884 ReadUnderlyingStartValueIdx
-    let underlyingCurrentValue               = ReadOptionalFieldOrdered true bs index 885 ReadUnderlyingCurrentValueIdx
-    let underlyingEndValue                   = ReadOptionalFieldOrdered true bs index 886 ReadUnderlyingEndValueIdx
-    let noUnderlyingStipsGrp                 = ReadOptionalGroupOrdered true bs index 887 ReadNoUnderlyingStipsGrpIdx
+let ReadUnderlyingInstrumentOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingInstrument =
+    let underlyingSymbol = ReadFieldOrdered true bs index 311 ReadUnderlyingSymbol
+    let underlyingSymbolSfx = ReadOptionalFieldOrdered true bs index 312 ReadUnderlyingSymbolSfx
+    let underlyingSecurityID = ReadOptionalFieldOrdered true bs index 309 ReadUnderlyingSecurityID
+    let underlyingSecurityIDSource = ReadOptionalFieldOrdered true bs index 305 ReadUnderlyingSecurityIDSource
+    let noUnderlyingSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 457 ReadNoUnderlyingSecurityAltIDGrp
+    let underlyingProduct = ReadOptionalFieldOrdered true bs index 462 ReadUnderlyingProduct
+    let underlyingCFICode = ReadOptionalFieldOrdered true bs index 463 ReadUnderlyingCFICode
+    let underlyingSecurityType = ReadOptionalFieldOrdered true bs index 310 ReadUnderlyingSecurityType
+    let underlyingSecuritySubType = ReadOptionalFieldOrdered true bs index 763 ReadUnderlyingSecuritySubType
+    let underlyingMaturityMonthYear = ReadOptionalFieldOrdered true bs index 313 ReadUnderlyingMaturityMonthYear
+    let underlyingMaturityDate = ReadOptionalFieldOrdered true bs index 542 ReadUnderlyingMaturityDate
+    let underlyingPutOrCall = ReadOptionalFieldOrdered true bs index 315 ReadUnderlyingPutOrCall
+    let underlyingCouponPaymentDate = ReadOptionalFieldOrdered true bs index 241 ReadUnderlyingCouponPaymentDate
+    let underlyingIssueDate = ReadOptionalFieldOrdered true bs index 242 ReadUnderlyingIssueDate
+    let underlyingRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 243 ReadUnderlyingRepoCollateralSecurityType
+    let underlyingRepurchaseTerm = ReadOptionalFieldOrdered true bs index 244 ReadUnderlyingRepurchaseTerm
+    let underlyingRepurchaseRate = ReadOptionalFieldOrdered true bs index 245 ReadUnderlyingRepurchaseRate
+    let underlyingFactor = ReadOptionalFieldOrdered true bs index 246 ReadUnderlyingFactor
+    let underlyingCreditRating = ReadOptionalFieldOrdered true bs index 256 ReadUnderlyingCreditRating
+    let underlyingInstrRegistry = ReadOptionalFieldOrdered true bs index 595 ReadUnderlyingInstrRegistry
+    let underlyingCountryOfIssue = ReadOptionalFieldOrdered true bs index 592 ReadUnderlyingCountryOfIssue
+    let underlyingStateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 593 ReadUnderlyingStateOrProvinceOfIssue
+    let underlyingLocaleOfIssue = ReadOptionalFieldOrdered true bs index 594 ReadUnderlyingLocaleOfIssue
+    let underlyingRedemptionDate = ReadOptionalFieldOrdered true bs index 247 ReadUnderlyingRedemptionDate
+    let underlyingStrikePrice = ReadOptionalFieldOrdered true bs index 316 ReadUnderlyingStrikePrice
+    let underlyingStrikeCurrency = ReadOptionalFieldOrdered true bs index 941 ReadUnderlyingStrikeCurrency
+    let underlyingOptAttribute = ReadOptionalFieldOrdered true bs index 317 ReadUnderlyingOptAttribute
+    let underlyingContractMultiplier = ReadOptionalFieldOrdered true bs index 436 ReadUnderlyingContractMultiplier
+    let underlyingCouponRate = ReadOptionalFieldOrdered true bs index 435 ReadUnderlyingCouponRate
+    let underlyingSecurityExchange = ReadOptionalFieldOrdered true bs index 308 ReadUnderlyingSecurityExchange
+    let underlyingIssuer = ReadOptionalFieldOrdered true bs index 306 ReadUnderlyingIssuer
+    let encodedUnderlyingIssuer = ReadOptionalFieldOrdered true bs index 362 ReadEncodedUnderlyingIssuer
+    let underlyingSecurityDesc = ReadOptionalFieldOrdered true bs index 307 ReadUnderlyingSecurityDesc
+    let encodedUnderlyingSecurityDesc = ReadOptionalFieldOrdered true bs index 364 ReadEncodedUnderlyingSecurityDesc
+    let underlyingCPProgram = ReadOptionalFieldOrdered true bs index 877 ReadUnderlyingCPProgram
+    let underlyingCPRegType = ReadOptionalFieldOrdered true bs index 878 ReadUnderlyingCPRegType
+    let underlyingCurrency = ReadOptionalFieldOrdered true bs index 318 ReadUnderlyingCurrency
+    let underlyingQty = ReadOptionalFieldOrdered true bs index 879 ReadUnderlyingQty
+    let underlyingPx = ReadOptionalFieldOrdered true bs index 810 ReadUnderlyingPx
+    let underlyingDirtyPrice = ReadOptionalFieldOrdered true bs index 882 ReadUnderlyingDirtyPrice
+    let underlyingEndPrice = ReadOptionalFieldOrdered true bs index 883 ReadUnderlyingEndPrice
+    let underlyingStartValue = ReadOptionalFieldOrdered true bs index 884 ReadUnderlyingStartValue
+    let underlyingCurrentValue = ReadOptionalFieldOrdered true bs index 885 ReadUnderlyingCurrentValue
+    let underlyingEndValue = ReadOptionalFieldOrdered true bs index 886 ReadUnderlyingEndValue
+    let noUnderlyingStipsGrp = ReadOptionalGroupOrdered true bs index 887 ReadNoUnderlyingStipsGrp
     let ci:UnderlyingInstrument = {
         UnderlyingSymbol = underlyingSymbol
         UnderlyingSymbolSfx = underlyingSymbolSfx
@@ -223,9 +223,9 @@ let ReadUnderlyingInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexe
 
 
 // group
-let ReadCollateralResponseNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralResponseNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollActionIdx
+let ReadCollateralResponseNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralResponseNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
+    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollAction
     let ci:CollateralResponseNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
@@ -234,9 +234,9 @@ let ReadCollateralResponseNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.F
 
 
 // group
-let ReadCollateralAssignmentNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralAssignmentNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollActionIdx
+let ReadCollateralAssignmentNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralAssignmentNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
+    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollAction
     let ci:CollateralAssignmentNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
@@ -245,9 +245,9 @@ let ReadCollateralAssignmentNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer
 
 
 // group
-let ReadCollateralRequestNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralRequestNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollActionIdx
+let ReadCollateralRequestNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CollateralRequestNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
+    let collAction = ReadOptionalFieldOrdered true bs index 944 ReadCollAction
     let ci:CollateralRequestNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         CollAction = collAction
@@ -256,10 +256,10 @@ let ReadCollateralRequestNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadPositionReportNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionReportNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let underlyingSettlPrice = ReadFieldOrdered true bs index 732 ReadUnderlyingSettlPriceIdx
-    let underlyingSettlPriceType = ReadFieldOrdered true bs index 733 ReadUnderlyingSettlPriceTypeIdx
+let ReadPositionReportNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionReportNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
+    let underlyingSettlPrice = ReadFieldOrdered true bs index 732 ReadUnderlyingSettlPrice
+    let underlyingSettlPriceType = ReadFieldOrdered true bs index 733 ReadUnderlyingSettlPriceType
     let ci:PositionReportNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         UnderlyingSettlPrice = underlyingSettlPrice
@@ -269,9 +269,9 @@ let ReadPositionReportNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 
 // group
-let ReadNoNestedPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartySubIDsGrp =
-    let nestedPartySubID = ReadFieldOrdered true bs index 545 ReadNestedPartySubIDIdx
-    let nestedPartySubIDType = ReadOptionalFieldOrdered true bs index 805 ReadNestedPartySubIDTypeIdx
+let ReadNoNestedPartySubIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartySubIDsGrp =
+    let nestedPartySubID = ReadFieldOrdered true bs index 545 ReadNestedPartySubID
+    let nestedPartySubIDType = ReadOptionalFieldOrdered true bs index 805 ReadNestedPartySubIDType
     let ci:NoNestedPartySubIDsGrp = {
         NestedPartySubID = nestedPartySubID
         NestedPartySubIDType = nestedPartySubIDType
@@ -280,11 +280,11 @@ let ReadNoNestedPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
 
 
 // group
-let ReadNoNestedPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartyIDsGrp =
-    let nestedPartyID          = ReadFieldOrdered true bs index 524 ReadNestedPartyIDIdx
-    let nestedPartyIDSource    = ReadOptionalFieldOrdered true bs index 525 ReadNestedPartyIDSourceIdx
-    let nestedPartyRole        = ReadOptionalFieldOrdered true bs index 538 ReadNestedPartyRoleIdx
-    let noNestedPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 804 ReadNoNestedPartySubIDsGrpIdx
+let ReadNoNestedPartyIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNestedPartyIDsGrp =
+    let nestedPartyID = ReadFieldOrdered true bs index 524 ReadNestedPartyID
+    let nestedPartyIDSource = ReadOptionalFieldOrdered true bs index 525 ReadNestedPartyIDSource
+    let nestedPartyRole = ReadOptionalFieldOrdered true bs index 538 ReadNestedPartyRole
+    let noNestedPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 804 ReadNoNestedPartySubIDsGrp
     let ci:NoNestedPartyIDsGrp = {
         NestedPartyID = nestedPartyID
         NestedPartyIDSource = nestedPartyIDSource
@@ -295,12 +295,12 @@ let ReadNoNestedPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 
 // group
-let ReadNoPositionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPositionsGrp =
-    let posType = ReadFieldOrdered true bs index 703 ReadPosTypeIdx
-    let longQty = ReadOptionalFieldOrdered true bs index 704 ReadLongQtyIdx
-    let shortQty = ReadOptionalFieldOrdered true bs index 705 ReadShortQtyIdx
-    let posQtyStatus = ReadOptionalFieldOrdered true bs index 706 ReadPosQtyStatusIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
+let ReadNoPositionsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPositionsGrp =
+    let posType = ReadFieldOrdered true bs index 703 ReadPosType
+    let longQty = ReadOptionalFieldOrdered true bs index 704 ReadLongQty
+    let shortQty = ReadOptionalFieldOrdered true bs index 705 ReadShortQty
+    let posQtyStatus = ReadOptionalFieldOrdered true bs index 706 ReadPosQtyStatus
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
     let ci:NoPositionsGrp = {
         PosType = posType
         LongQty = longQty
@@ -312,8 +312,8 @@ let ReadNoPositionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPosi
 
 
 // component, random access reader
-let ReadPositionQtyIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionQty =
-    let noPositionsGrp = ReadGroup bs index 702 ReadNoPositionsGrpIdx
+let ReadPositionQty (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionQty =
+    let noPositionsGrp = ReadGroup bs index 702 ReadNoPositionsGrp
     let ci:PositionQty = {
         NoPositionsGrp = noPositionsGrp
     }
@@ -321,8 +321,8 @@ let ReadPositionQtyIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionQ
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadPositionQtyIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionQty =
-    let noPositionsGrp = ReadGroup bs index 702 ReadNoPositionsGrpIdx
+let ReadPositionQtyOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionQty =
+    let noPositionsGrp = ReadGroup bs index 702 ReadNoPositionsGrp
     let ci:PositionQty = {
         NoPositionsGrp = noPositionsGrp
     }
@@ -330,15 +330,15 @@ let ReadPositionQtyIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufI
 
 
 // group
-let ReadNoRegistDtlsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRegistDtlsGrp =
-    let registDtls = ReadFieldOrdered true bs index 509 ReadRegistDtlsIdx
-    let registEmail = ReadOptionalFieldOrdered true bs index 511 ReadRegistEmailIdx
-    let mailingDtls = ReadOptionalFieldOrdered true bs index 474 ReadMailingDtlsIdx
-    let mailingInst = ReadOptionalFieldOrdered true bs index 482 ReadMailingInstIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let ownerType = ReadOptionalFieldOrdered true bs index 522 ReadOwnerTypeIdx
-    let dateOfBirth = ReadOptionalFieldOrdered true bs index 486 ReadDateOfBirthIdx
-    let investorCountryOfResidence = ReadOptionalFieldOrdered true bs index 475 ReadInvestorCountryOfResidenceIdx
+let ReadNoRegistDtlsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRegistDtlsGrp =
+    let registDtls = ReadFieldOrdered true bs index 509 ReadRegistDtls
+    let registEmail = ReadOptionalFieldOrdered true bs index 511 ReadRegistEmail
+    let mailingDtls = ReadOptionalFieldOrdered true bs index 474 ReadMailingDtls
+    let mailingInst = ReadOptionalFieldOrdered true bs index 482 ReadMailingInst
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let ownerType = ReadOptionalFieldOrdered true bs index 522 ReadOwnerType
+    let dateOfBirth = ReadOptionalFieldOrdered true bs index 486 ReadDateOfBirth
+    let investorCountryOfResidence = ReadOptionalFieldOrdered true bs index 475 ReadInvestorCountryOfResidence
     let ci:NoRegistDtlsGrp = {
         RegistDtls = registDtls
         RegistEmail = registEmail
@@ -353,9 +353,9 @@ let ReadNoRegistDtlsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoReg
 
 
 // group
-let ReadNoNested2PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartySubIDsGrp =
-    let nested2PartySubID = ReadFieldOrdered true bs index 760 ReadNested2PartySubIDIdx
-    let nested2PartySubIDType = ReadOptionalFieldOrdered true bs index 807 ReadNested2PartySubIDTypeIdx
+let ReadNoNested2PartySubIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartySubIDsGrp =
+    let nested2PartySubID = ReadFieldOrdered true bs index 760 ReadNested2PartySubID
+    let nested2PartySubIDType = ReadOptionalFieldOrdered true bs index 807 ReadNested2PartySubIDType
     let ci:NoNested2PartySubIDsGrp = {
         Nested2PartySubID = nested2PartySubID
         Nested2PartySubIDType = nested2PartySubIDType
@@ -364,11 +364,11 @@ let ReadNoNested2PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 
 // group
-let ReadNoNested2PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartyIDsGrp =
-    let nested2PartyID = ReadFieldOrdered true bs index 757 ReadNested2PartyIDIdx
-    let nested2PartyIDSource = ReadOptionalFieldOrdered true bs index 758 ReadNested2PartyIDSourceIdx
-    let nested2PartyRole = ReadOptionalFieldOrdered true bs index 759 ReadNested2PartyRoleIdx
-    let noNested2PartySubIDsGrp = ReadOptionalGroupOrdered true bs index 806 ReadNoNested2PartySubIDsGrpIdx
+let ReadNoNested2PartyIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested2PartyIDsGrp =
+    let nested2PartyID = ReadFieldOrdered true bs index 757 ReadNested2PartyID
+    let nested2PartyIDSource = ReadOptionalFieldOrdered true bs index 758 ReadNested2PartyIDSource
+    let nested2PartyRole = ReadOptionalFieldOrdered true bs index 759 ReadNested2PartyRole
+    let noNested2PartySubIDsGrp = ReadOptionalGroupOrdered true bs index 806 ReadNoNested2PartySubIDsGrp
     let ci:NoNested2PartyIDsGrp = {
         Nested2PartyID = nested2PartyID
         Nested2PartyIDSource = nested2PartyIDSource
@@ -379,13 +379,13 @@ let ReadNoNested2PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // group
-let ReadTradeCaptureReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportAckNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
+let ReadTradeCaptureReportAckNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportAckNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let ci:TradeCaptureReportAckNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -398,9 +398,9 @@ let ReadTradeCaptureReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // group
-let ReadNoLegSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegSecurityAltIDGrp =
-    let legSecurityAltID = ReadFieldOrdered true bs index 605 ReadLegSecurityAltIDIdx
-    let legSecurityAltIDSource = ReadOptionalFieldOrdered true bs index 606 ReadLegSecurityAltIDSourceIdx
+let ReadNoLegSecurityAltIDGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegSecurityAltIDGrp =
+    let legSecurityAltID = ReadFieldOrdered true bs index 605 ReadLegSecurityAltID
+    let legSecurityAltIDSource = ReadOptionalFieldOrdered true bs index 606 ReadLegSecurityAltIDSource
     let ci:NoLegSecurityAltIDGrp = {
         LegSecurityAltID = legSecurityAltID
         LegSecurityAltIDSource = legSecurityAltIDSource
@@ -409,47 +409,47 @@ let ReadNoLegSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // component, random access reader
-let ReadInstrumentLegFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
-    let legSymbol = ReadField bs index 600 ReadLegSymbolIdx
-    let legSymbolSfx = ReadOptionalField bs index 601 ReadLegSymbolSfxIdx
-    let legSecurityID = ReadOptionalField bs index 602 ReadLegSecurityIDIdx
-    let legSecurityIDSource = ReadOptionalField bs index 603 ReadLegSecurityIDSourceIdx
-    let noLegSecurityAltIDGrp = ReadOptionalGroup bs index 604 ReadNoLegSecurityAltIDGrpIdx
-    let legProduct = ReadOptionalField bs index 607 ReadLegProductIdx
-    let legCFICode = ReadOptionalField bs index 608 ReadLegCFICodeIdx
-    let legSecurityType = ReadOptionalField bs index 609 ReadLegSecurityTypeIdx
-    let legSecuritySubType = ReadOptionalField bs index 764 ReadLegSecuritySubTypeIdx
-    let legMaturityMonthYear = ReadOptionalField bs index 610 ReadLegMaturityMonthYearIdx
-    let legMaturityDate = ReadOptionalField bs index 611 ReadLegMaturityDateIdx
-    let legCouponPaymentDate = ReadOptionalField bs index 248 ReadLegCouponPaymentDateIdx
-    let legIssueDate = ReadOptionalField bs index 249 ReadLegIssueDateIdx
-    let legRepoCollateralSecurityType = ReadOptionalField bs index 250 ReadLegRepoCollateralSecurityTypeIdx
-    let legRepurchaseTerm = ReadOptionalField bs index 251 ReadLegRepurchaseTermIdx
-    let legRepurchaseRate = ReadOptionalField bs index 252 ReadLegRepurchaseRateIdx
-    let legFactor = ReadOptionalField bs index 253 ReadLegFactorIdx
-    let legCreditRating = ReadOptionalField bs index 257 ReadLegCreditRatingIdx
-    let legInstrRegistry = ReadOptionalField bs index 599 ReadLegInstrRegistryIdx
-    let legCountryOfIssue = ReadOptionalField bs index 596 ReadLegCountryOfIssueIdx
-    let legStateOrProvinceOfIssue = ReadOptionalField bs index 597 ReadLegStateOrProvinceOfIssueIdx
-    let legLocaleOfIssue = ReadOptionalField bs index 598 ReadLegLocaleOfIssueIdx
-    let legRedemptionDate = ReadOptionalField bs index 254 ReadLegRedemptionDateIdx
-    let legStrikePrice = ReadOptionalField bs index 612 ReadLegStrikePriceIdx
-    let legStrikeCurrency = ReadOptionalField bs index 942 ReadLegStrikeCurrencyIdx
-    let legOptAttribute = ReadOptionalField bs index 613 ReadLegOptAttributeIdx
-    let legContractMultiplier = ReadOptionalField bs index 614 ReadLegContractMultiplierIdx
-    let legCouponRate = ReadOptionalField bs index 615 ReadLegCouponRateIdx
-    let legSecurityExchange = ReadOptionalField bs index 616 ReadLegSecurityExchangeIdx
-    let legIssuer = ReadOptionalField bs index 617 ReadLegIssuerIdx
-    let encodedLegIssuer = ReadOptionalField bs index 618 ReadEncodedLegIssuerIdx
-    let legSecurityDesc = ReadOptionalField bs index 620 ReadLegSecurityDescIdx
-    let encodedLegSecurityDesc = ReadOptionalField bs index 621 ReadEncodedLegSecurityDescIdx
-    let legRatioQty = ReadOptionalField bs index 623 ReadLegRatioQtyIdx
-    let legSide = ReadOptionalField bs index 624 ReadLegSideIdx
-    let legCurrency = ReadOptionalField bs index 556 ReadLegCurrencyIdx
-    let legPool = ReadOptionalField bs index 740 ReadLegPoolIdx
-    let legDatedDate = ReadOptionalField bs index 739 ReadLegDatedDateIdx
-    let legContractSettlMonth = ReadOptionalField bs index 955 ReadLegContractSettlMonthIdx
-    let legInterestAccrualDate = ReadOptionalField bs index 956 ReadLegInterestAccrualDateIdx
+let ReadInstrumentLegFG (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
+    let legSymbol = ReadField bs index 600 ReadLegSymbol
+    let legSymbolSfx = ReadOptionalField bs index 601 ReadLegSymbolSfx
+    let legSecurityID = ReadOptionalField bs index 602 ReadLegSecurityID
+    let legSecurityIDSource = ReadOptionalField bs index 603 ReadLegSecurityIDSource
+    let noLegSecurityAltIDGrp = ReadOptionalGroup bs index 604 ReadNoLegSecurityAltIDGrp
+    let legProduct = ReadOptionalField bs index 607 ReadLegProduct
+    let legCFICode = ReadOptionalField bs index 608 ReadLegCFICode
+    let legSecurityType = ReadOptionalField bs index 609 ReadLegSecurityType
+    let legSecuritySubType = ReadOptionalField bs index 764 ReadLegSecuritySubType
+    let legMaturityMonthYear = ReadOptionalField bs index 610 ReadLegMaturityMonthYear
+    let legMaturityDate = ReadOptionalField bs index 611 ReadLegMaturityDate
+    let legCouponPaymentDate = ReadOptionalField bs index 248 ReadLegCouponPaymentDate
+    let legIssueDate = ReadOptionalField bs index 249 ReadLegIssueDate
+    let legRepoCollateralSecurityType = ReadOptionalField bs index 250 ReadLegRepoCollateralSecurityType
+    let legRepurchaseTerm = ReadOptionalField bs index 251 ReadLegRepurchaseTerm
+    let legRepurchaseRate = ReadOptionalField bs index 252 ReadLegRepurchaseRate
+    let legFactor = ReadOptionalField bs index 253 ReadLegFactor
+    let legCreditRating = ReadOptionalField bs index 257 ReadLegCreditRating
+    let legInstrRegistry = ReadOptionalField bs index 599 ReadLegInstrRegistry
+    let legCountryOfIssue = ReadOptionalField bs index 596 ReadLegCountryOfIssue
+    let legStateOrProvinceOfIssue = ReadOptionalField bs index 597 ReadLegStateOrProvinceOfIssue
+    let legLocaleOfIssue = ReadOptionalField bs index 598 ReadLegLocaleOfIssue
+    let legRedemptionDate = ReadOptionalField bs index 254 ReadLegRedemptionDate
+    let legStrikePrice = ReadOptionalField bs index 612 ReadLegStrikePrice
+    let legStrikeCurrency = ReadOptionalField bs index 942 ReadLegStrikeCurrency
+    let legOptAttribute = ReadOptionalField bs index 613 ReadLegOptAttribute
+    let legContractMultiplier = ReadOptionalField bs index 614 ReadLegContractMultiplier
+    let legCouponRate = ReadOptionalField bs index 615 ReadLegCouponRate
+    let legSecurityExchange = ReadOptionalField bs index 616 ReadLegSecurityExchange
+    let legIssuer = ReadOptionalField bs index 617 ReadLegIssuer
+    let encodedLegIssuer = ReadOptionalField bs index 618 ReadEncodedLegIssuer
+    let legSecurityDesc = ReadOptionalField bs index 620 ReadLegSecurityDesc
+    let encodedLegSecurityDesc = ReadOptionalField bs index 621 ReadEncodedLegSecurityDesc
+    let legRatioQty = ReadOptionalField bs index 623 ReadLegRatioQty
+    let legSide = ReadOptionalField bs index 624 ReadLegSide
+    let legCurrency = ReadOptionalField bs index 556 ReadLegCurrency
+    let legPool = ReadOptionalField bs index 740 ReadLegPool
+    let legDatedDate = ReadOptionalField bs index 739 ReadLegDatedDate
+    let legContractSettlMonth = ReadOptionalField bs index 955 ReadLegContractSettlMonth
+    let legInterestAccrualDate = ReadOptionalField bs index 956 ReadLegInterestAccrualDate
     let ci:InstrumentLegFG = {
         LegSymbol = legSymbol
         LegSymbolSfx = legSymbolSfx
@@ -496,47 +496,47 @@ let ReadInstrumentLegFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instr
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadInstrumentLegFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
-    let legSymbol = ReadFieldOrdered true bs index 600 ReadLegSymbolIdx
-    let legSymbolSfx = ReadOptionalFieldOrdered true bs index 601 ReadLegSymbolSfxIdx
-    let legSecurityID = ReadOptionalFieldOrdered true bs index 602 ReadLegSecurityIDIdx
-    let legSecurityIDSource = ReadOptionalFieldOrdered true bs index 603 ReadLegSecurityIDSourceIdx
-    let noLegSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 604 ReadNoLegSecurityAltIDGrpIdx
-    let legProduct = ReadOptionalFieldOrdered true bs index 607 ReadLegProductIdx
-    let legCFICode = ReadOptionalFieldOrdered true bs index 608 ReadLegCFICodeIdx
-    let legSecurityType = ReadOptionalFieldOrdered true bs index 609 ReadLegSecurityTypeIdx
-    let legSecuritySubType = ReadOptionalFieldOrdered true bs index 764 ReadLegSecuritySubTypeIdx
-    let legMaturityMonthYear = ReadOptionalFieldOrdered true bs index 610 ReadLegMaturityMonthYearIdx
-    let legMaturityDate = ReadOptionalFieldOrdered true bs index 611 ReadLegMaturityDateIdx
-    let legCouponPaymentDate = ReadOptionalFieldOrdered true bs index 248 ReadLegCouponPaymentDateIdx
-    let legIssueDate = ReadOptionalFieldOrdered true bs index 249 ReadLegIssueDateIdx
-    let legRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 250 ReadLegRepoCollateralSecurityTypeIdx
-    let legRepurchaseTerm = ReadOptionalFieldOrdered true bs index 251 ReadLegRepurchaseTermIdx
-    let legRepurchaseRate = ReadOptionalFieldOrdered true bs index 252 ReadLegRepurchaseRateIdx
-    let legFactor = ReadOptionalFieldOrdered true bs index 253 ReadLegFactorIdx
-    let legCreditRating = ReadOptionalFieldOrdered true bs index 257 ReadLegCreditRatingIdx
-    let legInstrRegistry = ReadOptionalFieldOrdered true bs index 599 ReadLegInstrRegistryIdx
-    let legCountryOfIssue = ReadOptionalFieldOrdered true bs index 596 ReadLegCountryOfIssueIdx
-    let legStateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 597 ReadLegStateOrProvinceOfIssueIdx
-    let legLocaleOfIssue = ReadOptionalFieldOrdered true bs index 598 ReadLegLocaleOfIssueIdx
-    let legRedemptionDate = ReadOptionalFieldOrdered true bs index 254 ReadLegRedemptionDateIdx
-    let legStrikePrice = ReadOptionalFieldOrdered true bs index 612 ReadLegStrikePriceIdx
-    let legStrikeCurrency = ReadOptionalFieldOrdered true bs index 942 ReadLegStrikeCurrencyIdx
-    let legOptAttribute = ReadOptionalFieldOrdered true bs index 613 ReadLegOptAttributeIdx
-    let legContractMultiplier = ReadOptionalFieldOrdered true bs index 614 ReadLegContractMultiplierIdx
-    let legCouponRate = ReadOptionalFieldOrdered true bs index 615 ReadLegCouponRateIdx
-    let legSecurityExchange = ReadOptionalFieldOrdered true bs index 616 ReadLegSecurityExchangeIdx
-    let legIssuer = ReadOptionalFieldOrdered true bs index 617 ReadLegIssuerIdx
-    let encodedLegIssuer = ReadOptionalFieldOrdered true bs index 618 ReadEncodedLegIssuerIdx
-    let legSecurityDesc = ReadOptionalFieldOrdered true bs index 620 ReadLegSecurityDescIdx
-    let encodedLegSecurityDesc = ReadOptionalFieldOrdered true bs index 621 ReadEncodedLegSecurityDescIdx
-    let legRatioQty = ReadOptionalFieldOrdered true bs index 623 ReadLegRatioQtyIdx
-    let legSide = ReadOptionalFieldOrdered true bs index 624 ReadLegSideIdx
-    let legCurrency = ReadOptionalFieldOrdered true bs index 556 ReadLegCurrencyIdx
-    let legPool = ReadOptionalFieldOrdered true bs index 740 ReadLegPoolIdx
-    let legDatedDate = ReadOptionalFieldOrdered true bs index 739 ReadLegDatedDateIdx
-    let legContractSettlMonth = ReadOptionalFieldOrdered true bs index 955 ReadLegContractSettlMonthIdx
-    let legInterestAccrualDate = ReadOptionalFieldOrdered true bs index 956 ReadLegInterestAccrualDateIdx
+let ReadInstrumentLegFGOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLegFG =
+    let legSymbol = ReadFieldOrdered true bs index 600 ReadLegSymbol
+    let legSymbolSfx = ReadOptionalFieldOrdered true bs index 601 ReadLegSymbolSfx
+    let legSecurityID = ReadOptionalFieldOrdered true bs index 602 ReadLegSecurityID
+    let legSecurityIDSource = ReadOptionalFieldOrdered true bs index 603 ReadLegSecurityIDSource
+    let noLegSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 604 ReadNoLegSecurityAltIDGrp
+    let legProduct = ReadOptionalFieldOrdered true bs index 607 ReadLegProduct
+    let legCFICode = ReadOptionalFieldOrdered true bs index 608 ReadLegCFICode
+    let legSecurityType = ReadOptionalFieldOrdered true bs index 609 ReadLegSecurityType
+    let legSecuritySubType = ReadOptionalFieldOrdered true bs index 764 ReadLegSecuritySubType
+    let legMaturityMonthYear = ReadOptionalFieldOrdered true bs index 610 ReadLegMaturityMonthYear
+    let legMaturityDate = ReadOptionalFieldOrdered true bs index 611 ReadLegMaturityDate
+    let legCouponPaymentDate = ReadOptionalFieldOrdered true bs index 248 ReadLegCouponPaymentDate
+    let legIssueDate = ReadOptionalFieldOrdered true bs index 249 ReadLegIssueDate
+    let legRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 250 ReadLegRepoCollateralSecurityType
+    let legRepurchaseTerm = ReadOptionalFieldOrdered true bs index 251 ReadLegRepurchaseTerm
+    let legRepurchaseRate = ReadOptionalFieldOrdered true bs index 252 ReadLegRepurchaseRate
+    let legFactor = ReadOptionalFieldOrdered true bs index 253 ReadLegFactor
+    let legCreditRating = ReadOptionalFieldOrdered true bs index 257 ReadLegCreditRating
+    let legInstrRegistry = ReadOptionalFieldOrdered true bs index 599 ReadLegInstrRegistry
+    let legCountryOfIssue = ReadOptionalFieldOrdered true bs index 596 ReadLegCountryOfIssue
+    let legStateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 597 ReadLegStateOrProvinceOfIssue
+    let legLocaleOfIssue = ReadOptionalFieldOrdered true bs index 598 ReadLegLocaleOfIssue
+    let legRedemptionDate = ReadOptionalFieldOrdered true bs index 254 ReadLegRedemptionDate
+    let legStrikePrice = ReadOptionalFieldOrdered true bs index 612 ReadLegStrikePrice
+    let legStrikeCurrency = ReadOptionalFieldOrdered true bs index 942 ReadLegStrikeCurrency
+    let legOptAttribute = ReadOptionalFieldOrdered true bs index 613 ReadLegOptAttribute
+    let legContractMultiplier = ReadOptionalFieldOrdered true bs index 614 ReadLegContractMultiplier
+    let legCouponRate = ReadOptionalFieldOrdered true bs index 615 ReadLegCouponRate
+    let legSecurityExchange = ReadOptionalFieldOrdered true bs index 616 ReadLegSecurityExchange
+    let legIssuer = ReadOptionalFieldOrdered true bs index 617 ReadLegIssuer
+    let encodedLegIssuer = ReadOptionalFieldOrdered true bs index 618 ReadEncodedLegIssuer
+    let legSecurityDesc = ReadOptionalFieldOrdered true bs index 620 ReadLegSecurityDesc
+    let encodedLegSecurityDesc = ReadOptionalFieldOrdered true bs index 621 ReadEncodedLegSecurityDesc
+    let legRatioQty = ReadOptionalFieldOrdered true bs index 623 ReadLegRatioQty
+    let legSide = ReadOptionalFieldOrdered true bs index 624 ReadLegSide
+    let legCurrency = ReadOptionalFieldOrdered true bs index 556 ReadLegCurrency
+    let legPool = ReadOptionalFieldOrdered true bs index 740 ReadLegPool
+    let legDatedDate = ReadOptionalFieldOrdered true bs index 739 ReadLegDatedDate
+    let legContractSettlMonth = ReadOptionalFieldOrdered true bs index 955 ReadLegContractSettlMonth
+    let legInterestAccrualDate = ReadOptionalFieldOrdered true bs index 956 ReadLegInterestAccrualDate
     let ci:InstrumentLegFG = {
         LegSymbol = legSymbol
         LegSymbolSfx = legSymbolSfx
@@ -583,9 +583,9 @@ let ReadInstrumentLegFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // group
-let ReadNoLegStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegStipulationsGrp =
-    let legStipulationType = ReadFieldOrdered true bs index 688 ReadLegStipulationTypeIdx
-    let legStipulationValue = ReadOptionalFieldOrdered true bs index 689 ReadLegStipulationValueIdx
+let ReadNoLegStipulationsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegStipulationsGrp =
+    let legStipulationType = ReadFieldOrdered true bs index 688 ReadLegStipulationType
+    let legStipulationValue = ReadOptionalFieldOrdered true bs index 689 ReadLegStipulationValue
     let ci:NoLegStipulationsGrp = {
         LegStipulationType = legStipulationType
         LegStipulationValue = legStipulationValue
@@ -594,19 +594,19 @@ let ReadNoLegStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // group
-let ReadTradeCaptureReportAckNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportAckNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffectIdx
-    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncoveredIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefIDIdx
-    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPriceIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPxIdx
+let ReadTradeCaptureReportAckNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportAckNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffect
+    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncovered
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefID
+    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPrice
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPx
     let ci:TradeCaptureReportAckNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -625,9 +625,9 @@ let ReadTradeCaptureReportAckNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 
 // group
-let ReadNoPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartySubIDsGrp =
-    let partySubID = ReadFieldOrdered true bs index 523 ReadPartySubIDIdx
-    let partySubIDType = ReadOptionalFieldOrdered true bs index 803 ReadPartySubIDTypeIdx
+let ReadNoPartySubIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartySubIDsGrp =
+    let partySubID = ReadFieldOrdered true bs index 523 ReadPartySubID
+    let partySubIDType = ReadOptionalFieldOrdered true bs index 803 ReadPartySubIDType
     let ci:NoPartySubIDsGrp = {
         PartySubID = partySubID
         PartySubIDType = partySubIDType
@@ -636,11 +636,11 @@ let ReadNoPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPa
 
 
 // group
-let ReadNoPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartyIDsGrp =
-    let partyID = ReadFieldOrdered true bs index 448 ReadPartyIDIdx
-    let partyIDSource = ReadOptionalFieldOrdered true bs index 447 ReadPartyIDSourceIdx
-    let partyRole = ReadOptionalFieldOrdered true bs index 452 ReadPartyRoleIdx
-    let noPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 802 ReadNoPartySubIDsGrpIdx
+let ReadNoPartyIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPartyIDsGrp =
+    let partyID = ReadFieldOrdered true bs index 448 ReadPartyID
+    let partyIDSource = ReadOptionalFieldOrdered true bs index 447 ReadPartyIDSource
+    let partyRole = ReadOptionalFieldOrdered true bs index 452 ReadPartyRole
+    let noPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 802 ReadNoPartySubIDsGrp
     let ci:NoPartyIDsGrp = {
         PartyID = partyID
         PartyIDSource = partyIDSource
@@ -651,8 +651,8 @@ let ReadNoPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoParty
 
 
 // group
-let ReadNoClearingInstructionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoClearingInstructionsGrp =
-    let clearingInstruction = ReadFieldOrdered true bs index 577 ReadClearingInstructionIdx
+let ReadNoClearingInstructionsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoClearingInstructionsGrp =
+    let clearingInstruction = ReadFieldOrdered true bs index 577 ReadClearingInstruction
     let ci:NoClearingInstructionsGrp = {
         ClearingInstruction = clearingInstruction
     }
@@ -660,11 +660,11 @@ let ReadNoClearingInstructionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInde
 
 
 // component, random access reader
-let ReadCommissionDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionData =
-    let commission = ReadOptionalField bs index 12 ReadCommissionIdx
-    let commType = ReadOptionalField bs index 13 ReadCommTypeIdx
-    let commCurrency = ReadOptionalField bs index 479 ReadCommCurrencyIdx
-    let fundRenewWaiv = ReadOptionalField bs index 497 ReadFundRenewWaivIdx
+let ReadCommissionData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionData =
+    let commission = ReadOptionalField bs index 12 ReadCommission
+    let commType = ReadOptionalField bs index 13 ReadCommType
+    let commCurrency = ReadOptionalField bs index 479 ReadCommCurrency
+    let fundRenewWaiv = ReadOptionalField bs index 497 ReadFundRenewWaiv
     let ci:CommissionData = {
         Commission = commission
         CommType = commType
@@ -675,11 +675,11 @@ let ReadCommissionDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Commis
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadCommissionDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionData =
-    let commission = ReadOptionalFieldOrdered true bs index 12 ReadCommissionIdx
-    let commType = ReadOptionalFieldOrdered true bs index 13 ReadCommTypeIdx
-    let commCurrency = ReadOptionalFieldOrdered true bs index 479 ReadCommCurrencyIdx
-    let fundRenewWaiv = ReadOptionalFieldOrdered true bs index 497 ReadFundRenewWaivIdx
+let ReadCommissionDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionData =
+    let commission = ReadOptionalFieldOrdered true bs index 12 ReadCommission
+    let commType = ReadOptionalFieldOrdered true bs index 13 ReadCommType
+    let commCurrency = ReadOptionalFieldOrdered true bs index 479 ReadCommCurrency
+    let fundRenewWaiv = ReadOptionalFieldOrdered true bs index 497 ReadFundRenewWaiv
     let ci:CommissionData = {
         Commission = commission
         CommType = commType
@@ -690,10 +690,10 @@ let ReadCommissionDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 
 // group
-let ReadNoContAmtsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContAmtsGrp =
-    let contAmtType = ReadFieldOrdered true bs index 519 ReadContAmtTypeIdx
-    let contAmtValue = ReadOptionalFieldOrdered true bs index 520 ReadContAmtValueIdx
-    let contAmtCurr = ReadOptionalFieldOrdered true bs index 521 ReadContAmtCurrIdx
+let ReadNoContAmtsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContAmtsGrp =
+    let contAmtType = ReadFieldOrdered true bs index 519 ReadContAmtType
+    let contAmtValue = ReadOptionalFieldOrdered true bs index 520 ReadContAmtValue
+    let contAmtCurr = ReadOptionalFieldOrdered true bs index 521 ReadContAmtCurr
     let ci:NoContAmtsGrp = {
         ContAmtType = contAmtType
         ContAmtValue = contAmtValue
@@ -703,9 +703,9 @@ let ReadNoContAmtsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContA
 
 
 // group
-let ReadNoStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStipulationsGrp =
-    let stipulationType = ReadFieldOrdered true bs index 233 ReadStipulationTypeIdx
-    let stipulationValue = ReadOptionalFieldOrdered true bs index 234 ReadStipulationValueIdx
+let ReadNoStipulationsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStipulationsGrp =
+    let stipulationType = ReadFieldOrdered true bs index 233 ReadStipulationType
+    let stipulationValue = ReadOptionalFieldOrdered true bs index 234 ReadStipulationValue
     let ci:NoStipulationsGrp = {
         StipulationType = stipulationType
         StipulationValue = stipulationValue
@@ -714,11 +714,11 @@ let ReadNoStipulationsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoS
 
 
 // group
-let ReadNoMiscFeesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMiscFeesGrp =
-    let miscFeeAmt = ReadFieldOrdered true bs index 137 ReadMiscFeeAmtIdx
-    let miscFeeCurr = ReadOptionalFieldOrdered true bs index 138 ReadMiscFeeCurrIdx
-    let miscFeeType = ReadOptionalFieldOrdered true bs index 139 ReadMiscFeeTypeIdx
-    let miscFeeBasis = ReadOptionalFieldOrdered true bs index 891 ReadMiscFeeBasisIdx
+let ReadNoMiscFeesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMiscFeesGrp =
+    let miscFeeAmt = ReadFieldOrdered true bs index 137 ReadMiscFeeAmt
+    let miscFeeCurr = ReadOptionalFieldOrdered true bs index 138 ReadMiscFeeCurr
+    let miscFeeType = ReadOptionalFieldOrdered true bs index 139 ReadMiscFeeType
+    let miscFeeBasis = ReadOptionalFieldOrdered true bs index 891 ReadMiscFeeBasis
     let ci:NoMiscFeesGrp = {
         MiscFeeAmt = miscFeeAmt
         MiscFeeCurr = miscFeeCurr
@@ -729,13 +729,13 @@ let ReadNoMiscFeesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMiscF
 
 
 // group
-let ReadTradeCaptureReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
+let ReadTradeCaptureReportNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let ci:TradeCaptureReportNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -748,65 +748,65 @@ let ReadTradeCaptureReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // group
-let ReadTradeCaptureReportNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoSidesGrp =
-    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
-    let orderID = ReadFieldOrdered true bs index 37 ReadOrderIDIdx
-    let secondaryOrderID = ReadOptionalFieldOrdered true bs index 198 ReadSecondaryOrderIDIdx
-    let clOrdID = ReadOptionalFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListIDIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCodeIdx
-    let oddLot = ReadOptionalFieldOrdered true bs index 575 ReadOddLotIdx
-    let noClearingInstructionsGrp = ReadOptionalGroupOrdered true bs index 576 ReadNoClearingInstructionsGrpIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let tradeInputSource = ReadOptionalFieldOrdered true bs index 578 ReadTradeInputSourceIdx
-    let tradeInputDevice = ReadOptionalFieldOrdered true bs index 579 ReadTradeInputDeviceIdx
-    let orderInputDevice = ReadOptionalFieldOrdered true bs index 821 ReadOrderInputDeviceIdx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceIDIdx
-    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlagIdx
-    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacityIdx
-    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacityIdx
-    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdTypeIdx
-    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInstIdx
-    let transBkdTime = ReadOptionalFieldOrdered true bs index 483 ReadTransBkdTimeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let timeBracket = ReadOptionalFieldOrdered true bs index 943 ReadTimeBracketIdx
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let grossTradeAmt = ReadOptionalFieldOrdered true bs index 381 ReadGrossTradeAmtIdx
-    let numDaysInterest = ReadOptionalFieldOrdered true bs index 157 ReadNumDaysInterestIdx
-    let exDate = ReadOptionalFieldOrdered true bs index 230 ReadExDateIdx
-    let accruedInterestRate = ReadOptionalFieldOrdered true bs index 158 ReadAccruedInterestRateIdx
-    let accruedInterestAmt = ReadOptionalFieldOrdered true bs index 159 ReadAccruedInterestAmtIdx
-    let interestAtMaturity = ReadOptionalFieldOrdered true bs index 738 ReadInterestAtMaturityIdx
-    let endAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 920 ReadEndAccruedInterestAmtIdx
-    let startCash = ReadOptionalFieldOrdered true bs index 921 ReadStartCashIdx
-    let endCash = ReadOptionalFieldOrdered true bs index 922 ReadEndCashIdx
-    let concession = ReadOptionalFieldOrdered true bs index 238 ReadConcessionIdx
-    let totalTakedown = ReadOptionalFieldOrdered true bs index 237 ReadTotalTakedownIdx
-    let netMoney = ReadOptionalFieldOrdered true bs index 118 ReadNetMoneyIdx
-    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmtIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRateIdx
-    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalcIdx
-    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffectIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
-    let sideMultiLegReportingType = ReadOptionalFieldOrdered true bs index 752 ReadSideMultiLegReportingTypeIdx
-    let noContAmtsGrp = ReadOptionalGroupOrdered true bs index 518 ReadNoContAmtsGrpIdx
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
-    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrpIdx
-    let exchangeRule = ReadOptionalFieldOrdered true bs index 825 ReadExchangeRuleIdx
-    let tradeAllocIndicator = ReadOptionalFieldOrdered true bs index 826 ReadTradeAllocIndicatorIdx
-    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethodIdx
-    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocIDIdx
-    let tradeCaptureReportNoAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadTradeCaptureReportNoAllocsGrpIdx
+let ReadTradeCaptureReportNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoSidesGrp =
+    let side = ReadFieldOrdered true bs index 54 ReadSide
+    let orderID = ReadFieldOrdered true bs index 37 ReadOrderID
+    let secondaryOrderID = ReadOptionalFieldOrdered true bs index 198 ReadSecondaryOrderID
+    let clOrdID = ReadOptionalFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListID
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
+    let oddLot = ReadOptionalFieldOrdered true bs index 575 ReadOddLot
+    let noClearingInstructionsGrp = ReadOptionalGroupOrdered true bs index 576 ReadNoClearingInstructionsGrp
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let tradeInputSource = ReadOptionalFieldOrdered true bs index 578 ReadTradeInputSource
+    let tradeInputDevice = ReadOptionalFieldOrdered true bs index 579 ReadTradeInputDevice
+    let orderInputDevice = ReadOptionalFieldOrdered true bs index 821 ReadOrderInputDevice
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
+    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
+    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacity
+    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictions
+    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacity
+    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdType
+    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInst
+    let transBkdTime = ReadOptionalFieldOrdered true bs index 483 ReadTransBkdTime
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let timeBracket = ReadOptionalFieldOrdered true bs index 943 ReadTimeBracket
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let grossTradeAmt = ReadOptionalFieldOrdered true bs index 381 ReadGrossTradeAmt
+    let numDaysInterest = ReadOptionalFieldOrdered true bs index 157 ReadNumDaysInterest
+    let exDate = ReadOptionalFieldOrdered true bs index 230 ReadExDate
+    let accruedInterestRate = ReadOptionalFieldOrdered true bs index 158 ReadAccruedInterestRate
+    let accruedInterestAmt = ReadOptionalFieldOrdered true bs index 159 ReadAccruedInterestAmt
+    let interestAtMaturity = ReadOptionalFieldOrdered true bs index 738 ReadInterestAtMaturity
+    let endAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 920 ReadEndAccruedInterestAmt
+    let startCash = ReadOptionalFieldOrdered true bs index 921 ReadStartCash
+    let endCash = ReadOptionalFieldOrdered true bs index 922 ReadEndCash
+    let concession = ReadOptionalFieldOrdered true bs index 238 ReadConcession
+    let totalTakedown = ReadOptionalFieldOrdered true bs index 237 ReadTotalTakedown
+    let netMoney = ReadOptionalFieldOrdered true bs index 118 ReadNetMoney
+    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmt
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRate
+    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalc
+    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffect
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
+    let sideMultiLegReportingType = ReadOptionalFieldOrdered true bs index 752 ReadSideMultiLegReportingType
+    let noContAmtsGrp = ReadOptionalGroupOrdered true bs index 518 ReadNoContAmtsGrp
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
+    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrp
+    let exchangeRule = ReadOptionalFieldOrdered true bs index 825 ReadExchangeRule
+    let tradeAllocIndicator = ReadOptionalFieldOrdered true bs index 826 ReadTradeAllocIndicator
+    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
+    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
+    let tradeCaptureReportNoAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadTradeCaptureReportNoAllocsGrp
     let ci:TradeCaptureReportNoSidesGrp = {
         Side = side
         OrderID = orderID
@@ -871,19 +871,19 @@ let ReadTradeCaptureReportNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufI
 
 
 // group
-let ReadTradeCaptureReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffectIdx
-    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncoveredIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefIDIdx
-    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPriceIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPxIdx
+let ReadTradeCaptureReportNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TradeCaptureReportNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffect
+    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncovered
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefID
+    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPrice
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPx
     let ci:TradeCaptureReportNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -902,9 +902,9 @@ let ReadTradeCaptureReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // group
-let ReadNoPosAmtGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPosAmtGrp =
-    let posAmtType = ReadFieldOrdered true bs index 707 ReadPosAmtTypeIdx
-    let posAmt = ReadFieldOrdered true bs index 708 ReadPosAmtIdx
+let ReadNoPosAmtGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPosAmtGrp =
+    let posAmtType = ReadFieldOrdered true bs index 707 ReadPosAmtType
+    let posAmt = ReadFieldOrdered true bs index 708 ReadPosAmt
     let ci:NoPosAmtGrp = {
         PosAmtType = posAmtType
         PosAmt = posAmt
@@ -913,8 +913,8 @@ let ReadNoPosAmtGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoPosAmtG
 
 
 // component, random access reader
-let ReadPositionAmountDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionAmountData =
-    let noPosAmtGrp = ReadGroup bs index 753 ReadNoPosAmtGrpIdx
+let ReadPositionAmountData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionAmountData =
+    let noPosAmtGrp = ReadGroup bs index 753 ReadNoPosAmtGrp
     let ci:PositionAmountData = {
         NoPosAmtGrp = noPosAmtGrp
     }
@@ -922,8 +922,8 @@ let ReadPositionAmountDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Po
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadPositionAmountDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionAmountData =
-    let noPosAmtGrp = ReadGroup bs index 753 ReadNoPosAmtGrpIdx
+let ReadPositionAmountDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PositionAmountData =
+    let noPosAmtGrp = ReadGroup bs index 753 ReadNoPosAmtGrp
     let ci:PositionAmountData = {
         NoPosAmtGrp = noPosAmtGrp
     }
@@ -931,9 +931,9 @@ let ReadPositionAmountDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.
 
 
 // group
-let ReadNoSettlPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartySubIDsGrp =
-    let settlPartySubID = ReadFieldOrdered true bs index 785 ReadSettlPartySubIDIdx
-    let settlPartySubIDType = ReadOptionalFieldOrdered true bs index 786 ReadSettlPartySubIDTypeIdx
+let ReadNoSettlPartySubIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartySubIDsGrp =
+    let settlPartySubID = ReadFieldOrdered true bs index 785 ReadSettlPartySubID
+    let settlPartySubIDType = ReadOptionalFieldOrdered true bs index 786 ReadSettlPartySubIDType
     let ci:NoSettlPartySubIDsGrp = {
         SettlPartySubID = settlPartySubID
         SettlPartySubIDType = settlPartySubIDType
@@ -942,11 +942,11 @@ let ReadNoSettlPartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // group
-let ReadNoSettlPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartyIDsGrp =
-    let settlPartyID = ReadFieldOrdered true bs index 782 ReadSettlPartyIDIdx
-    let settlPartyIDSource = ReadOptionalFieldOrdered true bs index 783 ReadSettlPartyIDSourceIdx
-    let settlPartyRole = ReadOptionalFieldOrdered true bs index 784 ReadSettlPartyRoleIdx
-    let noSettlPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 801 ReadNoSettlPartySubIDsGrpIdx
+let ReadNoSettlPartyIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlPartyIDsGrp =
+    let settlPartyID = ReadFieldOrdered true bs index 782 ReadSettlPartyID
+    let settlPartyIDSource = ReadOptionalFieldOrdered true bs index 783 ReadSettlPartyIDSource
+    let settlPartyRole = ReadOptionalFieldOrdered true bs index 784 ReadSettlPartyRole
+    let noSettlPartySubIDsGrp = ReadOptionalGroupOrdered true bs index 801 ReadNoSettlPartySubIDsGrp
     let ci:NoSettlPartyIDsGrp = {
         SettlPartyID = settlPartyID
         SettlPartyIDSource = settlPartyIDSource
@@ -957,10 +957,10 @@ let ReadNoSettlPartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadNoDlvyInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDlvyInstGrp =
-    let settlInstSource = ReadFieldOrdered true bs index 165 ReadSettlInstSourceIdx
-    let dlvyInstType = ReadOptionalFieldOrdered true bs index 787 ReadDlvyInstTypeIdx
-    let noSettlPartyIDsGrp = ReadOptionalGroupOrdered true bs index 781 ReadNoSettlPartyIDsGrpIdx
+let ReadNoDlvyInstGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDlvyInstGrp =
+    let settlInstSource = ReadFieldOrdered true bs index 165 ReadSettlInstSource
+    let dlvyInstType = ReadOptionalFieldOrdered true bs index 787 ReadDlvyInstType
+    let noSettlPartyIDsGrp = ReadOptionalGroupOrdered true bs index 781 ReadNoSettlPartyIDsGrp
     let ci:NoDlvyInstGrp = {
         SettlInstSource = settlInstSource
         DlvyInstType = dlvyInstType
@@ -970,12 +970,12 @@ let ReadNoDlvyInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDlvyI
 
 
 // component, random access reader
-let ReadSettlInstructionsDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlInstructionsData =
-    let settlDeliveryType = ReadOptionalField bs index 172 ReadSettlDeliveryTypeIdx
-    let standInstDbType = ReadOptionalField bs index 169 ReadStandInstDbTypeIdx
-    let standInstDbName = ReadOptionalField bs index 170 ReadStandInstDbNameIdx
-    let standInstDbID = ReadOptionalField bs index 171 ReadStandInstDbIDIdx
-    let noDlvyInstGrp = ReadOptionalGroup bs index 85 ReadNoDlvyInstGrpIdx
+let ReadSettlInstructionsData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlInstructionsData =
+    let settlDeliveryType = ReadOptionalField bs index 172 ReadSettlDeliveryType
+    let standInstDbType = ReadOptionalField bs index 169 ReadStandInstDbType
+    let standInstDbName = ReadOptionalField bs index 170 ReadStandInstDbName
+    let standInstDbID = ReadOptionalField bs index 171 ReadStandInstDbID
+    let noDlvyInstGrp = ReadOptionalGroup bs index 85 ReadNoDlvyInstGrp
     let ci:SettlInstructionsData = {
         SettlDeliveryType = settlDeliveryType
         StandInstDbType = standInstDbType
@@ -987,12 +987,12 @@ let ReadSettlInstructionsDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadSettlInstructionsDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlInstructionsData =
-    let settlDeliveryType = ReadOptionalFieldOrdered true bs index 172 ReadSettlDeliveryTypeIdx
-    let standInstDbType = ReadOptionalFieldOrdered true bs index 169 ReadStandInstDbTypeIdx
-    let standInstDbName = ReadOptionalFieldOrdered true bs index 170 ReadStandInstDbNameIdx
-    let standInstDbID = ReadOptionalFieldOrdered true bs index 171 ReadStandInstDbIDIdx
-    let noDlvyInstGrp = ReadOptionalGroupOrdered true bs index 85 ReadNoDlvyInstGrpIdx
+let ReadSettlInstructionsDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlInstructionsData =
+    let settlDeliveryType = ReadOptionalFieldOrdered true bs index 172 ReadSettlDeliveryType
+    let standInstDbType = ReadOptionalFieldOrdered true bs index 169 ReadStandInstDbType
+    let standInstDbName = ReadOptionalFieldOrdered true bs index 170 ReadStandInstDbName
+    let standInstDbID = ReadOptionalFieldOrdered true bs index 171 ReadStandInstDbID
+    let noDlvyInstGrp = ReadOptionalGroupOrdered true bs index 85 ReadNoDlvyInstGrp
     let ci:SettlInstructionsData = {
         SettlDeliveryType = settlDeliveryType
         StandInstDbType = standInstDbType
@@ -1004,28 +1004,28 @@ let ReadSettlInstructionsDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndex
 
 
 // group
-let ReadNoSettlInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlInstGrp =
-    let settlInstID = ReadFieldOrdered true bs index 162 ReadSettlInstIDIdx
-    let settlInstTransType = ReadOptionalFieldOrdered true bs index 163 ReadSettlInstTransTypeIdx
-    let settlInstRefID = ReadOptionalFieldOrdered true bs index 214 ReadSettlInstRefIDIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let product = ReadOptionalFieldOrdered true bs index 460 ReadProductIdx
-    let securityType = ReadOptionalFieldOrdered true bs index 167 ReadSecurityTypeIdx
-    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICodeIdx
-    let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTimeIdx
-    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTimeIdx
-    let lastUpdateTime = ReadOptionalFieldOrdered true bs index 779 ReadLastUpdateTimeIdx
-    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataIdxOrdered
-    let paymentMethod = ReadOptionalFieldOrdered true bs index 492 ReadPaymentMethodIdx
-    let paymentRef = ReadOptionalFieldOrdered true bs index 476 ReadPaymentRefIdx
-    let cardHolderName = ReadOptionalFieldOrdered true bs index 488 ReadCardHolderNameIdx
-    let cardNumber = ReadOptionalFieldOrdered true bs index 489 ReadCardNumberIdx
-    let cardStartDate = ReadOptionalFieldOrdered true bs index 503 ReadCardStartDateIdx
-    let cardExpDate = ReadOptionalFieldOrdered true bs index 490 ReadCardExpDateIdx
-    let cardIssNum = ReadOptionalFieldOrdered true bs index 491 ReadCardIssNumIdx
-    let paymentDate = ReadOptionalFieldOrdered true bs index 504 ReadPaymentDateIdx
-    let paymentRemitterID = ReadOptionalFieldOrdered true bs index 505 ReadPaymentRemitterIDIdx
+let ReadNoSettlInstGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSettlInstGrp =
+    let settlInstID = ReadFieldOrdered true bs index 162 ReadSettlInstID
+    let settlInstTransType = ReadOptionalFieldOrdered true bs index 163 ReadSettlInstTransType
+    let settlInstRefID = ReadOptionalFieldOrdered true bs index 214 ReadSettlInstRefID
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let product = ReadOptionalFieldOrdered true bs index 460 ReadProduct
+    let securityType = ReadOptionalFieldOrdered true bs index 167 ReadSecurityType
+    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICode
+    let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTime
+    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTime
+    let lastUpdateTime = ReadOptionalFieldOrdered true bs index 779 ReadLastUpdateTime
+    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataOrdered
+    let paymentMethod = ReadOptionalFieldOrdered true bs index 492 ReadPaymentMethod
+    let paymentRef = ReadOptionalFieldOrdered true bs index 476 ReadPaymentRef
+    let cardHolderName = ReadOptionalFieldOrdered true bs index 488 ReadCardHolderName
+    let cardNumber = ReadOptionalFieldOrdered true bs index 489 ReadCardNumber
+    let cardStartDate = ReadOptionalFieldOrdered true bs index 503 ReadCardStartDate
+    let cardExpDate = ReadOptionalFieldOrdered true bs index 490 ReadCardExpDate
+    let cardIssNum = ReadOptionalFieldOrdered true bs index 491 ReadCardIssNum
+    let paymentDate = ReadOptionalFieldOrdered true bs index 504 ReadPaymentDate
+    let paymentRemitterID = ReadOptionalFieldOrdered true bs index 505 ReadPaymentRemitterID
     let ci:NoSettlInstGrp = {
         SettlInstID = settlInstID
         SettlInstTransType = settlInstTransType
@@ -1053,10 +1053,10 @@ let ReadNoSettlInstGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSett
 
 
 // group
-let ReadNoTrdRegTimestampsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTrdRegTimestampsGrp =
-    let trdRegTimestamp = ReadFieldOrdered true bs index 769 ReadTrdRegTimestampIdx
-    let trdRegTimestampType = ReadOptionalFieldOrdered true bs index 770 ReadTrdRegTimestampTypeIdx
-    let trdRegTimestampOrigin = ReadOptionalFieldOrdered true bs index 771 ReadTrdRegTimestampOriginIdx
+let ReadNoTrdRegTimestampsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTrdRegTimestampsGrp =
+    let trdRegTimestamp = ReadFieldOrdered true bs index 769 ReadTrdRegTimestamp
+    let trdRegTimestampType = ReadOptionalFieldOrdered true bs index 770 ReadTrdRegTimestampType
+    let trdRegTimestampOrigin = ReadOptionalFieldOrdered true bs index 771 ReadTrdRegTimestampOrigin
     let ci:NoTrdRegTimestampsGrp = {
         TrdRegTimestamp = trdRegTimestamp
         TrdRegTimestampType = trdRegTimestampType
@@ -1066,8 +1066,8 @@ let ReadNoTrdRegTimestampsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // component, random access reader
-let ReadTrdRegTimestampsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TrdRegTimestamps =
-    let noTrdRegTimestampsGrp = ReadGroup bs index 768 ReadNoTrdRegTimestampsGrpIdx
+let ReadTrdRegTimestamps (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TrdRegTimestamps =
+    let noTrdRegTimestampsGrp = ReadGroup bs index 768 ReadNoTrdRegTimestampsGrp
     let ci:TrdRegTimestamps = {
         NoTrdRegTimestampsGrp = noTrdRegTimestampsGrp
     }
@@ -1075,8 +1075,8 @@ let ReadTrdRegTimestampsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TrdR
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadTrdRegTimestampsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TrdRegTimestamps =
-    let noTrdRegTimestampsGrp = ReadGroup bs index 768 ReadNoTrdRegTimestampsGrpIdx
+let ReadTrdRegTimestampsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : TrdRegTimestamps =
+    let noTrdRegTimestampsGrp = ReadGroup bs index 768 ReadNoTrdRegTimestampsGrp
     let ci:TrdRegTimestamps = {
         NoTrdRegTimestampsGrp = noTrdRegTimestampsGrp
     }
@@ -1084,35 +1084,35 @@ let ReadTrdRegTimestampsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadAllocationReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatusIdx
-    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPriceIdx
-    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQtyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCodeIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let notifyBrokerOfCredit = ReadOptionalFieldOrdered true bs index 208 ReadNotifyBrokerOfCreditIdx
-    let allocHandlInst = ReadOptionalFieldOrdered true bs index 209 ReadAllocHandlInstIdx
-    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocTextIdx
-    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocTextIdx
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let allocAvgPx = ReadOptionalFieldOrdered true bs index 153 ReadAllocAvgPxIdx
-    let allocNetMoney = ReadOptionalFieldOrdered true bs index 154 ReadAllocNetMoneyIdx
-    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmtIdx
-    let allocSettlCurrAmt = ReadOptionalFieldOrdered true bs index 737 ReadAllocSettlCurrAmtIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRateIdx
-    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalcIdx
-    let allocAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 742 ReadAllocAccruedInterestAmtIdx
-    let allocInterestAtMaturity = ReadOptionalFieldOrdered true bs index 741 ReadAllocInterestAtMaturityIdx
-    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrpIdx
-    let noClearingInstructionsGrp = ReadOptionalGroupOrdered true bs index 576 ReadNoClearingInstructionsGrpIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let allocSettlInstType = ReadOptionalFieldOrdered true bs index 780 ReadAllocSettlInstTypeIdx
-    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataIdxOrdered
+let ReadAllocationReportNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatus
+    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
+    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQty
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let notifyBrokerOfCredit = ReadOptionalFieldOrdered true bs index 208 ReadNotifyBrokerOfCredit
+    let allocHandlInst = ReadOptionalFieldOrdered true bs index 209 ReadAllocHandlInst
+    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocText
+    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocText
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let allocAvgPx = ReadOptionalFieldOrdered true bs index 153 ReadAllocAvgPx
+    let allocNetMoney = ReadOptionalFieldOrdered true bs index 154 ReadAllocNetMoney
+    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmt
+    let allocSettlCurrAmt = ReadOptionalFieldOrdered true bs index 737 ReadAllocSettlCurrAmt
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRate
+    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalc
+    let allocAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 742 ReadAllocAccruedInterestAmt
+    let allocInterestAtMaturity = ReadOptionalFieldOrdered true bs index 741 ReadAllocInterestAtMaturity
+    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrp
+    let noClearingInstructionsGrp = ReadOptionalGroupOrdered true bs index 576 ReadNoClearingInstructionsGrp
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let allocSettlInstType = ReadOptionalFieldOrdered true bs index 780 ReadAllocSettlInstType
+    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataOrdered
     let ci:AllocationReportNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -1147,38 +1147,38 @@ let ReadAllocationReportNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // group
-let ReadAllocationInstructionNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatusIdx
-    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPriceIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCodeIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let notifyBrokerOfCredit = ReadOptionalFieldOrdered true bs index 208 ReadNotifyBrokerOfCreditIdx
-    let allocHandlInst = ReadOptionalFieldOrdered true bs index 209 ReadAllocHandlInstIdx
-    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocTextIdx
-    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocTextIdx
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let allocAvgPx = ReadOptionalFieldOrdered true bs index 153 ReadAllocAvgPxIdx
-    let allocNetMoney = ReadOptionalFieldOrdered true bs index 154 ReadAllocNetMoneyIdx
-    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmtIdx
-    let allocSettlCurrAmt = ReadOptionalFieldOrdered true bs index 737 ReadAllocSettlCurrAmtIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRateIdx
-    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalcIdx
-    let accruedInterestAmt = ReadOptionalFieldOrdered true bs index 159 ReadAccruedInterestAmtIdx
-    let allocAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 742 ReadAllocAccruedInterestAmtIdx
-    let allocInterestAtMaturity = ReadOptionalFieldOrdered true bs index 741 ReadAllocInterestAtMaturityIdx
-    let settlInstMode = ReadOptionalFieldOrdered true bs index 160 ReadSettlInstModeIdx
-    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrpIdx
-    let noClearingInstructions = ReadOptionalFieldOrdered true bs index 576 ReadNoClearingInstructionsIdx
-    let clearingInstruction = ReadOptionalFieldOrdered true bs index 577 ReadClearingInstructionIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let allocSettlInstType = ReadOptionalFieldOrdered true bs index 780 ReadAllocSettlInstTypeIdx
-    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataIdxOrdered
+let ReadAllocationInstructionNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatus
+    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let notifyBrokerOfCredit = ReadOptionalFieldOrdered true bs index 208 ReadNotifyBrokerOfCredit
+    let allocHandlInst = ReadOptionalFieldOrdered true bs index 209 ReadAllocHandlInst
+    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocText
+    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocText
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let allocAvgPx = ReadOptionalFieldOrdered true bs index 153 ReadAllocAvgPx
+    let allocNetMoney = ReadOptionalFieldOrdered true bs index 154 ReadAllocNetMoney
+    let settlCurrAmt = ReadOptionalFieldOrdered true bs index 119 ReadSettlCurrAmt
+    let allocSettlCurrAmt = ReadOptionalFieldOrdered true bs index 737 ReadAllocSettlCurrAmt
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let settlCurrFxRate = ReadOptionalFieldOrdered true bs index 155 ReadSettlCurrFxRate
+    let settlCurrFxRateCalc = ReadOptionalFieldOrdered true bs index 156 ReadSettlCurrFxRateCalc
+    let accruedInterestAmt = ReadOptionalFieldOrdered true bs index 159 ReadAccruedInterestAmt
+    let allocAccruedInterestAmt = ReadOptionalFieldOrdered true bs index 742 ReadAllocAccruedInterestAmt
+    let allocInterestAtMaturity = ReadOptionalFieldOrdered true bs index 741 ReadAllocInterestAtMaturity
+    let settlInstMode = ReadOptionalFieldOrdered true bs index 160 ReadSettlInstMode
+    let noMiscFeesGrp = ReadOptionalGroupOrdered true bs index 136 ReadNoMiscFeesGrp
+    let noClearingInstructions = ReadOptionalFieldOrdered true bs index 576 ReadNoClearingInstructions
+    let clearingInstruction = ReadOptionalFieldOrdered true bs index 577 ReadClearingInstruction
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let allocSettlInstType = ReadOptionalFieldOrdered true bs index 780 ReadAllocSettlInstType
+    let settlInstructionsData = ReadComponentOrdered true bs index ReadSettlInstructionsDataOrdered
     let ci:AllocationInstructionNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -1216,8 +1216,8 @@ let ReadAllocationInstructionNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // component, random access reader
-let ReadSettlPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlParties =
-    let noSettlPartyIDsGrp = ReadOptionalGroup bs index 781 ReadNoSettlPartyIDsGrpIdx
+let ReadSettlParties (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlParties =
+    let noSettlPartyIDsGrp = ReadOptionalGroup bs index 781 ReadNoSettlPartyIDsGrp
     let ci:SettlParties = {
         NoSettlPartyIDsGrp = noSettlPartyIDsGrp
     }
@@ -1225,8 +1225,8 @@ let ReadSettlPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlPar
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadSettlPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlParties =
-    let noSettlPartyIDsGrp = ReadOptionalGroupOrdered true bs index 781 ReadNoSettlPartyIDsGrpIdx
+let ReadSettlPartiesOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SettlParties =
+    let noSettlPartyIDsGrp = ReadOptionalGroupOrdered true bs index 781 ReadNoSettlPartyIDsGrp
     let ci:SettlParties = {
         NoSettlPartyIDsGrp = noSettlPartyIDsGrp
     }
@@ -1234,16 +1234,16 @@ let ReadSettlPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // group
-let ReadNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoOrdersGrp =
-    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderIDIdx
-    let secondaryOrderID = ReadOptionalFieldOrdered true bs index 198 ReadSecondaryOrderIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListIDIdx
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
-    let orderQty = ReadOptionalFieldOrdered true bs index 38 ReadOrderQtyIdx
-    let orderAvgPx = ReadOptionalFieldOrdered true bs index 799 ReadOrderAvgPxIdx
-    let orderBookingQty = ReadOptionalFieldOrdered true bs index 800 ReadOrderBookingQtyIdx
+let ReadNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoOrdersGrp =
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderID
+    let secondaryOrderID = ReadOptionalFieldOrdered true bs index 198 ReadSecondaryOrderID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListID
+    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
+    let orderQty = ReadOptionalFieldOrdered true bs index 38 ReadOrderQty
+    let orderAvgPx = ReadOptionalFieldOrdered true bs index 799 ReadOrderAvgPx
+    let orderBookingQty = ReadOptionalFieldOrdered true bs index 800 ReadOrderBookingQty
     let ci:NoOrdersGrp = {
         ClOrdID = clOrdID
         OrderID = orderID
@@ -1259,16 +1259,16 @@ let ReadNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoOrdersG
 
 
 // group
-let ReadListStrikePriceNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ListStrikePriceNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
-    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePxIdx
-    let clOrdID = ReadOptionalFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let price = ReadFieldOrdered true bs index 44 ReadPriceIdx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadListStrikePriceNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ListStrikePriceNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
+    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePx
+    let clOrdID = ReadOptionalFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let price = ReadFieldOrdered true bs index 44 ReadPrice
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:ListStrikePriceNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
         PrevClosePx = prevClosePx
@@ -1284,9 +1284,9 @@ let ReadListStrikePriceNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixB
 
 
 // group
-let ReadNoSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityAltIDGrp =
-    let securityAltID = ReadFieldOrdered true bs index 455 ReadSecurityAltIDIdx
-    let securityAltIDSource = ReadOptionalFieldOrdered true bs index 456 ReadSecurityAltIDSourceIdx
+let ReadNoSecurityAltIDGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityAltIDGrp =
+    let securityAltID = ReadFieldOrdered true bs index 455 ReadSecurityAltID
+    let securityAltIDSource = ReadOptionalFieldOrdered true bs index 456 ReadSecurityAltIDSource
     let ci:NoSecurityAltIDGrp = {
         SecurityAltID = securityAltID
         SecurityAltIDSource = securityAltIDSource
@@ -1295,11 +1295,11 @@ let ReadNoSecurityAltIDGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadNoEventsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoEventsGrp =
-    let eventType = ReadFieldOrdered true bs index 865 ReadEventTypeIdx
-    let eventDate = ReadOptionalFieldOrdered true bs index 866 ReadEventDateIdx
-    let eventPx = ReadOptionalFieldOrdered true bs index 867 ReadEventPxIdx
-    let eventText = ReadOptionalFieldOrdered true bs index 868 ReadEventTextIdx
+let ReadNoEventsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoEventsGrp =
+    let eventType = ReadFieldOrdered true bs index 865 ReadEventType
+    let eventDate = ReadOptionalFieldOrdered true bs index 866 ReadEventDate
+    let eventPx = ReadOptionalFieldOrdered true bs index 867 ReadEventPx
+    let eventText = ReadOptionalFieldOrdered true bs index 868 ReadEventText
     let ci:NoEventsGrp = {
         EventType = eventType
         EventDate = eventDate
@@ -1310,48 +1310,48 @@ let ReadNoEventsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoEventsG
 
 
 // component, random access reader
-let ReadInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
-    let symbol = ReadField bs index 55 ReadSymbolIdx
-    let symbolSfx = ReadOptionalField bs index 65 ReadSymbolSfxIdx
-    let securityID = ReadOptionalField bs index 48 ReadSecurityIDIdx
-    let securityIDSource = ReadOptionalField bs index 22 ReadSecurityIDSourceIdx
-    let noSecurityAltIDGrp = ReadOptionalGroup bs index 454 ReadNoSecurityAltIDGrpIdx
-    let product = ReadOptionalField bs index 460 ReadProductIdx
-    let cFICode = ReadOptionalField bs index 461 ReadCFICodeIdx
-    let securityType = ReadOptionalField bs index 167 ReadSecurityTypeIdx
-    let securitySubType = ReadOptionalField bs index 762 ReadSecuritySubTypeIdx
-    let maturityMonthYear = ReadOptionalField bs index 200 ReadMaturityMonthYearIdx
-    let maturityDate = ReadOptionalField bs index 541 ReadMaturityDateIdx
-    let putOrCall = ReadOptionalField bs index 201 ReadPutOrCallIdx
-    let couponPaymentDate = ReadOptionalField bs index 224 ReadCouponPaymentDateIdx
-    let issueDate = ReadOptionalField bs index 225 ReadIssueDateIdx
-    let repoCollateralSecurityType = ReadOptionalField bs index 239 ReadRepoCollateralSecurityTypeIdx
-    let repurchaseTerm = ReadOptionalField bs index 226 ReadRepurchaseTermIdx
-    let repurchaseRate = ReadOptionalField bs index 227 ReadRepurchaseRateIdx
-    let factor = ReadOptionalField bs index 228 ReadFactorIdx
-    let creditRating = ReadOptionalField bs index 255 ReadCreditRatingIdx
-    let instrRegistry = ReadOptionalField bs index 543 ReadInstrRegistryIdx
-    let countryOfIssue = ReadOptionalField bs index 470 ReadCountryOfIssueIdx
-    let stateOrProvinceOfIssue = ReadOptionalField bs index 471 ReadStateOrProvinceOfIssueIdx
-    let localeOfIssue = ReadOptionalField bs index 472 ReadLocaleOfIssueIdx
-    let redemptionDate = ReadOptionalField bs index 240 ReadRedemptionDateIdx
-    let strikePrice = ReadOptionalField bs index 202 ReadStrikePriceIdx
-    let strikeCurrency = ReadOptionalField bs index 947 ReadStrikeCurrencyIdx
-    let optAttribute = ReadOptionalField bs index 206 ReadOptAttributeIdx
-    let contractMultiplier = ReadOptionalField bs index 231 ReadContractMultiplierIdx
-    let couponRate = ReadOptionalField bs index 223 ReadCouponRateIdx
-    let securityExchange = ReadOptionalField bs index 207 ReadSecurityExchangeIdx
-    let issuer = ReadOptionalField bs index 106 ReadIssuerIdx
-    let encodedIssuer = ReadOptionalField bs index 348 ReadEncodedIssuerIdx
-    let securityDesc = ReadOptionalField bs index 107 ReadSecurityDescIdx
-    let encodedSecurityDesc = ReadOptionalField bs index 350 ReadEncodedSecurityDescIdx
-    let pool = ReadOptionalField bs index 691 ReadPoolIdx
-    let contractSettlMonth = ReadOptionalField bs index 667 ReadContractSettlMonthIdx
-    let cPProgram = ReadOptionalField bs index 875 ReadCPProgramIdx
-    let cPRegType = ReadOptionalField bs index 876 ReadCPRegTypeIdx
-    let noEventsGrp = ReadOptionalGroup bs index 864 ReadNoEventsGrpIdx
-    let datedDate = ReadOptionalField bs index 873 ReadDatedDateIdx
-    let interestAccrualDate = ReadOptionalField bs index 874 ReadInterestAccrualDateIdx
+let ReadInstrument (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
+    let symbol = ReadField bs index 55 ReadSymbol
+    let symbolSfx = ReadOptionalField bs index 65 ReadSymbolSfx
+    let securityID = ReadOptionalField bs index 48 ReadSecurityID
+    let securityIDSource = ReadOptionalField bs index 22 ReadSecurityIDSource
+    let noSecurityAltIDGrp = ReadOptionalGroup bs index 454 ReadNoSecurityAltIDGrp
+    let product = ReadOptionalField bs index 460 ReadProduct
+    let cFICode = ReadOptionalField bs index 461 ReadCFICode
+    let securityType = ReadOptionalField bs index 167 ReadSecurityType
+    let securitySubType = ReadOptionalField bs index 762 ReadSecuritySubType
+    let maturityMonthYear = ReadOptionalField bs index 200 ReadMaturityMonthYear
+    let maturityDate = ReadOptionalField bs index 541 ReadMaturityDate
+    let putOrCall = ReadOptionalField bs index 201 ReadPutOrCall
+    let couponPaymentDate = ReadOptionalField bs index 224 ReadCouponPaymentDate
+    let issueDate = ReadOptionalField bs index 225 ReadIssueDate
+    let repoCollateralSecurityType = ReadOptionalField bs index 239 ReadRepoCollateralSecurityType
+    let repurchaseTerm = ReadOptionalField bs index 226 ReadRepurchaseTerm
+    let repurchaseRate = ReadOptionalField bs index 227 ReadRepurchaseRate
+    let factor = ReadOptionalField bs index 228 ReadFactor
+    let creditRating = ReadOptionalField bs index 255 ReadCreditRating
+    let instrRegistry = ReadOptionalField bs index 543 ReadInstrRegistry
+    let countryOfIssue = ReadOptionalField bs index 470 ReadCountryOfIssue
+    let stateOrProvinceOfIssue = ReadOptionalField bs index 471 ReadStateOrProvinceOfIssue
+    let localeOfIssue = ReadOptionalField bs index 472 ReadLocaleOfIssue
+    let redemptionDate = ReadOptionalField bs index 240 ReadRedemptionDate
+    let strikePrice = ReadOptionalField bs index 202 ReadStrikePrice
+    let strikeCurrency = ReadOptionalField bs index 947 ReadStrikeCurrency
+    let optAttribute = ReadOptionalField bs index 206 ReadOptAttribute
+    let contractMultiplier = ReadOptionalField bs index 231 ReadContractMultiplier
+    let couponRate = ReadOptionalField bs index 223 ReadCouponRate
+    let securityExchange = ReadOptionalField bs index 207 ReadSecurityExchange
+    let issuer = ReadOptionalField bs index 106 ReadIssuer
+    let encodedIssuer = ReadOptionalField bs index 348 ReadEncodedIssuer
+    let securityDesc = ReadOptionalField bs index 107 ReadSecurityDesc
+    let encodedSecurityDesc = ReadOptionalField bs index 350 ReadEncodedSecurityDesc
+    let pool = ReadOptionalField bs index 691 ReadPool
+    let contractSettlMonth = ReadOptionalField bs index 667 ReadContractSettlMonth
+    let cPProgram = ReadOptionalField bs index 875 ReadCPProgram
+    let cPRegType = ReadOptionalField bs index 876 ReadCPRegType
+    let noEventsGrp = ReadOptionalGroup bs index 864 ReadNoEventsGrp
+    let datedDate = ReadOptionalField bs index 873 ReadDatedDate
+    let interestAccrualDate = ReadOptionalField bs index 874 ReadInterestAccrualDate
     let ci:Instrument = {
         Symbol = symbol
         SymbolSfx = symbolSfx
@@ -1399,48 +1399,48 @@ let ReadInstrumentIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
-    let symbol = ReadFieldOrdered true bs index 55 ReadSymbolIdx
-    let symbolSfx = ReadOptionalFieldOrdered true bs index 65 ReadSymbolSfxIdx
-    let securityID = ReadOptionalFieldOrdered true bs index 48 ReadSecurityIDIdx
-    let securityIDSource = ReadOptionalFieldOrdered true bs index 22 ReadSecurityIDSourceIdx
-    let noSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 454 ReadNoSecurityAltIDGrpIdx
-    let product = ReadOptionalFieldOrdered true bs index 460 ReadProductIdx
-    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICodeIdx
-    let securityType = ReadOptionalFieldOrdered true bs index 167 ReadSecurityTypeIdx
-    let securitySubType = ReadOptionalFieldOrdered true bs index 762 ReadSecuritySubTypeIdx
-    let maturityMonthYear = ReadOptionalFieldOrdered true bs index 200 ReadMaturityMonthYearIdx
-    let maturityDate = ReadOptionalFieldOrdered true bs index 541 ReadMaturityDateIdx
-    let putOrCall = ReadOptionalFieldOrdered true bs index 201 ReadPutOrCallIdx
-    let couponPaymentDate = ReadOptionalFieldOrdered true bs index 224 ReadCouponPaymentDateIdx
-    let issueDate = ReadOptionalFieldOrdered true bs index 225 ReadIssueDateIdx
-    let repoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 239 ReadRepoCollateralSecurityTypeIdx
-    let repurchaseTerm = ReadOptionalFieldOrdered true bs index 226 ReadRepurchaseTermIdx
-    let repurchaseRate = ReadOptionalFieldOrdered true bs index 227 ReadRepurchaseRateIdx
-    let factor = ReadOptionalFieldOrdered true bs index 228 ReadFactorIdx
-    let creditRating = ReadOptionalFieldOrdered true bs index 255 ReadCreditRatingIdx
-    let instrRegistry = ReadOptionalFieldOrdered true bs index 543 ReadInstrRegistryIdx
-    let countryOfIssue = ReadOptionalFieldOrdered true bs index 470 ReadCountryOfIssueIdx
-    let stateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 471 ReadStateOrProvinceOfIssueIdx
-    let localeOfIssue = ReadOptionalFieldOrdered true bs index 472 ReadLocaleOfIssueIdx
-    let redemptionDate = ReadOptionalFieldOrdered true bs index 240 ReadRedemptionDateIdx
-    let strikePrice = ReadOptionalFieldOrdered true bs index 202 ReadStrikePriceIdx
-    let strikeCurrency = ReadOptionalFieldOrdered true bs index 947 ReadStrikeCurrencyIdx
-    let optAttribute = ReadOptionalFieldOrdered true bs index 206 ReadOptAttributeIdx
-    let contractMultiplier = ReadOptionalFieldOrdered true bs index 231 ReadContractMultiplierIdx
-    let couponRate = ReadOptionalFieldOrdered true bs index 223 ReadCouponRateIdx
-    let securityExchange = ReadOptionalFieldOrdered true bs index 207 ReadSecurityExchangeIdx
-    let issuer = ReadOptionalFieldOrdered true bs index 106 ReadIssuerIdx
-    let encodedIssuer = ReadOptionalFieldOrdered true bs index 348 ReadEncodedIssuerIdx
-    let securityDesc = ReadOptionalFieldOrdered true bs index 107 ReadSecurityDescIdx
-    let encodedSecurityDesc = ReadOptionalFieldOrdered true bs index 350 ReadEncodedSecurityDescIdx
-    let pool = ReadOptionalFieldOrdered true bs index 691 ReadPoolIdx
-    let contractSettlMonth = ReadOptionalFieldOrdered true bs index 667 ReadContractSettlMonthIdx
-    let cPProgram = ReadOptionalFieldOrdered true bs index 875 ReadCPProgramIdx
-    let cPRegType = ReadOptionalFieldOrdered true bs index 876 ReadCPRegTypeIdx
-    let noEventsGrp = ReadOptionalGroupOrdered true bs index 864 ReadNoEventsGrpIdx
-    let datedDate = ReadOptionalFieldOrdered true bs index 873 ReadDatedDateIdx
-    let interestAccrualDate = ReadOptionalFieldOrdered true bs index 874 ReadInterestAccrualDateIdx
+let ReadInstrumentOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrument =
+    let symbol = ReadFieldOrdered true bs index 55 ReadSymbol
+    let symbolSfx = ReadOptionalFieldOrdered true bs index 65 ReadSymbolSfx
+    let securityID = ReadOptionalFieldOrdered true bs index 48 ReadSecurityID
+    let securityIDSource = ReadOptionalFieldOrdered true bs index 22 ReadSecurityIDSource
+    let noSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 454 ReadNoSecurityAltIDGrp
+    let product = ReadOptionalFieldOrdered true bs index 460 ReadProduct
+    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICode
+    let securityType = ReadOptionalFieldOrdered true bs index 167 ReadSecurityType
+    let securitySubType = ReadOptionalFieldOrdered true bs index 762 ReadSecuritySubType
+    let maturityMonthYear = ReadOptionalFieldOrdered true bs index 200 ReadMaturityMonthYear
+    let maturityDate = ReadOptionalFieldOrdered true bs index 541 ReadMaturityDate
+    let putOrCall = ReadOptionalFieldOrdered true bs index 201 ReadPutOrCall
+    let couponPaymentDate = ReadOptionalFieldOrdered true bs index 224 ReadCouponPaymentDate
+    let issueDate = ReadOptionalFieldOrdered true bs index 225 ReadIssueDate
+    let repoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 239 ReadRepoCollateralSecurityType
+    let repurchaseTerm = ReadOptionalFieldOrdered true bs index 226 ReadRepurchaseTerm
+    let repurchaseRate = ReadOptionalFieldOrdered true bs index 227 ReadRepurchaseRate
+    let factor = ReadOptionalFieldOrdered true bs index 228 ReadFactor
+    let creditRating = ReadOptionalFieldOrdered true bs index 255 ReadCreditRating
+    let instrRegistry = ReadOptionalFieldOrdered true bs index 543 ReadInstrRegistry
+    let countryOfIssue = ReadOptionalFieldOrdered true bs index 470 ReadCountryOfIssue
+    let stateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 471 ReadStateOrProvinceOfIssue
+    let localeOfIssue = ReadOptionalFieldOrdered true bs index 472 ReadLocaleOfIssue
+    let redemptionDate = ReadOptionalFieldOrdered true bs index 240 ReadRedemptionDate
+    let strikePrice = ReadOptionalFieldOrdered true bs index 202 ReadStrikePrice
+    let strikeCurrency = ReadOptionalFieldOrdered true bs index 947 ReadStrikeCurrency
+    let optAttribute = ReadOptionalFieldOrdered true bs index 206 ReadOptAttribute
+    let contractMultiplier = ReadOptionalFieldOrdered true bs index 231 ReadContractMultiplier
+    let couponRate = ReadOptionalFieldOrdered true bs index 223 ReadCouponRate
+    let securityExchange = ReadOptionalFieldOrdered true bs index 207 ReadSecurityExchange
+    let issuer = ReadOptionalFieldOrdered true bs index 106 ReadIssuer
+    let encodedIssuer = ReadOptionalFieldOrdered true bs index 348 ReadEncodedIssuer
+    let securityDesc = ReadOptionalFieldOrdered true bs index 107 ReadSecurityDesc
+    let encodedSecurityDesc = ReadOptionalFieldOrdered true bs index 350 ReadEncodedSecurityDesc
+    let pool = ReadOptionalFieldOrdered true bs index 691 ReadPool
+    let contractSettlMonth = ReadOptionalFieldOrdered true bs index 667 ReadContractSettlMonth
+    let cPProgram = ReadOptionalFieldOrdered true bs index 875 ReadCPProgram
+    let cPRegType = ReadOptionalFieldOrdered true bs index 876 ReadCPRegType
+    let noEventsGrp = ReadOptionalGroupOrdered true bs index 864 ReadNoEventsGrp
+    let datedDate = ReadOptionalFieldOrdered true bs index 873 ReadDatedDate
+    let interestAccrualDate = ReadOptionalFieldOrdered true bs index 874 ReadInterestAccrualDate
     let ci:Instrument = {
         Symbol = symbol
         SymbolSfx = symbolSfx
@@ -1488,8 +1488,8 @@ let ReadInstrumentIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // group
-let ReadNoStrikesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStrikesGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
+let ReadNoStrikesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStrikesGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
     let ci:NoStrikesGrp = {
         Instrument = instrument
     }
@@ -1497,13 +1497,13 @@ let ReadNoStrikesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoStrike
 
 
 // group
-let ReadNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
+let ReadNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let ci:NoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -1516,9 +1516,9 @@ let ReadNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAllocsG
 
 
 // group
-let ReadNoTradingSessionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradingSessionsGrp =
-    let tradingSessionID = ReadFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
+let ReadNoTradingSessionsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradingSessionsGrp =
+    let tradingSessionID = ReadFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
     let ci:NoTradingSessionsGrp = {
         TradingSessionID = tradingSessionID
         TradingSessionSubID = tradingSessionSubID
@@ -1527,8 +1527,8 @@ let ReadNoTradingSessionsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // group
-let ReadNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
+let ReadNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
     let ci:NoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
     }
@@ -1536,12 +1536,12 @@ let ReadNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoUn
 
 
 // component, random access reader
-let ReadOrderQtyDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : OrderQtyData =
-    let orderQty = ReadOptionalField bs index 38 ReadOrderQtyIdx
-    let cashOrderQty = ReadOptionalField bs index 152 ReadCashOrderQtyIdx
-    let orderPercent = ReadOptionalField bs index 516 ReadOrderPercentIdx
-    let roundingDirection = ReadOptionalField bs index 468 ReadRoundingDirectionIdx
-    let roundingModulus = ReadOptionalField bs index 469 ReadRoundingModulusIdx
+let ReadOrderQtyData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : OrderQtyData =
+    let orderQty = ReadOptionalField bs index 38 ReadOrderQty
+    let cashOrderQty = ReadOptionalField bs index 152 ReadCashOrderQty
+    let orderPercent = ReadOptionalField bs index 516 ReadOrderPercent
+    let roundingDirection = ReadOptionalField bs index 468 ReadRoundingDirection
+    let roundingModulus = ReadOptionalField bs index 469 ReadRoundingModulus
     let ci:OrderQtyData = {
         OrderQty = orderQty
         CashOrderQty = cashOrderQty
@@ -1553,12 +1553,12 @@ let ReadOrderQtyDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : OrderQty
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadOrderQtyDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : OrderQtyData =
-    let orderQty = ReadOptionalFieldOrdered true bs index 38 ReadOrderQtyIdx
-    let cashOrderQty = ReadOptionalFieldOrdered true bs index 152 ReadCashOrderQtyIdx
-    let orderPercent = ReadOptionalFieldOrdered true bs index 516 ReadOrderPercentIdx
-    let roundingDirection = ReadOptionalFieldOrdered true bs index 468 ReadRoundingDirectionIdx
-    let roundingModulus = ReadOptionalFieldOrdered true bs index 469 ReadRoundingModulusIdx
+let ReadOrderQtyDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : OrderQtyData =
+    let orderQty = ReadOptionalFieldOrdered true bs index 38 ReadOrderQty
+    let cashOrderQty = ReadOptionalFieldOrdered true bs index 152 ReadCashOrderQty
+    let orderPercent = ReadOptionalFieldOrdered true bs index 516 ReadOrderPercent
+    let roundingDirection = ReadOptionalFieldOrdered true bs index 468 ReadRoundingDirection
+    let roundingModulus = ReadOptionalFieldOrdered true bs index 469 ReadRoundingModulus
     let ci:OrderQtyData = {
         OrderQty = orderQty
         CashOrderQty = cashOrderQty
@@ -1570,15 +1570,15 @@ let ReadOrderQtyDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // component, random access reader
-let ReadSpreadOrBenchmarkCurveDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SpreadOrBenchmarkCurveData =
-    let spread = ReadOptionalField bs index 218 ReadSpreadIdx
-    let benchmarkCurveCurrency = ReadOptionalField bs index 220 ReadBenchmarkCurveCurrencyIdx
-    let benchmarkCurveName = ReadOptionalField bs index 221 ReadBenchmarkCurveNameIdx
-    let benchmarkCurvePoint = ReadOptionalField bs index 222 ReadBenchmarkCurvePointIdx
-    let benchmarkPrice = ReadOptionalField bs index 662 ReadBenchmarkPriceIdx
-    let benchmarkPriceType = ReadOptionalField bs index 663 ReadBenchmarkPriceTypeIdx
-    let benchmarkSecurityID = ReadOptionalField bs index 699 ReadBenchmarkSecurityIDIdx
-    let benchmarkSecurityIDSource = ReadOptionalField bs index 761 ReadBenchmarkSecurityIDSourceIdx
+let ReadSpreadOrBenchmarkCurveData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SpreadOrBenchmarkCurveData =
+    let spread = ReadOptionalField bs index 218 ReadSpread
+    let benchmarkCurveCurrency = ReadOptionalField bs index 220 ReadBenchmarkCurveCurrency
+    let benchmarkCurveName = ReadOptionalField bs index 221 ReadBenchmarkCurveName
+    let benchmarkCurvePoint = ReadOptionalField bs index 222 ReadBenchmarkCurvePoint
+    let benchmarkPrice = ReadOptionalField bs index 662 ReadBenchmarkPrice
+    let benchmarkPriceType = ReadOptionalField bs index 663 ReadBenchmarkPriceType
+    let benchmarkSecurityID = ReadOptionalField bs index 699 ReadBenchmarkSecurityID
+    let benchmarkSecurityIDSource = ReadOptionalField bs index 761 ReadBenchmarkSecurityIDSource
     let ci:SpreadOrBenchmarkCurveData = {
         Spread = spread
         BenchmarkCurveCurrency = benchmarkCurveCurrency
@@ -1593,15 +1593,15 @@ let ReadSpreadOrBenchmarkCurveDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadSpreadOrBenchmarkCurveDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SpreadOrBenchmarkCurveData =
-    let spread = ReadOptionalFieldOrdered true bs index 218 ReadSpreadIdx
-    let benchmarkCurveCurrency = ReadOptionalFieldOrdered true bs index 220 ReadBenchmarkCurveCurrencyIdx
-    let benchmarkCurveName = ReadOptionalFieldOrdered true bs index 221 ReadBenchmarkCurveNameIdx
-    let benchmarkCurvePoint = ReadOptionalFieldOrdered true bs index 222 ReadBenchmarkCurvePointIdx
-    let benchmarkPrice = ReadOptionalFieldOrdered true bs index 662 ReadBenchmarkPriceIdx
-    let benchmarkPriceType = ReadOptionalFieldOrdered true bs index 663 ReadBenchmarkPriceTypeIdx
-    let benchmarkSecurityID = ReadOptionalFieldOrdered true bs index 699 ReadBenchmarkSecurityIDIdx
-    let benchmarkSecurityIDSource = ReadOptionalFieldOrdered true bs index 761 ReadBenchmarkSecurityIDSourceIdx
+let ReadSpreadOrBenchmarkCurveDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SpreadOrBenchmarkCurveData =
+    let spread = ReadOptionalFieldOrdered true bs index 218 ReadSpread
+    let benchmarkCurveCurrency = ReadOptionalFieldOrdered true bs index 220 ReadBenchmarkCurveCurrency
+    let benchmarkCurveName = ReadOptionalFieldOrdered true bs index 221 ReadBenchmarkCurveName
+    let benchmarkCurvePoint = ReadOptionalFieldOrdered true bs index 222 ReadBenchmarkCurvePoint
+    let benchmarkPrice = ReadOptionalFieldOrdered true bs index 662 ReadBenchmarkPrice
+    let benchmarkPriceType = ReadOptionalFieldOrdered true bs index 663 ReadBenchmarkPriceType
+    let benchmarkSecurityID = ReadOptionalFieldOrdered true bs index 699 ReadBenchmarkSecurityID
+    let benchmarkSecurityIDSource = ReadOptionalFieldOrdered true bs index 761 ReadBenchmarkSecurityIDSource
     let ci:SpreadOrBenchmarkCurveData = {
         Spread = spread
         BenchmarkCurveCurrency = benchmarkCurveCurrency
@@ -1616,13 +1616,13 @@ let ReadSpreadOrBenchmarkCurveDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBuf
 
 
 // component, random access reader
-let ReadYieldDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : YieldData =
-    let yieldType = ReadOptionalField bs index 235 ReadYieldTypeIdx
-    let yyield = ReadOptionalField bs index 236 ReadYieldIdx
-    let yieldCalcDate = ReadOptionalField bs index 701 ReadYieldCalcDateIdx
-    let yieldRedemptionDate = ReadOptionalField bs index 696 ReadYieldRedemptionDateIdx
-    let yieldRedemptionPrice = ReadOptionalField bs index 697 ReadYieldRedemptionPriceIdx
-    let yieldRedemptionPriceType = ReadOptionalField bs index 698 ReadYieldRedemptionPriceTypeIdx
+let ReadYieldData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : YieldData =
+    let yieldType = ReadOptionalField bs index 235 ReadYieldType
+    let yyield = ReadOptionalField bs index 236 ReadYield
+    let yieldCalcDate = ReadOptionalField bs index 701 ReadYieldCalcDate
+    let yieldRedemptionDate = ReadOptionalField bs index 696 ReadYieldRedemptionDate
+    let yieldRedemptionPrice = ReadOptionalField bs index 697 ReadYieldRedemptionPrice
+    let yieldRedemptionPriceType = ReadOptionalField bs index 698 ReadYieldRedemptionPriceType
     let ci:YieldData = {
         YieldType = yieldType
         Yield = yyield
@@ -1635,13 +1635,13 @@ let ReadYieldDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : YieldData =
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadYieldDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : YieldData =
-    let yieldType = ReadOptionalFieldOrdered true bs index 235 ReadYieldTypeIdx
-    let yyield = ReadOptionalFieldOrdered true bs index 236 ReadYieldIdx
-    let yieldCalcDate = ReadOptionalFieldOrdered true bs index 701 ReadYieldCalcDateIdx
-    let yieldRedemptionDate = ReadOptionalFieldOrdered true bs index 696 ReadYieldRedemptionDateIdx
-    let yieldRedemptionPrice = ReadOptionalFieldOrdered true bs index 697 ReadYieldRedemptionPriceIdx
-    let yieldRedemptionPriceType = ReadOptionalFieldOrdered true bs index 698 ReadYieldRedemptionPriceTypeIdx
+let ReadYieldDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : YieldData =
+    let yieldType = ReadOptionalFieldOrdered true bs index 235 ReadYieldType
+    let yyield = ReadOptionalFieldOrdered true bs index 236 ReadYield
+    let yieldCalcDate = ReadOptionalFieldOrdered true bs index 701 ReadYieldCalcDate
+    let yieldRedemptionDate = ReadOptionalFieldOrdered true bs index 696 ReadYieldRedemptionDate
+    let yieldRedemptionPrice = ReadOptionalFieldOrdered true bs index 697 ReadYieldRedemptionPrice
+    let yieldRedemptionPriceType = ReadOptionalFieldOrdered true bs index 698 ReadYieldRedemptionPriceType
     let ci:YieldData = {
         YieldType = yieldType
         Yield = yyield
@@ -1654,13 +1654,13 @@ let ReadYieldDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 
 // component, random access reader
-let ReadPegInstructionsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PegInstructions =
-    let pegOffsetValue = ReadOptionalField bs index 211 ReadPegOffsetValueIdx
-    let pegMoveType = ReadOptionalField bs index 835 ReadPegMoveTypeIdx
-    let pegOffsetType = ReadOptionalField bs index 836 ReadPegOffsetTypeIdx
-    let pegLimitType = ReadOptionalField bs index 837 ReadPegLimitTypeIdx
-    let pegRoundDirection = ReadOptionalField bs index 838 ReadPegRoundDirectionIdx
-    let pegScope = ReadOptionalField bs index 840 ReadPegScopeIdx
+let ReadPegInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PegInstructions =
+    let pegOffsetValue = ReadOptionalField bs index 211 ReadPegOffsetValue
+    let pegMoveType = ReadOptionalField bs index 835 ReadPegMoveType
+    let pegOffsetType = ReadOptionalField bs index 836 ReadPegOffsetType
+    let pegLimitType = ReadOptionalField bs index 837 ReadPegLimitType
+    let pegRoundDirection = ReadOptionalField bs index 838 ReadPegRoundDirection
+    let pegScope = ReadOptionalField bs index 840 ReadPegScope
     let ci:PegInstructions = {
         PegOffsetValue = pegOffsetValue
         PegMoveType = pegMoveType
@@ -1673,13 +1673,13 @@ let ReadPegInstructionsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PegIn
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadPegInstructionsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PegInstructions =
-    let pegOffsetValue = ReadOptionalFieldOrdered true bs index 211 ReadPegOffsetValueIdx
-    let pegMoveType = ReadOptionalFieldOrdered true bs index 835 ReadPegMoveTypeIdx
-    let pegOffsetType = ReadOptionalFieldOrdered true bs index 836 ReadPegOffsetTypeIdx
-    let pegLimitType = ReadOptionalFieldOrdered true bs index 837 ReadPegLimitTypeIdx
-    let pegRoundDirection = ReadOptionalFieldOrdered true bs index 838 ReadPegRoundDirectionIdx
-    let pegScope = ReadOptionalFieldOrdered true bs index 840 ReadPegScopeIdx
+let ReadPegInstructionsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : PegInstructions =
+    let pegOffsetValue = ReadOptionalFieldOrdered true bs index 211 ReadPegOffsetValue
+    let pegMoveType = ReadOptionalFieldOrdered true bs index 835 ReadPegMoveType
+    let pegOffsetType = ReadOptionalFieldOrdered true bs index 836 ReadPegOffsetType
+    let pegLimitType = ReadOptionalFieldOrdered true bs index 837 ReadPegLimitType
+    let pegRoundDirection = ReadOptionalFieldOrdered true bs index 838 ReadPegRoundDirection
+    let pegScope = ReadOptionalFieldOrdered true bs index 840 ReadPegScope
     let ci:PegInstructions = {
         PegOffsetValue = pegOffsetValue
         PegMoveType = pegMoveType
@@ -1692,14 +1692,14 @@ let ReadPegInstructionsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // component, random access reader
-let ReadDiscretionInstructionsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DiscretionInstructions =
-    let discretionInst = ReadOptionalField bs index 388 ReadDiscretionInstIdx
-    let discretionOffsetValue = ReadOptionalField bs index 389 ReadDiscretionOffsetValueIdx
-    let discretionMoveType = ReadOptionalField bs index 841 ReadDiscretionMoveTypeIdx
-    let discretionOffsetType = ReadOptionalField bs index 842 ReadDiscretionOffsetTypeIdx
-    let discretionLimitType = ReadOptionalField bs index 843 ReadDiscretionLimitTypeIdx
-    let discretionRoundDirection = ReadOptionalField bs index 844 ReadDiscretionRoundDirectionIdx
-    let discretionScope = ReadOptionalField bs index 846 ReadDiscretionScopeIdx
+let ReadDiscretionInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DiscretionInstructions =
+    let discretionInst = ReadOptionalField bs index 388 ReadDiscretionInst
+    let discretionOffsetValue = ReadOptionalField bs index 389 ReadDiscretionOffsetValue
+    let discretionMoveType = ReadOptionalField bs index 841 ReadDiscretionMoveType
+    let discretionOffsetType = ReadOptionalField bs index 842 ReadDiscretionOffsetType
+    let discretionLimitType = ReadOptionalField bs index 843 ReadDiscretionLimitType
+    let discretionRoundDirection = ReadOptionalField bs index 844 ReadDiscretionRoundDirection
+    let discretionScope = ReadOptionalField bs index 846 ReadDiscretionScope
     let ci:DiscretionInstructions = {
         DiscretionInst = discretionInst
         DiscretionOffsetValue = discretionOffsetValue
@@ -1713,14 +1713,14 @@ let ReadDiscretionInstructionsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadDiscretionInstructionsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DiscretionInstructions =
-    let discretionInst = ReadOptionalFieldOrdered true bs index 388 ReadDiscretionInstIdx
-    let discretionOffsetValue = ReadOptionalFieldOrdered true bs index 389 ReadDiscretionOffsetValueIdx
-    let discretionMoveType = ReadOptionalFieldOrdered true bs index 841 ReadDiscretionMoveTypeIdx
-    let discretionOffsetType = ReadOptionalFieldOrdered true bs index 842 ReadDiscretionOffsetTypeIdx
-    let discretionLimitType = ReadOptionalFieldOrdered true bs index 843 ReadDiscretionLimitTypeIdx
-    let discretionRoundDirection = ReadOptionalFieldOrdered true bs index 844 ReadDiscretionRoundDirectionIdx
-    let discretionScope = ReadOptionalFieldOrdered true bs index 846 ReadDiscretionScopeIdx
+let ReadDiscretionInstructionsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DiscretionInstructions =
+    let discretionInst = ReadOptionalFieldOrdered true bs index 388 ReadDiscretionInst
+    let discretionOffsetValue = ReadOptionalFieldOrdered true bs index 389 ReadDiscretionOffsetValue
+    let discretionMoveType = ReadOptionalFieldOrdered true bs index 841 ReadDiscretionMoveType
+    let discretionOffsetType = ReadOptionalFieldOrdered true bs index 842 ReadDiscretionOffsetType
+    let discretionLimitType = ReadOptionalFieldOrdered true bs index 843 ReadDiscretionLimitType
+    let discretionRoundDirection = ReadOptionalFieldOrdered true bs index 844 ReadDiscretionRoundDirection
+    let discretionScope = ReadOptionalFieldOrdered true bs index 846 ReadDiscretionScope
     let ci:DiscretionInstructions = {
         DiscretionInst = discretionInst
         DiscretionOffsetValue = discretionOffsetValue
@@ -1734,81 +1734,81 @@ let ReadDiscretionInstructionsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufInde
 
 
 // group
-let ReadNewOrderListNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderListNoOrdersGrp =
-    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let listSeqNo = ReadFieldOrdered true bs index 67 ReadListSeqNoIdx
-    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkIDIdx
-    let settlInstMode = ReadOptionalFieldOrdered true bs index 160 ReadSettlInstModeIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDateIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInstIdx
-    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnitIdx
-    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocIDIdx
-    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethodIdx
-    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrpIdx
-    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlTypeIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMarginIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let handlInst = ReadOptionalFieldOrdered true bs index 21 ReadHandlInstIdx
-    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInstIdx
-    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQtyIdx
-    let maxFloor = ReadOptionalFieldOrdered true bs index 111 ReadMaxFloorIdx
-    let exDestination = ReadOptionalFieldOrdered true bs index 100 ReadExDestinationIdx
-    let noTradingSessionsGrp = ReadOptionalGroupOrdered true bs index 386 ReadNoTradingSessionsGrpIdx
-    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCodeIdx
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePxIdx
-    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
-    let sideValueInd = ReadOptionalFieldOrdered true bs index 401 ReadSideValueIndIdx
-    let locateReqd = ReadOptionalFieldOrdered true bs index 114 ReadLocateReqdIdx
-    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTimeIdx
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
-    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyTypeIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdTypeIdx
-    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceTypeIdx
-    let price = ReadOptionalFieldOrdered true bs index 44 ReadPriceIdx
-    let stopPx = ReadOptionalFieldOrdered true bs index 99 ReadStopPxIdx
-    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataIdxOrdered
-    let yieldData = ReadComponentOrdered true bs index ReadYieldDataIdxOrdered
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceIDIdx
-    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlagIdx
-    let iOIid = ReadOptionalFieldOrdered true bs index 23 ReadIOIidIdx
-    let quoteID = ReadOptionalFieldOrdered true bs index 117 ReadQuoteIDIdx
-    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForceIdx
-    let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTimeIdx
-    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDateIdx
-    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTimeIdx
-    let gTBookingInst = ReadOptionalFieldOrdered true bs index 427 ReadGTBookingInstIdx
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacityIdx
-    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacityIdx
-    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReqIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingTypeIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
-    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2Idx
-    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2Idx
-    let price2 = ReadOptionalFieldOrdered true bs index 640 ReadPrice2Idx
-    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffectIdx
-    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncoveredIdx
-    let maxShow = ReadOptionalFieldOrdered true bs index 210 ReadMaxShowIdx
-    let pegInstructions = ReadComponentOrdered true bs index ReadPegInstructionsIdxOrdered
-    let discretionInstructions = ReadComponentOrdered true bs index ReadDiscretionInstructionsIdxOrdered
-    let targetStrategy = ReadOptionalFieldOrdered true bs index 847 ReadTargetStrategyIdx
-    let targetStrategyParameters = ReadOptionalFieldOrdered true bs index 848 ReadTargetStrategyParametersIdx
-    let participationRate = ReadOptionalFieldOrdered true bs index 849 ReadParticipationRateIdx
-    let designation = ReadOptionalFieldOrdered true bs index 494 ReadDesignationIdx
+let ReadNewOrderListNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderListNoOrdersGrp =
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let listSeqNo = ReadFieldOrdered true bs index 67 ReadListSeqNo
+    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkID
+    let settlInstMode = ReadOptionalFieldOrdered true bs index 160 ReadSettlInstMode
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDate
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInst
+    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnit
+    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
+    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
+    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrp
+    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlType
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMargin
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let handlInst = ReadOptionalFieldOrdered true bs index 21 ReadHandlInst
+    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInst
+    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQty
+    let maxFloor = ReadOptionalFieldOrdered true bs index 111 ReadMaxFloor
+    let exDestination = ReadOptionalFieldOrdered true bs index 100 ReadExDestination
+    let noTradingSessionsGrp = ReadOptionalGroupOrdered true bs index 386 ReadNoTradingSessionsGrp
+    let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePx
+    let side = ReadFieldOrdered true bs index 54 ReadSide
+    let sideValueInd = ReadOptionalFieldOrdered true bs index 401 ReadSideValueInd
+    let locateReqd = ReadOptionalFieldOrdered true bs index 114 ReadLocateReqd
+    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTime
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
+    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyType
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdType
+    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceType
+    let price = ReadOptionalFieldOrdered true bs index 44 ReadPrice
+    let stopPx = ReadOptionalFieldOrdered true bs index 99 ReadStopPx
+    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataOrdered
+    let yieldData = ReadComponentOrdered true bs index ReadYieldDataOrdered
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
+    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
+    let iOIid = ReadOptionalFieldOrdered true bs index 23 ReadIOIid
+    let quoteID = ReadOptionalFieldOrdered true bs index 117 ReadQuoteID
+    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
+    let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTime
+    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDate
+    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTime
+    let gTBookingInst = ReadOptionalFieldOrdered true bs index 427 ReadGTBookingInst
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacity
+    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictions
+    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacity
+    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReq
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingType
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
+    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2
+    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2
+    let price2 = ReadOptionalFieldOrdered true bs index 640 ReadPrice2
+    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffect
+    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncovered
+    let maxShow = ReadOptionalFieldOrdered true bs index 210 ReadMaxShow
+    let pegInstructions = ReadComponentOrdered true bs index ReadPegInstructionsOrdered
+    let discretionInstructions = ReadComponentOrdered true bs index ReadDiscretionInstructionsOrdered
+    let targetStrategy = ReadOptionalFieldOrdered true bs index 847 ReadTargetStrategy
+    let targetStrategyParameters = ReadOptionalFieldOrdered true bs index 848 ReadTargetStrategyParameters
+    let participationRate = ReadOptionalFieldOrdered true bs index 849 ReadParticipationRate
+    let designation = ReadOptionalFieldOrdered true bs index 494 ReadDesignation
     let ci:NewOrderListNoOrdersGrp = {
         ClOrdID = clOrdID
         SecondaryClOrdID = secondaryClOrdID
@@ -1889,11 +1889,11 @@ let ReadNewOrderListNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 
 // component, random access reader
-let ReadCommissionDataFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
-    let commission = ReadField bs index 12 ReadCommissionIdx
-    let commType = ReadOptionalField bs index 13 ReadCommTypeIdx
-    let commCurrency = ReadOptionalField bs index 479 ReadCommCurrencyIdx
-    let fundRenewWaiv = ReadOptionalField bs index 497 ReadFundRenewWaivIdx
+let ReadCommissionDataFG (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
+    let commission = ReadField bs index 12 ReadCommission
+    let commType = ReadOptionalField bs index 13 ReadCommType
+    let commCurrency = ReadOptionalField bs index 479 ReadCommCurrency
+    let fundRenewWaiv = ReadOptionalField bs index 497 ReadFundRenewWaiv
     let ci:CommissionDataFG = {
         Commission = commission
         CommType = commType
@@ -1904,11 +1904,11 @@ let ReadCommissionDataFGIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Comm
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadCommissionDataFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
-    let commission = ReadFieldOrdered true bs index 12 ReadCommissionIdx
-    let commType = ReadOptionalFieldOrdered true bs index 13 ReadCommTypeIdx
-    let commCurrency = ReadOptionalFieldOrdered true bs index 479 ReadCommCurrencyIdx
-    let fundRenewWaiv = ReadOptionalFieldOrdered true bs index 497 ReadFundRenewWaivIdx
+let ReadCommissionDataFGOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CommissionDataFG =
+    let commission = ReadFieldOrdered true bs index 12 ReadCommission
+    let commType = ReadOptionalFieldOrdered true bs index 13 ReadCommType
+    let commCurrency = ReadOptionalFieldOrdered true bs index 479 ReadCommCurrency
+    let fundRenewWaiv = ReadOptionalFieldOrdered true bs index 497 ReadFundRenewWaiv
     let ci:CommissionDataFG = {
         Commission = commission
         CommType = commType
@@ -1919,21 +1919,21 @@ let ReadCommissionDataFGIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadBidResponseNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : BidResponseNoBidComponentsGrp =
-    let commissionDataFG = ReadComponentOrdered true bs index ReadCommissionDataFGIdxOrdered
-    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListIDIdx
-    let country = ReadOptionalFieldOrdered true bs index 421 ReadCountryIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let price = ReadOptionalFieldOrdered true bs index 44 ReadPriceIdx
-    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceTypeIdx
-    let fairValue = ReadOptionalFieldOrdered true bs index 406 ReadFairValueIdx
-    let netGrossInd = ReadOptionalFieldOrdered true bs index 430 ReadNetGrossIndIdx
-    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlTypeIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadBidResponseNoBidComponentsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : BidResponseNoBidComponentsGrp =
+    let commissionDataFG = ReadComponentOrdered true bs index ReadCommissionDataFGOrdered
+    let listID = ReadOptionalFieldOrdered true bs index 66 ReadListID
+    let country = ReadOptionalFieldOrdered true bs index 421 ReadCountry
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let price = ReadOptionalFieldOrdered true bs index 44 ReadPrice
+    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceType
+    let fairValue = ReadOptionalFieldOrdered true bs index 406 ReadFairValue
+    let netGrossInd = ReadOptionalFieldOrdered true bs index 430 ReadNetGrossInd
+    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlType
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:BidResponseNoBidComponentsGrp = {
         CommissionDataFG = commissionDataFG
         ListID = listID
@@ -1954,13 +1954,13 @@ let ReadBidResponseNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // group
-let ReadNoLegAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegAllocsGrp =
-    let legAllocAccount = ReadFieldOrdered true bs index 671 ReadLegAllocAccountIdx
-    let legIndividualAllocID = ReadOptionalFieldOrdered true bs index 672 ReadLegIndividualAllocIDIdx
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
-    let legAllocQty = ReadOptionalFieldOrdered true bs index 673 ReadLegAllocQtyIdx
-    let legAllocAcctIDSource = ReadOptionalFieldOrdered true bs index 674 ReadLegAllocAcctIDSourceIdx
-    let legSettlCurrency = ReadOptionalFieldOrdered true bs index 675 ReadLegSettlCurrencyIdx
+let ReadNoLegAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegAllocsGrp =
+    let legAllocAccount = ReadFieldOrdered true bs index 671 ReadLegAllocAccount
+    let legIndividualAllocID = ReadOptionalFieldOrdered true bs index 672 ReadLegIndividualAllocID
+    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
+    let legAllocQty = ReadOptionalFieldOrdered true bs index 673 ReadLegAllocQty
+    let legAllocAcctIDSource = ReadOptionalFieldOrdered true bs index 674 ReadLegAllocAcctIDSource
+    let legSettlCurrency = ReadOptionalFieldOrdered true bs index 675 ReadLegSettlCurrency
     let ci:NoLegAllocsGrp = {
         LegAllocAccount = legAllocAccount
         LegIndividualAllocID = legIndividualAllocID
@@ -1973,19 +1973,19 @@ let ReadNoLegAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegA
 
 
 // group
-let ReadMultilegOrderCancelReplaceRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MultilegOrderCancelReplaceRequestNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noLegAllocsGrp = ReadOptionalGroupOrdered true bs index 670 ReadNoLegAllocsGrpIdx
-    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffectIdx
-    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncoveredIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefIDIdx
-    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPriceIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
+let ReadMultilegOrderCancelReplaceRequestNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MultilegOrderCancelReplaceRequestNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noLegAllocsGrp = ReadOptionalGroupOrdered true bs index 670 ReadNoLegAllocsGrp
+    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffect
+    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncovered
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefID
+    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPrice
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
     let ci:MultilegOrderCancelReplaceRequestNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2004,9 +2004,9 @@ let ReadMultilegOrderCancelReplaceRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufI
 
 
 // group
-let ReadNoNested3PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartySubIDsGrp =
-    let nested3PartySubID = ReadFieldOrdered true bs index 953 ReadNested3PartySubIDIdx
-    let nested3PartySubIDType = ReadOptionalFieldOrdered true bs index 954 ReadNested3PartySubIDTypeIdx
+let ReadNoNested3PartySubIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartySubIDsGrp =
+    let nested3PartySubID = ReadFieldOrdered true bs index 953 ReadNested3PartySubID
+    let nested3PartySubIDType = ReadOptionalFieldOrdered true bs index 954 ReadNested3PartySubIDType
     let ci:NoNested3PartySubIDsGrp = {
         Nested3PartySubID = nested3PartySubID
         Nested3PartySubIDType = nested3PartySubIDType
@@ -2015,11 +2015,11 @@ let ReadNoNested3PartySubIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
 
 
 // group
-let ReadNoNested3PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartyIDsGrp =
-    let nested3PartyID = ReadFieldOrdered true bs index 949 ReadNested3PartyIDIdx
-    let nested3PartyIDSource = ReadOptionalFieldOrdered true bs index 950 ReadNested3PartyIDSourceIdx
-    let nested3PartyRole = ReadOptionalFieldOrdered true bs index 951 ReadNested3PartyRoleIdx
-    let noNested3PartySubIDsGrp = ReadOptionalGroupOrdered true bs index 952 ReadNoNested3PartySubIDsGrpIdx
+let ReadNoNested3PartyIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoNested3PartyIDsGrp =
+    let nested3PartyID = ReadFieldOrdered true bs index 949 ReadNested3PartyID
+    let nested3PartyIDSource = ReadOptionalFieldOrdered true bs index 950 ReadNested3PartyIDSource
+    let nested3PartyRole = ReadOptionalFieldOrdered true bs index 951 ReadNested3PartyRole
+    let noNested3PartySubIDsGrp = ReadOptionalGroupOrdered true bs index 952 ReadNoNested3PartySubIDsGrp
     let ci:NoNested3PartyIDsGrp = {
         Nested3PartyID = nested3PartyID
         Nested3PartyIDSource = nested3PartyIDSource
@@ -2030,13 +2030,13 @@ let ReadNoNested3PartyIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // group
-let ReadMultilegOrderCancelReplaceRequestNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MultilegOrderCancelReplaceRequestNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrpIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
+let ReadMultilegOrderCancelReplaceRequestNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MultilegOrderCancelReplaceRequestNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrp
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let ci:MultilegOrderCancelReplaceRequestNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -2049,19 +2049,19 @@ let ReadMultilegOrderCancelReplaceRequestNoAllocsGrpIdx (bs:byte[]) (index:FIXBu
 
 
 // group
-let ReadNewOrderMultilegNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderMultilegNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noLegAllocsGrp = ReadOptionalGroupOrdered true bs index 670 ReadNoLegAllocsGrpIdx
-    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffectIdx
-    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncoveredIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefIDIdx
-    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPriceIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
+let ReadNewOrderMultilegNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderMultilegNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noLegAllocsGrp = ReadOptionalGroupOrdered true bs index 670 ReadNoLegAllocsGrp
+    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffect
+    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncovered
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefID
+    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPrice
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
     let ci:NewOrderMultilegNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2080,8 +2080,8 @@ let ReadNewOrderMultilegNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInde
 
 
 // component, random access reader
-let ReadNestedParties2Idx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties2 =
-    let noNested2PartyIDsGrp = ReadOptionalGroup bs index 756 ReadNoNested2PartyIDsGrpIdx
+let ReadNestedParties2 (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties2 =
+    let noNested2PartyIDsGrp = ReadOptionalGroup bs index 756 ReadNoNested2PartyIDsGrp
     let ci:NestedParties2 = {
         NoNested2PartyIDsGrp = noNested2PartyIDsGrp
     }
@@ -2089,8 +2089,8 @@ let ReadNestedParties2Idx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Nested
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadNestedParties2IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties2 =
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrpIdx
+let ReadNestedParties2Ordered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties2 =
+    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
     let ci:NestedParties2 = {
         NoNested2PartyIDsGrp = noNested2PartyIDsGrp
     }
@@ -2098,13 +2098,13 @@ let ReadNestedParties2IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 
 // group
-let ReadNewOrderMultilegNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderMultilegNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrencyIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrpIdx
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQtyIdx
+let ReadNewOrderMultilegNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NewOrderMultilegNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrp
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let ci:NewOrderMultilegNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -2117,8 +2117,8 @@ let ReadNewOrderMultilegNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // component, random access reader
-let ReadNestedParties3Idx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties3 =
-    let noNested3PartyIDsGrp = ReadOptionalGroup bs index 948 ReadNoNested3PartyIDsGrpIdx
+let ReadNestedParties3 (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties3 =
+    let noNested3PartyIDsGrp = ReadOptionalGroup bs index 948 ReadNoNested3PartyIDsGrp
     let ci:NestedParties3 = {
         NoNested3PartyIDsGrp = noNested3PartyIDsGrp
     }
@@ -2126,8 +2126,8 @@ let ReadNestedParties3Idx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Nested
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadNestedParties3IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties3 =
-    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrpIdx
+let ReadNestedParties3Ordered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties3 =
+    let noNested3PartyIDsGrp = ReadOptionalGroupOrdered true bs index 948 ReadNoNested3PartyIDsGrp
     let ci:NestedParties3 = {
         NoNested3PartyIDsGrp = noNested3PartyIDsGrp
     }
@@ -2135,20 +2135,20 @@ let ReadNestedParties3IdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixB
 
 
 // group
-let ReadCrossOrderCancelRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelRequestNoSidesGrp =
-    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
-    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
-    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkIDIdx
-    let origOrdModTime = ReadOptionalFieldOrdered true bs index 586 ReadOrigOrdModTimeIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDateIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceIDIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadCrossOrderCancelRequestNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelRequestNoSidesGrp =
+    let side = ReadFieldOrdered true bs index 54 ReadSide
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdID
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkID
+    let origOrdModTime = ReadOptionalFieldOrdered true bs index 586 ReadOrigOrdModTime
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDate
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:CrossOrderCancelRequestNoSidesGrp = {
         Side = side
         OrigClOrdID = origClOrdID
@@ -2168,41 +2168,41 @@ let ReadCrossOrderCancelRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadCrossOrderCancelReplaceRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelReplaceRequestNoSidesGrp =
-    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
-    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
-    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkIDIdx
-    let origOrdModTime = ReadOptionalFieldOrdered true bs index 586 ReadOrigOrdModTimeIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDateIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInstIdx
-    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnitIdx
-    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethodIdx
-    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocIDIdx
-    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrpIdx
-    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyTypeIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacityIdx
-    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacityIdx
-    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReqIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingTypeIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
-    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffectIdx
-    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncoveredIdx
-    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMarginIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlagIdx
-    let sideComplianceID = ReadOptionalFieldOrdered true bs index 659 ReadSideComplianceIDIdx
+let ReadCrossOrderCancelReplaceRequestNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : CrossOrderCancelReplaceRequestNoSidesGrp =
+    let side = ReadFieldOrdered true bs index 54 ReadSide
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdID
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkID
+    let origOrdModTime = ReadOptionalFieldOrdered true bs index 586 ReadOrigOrdModTime
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDate
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInst
+    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnit
+    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
+    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
+    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrp
+    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyType
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacity
+    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictions
+    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacity
+    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReq
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingType
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
+    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffect
+    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncovered
+    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMargin
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
+    let sideComplianceID = ReadOptionalFieldOrdered true bs index 659 ReadSideComplianceID
     let ci:CrossOrderCancelReplaceRequestNoSidesGrp = {
         Side = side
         OrigClOrdID = origClOrdID
@@ -2243,39 +2243,39 @@ let ReadCrossOrderCancelReplaceRequestNoSidesGrpIdx (bs:byte[]) (index:FIXBufInd
 
 
 // group
-let ReadNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSidesGrp =
-    let side = ReadFieldOrdered true bs index 54 ReadSideIdx
-    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkIDIdx
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDateIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInstIdx
-    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnitIdx
-    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethodIdx
-    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocIDIdx
-    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrpIdx
-    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyTypeIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataIdxOrdered
-    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacityIdx
-    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacityIdx
-    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReqIdx
-    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrencyIdx
-    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingTypeIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
-    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffectIdx
-    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncoveredIdx
-    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMarginIdx
-    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicatorIdx
-    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlagIdx
-    let sideComplianceID = ReadOptionalFieldOrdered true bs index 659 ReadSideComplianceIDIdx
+let ReadNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSidesGrp =
+    let side = ReadFieldOrdered true bs index 54 ReadSide
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let clOrdLinkID = ReadOptionalFieldOrdered true bs index 583 ReadClOrdLinkID
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let tradeDate = ReadOptionalFieldOrdered true bs index 75 ReadTradeDate
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let dayBookingInst = ReadOptionalFieldOrdered true bs index 589 ReadDayBookingInst
+    let bookingUnit = ReadOptionalFieldOrdered true bs index 590 ReadBookingUnit
+    let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
+    let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
+    let noAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadNoAllocsGrp
+    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyType
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let commissionData = ReadComponentOrdered true bs index ReadCommissionDataOrdered
+    let orderCapacity = ReadOptionalFieldOrdered true bs index 528 ReadOrderCapacity
+    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictions
+    let custOrderCapacity = ReadOptionalFieldOrdered true bs index 582 ReadCustOrderCapacity
+    let forexReq = ReadOptionalFieldOrdered true bs index 121 ReadForexReq
+    let settlCurrency = ReadOptionalFieldOrdered true bs index 120 ReadSettlCurrency
+    let bookingType = ReadOptionalFieldOrdered true bs index 775 ReadBookingType
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
+    let positionEffect = ReadOptionalFieldOrdered true bs index 77 ReadPositionEffect
+    let coveredOrUncovered = ReadOptionalFieldOrdered true bs index 203 ReadCoveredOrUncovered
+    let cashMargin = ReadOptionalFieldOrdered true bs index 544 ReadCashMargin
+    let clearingFeeIndicator = ReadOptionalFieldOrdered true bs index 635 ReadClearingFeeIndicator
+    let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
+    let sideComplianceID = ReadOptionalFieldOrdered true bs index 659 ReadSideComplianceID
     let ci:NoSidesGrp = {
         Side = side
         ClOrdID = clOrdID
@@ -2314,19 +2314,19 @@ let ReadNoSidesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSidesGrp
 
 
 // group
-let ReadExecutionReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ExecutionReportNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffectIdx
-    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncoveredIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefIDIdx
-    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPriceIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPxIdx
+let ReadExecutionReportNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ExecutionReportNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let legPositionEffect = ReadOptionalFieldOrdered true bs index 564 ReadLegPositionEffect
+    let legCoveredOrUncovered = ReadOptionalFieldOrdered true bs index 565 ReadLegCoveredOrUncovered
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legRefID = ReadOptionalFieldOrdered true bs index 654 ReadLegRefID
+    let legPrice = ReadOptionalFieldOrdered true bs index 566 ReadLegPrice
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let legLastPx = ReadOptionalFieldOrdered true bs index 637 ReadLegLastPx
     let ci:ExecutionReportNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2345,9 +2345,9 @@ let ReadExecutionReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex
 
 
 // group
-let ReadNoInstrAttribGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoInstrAttribGrp =
-    let instrAttribType = ReadFieldOrdered true bs index 871 ReadInstrAttribTypeIdx
-    let instrAttribValue = ReadOptionalFieldOrdered true bs index 872 ReadInstrAttribValueIdx
+let ReadNoInstrAttribGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoInstrAttribGrp =
+    let instrAttribType = ReadFieldOrdered true bs index 871 ReadInstrAttribType
+    let instrAttribValue = ReadOptionalFieldOrdered true bs index 872 ReadInstrAttribValue
     let ci:NoInstrAttribGrp = {
         InstrAttribType = instrAttribType
         InstrAttribValue = instrAttribValue
@@ -2356,10 +2356,10 @@ let ReadNoInstrAttribGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoIn
 
 
 // component, random access reader
-let ReadInstrumentExtensionIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentExtension =
-    let deliveryForm = ReadOptionalField bs index 668 ReadDeliveryFormIdx
-    let pctAtRisk = ReadOptionalField bs index 869 ReadPctAtRiskIdx
-    let noInstrAttribGrp = ReadOptionalGroup bs index 870 ReadNoInstrAttribGrpIdx
+let ReadInstrumentExtension (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentExtension =
+    let deliveryForm = ReadOptionalField bs index 668 ReadDeliveryForm
+    let pctAtRisk = ReadOptionalField bs index 869 ReadPctAtRisk
+    let noInstrAttribGrp = ReadOptionalGroup bs index 870 ReadNoInstrAttribGrp
     let ci:InstrumentExtension = {
         DeliveryForm = deliveryForm
         PctAtRisk = pctAtRisk
@@ -2369,10 +2369,10 @@ let ReadInstrumentExtensionIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : I
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadInstrumentExtensionIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentExtension =
-    let deliveryForm = ReadOptionalFieldOrdered true bs index 668 ReadDeliveryFormIdx
-    let pctAtRisk = ReadOptionalFieldOrdered true bs index 869 ReadPctAtRiskIdx
-    let noInstrAttribGrp = ReadOptionalGroupOrdered true bs index 870 ReadNoInstrAttribGrpIdx
+let ReadInstrumentExtensionOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentExtension =
+    let deliveryForm = ReadOptionalFieldOrdered true bs index 668 ReadDeliveryForm
+    let pctAtRisk = ReadOptionalFieldOrdered true bs index 869 ReadPctAtRisk
+    let noInstrAttribGrp = ReadOptionalGroupOrdered true bs index 870 ReadNoInstrAttribGrp
     let ci:InstrumentExtension = {
         DeliveryForm = deliveryForm
         PctAtRisk = pctAtRisk
@@ -2382,8 +2382,8 @@ let ReadInstrumentExtensionIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer
 
 
 // group
-let ReadNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
+let ReadNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
     let ci:NoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
     }
@@ -2391,16 +2391,16 @@ let ReadNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoLegsGrp =
 
 
 // group
-let ReadDerivativeSecurityListNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DerivativeSecurityListNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let expirationCycle = ReadOptionalFieldOrdered true bs index 827 ReadExpirationCycleIdx
-    let instrumentExtension = ReadComponentOrdered true bs index ReadInstrumentExtensionIdxOrdered
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadDerivativeSecurityListNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : DerivativeSecurityListNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let expirationCycle = ReadOptionalFieldOrdered true bs index 827 ReadExpirationCycle
+    let instrumentExtension = ReadComponentOrdered true bs index ReadInstrumentExtensionOrdered
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:DerivativeSecurityListNoRelatedSymGrp = {
         Instrument = instrument
         Currency = currency
@@ -2416,16 +2416,16 @@ let ReadDerivativeSecurityListNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexe
 
 
 // component, random access reader
-let ReadFinancingDetailsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : FinancingDetails =
-    let agreementDesc = ReadOptionalField bs index 913 ReadAgreementDescIdx
-    let agreementID = ReadOptionalField bs index 914 ReadAgreementIDIdx
-    let agreementDate = ReadOptionalField bs index 915 ReadAgreementDateIdx
-    let agreementCurrency = ReadOptionalField bs index 918 ReadAgreementCurrencyIdx
-    let terminationType = ReadOptionalField bs index 788 ReadTerminationTypeIdx
-    let startDate = ReadOptionalField bs index 916 ReadStartDateIdx
-    let endDate = ReadOptionalField bs index 917 ReadEndDateIdx
-    let deliveryType = ReadOptionalField bs index 919 ReadDeliveryTypeIdx
-    let marginRatio = ReadOptionalField bs index 898 ReadMarginRatioIdx
+let ReadFinancingDetails (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : FinancingDetails =
+    let agreementDesc = ReadOptionalField bs index 913 ReadAgreementDesc
+    let agreementID = ReadOptionalField bs index 914 ReadAgreementID
+    let agreementDate = ReadOptionalField bs index 915 ReadAgreementDate
+    let agreementCurrency = ReadOptionalField bs index 918 ReadAgreementCurrency
+    let terminationType = ReadOptionalField bs index 788 ReadTerminationType
+    let startDate = ReadOptionalField bs index 916 ReadStartDate
+    let endDate = ReadOptionalField bs index 917 ReadEndDate
+    let deliveryType = ReadOptionalField bs index 919 ReadDeliveryType
+    let marginRatio = ReadOptionalField bs index 898 ReadMarginRatio
     let ci:FinancingDetails = {
         AgreementDesc = agreementDesc
         AgreementID = agreementID
@@ -2441,16 +2441,16 @@ let ReadFinancingDetailsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Fina
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadFinancingDetailsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : FinancingDetails =
-    let agreementDesc = ReadOptionalFieldOrdered true bs index 913 ReadAgreementDescIdx
-    let agreementID = ReadOptionalFieldOrdered true bs index 914 ReadAgreementIDIdx
-    let agreementDate = ReadOptionalFieldOrdered true bs index 915 ReadAgreementDateIdx
-    let agreementCurrency = ReadOptionalFieldOrdered true bs index 918 ReadAgreementCurrencyIdx
-    let terminationType = ReadOptionalFieldOrdered true bs index 788 ReadTerminationTypeIdx
-    let startDate = ReadOptionalFieldOrdered true bs index 916 ReadStartDateIdx
-    let endDate = ReadOptionalFieldOrdered true bs index 917 ReadEndDateIdx
-    let deliveryType = ReadOptionalFieldOrdered true bs index 919 ReadDeliveryTypeIdx
-    let marginRatio = ReadOptionalFieldOrdered true bs index 898 ReadMarginRatioIdx
+let ReadFinancingDetailsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : FinancingDetails =
+    let agreementDesc = ReadOptionalFieldOrdered true bs index 913 ReadAgreementDesc
+    let agreementID = ReadOptionalFieldOrdered true bs index 914 ReadAgreementID
+    let agreementDate = ReadOptionalFieldOrdered true bs index 915 ReadAgreementDate
+    let agreementCurrency = ReadOptionalFieldOrdered true bs index 918 ReadAgreementCurrency
+    let terminationType = ReadOptionalFieldOrdered true bs index 788 ReadTerminationType
+    let startDate = ReadOptionalFieldOrdered true bs index 916 ReadStartDate
+    let endDate = ReadOptionalFieldOrdered true bs index 917 ReadEndDate
+    let deliveryType = ReadOptionalFieldOrdered true bs index 919 ReadDeliveryType
+    let marginRatio = ReadOptionalFieldOrdered true bs index 898 ReadMarginRatio
     let ci:FinancingDetails = {
         AgreementDesc = agreementDesc
         AgreementID = agreementID
@@ -2466,12 +2466,12 @@ let ReadFinancingDetailsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // component, random access reader
-let ReadLegBenchmarkCurveDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegBenchmarkCurveData =
-    let legBenchmarkCurveCurrency = ReadOptionalField bs index 676 ReadLegBenchmarkCurveCurrencyIdx
-    let legBenchmarkCurveName = ReadOptionalField bs index 677 ReadLegBenchmarkCurveNameIdx
-    let legBenchmarkCurvePoint = ReadOptionalField bs index 678 ReadLegBenchmarkCurvePointIdx
-    let legBenchmarkPrice = ReadOptionalField bs index 679 ReadLegBenchmarkPriceIdx
-    let legBenchmarkPriceType = ReadOptionalField bs index 680 ReadLegBenchmarkPriceTypeIdx
+let ReadLegBenchmarkCurveData (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegBenchmarkCurveData =
+    let legBenchmarkCurveCurrency = ReadOptionalField bs index 676 ReadLegBenchmarkCurveCurrency
+    let legBenchmarkCurveName = ReadOptionalField bs index 677 ReadLegBenchmarkCurveName
+    let legBenchmarkCurvePoint = ReadOptionalField bs index 678 ReadLegBenchmarkCurvePoint
+    let legBenchmarkPrice = ReadOptionalField bs index 679 ReadLegBenchmarkPrice
+    let legBenchmarkPriceType = ReadOptionalField bs index 680 ReadLegBenchmarkPriceType
     let ci:LegBenchmarkCurveData = {
         LegBenchmarkCurveCurrency = legBenchmarkCurveCurrency
         LegBenchmarkCurveName = legBenchmarkCurveName
@@ -2483,12 +2483,12 @@ let ReadLegBenchmarkCurveDataIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadLegBenchmarkCurveDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegBenchmarkCurveData =
-    let legBenchmarkCurveCurrency = ReadOptionalFieldOrdered true bs index 676 ReadLegBenchmarkCurveCurrencyIdx
-    let legBenchmarkCurveName = ReadOptionalFieldOrdered true bs index 677 ReadLegBenchmarkCurveNameIdx
-    let legBenchmarkCurvePoint = ReadOptionalFieldOrdered true bs index 678 ReadLegBenchmarkCurvePointIdx
-    let legBenchmarkPrice = ReadOptionalFieldOrdered true bs index 679 ReadLegBenchmarkPriceIdx
-    let legBenchmarkPriceType = ReadOptionalFieldOrdered true bs index 680 ReadLegBenchmarkPriceTypeIdx
+let ReadLegBenchmarkCurveDataOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegBenchmarkCurveData =
+    let legBenchmarkCurveCurrency = ReadOptionalFieldOrdered true bs index 676 ReadLegBenchmarkCurveCurrency
+    let legBenchmarkCurveName = ReadOptionalFieldOrdered true bs index 677 ReadLegBenchmarkCurveName
+    let legBenchmarkCurvePoint = ReadOptionalFieldOrdered true bs index 678 ReadLegBenchmarkCurvePoint
+    let legBenchmarkPrice = ReadOptionalFieldOrdered true bs index 679 ReadLegBenchmarkPrice
+    let legBenchmarkPriceType = ReadOptionalFieldOrdered true bs index 680 ReadLegBenchmarkPriceType
     let ci:LegBenchmarkCurveData = {
         LegBenchmarkCurveCurrency = legBenchmarkCurveCurrency
         LegBenchmarkCurveName = legBenchmarkCurveName
@@ -2500,12 +2500,12 @@ let ReadLegBenchmarkCurveDataIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndex
 
 
 // group
-let ReadSecurityListNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SecurityListNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataIdxOrdered
+let ReadSecurityListNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SecurityListNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataOrdered
     let ci:SecurityListNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegSwapType = legSwapType
@@ -2517,23 +2517,23 @@ let ReadSecurityListNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // group
-let ReadSecurityListNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SecurityListNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let instrumentExtension = ReadComponentOrdered true bs index ReadInstrumentExtensionIdxOrdered
-    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
-    let securityListNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadSecurityListNoLegsGrpIdx
-    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataIdxOrdered
-    let yieldData = ReadComponentOrdered true bs index ReadYieldDataIdxOrdered
-    let roundLot = ReadOptionalFieldOrdered true bs index 561 ReadRoundLotIdx
-    let minTradeVol = ReadOptionalFieldOrdered true bs index 562 ReadMinTradeVolIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let expirationCycle = ReadOptionalFieldOrdered true bs index 827 ReadExpirationCycleIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadSecurityListNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : SecurityListNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let instrumentExtension = ReadComponentOrdered true bs index ReadInstrumentExtensionOrdered
+    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
+    let securityListNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadSecurityListNoLegsGrp
+    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataOrdered
+    let yieldData = ReadComponentOrdered true bs index ReadYieldDataOrdered
+    let roundLot = ReadOptionalFieldOrdered true bs index 561 ReadRoundLot
+    let minTradeVol = ReadOptionalFieldOrdered true bs index 562 ReadMinTradeVol
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let expirationCycle = ReadOptionalFieldOrdered true bs index 827 ReadExpirationCycle
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:SecurityListNoRelatedSymGrp = {
         Instrument = instrument
         InstrumentExtension = instrumentExtension
@@ -2556,49 +2556,49 @@ let ReadSecurityListNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // group
-let ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MarketDataIncrementalRefreshNoMDEntriesGrp =
-    let mDUpdateAction = ReadFieldOrdered true bs index 279 ReadMDUpdateActionIdx
-    let deleteReason = ReadOptionalFieldOrdered true bs index 285 ReadDeleteReasonIdx
-    let mDEntryType = ReadOptionalFieldOrdered true bs index 269 ReadMDEntryTypeIdx
-    let mDEntryID = ReadOptionalFieldOrdered true bs index 278 ReadMDEntryIDIdx
-    let mDEntryRefID = ReadOptionalFieldOrdered true bs index 280 ReadMDEntryRefIDIdx
-    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
-    let financialStatus = ReadOptionalFieldOrdered true bs index 291 ReadFinancialStatusIdx
-    let corporateAction = ReadOptionalFieldOrdered true bs index 292 ReadCorporateActionIdx
-    let mDEntryPx = ReadOptionalFieldOrdered true bs index 270 ReadMDEntryPxIdx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let mDEntrySize = ReadOptionalFieldOrdered true bs index 271 ReadMDEntrySizeIdx
-    let mDEntryDate = ReadOptionalFieldOrdered true bs index 272 ReadMDEntryDateIdx
-    let mDEntryTime = ReadOptionalFieldOrdered true bs index 273 ReadMDEntryTimeIdx
-    let tickDirection = ReadOptionalFieldOrdered true bs index 274 ReadTickDirectionIdx
-    let mDMkt = ReadOptionalFieldOrdered true bs index 275 ReadMDMktIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let quoteCondition = ReadOptionalFieldOrdered true bs index 276 ReadQuoteConditionIdx
-    let tradeCondition = ReadOptionalFieldOrdered true bs index 277 ReadTradeConditionIdx
-    let mDEntryOriginator = ReadOptionalFieldOrdered true bs index 282 ReadMDEntryOriginatorIdx
-    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationIDIdx
-    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskIDIdx
-    let openCloseSettlFlag = ReadOptionalFieldOrdered true bs index 286 ReadOpenCloseSettlFlagIdx
-    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForceIdx
-    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDateIdx
-    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTimeIdx
-    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQtyIdx
-    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInstIdx
-    let sellerDays = ReadOptionalFieldOrdered true bs index 287 ReadSellerDaysIdx
-    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderIDIdx
-    let quoteEntryID = ReadOptionalFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
-    let mDEntryBuyer = ReadOptionalFieldOrdered true bs index 288 ReadMDEntryBuyerIdx
-    let mDEntrySeller = ReadOptionalFieldOrdered true bs index 289 ReadMDEntrySellerIdx
-    let numberOfOrders = ReadOptionalFieldOrdered true bs index 346 ReadNumberOfOrdersIdx
-    let mDEntryPositionNo = ReadOptionalFieldOrdered true bs index 290 ReadMDEntryPositionNoIdx
-    let scope = ReadOptionalFieldOrdered true bs index 546 ReadScopeIdx
-    let priceDelta = ReadOptionalFieldOrdered true bs index 811 ReadPriceDeltaIdx
-    let netChgPrevDay = ReadOptionalFieldOrdered true bs index 451 ReadNetChgPrevDayIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadMarketDataIncrementalRefreshNoMDEntriesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MarketDataIncrementalRefreshNoMDEntriesGrp =
+    let mDUpdateAction = ReadFieldOrdered true bs index 279 ReadMDUpdateAction
+    let deleteReason = ReadOptionalFieldOrdered true bs index 285 ReadDeleteReason
+    let mDEntryType = ReadOptionalFieldOrdered true bs index 269 ReadMDEntryType
+    let mDEntryID = ReadOptionalFieldOrdered true bs index 278 ReadMDEntryID
+    let mDEntryRefID = ReadOptionalFieldOrdered true bs index 280 ReadMDEntryRefID
+    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
+    let financialStatus = ReadOptionalFieldOrdered true bs index 291 ReadFinancialStatus
+    let corporateAction = ReadOptionalFieldOrdered true bs index 292 ReadCorporateAction
+    let mDEntryPx = ReadOptionalFieldOrdered true bs index 270 ReadMDEntryPx
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let mDEntrySize = ReadOptionalFieldOrdered true bs index 271 ReadMDEntrySize
+    let mDEntryDate = ReadOptionalFieldOrdered true bs index 272 ReadMDEntryDate
+    let mDEntryTime = ReadOptionalFieldOrdered true bs index 273 ReadMDEntryTime
+    let tickDirection = ReadOptionalFieldOrdered true bs index 274 ReadTickDirection
+    let mDMkt = ReadOptionalFieldOrdered true bs index 275 ReadMDMkt
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let quoteCondition = ReadOptionalFieldOrdered true bs index 276 ReadQuoteCondition
+    let tradeCondition = ReadOptionalFieldOrdered true bs index 277 ReadTradeCondition
+    let mDEntryOriginator = ReadOptionalFieldOrdered true bs index 282 ReadMDEntryOriginator
+    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationID
+    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskID
+    let openCloseSettlFlag = ReadOptionalFieldOrdered true bs index 286 ReadOpenCloseSettlFlag
+    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
+    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDate
+    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTime
+    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQty
+    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInst
+    let sellerDays = ReadOptionalFieldOrdered true bs index 287 ReadSellerDays
+    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderID
+    let quoteEntryID = ReadOptionalFieldOrdered true bs index 299 ReadQuoteEntryID
+    let mDEntryBuyer = ReadOptionalFieldOrdered true bs index 288 ReadMDEntryBuyer
+    let mDEntrySeller = ReadOptionalFieldOrdered true bs index 289 ReadMDEntrySeller
+    let numberOfOrders = ReadOptionalFieldOrdered true bs index 346 ReadNumberOfOrders
+    let mDEntryPositionNo = ReadOptionalFieldOrdered true bs index 290 ReadMDEntryPositionNo
+    let scope = ReadOptionalFieldOrdered true bs index 546 ReadScope
+    let priceDelta = ReadOptionalFieldOrdered true bs index 811 ReadPriceDelta
+    let netChgPrevDay = ReadOptionalFieldOrdered true bs index 451 ReadNetChgPrevDay
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:MarketDataIncrementalRefreshNoMDEntriesGrp = {
         MDUpdateAction = mDUpdateAction
         DeleteReason = deleteReason
@@ -2647,10 +2647,10 @@ let ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufI
 
 
 // group
-let ReadMarketDataRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MarketDataRequestNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
+let ReadMarketDataRequestNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MarketDataRequestNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
     let ci:MarketDataRequestNoRelatedSymGrp = {
         Instrument = instrument
         NoUnderlyingsGrp = noUnderlyingsGrp
@@ -2660,34 +2660,34 @@ let ReadMarketDataRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // group
-let ReadMassQuoteAcknowledgementNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteEntriesGrp =
-    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
-    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentIdxOrdered
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
-    let bidPx = ReadOptionalFieldOrdered true bs index 132 ReadBidPxIdx
-    let offerPx = ReadOptionalFieldOrdered true bs index 133 ReadOfferPxIdx
-    let bidSize = ReadOptionalFieldOrdered true bs index 134 ReadBidSizeIdx
-    let offerSize = ReadOptionalFieldOrdered true bs index 135 ReadOfferSizeIdx
-    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTimeIdx
-    let bidSpotRate = ReadOptionalFieldOrdered true bs index 188 ReadBidSpotRateIdx
-    let offerSpotRate = ReadOptionalFieldOrdered true bs index 190 ReadOfferSpotRateIdx
-    let bidForwardPoints = ReadOptionalFieldOrdered true bs index 189 ReadBidForwardPointsIdx
-    let offerForwardPoints = ReadOptionalFieldOrdered true bs index 191 ReadOfferForwardPointsIdx
-    let midPx = ReadOptionalFieldOrdered true bs index 631 ReadMidPxIdx
-    let bidYield = ReadOptionalFieldOrdered true bs index 632 ReadBidYieldIdx
-    let midYield = ReadOptionalFieldOrdered true bs index 633 ReadMidYieldIdx
-    let offerYield = ReadOptionalFieldOrdered true bs index 634 ReadOfferYieldIdx
-    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTimeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdTypeIdx
-    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2Idx
-    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2Idx
-    let bidForwardPoints2 = ReadOptionalFieldOrdered true bs index 642 ReadBidForwardPoints2Idx
-    let offerForwardPoints2 = ReadOptionalFieldOrdered true bs index 643 ReadOfferForwardPoints2Idx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let quoteEntryRejectReason = ReadOptionalFieldOrdered true bs index 368 ReadQuoteEntryRejectReasonIdx
+let ReadMassQuoteAcknowledgementNoQuoteEntriesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteEntriesGrp =
+    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryID
+    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentOrdered
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
+    let bidPx = ReadOptionalFieldOrdered true bs index 132 ReadBidPx
+    let offerPx = ReadOptionalFieldOrdered true bs index 133 ReadOfferPx
+    let bidSize = ReadOptionalFieldOrdered true bs index 134 ReadBidSize
+    let offerSize = ReadOptionalFieldOrdered true bs index 135 ReadOfferSize
+    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTime
+    let bidSpotRate = ReadOptionalFieldOrdered true bs index 188 ReadBidSpotRate
+    let offerSpotRate = ReadOptionalFieldOrdered true bs index 190 ReadOfferSpotRate
+    let bidForwardPoints = ReadOptionalFieldOrdered true bs index 189 ReadBidForwardPoints
+    let offerForwardPoints = ReadOptionalFieldOrdered true bs index 191 ReadOfferForwardPoints
+    let midPx = ReadOptionalFieldOrdered true bs index 631 ReadMidPx
+    let bidYield = ReadOptionalFieldOrdered true bs index 632 ReadBidYield
+    let midYield = ReadOptionalFieldOrdered true bs index 633 ReadMidYield
+    let offerYield = ReadOptionalFieldOrdered true bs index 634 ReadOfferYield
+    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTime
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdType
+    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2
+    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2
+    let bidForwardPoints2 = ReadOptionalFieldOrdered true bs index 642 ReadBidForwardPoints2
+    let offerForwardPoints2 = ReadOptionalFieldOrdered true bs index 643 ReadOfferForwardPoints2
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let quoteEntryRejectReason = ReadOptionalFieldOrdered true bs index 368 ReadQuoteEntryRejectReason
     let ci:MassQuoteAcknowledgementNoQuoteEntriesGrp = {
         QuoteEntryID = quoteEntryID
         Instrument = instrument
@@ -2721,12 +2721,12 @@ let ReadMassQuoteAcknowledgementNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIn
 
 
 // group
-let ReadMassQuoteAcknowledgementNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteSetsGrp =
-    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetIDIdx
-    let underlyingInstrument = ReadOptionalComponentOrdered true bs index 311 ReadUnderlyingInstrumentIdxOrdered
-    let totNoQuoteEntries = ReadOptionalFieldOrdered true bs index 304 ReadTotNoQuoteEntriesIdx
-    let lastFragment = ReadOptionalFieldOrdered true bs index 893 ReadLastFragmentIdx
-    let massQuoteAcknowledgementNoQuoteEntriesGrp = ReadOptionalGroupOrdered true bs index 295 ReadMassQuoteAcknowledgementNoQuoteEntriesGrpIdx
+let ReadMassQuoteAcknowledgementNoQuoteSetsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteAcknowledgementNoQuoteSetsGrp =
+    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetID
+    let underlyingInstrument = ReadOptionalComponentOrdered true bs index 311 ReadUnderlyingInstrumentOrdered
+    let totNoQuoteEntries = ReadOptionalFieldOrdered true bs index 304 ReadTotNoQuoteEntries
+    let lastFragment = ReadOptionalFieldOrdered true bs index 893 ReadLastFragment
+    let massQuoteAcknowledgementNoQuoteEntriesGrp = ReadOptionalGroupOrdered true bs index 295 ReadMassQuoteAcknowledgementNoQuoteEntriesGrp
     let ci:MassQuoteAcknowledgementNoQuoteSetsGrp = {
         QuoteSetID = quoteSetID
         UnderlyingInstrument = underlyingInstrument
@@ -2738,33 +2738,33 @@ let ReadMassQuoteAcknowledgementNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndex
 
 
 // group
-let ReadMassQuoteNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteNoQuoteEntriesGrp =
-    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
-    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentIdxOrdered
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
-    let bidPx = ReadOptionalFieldOrdered true bs index 132 ReadBidPxIdx
-    let offerPx = ReadOptionalFieldOrdered true bs index 133 ReadOfferPxIdx
-    let bidSize = ReadOptionalFieldOrdered true bs index 134 ReadBidSizeIdx
-    let offerSize = ReadOptionalFieldOrdered true bs index 135 ReadOfferSizeIdx
-    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTimeIdx
-    let bidSpotRate = ReadOptionalFieldOrdered true bs index 188 ReadBidSpotRateIdx
-    let offerSpotRate = ReadOptionalFieldOrdered true bs index 190 ReadOfferSpotRateIdx
-    let bidForwardPoints = ReadOptionalFieldOrdered true bs index 189 ReadBidForwardPointsIdx
-    let offerForwardPoints = ReadOptionalFieldOrdered true bs index 191 ReadOfferForwardPointsIdx
-    let midPx = ReadOptionalFieldOrdered true bs index 631 ReadMidPxIdx
-    let bidYield = ReadOptionalFieldOrdered true bs index 632 ReadBidYieldIdx
-    let midYield = ReadOptionalFieldOrdered true bs index 633 ReadMidYieldIdx
-    let offerYield = ReadOptionalFieldOrdered true bs index 634 ReadOfferYieldIdx
-    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTimeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdTypeIdx
-    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2Idx
-    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2Idx
-    let bidForwardPoints2 = ReadOptionalFieldOrdered true bs index 642 ReadBidForwardPoints2Idx
-    let offerForwardPoints2 = ReadOptionalFieldOrdered true bs index 643 ReadOfferForwardPoints2Idx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
+let ReadMassQuoteNoQuoteEntriesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : MassQuoteNoQuoteEntriesGrp =
+    let quoteEntryID = ReadFieldOrdered true bs index 299 ReadQuoteEntryID
+    let instrument = ReadOptionalComponentOrdered true bs index 55 ReadInstrumentOrdered
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
+    let bidPx = ReadOptionalFieldOrdered true bs index 132 ReadBidPx
+    let offerPx = ReadOptionalFieldOrdered true bs index 133 ReadOfferPx
+    let bidSize = ReadOptionalFieldOrdered true bs index 134 ReadBidSize
+    let offerSize = ReadOptionalFieldOrdered true bs index 135 ReadOfferSize
+    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTime
+    let bidSpotRate = ReadOptionalFieldOrdered true bs index 188 ReadBidSpotRate
+    let offerSpotRate = ReadOptionalFieldOrdered true bs index 190 ReadOfferSpotRate
+    let bidForwardPoints = ReadOptionalFieldOrdered true bs index 189 ReadBidForwardPoints
+    let offerForwardPoints = ReadOptionalFieldOrdered true bs index 191 ReadOfferForwardPoints
+    let midPx = ReadOptionalFieldOrdered true bs index 631 ReadMidPx
+    let bidYield = ReadOptionalFieldOrdered true bs index 632 ReadBidYield
+    let midYield = ReadOptionalFieldOrdered true bs index 633 ReadMidYield
+    let offerYield = ReadOptionalFieldOrdered true bs index 634 ReadOfferYield
+    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTime
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdType
+    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2
+    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2
+    let bidForwardPoints2 = ReadOptionalFieldOrdered true bs index 642 ReadBidForwardPoints2
+    let offerForwardPoints2 = ReadOptionalFieldOrdered true bs index 643 ReadOfferForwardPoints2
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
     let ci:MassQuoteNoQuoteEntriesGrp = {
         QuoteEntryID = quoteEntryID
         Instrument = instrument
@@ -2797,13 +2797,13 @@ let ReadMassQuoteNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 
 // group
-let ReadNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteSetsGrp =
-    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetIDIdx
-    let underlyingInstrument = ReadOptionalComponentOrdered true bs index 311 ReadUnderlyingInstrumentIdxOrdered
-    let quoteSetValidUntilTime = ReadOptionalFieldOrdered true bs index 367 ReadQuoteSetValidUntilTimeIdx
-    let totNoQuoteEntries = ReadFieldOrdered true bs index 304 ReadTotNoQuoteEntriesIdx
-    let lastFragment = ReadOptionalFieldOrdered true bs index 893 ReadLastFragmentIdx
-    let massQuoteNoQuoteEntriesGrp = ReadGroup bs index 295 ReadMassQuoteNoQuoteEntriesGrpIdx
+let ReadNoQuoteSetsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteSetsGrp =
+    let quoteSetID = ReadFieldOrdered true bs index 302 ReadQuoteSetID
+    let underlyingInstrument = ReadOptionalComponentOrdered true bs index 311 ReadUnderlyingInstrumentOrdered
+    let quoteSetValidUntilTime = ReadOptionalFieldOrdered true bs index 367 ReadQuoteSetValidUntilTime
+    let totNoQuoteEntries = ReadFieldOrdered true bs index 304 ReadTotNoQuoteEntries
+    let lastFragment = ReadOptionalFieldOrdered true bs index 893 ReadLastFragment
+    let massQuoteNoQuoteEntriesGrp = ReadGroup bs index 295 ReadMassQuoteNoQuoteEntriesGrp
     let ci:NoQuoteSetsGrp = {
         QuoteSetID = quoteSetID
         UnderlyingInstrument = underlyingInstrument
@@ -2816,14 +2816,14 @@ let ReadNoQuoteSetsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuot
 
 
 // group
-let ReadQuoteStatusReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteStatusReportNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
+let ReadQuoteStatusReportNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteStatusReportNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
     let ci:QuoteStatusReportNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2837,11 +2837,11 @@ let ReadQuoteStatusReportNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 
 // group
-let ReadNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteEntriesGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
+let ReadNoQuoteEntriesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteEntriesGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
     let ci:NoQuoteEntriesGrp = {
         Instrument = instrument
         FinancingDetails = financingDetails
@@ -2852,18 +2852,18 @@ let ReadNoQuoteEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQ
 
 
 // group
-let ReadQuoteNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legPriceType = ReadOptionalFieldOrdered true bs index 686 ReadLegPriceTypeIdx
-    let legBidPx = ReadOptionalFieldOrdered true bs index 681 ReadLegBidPxIdx
-    let legOfferPx = ReadOptionalFieldOrdered true bs index 684 ReadLegOfferPxIdx
-    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataIdxOrdered
+let ReadQuoteNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legPriceType = ReadOptionalFieldOrdered true bs index 686 ReadLegPriceType
+    let legBidPx = ReadOptionalFieldOrdered true bs index 681 ReadLegBidPx
+    let legOfferPx = ReadOptionalFieldOrdered true bs index 684 ReadLegOfferPx
+    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataOrdered
     let ci:QuoteNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2881,15 +2881,15 @@ let ReadQuoteNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteN
 
 
 // group
-let ReadRFQRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : RFQRequestNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrpIdx
-    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePxIdx
-    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestTypeIdx
-    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteTypeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
+let ReadRFQRequestNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : RFQRequestNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadNoLegsGrp
+    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePx
+    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestType
+    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteType
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
     let ci:RFQRequestNoRelatedSymGrp = {
         Instrument = instrument
         NoUnderlyingsGrp = noUnderlyingsGrp
@@ -2904,15 +2904,15 @@ let ReadRFQRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInde
 
 
 // group
-let ReadQuoteRequestRejectNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestRejectNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataIdxOrdered
+let ReadQuoteRequestRejectNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestRejectNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataOrdered
     let ci:QuoteRequestRejectNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -2927,29 +2927,29 @@ let ReadQuoteRequestRejectNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // group
-let ReadQuoteRequestRejectNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestRejectNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePxIdx
-    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestTypeIdx
-    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteTypeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyTypeIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlTypeIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2Idx
-    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2Idx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let quoteRequestRejectNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadQuoteRequestRejectNoLegsGrpIdx
+let ReadQuoteRequestRejectNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestRejectNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePx
+    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestType
+    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteType
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyType
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlType
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2
+    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let quoteRequestRejectNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadQuoteRequestRejectNoLegsGrp
     let ci:QuoteRequestRejectNoRelatedSymGrp = {
         Instrument = instrument
         FinancingDetails = financingDetails
@@ -2978,18 +2978,18 @@ let ReadQuoteRequestRejectNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadQuoteResponseNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteResponseNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legPriceType = ReadOptionalFieldOrdered true bs index 686 ReadLegPriceTypeIdx
-    let legBidPx = ReadOptionalFieldOrdered true bs index 681 ReadLegBidPxIdx
-    let legOfferPx = ReadOptionalFieldOrdered true bs index 684 ReadLegOfferPxIdx
-    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataIdxOrdered
+let ReadQuoteResponseNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteResponseNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legPriceType = ReadOptionalFieldOrdered true bs index 686 ReadLegPriceType
+    let legBidPx = ReadOptionalFieldOrdered true bs index 681 ReadLegBidPx
+    let legOfferPx = ReadOptionalFieldOrdered true bs index 684 ReadLegOfferPx
+    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataOrdered
     let ci:QuoteResponseNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -3007,15 +3007,15 @@ let ReadQuoteResponseNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
 
 
 // group
-let ReadQuoteRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQtyIdx
-    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapTypeIdx
-    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlTypeIdx
-    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDateIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
-    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataIdxOrdered
+let ReadQuoteRequestNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legQty = ReadOptionalFieldOrdered true bs index 687 ReadLegQty
+    let legSwapType = ReadOptionalFieldOrdered true bs index 690 ReadLegSwapType
+    let legSettlType = ReadOptionalFieldOrdered true bs index 587 ReadLegSettlType
+    let legSettlDate = ReadOptionalFieldOrdered true bs index 588 ReadLegSettlDate
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
+    let legBenchmarkCurveData = ReadComponentOrdered true bs index ReadLegBenchmarkCurveDataOrdered
     let ci:QuoteRequestNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegQty = legQty
@@ -3030,8 +3030,8 @@ let ReadQuoteRequestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // group
-let ReadNoQuoteQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteQualifiersGrp =
-    let quoteQualifier = ReadFieldOrdered true bs index 695 ReadQuoteQualifierIdx
+let ReadNoQuoteQualifiersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoQuoteQualifiersGrp =
+    let quoteQualifier = ReadFieldOrdered true bs index 695 ReadQuoteQualifier
     let ci:NoQuoteQualifiersGrp = {
         QuoteQualifier = quoteQualifier
     }
@@ -3039,41 +3039,41 @@ let ReadNoQuoteQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
 
 
 // group
-let ReadQuoteRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestNoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
-    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsIdxOrdered
-    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrpIdx
-    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePxIdx
-    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestTypeIdx
-    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteTypeIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDateIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyTypeIdx
-    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataIdxOrdered
-    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlTypeIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2Idx
-    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2Idx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
-    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountTypeIdx
-    let quoteRequestNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadQuoteRequestNoLegsGrpIdx
-    let noQuoteQualifiersGrp = ReadOptionalGroupOrdered true bs index 735 ReadNoQuoteQualifiersGrpIdx
-    let quotePriceType = ReadOptionalFieldOrdered true bs index 692 ReadQuotePriceTypeIdx
-    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdTypeIdx
-    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTimeIdx
-    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTimeIdx
-    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTimeIdx
-    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataIdxOrdered
-    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceTypeIdx
-    let price = ReadOptionalFieldOrdered true bs index 44 ReadPriceIdx
-    let price2 = ReadOptionalFieldOrdered true bs index 640 ReadPrice2Idx
-    let yieldData = ReadComponentOrdered true bs index ReadYieldDataIdxOrdered
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
+let ReadQuoteRequestNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : QuoteRequestNoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
+    let financingDetails = ReadComponentOrdered true bs index ReadFinancingDetailsOrdered
+    let noUnderlyingsGrp = ReadOptionalGroupOrdered true bs index 711 ReadNoUnderlyingsGrp
+    let prevClosePx = ReadOptionalFieldOrdered true bs index 140 ReadPrevClosePx
+    let quoteRequestType = ReadOptionalFieldOrdered true bs index 303 ReadQuoteRequestType
+    let quoteType = ReadOptionalFieldOrdered true bs index 537 ReadQuoteType
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let tradeOriginationDate = ReadOptionalFieldOrdered true bs index 229 ReadTradeOriginationDate
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let qtyType = ReadOptionalFieldOrdered true bs index 854 ReadQtyType
+    let orderQtyData = ReadComponentOrdered true bs index ReadOrderQtyDataOrdered
+    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlType
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let settlDate2 = ReadOptionalFieldOrdered true bs index 193 ReadSettlDate2
+    let orderQty2 = ReadOptionalFieldOrdered true bs index 192 ReadOrderQty2
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
+    let accountType = ReadOptionalFieldOrdered true bs index 581 ReadAccountType
+    let quoteRequestNoLegsGrp = ReadOptionalGroupOrdered true bs index 555 ReadQuoteRequestNoLegsGrp
+    let noQuoteQualifiersGrp = ReadOptionalGroupOrdered true bs index 735 ReadNoQuoteQualifiersGrp
+    let quotePriceType = ReadOptionalFieldOrdered true bs index 692 ReadQuotePriceType
+    let ordType = ReadOptionalFieldOrdered true bs index 40 ReadOrdType
+    let validUntilTime = ReadOptionalFieldOrdered true bs index 62 ReadValidUntilTime
+    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTime
+    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTime
+    let spreadOrBenchmarkCurveData = ReadComponentOrdered true bs index ReadSpreadOrBenchmarkCurveDataOrdered
+    let priceType = ReadOptionalFieldOrdered true bs index 423 ReadPriceType
+    let price = ReadOptionalFieldOrdered true bs index 44 ReadPrice
+    let price2 = ReadOptionalFieldOrdered true bs index 640 ReadPrice2
+    let yieldData = ReadComponentOrdered true bs index ReadYieldDataOrdered
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
     let ci:QuoteRequestNoRelatedSymGrp = {
         Instrument = instrument
         FinancingDetails = financingDetails
@@ -3114,8 +3114,8 @@ let ReadQuoteRequestNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIn
 
 
 // component, random access reader
-let ReadPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Parties =
-    let noPartyIDsGrp = ReadOptionalGroup bs index 453 ReadNoPartyIDsGrpIdx
+let ReadParties (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Parties =
+    let noPartyIDsGrp = ReadOptionalGroup bs index 453 ReadNoPartyIDsGrp
     let ci:Parties = {
         NoPartyIDsGrp = noPartyIDsGrp
     }
@@ -3123,8 +3123,8 @@ let ReadPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Parties =
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Parties =
-    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrpIdx
+let ReadPartiesOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Parties =
+    let noPartyIDsGrp = ReadOptionalGroupOrdered true bs index 453 ReadNoPartyIDsGrp
     let ci:Parties = {
         NoPartyIDsGrp = noPartyIDsGrp
     }
@@ -3132,8 +3132,8 @@ let ReadPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex
 
 
 // component, random access reader
-let ReadNestedPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties =
-    let noNestedPartyIDsGrp = ReadOptionalGroup bs index 539 ReadNoNestedPartyIDsGrpIdx
+let ReadNestedParties (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties =
+    let noNestedPartyIDsGrp = ReadOptionalGroup bs index 539 ReadNoNestedPartyIDsGrp
     let ci:NestedParties = {
         NoNestedPartyIDsGrp = noNestedPartyIDsGrp
     }
@@ -3141,8 +3141,8 @@ let ReadNestedPartiesIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedP
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadNestedPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties =
-    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrpIdx
+let ReadNestedPartiesOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NestedParties =
+    let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
     let ci:NestedParties = {
         NoNestedPartyIDsGrp = noNestedPartyIDsGrp
     }
@@ -3150,8 +3150,8 @@ let ReadNestedPartiesIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 
 // group
-let ReadNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRelatedSymGrp =
-    let instrument = ReadComponentOrdered true bs index ReadInstrumentIdxOrdered
+let ReadNoRelatedSymGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRelatedSymGrp =
+    let instrument = ReadComponentOrdered true bs index ReadInstrumentOrdered
     let ci:NoRelatedSymGrp = {
         Instrument = instrument
     }
@@ -3159,10 +3159,10 @@ let ReadNoRelatedSymGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRel
 
 
 // group
-let ReadIndicationOfInterestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : IndicationOfInterestNoLegsGrp =
-    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGIdxOrdered
-    let legIOIQty = ReadOptionalFieldOrdered true bs index 682 ReadLegIOIQtyIdx
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
+let ReadIndicationOfInterestNoLegsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : IndicationOfInterestNoLegsGrp =
+    let instrumentLegFG = ReadComponentOrdered true bs index ReadInstrumentLegFGOrdered
+    let legIOIQty = ReadOptionalFieldOrdered true bs index 682 ReadLegIOIQty
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
     let ci:IndicationOfInterestNoLegsGrp = {
         InstrumentLegFG = instrumentLegFG
         LegIOIQty = legIOIQty
@@ -3172,8 +3172,8 @@ let ReadIndicationOfInterestNoLegsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // component, random access reader
-let ReadLegStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegStipulations =
-    let noLegStipulationsGrp = ReadOptionalGroup bs index 683 ReadNoLegStipulationsGrpIdx
+let ReadLegStipulations (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegStipulations =
+    let noLegStipulationsGrp = ReadOptionalGroup bs index 683 ReadNoLegStipulationsGrp
     let ci:LegStipulations = {
         NoLegStipulationsGrp = noLegStipulationsGrp
     }
@@ -3181,8 +3181,8 @@ let ReadLegStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegSt
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadLegStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegStipulations =
-    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrpIdx
+let ReadLegStipulationsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LegStipulations =
+    let noLegStipulationsGrp = ReadOptionalGroupOrdered true bs index 683 ReadNoLegStipulationsGrp
     let ci:LegStipulations = {
         NoLegStipulationsGrp = noLegStipulationsGrp
     }
@@ -3190,8 +3190,8 @@ let ReadLegStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.Fix
 
 
 // component, random access reader
-let ReadStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Stipulations =
-    let noStipulationsGrp = ReadOptionalGroup bs index 232 ReadNoStipulationsGrpIdx
+let ReadStipulations (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Stipulations =
+    let noStipulationsGrp = ReadOptionalGroup bs index 232 ReadNoStipulationsGrp
     let ci:Stipulations = {
         NoStipulationsGrp = noStipulationsGrp
     }
@@ -3199,8 +3199,8 @@ let ReadStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Stipulat
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Stipulations =
-    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrpIdx
+let ReadStipulationsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Stipulations =
+    let noStipulationsGrp = ReadOptionalGroupOrdered true bs index 232 ReadNoStipulationsGrp
     let ci:Stipulations = {
         NoStipulationsGrp = noStipulationsGrp
     }
@@ -3208,8 +3208,8 @@ let ReadStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // group
-let ReadAdvertisementNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AdvertisementNoUnderlyingsGrp =
-    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentIdxOrdered
+let ReadAdvertisementNoUnderlyingsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AdvertisementNoUnderlyingsGrp =
+    let underlyingInstrument = ReadComponentOrdered true bs index ReadUnderlyingInstrumentOrdered
     let ci:AdvertisementNoUnderlyingsGrp = {
         UnderlyingInstrument = underlyingInstrument
     }
@@ -3217,8 +3217,8 @@ let ReadAdvertisementNoUnderlyingsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBuf
 
 
 // component, random access reader
-let ReadUnderlyingStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingStipulations =
-    let noUnderlyingStipsGrp = ReadOptionalGroup bs index 887 ReadNoUnderlyingStipsGrpIdx
+let ReadUnderlyingStipulations (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingStipulations =
+    let noUnderlyingStipsGrp = ReadOptionalGroup bs index 887 ReadNoUnderlyingStipsGrp
     let ci:UnderlyingStipulations = {
         NoUnderlyingStipsGrp = noUnderlyingStipsGrp
     }
@@ -3226,8 +3226,8 @@ let ReadUnderlyingStipulationsIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadUnderlyingStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingStipulations =
-    let noUnderlyingStipsGrp = ReadOptionalGroupOrdered true bs index 887 ReadNoUnderlyingStipsGrpIdx
+let ReadUnderlyingStipulationsOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : UnderlyingStipulations =
+    let noUnderlyingStipsGrp = ReadOptionalGroupOrdered true bs index 887 ReadNoUnderlyingStipsGrp
     let ci:UnderlyingStipulations = {
         NoUnderlyingStipsGrp = noUnderlyingStipsGrp
     }
@@ -3235,47 +3235,47 @@ let ReadUnderlyingStipulationsIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufInde
 
 
 // component, random access reader
-let ReadInstrumentLegIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLeg =
-    let legSymbol = ReadOptionalField bs index 600 ReadLegSymbolIdx
-    let legSymbolSfx = ReadOptionalField bs index 601 ReadLegSymbolSfxIdx
-    let legSecurityID = ReadOptionalField bs index 602 ReadLegSecurityIDIdx
-    let legSecurityIDSource = ReadOptionalField bs index 603 ReadLegSecurityIDSourceIdx
-    let noLegSecurityAltIDGrp = ReadOptionalGroup bs index 604 ReadNoLegSecurityAltIDGrpIdx
-    let legProduct = ReadOptionalField bs index 607 ReadLegProductIdx
-    let legCFICode = ReadOptionalField bs index 608 ReadLegCFICodeIdx
-    let legSecurityType = ReadOptionalField bs index 609 ReadLegSecurityTypeIdx
-    let legSecuritySubType = ReadOptionalField bs index 764 ReadLegSecuritySubTypeIdx
-    let legMaturityMonthYear = ReadOptionalField bs index 610 ReadLegMaturityMonthYearIdx
-    let legMaturityDate = ReadOptionalField bs index 611 ReadLegMaturityDateIdx
-    let legCouponPaymentDate = ReadOptionalField bs index 248 ReadLegCouponPaymentDateIdx
-    let legIssueDate = ReadOptionalField bs index 249 ReadLegIssueDateIdx
-    let legRepoCollateralSecurityType = ReadOptionalField bs index 250 ReadLegRepoCollateralSecurityTypeIdx
-    let legRepurchaseTerm = ReadOptionalField bs index 251 ReadLegRepurchaseTermIdx
-    let legRepurchaseRate = ReadOptionalField bs index 252 ReadLegRepurchaseRateIdx
-    let legFactor = ReadOptionalField bs index 253 ReadLegFactorIdx
-    let legCreditRating = ReadOptionalField bs index 257 ReadLegCreditRatingIdx
-    let legInstrRegistry = ReadOptionalField bs index 599 ReadLegInstrRegistryIdx
-    let legCountryOfIssue = ReadOptionalField bs index 596 ReadLegCountryOfIssueIdx
-    let legStateOrProvinceOfIssue = ReadOptionalField bs index 597 ReadLegStateOrProvinceOfIssueIdx
-    let legLocaleOfIssue = ReadOptionalField bs index 598 ReadLegLocaleOfIssueIdx
-    let legRedemptionDate = ReadOptionalField bs index 254 ReadLegRedemptionDateIdx
-    let legStrikePrice = ReadOptionalField bs index 612 ReadLegStrikePriceIdx
-    let legStrikeCurrency = ReadOptionalField bs index 942 ReadLegStrikeCurrencyIdx
-    let legOptAttribute = ReadOptionalField bs index 613 ReadLegOptAttributeIdx
-    let legContractMultiplier = ReadOptionalField bs index 614 ReadLegContractMultiplierIdx
-    let legCouponRate = ReadOptionalField bs index 615 ReadLegCouponRateIdx
-    let legSecurityExchange = ReadOptionalField bs index 616 ReadLegSecurityExchangeIdx
-    let legIssuer = ReadOptionalField bs index 617 ReadLegIssuerIdx
-    let encodedLegIssuer = ReadOptionalField bs index 618 ReadEncodedLegIssuerIdx
-    let legSecurityDesc = ReadOptionalField bs index 620 ReadLegSecurityDescIdx
-    let encodedLegSecurityDesc = ReadOptionalField bs index 621 ReadEncodedLegSecurityDescIdx
-    let legRatioQty = ReadOptionalField bs index 623 ReadLegRatioQtyIdx
-    let legSide = ReadOptionalField bs index 624 ReadLegSideIdx
-    let legCurrency = ReadOptionalField bs index 556 ReadLegCurrencyIdx
-    let legPool = ReadOptionalField bs index 740 ReadLegPoolIdx
-    let legDatedDate = ReadOptionalField bs index 739 ReadLegDatedDateIdx
-    let legContractSettlMonth = ReadOptionalField bs index 955 ReadLegContractSettlMonthIdx
-    let legInterestAccrualDate = ReadOptionalField bs index 956 ReadLegInterestAccrualDateIdx
+let ReadInstrumentLeg (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLeg =
+    let legSymbol = ReadOptionalField bs index 600 ReadLegSymbol
+    let legSymbolSfx = ReadOptionalField bs index 601 ReadLegSymbolSfx
+    let legSecurityID = ReadOptionalField bs index 602 ReadLegSecurityID
+    let legSecurityIDSource = ReadOptionalField bs index 603 ReadLegSecurityIDSource
+    let noLegSecurityAltIDGrp = ReadOptionalGroup bs index 604 ReadNoLegSecurityAltIDGrp
+    let legProduct = ReadOptionalField bs index 607 ReadLegProduct
+    let legCFICode = ReadOptionalField bs index 608 ReadLegCFICode
+    let legSecurityType = ReadOptionalField bs index 609 ReadLegSecurityType
+    let legSecuritySubType = ReadOptionalField bs index 764 ReadLegSecuritySubType
+    let legMaturityMonthYear = ReadOptionalField bs index 610 ReadLegMaturityMonthYear
+    let legMaturityDate = ReadOptionalField bs index 611 ReadLegMaturityDate
+    let legCouponPaymentDate = ReadOptionalField bs index 248 ReadLegCouponPaymentDate
+    let legIssueDate = ReadOptionalField bs index 249 ReadLegIssueDate
+    let legRepoCollateralSecurityType = ReadOptionalField bs index 250 ReadLegRepoCollateralSecurityType
+    let legRepurchaseTerm = ReadOptionalField bs index 251 ReadLegRepurchaseTerm
+    let legRepurchaseRate = ReadOptionalField bs index 252 ReadLegRepurchaseRate
+    let legFactor = ReadOptionalField bs index 253 ReadLegFactor
+    let legCreditRating = ReadOptionalField bs index 257 ReadLegCreditRating
+    let legInstrRegistry = ReadOptionalField bs index 599 ReadLegInstrRegistry
+    let legCountryOfIssue = ReadOptionalField bs index 596 ReadLegCountryOfIssue
+    let legStateOrProvinceOfIssue = ReadOptionalField bs index 597 ReadLegStateOrProvinceOfIssue
+    let legLocaleOfIssue = ReadOptionalField bs index 598 ReadLegLocaleOfIssue
+    let legRedemptionDate = ReadOptionalField bs index 254 ReadLegRedemptionDate
+    let legStrikePrice = ReadOptionalField bs index 612 ReadLegStrikePrice
+    let legStrikeCurrency = ReadOptionalField bs index 942 ReadLegStrikeCurrency
+    let legOptAttribute = ReadOptionalField bs index 613 ReadLegOptAttribute
+    let legContractMultiplier = ReadOptionalField bs index 614 ReadLegContractMultiplier
+    let legCouponRate = ReadOptionalField bs index 615 ReadLegCouponRate
+    let legSecurityExchange = ReadOptionalField bs index 616 ReadLegSecurityExchange
+    let legIssuer = ReadOptionalField bs index 617 ReadLegIssuer
+    let encodedLegIssuer = ReadOptionalField bs index 618 ReadEncodedLegIssuer
+    let legSecurityDesc = ReadOptionalField bs index 620 ReadLegSecurityDesc
+    let encodedLegSecurityDesc = ReadOptionalField bs index 621 ReadEncodedLegSecurityDesc
+    let legRatioQty = ReadOptionalField bs index 623 ReadLegRatioQty
+    let legSide = ReadOptionalField bs index 624 ReadLegSide
+    let legCurrency = ReadOptionalField bs index 556 ReadLegCurrency
+    let legPool = ReadOptionalField bs index 740 ReadLegPool
+    let legDatedDate = ReadOptionalField bs index 739 ReadLegDatedDate
+    let legContractSettlMonth = ReadOptionalField bs index 955 ReadLegContractSettlMonth
+    let legInterestAccrualDate = ReadOptionalField bs index 956 ReadLegInterestAccrualDate
     let ci:InstrumentLeg = {
         LegSymbol = legSymbol
         LegSymbolSfx = legSymbolSfx
@@ -3322,47 +3322,47 @@ let ReadInstrumentLegIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : Instrum
 
 
 // component, ordered reader i.e. fields are in sequential order in the FIX buffer
-let ReadInstrumentLegIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLeg =
-    let legSymbol = ReadOptionalFieldOrdered true bs index 600 ReadLegSymbolIdx
-    let legSymbolSfx = ReadOptionalFieldOrdered true bs index 601 ReadLegSymbolSfxIdx
-    let legSecurityID = ReadOptionalFieldOrdered true bs index 602 ReadLegSecurityIDIdx
-    let legSecurityIDSource = ReadOptionalFieldOrdered true bs index 603 ReadLegSecurityIDSourceIdx
-    let noLegSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 604 ReadNoLegSecurityAltIDGrpIdx
-    let legProduct = ReadOptionalFieldOrdered true bs index 607 ReadLegProductIdx
-    let legCFICode = ReadOptionalFieldOrdered true bs index 608 ReadLegCFICodeIdx
-    let legSecurityType = ReadOptionalFieldOrdered true bs index 609 ReadLegSecurityTypeIdx
-    let legSecuritySubType = ReadOptionalFieldOrdered true bs index 764 ReadLegSecuritySubTypeIdx
-    let legMaturityMonthYear = ReadOptionalFieldOrdered true bs index 610 ReadLegMaturityMonthYearIdx
-    let legMaturityDate = ReadOptionalFieldOrdered true bs index 611 ReadLegMaturityDateIdx
-    let legCouponPaymentDate = ReadOptionalFieldOrdered true bs index 248 ReadLegCouponPaymentDateIdx
-    let legIssueDate = ReadOptionalFieldOrdered true bs index 249 ReadLegIssueDateIdx
-    let legRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 250 ReadLegRepoCollateralSecurityTypeIdx
-    let legRepurchaseTerm = ReadOptionalFieldOrdered true bs index 251 ReadLegRepurchaseTermIdx
-    let legRepurchaseRate = ReadOptionalFieldOrdered true bs index 252 ReadLegRepurchaseRateIdx
-    let legFactor = ReadOptionalFieldOrdered true bs index 253 ReadLegFactorIdx
-    let legCreditRating = ReadOptionalFieldOrdered true bs index 257 ReadLegCreditRatingIdx
-    let legInstrRegistry = ReadOptionalFieldOrdered true bs index 599 ReadLegInstrRegistryIdx
-    let legCountryOfIssue = ReadOptionalFieldOrdered true bs index 596 ReadLegCountryOfIssueIdx
-    let legStateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 597 ReadLegStateOrProvinceOfIssueIdx
-    let legLocaleOfIssue = ReadOptionalFieldOrdered true bs index 598 ReadLegLocaleOfIssueIdx
-    let legRedemptionDate = ReadOptionalFieldOrdered true bs index 254 ReadLegRedemptionDateIdx
-    let legStrikePrice = ReadOptionalFieldOrdered true bs index 612 ReadLegStrikePriceIdx
-    let legStrikeCurrency = ReadOptionalFieldOrdered true bs index 942 ReadLegStrikeCurrencyIdx
-    let legOptAttribute = ReadOptionalFieldOrdered true bs index 613 ReadLegOptAttributeIdx
-    let legContractMultiplier = ReadOptionalFieldOrdered true bs index 614 ReadLegContractMultiplierIdx
-    let legCouponRate = ReadOptionalFieldOrdered true bs index 615 ReadLegCouponRateIdx
-    let legSecurityExchange = ReadOptionalFieldOrdered true bs index 616 ReadLegSecurityExchangeIdx
-    let legIssuer = ReadOptionalFieldOrdered true bs index 617 ReadLegIssuerIdx
-    let encodedLegIssuer = ReadOptionalFieldOrdered true bs index 618 ReadEncodedLegIssuerIdx
-    let legSecurityDesc = ReadOptionalFieldOrdered true bs index 620 ReadLegSecurityDescIdx
-    let encodedLegSecurityDesc = ReadOptionalFieldOrdered true bs index 621 ReadEncodedLegSecurityDescIdx
-    let legRatioQty = ReadOptionalFieldOrdered true bs index 623 ReadLegRatioQtyIdx
-    let legSide = ReadOptionalFieldOrdered true bs index 624 ReadLegSideIdx
-    let legCurrency = ReadOptionalFieldOrdered true bs index 556 ReadLegCurrencyIdx
-    let legPool = ReadOptionalFieldOrdered true bs index 740 ReadLegPoolIdx
-    let legDatedDate = ReadOptionalFieldOrdered true bs index 739 ReadLegDatedDateIdx
-    let legContractSettlMonth = ReadOptionalFieldOrdered true bs index 955 ReadLegContractSettlMonthIdx
-    let legInterestAccrualDate = ReadOptionalFieldOrdered true bs index 956 ReadLegInterestAccrualDateIdx
+let ReadInstrumentLegOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : InstrumentLeg =
+    let legSymbol = ReadOptionalFieldOrdered true bs index 600 ReadLegSymbol
+    let legSymbolSfx = ReadOptionalFieldOrdered true bs index 601 ReadLegSymbolSfx
+    let legSecurityID = ReadOptionalFieldOrdered true bs index 602 ReadLegSecurityID
+    let legSecurityIDSource = ReadOptionalFieldOrdered true bs index 603 ReadLegSecurityIDSource
+    let noLegSecurityAltIDGrp = ReadOptionalGroupOrdered true bs index 604 ReadNoLegSecurityAltIDGrp
+    let legProduct = ReadOptionalFieldOrdered true bs index 607 ReadLegProduct
+    let legCFICode = ReadOptionalFieldOrdered true bs index 608 ReadLegCFICode
+    let legSecurityType = ReadOptionalFieldOrdered true bs index 609 ReadLegSecurityType
+    let legSecuritySubType = ReadOptionalFieldOrdered true bs index 764 ReadLegSecuritySubType
+    let legMaturityMonthYear = ReadOptionalFieldOrdered true bs index 610 ReadLegMaturityMonthYear
+    let legMaturityDate = ReadOptionalFieldOrdered true bs index 611 ReadLegMaturityDate
+    let legCouponPaymentDate = ReadOptionalFieldOrdered true bs index 248 ReadLegCouponPaymentDate
+    let legIssueDate = ReadOptionalFieldOrdered true bs index 249 ReadLegIssueDate
+    let legRepoCollateralSecurityType = ReadOptionalFieldOrdered true bs index 250 ReadLegRepoCollateralSecurityType
+    let legRepurchaseTerm = ReadOptionalFieldOrdered true bs index 251 ReadLegRepurchaseTerm
+    let legRepurchaseRate = ReadOptionalFieldOrdered true bs index 252 ReadLegRepurchaseRate
+    let legFactor = ReadOptionalFieldOrdered true bs index 253 ReadLegFactor
+    let legCreditRating = ReadOptionalFieldOrdered true bs index 257 ReadLegCreditRating
+    let legInstrRegistry = ReadOptionalFieldOrdered true bs index 599 ReadLegInstrRegistry
+    let legCountryOfIssue = ReadOptionalFieldOrdered true bs index 596 ReadLegCountryOfIssue
+    let legStateOrProvinceOfIssue = ReadOptionalFieldOrdered true bs index 597 ReadLegStateOrProvinceOfIssue
+    let legLocaleOfIssue = ReadOptionalFieldOrdered true bs index 598 ReadLegLocaleOfIssue
+    let legRedemptionDate = ReadOptionalFieldOrdered true bs index 254 ReadLegRedemptionDate
+    let legStrikePrice = ReadOptionalFieldOrdered true bs index 612 ReadLegStrikePrice
+    let legStrikeCurrency = ReadOptionalFieldOrdered true bs index 942 ReadLegStrikeCurrency
+    let legOptAttribute = ReadOptionalFieldOrdered true bs index 613 ReadLegOptAttribute
+    let legContractMultiplier = ReadOptionalFieldOrdered true bs index 614 ReadLegContractMultiplier
+    let legCouponRate = ReadOptionalFieldOrdered true bs index 615 ReadLegCouponRate
+    let legSecurityExchange = ReadOptionalFieldOrdered true bs index 616 ReadLegSecurityExchange
+    let legIssuer = ReadOptionalFieldOrdered true bs index 617 ReadLegIssuer
+    let encodedLegIssuer = ReadOptionalFieldOrdered true bs index 618 ReadEncodedLegIssuer
+    let legSecurityDesc = ReadOptionalFieldOrdered true bs index 620 ReadLegSecurityDesc
+    let encodedLegSecurityDesc = ReadOptionalFieldOrdered true bs index 621 ReadEncodedLegSecurityDesc
+    let legRatioQty = ReadOptionalFieldOrdered true bs index 623 ReadLegRatioQty
+    let legSide = ReadOptionalFieldOrdered true bs index 624 ReadLegSide
+    let legCurrency = ReadOptionalFieldOrdered true bs index 556 ReadLegCurrency
+    let legPool = ReadOptionalFieldOrdered true bs index 740 ReadLegPool
+    let legDatedDate = ReadOptionalFieldOrdered true bs index 739 ReadLegDatedDate
+    let legContractSettlMonth = ReadOptionalFieldOrdered true bs index 955 ReadLegContractSettlMonth
+    let legInterestAccrualDate = ReadOptionalFieldOrdered true bs index 956 ReadLegInterestAccrualDate
     let ci:InstrumentLeg = {
         LegSymbol = legSymbol
         LegSymbolSfx = legSymbolSfx
@@ -3409,9 +3409,9 @@ let ReadInstrumentLegIdxOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 
 // group
-let ReadNoMsgTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMsgTypesGrp =
-    let refMsgType = ReadFieldOrdered true bs index 372 ReadRefMsgTypeIdx
-    let msgDirection = ReadOptionalFieldOrdered true bs index 385 ReadMsgDirectionIdx
+let ReadNoMsgTypesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMsgTypesGrp =
+    let refMsgType = ReadFieldOrdered true bs index 372 ReadRefMsgType
+    let msgDirection = ReadOptionalFieldOrdered true bs index 385 ReadMsgDirection
     let ci:NoMsgTypesGrp = {
         RefMsgType = refMsgType
         MsgDirection = msgDirection
@@ -3420,8 +3420,8 @@ let ReadNoMsgTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMsgTy
 
 
 // group
-let ReadNoIOIQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoIOIQualifiersGrp =
-    let iOIQualifier = ReadFieldOrdered true bs index 104 ReadIOIQualifierIdx
+let ReadNoIOIQualifiersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoIOIQualifiersGrp =
+    let iOIQualifier = ReadFieldOrdered true bs index 104 ReadIOIQualifier
     let ci:NoIOIQualifiersGrp = {
         IOIQualifier = iOIQualifier
     }
@@ -3429,9 +3429,9 @@ let ReadNoIOIQualifiersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadNoRoutingIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRoutingIDsGrp =
-    let routingType = ReadFieldOrdered true bs index 216 ReadRoutingTypeIdx
-    let routingID = ReadOptionalFieldOrdered true bs index 217 ReadRoutingIDIdx
+let ReadNoRoutingIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRoutingIDsGrp =
+    let routingType = ReadFieldOrdered true bs index 216 ReadRoutingType
+    let routingID = ReadOptionalFieldOrdered true bs index 217 ReadRoutingID
     let ci:NoRoutingIDsGrp = {
         RoutingType = routingType
         RoutingID = routingID
@@ -3440,9 +3440,9 @@ let ReadNoRoutingIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoRou
 
 
 // group
-let ReadLinesOfTextGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LinesOfTextGrp =
-    let text = ReadFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadLinesOfTextGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LinesOfTextGrp =
+    let text = ReadFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:LinesOfTextGrp = {
         Text = text
         EncodedText = encodedText
@@ -3451,8 +3451,8 @@ let ReadLinesOfTextGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : LinesO
 
 
 // group
-let ReadNoMDEntryTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntryTypesGrp =
-    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryTypeIdx
+let ReadNoMDEntryTypesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntryTypesGrp =
+    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryType
     let ci:NoMDEntryTypesGrp = {
         MDEntryType = mDEntryType
     }
@@ -3460,39 +3460,39 @@ let ReadNoMDEntryTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoM
 
 
 // group
-let ReadNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntriesGrp =
-    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryTypeIdx
-    let mDEntryPx = ReadOptionalFieldOrdered true bs index 270 ReadMDEntryPxIdx
-    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrencyIdx
-    let mDEntrySize = ReadOptionalFieldOrdered true bs index 271 ReadMDEntrySizeIdx
-    let mDEntryDate = ReadOptionalFieldOrdered true bs index 272 ReadMDEntryDateIdx
-    let mDEntryTime = ReadOptionalFieldOrdered true bs index 273 ReadMDEntryTimeIdx
-    let tickDirection = ReadOptionalFieldOrdered true bs index 274 ReadTickDirectionIdx
-    let mDMkt = ReadOptionalFieldOrdered true bs index 275 ReadMDMktIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let quoteCondition = ReadOptionalFieldOrdered true bs index 276 ReadQuoteConditionIdx
-    let tradeCondition = ReadOptionalFieldOrdered true bs index 277 ReadTradeConditionIdx
-    let mDEntryOriginator = ReadOptionalFieldOrdered true bs index 282 ReadMDEntryOriginatorIdx
-    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationIDIdx
-    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskIDIdx
-    let openCloseSettlFlag = ReadOptionalFieldOrdered true bs index 286 ReadOpenCloseSettlFlagIdx
-    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForceIdx
-    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDateIdx
-    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTimeIdx
-    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQtyIdx
-    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInstIdx
-    let sellerDays = ReadOptionalFieldOrdered true bs index 287 ReadSellerDaysIdx
-    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderIDIdx
-    let quoteEntryID = ReadOptionalFieldOrdered true bs index 299 ReadQuoteEntryIDIdx
-    let mDEntryBuyer = ReadOptionalFieldOrdered true bs index 288 ReadMDEntryBuyerIdx
-    let mDEntrySeller = ReadOptionalFieldOrdered true bs index 289 ReadMDEntrySellerIdx
-    let numberOfOrders = ReadOptionalFieldOrdered true bs index 346 ReadNumberOfOrdersIdx
-    let mDEntryPositionNo = ReadOptionalFieldOrdered true bs index 290 ReadMDEntryPositionNoIdx
-    let scope = ReadOptionalFieldOrdered true bs index 546 ReadScopeIdx
-    let priceDelta = ReadOptionalFieldOrdered true bs index 811 ReadPriceDeltaIdx
-    let text = ReadOptionalFieldOrdered true bs index 58 ReadTextIdx
-    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadNoMDEntriesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEntriesGrp =
+    let mDEntryType = ReadFieldOrdered true bs index 269 ReadMDEntryType
+    let mDEntryPx = ReadOptionalFieldOrdered true bs index 270 ReadMDEntryPx
+    let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
+    let mDEntrySize = ReadOptionalFieldOrdered true bs index 271 ReadMDEntrySize
+    let mDEntryDate = ReadOptionalFieldOrdered true bs index 272 ReadMDEntryDate
+    let mDEntryTime = ReadOptionalFieldOrdered true bs index 273 ReadMDEntryTime
+    let tickDirection = ReadOptionalFieldOrdered true bs index 274 ReadTickDirection
+    let mDMkt = ReadOptionalFieldOrdered true bs index 275 ReadMDMkt
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let quoteCondition = ReadOptionalFieldOrdered true bs index 276 ReadQuoteCondition
+    let tradeCondition = ReadOptionalFieldOrdered true bs index 277 ReadTradeCondition
+    let mDEntryOriginator = ReadOptionalFieldOrdered true bs index 282 ReadMDEntryOriginator
+    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationID
+    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskID
+    let openCloseSettlFlag = ReadOptionalFieldOrdered true bs index 286 ReadOpenCloseSettlFlag
+    let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
+    let expireDate = ReadOptionalFieldOrdered true bs index 432 ReadExpireDate
+    let expireTime = ReadOptionalFieldOrdered true bs index 126 ReadExpireTime
+    let minQty = ReadOptionalFieldOrdered true bs index 110 ReadMinQty
+    let execInst = ReadOptionalFieldOrdered true bs index 18 ReadExecInst
+    let sellerDays = ReadOptionalFieldOrdered true bs index 287 ReadSellerDays
+    let orderID = ReadOptionalFieldOrdered true bs index 37 ReadOrderID
+    let quoteEntryID = ReadOptionalFieldOrdered true bs index 299 ReadQuoteEntryID
+    let mDEntryBuyer = ReadOptionalFieldOrdered true bs index 288 ReadMDEntryBuyer
+    let mDEntrySeller = ReadOptionalFieldOrdered true bs index 289 ReadMDEntrySeller
+    let numberOfOrders = ReadOptionalFieldOrdered true bs index 346 ReadNumberOfOrders
+    let mDEntryPositionNo = ReadOptionalFieldOrdered true bs index 290 ReadMDEntryPositionNo
+    let scope = ReadOptionalFieldOrdered true bs index 546 ReadScope
+    let priceDelta = ReadOptionalFieldOrdered true bs index 811 ReadPriceDelta
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:NoMDEntriesGrp = {
         MDEntryType = mDEntryType
         MDEntryPx = mDEntryPx
@@ -3531,8 +3531,8 @@ let ReadNoMDEntriesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoMDEn
 
 
 // group
-let ReadNoAltMDSourceGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAltMDSourceGrp =
-    let altMDSourceID = ReadFieldOrdered true bs index 817 ReadAltMDSourceIDIdx
+let ReadNoAltMDSourceGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAltMDSourceGrp =
+    let altMDSourceID = ReadFieldOrdered true bs index 817 ReadAltMDSourceID
     let ci:NoAltMDSourceGrp = {
         AltMDSourceID = altMDSourceID
     }
@@ -3540,11 +3540,11 @@ let ReadNoAltMDSourceGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAl
 
 
 // group
-let ReadNoSecurityTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityTypesGrp =
-    let securityType = ReadFieldOrdered true bs index 167 ReadSecurityTypeIdx
-    let securitySubType = ReadOptionalFieldOrdered true bs index 762 ReadSecuritySubTypeIdx
-    let product = ReadOptionalFieldOrdered true bs index 460 ReadProductIdx
-    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICodeIdx
+let ReadNoSecurityTypesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoSecurityTypesGrp =
+    let securityType = ReadFieldOrdered true bs index 167 ReadSecurityType
+    let securitySubType = ReadOptionalFieldOrdered true bs index 762 ReadSecuritySubType
+    let product = ReadOptionalFieldOrdered true bs index 460 ReadProduct
+    let cFICode = ReadOptionalFieldOrdered true bs index 461 ReadCFICode
     let ci:NoSecurityTypesGrp = {
         SecurityType = securityType
         SecuritySubType = securitySubType
@@ -3555,12 +3555,12 @@ let ReadNoSecurityTypesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadNoContraBrokersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContraBrokersGrp =
-    let contraBroker = ReadFieldOrdered true bs index 375 ReadContraBrokerIdx
-    let contraTrader = ReadOptionalFieldOrdered true bs index 337 ReadContraTraderIdx
-    let contraTradeQty = ReadOptionalFieldOrdered true bs index 437 ReadContraTradeQtyIdx
-    let contraTradeTime = ReadOptionalFieldOrdered true bs index 438 ReadContraTradeTimeIdx
-    let contraLegRefID = ReadOptionalFieldOrdered true bs index 655 ReadContraLegRefIDIdx
+let ReadNoContraBrokersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoContraBrokersGrp =
+    let contraBroker = ReadFieldOrdered true bs index 375 ReadContraBroker
+    let contraTrader = ReadOptionalFieldOrdered true bs index 337 ReadContraTrader
+    let contraTradeQty = ReadOptionalFieldOrdered true bs index 437 ReadContraTradeQty
+    let contraTradeTime = ReadOptionalFieldOrdered true bs index 438 ReadContraTradeTime
+    let contraLegRefID = ReadOptionalFieldOrdered true bs index 655 ReadContraLegRefID
     let ci:NoContraBrokersGrp = {
         ContraBroker = contraBroker
         ContraTrader = contraTrader
@@ -3572,10 +3572,10 @@ let ReadNoContraBrokersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadNoAffectedOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAffectedOrdersGrp =
-    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdIDIdx
-    let affectedOrderID = ReadOptionalFieldOrdered true bs index 535 ReadAffectedOrderIDIdx
-    let affectedSecondaryOrderID = ReadOptionalFieldOrdered true bs index 536 ReadAffectedSecondaryOrderIDIdx
+let ReadNoAffectedOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoAffectedOrdersGrp =
+    let origClOrdID = ReadFieldOrdered true bs index 41 ReadOrigClOrdID
+    let affectedOrderID = ReadOptionalFieldOrdered true bs index 535 ReadAffectedOrderID
+    let affectedSecondaryOrderID = ReadOptionalFieldOrdered true bs index 536 ReadAffectedSecondaryOrderID
     let ci:NoAffectedOrdersGrp = {
         OrigClOrdID = origClOrdID
         AffectedOrderID = affectedOrderID
@@ -3585,18 +3585,18 @@ let ReadNoAffectedOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 
 // group
-let ReadNoBidDescriptorsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidDescriptorsGrp =
-    let bidDescriptorType = ReadFieldOrdered true bs index 399 ReadBidDescriptorTypeIdx
-    let bidDescriptor = ReadOptionalFieldOrdered true bs index 400 ReadBidDescriptorIdx
-    let sideValueInd = ReadOptionalFieldOrdered true bs index 401 ReadSideValueIndIdx
-    let liquidityValue = ReadOptionalFieldOrdered true bs index 404 ReadLiquidityValueIdx
-    let liquidityNumSecurities = ReadOptionalFieldOrdered true bs index 441 ReadLiquidityNumSecuritiesIdx
-    let liquidityPctLow = ReadOptionalFieldOrdered true bs index 402 ReadLiquidityPctLowIdx
-    let liquidityPctHigh = ReadOptionalFieldOrdered true bs index 403 ReadLiquidityPctHighIdx
-    let eFPTrackingError = ReadOptionalFieldOrdered true bs index 405 ReadEFPTrackingErrorIdx
-    let fairValue = ReadOptionalFieldOrdered true bs index 406 ReadFairValueIdx
-    let outsideIndexPct = ReadOptionalFieldOrdered true bs index 407 ReadOutsideIndexPctIdx
-    let valueOfFutures = ReadOptionalFieldOrdered true bs index 408 ReadValueOfFuturesIdx
+let ReadNoBidDescriptorsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidDescriptorsGrp =
+    let bidDescriptorType = ReadFieldOrdered true bs index 399 ReadBidDescriptorType
+    let bidDescriptor = ReadOptionalFieldOrdered true bs index 400 ReadBidDescriptor
+    let sideValueInd = ReadOptionalFieldOrdered true bs index 401 ReadSideValueInd
+    let liquidityValue = ReadOptionalFieldOrdered true bs index 404 ReadLiquidityValue
+    let liquidityNumSecurities = ReadOptionalFieldOrdered true bs index 441 ReadLiquidityNumSecurities
+    let liquidityPctLow = ReadOptionalFieldOrdered true bs index 402 ReadLiquidityPctLow
+    let liquidityPctHigh = ReadOptionalFieldOrdered true bs index 403 ReadLiquidityPctHigh
+    let eFPTrackingError = ReadOptionalFieldOrdered true bs index 405 ReadEFPTrackingError
+    let fairValue = ReadOptionalFieldOrdered true bs index 406 ReadFairValue
+    let outsideIndexPct = ReadOptionalFieldOrdered true bs index 407 ReadOutsideIndexPct
+    let valueOfFutures = ReadOptionalFieldOrdered true bs index 408 ReadValueOfFutures
     let ci:NoBidDescriptorsGrp = {
         BidDescriptorType = bidDescriptorType
         BidDescriptor = bidDescriptor
@@ -3614,16 +3614,16 @@ let ReadNoBidDescriptorsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : N
 
 
 // group
-let ReadNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidComponentsGrp =
-    let listID = ReadFieldOrdered true bs index 66 ReadListIDIdx
-    let side = ReadOptionalFieldOrdered true bs index 54 ReadSideIdx
-    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionIDIdx
-    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubIDIdx
-    let netGrossInd = ReadOptionalFieldOrdered true bs index 430 ReadNetGrossIndIdx
-    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlTypeIdx
-    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDateIdx
-    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccountIdx
-    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSourceIdx
+let ReadNoBidComponentsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoBidComponentsGrp =
+    let listID = ReadFieldOrdered true bs index 66 ReadListID
+    let side = ReadOptionalFieldOrdered true bs index 54 ReadSide
+    let tradingSessionID = ReadOptionalFieldOrdered true bs index 336 ReadTradingSessionID
+    let tradingSessionSubID = ReadOptionalFieldOrdered true bs index 625 ReadTradingSessionSubID
+    let netGrossInd = ReadOptionalFieldOrdered true bs index 430 ReadNetGrossInd
+    let settlType = ReadOptionalFieldOrdered true bs index 63 ReadSettlType
+    let settlDate = ReadOptionalFieldOrdered true bs index 64 ReadSettlDate
+    let account = ReadOptionalFieldOrdered true bs index 1 ReadAccount
+    let acctIDSource = ReadOptionalFieldOrdered true bs index 660 ReadAcctIDSource
     let ci:NoBidComponentsGrp = {
         ListID = listID
         Side = side
@@ -3639,18 +3639,18 @@ let ReadNoBidComponentsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : No
 
 
 // group
-let ReadListStatusNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ListStatusNoOrdersGrp =
-    let clOrdID          = ReadFieldOrdered         true bs index 11  ReadClOrdIDIdx
-    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdIDIdx
-    let cumQty           = ReadFieldOrdered         true bs index 14  ReadCumQtyIdx
-    let ordStatus        = ReadFieldOrdered         true bs index 39  ReadOrdStatusIdx
-    let workingIndicator = ReadOptionalFieldOrdered true bs index 636 ReadWorkingIndicatorIdx
-    let leavesQty        = ReadFieldOrdered         true bs index 151 ReadLeavesQtyIdx
-    let cxlQty           = ReadFieldOrdered         true bs index 84  ReadCxlQtyIdx
-    let avgPx            = ReadFieldOrdered         true bs index 6   ReadAvgPxIdx
-    let ordRejReason     = ReadOptionalFieldOrdered true bs index 103 ReadOrdRejReasonIdx
-    let text             = ReadOptionalFieldOrdered true bs index 58  ReadTextIdx
-    let encodedText      = ReadOptionalFieldOrdered true bs index 354 ReadEncodedTextIdx
+let ReadListStatusNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : ListStatusNoOrdersGrp =
+    let clOrdID = ReadFieldOrdered true bs index 11 ReadClOrdID
+    let secondaryClOrdID = ReadOptionalFieldOrdered true bs index 526 ReadSecondaryClOrdID
+    let cumQty = ReadFieldOrdered true bs index 14 ReadCumQty
+    let ordStatus = ReadFieldOrdered true bs index 39 ReadOrdStatus
+    let workingIndicator = ReadOptionalFieldOrdered true bs index 636 ReadWorkingIndicator
+    let leavesQty = ReadFieldOrdered true bs index 151 ReadLeavesQty
+    let cxlQty = ReadFieldOrdered true bs index 84 ReadCxlQty
+    let avgPx = ReadFieldOrdered true bs index 6 ReadAvgPx
+    let ordRejReason = ReadOptionalFieldOrdered true bs index 103 ReadOrdRejReason
+    let text = ReadOptionalFieldOrdered true bs index 58 ReadText
+    let encodedText = ReadOptionalFieldOrdered true bs index 354 ReadEncodedText
     let ci:ListStatusNoOrdersGrp = {
         ClOrdID = clOrdID
         SecondaryClOrdID = secondaryClOrdID
@@ -3668,13 +3668,13 @@ let ReadListStatusNoOrdersGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) :
 
 
 // group
-let ReadAllocationInstructionNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoExecsGrp =
-    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQtyIdx
-    let execID = ReadOptionalFieldOrdered true bs index 17 ReadExecIDIdx
-    let secondaryExecID = ReadOptionalFieldOrdered true bs index 527 ReadSecondaryExecIDIdx
-    let lastPx = ReadOptionalFieldOrdered true bs index 31 ReadLastPxIdx
-    let lastParPx = ReadOptionalFieldOrdered true bs index 669 ReadLastParPxIdx
-    let lastCapacity = ReadOptionalFieldOrdered true bs index 29 ReadLastCapacityIdx
+let ReadAllocationInstructionNoExecsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionNoExecsGrp =
+    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQty
+    let execID = ReadOptionalFieldOrdered true bs index 17 ReadExecID
+    let secondaryExecID = ReadOptionalFieldOrdered true bs index 527 ReadSecondaryExecID
+    let lastPx = ReadOptionalFieldOrdered true bs index 31 ReadLastPx
+    let lastParPx = ReadOptionalFieldOrdered true bs index 669 ReadLastParPx
+    let lastCapacity = ReadOptionalFieldOrdered true bs index 29 ReadLastCapacity
     let ci:AllocationInstructionNoExecsGrp = {
         LastQty = lastQty
         ExecID = execID
@@ -3687,14 +3687,14 @@ let ReadAllocationInstructionNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixB
 
 
 // group
-let ReadAllocationInstructionAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionAckNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPriceIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let individualAllocRejCode = ReadOptionalFieldOrdered true bs index 776 ReadIndividualAllocRejCodeIdx
-    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocTextIdx
-    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocTextIdx
+let ReadAllocationInstructionAckNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationInstructionAckNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let individualAllocRejCode = ReadOptionalFieldOrdered true bs index 776 ReadIndividualAllocRejCode
+    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocText
+    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocText
     let ci:AllocationInstructionAckNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -3708,13 +3708,13 @@ let ReadAllocationInstructionAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.
 
 
 // group
-let ReadAllocationReportNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoExecsGrp =
-    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQtyIdx
-    let execID = ReadOptionalFieldOrdered true bs index 17 ReadExecIDIdx
-    let secondaryExecID = ReadOptionalFieldOrdered true bs index 527 ReadSecondaryExecIDIdx
-    let lastPx = ReadOptionalFieldOrdered true bs index 31 ReadLastPxIdx
-    let lastParPx = ReadOptionalFieldOrdered true bs index 669 ReadLastParPxIdx
-    let lastCapacity = ReadOptionalFieldOrdered true bs index 29 ReadLastCapacityIdx
+let ReadAllocationReportNoExecsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportNoExecsGrp =
+    let lastQty = ReadFieldOrdered true bs index 32 ReadLastQty
+    let execID = ReadOptionalFieldOrdered true bs index 17 ReadExecID
+    let secondaryExecID = ReadOptionalFieldOrdered true bs index 527 ReadSecondaryExecID
+    let lastPx = ReadOptionalFieldOrdered true bs index 31 ReadLastPx
+    let lastParPx = ReadOptionalFieldOrdered true bs index 669 ReadLastParPx
+    let lastCapacity = ReadOptionalFieldOrdered true bs index 29 ReadLastCapacity
     let ci:AllocationReportNoExecsGrp = {
         LastQty = lastQty
         ExecID = execID
@@ -3727,14 +3727,14 @@ let ReadAllocationReportNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInd
 
 
 // group
-let ReadAllocationReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportAckNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccountIdx
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSourceIdx
-    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPriceIdx
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocIDIdx
-    let individualAllocRejCode = ReadOptionalFieldOrdered true bs index 776 ReadIndividualAllocRejCodeIdx
-    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocTextIdx
-    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocTextIdx
+let ReadAllocationReportAckNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : AllocationReportAckNoAllocsGrp =
+    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
+    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
+    let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
+    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
+    let individualAllocRejCode = ReadOptionalFieldOrdered true bs index 776 ReadIndividualAllocRejCode
+    let allocText = ReadOptionalFieldOrdered true bs index 161 ReadAllocText
+    let encodedAllocText = ReadOptionalFieldOrdered true bs index 360 ReadEncodedAllocText
     let ci:AllocationReportAckNoAllocsGrp = {
         AllocAccount = allocAccount
         AllocAcctIDSource = allocAcctIDSource
@@ -3748,10 +3748,10 @@ let ReadAllocationReportAckNoAllocsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBu
 
 
 // group
-let ReadNoCapacitiesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCapacitiesGrp =
-    let orderCapacity = ReadFieldOrdered true bs index 528 ReadOrderCapacityIdx
-    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictionsIdx
-    let orderCapacityQty = ReadFieldOrdered true bs index 863 ReadOrderCapacityQtyIdx
+let ReadNoCapacitiesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCapacitiesGrp =
+    let orderCapacity = ReadFieldOrdered true bs index 528 ReadOrderCapacity
+    let orderRestrictions = ReadOptionalFieldOrdered true bs index 529 ReadOrderRestrictions
+    let orderCapacityQty = ReadFieldOrdered true bs index 863 ReadOrderCapacityQty
     let ci:NoCapacitiesGrp = {
         OrderCapacity = orderCapacity
         OrderRestrictions = orderRestrictions
@@ -3761,9 +3761,9 @@ let ReadNoCapacitiesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCap
 
 
 // group
-let ReadNoDatesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDatesGrp =
-    let tradeDate = ReadFieldOrdered true bs index 75 ReadTradeDateIdx
-    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTimeIdx
+let ReadNoDatesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDatesGrp =
+    let tradeDate = ReadFieldOrdered true bs index 75 ReadTradeDate
+    let transactTime = ReadOptionalFieldOrdered true bs index 60 ReadTransactTime
     let ci:NoDatesGrp = {
         TradeDate = tradeDate
         TransactTime = transactTime
@@ -3772,15 +3772,15 @@ let ReadNoDatesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDatesGrp
 
 
 // group
-let ReadNoDistribInstsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDistribInstsGrp =
-    let distribPaymentMethod = ReadFieldOrdered true bs index 477 ReadDistribPaymentMethodIdx
-    let distribPercentage = ReadOptionalFieldOrdered true bs index 512 ReadDistribPercentageIdx
-    let cashDistribCurr = ReadOptionalFieldOrdered true bs index 478 ReadCashDistribCurrIdx
-    let cashDistribAgentName = ReadOptionalFieldOrdered true bs index 498 ReadCashDistribAgentNameIdx
-    let cashDistribAgentCode = ReadOptionalFieldOrdered true bs index 499 ReadCashDistribAgentCodeIdx
-    let cashDistribAgentAcctNumber = ReadOptionalFieldOrdered true bs index 500 ReadCashDistribAgentAcctNumberIdx
-    let cashDistribPayRef = ReadOptionalFieldOrdered true bs index 501 ReadCashDistribPayRefIdx
-    let cashDistribAgentAcctName = ReadOptionalFieldOrdered true bs index 502 ReadCashDistribAgentAcctNameIdx
+let ReadNoDistribInstsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoDistribInstsGrp =
+    let distribPaymentMethod = ReadFieldOrdered true bs index 477 ReadDistribPaymentMethod
+    let distribPercentage = ReadOptionalFieldOrdered true bs index 512 ReadDistribPercentage
+    let cashDistribCurr = ReadOptionalFieldOrdered true bs index 478 ReadCashDistribCurr
+    let cashDistribAgentName = ReadOptionalFieldOrdered true bs index 498 ReadCashDistribAgentName
+    let cashDistribAgentCode = ReadOptionalFieldOrdered true bs index 499 ReadCashDistribAgentCode
+    let cashDistribAgentAcctNumber = ReadOptionalFieldOrdered true bs index 500 ReadCashDistribAgentAcctNumber
+    let cashDistribPayRef = ReadOptionalFieldOrdered true bs index 501 ReadCashDistribPayRef
+    let cashDistribAgentAcctName = ReadOptionalFieldOrdered true bs index 502 ReadCashDistribAgentAcctName
     let ci:NoDistribInstsGrp = {
         DistribPaymentMethod = distribPaymentMethod
         DistribPercentage = distribPercentage
@@ -3795,8 +3795,8 @@ let ReadNoDistribInstsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoD
 
 
 // group
-let ReadNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoExecsGrp =
-    let execID = ReadFieldOrdered true bs index 17 ReadExecIDIdx
+let ReadNoExecsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoExecsGrp =
+    let execID = ReadFieldOrdered true bs index 17 ReadExecID
     let ci:NoExecsGrp = {
         ExecID = execID
     }
@@ -3804,9 +3804,9 @@ let ReadNoExecsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoExecsGrp
 
 
 // group
-let ReadNoTradesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradesGrp =
-    let tradeReportID = ReadFieldOrdered true bs index 571 ReadTradeReportIDIdx
-    let secondaryTradeReportID = ReadOptionalFieldOrdered true bs index 818 ReadSecondaryTradeReportIDIdx
+let ReadNoTradesGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradesGrp =
+    let tradeReportID = ReadFieldOrdered true bs index 571 ReadTradeReportID
+    let secondaryTradeReportID = ReadOptionalFieldOrdered true bs index 818 ReadSecondaryTradeReportID
     let ci:NoTradesGrp = {
         TradeReportID = tradeReportID
         SecondaryTradeReportID = secondaryTradeReportID
@@ -3815,8 +3815,8 @@ let ReadNoTradesGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoTradesG
 
 
 // group
-let ReadNoCollInquiryQualifierGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCollInquiryQualifierGrp =
-    let collInquiryQualifier = ReadFieldOrdered true bs index 896 ReadCollInquiryQualifierIdx
+let ReadNoCollInquiryQualifierGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCollInquiryQualifierGrp =
+    let collInquiryQualifier = ReadFieldOrdered true bs index 896 ReadCollInquiryQualifier
     let ci:NoCollInquiryQualifierGrp = {
         CollInquiryQualifier = collInquiryQualifier
     }
@@ -3824,11 +3824,11 @@ let ReadNoCollInquiryQualifierGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufInde
 
 
 // group
-let ReadNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCompIDsGrp =
-    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompIDIdx
-    let refSubID = ReadOptionalFieldOrdered true bs index 931 ReadRefSubIDIdx
-    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationIDIdx
-    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskIDIdx
+let ReadNoCompIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCompIDsGrp =
+    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompID
+    let refSubID = ReadOptionalFieldOrdered true bs index 931 ReadRefSubID
+    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationID
+    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskID
     let ci:NoCompIDsGrp = {
         RefCompID = refCompID
         RefSubID = refSubID
@@ -3839,13 +3839,13 @@ let ReadNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoCompID
 
 
 // group
-let ReadNetworkStatusResponseNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NetworkStatusResponseNoCompIDsGrp =
-    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompIDIdx
-    let refSubID = ReadOptionalFieldOrdered true bs index 931 ReadRefSubIDIdx
-    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationIDIdx
-    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskIDIdx
-    let statusValue = ReadOptionalFieldOrdered true bs index 928 ReadStatusValueIdx
-    let statusText = ReadOptionalFieldOrdered true bs index 929 ReadStatusTextIdx
+let ReadNetworkStatusResponseNoCompIDsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NetworkStatusResponseNoCompIDsGrp =
+    let refCompID = ReadFieldOrdered true bs index 930 ReadRefCompID
+    let refSubID = ReadOptionalFieldOrdered true bs index 931 ReadRefSubID
+    let locationID = ReadOptionalFieldOrdered true bs index 283 ReadLocationID
+    let deskID = ReadOptionalFieldOrdered true bs index 284 ReadDeskID
+    let statusValue = ReadOptionalFieldOrdered true bs index 928 ReadStatusValue
+    let statusText = ReadOptionalFieldOrdered true bs index 929 ReadStatusText
     let ci:NetworkStatusResponseNoCompIDsGrp = {
         RefCompID = refCompID
         RefSubID = refSubID
@@ -3858,10 +3858,10 @@ let ReadNetworkStatusResponseNoCompIDsGrpIdx (bs:byte[]) (index:FIXBufIndexer.Fi
 
 
 // group
-let ReadNoHopsGrpIdx (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoHopsGrp =
-    let hopCompID = ReadFieldOrdered true bs index 628 ReadHopCompIDIdx
-    let hopSendingTime = ReadOptionalFieldOrdered true bs index 629 ReadHopSendingTimeIdx
-    let hopRefID = ReadOptionalFieldOrdered true bs index 630 ReadHopRefIDIdx
+let ReadNoHopsGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : NoHopsGrp =
+    let hopCompID = ReadFieldOrdered true bs index 628 ReadHopCompID
+    let hopSendingTime = ReadOptionalFieldOrdered true bs index 629 ReadHopSendingTime
+    let hopRefID = ReadOptionalFieldOrdered true bs index 630 ReadHopRefID
     let ci:NoHopsGrp = {
         HopCompID = hopCompID
         HopSendingTime = hopSendingTime

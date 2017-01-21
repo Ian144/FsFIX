@@ -87,14 +87,14 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
 
-    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions
-    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginStringIdx
-    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLengthIdx
-    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgTypeIdx
-    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNumIdx
-    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompIDIdx
-    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTimeIdx
-    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompIDIdx
+    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
+    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
+    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLength
+    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgType
+    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNum
+    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompID
+    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTime
+    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompID
 
     let msg = ReadMessageDU msgTag bs index
 
@@ -102,7 +102,7 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
     let checksumTagPlusDelimLen = 3
     let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
-    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSumIdx
+    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSum
     if calcedCheckSum = receivedCheckSum then
         msg
     else

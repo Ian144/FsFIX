@@ -8,19 +8,19 @@ open Conversions
 open RawField
 
 
-let ReadAccountIdx (bs:byte[]) (pos:int) (len:int): Account =
+let ReadAccount (bs:byte[]) (pos:int) (len:int): Account =
     ReadFieldStr bs pos len Account.Account
 
 
-let ReadAdvIdIdx (bs:byte[]) (pos:int) (len:int): AdvId =
+let ReadAdvId (bs:byte[]) (pos:int) (len:int): AdvId =
     ReadFieldStr bs pos len AdvId.AdvId
 
 
-let ReadAdvRefIDIdx (bs:byte[]) (pos:int) (len:int): AdvRefID =
+let ReadAdvRefID (bs:byte[]) (pos:int) (len:int): AdvRefID =
     ReadFieldStr bs pos len AdvRefID.AdvRefID
 
 
-let ReadAdvSideIdx (bs:byte[]) (pos:int) (len:int): AdvSide =
+let ReadAdvSide (bs:byte[]) (pos:int) (len:int): AdvSide =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -31,7 +31,7 @@ let ReadAdvSideIdx (bs:byte[]) (pos:int) (len:int): AdvSide =
     | x -> failwith (sprintf "ReadAdvSide unknown fix tag: %A"  x) 
 
 
-let ReadAdvTransTypeIdx (bs:byte[]) (pos:int) (len:int): AdvTransType =
+let ReadAdvTransType (bs:byte[]) (pos:int) (len:int): AdvTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -41,35 +41,35 @@ let ReadAdvTransTypeIdx (bs:byte[]) (pos:int) (len:int): AdvTransType =
     | x -> failwith (sprintf "ReadAdvTransType unknown fix tag: %A"  x) 
 
 
-let ReadAvgPxIdx (bs:byte[]) (pos:int) (len:int): AvgPx =
+let ReadAvgPx (bs:byte[]) (pos:int) (len:int): AvgPx =
     ReadFieldDecimal bs pos len AvgPx.AvgPx
 
 
-let ReadBeginSeqNoIdx (bs:byte[]) (pos:int) (len:int): BeginSeqNo =
+let ReadBeginSeqNo (bs:byte[]) (pos:int) (len:int): BeginSeqNo =
     ReadFieldUInt bs pos len BeginSeqNo.BeginSeqNo
 
 
-let ReadBeginStringIdx (bs:byte[]) (pos:int) (len:int): BeginString =
+let ReadBeginString (bs:byte[]) (pos:int) (len:int): BeginString =
     ReadFieldStr bs pos len BeginString.BeginString
 
 
-let ReadBodyLengthIdx (bs:byte[]) (pos:int) (len:int): BodyLength =
+let ReadBodyLength (bs:byte[]) (pos:int) (len:int): BodyLength =
     ReadFieldUInt bs pos len BodyLength.BodyLength
 
 
-let ReadCheckSumIdx (bs:byte[]) (pos:int) (len:int): CheckSum =
+let ReadCheckSum (bs:byte[]) (pos:int) (len:int): CheckSum =
     ReadFieldStr bs pos len CheckSum.CheckSum
 
 
-let ReadClOrdIDIdx (bs:byte[]) (pos:int) (len:int): ClOrdID =
+let ReadClOrdID (bs:byte[]) (pos:int) (len:int): ClOrdID =
     ReadFieldStr bs pos len ClOrdID.ClOrdID
 
 
-let ReadCommissionIdx (bs:byte[]) (pos:int) (len:int): Commission =
+let ReadCommission (bs:byte[]) (pos:int) (len:int): Commission =
     ReadFieldDecimal bs pos len Commission.Commission
 
 
-let ReadCommTypeIdx (bs:byte[]) (pos:int) (len:int): CommType =
+let ReadCommType (bs:byte[]) (pos:int) (len:int): CommType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -82,23 +82,23 @@ let ReadCommTypeIdx (bs:byte[]) (pos:int) (len:int): CommType =
     | x -> failwith (sprintf "ReadCommType unknown fix tag: %A"  x) 
 
 
-let ReadCumQtyIdx (bs:byte[]) (pos:int) (len:int): CumQty =
+let ReadCumQty (bs:byte[]) (pos:int) (len:int): CumQty =
     ReadFieldDecimal bs pos len CumQty.CumQty
 
 
-let ReadCurrencyIdx (bs:byte[]) (pos:int) (len:int): Currency =
+let ReadCurrency (bs:byte[]) (pos:int) (len:int): Currency =
     ReadFieldStr bs pos len Currency.Currency
 
 
-let ReadEndSeqNoIdx (bs:byte[]) (pos:int) (len:int): EndSeqNo =
+let ReadEndSeqNo (bs:byte[]) (pos:int) (len:int): EndSeqNo =
     ReadFieldUInt bs pos len EndSeqNo.EndSeqNo
 
 
-let ReadExecIDIdx (bs:byte[]) (pos:int) (len:int): ExecID =
+let ReadExecID (bs:byte[]) (pos:int) (len:int): ExecID =
     ReadFieldStr bs pos len ExecID.ExecID
 
 
-let ReadExecInstIdx (bs:byte[]) (pos:int) (len:int): ExecInst =
+let ReadExecInst (bs:byte[]) (pos:int) (len:int): ExecInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -146,11 +146,11 @@ let ReadExecInstIdx (bs:byte[]) (pos:int) (len:int): ExecInst =
     | x -> failwith (sprintf "ReadExecInst unknown fix tag: %A"  x) 
 
 
-let ReadExecRefIDIdx (bs:byte[]) (pos:int) (len:int): ExecRefID =
+let ReadExecRefID (bs:byte[]) (pos:int) (len:int): ExecRefID =
     ReadFieldStr bs pos len ExecRefID.ExecRefID
 
 
-let ReadHandlInstIdx (bs:byte[]) (pos:int) (len:int): HandlInst =
+let ReadHandlInst (bs:byte[]) (pos:int) (len:int): HandlInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -160,7 +160,7 @@ let ReadHandlInstIdx (bs:byte[]) (pos:int) (len:int): HandlInst =
     | x -> failwith (sprintf "ReadHandlInst unknown fix tag: %A"  x) 
 
 
-let ReadSecurityIDSourceIdx (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
+let ReadSecurityIDSource (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -186,11 +186,11 @@ let ReadSecurityIDSourceIdx (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
     | x -> failwith (sprintf "ReadSecurityIDSource unknown fix tag: %A"  x) 
 
 
-let ReadIOIidIdx (bs:byte[]) (pos:int) (len:int): IOIid =
+let ReadIOIid (bs:byte[]) (pos:int) (len:int): IOIid =
     ReadFieldStr bs pos len IOIid.IOIid
 
 
-let ReadIOIQltyIndIdx (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
+let ReadIOIQltyInd (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -200,15 +200,15 @@ let ReadIOIQltyIndIdx (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
     | x -> failwith (sprintf "ReadIOIQltyInd unknown fix tag: %A"  x) 
 
 
-let ReadIOIRefIDIdx (bs:byte[]) (pos:int) (len:int): IOIRefID =
+let ReadIOIRefID (bs:byte[]) (pos:int) (len:int): IOIRefID =
     ReadFieldStr bs pos len IOIRefID.IOIRefID
 
 
-let ReadIOIQtyIdx (bs:byte[]) (pos:int) (len:int): IOIQty =
+let ReadIOIQty (bs:byte[]) (pos:int) (len:int): IOIQty =
     ReadFieldStr bs pos len IOIQty.IOIQty
 
 
-let ReadIOITransTypeIdx (bs:byte[]) (pos:int) (len:int): IOITransType =
+let ReadIOITransType (bs:byte[]) (pos:int) (len:int): IOITransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -218,7 +218,7 @@ let ReadIOITransTypeIdx (bs:byte[]) (pos:int) (len:int): IOITransType =
     | x -> failwith (sprintf "ReadIOITransType unknown fix tag: %A"  x) 
 
 
-let ReadLastCapacityIdx (bs:byte[]) (pos:int) (len:int): LastCapacity =
+let ReadLastCapacity (bs:byte[]) (pos:int) (len:int): LastCapacity =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -229,27 +229,27 @@ let ReadLastCapacityIdx (bs:byte[]) (pos:int) (len:int): LastCapacity =
     | x -> failwith (sprintf "ReadLastCapacity unknown fix tag: %A"  x) 
 
 
-let ReadLastMktIdx (bs:byte[]) (pos:int) (len:int): LastMkt =
+let ReadLastMkt (bs:byte[]) (pos:int) (len:int): LastMkt =
     ReadFieldStr bs pos len LastMkt.LastMkt
 
 
-let ReadLastPxIdx (bs:byte[]) (pos:int) (len:int): LastPx =
+let ReadLastPx (bs:byte[]) (pos:int) (len:int): LastPx =
     ReadFieldDecimal bs pos len LastPx.LastPx
 
 
-let ReadLastQtyIdx (bs:byte[]) (pos:int) (len:int): LastQty =
+let ReadLastQty (bs:byte[]) (pos:int) (len:int): LastQty =
     ReadFieldDecimal bs pos len LastQty.LastQty
 
 
-let ReadLinesOfTextIdx (bs:byte[]) (pos:int) (len:int): LinesOfText =
+let ReadLinesOfText (bs:byte[]) (pos:int) (len:int): LinesOfText =
     ReadFieldInt bs pos len LinesOfText.LinesOfText
 
 
-let ReadMsgSeqNumIdx (bs:byte[]) (pos:int) (len:int): MsgSeqNum =
+let ReadMsgSeqNum (bs:byte[]) (pos:int) (len:int): MsgSeqNum =
     ReadFieldUInt bs pos len MsgSeqNum.MsgSeqNum
 
 
-let ReadMsgTypeIdx (bs:byte[]) (pos:int) (len:int): MsgType =
+let ReadMsgType (bs:byte[]) (pos:int) (len:int): MsgType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -349,19 +349,19 @@ let ReadMsgTypeIdx (bs:byte[]) (pos:int) (len:int): MsgType =
     | x -> failwith (sprintf "ReadMsgType unknown fix tag: %A"  x) 
 
 
-let ReadNewSeqNoIdx (bs:byte[]) (pos:int) (len:int): NewSeqNo =
+let ReadNewSeqNo (bs:byte[]) (pos:int) (len:int): NewSeqNo =
     ReadFieldUInt bs pos len NewSeqNo.NewSeqNo
 
 
-let ReadOrderIDIdx (bs:byte[]) (pos:int) (len:int): OrderID =
+let ReadOrderID (bs:byte[]) (pos:int) (len:int): OrderID =
     ReadFieldStr bs pos len OrderID.OrderID
 
 
-let ReadOrderQtyIdx (bs:byte[]) (pos:int) (len:int): OrderQty =
+let ReadOrderQty (bs:byte[]) (pos:int) (len:int): OrderQty =
     ReadFieldDecimal bs pos len OrderQty.OrderQty
 
 
-let ReadOrdStatusIdx (bs:byte[]) (pos:int) (len:int): OrdStatus =
+let ReadOrdStatus (bs:byte[]) (pos:int) (len:int): OrdStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -383,7 +383,7 @@ let ReadOrdStatusIdx (bs:byte[]) (pos:int) (len:int): OrdStatus =
     | x -> failwith (sprintf "ReadOrdStatus unknown fix tag: %A"  x) 
 
 
-let ReadOrdTypeIdx (bs:byte[]) (pos:int) (len:int): OrdType =
+let ReadOrdType (bs:byte[]) (pos:int) (len:int): OrdType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -413,47 +413,47 @@ let ReadOrdTypeIdx (bs:byte[]) (pos:int) (len:int): OrdType =
     | x -> failwith (sprintf "ReadOrdType unknown fix tag: %A"  x) 
 
 
-let ReadOrigClOrdIDIdx (bs:byte[]) (pos:int) (len:int): OrigClOrdID =
+let ReadOrigClOrdID (bs:byte[]) (pos:int) (len:int): OrigClOrdID =
     ReadFieldStr bs pos len OrigClOrdID.OrigClOrdID
 
 
-let ReadOrigTimeIdx (bs:byte[]) (pos:int) (len:int): OrigTime =
+let ReadOrigTime (bs:byte[]) (pos:int) (len:int): OrigTime =
     ReadFieldUTCTimestamp bs pos len OrigTime.OrigTime
 
 
-let ReadPossDupFlagIdx (bs:byte[]) (pos:int) (len:int): PossDupFlag =
+let ReadPossDupFlag (bs:byte[]) (pos:int) (len:int): PossDupFlag =
     ReadFieldBool bs pos len PossDupFlag.PossDupFlag
 
 
-let ReadPriceIdx (bs:byte[]) (pos:int) (len:int): Price =
+let ReadPrice (bs:byte[]) (pos:int) (len:int): Price =
     ReadFieldDecimal bs pos len Price.Price
 
 
-let ReadRefSeqNumIdx (bs:byte[]) (pos:int) (len:int): RefSeqNum =
+let ReadRefSeqNum (bs:byte[]) (pos:int) (len:int): RefSeqNum =
     ReadFieldUInt bs pos len RefSeqNum.RefSeqNum
 
 
-let ReadSecurityIDIdx (bs:byte[]) (pos:int) (len:int): SecurityID =
+let ReadSecurityID (bs:byte[]) (pos:int) (len:int): SecurityID =
     ReadFieldStr bs pos len SecurityID.SecurityID
 
 
-let ReadSenderCompIDIdx (bs:byte[]) (pos:int) (len:int): SenderCompID =
+let ReadSenderCompID (bs:byte[]) (pos:int) (len:int): SenderCompID =
     ReadFieldStr bs pos len SenderCompID.SenderCompID
 
 
-let ReadSenderSubIDIdx (bs:byte[]) (pos:int) (len:int): SenderSubID =
+let ReadSenderSubID (bs:byte[]) (pos:int) (len:int): SenderSubID =
     ReadFieldStr bs pos len SenderSubID.SenderSubID
 
 
-let ReadSendingTimeIdx (bs:byte[]) (pos:int) (len:int): SendingTime =
+let ReadSendingTime (bs:byte[]) (pos:int) (len:int): SendingTime =
     ReadFieldUTCTimestamp bs pos len SendingTime.SendingTime
 
 
-let ReadQuantityIdx (bs:byte[]) (pos:int) (len:int): Quantity =
+let ReadQuantity (bs:byte[]) (pos:int) (len:int): Quantity =
     ReadFieldDecimal bs pos len Quantity.Quantity
 
 
-let ReadSideIdx (bs:byte[]) (pos:int) (len:int): Side =
+let ReadSide (bs:byte[]) (pos:int) (len:int): Side =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -476,23 +476,23 @@ let ReadSideIdx (bs:byte[]) (pos:int) (len:int): Side =
     | x -> failwith (sprintf "ReadSide unknown fix tag: %A"  x) 
 
 
-let ReadSymbolIdx (bs:byte[]) (pos:int) (len:int): Symbol =
+let ReadSymbol (bs:byte[]) (pos:int) (len:int): Symbol =
     ReadFieldStr bs pos len Symbol.Symbol
 
 
-let ReadTargetCompIDIdx (bs:byte[]) (pos:int) (len:int): TargetCompID =
+let ReadTargetCompID (bs:byte[]) (pos:int) (len:int): TargetCompID =
     ReadFieldStr bs pos len TargetCompID.TargetCompID
 
 
-let ReadTargetSubIDIdx (bs:byte[]) (pos:int) (len:int): TargetSubID =
+let ReadTargetSubID (bs:byte[]) (pos:int) (len:int): TargetSubID =
     ReadFieldStr bs pos len TargetSubID.TargetSubID
 
 
-let ReadTextIdx (bs:byte[]) (pos:int) (len:int): Text =
+let ReadText (bs:byte[]) (pos:int) (len:int): Text =
     ReadFieldStr bs pos len Text.Text
 
 
-let ReadTimeInForceIdx (bs:byte[]) (pos:int) (len:int): TimeInForce =
+let ReadTimeInForce (bs:byte[]) (pos:int) (len:int): TimeInForce =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -507,11 +507,11 @@ let ReadTimeInForceIdx (bs:byte[]) (pos:int) (len:int): TimeInForce =
     | x -> failwith (sprintf "ReadTimeInForce unknown fix tag: %A"  x) 
 
 
-let ReadTransactTimeIdx (bs:byte[]) (pos:int) (len:int): TransactTime =
+let ReadTransactTime (bs:byte[]) (pos:int) (len:int): TransactTime =
     ReadFieldUTCTimestamp bs pos len TransactTime.TransactTime
 
 
-let ReadUrgencyIdx (bs:byte[]) (pos:int) (len:int): Urgency =
+let ReadUrgency (bs:byte[]) (pos:int) (len:int): Urgency =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -521,11 +521,11 @@ let ReadUrgencyIdx (bs:byte[]) (pos:int) (len:int): Urgency =
     | x -> failwith (sprintf "ReadUrgency unknown fix tag: %A"  x) 
 
 
-let ReadValidUntilTimeIdx (bs:byte[]) (pos:int) (len:int): ValidUntilTime =
+let ReadValidUntilTime (bs:byte[]) (pos:int) (len:int): ValidUntilTime =
     ReadFieldUTCTimestamp bs pos len ValidUntilTime.ValidUntilTime
 
 
-let ReadSettlTypeIdx (bs:byte[]) (pos:int) (len:int): SettlType =
+let ReadSettlType (bs:byte[]) (pos:int) (len:int): SettlType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -542,11 +542,11 @@ let ReadSettlTypeIdx (bs:byte[]) (pos:int) (len:int): SettlType =
     | x -> failwith (sprintf "ReadSettlType unknown fix tag: %A"  x) 
 
 
-let ReadSettlDateIdx (bs:byte[]) (pos:int) (len:int): SettlDate =
+let ReadSettlDate (bs:byte[]) (pos:int) (len:int): SettlDate =
     ReadFieldLocalMktDate bs pos len SettlDate.SettlDate
 
 
-let ReadSymbolSfxIdx (bs:byte[]) (pos:int) (len:int): SymbolSfx =
+let ReadSymbolSfx (bs:byte[]) (pos:int) (len:int): SymbolSfx =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -555,27 +555,27 @@ let ReadSymbolSfxIdx (bs:byte[]) (pos:int) (len:int): SymbolSfx =
     | x -> failwith (sprintf "ReadSymbolSfx unknown fix tag: %A"  x) 
 
 
-let ReadListIDIdx (bs:byte[]) (pos:int) (len:int): ListID =
+let ReadListID (bs:byte[]) (pos:int) (len:int): ListID =
     ReadFieldStr bs pos len ListID.ListID
 
 
-let ReadListSeqNoIdx (bs:byte[]) (pos:int) (len:int): ListSeqNo =
+let ReadListSeqNo (bs:byte[]) (pos:int) (len:int): ListSeqNo =
     ReadFieldInt bs pos len ListSeqNo.ListSeqNo
 
 
-let ReadTotNoOrdersIdx (bs:byte[]) (pos:int) (len:int): TotNoOrders =
+let ReadTotNoOrders (bs:byte[]) (pos:int) (len:int): TotNoOrders =
     ReadFieldInt bs pos len TotNoOrders.TotNoOrders
 
 
-let ReadListExecInstIdx (bs:byte[]) (pos:int) (len:int): ListExecInst =
+let ReadListExecInst (bs:byte[]) (pos:int) (len:int): ListExecInst =
     ReadFieldStr bs pos len ListExecInst.ListExecInst
 
 
-let ReadAllocIDIdx (bs:byte[]) (pos:int) (len:int): AllocID =
+let ReadAllocID (bs:byte[]) (pos:int) (len:int): AllocID =
     ReadFieldStr bs pos len AllocID.AllocID
 
 
-let ReadAllocTransTypeIdx (bs:byte[]) (pos:int) (len:int): AllocTransType =
+let ReadAllocTransType (bs:byte[]) (pos:int) (len:int): AllocTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -585,23 +585,23 @@ let ReadAllocTransTypeIdx (bs:byte[]) (pos:int) (len:int): AllocTransType =
     | x -> failwith (sprintf "ReadAllocTransType unknown fix tag: %A"  x) 
 
 
-let ReadRefAllocIDIdx (bs:byte[]) (pos:int) (len:int): RefAllocID =
+let ReadRefAllocID (bs:byte[]) (pos:int) (len:int): RefAllocID =
     ReadFieldStr bs pos len RefAllocID.RefAllocID
 
 
-let ReadNoOrdersIdx (bs:byte[]) (pos:int) (len:int): NoOrders =
+let ReadNoOrders (bs:byte[]) (pos:int) (len:int): NoOrders =
     ReadFieldInt bs pos len NoOrders.NoOrders
 
 
-let ReadAvgPxPrecisionIdx (bs:byte[]) (pos:int) (len:int): AvgPxPrecision =
+let ReadAvgPxPrecision (bs:byte[]) (pos:int) (len:int): AvgPxPrecision =
     ReadFieldInt bs pos len AvgPxPrecision.AvgPxPrecision
 
 
-let ReadTradeDateIdx (bs:byte[]) (pos:int) (len:int): TradeDate =
+let ReadTradeDate (bs:byte[]) (pos:int) (len:int): TradeDate =
     ReadFieldLocalMktDate bs pos len TradeDate.TradeDate
 
 
-let ReadPositionEffectIdx (bs:byte[]) (pos:int) (len:int): PositionEffect =
+let ReadPositionEffect (bs:byte[]) (pos:int) (len:int): PositionEffect =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -612,19 +612,19 @@ let ReadPositionEffectIdx (bs:byte[]) (pos:int) (len:int): PositionEffect =
     | x -> failwith (sprintf "ReadPositionEffect unknown fix tag: %A"  x) 
 
 
-let ReadNoAllocsIdx (bs:byte[]) (pos:int) (len:int): NoAllocs =
+let ReadNoAllocs (bs:byte[]) (pos:int) (len:int): NoAllocs =
     ReadFieldInt bs pos len NoAllocs.NoAllocs
 
 
-let ReadAllocAccountIdx (bs:byte[]) (pos:int) (len:int): AllocAccount =
+let ReadAllocAccount (bs:byte[]) (pos:int) (len:int): AllocAccount =
     ReadFieldStr bs pos len AllocAccount.AllocAccount
 
 
-let ReadAllocQtyIdx (bs:byte[]) (pos:int) (len:int): AllocQty =
+let ReadAllocQty (bs:byte[]) (pos:int) (len:int): AllocQty =
     ReadFieldDecimal bs pos len AllocQty.AllocQty
 
 
-let ReadProcessCodeIdx (bs:byte[]) (pos:int) (len:int): ProcessCode =
+let ReadProcessCode (bs:byte[]) (pos:int) (len:int): ProcessCode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -638,23 +638,23 @@ let ReadProcessCodeIdx (bs:byte[]) (pos:int) (len:int): ProcessCode =
     | x -> failwith (sprintf "ReadProcessCode unknown fix tag: %A"  x) 
 
 
-let ReadNoRptsIdx (bs:byte[]) (pos:int) (len:int): NoRpts =
+let ReadNoRpts (bs:byte[]) (pos:int) (len:int): NoRpts =
     ReadFieldInt bs pos len NoRpts.NoRpts
 
 
-let ReadRptSeqIdx (bs:byte[]) (pos:int) (len:int): RptSeq =
+let ReadRptSeq (bs:byte[]) (pos:int) (len:int): RptSeq =
     ReadFieldInt bs pos len RptSeq.RptSeq
 
 
-let ReadCxlQtyIdx (bs:byte[]) (pos:int) (len:int): CxlQty =
+let ReadCxlQty (bs:byte[]) (pos:int) (len:int): CxlQty =
     ReadFieldDecimal bs pos len CxlQty.CxlQty
 
 
-let ReadNoDlvyInstIdx (bs:byte[]) (pos:int) (len:int): NoDlvyInst =
+let ReadNoDlvyInst (bs:byte[]) (pos:int) (len:int): NoDlvyInst =
     ReadFieldInt bs pos len NoDlvyInst.NoDlvyInst
 
 
-let ReadAllocStatusIdx (bs:byte[]) (pos:int) (len:int): AllocStatus =
+let ReadAllocStatus (bs:byte[]) (pos:int) (len:int): AllocStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -667,7 +667,7 @@ let ReadAllocStatusIdx (bs:byte[]) (pos:int) (len:int): AllocStatus =
     | x -> failwith (sprintf "ReadAllocStatus unknown fix tag: %A"  x) 
 
 
-let ReadAllocRejCodeIdx (bs:byte[]) (pos:int) (len:int): AllocRejCode =
+let ReadAllocRejCode (bs:byte[]) (pos:int) (len:int): AllocRejCode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -689,16 +689,16 @@ let ReadAllocRejCodeIdx (bs:byte[]) (pos:int) (len:int): AllocRejCode =
 
 
 // compound read
-let ReadSignatureIdx (bs:byte[]) (pos:int) (len:int): Signature =
+let ReadSignature (bs:byte[]) (pos:int) (len:int): Signature =
     ReadLengthDataCompoundField bs pos len "89"B Signature.Signature
 
 
 // compound read
-let ReadSecureDataIdx (bs:byte[]) (pos:int) (len:int): SecureData =
+let ReadSecureData (bs:byte[]) (pos:int) (len:int): SecureData =
     ReadLengthDataCompoundField bs pos len "91"B SecureData.SecureData
 
 
-let ReadEmailTypeIdx (bs:byte[]) (pos:int) (len:int): EmailType =
+let ReadEmailType (bs:byte[]) (pos:int) (len:int): EmailType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -709,15 +709,15 @@ let ReadEmailTypeIdx (bs:byte[]) (pos:int) (len:int): EmailType =
 
 
 // compound read
-let ReadRawDataIdx (bs:byte[]) (pos:int) (len:int): RawData =
+let ReadRawData (bs:byte[]) (pos:int) (len:int): RawData =
     ReadLengthDataCompoundField bs pos len "96"B RawData.RawData
 
 
-let ReadPossResendIdx (bs:byte[]) (pos:int) (len:int): PossResend =
+let ReadPossResend (bs:byte[]) (pos:int) (len:int): PossResend =
     ReadFieldBool bs pos len PossResend.PossResend
 
 
-let ReadEncryptMethodIdx (bs:byte[]) (pos:int) (len:int): EncryptMethod =
+let ReadEncryptMethod (bs:byte[]) (pos:int) (len:int): EncryptMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -731,15 +731,15 @@ let ReadEncryptMethodIdx (bs:byte[]) (pos:int) (len:int): EncryptMethod =
     | x -> failwith (sprintf "ReadEncryptMethod unknown fix tag: %A"  x) 
 
 
-let ReadStopPxIdx (bs:byte[]) (pos:int) (len:int): StopPx =
+let ReadStopPx (bs:byte[]) (pos:int) (len:int): StopPx =
     ReadFieldDecimal bs pos len StopPx.StopPx
 
 
-let ReadExDestinationIdx (bs:byte[]) (pos:int) (len:int): ExDestination =
+let ReadExDestination (bs:byte[]) (pos:int) (len:int): ExDestination =
     ReadFieldStr bs pos len ExDestination.ExDestination
 
 
-let ReadCxlRejReasonIdx (bs:byte[]) (pos:int) (len:int): CxlRejReason =
+let ReadCxlRejReason (bs:byte[]) (pos:int) (len:int): CxlRejReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -754,7 +754,7 @@ let ReadCxlRejReasonIdx (bs:byte[]) (pos:int) (len:int): CxlRejReason =
     | x -> failwith (sprintf "ReadCxlRejReason unknown fix tag: %A"  x) 
 
 
-let ReadOrdRejReasonIdx (bs:byte[]) (pos:int) (len:int): OrdRejReason =
+let ReadOrdRejReason (bs:byte[]) (pos:int) (len:int): OrdRejReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -778,7 +778,7 @@ let ReadOrdRejReasonIdx (bs:byte[]) (pos:int) (len:int): OrdRejReason =
     | x -> failwith (sprintf "ReadOrdRejReason unknown fix tag: %A"  x) 
 
 
-let ReadIOIQualifierIdx (bs:byte[]) (pos:int) (len:int): IOIQualifier =
+let ReadIOIQualifier (bs:byte[]) (pos:int) (len:int): IOIQualifier =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -803,87 +803,87 @@ let ReadIOIQualifierIdx (bs:byte[]) (pos:int) (len:int): IOIQualifier =
     | x -> failwith (sprintf "ReadIOIQualifier unknown fix tag: %A"  x) 
 
 
-let ReadWaveNoIdx (bs:byte[]) (pos:int) (len:int): WaveNo =
+let ReadWaveNo (bs:byte[]) (pos:int) (len:int): WaveNo =
     ReadFieldStr bs pos len WaveNo.WaveNo
 
 
-let ReadIssuerIdx (bs:byte[]) (pos:int) (len:int): Issuer =
+let ReadIssuer (bs:byte[]) (pos:int) (len:int): Issuer =
     ReadFieldStr bs pos len Issuer.Issuer
 
 
-let ReadSecurityDescIdx (bs:byte[]) (pos:int) (len:int): SecurityDesc =
+let ReadSecurityDesc (bs:byte[]) (pos:int) (len:int): SecurityDesc =
     ReadFieldStr bs pos len SecurityDesc.SecurityDesc
 
 
-let ReadHeartBtIntIdx (bs:byte[]) (pos:int) (len:int): HeartBtInt =
+let ReadHeartBtInt (bs:byte[]) (pos:int) (len:int): HeartBtInt =
     ReadFieldInt bs pos len HeartBtInt.HeartBtInt
 
 
-let ReadMinQtyIdx (bs:byte[]) (pos:int) (len:int): MinQty =
+let ReadMinQty (bs:byte[]) (pos:int) (len:int): MinQty =
     ReadFieldDecimal bs pos len MinQty.MinQty
 
 
-let ReadMaxFloorIdx (bs:byte[]) (pos:int) (len:int): MaxFloor =
+let ReadMaxFloor (bs:byte[]) (pos:int) (len:int): MaxFloor =
     ReadFieldDecimal bs pos len MaxFloor.MaxFloor
 
 
-let ReadTestReqIDIdx (bs:byte[]) (pos:int) (len:int): TestReqID =
+let ReadTestReqID (bs:byte[]) (pos:int) (len:int): TestReqID =
     ReadFieldStr bs pos len TestReqID.TestReqID
 
 
-let ReadReportToExchIdx (bs:byte[]) (pos:int) (len:int): ReportToExch =
+let ReadReportToExch (bs:byte[]) (pos:int) (len:int): ReportToExch =
     ReadFieldBool bs pos len ReportToExch.ReportToExch
 
 
-let ReadLocateReqdIdx (bs:byte[]) (pos:int) (len:int): LocateReqd =
+let ReadLocateReqd (bs:byte[]) (pos:int) (len:int): LocateReqd =
     ReadFieldBool bs pos len LocateReqd.LocateReqd
 
 
-let ReadOnBehalfOfCompIDIdx (bs:byte[]) (pos:int) (len:int): OnBehalfOfCompID =
+let ReadOnBehalfOfCompID (bs:byte[]) (pos:int) (len:int): OnBehalfOfCompID =
     ReadFieldStr bs pos len OnBehalfOfCompID.OnBehalfOfCompID
 
 
-let ReadOnBehalfOfSubIDIdx (bs:byte[]) (pos:int) (len:int): OnBehalfOfSubID =
+let ReadOnBehalfOfSubID (bs:byte[]) (pos:int) (len:int): OnBehalfOfSubID =
     ReadFieldStr bs pos len OnBehalfOfSubID.OnBehalfOfSubID
 
 
-let ReadQuoteIDIdx (bs:byte[]) (pos:int) (len:int): QuoteID =
+let ReadQuoteID (bs:byte[]) (pos:int) (len:int): QuoteID =
     ReadFieldStr bs pos len QuoteID.QuoteID
 
 
-let ReadNetMoneyIdx (bs:byte[]) (pos:int) (len:int): NetMoney =
+let ReadNetMoney (bs:byte[]) (pos:int) (len:int): NetMoney =
     ReadFieldDecimal bs pos len NetMoney.NetMoney
 
 
-let ReadSettlCurrAmtIdx (bs:byte[]) (pos:int) (len:int): SettlCurrAmt =
+let ReadSettlCurrAmt (bs:byte[]) (pos:int) (len:int): SettlCurrAmt =
     ReadFieldDecimal bs pos len SettlCurrAmt.SettlCurrAmt
 
 
-let ReadSettlCurrencyIdx (bs:byte[]) (pos:int) (len:int): SettlCurrency =
+let ReadSettlCurrency (bs:byte[]) (pos:int) (len:int): SettlCurrency =
     ReadFieldStr bs pos len SettlCurrency.SettlCurrency
 
 
-let ReadForexReqIdx (bs:byte[]) (pos:int) (len:int): ForexReq =
+let ReadForexReq (bs:byte[]) (pos:int) (len:int): ForexReq =
     ReadFieldBool bs pos len ForexReq.ForexReq
 
 
-let ReadOrigSendingTimeIdx (bs:byte[]) (pos:int) (len:int): OrigSendingTime =
+let ReadOrigSendingTime (bs:byte[]) (pos:int) (len:int): OrigSendingTime =
     ReadFieldUTCTimestamp bs pos len OrigSendingTime.OrigSendingTime
 
 
-let ReadGapFillFlagIdx (bs:byte[]) (pos:int) (len:int): GapFillFlag =
+let ReadGapFillFlag (bs:byte[]) (pos:int) (len:int): GapFillFlag =
     ReadFieldBool bs pos len GapFillFlag.GapFillFlag
 
 
-let ReadNoExecsIdx (bs:byte[]) (pos:int) (len:int): NoExecs =
+let ReadNoExecs (bs:byte[]) (pos:int) (len:int): NoExecs =
     ReadFieldInt bs pos len NoExecs.NoExecs
 
 
-let ReadExpireTimeIdx (bs:byte[]) (pos:int) (len:int): ExpireTime =
+let ReadExpireTime (bs:byte[]) (pos:int) (len:int): ExpireTime =
     ReadFieldUTCTimestamp bs pos len ExpireTime.ExpireTime
 
 
-let ReadDKReasonIdx (bs:byte[]) (pos:int) (len:int): DKReason =
+let ReadDKReason (bs:byte[]) (pos:int) (len:int): DKReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -897,51 +897,51 @@ let ReadDKReasonIdx (bs:byte[]) (pos:int) (len:int): DKReason =
     | x -> failwith (sprintf "ReadDKReason unknown fix tag: %A"  x) 
 
 
-let ReadDeliverToCompIDIdx (bs:byte[]) (pos:int) (len:int): DeliverToCompID =
+let ReadDeliverToCompID (bs:byte[]) (pos:int) (len:int): DeliverToCompID =
     ReadFieldStr bs pos len DeliverToCompID.DeliverToCompID
 
 
-let ReadDeliverToSubIDIdx (bs:byte[]) (pos:int) (len:int): DeliverToSubID =
+let ReadDeliverToSubID (bs:byte[]) (pos:int) (len:int): DeliverToSubID =
     ReadFieldStr bs pos len DeliverToSubID.DeliverToSubID
 
 
-let ReadIOINaturalFlagIdx (bs:byte[]) (pos:int) (len:int): IOINaturalFlag =
+let ReadIOINaturalFlag (bs:byte[]) (pos:int) (len:int): IOINaturalFlag =
     ReadFieldBool bs pos len IOINaturalFlag.IOINaturalFlag
 
 
-let ReadQuoteReqIDIdx (bs:byte[]) (pos:int) (len:int): QuoteReqID =
+let ReadQuoteReqID (bs:byte[]) (pos:int) (len:int): QuoteReqID =
     ReadFieldStr bs pos len QuoteReqID.QuoteReqID
 
 
-let ReadBidPxIdx (bs:byte[]) (pos:int) (len:int): BidPx =
+let ReadBidPx (bs:byte[]) (pos:int) (len:int): BidPx =
     ReadFieldDecimal bs pos len BidPx.BidPx
 
 
-let ReadOfferPxIdx (bs:byte[]) (pos:int) (len:int): OfferPx =
+let ReadOfferPx (bs:byte[]) (pos:int) (len:int): OfferPx =
     ReadFieldDecimal bs pos len OfferPx.OfferPx
 
 
-let ReadBidSizeIdx (bs:byte[]) (pos:int) (len:int): BidSize =
+let ReadBidSize (bs:byte[]) (pos:int) (len:int): BidSize =
     ReadFieldDecimal bs pos len BidSize.BidSize
 
 
-let ReadOfferSizeIdx (bs:byte[]) (pos:int) (len:int): OfferSize =
+let ReadOfferSize (bs:byte[]) (pos:int) (len:int): OfferSize =
     ReadFieldDecimal bs pos len OfferSize.OfferSize
 
 
-let ReadNoMiscFeesIdx (bs:byte[]) (pos:int) (len:int): NoMiscFees =
+let ReadNoMiscFees (bs:byte[]) (pos:int) (len:int): NoMiscFees =
     ReadFieldInt bs pos len NoMiscFees.NoMiscFees
 
 
-let ReadMiscFeeAmtIdx (bs:byte[]) (pos:int) (len:int): MiscFeeAmt =
+let ReadMiscFeeAmt (bs:byte[]) (pos:int) (len:int): MiscFeeAmt =
     ReadFieldDecimal bs pos len MiscFeeAmt.MiscFeeAmt
 
 
-let ReadMiscFeeCurrIdx (bs:byte[]) (pos:int) (len:int): MiscFeeCurr =
+let ReadMiscFeeCurr (bs:byte[]) (pos:int) (len:int): MiscFeeCurr =
     ReadFieldStr bs pos len MiscFeeCurr.MiscFeeCurr
 
 
-let ReadMiscFeeTypeIdx (bs:byte[]) (pos:int) (len:int): MiscFeeType =
+let ReadMiscFeeType (bs:byte[]) (pos:int) (len:int): MiscFeeType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -960,47 +960,47 @@ let ReadMiscFeeTypeIdx (bs:byte[]) (pos:int) (len:int): MiscFeeType =
     | x -> failwith (sprintf "ReadMiscFeeType unknown fix tag: %A"  x) 
 
 
-let ReadPrevClosePxIdx (bs:byte[]) (pos:int) (len:int): PrevClosePx =
+let ReadPrevClosePx (bs:byte[]) (pos:int) (len:int): PrevClosePx =
     ReadFieldDecimal bs pos len PrevClosePx.PrevClosePx
 
 
-let ReadResetSeqNumFlagIdx (bs:byte[]) (pos:int) (len:int): ResetSeqNumFlag =
+let ReadResetSeqNumFlag (bs:byte[]) (pos:int) (len:int): ResetSeqNumFlag =
     ReadFieldBool bs pos len ResetSeqNumFlag.ResetSeqNumFlag
 
 
-let ReadSenderLocationIDIdx (bs:byte[]) (pos:int) (len:int): SenderLocationID =
+let ReadSenderLocationID (bs:byte[]) (pos:int) (len:int): SenderLocationID =
     ReadFieldStr bs pos len SenderLocationID.SenderLocationID
 
 
-let ReadTargetLocationIDIdx (bs:byte[]) (pos:int) (len:int): TargetLocationID =
+let ReadTargetLocationID (bs:byte[]) (pos:int) (len:int): TargetLocationID =
     ReadFieldStr bs pos len TargetLocationID.TargetLocationID
 
 
-let ReadOnBehalfOfLocationIDIdx (bs:byte[]) (pos:int) (len:int): OnBehalfOfLocationID =
+let ReadOnBehalfOfLocationID (bs:byte[]) (pos:int) (len:int): OnBehalfOfLocationID =
     ReadFieldStr bs pos len OnBehalfOfLocationID.OnBehalfOfLocationID
 
 
-let ReadDeliverToLocationIDIdx (bs:byte[]) (pos:int) (len:int): DeliverToLocationID =
+let ReadDeliverToLocationID (bs:byte[]) (pos:int) (len:int): DeliverToLocationID =
     ReadFieldStr bs pos len DeliverToLocationID.DeliverToLocationID
 
 
-let ReadNoRelatedSymIdx (bs:byte[]) (pos:int) (len:int): NoRelatedSym =
+let ReadNoRelatedSym (bs:byte[]) (pos:int) (len:int): NoRelatedSym =
     ReadFieldInt bs pos len NoRelatedSym.NoRelatedSym
 
 
-let ReadSubjectIdx (bs:byte[]) (pos:int) (len:int): Subject =
+let ReadSubject (bs:byte[]) (pos:int) (len:int): Subject =
     ReadFieldStr bs pos len Subject.Subject
 
 
-let ReadHeadlineIdx (bs:byte[]) (pos:int) (len:int): Headline =
+let ReadHeadline (bs:byte[]) (pos:int) (len:int): Headline =
     ReadFieldStr bs pos len Headline.Headline
 
 
-let ReadURLLinkIdx (bs:byte[]) (pos:int) (len:int): URLLink =
+let ReadURLLink (bs:byte[]) (pos:int) (len:int): URLLink =
     ReadFieldStr bs pos len URLLink.URLLink
 
 
-let ReadExecTypeIdx (bs:byte[]) (pos:int) (len:int): ExecType =
+let ReadExecType (bs:byte[]) (pos:int) (len:int): ExecType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1026,27 +1026,27 @@ let ReadExecTypeIdx (bs:byte[]) (pos:int) (len:int): ExecType =
     | x -> failwith (sprintf "ReadExecType unknown fix tag: %A"  x) 
 
 
-let ReadLeavesQtyIdx (bs:byte[]) (pos:int) (len:int): LeavesQty =
+let ReadLeavesQty (bs:byte[]) (pos:int) (len:int): LeavesQty =
     ReadFieldDecimal bs pos len LeavesQty.LeavesQty
 
 
-let ReadCashOrderQtyIdx (bs:byte[]) (pos:int) (len:int): CashOrderQty =
+let ReadCashOrderQty (bs:byte[]) (pos:int) (len:int): CashOrderQty =
     ReadFieldDecimal bs pos len CashOrderQty.CashOrderQty
 
 
-let ReadAllocAvgPxIdx (bs:byte[]) (pos:int) (len:int): AllocAvgPx =
+let ReadAllocAvgPx (bs:byte[]) (pos:int) (len:int): AllocAvgPx =
     ReadFieldDecimal bs pos len AllocAvgPx.AllocAvgPx
 
 
-let ReadAllocNetMoneyIdx (bs:byte[]) (pos:int) (len:int): AllocNetMoney =
+let ReadAllocNetMoney (bs:byte[]) (pos:int) (len:int): AllocNetMoney =
     ReadFieldDecimal bs pos len AllocNetMoney.AllocNetMoney
 
 
-let ReadSettlCurrFxRateIdx (bs:byte[]) (pos:int) (len:int): SettlCurrFxRate =
+let ReadSettlCurrFxRate (bs:byte[]) (pos:int) (len:int): SettlCurrFxRate =
     ReadFieldDecimal bs pos len SettlCurrFxRate.SettlCurrFxRate
 
 
-let ReadSettlCurrFxRateCalcIdx (bs:byte[]) (pos:int) (len:int): SettlCurrFxRateCalc =
+let ReadSettlCurrFxRateCalc (bs:byte[]) (pos:int) (len:int): SettlCurrFxRateCalc =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1055,19 +1055,19 @@ let ReadSettlCurrFxRateCalcIdx (bs:byte[]) (pos:int) (len:int): SettlCurrFxRateC
     | x -> failwith (sprintf "ReadSettlCurrFxRateCalc unknown fix tag: %A"  x) 
 
 
-let ReadNumDaysInterestIdx (bs:byte[]) (pos:int) (len:int): NumDaysInterest =
+let ReadNumDaysInterest (bs:byte[]) (pos:int) (len:int): NumDaysInterest =
     ReadFieldInt bs pos len NumDaysInterest.NumDaysInterest
 
 
-let ReadAccruedInterestRateIdx (bs:byte[]) (pos:int) (len:int): AccruedInterestRate =
+let ReadAccruedInterestRate (bs:byte[]) (pos:int) (len:int): AccruedInterestRate =
     ReadFieldDecimal bs pos len AccruedInterestRate.AccruedInterestRate
 
 
-let ReadAccruedInterestAmtIdx (bs:byte[]) (pos:int) (len:int): AccruedInterestAmt =
+let ReadAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): AccruedInterestAmt =
     ReadFieldDecimal bs pos len AccruedInterestAmt.AccruedInterestAmt
 
 
-let ReadSettlInstModeIdx (bs:byte[]) (pos:int) (len:int): SettlInstMode =
+let ReadSettlInstMode (bs:byte[]) (pos:int) (len:int): SettlInstMode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1078,15 +1078,15 @@ let ReadSettlInstModeIdx (bs:byte[]) (pos:int) (len:int): SettlInstMode =
     | x -> failwith (sprintf "ReadSettlInstMode unknown fix tag: %A"  x) 
 
 
-let ReadAllocTextIdx (bs:byte[]) (pos:int) (len:int): AllocText =
+let ReadAllocText (bs:byte[]) (pos:int) (len:int): AllocText =
     ReadFieldStr bs pos len AllocText.AllocText
 
 
-let ReadSettlInstIDIdx (bs:byte[]) (pos:int) (len:int): SettlInstID =
+let ReadSettlInstID (bs:byte[]) (pos:int) (len:int): SettlInstID =
     ReadFieldStr bs pos len SettlInstID.SettlInstID
 
 
-let ReadSettlInstTransTypeIdx (bs:byte[]) (pos:int) (len:int): SettlInstTransType =
+let ReadSettlInstTransType (bs:byte[]) (pos:int) (len:int): SettlInstTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1097,11 +1097,11 @@ let ReadSettlInstTransTypeIdx (bs:byte[]) (pos:int) (len:int): SettlInstTransTyp
     | x -> failwith (sprintf "ReadSettlInstTransType unknown fix tag: %A"  x) 
 
 
-let ReadEmailThreadIDIdx (bs:byte[]) (pos:int) (len:int): EmailThreadID =
+let ReadEmailThreadID (bs:byte[]) (pos:int) (len:int): EmailThreadID =
     ReadFieldStr bs pos len EmailThreadID.EmailThreadID
 
 
-let ReadSettlInstSourceIdx (bs:byte[]) (pos:int) (len:int): SettlInstSource =
+let ReadSettlInstSource (bs:byte[]) (pos:int) (len:int): SettlInstSource =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1111,7 +1111,7 @@ let ReadSettlInstSourceIdx (bs:byte[]) (pos:int) (len:int): SettlInstSource =
     | x -> failwith (sprintf "ReadSettlInstSource unknown fix tag: %A"  x) 
 
 
-let ReadSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityType =
+let ReadSecurityType (bs:byte[]) (pos:int) (len:int): SecurityType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1212,11 +1212,11 @@ let ReadSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityType =
     | x -> failwith (sprintf "ReadSecurityType unknown fix tag: %A"  x) 
 
 
-let ReadEffectiveTimeIdx (bs:byte[]) (pos:int) (len:int): EffectiveTime =
+let ReadEffectiveTime (bs:byte[]) (pos:int) (len:int): EffectiveTime =
     ReadFieldUTCTimestamp bs pos len EffectiveTime.EffectiveTime
 
 
-let ReadStandInstDbTypeIdx (bs:byte[]) (pos:int) (len:int): StandInstDbType =
+let ReadStandInstDbType (bs:byte[]) (pos:int) (len:int): StandInstDbType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1228,15 +1228,15 @@ let ReadStandInstDbTypeIdx (bs:byte[]) (pos:int) (len:int): StandInstDbType =
     | x -> failwith (sprintf "ReadStandInstDbType unknown fix tag: %A"  x) 
 
 
-let ReadStandInstDbNameIdx (bs:byte[]) (pos:int) (len:int): StandInstDbName =
+let ReadStandInstDbName (bs:byte[]) (pos:int) (len:int): StandInstDbName =
     ReadFieldStr bs pos len StandInstDbName.StandInstDbName
 
 
-let ReadStandInstDbIDIdx (bs:byte[]) (pos:int) (len:int): StandInstDbID =
+let ReadStandInstDbID (bs:byte[]) (pos:int) (len:int): StandInstDbID =
     ReadFieldStr bs pos len StandInstDbID.StandInstDbID
 
 
-let ReadSettlDeliveryTypeIdx (bs:byte[]) (pos:int) (len:int): SettlDeliveryType =
+let ReadSettlDeliveryType (bs:byte[]) (pos:int) (len:int): SettlDeliveryType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1247,43 +1247,43 @@ let ReadSettlDeliveryTypeIdx (bs:byte[]) (pos:int) (len:int): SettlDeliveryType 
     | x -> failwith (sprintf "ReadSettlDeliveryType unknown fix tag: %A"  x) 
 
 
-let ReadBidSpotRateIdx (bs:byte[]) (pos:int) (len:int): BidSpotRate =
+let ReadBidSpotRate (bs:byte[]) (pos:int) (len:int): BidSpotRate =
     ReadFieldDecimal bs pos len BidSpotRate.BidSpotRate
 
 
-let ReadBidForwardPointsIdx (bs:byte[]) (pos:int) (len:int): BidForwardPoints =
+let ReadBidForwardPoints (bs:byte[]) (pos:int) (len:int): BidForwardPoints =
     ReadFieldDecimal bs pos len BidForwardPoints.BidForwardPoints
 
 
-let ReadOfferSpotRateIdx (bs:byte[]) (pos:int) (len:int): OfferSpotRate =
+let ReadOfferSpotRate (bs:byte[]) (pos:int) (len:int): OfferSpotRate =
     ReadFieldDecimal bs pos len OfferSpotRate.OfferSpotRate
 
 
-let ReadOfferForwardPointsIdx (bs:byte[]) (pos:int) (len:int): OfferForwardPoints =
+let ReadOfferForwardPoints (bs:byte[]) (pos:int) (len:int): OfferForwardPoints =
     ReadFieldDecimal bs pos len OfferForwardPoints.OfferForwardPoints
 
 
-let ReadOrderQty2Idx (bs:byte[]) (pos:int) (len:int): OrderQty2 =
+let ReadOrderQty2 (bs:byte[]) (pos:int) (len:int): OrderQty2 =
     ReadFieldDecimal bs pos len OrderQty2.OrderQty2
 
 
-let ReadSettlDate2Idx (bs:byte[]) (pos:int) (len:int): SettlDate2 =
+let ReadSettlDate2 (bs:byte[]) (pos:int) (len:int): SettlDate2 =
     ReadFieldLocalMktDate bs pos len SettlDate2.SettlDate2
 
 
-let ReadLastSpotRateIdx (bs:byte[]) (pos:int) (len:int): LastSpotRate =
+let ReadLastSpotRate (bs:byte[]) (pos:int) (len:int): LastSpotRate =
     ReadFieldDecimal bs pos len LastSpotRate.LastSpotRate
 
 
-let ReadLastForwardPointsIdx (bs:byte[]) (pos:int) (len:int): LastForwardPoints =
+let ReadLastForwardPoints (bs:byte[]) (pos:int) (len:int): LastForwardPoints =
     ReadFieldDecimal bs pos len LastForwardPoints.LastForwardPoints
 
 
-let ReadAllocLinkIDIdx (bs:byte[]) (pos:int) (len:int): AllocLinkID =
+let ReadAllocLinkID (bs:byte[]) (pos:int) (len:int): AllocLinkID =
     ReadFieldStr bs pos len AllocLinkID.AllocLinkID
 
 
-let ReadAllocLinkTypeIdx (bs:byte[]) (pos:int) (len:int): AllocLinkType =
+let ReadAllocLinkType (bs:byte[]) (pos:int) (len:int): AllocLinkType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1292,19 +1292,19 @@ let ReadAllocLinkTypeIdx (bs:byte[]) (pos:int) (len:int): AllocLinkType =
     | x -> failwith (sprintf "ReadAllocLinkType unknown fix tag: %A"  x) 
 
 
-let ReadSecondaryOrderIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryOrderID =
+let ReadSecondaryOrderID (bs:byte[]) (pos:int) (len:int): SecondaryOrderID =
     ReadFieldStr bs pos len SecondaryOrderID.SecondaryOrderID
 
 
-let ReadNoIOIQualifiersIdx (bs:byte[]) (pos:int) (len:int): NoIOIQualifiers =
+let ReadNoIOIQualifiers (bs:byte[]) (pos:int) (len:int): NoIOIQualifiers =
     ReadFieldInt bs pos len NoIOIQualifiers.NoIOIQualifiers
 
 
-let ReadMaturityMonthYearIdx (bs:byte[]) (pos:int) (len:int): MaturityMonthYear =
+let ReadMaturityMonthYear (bs:byte[]) (pos:int) (len:int): MaturityMonthYear =
     ReadFieldMonthYear bs pos len MaturityMonthYear.MaturityMonthYear
 
 
-let ReadPutOrCallIdx (bs:byte[]) (pos:int) (len:int): PutOrCall =
+let ReadPutOrCall (bs:byte[]) (pos:int) (len:int): PutOrCall =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1313,11 +1313,11 @@ let ReadPutOrCallIdx (bs:byte[]) (pos:int) (len:int): PutOrCall =
     | x -> failwith (sprintf "ReadPutOrCall unknown fix tag: %A"  x) 
 
 
-let ReadStrikePriceIdx (bs:byte[]) (pos:int) (len:int): StrikePrice =
+let ReadStrikePrice (bs:byte[]) (pos:int) (len:int): StrikePrice =
     ReadFieldDecimal bs pos len StrikePrice.StrikePrice
 
 
-let ReadCoveredOrUncoveredIdx (bs:byte[]) (pos:int) (len:int): CoveredOrUncovered =
+let ReadCoveredOrUncovered (bs:byte[]) (pos:int) (len:int): CoveredOrUncovered =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1326,19 +1326,19 @@ let ReadCoveredOrUncoveredIdx (bs:byte[]) (pos:int) (len:int): CoveredOrUncovere
     | x -> failwith (sprintf "ReadCoveredOrUncovered unknown fix tag: %A"  x) 
 
 
-let ReadOptAttributeIdx (bs:byte[]) (pos:int) (len:int): OptAttribute =
+let ReadOptAttribute (bs:byte[]) (pos:int) (len:int): OptAttribute =
     ReadFieldChar bs pos len OptAttribute.OptAttribute
 
 
-let ReadSecurityExchangeIdx (bs:byte[]) (pos:int) (len:int): SecurityExchange =
+let ReadSecurityExchange (bs:byte[]) (pos:int) (len:int): SecurityExchange =
     ReadFieldStr bs pos len SecurityExchange.SecurityExchange
 
 
-let ReadNotifyBrokerOfCreditIdx (bs:byte[]) (pos:int) (len:int): NotifyBrokerOfCredit =
+let ReadNotifyBrokerOfCredit (bs:byte[]) (pos:int) (len:int): NotifyBrokerOfCredit =
     ReadFieldBool bs pos len NotifyBrokerOfCredit.NotifyBrokerOfCredit
 
 
-let ReadAllocHandlInstIdx (bs:byte[]) (pos:int) (len:int): AllocHandlInst =
+let ReadAllocHandlInst (bs:byte[]) (pos:int) (len:int): AllocHandlInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1348,28 +1348,28 @@ let ReadAllocHandlInstIdx (bs:byte[]) (pos:int) (len:int): AllocHandlInst =
     | x -> failwith (sprintf "ReadAllocHandlInst unknown fix tag: %A"  x) 
 
 
-let ReadMaxShowIdx (bs:byte[]) (pos:int) (len:int): MaxShow =
+let ReadMaxShow (bs:byte[]) (pos:int) (len:int): MaxShow =
     ReadFieldDecimal bs pos len MaxShow.MaxShow
 
 
-let ReadPegOffsetValueIdx (bs:byte[]) (pos:int) (len:int): PegOffsetValue =
+let ReadPegOffsetValue (bs:byte[]) (pos:int) (len:int): PegOffsetValue =
     ReadFieldDecimal bs pos len PegOffsetValue.PegOffsetValue
 
 
 // compound read
-let ReadXmlDataIdx (bs:byte[]) (pos:int) (len:int): XmlData =
+let ReadXmlData (bs:byte[]) (pos:int) (len:int): XmlData =
     ReadLengthDataCompoundField bs pos len "213"B XmlData.XmlData
 
 
-let ReadSettlInstRefIDIdx (bs:byte[]) (pos:int) (len:int): SettlInstRefID =
+let ReadSettlInstRefID (bs:byte[]) (pos:int) (len:int): SettlInstRefID =
     ReadFieldStr bs pos len SettlInstRefID.SettlInstRefID
 
 
-let ReadNoRoutingIDsIdx (bs:byte[]) (pos:int) (len:int): NoRoutingIDs =
+let ReadNoRoutingIDs (bs:byte[]) (pos:int) (len:int): NoRoutingIDs =
     ReadFieldInt bs pos len NoRoutingIDs.NoRoutingIDs
 
 
-let ReadRoutingTypeIdx (bs:byte[]) (pos:int) (len:int): RoutingType =
+let ReadRoutingType (bs:byte[]) (pos:int) (len:int): RoutingType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1380,19 +1380,19 @@ let ReadRoutingTypeIdx (bs:byte[]) (pos:int) (len:int): RoutingType =
     | x -> failwith (sprintf "ReadRoutingType unknown fix tag: %A"  x) 
 
 
-let ReadRoutingIDIdx (bs:byte[]) (pos:int) (len:int): RoutingID =
+let ReadRoutingID (bs:byte[]) (pos:int) (len:int): RoutingID =
     ReadFieldStr bs pos len RoutingID.RoutingID
 
 
-let ReadSpreadIdx (bs:byte[]) (pos:int) (len:int): Spread =
+let ReadSpread (bs:byte[]) (pos:int) (len:int): Spread =
     ReadFieldDecimal bs pos len Spread.Spread
 
 
-let ReadBenchmarkCurveCurrencyIdx (bs:byte[]) (pos:int) (len:int): BenchmarkCurveCurrency =
+let ReadBenchmarkCurveCurrency (bs:byte[]) (pos:int) (len:int): BenchmarkCurveCurrency =
     ReadFieldStr bs pos len BenchmarkCurveCurrency.BenchmarkCurveCurrency
 
 
-let ReadBenchmarkCurveNameIdx (bs:byte[]) (pos:int) (len:int): BenchmarkCurveName =
+let ReadBenchmarkCurveName (bs:byte[]) (pos:int) (len:int): BenchmarkCurveName =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1411,51 +1411,51 @@ let ReadBenchmarkCurveNameIdx (bs:byte[]) (pos:int) (len:int): BenchmarkCurveNam
     | x -> failwith (sprintf "ReadBenchmarkCurveName unknown fix tag: %A"  x) 
 
 
-let ReadBenchmarkCurvePointIdx (bs:byte[]) (pos:int) (len:int): BenchmarkCurvePoint =
+let ReadBenchmarkCurvePoint (bs:byte[]) (pos:int) (len:int): BenchmarkCurvePoint =
     ReadFieldStr bs pos len BenchmarkCurvePoint.BenchmarkCurvePoint
 
 
-let ReadCouponRateIdx (bs:byte[]) (pos:int) (len:int): CouponRate =
+let ReadCouponRate (bs:byte[]) (pos:int) (len:int): CouponRate =
     ReadFieldDecimal bs pos len CouponRate.CouponRate
 
 
-let ReadCouponPaymentDateIdx (bs:byte[]) (pos:int) (len:int): CouponPaymentDate =
+let ReadCouponPaymentDate (bs:byte[]) (pos:int) (len:int): CouponPaymentDate =
     ReadFieldLocalMktDate bs pos len CouponPaymentDate.CouponPaymentDate
 
 
-let ReadIssueDateIdx (bs:byte[]) (pos:int) (len:int): IssueDate =
+let ReadIssueDate (bs:byte[]) (pos:int) (len:int): IssueDate =
     ReadFieldLocalMktDate bs pos len IssueDate.IssueDate
 
 
-let ReadRepurchaseTermIdx (bs:byte[]) (pos:int) (len:int): RepurchaseTerm =
+let ReadRepurchaseTerm (bs:byte[]) (pos:int) (len:int): RepurchaseTerm =
     ReadFieldInt bs pos len RepurchaseTerm.RepurchaseTerm
 
 
-let ReadRepurchaseRateIdx (bs:byte[]) (pos:int) (len:int): RepurchaseRate =
+let ReadRepurchaseRate (bs:byte[]) (pos:int) (len:int): RepurchaseRate =
     ReadFieldDecimal bs pos len RepurchaseRate.RepurchaseRate
 
 
-let ReadFactorIdx (bs:byte[]) (pos:int) (len:int): Factor =
+let ReadFactor (bs:byte[]) (pos:int) (len:int): Factor =
     ReadFieldDecimal bs pos len Factor.Factor
 
 
-let ReadTradeOriginationDateIdx (bs:byte[]) (pos:int) (len:int): TradeOriginationDate =
+let ReadTradeOriginationDate (bs:byte[]) (pos:int) (len:int): TradeOriginationDate =
     ReadFieldLocalMktDate bs pos len TradeOriginationDate.TradeOriginationDate
 
 
-let ReadExDateIdx (bs:byte[]) (pos:int) (len:int): ExDate =
+let ReadExDate (bs:byte[]) (pos:int) (len:int): ExDate =
     ReadFieldLocalMktDate bs pos len ExDate.ExDate
 
 
-let ReadContractMultiplierIdx (bs:byte[]) (pos:int) (len:int): ContractMultiplier =
+let ReadContractMultiplier (bs:byte[]) (pos:int) (len:int): ContractMultiplier =
     ReadFieldDecimal bs pos len ContractMultiplier.ContractMultiplier
 
 
-let ReadNoStipulationsIdx (bs:byte[]) (pos:int) (len:int): NoStipulations =
+let ReadNoStipulations (bs:byte[]) (pos:int) (len:int): NoStipulations =
     ReadFieldInt bs pos len NoStipulations.NoStipulations
 
 
-let ReadStipulationTypeIdx (bs:byte[]) (pos:int) (len:int): StipulationType =
+let ReadStipulationType (bs:byte[]) (pos:int) (len:int): StipulationType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1521,7 +1521,7 @@ let ReadStipulationTypeIdx (bs:byte[]) (pos:int) (len:int): StipulationType =
     | x -> failwith (sprintf "ReadStipulationType unknown fix tag: %A"  x) 
 
 
-let ReadStipulationValueIdx (bs:byte[]) (pos:int) (len:int): StipulationValue =
+let ReadStipulationValue (bs:byte[]) (pos:int) (len:int): StipulationValue =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1542,7 +1542,7 @@ let ReadStipulationValueIdx (bs:byte[]) (pos:int) (len:int): StipulationValue =
     | x -> failwith (sprintf "ReadStipulationValue unknown fix tag: %A"  x) 
 
 
-let ReadYieldTypeIdx (bs:byte[]) (pos:int) (len:int): YieldType =
+let ReadYieldType (bs:byte[]) (pos:int) (len:int): YieldType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1583,111 +1583,111 @@ let ReadYieldTypeIdx (bs:byte[]) (pos:int) (len:int): YieldType =
     | x -> failwith (sprintf "ReadYieldType unknown fix tag: %A"  x) 
 
 
-let ReadYieldIdx (bs:byte[]) (pos:int) (len:int): Yield =
+let ReadYield (bs:byte[]) (pos:int) (len:int): Yield =
     ReadFieldDecimal bs pos len Yield.Yield
 
 
-let ReadTotalTakedownIdx (bs:byte[]) (pos:int) (len:int): TotalTakedown =
+let ReadTotalTakedown (bs:byte[]) (pos:int) (len:int): TotalTakedown =
     ReadFieldDecimal bs pos len TotalTakedown.TotalTakedown
 
 
-let ReadConcessionIdx (bs:byte[]) (pos:int) (len:int): Concession =
+let ReadConcession (bs:byte[]) (pos:int) (len:int): Concession =
     ReadFieldDecimal bs pos len Concession.Concession
 
 
-let ReadRepoCollateralSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): RepoCollateralSecurityType =
+let ReadRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): RepoCollateralSecurityType =
     ReadFieldInt bs pos len RepoCollateralSecurityType.RepoCollateralSecurityType
 
 
-let ReadRedemptionDateIdx (bs:byte[]) (pos:int) (len:int): RedemptionDate =
+let ReadRedemptionDate (bs:byte[]) (pos:int) (len:int): RedemptionDate =
     ReadFieldLocalMktDate bs pos len RedemptionDate.RedemptionDate
 
 
-let ReadUnderlyingCouponPaymentDateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCouponPaymentDate =
+let ReadUnderlyingCouponPaymentDate (bs:byte[]) (pos:int) (len:int): UnderlyingCouponPaymentDate =
     ReadFieldLocalMktDate bs pos len UnderlyingCouponPaymentDate.UnderlyingCouponPaymentDate
 
 
-let ReadUnderlyingIssueDateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingIssueDate =
+let ReadUnderlyingIssueDate (bs:byte[]) (pos:int) (len:int): UnderlyingIssueDate =
     ReadFieldLocalMktDate bs pos len UnderlyingIssueDate.UnderlyingIssueDate
 
 
-let ReadUnderlyingRepoCollateralSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingRepoCollateralSecurityType =
+let ReadUnderlyingRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): UnderlyingRepoCollateralSecurityType =
     ReadFieldInt bs pos len UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
 
 
-let ReadUnderlyingRepurchaseTermIdx (bs:byte[]) (pos:int) (len:int): UnderlyingRepurchaseTerm =
+let ReadUnderlyingRepurchaseTerm (bs:byte[]) (pos:int) (len:int): UnderlyingRepurchaseTerm =
     ReadFieldInt bs pos len UnderlyingRepurchaseTerm.UnderlyingRepurchaseTerm
 
 
-let ReadUnderlyingRepurchaseRateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingRepurchaseRate =
+let ReadUnderlyingRepurchaseRate (bs:byte[]) (pos:int) (len:int): UnderlyingRepurchaseRate =
     ReadFieldDecimal bs pos len UnderlyingRepurchaseRate.UnderlyingRepurchaseRate
 
 
-let ReadUnderlyingFactorIdx (bs:byte[]) (pos:int) (len:int): UnderlyingFactor =
+let ReadUnderlyingFactor (bs:byte[]) (pos:int) (len:int): UnderlyingFactor =
     ReadFieldDecimal bs pos len UnderlyingFactor.UnderlyingFactor
 
 
-let ReadUnderlyingRedemptionDateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingRedemptionDate =
+let ReadUnderlyingRedemptionDate (bs:byte[]) (pos:int) (len:int): UnderlyingRedemptionDate =
     ReadFieldLocalMktDate bs pos len UnderlyingRedemptionDate.UnderlyingRedemptionDate
 
 
-let ReadLegCouponPaymentDateIdx (bs:byte[]) (pos:int) (len:int): LegCouponPaymentDate =
+let ReadLegCouponPaymentDate (bs:byte[]) (pos:int) (len:int): LegCouponPaymentDate =
     ReadFieldLocalMktDate bs pos len LegCouponPaymentDate.LegCouponPaymentDate
 
 
-let ReadLegIssueDateIdx (bs:byte[]) (pos:int) (len:int): LegIssueDate =
+let ReadLegIssueDate (bs:byte[]) (pos:int) (len:int): LegIssueDate =
     ReadFieldLocalMktDate bs pos len LegIssueDate.LegIssueDate
 
 
-let ReadLegRepoCollateralSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): LegRepoCollateralSecurityType =
+let ReadLegRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): LegRepoCollateralSecurityType =
     ReadFieldInt bs pos len LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
 
 
-let ReadLegRepurchaseTermIdx (bs:byte[]) (pos:int) (len:int): LegRepurchaseTerm =
+let ReadLegRepurchaseTerm (bs:byte[]) (pos:int) (len:int): LegRepurchaseTerm =
     ReadFieldInt bs pos len LegRepurchaseTerm.LegRepurchaseTerm
 
 
-let ReadLegRepurchaseRateIdx (bs:byte[]) (pos:int) (len:int): LegRepurchaseRate =
+let ReadLegRepurchaseRate (bs:byte[]) (pos:int) (len:int): LegRepurchaseRate =
     ReadFieldDecimal bs pos len LegRepurchaseRate.LegRepurchaseRate
 
 
-let ReadLegFactorIdx (bs:byte[]) (pos:int) (len:int): LegFactor =
+let ReadLegFactor (bs:byte[]) (pos:int) (len:int): LegFactor =
     ReadFieldDecimal bs pos len LegFactor.LegFactor
 
 
-let ReadLegRedemptionDateIdx (bs:byte[]) (pos:int) (len:int): LegRedemptionDate =
+let ReadLegRedemptionDate (bs:byte[]) (pos:int) (len:int): LegRedemptionDate =
     ReadFieldLocalMktDate bs pos len LegRedemptionDate.LegRedemptionDate
 
 
-let ReadCreditRatingIdx (bs:byte[]) (pos:int) (len:int): CreditRating =
+let ReadCreditRating (bs:byte[]) (pos:int) (len:int): CreditRating =
     ReadFieldStr bs pos len CreditRating.CreditRating
 
 
-let ReadUnderlyingCreditRatingIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCreditRating =
+let ReadUnderlyingCreditRating (bs:byte[]) (pos:int) (len:int): UnderlyingCreditRating =
     ReadFieldStr bs pos len UnderlyingCreditRating.UnderlyingCreditRating
 
 
-let ReadLegCreditRatingIdx (bs:byte[]) (pos:int) (len:int): LegCreditRating =
+let ReadLegCreditRating (bs:byte[]) (pos:int) (len:int): LegCreditRating =
     ReadFieldStr bs pos len LegCreditRating.LegCreditRating
 
 
-let ReadTradedFlatSwitchIdx (bs:byte[]) (pos:int) (len:int): TradedFlatSwitch =
+let ReadTradedFlatSwitch (bs:byte[]) (pos:int) (len:int): TradedFlatSwitch =
     ReadFieldBool bs pos len TradedFlatSwitch.TradedFlatSwitch
 
 
-let ReadBasisFeatureDateIdx (bs:byte[]) (pos:int) (len:int): BasisFeatureDate =
+let ReadBasisFeatureDate (bs:byte[]) (pos:int) (len:int): BasisFeatureDate =
     ReadFieldLocalMktDate bs pos len BasisFeatureDate.BasisFeatureDate
 
 
-let ReadBasisFeaturePriceIdx (bs:byte[]) (pos:int) (len:int): BasisFeaturePrice =
+let ReadBasisFeaturePrice (bs:byte[]) (pos:int) (len:int): BasisFeaturePrice =
     ReadFieldDecimal bs pos len BasisFeaturePrice.BasisFeaturePrice
 
 
-let ReadMDReqIDIdx (bs:byte[]) (pos:int) (len:int): MDReqID =
+let ReadMDReqID (bs:byte[]) (pos:int) (len:int): MDReqID =
     ReadFieldStr bs pos len MDReqID.MDReqID
 
 
-let ReadSubscriptionRequestTypeIdx (bs:byte[]) (pos:int) (len:int): SubscriptionRequestType =
+let ReadSubscriptionRequestType (bs:byte[]) (pos:int) (len:int): SubscriptionRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1697,11 +1697,11 @@ let ReadSubscriptionRequestTypeIdx (bs:byte[]) (pos:int) (len:int): Subscription
     | x -> failwith (sprintf "ReadSubscriptionRequestType unknown fix tag: %A"  x) 
 
 
-let ReadMarketDepthIdx (bs:byte[]) (pos:int) (len:int): MarketDepth =
+let ReadMarketDepth (bs:byte[]) (pos:int) (len:int): MarketDepth =
     ReadFieldInt bs pos len MarketDepth.MarketDepth
 
 
-let ReadMDUpdateTypeIdx (bs:byte[]) (pos:int) (len:int): MDUpdateType =
+let ReadMDUpdateType (bs:byte[]) (pos:int) (len:int): MDUpdateType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1710,19 +1710,19 @@ let ReadMDUpdateTypeIdx (bs:byte[]) (pos:int) (len:int): MDUpdateType =
     | x -> failwith (sprintf "ReadMDUpdateType unknown fix tag: %A"  x) 
 
 
-let ReadAggregatedBookIdx (bs:byte[]) (pos:int) (len:int): AggregatedBook =
+let ReadAggregatedBook (bs:byte[]) (pos:int) (len:int): AggregatedBook =
     ReadFieldBool bs pos len AggregatedBook.AggregatedBook
 
 
-let ReadNoMDEntryTypesIdx (bs:byte[]) (pos:int) (len:int): NoMDEntryTypes =
+let ReadNoMDEntryTypes (bs:byte[]) (pos:int) (len:int): NoMDEntryTypes =
     ReadFieldInt bs pos len NoMDEntryTypes.NoMDEntryTypes
 
 
-let ReadNoMDEntriesIdx (bs:byte[]) (pos:int) (len:int): NoMDEntries =
+let ReadNoMDEntries (bs:byte[]) (pos:int) (len:int): NoMDEntries =
     ReadFieldInt bs pos len NoMDEntries.NoMDEntries
 
 
-let ReadMDEntryTypeIdx (bs:byte[]) (pos:int) (len:int): MDEntryType =
+let ReadMDEntryType (bs:byte[]) (pos:int) (len:int): MDEntryType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1742,23 +1742,23 @@ let ReadMDEntryTypeIdx (bs:byte[]) (pos:int) (len:int): MDEntryType =
     | x -> failwith (sprintf "ReadMDEntryType unknown fix tag: %A"  x) 
 
 
-let ReadMDEntryPxIdx (bs:byte[]) (pos:int) (len:int): MDEntryPx =
+let ReadMDEntryPx (bs:byte[]) (pos:int) (len:int): MDEntryPx =
     ReadFieldDecimal bs pos len MDEntryPx.MDEntryPx
 
 
-let ReadMDEntrySizeIdx (bs:byte[]) (pos:int) (len:int): MDEntrySize =
+let ReadMDEntrySize (bs:byte[]) (pos:int) (len:int): MDEntrySize =
     ReadFieldDecimal bs pos len MDEntrySize.MDEntrySize
 
 
-let ReadMDEntryDateIdx (bs:byte[]) (pos:int) (len:int): MDEntryDate =
+let ReadMDEntryDate (bs:byte[]) (pos:int) (len:int): MDEntryDate =
     ReadFieldUTCDate bs pos len MDEntryDate.MDEntryDate
 
 
-let ReadMDEntryTimeIdx (bs:byte[]) (pos:int) (len:int): MDEntryTime =
+let ReadMDEntryTime (bs:byte[]) (pos:int) (len:int): MDEntryTime =
     ReadFieldUTCTimeOnly bs pos len MDEntryTime.MDEntryTime
 
 
-let ReadTickDirectionIdx (bs:byte[]) (pos:int) (len:int): TickDirection =
+let ReadTickDirection (bs:byte[]) (pos:int) (len:int): TickDirection =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1769,11 +1769,11 @@ let ReadTickDirectionIdx (bs:byte[]) (pos:int) (len:int): TickDirection =
     | x -> failwith (sprintf "ReadTickDirection unknown fix tag: %A"  x) 
 
 
-let ReadMDMktIdx (bs:byte[]) (pos:int) (len:int): MDMkt =
+let ReadMDMkt (bs:byte[]) (pos:int) (len:int): MDMkt =
     ReadFieldStr bs pos len MDMkt.MDMkt
 
 
-let ReadQuoteConditionIdx (bs:byte[]) (pos:int) (len:int): QuoteCondition =
+let ReadQuoteCondition (bs:byte[]) (pos:int) (len:int): QuoteCondition =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1789,7 +1789,7 @@ let ReadQuoteConditionIdx (bs:byte[]) (pos:int) (len:int): QuoteCondition =
     | x -> failwith (sprintf "ReadQuoteCondition unknown fix tag: %A"  x) 
 
 
-let ReadTradeConditionIdx (bs:byte[]) (pos:int) (len:int): TradeCondition =
+let ReadTradeCondition (bs:byte[]) (pos:int) (len:int): TradeCondition =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1813,11 +1813,11 @@ let ReadTradeConditionIdx (bs:byte[]) (pos:int) (len:int): TradeCondition =
     | x -> failwith (sprintf "ReadTradeCondition unknown fix tag: %A"  x) 
 
 
-let ReadMDEntryIDIdx (bs:byte[]) (pos:int) (len:int): MDEntryID =
+let ReadMDEntryID (bs:byte[]) (pos:int) (len:int): MDEntryID =
     ReadFieldStr bs pos len MDEntryID.MDEntryID
 
 
-let ReadMDUpdateActionIdx (bs:byte[]) (pos:int) (len:int): MDUpdateAction =
+let ReadMDUpdateAction (bs:byte[]) (pos:int) (len:int): MDUpdateAction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1827,11 +1827,11 @@ let ReadMDUpdateActionIdx (bs:byte[]) (pos:int) (len:int): MDUpdateAction =
     | x -> failwith (sprintf "ReadMDUpdateAction unknown fix tag: %A"  x) 
 
 
-let ReadMDEntryRefIDIdx (bs:byte[]) (pos:int) (len:int): MDEntryRefID =
+let ReadMDEntryRefID (bs:byte[]) (pos:int) (len:int): MDEntryRefID =
     ReadFieldStr bs pos len MDEntryRefID.MDEntryRefID
 
 
-let ReadMDReqRejReasonIdx (bs:byte[]) (pos:int) (len:int): MDReqRejReason =
+let ReadMDReqRejReason (bs:byte[]) (pos:int) (len:int): MDReqRejReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1851,19 +1851,19 @@ let ReadMDReqRejReasonIdx (bs:byte[]) (pos:int) (len:int): MDReqRejReason =
     | x -> failwith (sprintf "ReadMDReqRejReason unknown fix tag: %A"  x) 
 
 
-let ReadMDEntryOriginatorIdx (bs:byte[]) (pos:int) (len:int): MDEntryOriginator =
+let ReadMDEntryOriginator (bs:byte[]) (pos:int) (len:int): MDEntryOriginator =
     ReadFieldStr bs pos len MDEntryOriginator.MDEntryOriginator
 
 
-let ReadLocationIDIdx (bs:byte[]) (pos:int) (len:int): LocationID =
+let ReadLocationID (bs:byte[]) (pos:int) (len:int): LocationID =
     ReadFieldStr bs pos len LocationID.LocationID
 
 
-let ReadDeskIDIdx (bs:byte[]) (pos:int) (len:int): DeskID =
+let ReadDeskID (bs:byte[]) (pos:int) (len:int): DeskID =
     ReadFieldStr bs pos len DeskID.DeskID
 
 
-let ReadDeleteReasonIdx (bs:byte[]) (pos:int) (len:int): DeleteReason =
+let ReadDeleteReason (bs:byte[]) (pos:int) (len:int): DeleteReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1872,7 +1872,7 @@ let ReadDeleteReasonIdx (bs:byte[]) (pos:int) (len:int): DeleteReason =
     | x -> failwith (sprintf "ReadDeleteReason unknown fix tag: %A"  x) 
 
 
-let ReadOpenCloseSettlFlagIdx (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFlag =
+let ReadOpenCloseSettlFlag (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFlag =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1885,23 +1885,23 @@ let ReadOpenCloseSettlFlagIdx (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFla
     | x -> failwith (sprintf "ReadOpenCloseSettlFlag unknown fix tag: %A"  x) 
 
 
-let ReadSellerDaysIdx (bs:byte[]) (pos:int) (len:int): SellerDays =
+let ReadSellerDays (bs:byte[]) (pos:int) (len:int): SellerDays =
     ReadFieldInt bs pos len SellerDays.SellerDays
 
 
-let ReadMDEntryBuyerIdx (bs:byte[]) (pos:int) (len:int): MDEntryBuyer =
+let ReadMDEntryBuyer (bs:byte[]) (pos:int) (len:int): MDEntryBuyer =
     ReadFieldStr bs pos len MDEntryBuyer.MDEntryBuyer
 
 
-let ReadMDEntrySellerIdx (bs:byte[]) (pos:int) (len:int): MDEntrySeller =
+let ReadMDEntrySeller (bs:byte[]) (pos:int) (len:int): MDEntrySeller =
     ReadFieldStr bs pos len MDEntrySeller.MDEntrySeller
 
 
-let ReadMDEntryPositionNoIdx (bs:byte[]) (pos:int) (len:int): MDEntryPositionNo =
+let ReadMDEntryPositionNo (bs:byte[]) (pos:int) (len:int): MDEntryPositionNo =
     ReadFieldInt bs pos len MDEntryPositionNo.MDEntryPositionNo
 
 
-let ReadFinancialStatusIdx (bs:byte[]) (pos:int) (len:int): FinancialStatus =
+let ReadFinancialStatus (bs:byte[]) (pos:int) (len:int): FinancialStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1910,7 +1910,7 @@ let ReadFinancialStatusIdx (bs:byte[]) (pos:int) (len:int): FinancialStatus =
     | x -> failwith (sprintf "ReadFinancialStatus unknown fix tag: %A"  x) 
 
 
-let ReadCorporateActionIdx (bs:byte[]) (pos:int) (len:int): CorporateAction =
+let ReadCorporateAction (bs:byte[]) (pos:int) (len:int): CorporateAction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1922,23 +1922,23 @@ let ReadCorporateActionIdx (bs:byte[]) (pos:int) (len:int): CorporateAction =
     | x -> failwith (sprintf "ReadCorporateAction unknown fix tag: %A"  x) 
 
 
-let ReadDefBidSizeIdx (bs:byte[]) (pos:int) (len:int): DefBidSize =
+let ReadDefBidSize (bs:byte[]) (pos:int) (len:int): DefBidSize =
     ReadFieldDecimal bs pos len DefBidSize.DefBidSize
 
 
-let ReadDefOfferSizeIdx (bs:byte[]) (pos:int) (len:int): DefOfferSize =
+let ReadDefOfferSize (bs:byte[]) (pos:int) (len:int): DefOfferSize =
     ReadFieldDecimal bs pos len DefOfferSize.DefOfferSize
 
 
-let ReadNoQuoteEntriesIdx (bs:byte[]) (pos:int) (len:int): NoQuoteEntries =
+let ReadNoQuoteEntries (bs:byte[]) (pos:int) (len:int): NoQuoteEntries =
     ReadFieldInt bs pos len NoQuoteEntries.NoQuoteEntries
 
 
-let ReadNoQuoteSetsIdx (bs:byte[]) (pos:int) (len:int): NoQuoteSets =
+let ReadNoQuoteSets (bs:byte[]) (pos:int) (len:int): NoQuoteSets =
     ReadFieldInt bs pos len NoQuoteSets.NoQuoteSets
 
 
-let ReadQuoteStatusIdx (bs:byte[]) (pos:int) (len:int): QuoteStatus =
+let ReadQuoteStatus (bs:byte[]) (pos:int) (len:int): QuoteStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1961,7 +1961,7 @@ let ReadQuoteStatusIdx (bs:byte[]) (pos:int) (len:int): QuoteStatus =
     | x -> failwith (sprintf "ReadQuoteStatus unknown fix tag: %A"  x) 
 
 
-let ReadQuoteCancelTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
+let ReadQuoteCancelType (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1972,11 +1972,11 @@ let ReadQuoteCancelTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
     | x -> failwith (sprintf "ReadQuoteCancelType unknown fix tag: %A"  x) 
 
 
-let ReadQuoteEntryIDIdx (bs:byte[]) (pos:int) (len:int): QuoteEntryID =
+let ReadQuoteEntryID (bs:byte[]) (pos:int) (len:int): QuoteEntryID =
     ReadFieldStr bs pos len QuoteEntryID.QuoteEntryID
 
 
-let ReadQuoteRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteRejectReason =
+let ReadQuoteRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -1993,7 +1993,7 @@ let ReadQuoteRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteRejectReason 
     | x -> failwith (sprintf "ReadQuoteRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadQuoteResponseLevelIdx (bs:byte[]) (pos:int) (len:int): QuoteResponseLevel =
+let ReadQuoteResponseLevel (bs:byte[]) (pos:int) (len:int): QuoteResponseLevel =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2003,11 +2003,11 @@ let ReadQuoteResponseLevelIdx (bs:byte[]) (pos:int) (len:int): QuoteResponseLeve
     | x -> failwith (sprintf "ReadQuoteResponseLevel unknown fix tag: %A"  x) 
 
 
-let ReadQuoteSetIDIdx (bs:byte[]) (pos:int) (len:int): QuoteSetID =
+let ReadQuoteSetID (bs:byte[]) (pos:int) (len:int): QuoteSetID =
     ReadFieldStr bs pos len QuoteSetID.QuoteSetID
 
 
-let ReadQuoteRequestTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteRequestType =
+let ReadQuoteRequestType (bs:byte[]) (pos:int) (len:int): QuoteRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2016,47 +2016,47 @@ let ReadQuoteRequestTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteRequestType =
     | x -> failwith (sprintf "ReadQuoteRequestType unknown fix tag: %A"  x) 
 
 
-let ReadTotNoQuoteEntriesIdx (bs:byte[]) (pos:int) (len:int): TotNoQuoteEntries =
+let ReadTotNoQuoteEntries (bs:byte[]) (pos:int) (len:int): TotNoQuoteEntries =
     ReadFieldInt bs pos len TotNoQuoteEntries.TotNoQuoteEntries
 
 
-let ReadUnderlyingSecurityIDSourceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityIDSource =
+let ReadUnderlyingSecurityIDSource (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityIDSource =
     ReadFieldStr bs pos len UnderlyingSecurityIDSource.UnderlyingSecurityIDSource
 
 
-let ReadUnderlyingIssuerIdx (bs:byte[]) (pos:int) (len:int): UnderlyingIssuer =
+let ReadUnderlyingIssuer (bs:byte[]) (pos:int) (len:int): UnderlyingIssuer =
     ReadFieldStr bs pos len UnderlyingIssuer.UnderlyingIssuer
 
 
-let ReadUnderlyingSecurityDescIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityDesc =
+let ReadUnderlyingSecurityDesc (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityDesc =
     ReadFieldStr bs pos len UnderlyingSecurityDesc.UnderlyingSecurityDesc
 
 
-let ReadUnderlyingSecurityExchangeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityExchange =
+let ReadUnderlyingSecurityExchange (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityExchange =
     ReadFieldStr bs pos len UnderlyingSecurityExchange.UnderlyingSecurityExchange
 
 
-let ReadUnderlyingSecurityIDIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityID =
+let ReadUnderlyingSecurityID (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityID =
     ReadFieldStr bs pos len UnderlyingSecurityID.UnderlyingSecurityID
 
 
-let ReadUnderlyingSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityType =
+let ReadUnderlyingSecurityType (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityType =
     ReadFieldStr bs pos len UnderlyingSecurityType.UnderlyingSecurityType
 
 
-let ReadUnderlyingSymbolIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSymbol =
+let ReadUnderlyingSymbol (bs:byte[]) (pos:int) (len:int): UnderlyingSymbol =
     ReadFieldStr bs pos len UnderlyingSymbol.UnderlyingSymbol
 
 
-let ReadUnderlyingSymbolSfxIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSymbolSfx =
+let ReadUnderlyingSymbolSfx (bs:byte[]) (pos:int) (len:int): UnderlyingSymbolSfx =
     ReadFieldStr bs pos len UnderlyingSymbolSfx.UnderlyingSymbolSfx
 
 
-let ReadUnderlyingMaturityMonthYearIdx (bs:byte[]) (pos:int) (len:int): UnderlyingMaturityMonthYear =
+let ReadUnderlyingMaturityMonthYear (bs:byte[]) (pos:int) (len:int): UnderlyingMaturityMonthYear =
     ReadFieldMonthYear bs pos len UnderlyingMaturityMonthYear.UnderlyingMaturityMonthYear
 
 
-let ReadUnderlyingPutOrCallIdx (bs:byte[]) (pos:int) (len:int): UnderlyingPutOrCall =
+let ReadUnderlyingPutOrCall (bs:byte[]) (pos:int) (len:int): UnderlyingPutOrCall =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2065,23 +2065,23 @@ let ReadUnderlyingPutOrCallIdx (bs:byte[]) (pos:int) (len:int): UnderlyingPutOrC
     | x -> failwith (sprintf "ReadUnderlyingPutOrCall unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingStrikePriceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStrikePrice =
+let ReadUnderlyingStrikePrice (bs:byte[]) (pos:int) (len:int): UnderlyingStrikePrice =
     ReadFieldDecimal bs pos len UnderlyingStrikePrice.UnderlyingStrikePrice
 
 
-let ReadUnderlyingOptAttributeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingOptAttribute =
+let ReadUnderlyingOptAttribute (bs:byte[]) (pos:int) (len:int): UnderlyingOptAttribute =
     ReadFieldChar bs pos len UnderlyingOptAttribute.UnderlyingOptAttribute
 
 
-let ReadUnderlyingCurrencyIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCurrency =
+let ReadUnderlyingCurrency (bs:byte[]) (pos:int) (len:int): UnderlyingCurrency =
     ReadFieldStr bs pos len UnderlyingCurrency.UnderlyingCurrency
 
 
-let ReadSecurityReqIDIdx (bs:byte[]) (pos:int) (len:int): SecurityReqID =
+let ReadSecurityReqID (bs:byte[]) (pos:int) (len:int): SecurityReqID =
     ReadFieldStr bs pos len SecurityReqID.SecurityReqID
 
 
-let ReadSecurityRequestTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityRequestType =
+let ReadSecurityRequestType (bs:byte[]) (pos:int) (len:int): SecurityRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2092,11 +2092,11 @@ let ReadSecurityRequestTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityRequestT
     | x -> failwith (sprintf "ReadSecurityRequestType unknown fix tag: %A"  x) 
 
 
-let ReadSecurityResponseIDIdx (bs:byte[]) (pos:int) (len:int): SecurityResponseID =
+let ReadSecurityResponseID (bs:byte[]) (pos:int) (len:int): SecurityResponseID =
     ReadFieldStr bs pos len SecurityResponseID.SecurityResponseID
 
 
-let ReadSecurityResponseTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityResponseType =
+let ReadSecurityResponseType (bs:byte[]) (pos:int) (len:int): SecurityResponseType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2109,15 +2109,15 @@ let ReadSecurityResponseTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityRespons
     | x -> failwith (sprintf "ReadSecurityResponseType unknown fix tag: %A"  x) 
 
 
-let ReadSecurityStatusReqIDIdx (bs:byte[]) (pos:int) (len:int): SecurityStatusReqID =
+let ReadSecurityStatusReqID (bs:byte[]) (pos:int) (len:int): SecurityStatusReqID =
     ReadFieldStr bs pos len SecurityStatusReqID.SecurityStatusReqID
 
 
-let ReadUnsolicitedIndicatorIdx (bs:byte[]) (pos:int) (len:int): UnsolicitedIndicator =
+let ReadUnsolicitedIndicator (bs:byte[]) (pos:int) (len:int): UnsolicitedIndicator =
     ReadFieldBool bs pos len UnsolicitedIndicator.UnsolicitedIndicator
 
 
-let ReadSecurityTradingStatusIdx (bs:byte[]) (pos:int) (len:int): SecurityTradingStatus =
+let ReadSecurityTradingStatus (bs:byte[]) (pos:int) (len:int): SecurityTradingStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2147,7 +2147,7 @@ let ReadSecurityTradingStatusIdx (bs:byte[]) (pos:int) (len:int): SecurityTradin
     | x -> failwith (sprintf "ReadSecurityTradingStatus unknown fix tag: %A"  x) 
 
 
-let ReadHaltReasonIdx (bs:byte[]) (pos:int) (len:int): HaltReason =
+let ReadHaltReason (bs:byte[]) (pos:int) (len:int): HaltReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2160,31 +2160,31 @@ let ReadHaltReasonIdx (bs:byte[]) (pos:int) (len:int): HaltReason =
     | x -> failwith (sprintf "ReadHaltReason unknown fix tag: %A"  x) 
 
 
-let ReadInViewOfCommonIdx (bs:byte[]) (pos:int) (len:int): InViewOfCommon =
+let ReadInViewOfCommon (bs:byte[]) (pos:int) (len:int): InViewOfCommon =
     ReadFieldBool bs pos len InViewOfCommon.InViewOfCommon
 
 
-let ReadDueToRelatedIdx (bs:byte[]) (pos:int) (len:int): DueToRelated =
+let ReadDueToRelated (bs:byte[]) (pos:int) (len:int): DueToRelated =
     ReadFieldBool bs pos len DueToRelated.DueToRelated
 
 
-let ReadBuyVolumeIdx (bs:byte[]) (pos:int) (len:int): BuyVolume =
+let ReadBuyVolume (bs:byte[]) (pos:int) (len:int): BuyVolume =
     ReadFieldDecimal bs pos len BuyVolume.BuyVolume
 
 
-let ReadSellVolumeIdx (bs:byte[]) (pos:int) (len:int): SellVolume =
+let ReadSellVolume (bs:byte[]) (pos:int) (len:int): SellVolume =
     ReadFieldDecimal bs pos len SellVolume.SellVolume
 
 
-let ReadHighPxIdx (bs:byte[]) (pos:int) (len:int): HighPx =
+let ReadHighPx (bs:byte[]) (pos:int) (len:int): HighPx =
     ReadFieldDecimal bs pos len HighPx.HighPx
 
 
-let ReadLowPxIdx (bs:byte[]) (pos:int) (len:int): LowPx =
+let ReadLowPx (bs:byte[]) (pos:int) (len:int): LowPx =
     ReadFieldDecimal bs pos len LowPx.LowPx
 
 
-let ReadAdjustmentIdx (bs:byte[]) (pos:int) (len:int): Adjustment =
+let ReadAdjustment (bs:byte[]) (pos:int) (len:int): Adjustment =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2194,19 +2194,19 @@ let ReadAdjustmentIdx (bs:byte[]) (pos:int) (len:int): Adjustment =
     | x -> failwith (sprintf "ReadAdjustment unknown fix tag: %A"  x) 
 
 
-let ReadTradSesReqIDIdx (bs:byte[]) (pos:int) (len:int): TradSesReqID =
+let ReadTradSesReqID (bs:byte[]) (pos:int) (len:int): TradSesReqID =
     ReadFieldStr bs pos len TradSesReqID.TradSesReqID
 
 
-let ReadTradingSessionIDIdx (bs:byte[]) (pos:int) (len:int): TradingSessionID =
+let ReadTradingSessionID (bs:byte[]) (pos:int) (len:int): TradingSessionID =
     ReadFieldStr bs pos len TradingSessionID.TradingSessionID
 
 
-let ReadContraTraderIdx (bs:byte[]) (pos:int) (len:int): ContraTrader =
+let ReadContraTrader (bs:byte[]) (pos:int) (len:int): ContraTrader =
     ReadFieldStr bs pos len ContraTrader.ContraTrader
 
 
-let ReadTradSesMethodIdx (bs:byte[]) (pos:int) (len:int): TradSesMethod =
+let ReadTradSesMethod (bs:byte[]) (pos:int) (len:int): TradSesMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2216,7 +2216,7 @@ let ReadTradSesMethodIdx (bs:byte[]) (pos:int) (len:int): TradSesMethod =
     | x -> failwith (sprintf "ReadTradSesMethod unknown fix tag: %A"  x) 
 
 
-let ReadTradSesModeIdx (bs:byte[]) (pos:int) (len:int): TradSesMode =
+let ReadTradSesMode (bs:byte[]) (pos:int) (len:int): TradSesMode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2226,7 +2226,7 @@ let ReadTradSesModeIdx (bs:byte[]) (pos:int) (len:int): TradSesMode =
     | x -> failwith (sprintf "ReadTradSesMode unknown fix tag: %A"  x) 
 
 
-let ReadTradSesStatusIdx (bs:byte[]) (pos:int) (len:int): TradSesStatus =
+let ReadTradSesStatus (bs:byte[]) (pos:int) (len:int): TradSesStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2240,31 +2240,31 @@ let ReadTradSesStatusIdx (bs:byte[]) (pos:int) (len:int): TradSesStatus =
     | x -> failwith (sprintf "ReadTradSesStatus unknown fix tag: %A"  x) 
 
 
-let ReadTradSesStartTimeIdx (bs:byte[]) (pos:int) (len:int): TradSesStartTime =
+let ReadTradSesStartTime (bs:byte[]) (pos:int) (len:int): TradSesStartTime =
     ReadFieldUTCTimestamp bs pos len TradSesStartTime.TradSesStartTime
 
 
-let ReadTradSesOpenTimeIdx (bs:byte[]) (pos:int) (len:int): TradSesOpenTime =
+let ReadTradSesOpenTime (bs:byte[]) (pos:int) (len:int): TradSesOpenTime =
     ReadFieldUTCTimestamp bs pos len TradSesOpenTime.TradSesOpenTime
 
 
-let ReadTradSesPreCloseTimeIdx (bs:byte[]) (pos:int) (len:int): TradSesPreCloseTime =
+let ReadTradSesPreCloseTime (bs:byte[]) (pos:int) (len:int): TradSesPreCloseTime =
     ReadFieldUTCTimestamp bs pos len TradSesPreCloseTime.TradSesPreCloseTime
 
 
-let ReadTradSesCloseTimeIdx (bs:byte[]) (pos:int) (len:int): TradSesCloseTime =
+let ReadTradSesCloseTime (bs:byte[]) (pos:int) (len:int): TradSesCloseTime =
     ReadFieldUTCTimestamp bs pos len TradSesCloseTime.TradSesCloseTime
 
 
-let ReadTradSesEndTimeIdx (bs:byte[]) (pos:int) (len:int): TradSesEndTime =
+let ReadTradSesEndTime (bs:byte[]) (pos:int) (len:int): TradSesEndTime =
     ReadFieldUTCTimestamp bs pos len TradSesEndTime.TradSesEndTime
 
 
-let ReadNumberOfOrdersIdx (bs:byte[]) (pos:int) (len:int): NumberOfOrders =
+let ReadNumberOfOrders (bs:byte[]) (pos:int) (len:int): NumberOfOrders =
     ReadFieldInt bs pos len NumberOfOrders.NumberOfOrders
 
 
-let ReadMessageEncodingIdx (bs:byte[]) (pos:int) (len:int): MessageEncoding =
+let ReadMessageEncoding (bs:byte[]) (pos:int) (len:int): MessageEncoding =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2276,59 +2276,59 @@ let ReadMessageEncodingIdx (bs:byte[]) (pos:int) (len:int): MessageEncoding =
 
 
 // compound read
-let ReadEncodedIssuerIdx (bs:byte[]) (pos:int) (len:int): EncodedIssuer =
+let ReadEncodedIssuer (bs:byte[]) (pos:int) (len:int): EncodedIssuer =
     ReadLengthDataCompoundField bs pos len "349"B EncodedIssuer.EncodedIssuer
 
 
 // compound read
-let ReadEncodedSecurityDescIdx (bs:byte[]) (pos:int) (len:int): EncodedSecurityDesc =
+let ReadEncodedSecurityDesc (bs:byte[]) (pos:int) (len:int): EncodedSecurityDesc =
     ReadLengthDataCompoundField bs pos len "351"B EncodedSecurityDesc.EncodedSecurityDesc
 
 
 // compound read
-let ReadEncodedListExecInstIdx (bs:byte[]) (pos:int) (len:int): EncodedListExecInst =
+let ReadEncodedListExecInst (bs:byte[]) (pos:int) (len:int): EncodedListExecInst =
     ReadLengthDataCompoundField bs pos len "353"B EncodedListExecInst.EncodedListExecInst
 
 
 // compound read
-let ReadEncodedTextIdx (bs:byte[]) (pos:int) (len:int): EncodedText =
+let ReadEncodedText (bs:byte[]) (pos:int) (len:int): EncodedText =
     ReadLengthDataCompoundField bs pos len "355"B EncodedText.EncodedText
 
 
 // compound read
-let ReadEncodedSubjectIdx (bs:byte[]) (pos:int) (len:int): EncodedSubject =
+let ReadEncodedSubject (bs:byte[]) (pos:int) (len:int): EncodedSubject =
     ReadLengthDataCompoundField bs pos len "357"B EncodedSubject.EncodedSubject
 
 
 // compound read
-let ReadEncodedHeadlineIdx (bs:byte[]) (pos:int) (len:int): EncodedHeadline =
+let ReadEncodedHeadline (bs:byte[]) (pos:int) (len:int): EncodedHeadline =
     ReadLengthDataCompoundField bs pos len "359"B EncodedHeadline.EncodedHeadline
 
 
 // compound read
-let ReadEncodedAllocTextIdx (bs:byte[]) (pos:int) (len:int): EncodedAllocText =
+let ReadEncodedAllocText (bs:byte[]) (pos:int) (len:int): EncodedAllocText =
     ReadLengthDataCompoundField bs pos len "361"B EncodedAllocText.EncodedAllocText
 
 
 // compound read
-let ReadEncodedUnderlyingIssuerIdx (bs:byte[]) (pos:int) (len:int): EncodedUnderlyingIssuer =
+let ReadEncodedUnderlyingIssuer (bs:byte[]) (pos:int) (len:int): EncodedUnderlyingIssuer =
     ReadLengthDataCompoundField bs pos len "363"B EncodedUnderlyingIssuer.EncodedUnderlyingIssuer
 
 
 // compound read
-let ReadEncodedUnderlyingSecurityDescIdx (bs:byte[]) (pos:int) (len:int): EncodedUnderlyingSecurityDesc =
+let ReadEncodedUnderlyingSecurityDesc (bs:byte[]) (pos:int) (len:int): EncodedUnderlyingSecurityDesc =
     ReadLengthDataCompoundField bs pos len "365"B EncodedUnderlyingSecurityDesc.EncodedUnderlyingSecurityDesc
 
 
-let ReadAllocPriceIdx (bs:byte[]) (pos:int) (len:int): AllocPrice =
+let ReadAllocPrice (bs:byte[]) (pos:int) (len:int): AllocPrice =
     ReadFieldDecimal bs pos len AllocPrice.AllocPrice
 
 
-let ReadQuoteSetValidUntilTimeIdx (bs:byte[]) (pos:int) (len:int): QuoteSetValidUntilTime =
+let ReadQuoteSetValidUntilTime (bs:byte[]) (pos:int) (len:int): QuoteSetValidUntilTime =
     ReadFieldUTCTimestamp bs pos len QuoteSetValidUntilTime.QuoteSetValidUntilTime
 
 
-let ReadQuoteEntryRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteEntryRejectReason =
+let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) (len:int): QuoteEntryRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2344,19 +2344,19 @@ let ReadQuoteEntryRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteEntryRej
     | x -> failwith (sprintf "ReadQuoteEntryRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadLastMsgSeqNumProcessedIdx (bs:byte[]) (pos:int) (len:int): LastMsgSeqNumProcessed =
+let ReadLastMsgSeqNumProcessed (bs:byte[]) (pos:int) (len:int): LastMsgSeqNumProcessed =
     ReadFieldUInt bs pos len LastMsgSeqNumProcessed.LastMsgSeqNumProcessed
 
 
-let ReadRefTagIDIdx (bs:byte[]) (pos:int) (len:int): RefTagID =
+let ReadRefTagID (bs:byte[]) (pos:int) (len:int): RefTagID =
     ReadFieldInt bs pos len RefTagID.RefTagID
 
 
-let ReadRefMsgTypeIdx (bs:byte[]) (pos:int) (len:int): RefMsgType =
+let ReadRefMsgType (bs:byte[]) (pos:int) (len:int): RefMsgType =
     ReadFieldStr bs pos len RefMsgType.RefMsgType
 
 
-let ReadSessionRejectReasonIdx (bs:byte[]) (pos:int) (len:int): SessionRejectReason =
+let ReadSessionRejectReason (bs:byte[]) (pos:int) (len:int): SessionRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2382,7 +2382,7 @@ let ReadSessionRejectReasonIdx (bs:byte[]) (pos:int) (len:int): SessionRejectRea
     | x -> failwith (sprintf "ReadSessionRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadBidRequestTransTypeIdx (bs:byte[]) (pos:int) (len:int): BidRequestTransType =
+let ReadBidRequestTransType (bs:byte[]) (pos:int) (len:int): BidRequestTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2391,19 +2391,19 @@ let ReadBidRequestTransTypeIdx (bs:byte[]) (pos:int) (len:int): BidRequestTransT
     | x -> failwith (sprintf "ReadBidRequestTransType unknown fix tag: %A"  x) 
 
 
-let ReadContraBrokerIdx (bs:byte[]) (pos:int) (len:int): ContraBroker =
+let ReadContraBroker (bs:byte[]) (pos:int) (len:int): ContraBroker =
     ReadFieldStr bs pos len ContraBroker.ContraBroker
 
 
-let ReadComplianceIDIdx (bs:byte[]) (pos:int) (len:int): ComplianceID =
+let ReadComplianceID (bs:byte[]) (pos:int) (len:int): ComplianceID =
     ReadFieldStr bs pos len ComplianceID.ComplianceID
 
 
-let ReadSolicitedFlagIdx (bs:byte[]) (pos:int) (len:int): SolicitedFlag =
+let ReadSolicitedFlag (bs:byte[]) (pos:int) (len:int): SolicitedFlag =
     ReadFieldBool bs pos len SolicitedFlag.SolicitedFlag
 
 
-let ReadExecRestatementReasonIdx (bs:byte[]) (pos:int) (len:int): ExecRestatementReason =
+let ReadExecRestatementReason (bs:byte[]) (pos:int) (len:int): ExecRestatementReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2420,11 +2420,11 @@ let ReadExecRestatementReasonIdx (bs:byte[]) (pos:int) (len:int): ExecRestatemen
     | x -> failwith (sprintf "ReadExecRestatementReason unknown fix tag: %A"  x) 
 
 
-let ReadBusinessRejectRefIDIdx (bs:byte[]) (pos:int) (len:int): BusinessRejectRefID =
+let ReadBusinessRejectRefID (bs:byte[]) (pos:int) (len:int): BusinessRejectRefID =
     ReadFieldStr bs pos len BusinessRejectRefID.BusinessRejectRefID
 
 
-let ReadBusinessRejectReasonIdx (bs:byte[]) (pos:int) (len:int): BusinessRejectReason =
+let ReadBusinessRejectReason (bs:byte[]) (pos:int) (len:int): BusinessRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2439,23 +2439,23 @@ let ReadBusinessRejectReasonIdx (bs:byte[]) (pos:int) (len:int): BusinessRejectR
     | x -> failwith (sprintf "ReadBusinessRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadGrossTradeAmtIdx (bs:byte[]) (pos:int) (len:int): GrossTradeAmt =
+let ReadGrossTradeAmt (bs:byte[]) (pos:int) (len:int): GrossTradeAmt =
     ReadFieldDecimal bs pos len GrossTradeAmt.GrossTradeAmt
 
 
-let ReadNoContraBrokersIdx (bs:byte[]) (pos:int) (len:int): NoContraBrokers =
+let ReadNoContraBrokers (bs:byte[]) (pos:int) (len:int): NoContraBrokers =
     ReadFieldInt bs pos len NoContraBrokers.NoContraBrokers
 
 
-let ReadMaxMessageSizeIdx (bs:byte[]) (pos:int) (len:int): MaxMessageSize =
+let ReadMaxMessageSize (bs:byte[]) (pos:int) (len:int): MaxMessageSize =
     ReadFieldUInt bs pos len MaxMessageSize.MaxMessageSize
 
 
-let ReadNoMsgTypesIdx (bs:byte[]) (pos:int) (len:int): NoMsgTypes =
+let ReadNoMsgTypes (bs:byte[]) (pos:int) (len:int): NoMsgTypes =
     ReadFieldInt bs pos len NoMsgTypes.NoMsgTypes
 
 
-let ReadMsgDirectionIdx (bs:byte[]) (pos:int) (len:int): MsgDirection =
+let ReadMsgDirection (bs:byte[]) (pos:int) (len:int): MsgDirection =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2464,15 +2464,15 @@ let ReadMsgDirectionIdx (bs:byte[]) (pos:int) (len:int): MsgDirection =
     | x -> failwith (sprintf "ReadMsgDirection unknown fix tag: %A"  x) 
 
 
-let ReadNoTradingSessionsIdx (bs:byte[]) (pos:int) (len:int): NoTradingSessions =
+let ReadNoTradingSessions (bs:byte[]) (pos:int) (len:int): NoTradingSessions =
     ReadFieldInt bs pos len NoTradingSessions.NoTradingSessions
 
 
-let ReadTotalVolumeTradedIdx (bs:byte[]) (pos:int) (len:int): TotalVolumeTraded =
+let ReadTotalVolumeTraded (bs:byte[]) (pos:int) (len:int): TotalVolumeTraded =
     ReadFieldDecimal bs pos len TotalVolumeTraded.TotalVolumeTraded
 
 
-let ReadDiscretionInstIdx (bs:byte[]) (pos:int) (len:int): DiscretionInst =
+let ReadDiscretionInst (bs:byte[]) (pos:int) (len:int): DiscretionInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2486,27 +2486,27 @@ let ReadDiscretionInstIdx (bs:byte[]) (pos:int) (len:int): DiscretionInst =
     | x -> failwith (sprintf "ReadDiscretionInst unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionOffsetValueIdx (bs:byte[]) (pos:int) (len:int): DiscretionOffsetValue =
+let ReadDiscretionOffsetValue (bs:byte[]) (pos:int) (len:int): DiscretionOffsetValue =
     ReadFieldDecimal bs pos len DiscretionOffsetValue.DiscretionOffsetValue
 
 
-let ReadBidIDIdx (bs:byte[]) (pos:int) (len:int): BidID =
+let ReadBidID (bs:byte[]) (pos:int) (len:int): BidID =
     ReadFieldStr bs pos len BidID.BidID
 
 
-let ReadClientBidIDIdx (bs:byte[]) (pos:int) (len:int): ClientBidID =
+let ReadClientBidID (bs:byte[]) (pos:int) (len:int): ClientBidID =
     ReadFieldStr bs pos len ClientBidID.ClientBidID
 
 
-let ReadListNameIdx (bs:byte[]) (pos:int) (len:int): ListName =
+let ReadListName (bs:byte[]) (pos:int) (len:int): ListName =
     ReadFieldStr bs pos len ListName.ListName
 
 
-let ReadTotNoRelatedSymIdx (bs:byte[]) (pos:int) (len:int): TotNoRelatedSym =
+let ReadTotNoRelatedSym (bs:byte[]) (pos:int) (len:int): TotNoRelatedSym =
     ReadFieldInt bs pos len TotNoRelatedSym.TotNoRelatedSym
 
 
-let ReadBidTypeIdx (bs:byte[]) (pos:int) (len:int): BidType =
+let ReadBidType (bs:byte[]) (pos:int) (len:int): BidType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2516,23 +2516,23 @@ let ReadBidTypeIdx (bs:byte[]) (pos:int) (len:int): BidType =
     | x -> failwith (sprintf "ReadBidType unknown fix tag: %A"  x) 
 
 
-let ReadNumTicketsIdx (bs:byte[]) (pos:int) (len:int): NumTickets =
+let ReadNumTickets (bs:byte[]) (pos:int) (len:int): NumTickets =
     ReadFieldInt bs pos len NumTickets.NumTickets
 
 
-let ReadSideValue1Idx (bs:byte[]) (pos:int) (len:int): SideValue1 =
+let ReadSideValue1 (bs:byte[]) (pos:int) (len:int): SideValue1 =
     ReadFieldDecimal bs pos len SideValue1.SideValue1
 
 
-let ReadSideValue2Idx (bs:byte[]) (pos:int) (len:int): SideValue2 =
+let ReadSideValue2 (bs:byte[]) (pos:int) (len:int): SideValue2 =
     ReadFieldDecimal bs pos len SideValue2.SideValue2
 
 
-let ReadNoBidDescriptorsIdx (bs:byte[]) (pos:int) (len:int): NoBidDescriptors =
+let ReadNoBidDescriptors (bs:byte[]) (pos:int) (len:int): NoBidDescriptors =
     ReadFieldInt bs pos len NoBidDescriptors.NoBidDescriptors
 
 
-let ReadBidDescriptorTypeIdx (bs:byte[]) (pos:int) (len:int): BidDescriptorType =
+let ReadBidDescriptorType (bs:byte[]) (pos:int) (len:int): BidDescriptorType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2542,11 +2542,11 @@ let ReadBidDescriptorTypeIdx (bs:byte[]) (pos:int) (len:int): BidDescriptorType 
     | x -> failwith (sprintf "ReadBidDescriptorType unknown fix tag: %A"  x) 
 
 
-let ReadBidDescriptorIdx (bs:byte[]) (pos:int) (len:int): BidDescriptor =
+let ReadBidDescriptor (bs:byte[]) (pos:int) (len:int): BidDescriptor =
     ReadFieldStr bs pos len BidDescriptor.BidDescriptor
 
 
-let ReadSideValueIndIdx (bs:byte[]) (pos:int) (len:int): SideValueInd =
+let ReadSideValueInd (bs:byte[]) (pos:int) (len:int): SideValueInd =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2555,35 +2555,35 @@ let ReadSideValueIndIdx (bs:byte[]) (pos:int) (len:int): SideValueInd =
     | x -> failwith (sprintf "ReadSideValueInd unknown fix tag: %A"  x) 
 
 
-let ReadLiquidityPctLowIdx (bs:byte[]) (pos:int) (len:int): LiquidityPctLow =
+let ReadLiquidityPctLow (bs:byte[]) (pos:int) (len:int): LiquidityPctLow =
     ReadFieldDecimal bs pos len LiquidityPctLow.LiquidityPctLow
 
 
-let ReadLiquidityPctHighIdx (bs:byte[]) (pos:int) (len:int): LiquidityPctHigh =
+let ReadLiquidityPctHigh (bs:byte[]) (pos:int) (len:int): LiquidityPctHigh =
     ReadFieldDecimal bs pos len LiquidityPctHigh.LiquidityPctHigh
 
 
-let ReadLiquidityValueIdx (bs:byte[]) (pos:int) (len:int): LiquidityValue =
+let ReadLiquidityValue (bs:byte[]) (pos:int) (len:int): LiquidityValue =
     ReadFieldDecimal bs pos len LiquidityValue.LiquidityValue
 
 
-let ReadEFPTrackingErrorIdx (bs:byte[]) (pos:int) (len:int): EFPTrackingError =
+let ReadEFPTrackingError (bs:byte[]) (pos:int) (len:int): EFPTrackingError =
     ReadFieldDecimal bs pos len EFPTrackingError.EFPTrackingError
 
 
-let ReadFairValueIdx (bs:byte[]) (pos:int) (len:int): FairValue =
+let ReadFairValue (bs:byte[]) (pos:int) (len:int): FairValue =
     ReadFieldDecimal bs pos len FairValue.FairValue
 
 
-let ReadOutsideIndexPctIdx (bs:byte[]) (pos:int) (len:int): OutsideIndexPct =
+let ReadOutsideIndexPct (bs:byte[]) (pos:int) (len:int): OutsideIndexPct =
     ReadFieldDecimal bs pos len OutsideIndexPct.OutsideIndexPct
 
 
-let ReadValueOfFuturesIdx (bs:byte[]) (pos:int) (len:int): ValueOfFutures =
+let ReadValueOfFutures (bs:byte[]) (pos:int) (len:int): ValueOfFutures =
     ReadFieldDecimal bs pos len ValueOfFutures.ValueOfFutures
 
 
-let ReadLiquidityIndTypeIdx (bs:byte[]) (pos:int) (len:int): LiquidityIndType =
+let ReadLiquidityIndType (bs:byte[]) (pos:int) (len:int): LiquidityIndType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2594,23 +2594,23 @@ let ReadLiquidityIndTypeIdx (bs:byte[]) (pos:int) (len:int): LiquidityIndType =
     | x -> failwith (sprintf "ReadLiquidityIndType unknown fix tag: %A"  x) 
 
 
-let ReadWtAverageLiquidityIdx (bs:byte[]) (pos:int) (len:int): WtAverageLiquidity =
+let ReadWtAverageLiquidity (bs:byte[]) (pos:int) (len:int): WtAverageLiquidity =
     ReadFieldDecimal bs pos len WtAverageLiquidity.WtAverageLiquidity
 
 
-let ReadExchangeForPhysicalIdx (bs:byte[]) (pos:int) (len:int): ExchangeForPhysical =
+let ReadExchangeForPhysical (bs:byte[]) (pos:int) (len:int): ExchangeForPhysical =
     ReadFieldBool bs pos len ExchangeForPhysical.ExchangeForPhysical
 
 
-let ReadOutMainCntryUIndexIdx (bs:byte[]) (pos:int) (len:int): OutMainCntryUIndex =
+let ReadOutMainCntryUIndex (bs:byte[]) (pos:int) (len:int): OutMainCntryUIndex =
     ReadFieldDecimal bs pos len OutMainCntryUIndex.OutMainCntryUIndex
 
 
-let ReadCrossPercentIdx (bs:byte[]) (pos:int) (len:int): CrossPercent =
+let ReadCrossPercent (bs:byte[]) (pos:int) (len:int): CrossPercent =
     ReadFieldDecimal bs pos len CrossPercent.CrossPercent
 
 
-let ReadProgRptReqsIdx (bs:byte[]) (pos:int) (len:int): ProgRptReqs =
+let ReadProgRptReqs (bs:byte[]) (pos:int) (len:int): ProgRptReqs =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2620,11 +2620,11 @@ let ReadProgRptReqsIdx (bs:byte[]) (pos:int) (len:int): ProgRptReqs =
     | x -> failwith (sprintf "ReadProgRptReqs unknown fix tag: %A"  x) 
 
 
-let ReadProgPeriodIntervalIdx (bs:byte[]) (pos:int) (len:int): ProgPeriodInterval =
+let ReadProgPeriodInterval (bs:byte[]) (pos:int) (len:int): ProgPeriodInterval =
     ReadFieldInt bs pos len ProgPeriodInterval.ProgPeriodInterval
 
 
-let ReadIncTaxIndIdx (bs:byte[]) (pos:int) (len:int): IncTaxInd =
+let ReadIncTaxInd (bs:byte[]) (pos:int) (len:int): IncTaxInd =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2633,11 +2633,11 @@ let ReadIncTaxIndIdx (bs:byte[]) (pos:int) (len:int): IncTaxInd =
     | x -> failwith (sprintf "ReadIncTaxInd unknown fix tag: %A"  x) 
 
 
-let ReadNumBiddersIdx (bs:byte[]) (pos:int) (len:int): NumBidders =
+let ReadNumBidders (bs:byte[]) (pos:int) (len:int): NumBidders =
     ReadFieldInt bs pos len NumBidders.NumBidders
 
 
-let ReadBidTradeTypeIdx (bs:byte[]) (pos:int) (len:int): BidTradeType =
+let ReadBidTradeType (bs:byte[]) (pos:int) (len:int): BidTradeType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2648,7 +2648,7 @@ let ReadBidTradeTypeIdx (bs:byte[]) (pos:int) (len:int): BidTradeType =
     | x -> failwith (sprintf "ReadBidTradeType unknown fix tag: %A"  x) 
 
 
-let ReadBasisPxTypeIdx (bs:byte[]) (pos:int) (len:int): BasisPxType =
+let ReadBasisPxType (bs:byte[]) (pos:int) (len:int): BasisPxType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2668,19 +2668,19 @@ let ReadBasisPxTypeIdx (bs:byte[]) (pos:int) (len:int): BasisPxType =
     | x -> failwith (sprintf "ReadBasisPxType unknown fix tag: %A"  x) 
 
 
-let ReadNoBidComponentsIdx (bs:byte[]) (pos:int) (len:int): NoBidComponents =
+let ReadNoBidComponents (bs:byte[]) (pos:int) (len:int): NoBidComponents =
     ReadFieldInt bs pos len NoBidComponents.NoBidComponents
 
 
-let ReadCountryIdx (bs:byte[]) (pos:int) (len:int): Country =
+let ReadCountry (bs:byte[]) (pos:int) (len:int): Country =
     ReadFieldStr bs pos len Country.Country
 
 
-let ReadTotNoStrikesIdx (bs:byte[]) (pos:int) (len:int): TotNoStrikes =
+let ReadTotNoStrikes (bs:byte[]) (pos:int) (len:int): TotNoStrikes =
     ReadFieldInt bs pos len TotNoStrikes.TotNoStrikes
 
 
-let ReadPriceTypeIdx (bs:byte[]) (pos:int) (len:int): PriceType =
+let ReadPriceType (bs:byte[]) (pos:int) (len:int): PriceType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2698,19 +2698,19 @@ let ReadPriceTypeIdx (bs:byte[]) (pos:int) (len:int): PriceType =
     | x -> failwith (sprintf "ReadPriceType unknown fix tag: %A"  x) 
 
 
-let ReadDayOrderQtyIdx (bs:byte[]) (pos:int) (len:int): DayOrderQty =
+let ReadDayOrderQty (bs:byte[]) (pos:int) (len:int): DayOrderQty =
     ReadFieldDecimal bs pos len DayOrderQty.DayOrderQty
 
 
-let ReadDayCumQtyIdx (bs:byte[]) (pos:int) (len:int): DayCumQty =
+let ReadDayCumQty (bs:byte[]) (pos:int) (len:int): DayCumQty =
     ReadFieldDecimal bs pos len DayCumQty.DayCumQty
 
 
-let ReadDayAvgPxIdx (bs:byte[]) (pos:int) (len:int): DayAvgPx =
+let ReadDayAvgPx (bs:byte[]) (pos:int) (len:int): DayAvgPx =
     ReadFieldDecimal bs pos len DayAvgPx.DayAvgPx
 
 
-let ReadGTBookingInstIdx (bs:byte[]) (pos:int) (len:int): GTBookingInst =
+let ReadGTBookingInst (bs:byte[]) (pos:int) (len:int): GTBookingInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2720,11 +2720,11 @@ let ReadGTBookingInstIdx (bs:byte[]) (pos:int) (len:int): GTBookingInst =
     | x -> failwith (sprintf "ReadGTBookingInst unknown fix tag: %A"  x) 
 
 
-let ReadNoStrikesIdx (bs:byte[]) (pos:int) (len:int): NoStrikes =
+let ReadNoStrikes (bs:byte[]) (pos:int) (len:int): NoStrikes =
     ReadFieldInt bs pos len NoStrikes.NoStrikes
 
 
-let ReadListStatusTypeIdx (bs:byte[]) (pos:int) (len:int): ListStatusType =
+let ReadListStatusType (bs:byte[]) (pos:int) (len:int): ListStatusType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2737,7 +2737,7 @@ let ReadListStatusTypeIdx (bs:byte[]) (pos:int) (len:int): ListStatusType =
     | x -> failwith (sprintf "ReadListStatusType unknown fix tag: %A"  x) 
 
 
-let ReadNetGrossIndIdx (bs:byte[]) (pos:int) (len:int): NetGrossInd =
+let ReadNetGrossInd (bs:byte[]) (pos:int) (len:int): NetGrossInd =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2746,7 +2746,7 @@ let ReadNetGrossIndIdx (bs:byte[]) (pos:int) (len:int): NetGrossInd =
     | x -> failwith (sprintf "ReadNetGrossInd unknown fix tag: %A"  x) 
 
 
-let ReadListOrderStatusIdx (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
+let ReadListOrderStatus (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2760,11 +2760,11 @@ let ReadListOrderStatusIdx (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
     | x -> failwith (sprintf "ReadListOrderStatus unknown fix tag: %A"  x) 
 
 
-let ReadExpireDateIdx (bs:byte[]) (pos:int) (len:int): ExpireDate =
+let ReadExpireDate (bs:byte[]) (pos:int) (len:int): ExpireDate =
     ReadFieldLocalMktDate bs pos len ExpireDate.ExpireDate
 
 
-let ReadListExecInstTypeIdx (bs:byte[]) (pos:int) (len:int): ListExecInstType =
+let ReadListExecInstType (bs:byte[]) (pos:int) (len:int): ListExecInstType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2776,7 +2776,7 @@ let ReadListExecInstTypeIdx (bs:byte[]) (pos:int) (len:int): ListExecInstType =
     | x -> failwith (sprintf "ReadListExecInstType unknown fix tag: %A"  x) 
 
 
-let ReadCxlRejResponseToIdx (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
+let ReadCxlRejResponseTo (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2785,27 +2785,27 @@ let ReadCxlRejResponseToIdx (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
     | x -> failwith (sprintf "ReadCxlRejResponseTo unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingCouponRateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCouponRate =
+let ReadUnderlyingCouponRate (bs:byte[]) (pos:int) (len:int): UnderlyingCouponRate =
     ReadFieldDecimal bs pos len UnderlyingCouponRate.UnderlyingCouponRate
 
 
-let ReadUnderlyingContractMultiplierIdx (bs:byte[]) (pos:int) (len:int): UnderlyingContractMultiplier =
+let ReadUnderlyingContractMultiplier (bs:byte[]) (pos:int) (len:int): UnderlyingContractMultiplier =
     ReadFieldDecimal bs pos len UnderlyingContractMultiplier.UnderlyingContractMultiplier
 
 
-let ReadContraTradeQtyIdx (bs:byte[]) (pos:int) (len:int): ContraTradeQty =
+let ReadContraTradeQty (bs:byte[]) (pos:int) (len:int): ContraTradeQty =
     ReadFieldDecimal bs pos len ContraTradeQty.ContraTradeQty
 
 
-let ReadContraTradeTimeIdx (bs:byte[]) (pos:int) (len:int): ContraTradeTime =
+let ReadContraTradeTime (bs:byte[]) (pos:int) (len:int): ContraTradeTime =
     ReadFieldUTCTimestamp bs pos len ContraTradeTime.ContraTradeTime
 
 
-let ReadLiquidityNumSecuritiesIdx (bs:byte[]) (pos:int) (len:int): LiquidityNumSecurities =
+let ReadLiquidityNumSecurities (bs:byte[]) (pos:int) (len:int): LiquidityNumSecurities =
     ReadFieldInt bs pos len LiquidityNumSecurities.LiquidityNumSecurities
 
 
-let ReadMultiLegReportingTypeIdx (bs:byte[]) (pos:int) (len:int): MultiLegReportingType =
+let ReadMultiLegReportingType (bs:byte[]) (pos:int) (len:int): MultiLegReportingType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2815,20 +2815,20 @@ let ReadMultiLegReportingTypeIdx (bs:byte[]) (pos:int) (len:int): MultiLegReport
     | x -> failwith (sprintf "ReadMultiLegReportingType unknown fix tag: %A"  x) 
 
 
-let ReadStrikeTimeIdx (bs:byte[]) (pos:int) (len:int): StrikeTime =
+let ReadStrikeTime (bs:byte[]) (pos:int) (len:int): StrikeTime =
     ReadFieldUTCTimestamp bs pos len StrikeTime.StrikeTime
 
 
-let ReadListStatusTextIdx (bs:byte[]) (pos:int) (len:int): ListStatusText =
+let ReadListStatusText (bs:byte[]) (pos:int) (len:int): ListStatusText =
     ReadFieldStr bs pos len ListStatusText.ListStatusText
 
 
 // compound read
-let ReadEncodedListStatusTextIdx (bs:byte[]) (pos:int) (len:int): EncodedListStatusText =
+let ReadEncodedListStatusText (bs:byte[]) (pos:int) (len:int): EncodedListStatusText =
     ReadLengthDataCompoundField bs pos len "446"B EncodedListStatusText.EncodedListStatusText
 
 
-let ReadPartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): PartyIDSource =
+let ReadPartyIDSource (bs:byte[]) (pos:int) (len:int): PartyIDSource =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2853,15 +2853,15 @@ let ReadPartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): PartyIDSource =
     | x -> failwith (sprintf "ReadPartyIDSource unknown fix tag: %A"  x) 
 
 
-let ReadPartyIDIdx (bs:byte[]) (pos:int) (len:int): PartyID =
+let ReadPartyID (bs:byte[]) (pos:int) (len:int): PartyID =
     ReadFieldStr bs pos len PartyID.PartyID
 
 
-let ReadNetChgPrevDayIdx (bs:byte[]) (pos:int) (len:int): NetChgPrevDay =
+let ReadNetChgPrevDay (bs:byte[]) (pos:int) (len:int): NetChgPrevDay =
     ReadFieldDecimal bs pos len NetChgPrevDay.NetChgPrevDay
 
 
-let ReadPartyRoleIdx (bs:byte[]) (pos:int) (len:int): PartyRole =
+let ReadPartyRole (bs:byte[]) (pos:int) (len:int): PartyRole =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2905,35 +2905,35 @@ let ReadPartyRoleIdx (bs:byte[]) (pos:int) (len:int): PartyRole =
     | x -> failwith (sprintf "ReadPartyRole unknown fix tag: %A"  x) 
 
 
-let ReadNoPartyIDsIdx (bs:byte[]) (pos:int) (len:int): NoPartyIDs =
+let ReadNoPartyIDs (bs:byte[]) (pos:int) (len:int): NoPartyIDs =
     ReadFieldInt bs pos len NoPartyIDs.NoPartyIDs
 
 
-let ReadNoSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): NoSecurityAltID =
+let ReadNoSecurityAltID (bs:byte[]) (pos:int) (len:int): NoSecurityAltID =
     ReadFieldInt bs pos len NoSecurityAltID.NoSecurityAltID
 
 
-let ReadSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): SecurityAltID =
+let ReadSecurityAltID (bs:byte[]) (pos:int) (len:int): SecurityAltID =
     ReadFieldStr bs pos len SecurityAltID.SecurityAltID
 
 
-let ReadSecurityAltIDSourceIdx (bs:byte[]) (pos:int) (len:int): SecurityAltIDSource =
+let ReadSecurityAltIDSource (bs:byte[]) (pos:int) (len:int): SecurityAltIDSource =
     ReadFieldStr bs pos len SecurityAltIDSource.SecurityAltIDSource
 
 
-let ReadNoUnderlyingSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): NoUnderlyingSecurityAltID =
+let ReadNoUnderlyingSecurityAltID (bs:byte[]) (pos:int) (len:int): NoUnderlyingSecurityAltID =
     ReadFieldInt bs pos len NoUnderlyingSecurityAltID.NoUnderlyingSecurityAltID
 
 
-let ReadUnderlyingSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityAltID =
+let ReadUnderlyingSecurityAltID (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityAltID =
     ReadFieldStr bs pos len UnderlyingSecurityAltID.UnderlyingSecurityAltID
 
 
-let ReadUnderlyingSecurityAltIDSourceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityAltIDSource =
+let ReadUnderlyingSecurityAltIDSource (bs:byte[]) (pos:int) (len:int): UnderlyingSecurityAltIDSource =
     ReadFieldStr bs pos len UnderlyingSecurityAltIDSource.UnderlyingSecurityAltIDSource
 
 
-let ReadProductIdx (bs:byte[]) (pos:int) (len:int): Product =
+let ReadProduct (bs:byte[]) (pos:int) (len:int): Product =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2953,23 +2953,23 @@ let ReadProductIdx (bs:byte[]) (pos:int) (len:int): Product =
     | x -> failwith (sprintf "ReadProduct unknown fix tag: %A"  x) 
 
 
-let ReadCFICodeIdx (bs:byte[]) (pos:int) (len:int): CFICode =
+let ReadCFICode (bs:byte[]) (pos:int) (len:int): CFICode =
     ReadFieldStr bs pos len CFICode.CFICode
 
 
-let ReadUnderlyingProductIdx (bs:byte[]) (pos:int) (len:int): UnderlyingProduct =
+let ReadUnderlyingProduct (bs:byte[]) (pos:int) (len:int): UnderlyingProduct =
     ReadFieldInt bs pos len UnderlyingProduct.UnderlyingProduct
 
 
-let ReadUnderlyingCFICodeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCFICode =
+let ReadUnderlyingCFICode (bs:byte[]) (pos:int) (len:int): UnderlyingCFICode =
     ReadFieldStr bs pos len UnderlyingCFICode.UnderlyingCFICode
 
 
-let ReadTestMessageIndicatorIdx (bs:byte[]) (pos:int) (len:int): TestMessageIndicator =
+let ReadTestMessageIndicator (bs:byte[]) (pos:int) (len:int): TestMessageIndicator =
     ReadFieldBool bs pos len TestMessageIndicator.TestMessageIndicator
 
 
-let ReadQuantityTypeIdx (bs:byte[]) (pos:int) (len:int): QuantityType =
+let ReadQuantityType (bs:byte[]) (pos:int) (len:int): QuantityType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -2984,15 +2984,15 @@ let ReadQuantityTypeIdx (bs:byte[]) (pos:int) (len:int): QuantityType =
     | x -> failwith (sprintf "ReadQuantityType unknown fix tag: %A"  x) 
 
 
-let ReadBookingRefIDIdx (bs:byte[]) (pos:int) (len:int): BookingRefID =
+let ReadBookingRefID (bs:byte[]) (pos:int) (len:int): BookingRefID =
     ReadFieldStr bs pos len BookingRefID.BookingRefID
 
 
-let ReadIndividualAllocIDIdx (bs:byte[]) (pos:int) (len:int): IndividualAllocID =
+let ReadIndividualAllocID (bs:byte[]) (pos:int) (len:int): IndividualAllocID =
     ReadFieldStr bs pos len IndividualAllocID.IndividualAllocID
 
 
-let ReadRoundingDirectionIdx (bs:byte[]) (pos:int) (len:int): RoundingDirection =
+let ReadRoundingDirection (bs:byte[]) (pos:int) (len:int): RoundingDirection =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3002,39 +3002,39 @@ let ReadRoundingDirectionIdx (bs:byte[]) (pos:int) (len:int): RoundingDirection 
     | x -> failwith (sprintf "ReadRoundingDirection unknown fix tag: %A"  x) 
 
 
-let ReadRoundingModulusIdx (bs:byte[]) (pos:int) (len:int): RoundingModulus =
+let ReadRoundingModulus (bs:byte[]) (pos:int) (len:int): RoundingModulus =
     ReadFieldDecimal bs pos len RoundingModulus.RoundingModulus
 
 
-let ReadCountryOfIssueIdx (bs:byte[]) (pos:int) (len:int): CountryOfIssue =
+let ReadCountryOfIssue (bs:byte[]) (pos:int) (len:int): CountryOfIssue =
     ReadFieldStr bs pos len CountryOfIssue.CountryOfIssue
 
 
-let ReadStateOrProvinceOfIssueIdx (bs:byte[]) (pos:int) (len:int): StateOrProvinceOfIssue =
+let ReadStateOrProvinceOfIssue (bs:byte[]) (pos:int) (len:int): StateOrProvinceOfIssue =
     ReadFieldStr bs pos len StateOrProvinceOfIssue.StateOrProvinceOfIssue
 
 
-let ReadLocaleOfIssueIdx (bs:byte[]) (pos:int) (len:int): LocaleOfIssue =
+let ReadLocaleOfIssue (bs:byte[]) (pos:int) (len:int): LocaleOfIssue =
     ReadFieldStr bs pos len LocaleOfIssue.LocaleOfIssue
 
 
-let ReadNoRegistDtlsIdx (bs:byte[]) (pos:int) (len:int): NoRegistDtls =
+let ReadNoRegistDtls (bs:byte[]) (pos:int) (len:int): NoRegistDtls =
     ReadFieldInt bs pos len NoRegistDtls.NoRegistDtls
 
 
-let ReadMailingDtlsIdx (bs:byte[]) (pos:int) (len:int): MailingDtls =
+let ReadMailingDtls (bs:byte[]) (pos:int) (len:int): MailingDtls =
     ReadFieldStr bs pos len MailingDtls.MailingDtls
 
 
-let ReadInvestorCountryOfResidenceIdx (bs:byte[]) (pos:int) (len:int): InvestorCountryOfResidence =
+let ReadInvestorCountryOfResidence (bs:byte[]) (pos:int) (len:int): InvestorCountryOfResidence =
     ReadFieldStr bs pos len InvestorCountryOfResidence.InvestorCountryOfResidence
 
 
-let ReadPaymentRefIdx (bs:byte[]) (pos:int) (len:int): PaymentRef =
+let ReadPaymentRef (bs:byte[]) (pos:int) (len:int): PaymentRef =
     ReadFieldStr bs pos len PaymentRef.PaymentRef
 
 
-let ReadDistribPaymentMethodIdx (bs:byte[]) (pos:int) (len:int): DistribPaymentMethod =
+let ReadDistribPaymentMethod (bs:byte[]) (pos:int) (len:int): DistribPaymentMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3053,15 +3053,15 @@ let ReadDistribPaymentMethodIdx (bs:byte[]) (pos:int) (len:int): DistribPaymentM
     | x -> failwith (sprintf "ReadDistribPaymentMethod unknown fix tag: %A"  x) 
 
 
-let ReadCashDistribCurrIdx (bs:byte[]) (pos:int) (len:int): CashDistribCurr =
+let ReadCashDistribCurr (bs:byte[]) (pos:int) (len:int): CashDistribCurr =
     ReadFieldStr bs pos len CashDistribCurr.CashDistribCurr
 
 
-let ReadCommCurrencyIdx (bs:byte[]) (pos:int) (len:int): CommCurrency =
+let ReadCommCurrency (bs:byte[]) (pos:int) (len:int): CommCurrency =
     ReadFieldStr bs pos len CommCurrency.CommCurrency
 
 
-let ReadCancellationRightsIdx (bs:byte[]) (pos:int) (len:int): CancellationRights =
+let ReadCancellationRights (bs:byte[]) (pos:int) (len:int): CancellationRights =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3072,7 +3072,7 @@ let ReadCancellationRightsIdx (bs:byte[]) (pos:int) (len:int): CancellationRight
     | x -> failwith (sprintf "ReadCancellationRights unknown fix tag: %A"  x) 
 
 
-let ReadMoneyLaunderingStatusIdx (bs:byte[]) (pos:int) (len:int): MoneyLaunderingStatus =
+let ReadMoneyLaunderingStatus (bs:byte[]) (pos:int) (len:int): MoneyLaunderingStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3084,15 +3084,15 @@ let ReadMoneyLaunderingStatusIdx (bs:byte[]) (pos:int) (len:int): MoneyLaunderin
     | x -> failwith (sprintf "ReadMoneyLaunderingStatus unknown fix tag: %A"  x) 
 
 
-let ReadMailingInstIdx (bs:byte[]) (pos:int) (len:int): MailingInst =
+let ReadMailingInst (bs:byte[]) (pos:int) (len:int): MailingInst =
     ReadFieldStr bs pos len MailingInst.MailingInst
 
 
-let ReadTransBkdTimeIdx (bs:byte[]) (pos:int) (len:int): TransBkdTime =
+let ReadTransBkdTime (bs:byte[]) (pos:int) (len:int): TransBkdTime =
     ReadFieldUTCTimestamp bs pos len TransBkdTime.TransBkdTime
 
 
-let ReadExecPriceTypeIdx (bs:byte[]) (pos:int) (len:int): ExecPriceType =
+let ReadExecPriceType (bs:byte[]) (pos:int) (len:int): ExecPriceType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3107,15 +3107,15 @@ let ReadExecPriceTypeIdx (bs:byte[]) (pos:int) (len:int): ExecPriceType =
     | x -> failwith (sprintf "ReadExecPriceType unknown fix tag: %A"  x) 
 
 
-let ReadExecPriceAdjustmentIdx (bs:byte[]) (pos:int) (len:int): ExecPriceAdjustment =
+let ReadExecPriceAdjustment (bs:byte[]) (pos:int) (len:int): ExecPriceAdjustment =
     ReadFieldDecimal bs pos len ExecPriceAdjustment.ExecPriceAdjustment
 
 
-let ReadDateOfBirthIdx (bs:byte[]) (pos:int) (len:int): DateOfBirth =
+let ReadDateOfBirth (bs:byte[]) (pos:int) (len:int): DateOfBirth =
     ReadFieldLocalMktDate bs pos len DateOfBirth.DateOfBirth
 
 
-let ReadTradeReportTransTypeIdx (bs:byte[]) (pos:int) (len:int): TradeReportTransType =
+let ReadTradeReportTransType (bs:byte[]) (pos:int) (len:int): TradeReportTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3127,23 +3127,23 @@ let ReadTradeReportTransTypeIdx (bs:byte[]) (pos:int) (len:int): TradeReportTran
     | x -> failwith (sprintf "ReadTradeReportTransType unknown fix tag: %A"  x) 
 
 
-let ReadCardHolderNameIdx (bs:byte[]) (pos:int) (len:int): CardHolderName =
+let ReadCardHolderName (bs:byte[]) (pos:int) (len:int): CardHolderName =
     ReadFieldStr bs pos len CardHolderName.CardHolderName
 
 
-let ReadCardNumberIdx (bs:byte[]) (pos:int) (len:int): CardNumber =
+let ReadCardNumber (bs:byte[]) (pos:int) (len:int): CardNumber =
     ReadFieldStr bs pos len CardNumber.CardNumber
 
 
-let ReadCardExpDateIdx (bs:byte[]) (pos:int) (len:int): CardExpDate =
+let ReadCardExpDate (bs:byte[]) (pos:int) (len:int): CardExpDate =
     ReadFieldLocalMktDate bs pos len CardExpDate.CardExpDate
 
 
-let ReadCardIssNumIdx (bs:byte[]) (pos:int) (len:int): CardIssNum =
+let ReadCardIssNum (bs:byte[]) (pos:int) (len:int): CardIssNum =
     ReadFieldStr bs pos len CardIssNum.CardIssNum
 
 
-let ReadPaymentMethodIdx (bs:byte[]) (pos:int) (len:int): PaymentMethod =
+let ReadPaymentMethod (bs:byte[]) (pos:int) (len:int): PaymentMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3165,15 +3165,15 @@ let ReadPaymentMethodIdx (bs:byte[]) (pos:int) (len:int): PaymentMethod =
     | x -> failwith (sprintf "ReadPaymentMethod unknown fix tag: %A"  x) 
 
 
-let ReadRegistAcctTypeIdx (bs:byte[]) (pos:int) (len:int): RegistAcctType =
+let ReadRegistAcctType (bs:byte[]) (pos:int) (len:int): RegistAcctType =
     ReadFieldStr bs pos len RegistAcctType.RegistAcctType
 
 
-let ReadDesignationIdx (bs:byte[]) (pos:int) (len:int): Designation =
+let ReadDesignation (bs:byte[]) (pos:int) (len:int): Designation =
     ReadFieldStr bs pos len Designation.Designation
 
 
-let ReadTaxAdvantageTypeIdx (bs:byte[]) (pos:int) (len:int): TaxAdvantageType =
+let ReadTaxAdvantageType (bs:byte[]) (pos:int) (len:int): TaxAdvantageType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3191,11 +3191,11 @@ let ReadTaxAdvantageTypeIdx (bs:byte[]) (pos:int) (len:int): TaxAdvantageType =
     | x -> failwith (sprintf "ReadTaxAdvantageType unknown fix tag: %A"  x) 
 
 
-let ReadRegistRejReasonTextIdx (bs:byte[]) (pos:int) (len:int): RegistRejReasonText =
+let ReadRegistRejReasonText (bs:byte[]) (pos:int) (len:int): RegistRejReasonText =
     ReadFieldStr bs pos len RegistRejReasonText.RegistRejReasonText
 
 
-let ReadFundRenewWaivIdx (bs:byte[]) (pos:int) (len:int): FundRenewWaiv =
+let ReadFundRenewWaiv (bs:byte[]) (pos:int) (len:int): FundRenewWaiv =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3204,39 +3204,39 @@ let ReadFundRenewWaivIdx (bs:byte[]) (pos:int) (len:int): FundRenewWaiv =
     | x -> failwith (sprintf "ReadFundRenewWaiv unknown fix tag: %A"  x) 
 
 
-let ReadCashDistribAgentNameIdx (bs:byte[]) (pos:int) (len:int): CashDistribAgentName =
+let ReadCashDistribAgentName (bs:byte[]) (pos:int) (len:int): CashDistribAgentName =
     ReadFieldStr bs pos len CashDistribAgentName.CashDistribAgentName
 
 
-let ReadCashDistribAgentCodeIdx (bs:byte[]) (pos:int) (len:int): CashDistribAgentCode =
+let ReadCashDistribAgentCode (bs:byte[]) (pos:int) (len:int): CashDistribAgentCode =
     ReadFieldStr bs pos len CashDistribAgentCode.CashDistribAgentCode
 
 
-let ReadCashDistribAgentAcctNumberIdx (bs:byte[]) (pos:int) (len:int): CashDistribAgentAcctNumber =
+let ReadCashDistribAgentAcctNumber (bs:byte[]) (pos:int) (len:int): CashDistribAgentAcctNumber =
     ReadFieldStr bs pos len CashDistribAgentAcctNumber.CashDistribAgentAcctNumber
 
 
-let ReadCashDistribPayRefIdx (bs:byte[]) (pos:int) (len:int): CashDistribPayRef =
+let ReadCashDistribPayRef (bs:byte[]) (pos:int) (len:int): CashDistribPayRef =
     ReadFieldStr bs pos len CashDistribPayRef.CashDistribPayRef
 
 
-let ReadCashDistribAgentAcctNameIdx (bs:byte[]) (pos:int) (len:int): CashDistribAgentAcctName =
+let ReadCashDistribAgentAcctName (bs:byte[]) (pos:int) (len:int): CashDistribAgentAcctName =
     ReadFieldStr bs pos len CashDistribAgentAcctName.CashDistribAgentAcctName
 
 
-let ReadCardStartDateIdx (bs:byte[]) (pos:int) (len:int): CardStartDate =
+let ReadCardStartDate (bs:byte[]) (pos:int) (len:int): CardStartDate =
     ReadFieldLocalMktDate bs pos len CardStartDate.CardStartDate
 
 
-let ReadPaymentDateIdx (bs:byte[]) (pos:int) (len:int): PaymentDate =
+let ReadPaymentDate (bs:byte[]) (pos:int) (len:int): PaymentDate =
     ReadFieldLocalMktDate bs pos len PaymentDate.PaymentDate
 
 
-let ReadPaymentRemitterIDIdx (bs:byte[]) (pos:int) (len:int): PaymentRemitterID =
+let ReadPaymentRemitterID (bs:byte[]) (pos:int) (len:int): PaymentRemitterID =
     ReadFieldStr bs pos len PaymentRemitterID.PaymentRemitterID
 
 
-let ReadRegistStatusIdx (bs:byte[]) (pos:int) (len:int): RegistStatus =
+let ReadRegistStatus (bs:byte[]) (pos:int) (len:int): RegistStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3247,7 +3247,7 @@ let ReadRegistStatusIdx (bs:byte[]) (pos:int) (len:int): RegistStatus =
     | x -> failwith (sprintf "ReadRegistStatus unknown fix tag: %A"  x) 
 
 
-let ReadRegistRejReasonCodeIdx (bs:byte[]) (pos:int) (len:int): RegistRejReasonCode =
+let ReadRegistRejReasonCode (bs:byte[]) (pos:int) (len:int): RegistRejReasonCode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3273,31 +3273,31 @@ let ReadRegistRejReasonCodeIdx (bs:byte[]) (pos:int) (len:int): RegistRejReasonC
     | x -> failwith (sprintf "ReadRegistRejReasonCode unknown fix tag: %A"  x) 
 
 
-let ReadRegistRefIDIdx (bs:byte[]) (pos:int) (len:int): RegistRefID =
+let ReadRegistRefID (bs:byte[]) (pos:int) (len:int): RegistRefID =
     ReadFieldStr bs pos len RegistRefID.RegistRefID
 
 
-let ReadRegistDtlsIdx (bs:byte[]) (pos:int) (len:int): RegistDtls =
+let ReadRegistDtls (bs:byte[]) (pos:int) (len:int): RegistDtls =
     ReadFieldStr bs pos len RegistDtls.RegistDtls
 
 
-let ReadNoDistribInstsIdx (bs:byte[]) (pos:int) (len:int): NoDistribInsts =
+let ReadNoDistribInsts (bs:byte[]) (pos:int) (len:int): NoDistribInsts =
     ReadFieldInt bs pos len NoDistribInsts.NoDistribInsts
 
 
-let ReadRegistEmailIdx (bs:byte[]) (pos:int) (len:int): RegistEmail =
+let ReadRegistEmail (bs:byte[]) (pos:int) (len:int): RegistEmail =
     ReadFieldStr bs pos len RegistEmail.RegistEmail
 
 
-let ReadDistribPercentageIdx (bs:byte[]) (pos:int) (len:int): DistribPercentage =
+let ReadDistribPercentage (bs:byte[]) (pos:int) (len:int): DistribPercentage =
     ReadFieldDecimal bs pos len DistribPercentage.DistribPercentage
 
 
-let ReadRegistIDIdx (bs:byte[]) (pos:int) (len:int): RegistID =
+let ReadRegistID (bs:byte[]) (pos:int) (len:int): RegistID =
     ReadFieldStr bs pos len RegistID.RegistID
 
 
-let ReadRegistTransTypeIdx (bs:byte[]) (pos:int) (len:int): RegistTransType =
+let ReadRegistTransType (bs:byte[]) (pos:int) (len:int): RegistTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3307,15 +3307,15 @@ let ReadRegistTransTypeIdx (bs:byte[]) (pos:int) (len:int): RegistTransType =
     | x -> failwith (sprintf "ReadRegistTransType unknown fix tag: %A"  x) 
 
 
-let ReadExecValuationPointIdx (bs:byte[]) (pos:int) (len:int): ExecValuationPoint =
+let ReadExecValuationPoint (bs:byte[]) (pos:int) (len:int): ExecValuationPoint =
     ReadFieldUTCTimestamp bs pos len ExecValuationPoint.ExecValuationPoint
 
 
-let ReadOrderPercentIdx (bs:byte[]) (pos:int) (len:int): OrderPercent =
+let ReadOrderPercent (bs:byte[]) (pos:int) (len:int): OrderPercent =
     ReadFieldDecimal bs pos len OrderPercent.OrderPercent
 
 
-let ReadOwnershipTypeIdx (bs:byte[]) (pos:int) (len:int): OwnershipType =
+let ReadOwnershipType (bs:byte[]) (pos:int) (len:int): OwnershipType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3325,11 +3325,11 @@ let ReadOwnershipTypeIdx (bs:byte[]) (pos:int) (len:int): OwnershipType =
     | x -> failwith (sprintf "ReadOwnershipType unknown fix tag: %A"  x) 
 
 
-let ReadNoContAmtsIdx (bs:byte[]) (pos:int) (len:int): NoContAmts =
+let ReadNoContAmts (bs:byte[]) (pos:int) (len:int): NoContAmts =
     ReadFieldInt bs pos len NoContAmts.NoContAmts
 
 
-let ReadContAmtTypeIdx (bs:byte[]) (pos:int) (len:int): ContAmtType =
+let ReadContAmtType (bs:byte[]) (pos:int) (len:int): ContAmtType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3345,15 +3345,15 @@ let ReadContAmtTypeIdx (bs:byte[]) (pos:int) (len:int): ContAmtType =
     | x -> failwith (sprintf "ReadContAmtType unknown fix tag: %A"  x) 
 
 
-let ReadContAmtValueIdx (bs:byte[]) (pos:int) (len:int): ContAmtValue =
+let ReadContAmtValue (bs:byte[]) (pos:int) (len:int): ContAmtValue =
     ReadFieldDecimal bs pos len ContAmtValue.ContAmtValue
 
 
-let ReadContAmtCurrIdx (bs:byte[]) (pos:int) (len:int): ContAmtCurr =
+let ReadContAmtCurr (bs:byte[]) (pos:int) (len:int): ContAmtCurr =
     ReadFieldStr bs pos len ContAmtCurr.ContAmtCurr
 
 
-let ReadOwnerTypeIdx (bs:byte[]) (pos:int) (len:int): OwnerType =
+let ReadOwnerType (bs:byte[]) (pos:int) (len:int): OwnerType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3373,27 +3373,27 @@ let ReadOwnerTypeIdx (bs:byte[]) (pos:int) (len:int): OwnerType =
     | x -> failwith (sprintf "ReadOwnerType unknown fix tag: %A"  x) 
 
 
-let ReadPartySubIDIdx (bs:byte[]) (pos:int) (len:int): PartySubID =
+let ReadPartySubID (bs:byte[]) (pos:int) (len:int): PartySubID =
     ReadFieldStr bs pos len PartySubID.PartySubID
 
 
-let ReadNestedPartyIDIdx (bs:byte[]) (pos:int) (len:int): NestedPartyID =
+let ReadNestedPartyID (bs:byte[]) (pos:int) (len:int): NestedPartyID =
     ReadFieldStr bs pos len NestedPartyID.NestedPartyID
 
 
-let ReadNestedPartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): NestedPartyIDSource =
+let ReadNestedPartyIDSource (bs:byte[]) (pos:int) (len:int): NestedPartyIDSource =
     ReadFieldChar bs pos len NestedPartyIDSource.NestedPartyIDSource
 
 
-let ReadSecondaryClOrdIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryClOrdID =
+let ReadSecondaryClOrdID (bs:byte[]) (pos:int) (len:int): SecondaryClOrdID =
     ReadFieldStr bs pos len SecondaryClOrdID.SecondaryClOrdID
 
 
-let ReadSecondaryExecIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryExecID =
+let ReadSecondaryExecID (bs:byte[]) (pos:int) (len:int): SecondaryExecID =
     ReadFieldStr bs pos len SecondaryExecID.SecondaryExecID
 
 
-let ReadOrderCapacityIdx (bs:byte[]) (pos:int) (len:int): OrderCapacity =
+let ReadOrderCapacity (bs:byte[]) (pos:int) (len:int): OrderCapacity =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3406,7 +3406,7 @@ let ReadOrderCapacityIdx (bs:byte[]) (pos:int) (len:int): OrderCapacity =
     | x -> failwith (sprintf "ReadOrderCapacity unknown fix tag: %A"  x) 
 
 
-let ReadOrderRestrictionsIdx (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
+let ReadOrderRestrictions (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3423,7 +3423,7 @@ let ReadOrderRestrictionsIdx (bs:byte[]) (pos:int) (len:int): OrderRestrictions 
     | x -> failwith (sprintf "ReadOrderRestrictions unknown fix tag: %A"  x) 
 
 
-let ReadMassCancelRequestTypeIdx (bs:byte[]) (pos:int) (len:int): MassCancelRequestType =
+let ReadMassCancelRequestType (bs:byte[]) (pos:int) (len:int): MassCancelRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3437,7 +3437,7 @@ let ReadMassCancelRequestTypeIdx (bs:byte[]) (pos:int) (len:int): MassCancelRequ
     | x -> failwith (sprintf "ReadMassCancelRequestType unknown fix tag: %A"  x) 
 
 
-let ReadMassCancelResponseIdx (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
+let ReadMassCancelResponse (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3452,7 +3452,7 @@ let ReadMassCancelResponseIdx (bs:byte[]) (pos:int) (len:int): MassCancelRespons
     | x -> failwith (sprintf "ReadMassCancelResponse unknown fix tag: %A"  x) 
 
 
-let ReadMassCancelRejectReasonIdx (bs:byte[]) (pos:int) (len:int): MassCancelRejectReason =
+let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3467,23 +3467,23 @@ let ReadMassCancelRejectReasonIdx (bs:byte[]) (pos:int) (len:int): MassCancelRej
     | x -> failwith (sprintf "ReadMassCancelRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadTotalAffectedOrdersIdx (bs:byte[]) (pos:int) (len:int): TotalAffectedOrders =
+let ReadTotalAffectedOrders (bs:byte[]) (pos:int) (len:int): TotalAffectedOrders =
     ReadFieldInt bs pos len TotalAffectedOrders.TotalAffectedOrders
 
 
-let ReadNoAffectedOrdersIdx (bs:byte[]) (pos:int) (len:int): NoAffectedOrders =
+let ReadNoAffectedOrders (bs:byte[]) (pos:int) (len:int): NoAffectedOrders =
     ReadFieldInt bs pos len NoAffectedOrders.NoAffectedOrders
 
 
-let ReadAffectedOrderIDIdx (bs:byte[]) (pos:int) (len:int): AffectedOrderID =
+let ReadAffectedOrderID (bs:byte[]) (pos:int) (len:int): AffectedOrderID =
     ReadFieldStr bs pos len AffectedOrderID.AffectedOrderID
 
 
-let ReadAffectedSecondaryOrderIDIdx (bs:byte[]) (pos:int) (len:int): AffectedSecondaryOrderID =
+let ReadAffectedSecondaryOrderID (bs:byte[]) (pos:int) (len:int): AffectedSecondaryOrderID =
     ReadFieldStr bs pos len AffectedSecondaryOrderID.AffectedSecondaryOrderID
 
 
-let ReadQuoteTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteType =
+let ReadQuoteType (bs:byte[]) (pos:int) (len:int): QuoteType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3494,31 +3494,31 @@ let ReadQuoteTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteType =
     | x -> failwith (sprintf "ReadQuoteType unknown fix tag: %A"  x) 
 
 
-let ReadNestedPartyRoleIdx (bs:byte[]) (pos:int) (len:int): NestedPartyRole =
+let ReadNestedPartyRole (bs:byte[]) (pos:int) (len:int): NestedPartyRole =
     ReadFieldInt bs pos len NestedPartyRole.NestedPartyRole
 
 
-let ReadNoNestedPartyIDsIdx (bs:byte[]) (pos:int) (len:int): NoNestedPartyIDs =
+let ReadNoNestedPartyIDs (bs:byte[]) (pos:int) (len:int): NoNestedPartyIDs =
     ReadFieldInt bs pos len NoNestedPartyIDs.NoNestedPartyIDs
 
 
-let ReadTotalAccruedInterestAmtIdx (bs:byte[]) (pos:int) (len:int): TotalAccruedInterestAmt =
+let ReadTotalAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): TotalAccruedInterestAmt =
     ReadFieldDecimal bs pos len TotalAccruedInterestAmt.TotalAccruedInterestAmt
 
 
-let ReadMaturityDateIdx (bs:byte[]) (pos:int) (len:int): MaturityDate =
+let ReadMaturityDate (bs:byte[]) (pos:int) (len:int): MaturityDate =
     ReadFieldLocalMktDate bs pos len MaturityDate.MaturityDate
 
 
-let ReadUnderlyingMaturityDateIdx (bs:byte[]) (pos:int) (len:int): UnderlyingMaturityDate =
+let ReadUnderlyingMaturityDate (bs:byte[]) (pos:int) (len:int): UnderlyingMaturityDate =
     ReadFieldLocalMktDate bs pos len UnderlyingMaturityDate.UnderlyingMaturityDate
 
 
-let ReadInstrRegistryIdx (bs:byte[]) (pos:int) (len:int): InstrRegistry =
+let ReadInstrRegistry (bs:byte[]) (pos:int) (len:int): InstrRegistry =
     ReadFieldStr bs pos len InstrRegistry.InstrRegistry
 
 
-let ReadCashMarginIdx (bs:byte[]) (pos:int) (len:int): CashMargin =
+let ReadCashMargin (bs:byte[]) (pos:int) (len:int): CashMargin =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3528,11 +3528,11 @@ let ReadCashMarginIdx (bs:byte[]) (pos:int) (len:int): CashMargin =
     | x -> failwith (sprintf "ReadCashMargin unknown fix tag: %A"  x) 
 
 
-let ReadNestedPartySubIDIdx (bs:byte[]) (pos:int) (len:int): NestedPartySubID =
+let ReadNestedPartySubID (bs:byte[]) (pos:int) (len:int): NestedPartySubID =
     ReadFieldStr bs pos len NestedPartySubID.NestedPartySubID
 
 
-let ReadScopeIdx (bs:byte[]) (pos:int) (len:int): Scope =
+let ReadScope (bs:byte[]) (pos:int) (len:int): Scope =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3542,15 +3542,15 @@ let ReadScopeIdx (bs:byte[]) (pos:int) (len:int): Scope =
     | x -> failwith (sprintf "ReadScope unknown fix tag: %A"  x) 
 
 
-let ReadMDImplicitDeleteIdx (bs:byte[]) (pos:int) (len:int): MDImplicitDelete =
+let ReadMDImplicitDelete (bs:byte[]) (pos:int) (len:int): MDImplicitDelete =
     ReadFieldBool bs pos len MDImplicitDelete.MDImplicitDelete
 
 
-let ReadCrossIDIdx (bs:byte[]) (pos:int) (len:int): CrossID =
+let ReadCrossID (bs:byte[]) (pos:int) (len:int): CrossID =
     ReadFieldStr bs pos len CrossID.CrossID
 
 
-let ReadCrossTypeIdx (bs:byte[]) (pos:int) (len:int): CrossType =
+let ReadCrossType (bs:byte[]) (pos:int) (len:int): CrossType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3561,7 +3561,7 @@ let ReadCrossTypeIdx (bs:byte[]) (pos:int) (len:int): CrossType =
     | x -> failwith (sprintf "ReadCrossType unknown fix tag: %A"  x) 
 
 
-let ReadCrossPrioritizationIdx (bs:byte[]) (pos:int) (len:int): CrossPrioritization =
+let ReadCrossPrioritization (bs:byte[]) (pos:int) (len:int): CrossPrioritization =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3571,11 +3571,11 @@ let ReadCrossPrioritizationIdx (bs:byte[]) (pos:int) (len:int): CrossPrioritizat
     | x -> failwith (sprintf "ReadCrossPrioritization unknown fix tag: %A"  x) 
 
 
-let ReadOrigCrossIDIdx (bs:byte[]) (pos:int) (len:int): OrigCrossID =
+let ReadOrigCrossID (bs:byte[]) (pos:int) (len:int): OrigCrossID =
     ReadFieldStr bs pos len OrigCrossID.OrigCrossID
 
 
-let ReadNoSidesIdx (bs:byte[]) (pos:int) (len:int): NoSides =
+let ReadNoSides (bs:byte[]) (pos:int) (len:int): NoSides =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3584,31 +3584,31 @@ let ReadNoSidesIdx (bs:byte[]) (pos:int) (len:int): NoSides =
     | x -> failwith (sprintf "ReadNoSides unknown fix tag: %A"  x) 
 
 
-let ReadUsernameIdx (bs:byte[]) (pos:int) (len:int): Username =
+let ReadUsername (bs:byte[]) (pos:int) (len:int): Username =
     ReadFieldStr bs pos len Username.Username
 
 
-let ReadPasswordIdx (bs:byte[]) (pos:int) (len:int): Password =
+let ReadPassword (bs:byte[]) (pos:int) (len:int): Password =
     ReadFieldStr bs pos len Password.Password
 
 
-let ReadNoLegsIdx (bs:byte[]) (pos:int) (len:int): NoLegs =
+let ReadNoLegs (bs:byte[]) (pos:int) (len:int): NoLegs =
     ReadFieldInt bs pos len NoLegs.NoLegs
 
 
-let ReadLegCurrencyIdx (bs:byte[]) (pos:int) (len:int): LegCurrency =
+let ReadLegCurrency (bs:byte[]) (pos:int) (len:int): LegCurrency =
     ReadFieldStr bs pos len LegCurrency.LegCurrency
 
 
-let ReadTotNoSecurityTypesIdx (bs:byte[]) (pos:int) (len:int): TotNoSecurityTypes =
+let ReadTotNoSecurityTypes (bs:byte[]) (pos:int) (len:int): TotNoSecurityTypes =
     ReadFieldInt bs pos len TotNoSecurityTypes.TotNoSecurityTypes
 
 
-let ReadNoSecurityTypesIdx (bs:byte[]) (pos:int) (len:int): NoSecurityTypes =
+let ReadNoSecurityTypes (bs:byte[]) (pos:int) (len:int): NoSecurityTypes =
     ReadFieldInt bs pos len NoSecurityTypes.NoSecurityTypes
 
 
-let ReadSecurityListRequestTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityListRequestType =
+let ReadSecurityListRequestType (bs:byte[]) (pos:int) (len:int): SecurityListRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3620,7 +3620,7 @@ let ReadSecurityListRequestTypeIdx (bs:byte[]) (pos:int) (len:int): SecurityList
     | x -> failwith (sprintf "ReadSecurityListRequestType unknown fix tag: %A"  x) 
 
 
-let ReadSecurityRequestResultIdx (bs:byte[]) (pos:int) (len:int): SecurityRequestResult =
+let ReadSecurityRequestResult (bs:byte[]) (pos:int) (len:int): SecurityRequestResult =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3633,15 +3633,15 @@ let ReadSecurityRequestResultIdx (bs:byte[]) (pos:int) (len:int): SecurityReques
     | x -> failwith (sprintf "ReadSecurityRequestResult unknown fix tag: %A"  x) 
 
 
-let ReadRoundLotIdx (bs:byte[]) (pos:int) (len:int): RoundLot =
+let ReadRoundLot (bs:byte[]) (pos:int) (len:int): RoundLot =
     ReadFieldDecimal bs pos len RoundLot.RoundLot
 
 
-let ReadMinTradeVolIdx (bs:byte[]) (pos:int) (len:int): MinTradeVol =
+let ReadMinTradeVol (bs:byte[]) (pos:int) (len:int): MinTradeVol =
     ReadFieldDecimal bs pos len MinTradeVol.MinTradeVol
 
 
-let ReadMultiLegRptTypeReqIdx (bs:byte[]) (pos:int) (len:int): MultiLegRptTypeReq =
+let ReadMultiLegRptTypeReq (bs:byte[]) (pos:int) (len:int): MultiLegRptTypeReq =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3651,19 +3651,19 @@ let ReadMultiLegRptTypeReqIdx (bs:byte[]) (pos:int) (len:int): MultiLegRptTypeRe
     | x -> failwith (sprintf "ReadMultiLegRptTypeReq unknown fix tag: %A"  x) 
 
 
-let ReadLegPositionEffectIdx (bs:byte[]) (pos:int) (len:int): LegPositionEffect =
+let ReadLegPositionEffect (bs:byte[]) (pos:int) (len:int): LegPositionEffect =
     ReadFieldChar bs pos len LegPositionEffect.LegPositionEffect
 
 
-let ReadLegCoveredOrUncoveredIdx (bs:byte[]) (pos:int) (len:int): LegCoveredOrUncovered =
+let ReadLegCoveredOrUncovered (bs:byte[]) (pos:int) (len:int): LegCoveredOrUncovered =
     ReadFieldInt bs pos len LegCoveredOrUncovered.LegCoveredOrUncovered
 
 
-let ReadLegPriceIdx (bs:byte[]) (pos:int) (len:int): LegPrice =
+let ReadLegPrice (bs:byte[]) (pos:int) (len:int): LegPrice =
     ReadFieldDecimal bs pos len LegPrice.LegPrice
 
 
-let ReadTradSesStatusRejReasonIdx (bs:byte[]) (pos:int) (len:int): TradSesStatusRejReason =
+let ReadTradSesStatusRejReason (bs:byte[]) (pos:int) (len:int): TradSesStatusRejReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3671,11 +3671,11 @@ let ReadTradSesStatusRejReasonIdx (bs:byte[]) (pos:int) (len:int): TradSesStatus
     | x -> failwith (sprintf "ReadTradSesStatusRejReason unknown fix tag: %A"  x) 
 
 
-let ReadTradeRequestIDIdx (bs:byte[]) (pos:int) (len:int): TradeRequestID =
+let ReadTradeRequestID (bs:byte[]) (pos:int) (len:int): TradeRequestID =
     ReadFieldStr bs pos len TradeRequestID.TradeRequestID
 
 
-let ReadTradeRequestTypeIdx (bs:byte[]) (pos:int) (len:int): TradeRequestType =
+let ReadTradeRequestType (bs:byte[]) (pos:int) (len:int): TradeRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3687,19 +3687,19 @@ let ReadTradeRequestTypeIdx (bs:byte[]) (pos:int) (len:int): TradeRequestType =
     | x -> failwith (sprintf "ReadTradeRequestType unknown fix tag: %A"  x) 
 
 
-let ReadPreviouslyReportedIdx (bs:byte[]) (pos:int) (len:int): PreviouslyReported =
+let ReadPreviouslyReported (bs:byte[]) (pos:int) (len:int): PreviouslyReported =
     ReadFieldBool bs pos len PreviouslyReported.PreviouslyReported
 
 
-let ReadTradeReportIDIdx (bs:byte[]) (pos:int) (len:int): TradeReportID =
+let ReadTradeReportID (bs:byte[]) (pos:int) (len:int): TradeReportID =
     ReadFieldStr bs pos len TradeReportID.TradeReportID
 
 
-let ReadTradeReportRefIDIdx (bs:byte[]) (pos:int) (len:int): TradeReportRefID =
+let ReadTradeReportRefID (bs:byte[]) (pos:int) (len:int): TradeReportRefID =
     ReadFieldStr bs pos len TradeReportRefID.TradeReportRefID
 
 
-let ReadMatchStatusIdx (bs:byte[]) (pos:int) (len:int): MatchStatus =
+let ReadMatchStatus (bs:byte[]) (pos:int) (len:int): MatchStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3709,19 +3709,19 @@ let ReadMatchStatusIdx (bs:byte[]) (pos:int) (len:int): MatchStatus =
     | x -> failwith (sprintf "ReadMatchStatus unknown fix tag: %A"  x) 
 
 
-let ReadMatchTypeIdx (bs:byte[]) (pos:int) (len:int): MatchType =
+let ReadMatchType (bs:byte[]) (pos:int) (len:int): MatchType =
     ReadFieldStr bs pos len MatchType.MatchType
 
 
-let ReadOddLotIdx (bs:byte[]) (pos:int) (len:int): OddLot =
+let ReadOddLot (bs:byte[]) (pos:int) (len:int): OddLot =
     ReadFieldBool bs pos len OddLot.OddLot
 
 
-let ReadNoClearingInstructionsIdx (bs:byte[]) (pos:int) (len:int): NoClearingInstructions =
+let ReadNoClearingInstructions (bs:byte[]) (pos:int) (len:int): NoClearingInstructions =
     ReadFieldInt bs pos len NoClearingInstructions.NoClearingInstructions
 
 
-let ReadClearingInstructionIdx (bs:byte[]) (pos:int) (len:int): ClearingInstruction =
+let ReadClearingInstruction (bs:byte[]) (pos:int) (len:int): ClearingInstruction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3742,19 +3742,19 @@ let ReadClearingInstructionIdx (bs:byte[]) (pos:int) (len:int): ClearingInstruct
     | x -> failwith (sprintf "ReadClearingInstruction unknown fix tag: %A"  x) 
 
 
-let ReadTradeInputSourceIdx (bs:byte[]) (pos:int) (len:int): TradeInputSource =
+let ReadTradeInputSource (bs:byte[]) (pos:int) (len:int): TradeInputSource =
     ReadFieldStr bs pos len TradeInputSource.TradeInputSource
 
 
-let ReadTradeInputDeviceIdx (bs:byte[]) (pos:int) (len:int): TradeInputDevice =
+let ReadTradeInputDevice (bs:byte[]) (pos:int) (len:int): TradeInputDevice =
     ReadFieldStr bs pos len TradeInputDevice.TradeInputDevice
 
 
-let ReadNoDatesIdx (bs:byte[]) (pos:int) (len:int): NoDates =
+let ReadNoDates (bs:byte[]) (pos:int) (len:int): NoDates =
     ReadFieldInt bs pos len NoDates.NoDates
 
 
-let ReadAccountTypeIdx (bs:byte[]) (pos:int) (len:int): AccountType =
+let ReadAccountType (bs:byte[]) (pos:int) (len:int): AccountType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3768,7 +3768,7 @@ let ReadAccountTypeIdx (bs:byte[]) (pos:int) (len:int): AccountType =
     | x -> failwith (sprintf "ReadAccountType unknown fix tag: %A"  x) 
 
 
-let ReadCustOrderCapacityIdx (bs:byte[]) (pos:int) (len:int): CustOrderCapacity =
+let ReadCustOrderCapacity (bs:byte[]) (pos:int) (len:int): CustOrderCapacity =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3779,15 +3779,15 @@ let ReadCustOrderCapacityIdx (bs:byte[]) (pos:int) (len:int): CustOrderCapacity 
     | x -> failwith (sprintf "ReadCustOrderCapacity unknown fix tag: %A"  x) 
 
 
-let ReadClOrdLinkIDIdx (bs:byte[]) (pos:int) (len:int): ClOrdLinkID =
+let ReadClOrdLinkID (bs:byte[]) (pos:int) (len:int): ClOrdLinkID =
     ReadFieldStr bs pos len ClOrdLinkID.ClOrdLinkID
 
 
-let ReadMassStatusReqIDIdx (bs:byte[]) (pos:int) (len:int): MassStatusReqID =
+let ReadMassStatusReqID (bs:byte[]) (pos:int) (len:int): MassStatusReqID =
     ReadFieldStr bs pos len MassStatusReqID.MassStatusReqID
 
 
-let ReadMassStatusReqTypeIdx (bs:byte[]) (pos:int) (len:int): MassStatusReqType =
+let ReadMassStatusReqType (bs:byte[]) (pos:int) (len:int): MassStatusReqType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3802,19 +3802,19 @@ let ReadMassStatusReqTypeIdx (bs:byte[]) (pos:int) (len:int): MassStatusReqType 
     | x -> failwith (sprintf "ReadMassStatusReqType unknown fix tag: %A"  x) 
 
 
-let ReadOrigOrdModTimeIdx (bs:byte[]) (pos:int) (len:int): OrigOrdModTime =
+let ReadOrigOrdModTime (bs:byte[]) (pos:int) (len:int): OrigOrdModTime =
     ReadFieldUTCTimestamp bs pos len OrigOrdModTime.OrigOrdModTime
 
 
-let ReadLegSettlTypeIdx (bs:byte[]) (pos:int) (len:int): LegSettlType =
+let ReadLegSettlType (bs:byte[]) (pos:int) (len:int): LegSettlType =
     ReadFieldChar bs pos len LegSettlType.LegSettlType
 
 
-let ReadLegSettlDateIdx (bs:byte[]) (pos:int) (len:int): LegSettlDate =
+let ReadLegSettlDate (bs:byte[]) (pos:int) (len:int): LegSettlDate =
     ReadFieldLocalMktDate bs pos len LegSettlDate.LegSettlDate
 
 
-let ReadDayBookingInstIdx (bs:byte[]) (pos:int) (len:int): DayBookingInst =
+let ReadDayBookingInst (bs:byte[]) (pos:int) (len:int): DayBookingInst =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3824,7 +3824,7 @@ let ReadDayBookingInstIdx (bs:byte[]) (pos:int) (len:int): DayBookingInst =
     | x -> failwith (sprintf "ReadDayBookingInst unknown fix tag: %A"  x) 
 
 
-let ReadBookingUnitIdx (bs:byte[]) (pos:int) (len:int): BookingUnit =
+let ReadBookingUnit (bs:byte[]) (pos:int) (len:int): BookingUnit =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3834,7 +3834,7 @@ let ReadBookingUnitIdx (bs:byte[]) (pos:int) (len:int): BookingUnit =
     | x -> failwith (sprintf "ReadBookingUnit unknown fix tag: %A"  x) 
 
 
-let ReadPreallocMethodIdx (bs:byte[]) (pos:int) (len:int): PreallocMethod =
+let ReadPreallocMethod (bs:byte[]) (pos:int) (len:int): PreallocMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3843,137 +3843,137 @@ let ReadPreallocMethodIdx (bs:byte[]) (pos:int) (len:int): PreallocMethod =
     | x -> failwith (sprintf "ReadPreallocMethod unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingCountryOfIssueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCountryOfIssue =
+let ReadUnderlyingCountryOfIssue (bs:byte[]) (pos:int) (len:int): UnderlyingCountryOfIssue =
     ReadFieldStr bs pos len UnderlyingCountryOfIssue.UnderlyingCountryOfIssue
 
 
-let ReadUnderlyingStateOrProvinceOfIssueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStateOrProvinceOfIssue =
+let ReadUnderlyingStateOrProvinceOfIssue (bs:byte[]) (pos:int) (len:int): UnderlyingStateOrProvinceOfIssue =
     ReadFieldStr bs pos len UnderlyingStateOrProvinceOfIssue.UnderlyingStateOrProvinceOfIssue
 
 
-let ReadUnderlyingLocaleOfIssueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingLocaleOfIssue =
+let ReadUnderlyingLocaleOfIssue (bs:byte[]) (pos:int) (len:int): UnderlyingLocaleOfIssue =
     ReadFieldStr bs pos len UnderlyingLocaleOfIssue.UnderlyingLocaleOfIssue
 
 
-let ReadUnderlyingInstrRegistryIdx (bs:byte[]) (pos:int) (len:int): UnderlyingInstrRegistry =
+let ReadUnderlyingInstrRegistry (bs:byte[]) (pos:int) (len:int): UnderlyingInstrRegistry =
     ReadFieldStr bs pos len UnderlyingInstrRegistry.UnderlyingInstrRegistry
 
 
-let ReadLegCountryOfIssueIdx (bs:byte[]) (pos:int) (len:int): LegCountryOfIssue =
+let ReadLegCountryOfIssue (bs:byte[]) (pos:int) (len:int): LegCountryOfIssue =
     ReadFieldStr bs pos len LegCountryOfIssue.LegCountryOfIssue
 
 
-let ReadLegStateOrProvinceOfIssueIdx (bs:byte[]) (pos:int) (len:int): LegStateOrProvinceOfIssue =
+let ReadLegStateOrProvinceOfIssue (bs:byte[]) (pos:int) (len:int): LegStateOrProvinceOfIssue =
     ReadFieldStr bs pos len LegStateOrProvinceOfIssue.LegStateOrProvinceOfIssue
 
 
-let ReadLegLocaleOfIssueIdx (bs:byte[]) (pos:int) (len:int): LegLocaleOfIssue =
+let ReadLegLocaleOfIssue (bs:byte[]) (pos:int) (len:int): LegLocaleOfIssue =
     ReadFieldStr bs pos len LegLocaleOfIssue.LegLocaleOfIssue
 
 
-let ReadLegInstrRegistryIdx (bs:byte[]) (pos:int) (len:int): LegInstrRegistry =
+let ReadLegInstrRegistry (bs:byte[]) (pos:int) (len:int): LegInstrRegistry =
     ReadFieldStr bs pos len LegInstrRegistry.LegInstrRegistry
 
 
-let ReadLegSymbolIdx (bs:byte[]) (pos:int) (len:int): LegSymbol =
+let ReadLegSymbol (bs:byte[]) (pos:int) (len:int): LegSymbol =
     ReadFieldStr bs pos len LegSymbol.LegSymbol
 
 
-let ReadLegSymbolSfxIdx (bs:byte[]) (pos:int) (len:int): LegSymbolSfx =
+let ReadLegSymbolSfx (bs:byte[]) (pos:int) (len:int): LegSymbolSfx =
     ReadFieldStr bs pos len LegSymbolSfx.LegSymbolSfx
 
 
-let ReadLegSecurityIDIdx (bs:byte[]) (pos:int) (len:int): LegSecurityID =
+let ReadLegSecurityID (bs:byte[]) (pos:int) (len:int): LegSecurityID =
     ReadFieldStr bs pos len LegSecurityID.LegSecurityID
 
 
-let ReadLegSecurityIDSourceIdx (bs:byte[]) (pos:int) (len:int): LegSecurityIDSource =
+let ReadLegSecurityIDSource (bs:byte[]) (pos:int) (len:int): LegSecurityIDSource =
     ReadFieldStr bs pos len LegSecurityIDSource.LegSecurityIDSource
 
 
-let ReadNoLegSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): NoLegSecurityAltID =
+let ReadNoLegSecurityAltID (bs:byte[]) (pos:int) (len:int): NoLegSecurityAltID =
     ReadFieldInt bs pos len NoLegSecurityAltID.NoLegSecurityAltID
 
 
-let ReadLegSecurityAltIDIdx (bs:byte[]) (pos:int) (len:int): LegSecurityAltID =
+let ReadLegSecurityAltID (bs:byte[]) (pos:int) (len:int): LegSecurityAltID =
     ReadFieldStr bs pos len LegSecurityAltID.LegSecurityAltID
 
 
-let ReadLegSecurityAltIDSourceIdx (bs:byte[]) (pos:int) (len:int): LegSecurityAltIDSource =
+let ReadLegSecurityAltIDSource (bs:byte[]) (pos:int) (len:int): LegSecurityAltIDSource =
     ReadFieldStr bs pos len LegSecurityAltIDSource.LegSecurityAltIDSource
 
 
-let ReadLegProductIdx (bs:byte[]) (pos:int) (len:int): LegProduct =
+let ReadLegProduct (bs:byte[]) (pos:int) (len:int): LegProduct =
     ReadFieldInt bs pos len LegProduct.LegProduct
 
 
-let ReadLegCFICodeIdx (bs:byte[]) (pos:int) (len:int): LegCFICode =
+let ReadLegCFICode (bs:byte[]) (pos:int) (len:int): LegCFICode =
     ReadFieldStr bs pos len LegCFICode.LegCFICode
 
 
-let ReadLegSecurityTypeIdx (bs:byte[]) (pos:int) (len:int): LegSecurityType =
+let ReadLegSecurityType (bs:byte[]) (pos:int) (len:int): LegSecurityType =
     ReadFieldStr bs pos len LegSecurityType.LegSecurityType
 
 
-let ReadLegMaturityMonthYearIdx (bs:byte[]) (pos:int) (len:int): LegMaturityMonthYear =
+let ReadLegMaturityMonthYear (bs:byte[]) (pos:int) (len:int): LegMaturityMonthYear =
     ReadFieldMonthYear bs pos len LegMaturityMonthYear.LegMaturityMonthYear
 
 
-let ReadLegMaturityDateIdx (bs:byte[]) (pos:int) (len:int): LegMaturityDate =
+let ReadLegMaturityDate (bs:byte[]) (pos:int) (len:int): LegMaturityDate =
     ReadFieldLocalMktDate bs pos len LegMaturityDate.LegMaturityDate
 
 
-let ReadLegStrikePriceIdx (bs:byte[]) (pos:int) (len:int): LegStrikePrice =
+let ReadLegStrikePrice (bs:byte[]) (pos:int) (len:int): LegStrikePrice =
     ReadFieldDecimal bs pos len LegStrikePrice.LegStrikePrice
 
 
-let ReadLegOptAttributeIdx (bs:byte[]) (pos:int) (len:int): LegOptAttribute =
+let ReadLegOptAttribute (bs:byte[]) (pos:int) (len:int): LegOptAttribute =
     ReadFieldChar bs pos len LegOptAttribute.LegOptAttribute
 
 
-let ReadLegContractMultiplierIdx (bs:byte[]) (pos:int) (len:int): LegContractMultiplier =
+let ReadLegContractMultiplier (bs:byte[]) (pos:int) (len:int): LegContractMultiplier =
     ReadFieldDecimal bs pos len LegContractMultiplier.LegContractMultiplier
 
 
-let ReadLegCouponRateIdx (bs:byte[]) (pos:int) (len:int): LegCouponRate =
+let ReadLegCouponRate (bs:byte[]) (pos:int) (len:int): LegCouponRate =
     ReadFieldDecimal bs pos len LegCouponRate.LegCouponRate
 
 
-let ReadLegSecurityExchangeIdx (bs:byte[]) (pos:int) (len:int): LegSecurityExchange =
+let ReadLegSecurityExchange (bs:byte[]) (pos:int) (len:int): LegSecurityExchange =
     ReadFieldStr bs pos len LegSecurityExchange.LegSecurityExchange
 
 
-let ReadLegIssuerIdx (bs:byte[]) (pos:int) (len:int): LegIssuer =
+let ReadLegIssuer (bs:byte[]) (pos:int) (len:int): LegIssuer =
     ReadFieldStr bs pos len LegIssuer.LegIssuer
 
 
 // compound read
-let ReadEncodedLegIssuerIdx (bs:byte[]) (pos:int) (len:int): EncodedLegIssuer =
+let ReadEncodedLegIssuer (bs:byte[]) (pos:int) (len:int): EncodedLegIssuer =
     ReadLengthDataCompoundField bs pos len "619"B EncodedLegIssuer.EncodedLegIssuer
 
 
-let ReadLegSecurityDescIdx (bs:byte[]) (pos:int) (len:int): LegSecurityDesc =
+let ReadLegSecurityDesc (bs:byte[]) (pos:int) (len:int): LegSecurityDesc =
     ReadFieldStr bs pos len LegSecurityDesc.LegSecurityDesc
 
 
 // compound read
-let ReadEncodedLegSecurityDescIdx (bs:byte[]) (pos:int) (len:int): EncodedLegSecurityDesc =
+let ReadEncodedLegSecurityDesc (bs:byte[]) (pos:int) (len:int): EncodedLegSecurityDesc =
     ReadLengthDataCompoundField bs pos len "622"B EncodedLegSecurityDesc.EncodedLegSecurityDesc
 
 
-let ReadLegRatioQtyIdx (bs:byte[]) (pos:int) (len:int): LegRatioQty =
+let ReadLegRatioQty (bs:byte[]) (pos:int) (len:int): LegRatioQty =
     ReadFieldDecimal bs pos len LegRatioQty.LegRatioQty
 
 
-let ReadLegSideIdx (bs:byte[]) (pos:int) (len:int): LegSide =
+let ReadLegSide (bs:byte[]) (pos:int) (len:int): LegSide =
     ReadFieldChar bs pos len LegSide.LegSide
 
 
-let ReadTradingSessionSubIDIdx (bs:byte[]) (pos:int) (len:int): TradingSessionSubID =
+let ReadTradingSessionSubID (bs:byte[]) (pos:int) (len:int): TradingSessionSubID =
     ReadFieldStr bs pos len TradingSessionSubID.TradingSessionSubID
 
 
-let ReadAllocTypeIdx (bs:byte[]) (pos:int) (len:int): AllocType =
+let ReadAllocType (bs:byte[]) (pos:int) (len:int): AllocType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -3985,39 +3985,39 @@ let ReadAllocTypeIdx (bs:byte[]) (pos:int) (len:int): AllocType =
     | x -> failwith (sprintf "ReadAllocType unknown fix tag: %A"  x) 
 
 
-let ReadNoHopsIdx (bs:byte[]) (pos:int) (len:int): NoHops =
+let ReadNoHops (bs:byte[]) (pos:int) (len:int): NoHops =
     ReadFieldInt bs pos len NoHops.NoHops
 
 
-let ReadHopCompIDIdx (bs:byte[]) (pos:int) (len:int): HopCompID =
+let ReadHopCompID (bs:byte[]) (pos:int) (len:int): HopCompID =
     ReadFieldStr bs pos len HopCompID.HopCompID
 
 
-let ReadHopSendingTimeIdx (bs:byte[]) (pos:int) (len:int): HopSendingTime =
+let ReadHopSendingTime (bs:byte[]) (pos:int) (len:int): HopSendingTime =
     ReadFieldUTCTimestamp bs pos len HopSendingTime.HopSendingTime
 
 
-let ReadHopRefIDIdx (bs:byte[]) (pos:int) (len:int): HopRefID =
+let ReadHopRefID (bs:byte[]) (pos:int) (len:int): HopRefID =
     ReadFieldUInt bs pos len HopRefID.HopRefID
 
 
-let ReadMidPxIdx (bs:byte[]) (pos:int) (len:int): MidPx =
+let ReadMidPx (bs:byte[]) (pos:int) (len:int): MidPx =
     ReadFieldDecimal bs pos len MidPx.MidPx
 
 
-let ReadBidYieldIdx (bs:byte[]) (pos:int) (len:int): BidYield =
+let ReadBidYield (bs:byte[]) (pos:int) (len:int): BidYield =
     ReadFieldDecimal bs pos len BidYield.BidYield
 
 
-let ReadMidYieldIdx (bs:byte[]) (pos:int) (len:int): MidYield =
+let ReadMidYield (bs:byte[]) (pos:int) (len:int): MidYield =
     ReadFieldDecimal bs pos len MidYield.MidYield
 
 
-let ReadOfferYieldIdx (bs:byte[]) (pos:int) (len:int): OfferYield =
+let ReadOfferYield (bs:byte[]) (pos:int) (len:int): OfferYield =
     ReadFieldDecimal bs pos len OfferYield.OfferYield
 
 
-let ReadClearingFeeIndicatorIdx (bs:byte[]) (pos:int) (len:int): ClearingFeeIndicator =
+let ReadClearingFeeIndicator (bs:byte[]) (pos:int) (len:int): ClearingFeeIndicator =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4032,15 +4032,15 @@ let ReadClearingFeeIndicatorIdx (bs:byte[]) (pos:int) (len:int): ClearingFeeIndi
     | x -> failwith (sprintf "ReadClearingFeeIndicator unknown fix tag: %A"  x) 
 
 
-let ReadWorkingIndicatorIdx (bs:byte[]) (pos:int) (len:int): WorkingIndicator =
+let ReadWorkingIndicator (bs:byte[]) (pos:int) (len:int): WorkingIndicator =
     ReadFieldBool bs pos len WorkingIndicator.WorkingIndicator
 
 
-let ReadLegLastPxIdx (bs:byte[]) (pos:int) (len:int): LegLastPx =
+let ReadLegLastPx (bs:byte[]) (pos:int) (len:int): LegLastPx =
     ReadFieldDecimal bs pos len LegLastPx.LegLastPx
 
 
-let ReadPriorityIndicatorIdx (bs:byte[]) (pos:int) (len:int): PriorityIndicator =
+let ReadPriorityIndicator (bs:byte[]) (pos:int) (len:int): PriorityIndicator =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4049,79 +4049,79 @@ let ReadPriorityIndicatorIdx (bs:byte[]) (pos:int) (len:int): PriorityIndicator 
     | x -> failwith (sprintf "ReadPriorityIndicator unknown fix tag: %A"  x) 
 
 
-let ReadPriceImprovementIdx (bs:byte[]) (pos:int) (len:int): PriceImprovement =
+let ReadPriceImprovement (bs:byte[]) (pos:int) (len:int): PriceImprovement =
     ReadFieldDecimal bs pos len PriceImprovement.PriceImprovement
 
 
-let ReadPrice2Idx (bs:byte[]) (pos:int) (len:int): Price2 =
+let ReadPrice2 (bs:byte[]) (pos:int) (len:int): Price2 =
     ReadFieldDecimal bs pos len Price2.Price2
 
 
-let ReadLastForwardPoints2Idx (bs:byte[]) (pos:int) (len:int): LastForwardPoints2 =
+let ReadLastForwardPoints2 (bs:byte[]) (pos:int) (len:int): LastForwardPoints2 =
     ReadFieldDecimal bs pos len LastForwardPoints2.LastForwardPoints2
 
 
-let ReadBidForwardPoints2Idx (bs:byte[]) (pos:int) (len:int): BidForwardPoints2 =
+let ReadBidForwardPoints2 (bs:byte[]) (pos:int) (len:int): BidForwardPoints2 =
     ReadFieldDecimal bs pos len BidForwardPoints2.BidForwardPoints2
 
 
-let ReadOfferForwardPoints2Idx (bs:byte[]) (pos:int) (len:int): OfferForwardPoints2 =
+let ReadOfferForwardPoints2 (bs:byte[]) (pos:int) (len:int): OfferForwardPoints2 =
     ReadFieldDecimal bs pos len OfferForwardPoints2.OfferForwardPoints2
 
 
-let ReadRFQReqIDIdx (bs:byte[]) (pos:int) (len:int): RFQReqID =
+let ReadRFQReqID (bs:byte[]) (pos:int) (len:int): RFQReqID =
     ReadFieldStr bs pos len RFQReqID.RFQReqID
 
 
-let ReadMktBidPxIdx (bs:byte[]) (pos:int) (len:int): MktBidPx =
+let ReadMktBidPx (bs:byte[]) (pos:int) (len:int): MktBidPx =
     ReadFieldDecimal bs pos len MktBidPx.MktBidPx
 
 
-let ReadMktOfferPxIdx (bs:byte[]) (pos:int) (len:int): MktOfferPx =
+let ReadMktOfferPx (bs:byte[]) (pos:int) (len:int): MktOfferPx =
     ReadFieldDecimal bs pos len MktOfferPx.MktOfferPx
 
 
-let ReadMinBidSizeIdx (bs:byte[]) (pos:int) (len:int): MinBidSize =
+let ReadMinBidSize (bs:byte[]) (pos:int) (len:int): MinBidSize =
     ReadFieldDecimal bs pos len MinBidSize.MinBidSize
 
 
-let ReadMinOfferSizeIdx (bs:byte[]) (pos:int) (len:int): MinOfferSize =
+let ReadMinOfferSize (bs:byte[]) (pos:int) (len:int): MinOfferSize =
     ReadFieldDecimal bs pos len MinOfferSize.MinOfferSize
 
 
-let ReadQuoteStatusReqIDIdx (bs:byte[]) (pos:int) (len:int): QuoteStatusReqID =
+let ReadQuoteStatusReqID (bs:byte[]) (pos:int) (len:int): QuoteStatusReqID =
     ReadFieldStr bs pos len QuoteStatusReqID.QuoteStatusReqID
 
 
-let ReadLegalConfirmIdx (bs:byte[]) (pos:int) (len:int): LegalConfirm =
+let ReadLegalConfirm (bs:byte[]) (pos:int) (len:int): LegalConfirm =
     ReadFieldBool bs pos len LegalConfirm.LegalConfirm
 
 
-let ReadUnderlyingLastPxIdx (bs:byte[]) (pos:int) (len:int): UnderlyingLastPx =
+let ReadUnderlyingLastPx (bs:byte[]) (pos:int) (len:int): UnderlyingLastPx =
     ReadFieldDecimal bs pos len UnderlyingLastPx.UnderlyingLastPx
 
 
-let ReadUnderlyingLastQtyIdx (bs:byte[]) (pos:int) (len:int): UnderlyingLastQty =
+let ReadUnderlyingLastQty (bs:byte[]) (pos:int) (len:int): UnderlyingLastQty =
     ReadFieldDecimal bs pos len UnderlyingLastQty.UnderlyingLastQty
 
 
-let ReadLegRefIDIdx (bs:byte[]) (pos:int) (len:int): LegRefID =
+let ReadLegRefID (bs:byte[]) (pos:int) (len:int): LegRefID =
     ReadFieldStr bs pos len LegRefID.LegRefID
 
 
-let ReadContraLegRefIDIdx (bs:byte[]) (pos:int) (len:int): ContraLegRefID =
+let ReadContraLegRefID (bs:byte[]) (pos:int) (len:int): ContraLegRefID =
     ReadFieldStr bs pos len ContraLegRefID.ContraLegRefID
 
 
-let ReadSettlCurrBidFxRateIdx (bs:byte[]) (pos:int) (len:int): SettlCurrBidFxRate =
+let ReadSettlCurrBidFxRate (bs:byte[]) (pos:int) (len:int): SettlCurrBidFxRate =
     ReadFieldDecimal bs pos len SettlCurrBidFxRate.SettlCurrBidFxRate
 
 
-let ReadSettlCurrOfferFxRateIdx (bs:byte[]) (pos:int) (len:int): SettlCurrOfferFxRate =
+let ReadSettlCurrOfferFxRate (bs:byte[]) (pos:int) (len:int): SettlCurrOfferFxRate =
     ReadFieldDecimal bs pos len SettlCurrOfferFxRate.SettlCurrOfferFxRate
 
 
-let ReadQuoteRequestRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteRequestRejectReason =
+let ReadQuoteRequestRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRequestRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4139,11 +4139,11 @@ let ReadQuoteRequestRejectReasonIdx (bs:byte[]) (pos:int) (len:int): QuoteReques
     | x -> failwith (sprintf "ReadQuoteRequestRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadSideComplianceIDIdx (bs:byte[]) (pos:int) (len:int): SideComplianceID =
+let ReadSideComplianceID (bs:byte[]) (pos:int) (len:int): SideComplianceID =
     ReadFieldStr bs pos len SideComplianceID.SideComplianceID
 
 
-let ReadAcctIDSourceIdx (bs:byte[]) (pos:int) (len:int): AcctIDSource =
+let ReadAcctIDSource (bs:byte[]) (pos:int) (len:int): AcctIDSource =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4156,23 +4156,23 @@ let ReadAcctIDSourceIdx (bs:byte[]) (pos:int) (len:int): AcctIDSource =
     | x -> failwith (sprintf "ReadAcctIDSource unknown fix tag: %A"  x) 
 
 
-let ReadAllocAcctIDSourceIdx (bs:byte[]) (pos:int) (len:int): AllocAcctIDSource =
+let ReadAllocAcctIDSource (bs:byte[]) (pos:int) (len:int): AllocAcctIDSource =
     ReadFieldInt bs pos len AllocAcctIDSource.AllocAcctIDSource
 
 
-let ReadBenchmarkPriceIdx (bs:byte[]) (pos:int) (len:int): BenchmarkPrice =
+let ReadBenchmarkPrice (bs:byte[]) (pos:int) (len:int): BenchmarkPrice =
     ReadFieldDecimal bs pos len BenchmarkPrice.BenchmarkPrice
 
 
-let ReadBenchmarkPriceTypeIdx (bs:byte[]) (pos:int) (len:int): BenchmarkPriceType =
+let ReadBenchmarkPriceType (bs:byte[]) (pos:int) (len:int): BenchmarkPriceType =
     ReadFieldInt bs pos len BenchmarkPriceType.BenchmarkPriceType
 
 
-let ReadConfirmIDIdx (bs:byte[]) (pos:int) (len:int): ConfirmID =
+let ReadConfirmID (bs:byte[]) (pos:int) (len:int): ConfirmID =
     ReadFieldStr bs pos len ConfirmID.ConfirmID
 
 
-let ReadConfirmStatusIdx (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
+let ReadConfirmStatus (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4184,7 +4184,7 @@ let ReadConfirmStatusIdx (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
     | x -> failwith (sprintf "ReadConfirmStatus unknown fix tag: %A"  x) 
 
 
-let ReadConfirmTransTypeIdx (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
+let ReadConfirmTransType (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4194,11 +4194,11 @@ let ReadConfirmTransTypeIdx (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
     | x -> failwith (sprintf "ReadConfirmTransType unknown fix tag: %A"  x) 
 
 
-let ReadContractSettlMonthIdx (bs:byte[]) (pos:int) (len:int): ContractSettlMonth =
+let ReadContractSettlMonth (bs:byte[]) (pos:int) (len:int): ContractSettlMonth =
     ReadFieldMonthYear bs pos len ContractSettlMonth.ContractSettlMonth
 
 
-let ReadDeliveryFormIdx (bs:byte[]) (pos:int) (len:int): DeliveryForm =
+let ReadDeliveryForm (bs:byte[]) (pos:int) (len:int): DeliveryForm =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4207,91 +4207,91 @@ let ReadDeliveryFormIdx (bs:byte[]) (pos:int) (len:int): DeliveryForm =
     | x -> failwith (sprintf "ReadDeliveryForm unknown fix tag: %A"  x) 
 
 
-let ReadLastParPxIdx (bs:byte[]) (pos:int) (len:int): LastParPx =
+let ReadLastParPx (bs:byte[]) (pos:int) (len:int): LastParPx =
     ReadFieldDecimal bs pos len LastParPx.LastParPx
 
 
-let ReadNoLegAllocsIdx (bs:byte[]) (pos:int) (len:int): NoLegAllocs =
+let ReadNoLegAllocs (bs:byte[]) (pos:int) (len:int): NoLegAllocs =
     ReadFieldInt bs pos len NoLegAllocs.NoLegAllocs
 
 
-let ReadLegAllocAccountIdx (bs:byte[]) (pos:int) (len:int): LegAllocAccount =
+let ReadLegAllocAccount (bs:byte[]) (pos:int) (len:int): LegAllocAccount =
     ReadFieldStr bs pos len LegAllocAccount.LegAllocAccount
 
 
-let ReadLegIndividualAllocIDIdx (bs:byte[]) (pos:int) (len:int): LegIndividualAllocID =
+let ReadLegIndividualAllocID (bs:byte[]) (pos:int) (len:int): LegIndividualAllocID =
     ReadFieldStr bs pos len LegIndividualAllocID.LegIndividualAllocID
 
 
-let ReadLegAllocQtyIdx (bs:byte[]) (pos:int) (len:int): LegAllocQty =
+let ReadLegAllocQty (bs:byte[]) (pos:int) (len:int): LegAllocQty =
     ReadFieldDecimal bs pos len LegAllocQty.LegAllocQty
 
 
-let ReadLegAllocAcctIDSourceIdx (bs:byte[]) (pos:int) (len:int): LegAllocAcctIDSource =
+let ReadLegAllocAcctIDSource (bs:byte[]) (pos:int) (len:int): LegAllocAcctIDSource =
     ReadFieldStr bs pos len LegAllocAcctIDSource.LegAllocAcctIDSource
 
 
-let ReadLegSettlCurrencyIdx (bs:byte[]) (pos:int) (len:int): LegSettlCurrency =
+let ReadLegSettlCurrency (bs:byte[]) (pos:int) (len:int): LegSettlCurrency =
     ReadFieldStr bs pos len LegSettlCurrency.LegSettlCurrency
 
 
-let ReadLegBenchmarkCurveCurrencyIdx (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurveCurrency =
+let ReadLegBenchmarkCurveCurrency (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurveCurrency =
     ReadFieldStr bs pos len LegBenchmarkCurveCurrency.LegBenchmarkCurveCurrency
 
 
-let ReadLegBenchmarkCurveNameIdx (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurveName =
+let ReadLegBenchmarkCurveName (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurveName =
     ReadFieldStr bs pos len LegBenchmarkCurveName.LegBenchmarkCurveName
 
 
-let ReadLegBenchmarkCurvePointIdx (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurvePoint =
+let ReadLegBenchmarkCurvePoint (bs:byte[]) (pos:int) (len:int): LegBenchmarkCurvePoint =
     ReadFieldStr bs pos len LegBenchmarkCurvePoint.LegBenchmarkCurvePoint
 
 
-let ReadLegBenchmarkPriceIdx (bs:byte[]) (pos:int) (len:int): LegBenchmarkPrice =
+let ReadLegBenchmarkPrice (bs:byte[]) (pos:int) (len:int): LegBenchmarkPrice =
     ReadFieldDecimal bs pos len LegBenchmarkPrice.LegBenchmarkPrice
 
 
-let ReadLegBenchmarkPriceTypeIdx (bs:byte[]) (pos:int) (len:int): LegBenchmarkPriceType =
+let ReadLegBenchmarkPriceType (bs:byte[]) (pos:int) (len:int): LegBenchmarkPriceType =
     ReadFieldInt bs pos len LegBenchmarkPriceType.LegBenchmarkPriceType
 
 
-let ReadLegBidPxIdx (bs:byte[]) (pos:int) (len:int): LegBidPx =
+let ReadLegBidPx (bs:byte[]) (pos:int) (len:int): LegBidPx =
     ReadFieldDecimal bs pos len LegBidPx.LegBidPx
 
 
-let ReadLegIOIQtyIdx (bs:byte[]) (pos:int) (len:int): LegIOIQty =
+let ReadLegIOIQty (bs:byte[]) (pos:int) (len:int): LegIOIQty =
     ReadFieldStr bs pos len LegIOIQty.LegIOIQty
 
 
-let ReadNoLegStipulationsIdx (bs:byte[]) (pos:int) (len:int): NoLegStipulations =
+let ReadNoLegStipulations (bs:byte[]) (pos:int) (len:int): NoLegStipulations =
     ReadFieldInt bs pos len NoLegStipulations.NoLegStipulations
 
 
-let ReadLegOfferPxIdx (bs:byte[]) (pos:int) (len:int): LegOfferPx =
+let ReadLegOfferPx (bs:byte[]) (pos:int) (len:int): LegOfferPx =
     ReadFieldDecimal bs pos len LegOfferPx.LegOfferPx
 
 
-let ReadLegOrderQtyIdx (bs:byte[]) (pos:int) (len:int): LegOrderQty =
+let ReadLegOrderQty (bs:byte[]) (pos:int) (len:int): LegOrderQty =
     ReadFieldDecimal bs pos len LegOrderQty.LegOrderQty
 
 
-let ReadLegPriceTypeIdx (bs:byte[]) (pos:int) (len:int): LegPriceType =
+let ReadLegPriceType (bs:byte[]) (pos:int) (len:int): LegPriceType =
     ReadFieldInt bs pos len LegPriceType.LegPriceType
 
 
-let ReadLegQtyIdx (bs:byte[]) (pos:int) (len:int): LegQty =
+let ReadLegQty (bs:byte[]) (pos:int) (len:int): LegQty =
     ReadFieldDecimal bs pos len LegQty.LegQty
 
 
-let ReadLegStipulationTypeIdx (bs:byte[]) (pos:int) (len:int): LegStipulationType =
+let ReadLegStipulationType (bs:byte[]) (pos:int) (len:int): LegStipulationType =
     ReadFieldStr bs pos len LegStipulationType.LegStipulationType
 
 
-let ReadLegStipulationValueIdx (bs:byte[]) (pos:int) (len:int): LegStipulationValue =
+let ReadLegStipulationValue (bs:byte[]) (pos:int) (len:int): LegStipulationValue =
     ReadFieldStr bs pos len LegStipulationValue.LegStipulationValue
 
 
-let ReadLegSwapTypeIdx (bs:byte[]) (pos:int) (len:int): LegSwapType =
+let ReadLegSwapType (bs:byte[]) (pos:int) (len:int): LegSwapType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4302,11 +4302,11 @@ let ReadLegSwapTypeIdx (bs:byte[]) (pos:int) (len:int): LegSwapType =
     | x -> failwith (sprintf "ReadLegSwapType unknown fix tag: %A"  x) 
 
 
-let ReadPoolIdx (bs:byte[]) (pos:int) (len:int): Pool =
+let ReadPool (bs:byte[]) (pos:int) (len:int): Pool =
     ReadFieldStr bs pos len Pool.Pool
 
 
-let ReadQuotePriceTypeIdx (bs:byte[]) (pos:int) (len:int): QuotePriceType =
+let ReadQuotePriceType (bs:byte[]) (pos:int) (len:int): QuotePriceType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4323,11 +4323,11 @@ let ReadQuotePriceTypeIdx (bs:byte[]) (pos:int) (len:int): QuotePriceType =
     | x -> failwith (sprintf "ReadQuotePriceType unknown fix tag: %A"  x) 
 
 
-let ReadQuoteRespIDIdx (bs:byte[]) (pos:int) (len:int): QuoteRespID =
+let ReadQuoteRespID (bs:byte[]) (pos:int) (len:int): QuoteRespID =
     ReadFieldStr bs pos len QuoteRespID.QuoteRespID
 
 
-let ReadQuoteRespTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteRespType =
+let ReadQuoteRespType (bs:byte[]) (pos:int) (len:int): QuoteRespType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4340,39 +4340,39 @@ let ReadQuoteRespTypeIdx (bs:byte[]) (pos:int) (len:int): QuoteRespType =
     | x -> failwith (sprintf "ReadQuoteRespType unknown fix tag: %A"  x) 
 
 
-let ReadQuoteQualifierIdx (bs:byte[]) (pos:int) (len:int): QuoteQualifier =
+let ReadQuoteQualifier (bs:byte[]) (pos:int) (len:int): QuoteQualifier =
     ReadFieldChar bs pos len QuoteQualifier.QuoteQualifier
 
 
-let ReadYieldRedemptionDateIdx (bs:byte[]) (pos:int) (len:int): YieldRedemptionDate =
+let ReadYieldRedemptionDate (bs:byte[]) (pos:int) (len:int): YieldRedemptionDate =
     ReadFieldLocalMktDate bs pos len YieldRedemptionDate.YieldRedemptionDate
 
 
-let ReadYieldRedemptionPriceIdx (bs:byte[]) (pos:int) (len:int): YieldRedemptionPrice =
+let ReadYieldRedemptionPrice (bs:byte[]) (pos:int) (len:int): YieldRedemptionPrice =
     ReadFieldDecimal bs pos len YieldRedemptionPrice.YieldRedemptionPrice
 
 
-let ReadYieldRedemptionPriceTypeIdx (bs:byte[]) (pos:int) (len:int): YieldRedemptionPriceType =
+let ReadYieldRedemptionPriceType (bs:byte[]) (pos:int) (len:int): YieldRedemptionPriceType =
     ReadFieldInt bs pos len YieldRedemptionPriceType.YieldRedemptionPriceType
 
 
-let ReadBenchmarkSecurityIDIdx (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityID =
+let ReadBenchmarkSecurityID (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityID =
     ReadFieldStr bs pos len BenchmarkSecurityID.BenchmarkSecurityID
 
 
-let ReadReversalIndicatorIdx (bs:byte[]) (pos:int) (len:int): ReversalIndicator =
+let ReadReversalIndicator (bs:byte[]) (pos:int) (len:int): ReversalIndicator =
     ReadFieldBool bs pos len ReversalIndicator.ReversalIndicator
 
 
-let ReadYieldCalcDateIdx (bs:byte[]) (pos:int) (len:int): YieldCalcDate =
+let ReadYieldCalcDate (bs:byte[]) (pos:int) (len:int): YieldCalcDate =
     ReadFieldLocalMktDate bs pos len YieldCalcDate.YieldCalcDate
 
 
-let ReadNoPositionsIdx (bs:byte[]) (pos:int) (len:int): NoPositions =
+let ReadNoPositions (bs:byte[]) (pos:int) (len:int): NoPositions =
     ReadFieldInt bs pos len NoPositions.NoPositions
 
 
-let ReadPosTypeIdx (bs:byte[]) (pos:int) (len:int): PosType =
+let ReadPosType (bs:byte[]) (pos:int) (len:int): PosType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4398,15 +4398,15 @@ let ReadPosTypeIdx (bs:byte[]) (pos:int) (len:int): PosType =
     | x -> failwith (sprintf "ReadPosType unknown fix tag: %A"  x) 
 
 
-let ReadLongQtyIdx (bs:byte[]) (pos:int) (len:int): LongQty =
+let ReadLongQty (bs:byte[]) (pos:int) (len:int): LongQty =
     ReadFieldDecimal bs pos len LongQty.LongQty
 
 
-let ReadShortQtyIdx (bs:byte[]) (pos:int) (len:int): ShortQty =
+let ReadShortQty (bs:byte[]) (pos:int) (len:int): ShortQty =
     ReadFieldDecimal bs pos len ShortQty.ShortQty
 
 
-let ReadPosQtyStatusIdx (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
+let ReadPosQtyStatus (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4416,7 +4416,7 @@ let ReadPosQtyStatusIdx (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
     | x -> failwith (sprintf "ReadPosQtyStatus unknown fix tag: %A"  x) 
 
 
-let ReadPosAmtTypeIdx (bs:byte[]) (pos:int) (len:int): PosAmtType =
+let ReadPosAmtType (bs:byte[]) (pos:int) (len:int): PosAmtType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4431,11 +4431,11 @@ let ReadPosAmtTypeIdx (bs:byte[]) (pos:int) (len:int): PosAmtType =
     | x -> failwith (sprintf "ReadPosAmtType unknown fix tag: %A"  x) 
 
 
-let ReadPosAmtIdx (bs:byte[]) (pos:int) (len:int): PosAmt =
+let ReadPosAmt (bs:byte[]) (pos:int) (len:int): PosAmt =
     ReadFieldDecimal bs pos len PosAmt.PosAmt
 
 
-let ReadPosTransTypeIdx (bs:byte[]) (pos:int) (len:int): PosTransType =
+let ReadPosTransType (bs:byte[]) (pos:int) (len:int): PosTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4447,15 +4447,15 @@ let ReadPosTransTypeIdx (bs:byte[]) (pos:int) (len:int): PosTransType =
     | x -> failwith (sprintf "ReadPosTransType unknown fix tag: %A"  x) 
 
 
-let ReadPosReqIDIdx (bs:byte[]) (pos:int) (len:int): PosReqID =
+let ReadPosReqID (bs:byte[]) (pos:int) (len:int): PosReqID =
     ReadFieldStr bs pos len PosReqID.PosReqID
 
 
-let ReadNoUnderlyingsIdx (bs:byte[]) (pos:int) (len:int): NoUnderlyings =
+let ReadNoUnderlyings (bs:byte[]) (pos:int) (len:int): NoUnderlyings =
     ReadFieldInt bs pos len NoUnderlyings.NoUnderlyings
 
 
-let ReadPosMaintActionIdx (bs:byte[]) (pos:int) (len:int): PosMaintAction =
+let ReadPosMaintAction (bs:byte[]) (pos:int) (len:int): PosMaintAction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4465,27 +4465,27 @@ let ReadPosMaintActionIdx (bs:byte[]) (pos:int) (len:int): PosMaintAction =
     | x -> failwith (sprintf "ReadPosMaintAction unknown fix tag: %A"  x) 
 
 
-let ReadOrigPosReqRefIDIdx (bs:byte[]) (pos:int) (len:int): OrigPosReqRefID =
+let ReadOrigPosReqRefID (bs:byte[]) (pos:int) (len:int): OrigPosReqRefID =
     ReadFieldStr bs pos len OrigPosReqRefID.OrigPosReqRefID
 
 
-let ReadPosMaintRptRefIDIdx (bs:byte[]) (pos:int) (len:int): PosMaintRptRefID =
+let ReadPosMaintRptRefID (bs:byte[]) (pos:int) (len:int): PosMaintRptRefID =
     ReadFieldStr bs pos len PosMaintRptRefID.PosMaintRptRefID
 
 
-let ReadClearingBusinessDateIdx (bs:byte[]) (pos:int) (len:int): ClearingBusinessDate =
+let ReadClearingBusinessDate (bs:byte[]) (pos:int) (len:int): ClearingBusinessDate =
     ReadFieldLocalMktDate bs pos len ClearingBusinessDate.ClearingBusinessDate
 
 
-let ReadSettlSessIDIdx (bs:byte[]) (pos:int) (len:int): SettlSessID =
+let ReadSettlSessID (bs:byte[]) (pos:int) (len:int): SettlSessID =
     ReadFieldStr bs pos len SettlSessID.SettlSessID
 
 
-let ReadSettlSessSubIDIdx (bs:byte[]) (pos:int) (len:int): SettlSessSubID =
+let ReadSettlSessSubID (bs:byte[]) (pos:int) (len:int): SettlSessSubID =
     ReadFieldStr bs pos len SettlSessSubID.SettlSessSubID
 
 
-let ReadAdjustmentTypeIdx (bs:byte[]) (pos:int) (len:int): AdjustmentType =
+let ReadAdjustmentType (bs:byte[]) (pos:int) (len:int): AdjustmentType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4496,19 +4496,19 @@ let ReadAdjustmentTypeIdx (bs:byte[]) (pos:int) (len:int): AdjustmentType =
     | x -> failwith (sprintf "ReadAdjustmentType unknown fix tag: %A"  x) 
 
 
-let ReadContraryInstructionIndicatorIdx (bs:byte[]) (pos:int) (len:int): ContraryInstructionIndicator =
+let ReadContraryInstructionIndicator (bs:byte[]) (pos:int) (len:int): ContraryInstructionIndicator =
     ReadFieldBool bs pos len ContraryInstructionIndicator.ContraryInstructionIndicator
 
 
-let ReadPriorSpreadIndicatorIdx (bs:byte[]) (pos:int) (len:int): PriorSpreadIndicator =
+let ReadPriorSpreadIndicator (bs:byte[]) (pos:int) (len:int): PriorSpreadIndicator =
     ReadFieldBool bs pos len PriorSpreadIndicator.PriorSpreadIndicator
 
 
-let ReadPosMaintRptIDIdx (bs:byte[]) (pos:int) (len:int): PosMaintRptID =
+let ReadPosMaintRptID (bs:byte[]) (pos:int) (len:int): PosMaintRptID =
     ReadFieldStr bs pos len PosMaintRptID.PosMaintRptID
 
 
-let ReadPosMaintStatusIdx (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
+let ReadPosMaintStatus (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4520,7 +4520,7 @@ let ReadPosMaintStatusIdx (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
     | x -> failwith (sprintf "ReadPosMaintStatus unknown fix tag: %A"  x) 
 
 
-let ReadPosMaintResultIdx (bs:byte[]) (pos:int) (len:int): PosMaintResult =
+let ReadPosMaintResult (bs:byte[]) (pos:int) (len:int): PosMaintResult =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4530,7 +4530,7 @@ let ReadPosMaintResultIdx (bs:byte[]) (pos:int) (len:int): PosMaintResult =
     | x -> failwith (sprintf "ReadPosMaintResult unknown fix tag: %A"  x) 
 
 
-let ReadPosReqTypeIdx (bs:byte[]) (pos:int) (len:int): PosReqType =
+let ReadPosReqType (bs:byte[]) (pos:int) (len:int): PosReqType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4541,7 +4541,7 @@ let ReadPosReqTypeIdx (bs:byte[]) (pos:int) (len:int): PosReqType =
     | x -> failwith (sprintf "ReadPosReqType unknown fix tag: %A"  x) 
 
 
-let ReadResponseTransportTypeIdx (bs:byte[]) (pos:int) (len:int): ResponseTransportType =
+let ReadResponseTransportType (bs:byte[]) (pos:int) (len:int): ResponseTransportType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4550,15 +4550,15 @@ let ReadResponseTransportTypeIdx (bs:byte[]) (pos:int) (len:int): ResponseTransp
     | x -> failwith (sprintf "ReadResponseTransportType unknown fix tag: %A"  x) 
 
 
-let ReadResponseDestinationIdx (bs:byte[]) (pos:int) (len:int): ResponseDestination =
+let ReadResponseDestination (bs:byte[]) (pos:int) (len:int): ResponseDestination =
     ReadFieldStr bs pos len ResponseDestination.ResponseDestination
 
 
-let ReadTotalNumPosReportsIdx (bs:byte[]) (pos:int) (len:int): TotalNumPosReports =
+let ReadTotalNumPosReports (bs:byte[]) (pos:int) (len:int): TotalNumPosReports =
     ReadFieldInt bs pos len TotalNumPosReports.TotalNumPosReports
 
 
-let ReadPosReqResultIdx (bs:byte[]) (pos:int) (len:int): PosReqResult =
+let ReadPosReqResult (bs:byte[]) (pos:int) (len:int): PosReqResult =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4571,7 +4571,7 @@ let ReadPosReqResultIdx (bs:byte[]) (pos:int) (len:int): PosReqResult =
     | x -> failwith (sprintf "ReadPosReqResult unknown fix tag: %A"  x) 
 
 
-let ReadPosReqStatusIdx (bs:byte[]) (pos:int) (len:int): PosReqStatus =
+let ReadPosReqStatus (bs:byte[]) (pos:int) (len:int): PosReqStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4581,11 +4581,11 @@ let ReadPosReqStatusIdx (bs:byte[]) (pos:int) (len:int): PosReqStatus =
     | x -> failwith (sprintf "ReadPosReqStatus unknown fix tag: %A"  x) 
 
 
-let ReadSettlPriceIdx (bs:byte[]) (pos:int) (len:int): SettlPrice =
+let ReadSettlPrice (bs:byte[]) (pos:int) (len:int): SettlPrice =
     ReadFieldDecimal bs pos len SettlPrice.SettlPrice
 
 
-let ReadSettlPriceTypeIdx (bs:byte[]) (pos:int) (len:int): SettlPriceType =
+let ReadSettlPriceType (bs:byte[]) (pos:int) (len:int): SettlPriceType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4594,55 +4594,55 @@ let ReadSettlPriceTypeIdx (bs:byte[]) (pos:int) (len:int): SettlPriceType =
     | x -> failwith (sprintf "ReadSettlPriceType unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingSettlPriceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSettlPrice =
+let ReadUnderlyingSettlPrice (bs:byte[]) (pos:int) (len:int): UnderlyingSettlPrice =
     ReadFieldDecimal bs pos len UnderlyingSettlPrice.UnderlyingSettlPrice
 
 
-let ReadUnderlyingSettlPriceTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSettlPriceType =
+let ReadUnderlyingSettlPriceType (bs:byte[]) (pos:int) (len:int): UnderlyingSettlPriceType =
     ReadFieldInt bs pos len UnderlyingSettlPriceType.UnderlyingSettlPriceType
 
 
-let ReadPriorSettlPriceIdx (bs:byte[]) (pos:int) (len:int): PriorSettlPrice =
+let ReadPriorSettlPrice (bs:byte[]) (pos:int) (len:int): PriorSettlPrice =
     ReadFieldDecimal bs pos len PriorSettlPrice.PriorSettlPrice
 
 
-let ReadNoQuoteQualifiersIdx (bs:byte[]) (pos:int) (len:int): NoQuoteQualifiers =
+let ReadNoQuoteQualifiers (bs:byte[]) (pos:int) (len:int): NoQuoteQualifiers =
     ReadFieldInt bs pos len NoQuoteQualifiers.NoQuoteQualifiers
 
 
-let ReadAllocSettlCurrencyIdx (bs:byte[]) (pos:int) (len:int): AllocSettlCurrency =
+let ReadAllocSettlCurrency (bs:byte[]) (pos:int) (len:int): AllocSettlCurrency =
     ReadFieldStr bs pos len AllocSettlCurrency.AllocSettlCurrency
 
 
-let ReadAllocSettlCurrAmtIdx (bs:byte[]) (pos:int) (len:int): AllocSettlCurrAmt =
+let ReadAllocSettlCurrAmt (bs:byte[]) (pos:int) (len:int): AllocSettlCurrAmt =
     ReadFieldDecimal bs pos len AllocSettlCurrAmt.AllocSettlCurrAmt
 
 
-let ReadInterestAtMaturityIdx (bs:byte[]) (pos:int) (len:int): InterestAtMaturity =
+let ReadInterestAtMaturity (bs:byte[]) (pos:int) (len:int): InterestAtMaturity =
     ReadFieldDecimal bs pos len InterestAtMaturity.InterestAtMaturity
 
 
-let ReadLegDatedDateIdx (bs:byte[]) (pos:int) (len:int): LegDatedDate =
+let ReadLegDatedDate (bs:byte[]) (pos:int) (len:int): LegDatedDate =
     ReadFieldLocalMktDate bs pos len LegDatedDate.LegDatedDate
 
 
-let ReadLegPoolIdx (bs:byte[]) (pos:int) (len:int): LegPool =
+let ReadLegPool (bs:byte[]) (pos:int) (len:int): LegPool =
     ReadFieldStr bs pos len LegPool.LegPool
 
 
-let ReadAllocInterestAtMaturityIdx (bs:byte[]) (pos:int) (len:int): AllocInterestAtMaturity =
+let ReadAllocInterestAtMaturity (bs:byte[]) (pos:int) (len:int): AllocInterestAtMaturity =
     ReadFieldDecimal bs pos len AllocInterestAtMaturity.AllocInterestAtMaturity
 
 
-let ReadAllocAccruedInterestAmtIdx (bs:byte[]) (pos:int) (len:int): AllocAccruedInterestAmt =
+let ReadAllocAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): AllocAccruedInterestAmt =
     ReadFieldDecimal bs pos len AllocAccruedInterestAmt.AllocAccruedInterestAmt
 
 
-let ReadDeliveryDateIdx (bs:byte[]) (pos:int) (len:int): DeliveryDate =
+let ReadDeliveryDate (bs:byte[]) (pos:int) (len:int): DeliveryDate =
     ReadFieldLocalMktDate bs pos len DeliveryDate.DeliveryDate
 
 
-let ReadAssignmentMethodIdx (bs:byte[]) (pos:int) (len:int): AssignmentMethod =
+let ReadAssignmentMethod (bs:byte[]) (pos:int) (len:int): AssignmentMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4651,15 +4651,15 @@ let ReadAssignmentMethodIdx (bs:byte[]) (pos:int) (len:int): AssignmentMethod =
     | x -> failwith (sprintf "ReadAssignmentMethod unknown fix tag: %A"  x) 
 
 
-let ReadAssignmentUnitIdx (bs:byte[]) (pos:int) (len:int): AssignmentUnit =
+let ReadAssignmentUnit (bs:byte[]) (pos:int) (len:int): AssignmentUnit =
     ReadFieldDecimal bs pos len AssignmentUnit.AssignmentUnit
 
 
-let ReadOpenInterestIdx (bs:byte[]) (pos:int) (len:int): OpenInterest =
+let ReadOpenInterest (bs:byte[]) (pos:int) (len:int): OpenInterest =
     ReadFieldDecimal bs pos len OpenInterest.OpenInterest
 
 
-let ReadExerciseMethodIdx (bs:byte[]) (pos:int) (len:int): ExerciseMethod =
+let ReadExerciseMethod (bs:byte[]) (pos:int) (len:int): ExerciseMethod =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4668,11 +4668,11 @@ let ReadExerciseMethodIdx (bs:byte[]) (pos:int) (len:int): ExerciseMethod =
     | x -> failwith (sprintf "ReadExerciseMethod unknown fix tag: %A"  x) 
 
 
-let ReadTotNumTradeReportsIdx (bs:byte[]) (pos:int) (len:int): TotNumTradeReports =
+let ReadTotNumTradeReports (bs:byte[]) (pos:int) (len:int): TotNumTradeReports =
     ReadFieldInt bs pos len TotNumTradeReports.TotNumTradeReports
 
 
-let ReadTradeRequestResultIdx (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
+let ReadTradeRequestResult (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4688,7 +4688,7 @@ let ReadTradeRequestResultIdx (bs:byte[]) (pos:int) (len:int): TradeRequestResul
     | x -> failwith (sprintf "ReadTradeRequestResult unknown fix tag: %A"  x) 
 
 
-let ReadTradeRequestStatusIdx (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
+let ReadTradeRequestStatus (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4698,7 +4698,7 @@ let ReadTradeRequestStatusIdx (bs:byte[]) (pos:int) (len:int): TradeRequestStatu
     | x -> failwith (sprintf "ReadTradeRequestStatus unknown fix tag: %A"  x) 
 
 
-let ReadTradeReportRejectReasonIdx (bs:byte[]) (pos:int) (len:int): TradeReportRejectReason =
+let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4711,7 +4711,7 @@ let ReadTradeReportRejectReasonIdx (bs:byte[]) (pos:int) (len:int): TradeReportR
     | x -> failwith (sprintf "ReadTradeReportRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadSideMultiLegReportingTypeIdx (bs:byte[]) (pos:int) (len:int): SideMultiLegReportingType =
+let ReadSideMultiLegReportingType (bs:byte[]) (pos:int) (len:int): SideMultiLegReportingType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4721,75 +4721,75 @@ let ReadSideMultiLegReportingTypeIdx (bs:byte[]) (pos:int) (len:int): SideMultiL
     | x -> failwith (sprintf "ReadSideMultiLegReportingType unknown fix tag: %A"  x) 
 
 
-let ReadNoPosAmtIdx (bs:byte[]) (pos:int) (len:int): NoPosAmt =
+let ReadNoPosAmt (bs:byte[]) (pos:int) (len:int): NoPosAmt =
     ReadFieldInt bs pos len NoPosAmt.NoPosAmt
 
 
-let ReadAutoAcceptIndicatorIdx (bs:byte[]) (pos:int) (len:int): AutoAcceptIndicator =
+let ReadAutoAcceptIndicator (bs:byte[]) (pos:int) (len:int): AutoAcceptIndicator =
     ReadFieldBool bs pos len AutoAcceptIndicator.AutoAcceptIndicator
 
 
-let ReadAllocReportIDIdx (bs:byte[]) (pos:int) (len:int): AllocReportID =
+let ReadAllocReportID (bs:byte[]) (pos:int) (len:int): AllocReportID =
     ReadFieldStr bs pos len AllocReportID.AllocReportID
 
 
-let ReadNoNested2PartyIDsIdx (bs:byte[]) (pos:int) (len:int): NoNested2PartyIDs =
+let ReadNoNested2PartyIDs (bs:byte[]) (pos:int) (len:int): NoNested2PartyIDs =
     ReadFieldInt bs pos len NoNested2PartyIDs.NoNested2PartyIDs
 
 
-let ReadNested2PartyIDIdx (bs:byte[]) (pos:int) (len:int): Nested2PartyID =
+let ReadNested2PartyID (bs:byte[]) (pos:int) (len:int): Nested2PartyID =
     ReadFieldStr bs pos len Nested2PartyID.Nested2PartyID
 
 
-let ReadNested2PartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): Nested2PartyIDSource =
+let ReadNested2PartyIDSource (bs:byte[]) (pos:int) (len:int): Nested2PartyIDSource =
     ReadFieldChar bs pos len Nested2PartyIDSource.Nested2PartyIDSource
 
 
-let ReadNested2PartyRoleIdx (bs:byte[]) (pos:int) (len:int): Nested2PartyRole =
+let ReadNested2PartyRole (bs:byte[]) (pos:int) (len:int): Nested2PartyRole =
     ReadFieldInt bs pos len Nested2PartyRole.Nested2PartyRole
 
 
-let ReadNested2PartySubIDIdx (bs:byte[]) (pos:int) (len:int): Nested2PartySubID =
+let ReadNested2PartySubID (bs:byte[]) (pos:int) (len:int): Nested2PartySubID =
     ReadFieldStr bs pos len Nested2PartySubID.Nested2PartySubID
 
 
-let ReadBenchmarkSecurityIDSourceIdx (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityIDSource =
+let ReadBenchmarkSecurityIDSource (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityIDSource =
     ReadFieldStr bs pos len BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
 
 
-let ReadSecuritySubTypeIdx (bs:byte[]) (pos:int) (len:int): SecuritySubType =
+let ReadSecuritySubType (bs:byte[]) (pos:int) (len:int): SecuritySubType =
     ReadFieldStr bs pos len SecuritySubType.SecuritySubType
 
 
-let ReadUnderlyingSecuritySubTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingSecuritySubType =
+let ReadUnderlyingSecuritySubType (bs:byte[]) (pos:int) (len:int): UnderlyingSecuritySubType =
     ReadFieldStr bs pos len UnderlyingSecuritySubType.UnderlyingSecuritySubType
 
 
-let ReadLegSecuritySubTypeIdx (bs:byte[]) (pos:int) (len:int): LegSecuritySubType =
+let ReadLegSecuritySubType (bs:byte[]) (pos:int) (len:int): LegSecuritySubType =
     ReadFieldStr bs pos len LegSecuritySubType.LegSecuritySubType
 
 
-let ReadAllowableOneSidednessPctIdx (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessPct =
+let ReadAllowableOneSidednessPct (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessPct =
     ReadFieldDecimal bs pos len AllowableOneSidednessPct.AllowableOneSidednessPct
 
 
-let ReadAllowableOneSidednessValueIdx (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessValue =
+let ReadAllowableOneSidednessValue (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessValue =
     ReadFieldDecimal bs pos len AllowableOneSidednessValue.AllowableOneSidednessValue
 
 
-let ReadAllowableOneSidednessCurrIdx (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessCurr =
+let ReadAllowableOneSidednessCurr (bs:byte[]) (pos:int) (len:int): AllowableOneSidednessCurr =
     ReadFieldStr bs pos len AllowableOneSidednessCurr.AllowableOneSidednessCurr
 
 
-let ReadNoTrdRegTimestampsIdx (bs:byte[]) (pos:int) (len:int): NoTrdRegTimestamps =
+let ReadNoTrdRegTimestamps (bs:byte[]) (pos:int) (len:int): NoTrdRegTimestamps =
     ReadFieldInt bs pos len NoTrdRegTimestamps.NoTrdRegTimestamps
 
 
-let ReadTrdRegTimestampIdx (bs:byte[]) (pos:int) (len:int): TrdRegTimestamp =
+let ReadTrdRegTimestamp (bs:byte[]) (pos:int) (len:int): TrdRegTimestamp =
     ReadFieldUTCTimestamp bs pos len TrdRegTimestamp.TrdRegTimestamp
 
 
-let ReadTrdRegTimestampTypeIdx (bs:byte[]) (pos:int) (len:int): TrdRegTimestampType =
+let ReadTrdRegTimestampType (bs:byte[]) (pos:int) (len:int): TrdRegTimestampType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4801,15 +4801,15 @@ let ReadTrdRegTimestampTypeIdx (bs:byte[]) (pos:int) (len:int): TrdRegTimestampT
     | x -> failwith (sprintf "ReadTrdRegTimestampType unknown fix tag: %A"  x) 
 
 
-let ReadTrdRegTimestampOriginIdx (bs:byte[]) (pos:int) (len:int): TrdRegTimestampOrigin =
+let ReadTrdRegTimestampOrigin (bs:byte[]) (pos:int) (len:int): TrdRegTimestampOrigin =
     ReadFieldStr bs pos len TrdRegTimestampOrigin.TrdRegTimestampOrigin
 
 
-let ReadConfirmRefIDIdx (bs:byte[]) (pos:int) (len:int): ConfirmRefID =
+let ReadConfirmRefID (bs:byte[]) (pos:int) (len:int): ConfirmRefID =
     ReadFieldStr bs pos len ConfirmRefID.ConfirmRefID
 
 
-let ReadConfirmTypeIdx (bs:byte[]) (pos:int) (len:int): ConfirmType =
+let ReadConfirmType (bs:byte[]) (pos:int) (len:int): ConfirmType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4819,7 +4819,7 @@ let ReadConfirmTypeIdx (bs:byte[]) (pos:int) (len:int): ConfirmType =
     | x -> failwith (sprintf "ReadConfirmType unknown fix tag: %A"  x) 
 
 
-let ReadConfirmRejReasonIdx (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
+let ReadConfirmRejReason (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4829,7 +4829,7 @@ let ReadConfirmRejReasonIdx (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
     | x -> failwith (sprintf "ReadConfirmRejReason unknown fix tag: %A"  x) 
 
 
-let ReadBookingTypeIdx (bs:byte[]) (pos:int) (len:int): BookingType =
+let ReadBookingType (bs:byte[]) (pos:int) (len:int): BookingType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4839,23 +4839,23 @@ let ReadBookingTypeIdx (bs:byte[]) (pos:int) (len:int): BookingType =
     | x -> failwith (sprintf "ReadBookingType unknown fix tag: %A"  x) 
 
 
-let ReadIndividualAllocRejCodeIdx (bs:byte[]) (pos:int) (len:int): IndividualAllocRejCode =
+let ReadIndividualAllocRejCode (bs:byte[]) (pos:int) (len:int): IndividualAllocRejCode =
     ReadFieldInt bs pos len IndividualAllocRejCode.IndividualAllocRejCode
 
 
-let ReadSettlInstMsgIDIdx (bs:byte[]) (pos:int) (len:int): SettlInstMsgID =
+let ReadSettlInstMsgID (bs:byte[]) (pos:int) (len:int): SettlInstMsgID =
     ReadFieldStr bs pos len SettlInstMsgID.SettlInstMsgID
 
 
-let ReadNoSettlInstIdx (bs:byte[]) (pos:int) (len:int): NoSettlInst =
+let ReadNoSettlInst (bs:byte[]) (pos:int) (len:int): NoSettlInst =
     ReadFieldInt bs pos len NoSettlInst.NoSettlInst
 
 
-let ReadLastUpdateTimeIdx (bs:byte[]) (pos:int) (len:int): LastUpdateTime =
+let ReadLastUpdateTime (bs:byte[]) (pos:int) (len:int): LastUpdateTime =
     ReadFieldUTCTimestamp bs pos len LastUpdateTime.LastUpdateTime
 
 
-let ReadAllocSettlInstTypeIdx (bs:byte[]) (pos:int) (len:int): AllocSettlInstType =
+let ReadAllocSettlInstType (bs:byte[]) (pos:int) (len:int): AllocSettlInstType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4867,31 +4867,31 @@ let ReadAllocSettlInstTypeIdx (bs:byte[]) (pos:int) (len:int): AllocSettlInstTyp
     | x -> failwith (sprintf "ReadAllocSettlInstType unknown fix tag: %A"  x) 
 
 
-let ReadNoSettlPartyIDsIdx (bs:byte[]) (pos:int) (len:int): NoSettlPartyIDs =
+let ReadNoSettlPartyIDs (bs:byte[]) (pos:int) (len:int): NoSettlPartyIDs =
     ReadFieldInt bs pos len NoSettlPartyIDs.NoSettlPartyIDs
 
 
-let ReadSettlPartyIDIdx (bs:byte[]) (pos:int) (len:int): SettlPartyID =
+let ReadSettlPartyID (bs:byte[]) (pos:int) (len:int): SettlPartyID =
     ReadFieldStr bs pos len SettlPartyID.SettlPartyID
 
 
-let ReadSettlPartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): SettlPartyIDSource =
+let ReadSettlPartyIDSource (bs:byte[]) (pos:int) (len:int): SettlPartyIDSource =
     ReadFieldChar bs pos len SettlPartyIDSource.SettlPartyIDSource
 
 
-let ReadSettlPartyRoleIdx (bs:byte[]) (pos:int) (len:int): SettlPartyRole =
+let ReadSettlPartyRole (bs:byte[]) (pos:int) (len:int): SettlPartyRole =
     ReadFieldInt bs pos len SettlPartyRole.SettlPartyRole
 
 
-let ReadSettlPartySubIDIdx (bs:byte[]) (pos:int) (len:int): SettlPartySubID =
+let ReadSettlPartySubID (bs:byte[]) (pos:int) (len:int): SettlPartySubID =
     ReadFieldStr bs pos len SettlPartySubID.SettlPartySubID
 
 
-let ReadSettlPartySubIDTypeIdx (bs:byte[]) (pos:int) (len:int): SettlPartySubIDType =
+let ReadSettlPartySubIDType (bs:byte[]) (pos:int) (len:int): SettlPartySubIDType =
     ReadFieldInt bs pos len SettlPartySubIDType.SettlPartySubIDType
 
 
-let ReadDlvyInstTypeIdx (bs:byte[]) (pos:int) (len:int): DlvyInstType =
+let ReadDlvyInstType (bs:byte[]) (pos:int) (len:int): DlvyInstType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4900,7 +4900,7 @@ let ReadDlvyInstTypeIdx (bs:byte[]) (pos:int) (len:int): DlvyInstType =
     | x -> failwith (sprintf "ReadDlvyInstType unknown fix tag: %A"  x) 
 
 
-let ReadTerminationTypeIdx (bs:byte[]) (pos:int) (len:int): TerminationType =
+let ReadTerminationType (bs:byte[]) (pos:int) (len:int): TerminationType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4911,19 +4911,19 @@ let ReadTerminationTypeIdx (bs:byte[]) (pos:int) (len:int): TerminationType =
     | x -> failwith (sprintf "ReadTerminationType unknown fix tag: %A"  x) 
 
 
-let ReadNextExpectedMsgSeqNumIdx (bs:byte[]) (pos:int) (len:int): NextExpectedMsgSeqNum =
+let ReadNextExpectedMsgSeqNum (bs:byte[]) (pos:int) (len:int): NextExpectedMsgSeqNum =
     ReadFieldUInt bs pos len NextExpectedMsgSeqNum.NextExpectedMsgSeqNum
 
 
-let ReadOrdStatusReqIDIdx (bs:byte[]) (pos:int) (len:int): OrdStatusReqID =
+let ReadOrdStatusReqID (bs:byte[]) (pos:int) (len:int): OrdStatusReqID =
     ReadFieldStr bs pos len OrdStatusReqID.OrdStatusReqID
 
 
-let ReadSettlInstReqIDIdx (bs:byte[]) (pos:int) (len:int): SettlInstReqID =
+let ReadSettlInstReqID (bs:byte[]) (pos:int) (len:int): SettlInstReqID =
     ReadFieldStr bs pos len SettlInstReqID.SettlInstReqID
 
 
-let ReadSettlInstReqRejCodeIdx (bs:byte[]) (pos:int) (len:int): SettlInstReqRejCode =
+let ReadSettlInstReqRejCode (bs:byte[]) (pos:int) (len:int): SettlInstReqRejCode =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4934,11 +4934,11 @@ let ReadSettlInstReqRejCodeIdx (bs:byte[]) (pos:int) (len:int): SettlInstReqRejC
     | x -> failwith (sprintf "ReadSettlInstReqRejCode unknown fix tag: %A"  x) 
 
 
-let ReadSecondaryAllocIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryAllocID =
+let ReadSecondaryAllocID (bs:byte[]) (pos:int) (len:int): SecondaryAllocID =
     ReadFieldStr bs pos len SecondaryAllocID.SecondaryAllocID
 
 
-let ReadAllocReportTypeIdx (bs:byte[]) (pos:int) (len:int): AllocReportType =
+let ReadAllocReportType (bs:byte[]) (pos:int) (len:int): AllocReportType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4949,11 +4949,11 @@ let ReadAllocReportTypeIdx (bs:byte[]) (pos:int) (len:int): AllocReportType =
     | x -> failwith (sprintf "ReadAllocReportType unknown fix tag: %A"  x) 
 
 
-let ReadAllocReportRefIDIdx (bs:byte[]) (pos:int) (len:int): AllocReportRefID =
+let ReadAllocReportRefID (bs:byte[]) (pos:int) (len:int): AllocReportRefID =
     ReadFieldStr bs pos len AllocReportRefID.AllocReportRefID
 
 
-let ReadAllocCancReplaceReasonIdx (bs:byte[]) (pos:int) (len:int): AllocCancReplaceReason =
+let ReadAllocCancReplaceReason (bs:byte[]) (pos:int) (len:int): AllocCancReplaceReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4962,11 +4962,11 @@ let ReadAllocCancReplaceReasonIdx (bs:byte[]) (pos:int) (len:int): AllocCancRepl
     | x -> failwith (sprintf "ReadAllocCancReplaceReason unknown fix tag: %A"  x) 
 
 
-let ReadCopyMsgIndicatorIdx (bs:byte[]) (pos:int) (len:int): CopyMsgIndicator =
+let ReadCopyMsgIndicator (bs:byte[]) (pos:int) (len:int): CopyMsgIndicator =
     ReadFieldBool bs pos len CopyMsgIndicator.CopyMsgIndicator
 
 
-let ReadAllocAccountTypeIdx (bs:byte[]) (pos:int) (len:int): AllocAccountType =
+let ReadAllocAccountType (bs:byte[]) (pos:int) (len:int): AllocAccountType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -4980,43 +4980,43 @@ let ReadAllocAccountTypeIdx (bs:byte[]) (pos:int) (len:int): AllocAccountType =
     | x -> failwith (sprintf "ReadAllocAccountType unknown fix tag: %A"  x) 
 
 
-let ReadOrderAvgPxIdx (bs:byte[]) (pos:int) (len:int): OrderAvgPx =
+let ReadOrderAvgPx (bs:byte[]) (pos:int) (len:int): OrderAvgPx =
     ReadFieldDecimal bs pos len OrderAvgPx.OrderAvgPx
 
 
-let ReadOrderBookingQtyIdx (bs:byte[]) (pos:int) (len:int): OrderBookingQty =
+let ReadOrderBookingQty (bs:byte[]) (pos:int) (len:int): OrderBookingQty =
     ReadFieldDecimal bs pos len OrderBookingQty.OrderBookingQty
 
 
-let ReadNoSettlPartySubIDsIdx (bs:byte[]) (pos:int) (len:int): NoSettlPartySubIDs =
+let ReadNoSettlPartySubIDs (bs:byte[]) (pos:int) (len:int): NoSettlPartySubIDs =
     ReadFieldInt bs pos len NoSettlPartySubIDs.NoSettlPartySubIDs
 
 
-let ReadNoPartySubIDsIdx (bs:byte[]) (pos:int) (len:int): NoPartySubIDs =
+let ReadNoPartySubIDs (bs:byte[]) (pos:int) (len:int): NoPartySubIDs =
     ReadFieldInt bs pos len NoPartySubIDs.NoPartySubIDs
 
 
-let ReadPartySubIDTypeIdx (bs:byte[]) (pos:int) (len:int): PartySubIDType =
+let ReadPartySubIDType (bs:byte[]) (pos:int) (len:int): PartySubIDType =
     ReadFieldInt bs pos len PartySubIDType.PartySubIDType
 
 
-let ReadNoNestedPartySubIDsIdx (bs:byte[]) (pos:int) (len:int): NoNestedPartySubIDs =
+let ReadNoNestedPartySubIDs (bs:byte[]) (pos:int) (len:int): NoNestedPartySubIDs =
     ReadFieldInt bs pos len NoNestedPartySubIDs.NoNestedPartySubIDs
 
 
-let ReadNestedPartySubIDTypeIdx (bs:byte[]) (pos:int) (len:int): NestedPartySubIDType =
+let ReadNestedPartySubIDType (bs:byte[]) (pos:int) (len:int): NestedPartySubIDType =
     ReadFieldInt bs pos len NestedPartySubIDType.NestedPartySubIDType
 
 
-let ReadNoNested2PartySubIDsIdx (bs:byte[]) (pos:int) (len:int): NoNested2PartySubIDs =
+let ReadNoNested2PartySubIDs (bs:byte[]) (pos:int) (len:int): NoNested2PartySubIDs =
     ReadFieldInt bs pos len NoNested2PartySubIDs.NoNested2PartySubIDs
 
 
-let ReadNested2PartySubIDTypeIdx (bs:byte[]) (pos:int) (len:int): Nested2PartySubIDType =
+let ReadNested2PartySubIDType (bs:byte[]) (pos:int) (len:int): Nested2PartySubIDType =
     ReadFieldInt bs pos len Nested2PartySubIDType.Nested2PartySubIDType
 
 
-let ReadAllocIntermedReqTypeIdx (bs:byte[]) (pos:int) (len:int): AllocIntermedReqType =
+let ReadAllocIntermedReqType (bs:byte[]) (pos:int) (len:int): AllocIntermedReqType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5029,23 +5029,23 @@ let ReadAllocIntermedReqTypeIdx (bs:byte[]) (pos:int) (len:int): AllocIntermedRe
     | x -> failwith (sprintf "ReadAllocIntermedReqType unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingPxIdx (bs:byte[]) (pos:int) (len:int): UnderlyingPx =
+let ReadUnderlyingPx (bs:byte[]) (pos:int) (len:int): UnderlyingPx =
     ReadFieldDecimal bs pos len UnderlyingPx.UnderlyingPx
 
 
-let ReadPriceDeltaIdx (bs:byte[]) (pos:int) (len:int): PriceDelta =
+let ReadPriceDelta (bs:byte[]) (pos:int) (len:int): PriceDelta =
     ReadFieldDecimal bs pos len PriceDelta.PriceDelta
 
 
-let ReadApplQueueMaxIdx (bs:byte[]) (pos:int) (len:int): ApplQueueMax =
+let ReadApplQueueMax (bs:byte[]) (pos:int) (len:int): ApplQueueMax =
     ReadFieldInt bs pos len ApplQueueMax.ApplQueueMax
 
 
-let ReadApplQueueDepthIdx (bs:byte[]) (pos:int) (len:int): ApplQueueDepth =
+let ReadApplQueueDepth (bs:byte[]) (pos:int) (len:int): ApplQueueDepth =
     ReadFieldInt bs pos len ApplQueueDepth.ApplQueueDepth
 
 
-let ReadApplQueueResolutionIdx (bs:byte[]) (pos:int) (len:int): ApplQueueResolution =
+let ReadApplQueueResolution (bs:byte[]) (pos:int) (len:int): ApplQueueResolution =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5056,7 +5056,7 @@ let ReadApplQueueResolutionIdx (bs:byte[]) (pos:int) (len:int): ApplQueueResolut
     | x -> failwith (sprintf "ReadApplQueueResolution unknown fix tag: %A"  x) 
 
 
-let ReadApplQueueActionIdx (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
+let ReadApplQueueAction (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5067,19 +5067,19 @@ let ReadApplQueueActionIdx (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
     | x -> failwith (sprintf "ReadApplQueueAction unknown fix tag: %A"  x) 
 
 
-let ReadNoAltMDSourceIdx (bs:byte[]) (pos:int) (len:int): NoAltMDSource =
+let ReadNoAltMDSource (bs:byte[]) (pos:int) (len:int): NoAltMDSource =
     ReadFieldInt bs pos len NoAltMDSource.NoAltMDSource
 
 
-let ReadAltMDSourceIDIdx (bs:byte[]) (pos:int) (len:int): AltMDSourceID =
+let ReadAltMDSourceID (bs:byte[]) (pos:int) (len:int): AltMDSourceID =
     ReadFieldStr bs pos len AltMDSourceID.AltMDSourceID
 
 
-let ReadSecondaryTradeReportIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryTradeReportID =
+let ReadSecondaryTradeReportID (bs:byte[]) (pos:int) (len:int): SecondaryTradeReportID =
     ReadFieldStr bs pos len SecondaryTradeReportID.SecondaryTradeReportID
 
 
-let ReadAvgPxIndicatorIdx (bs:byte[]) (pos:int) (len:int): AvgPxIndicator =
+let ReadAvgPxIndicator (bs:byte[]) (pos:int) (len:int): AvgPxIndicator =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5089,31 +5089,31 @@ let ReadAvgPxIndicatorIdx (bs:byte[]) (pos:int) (len:int): AvgPxIndicator =
     | x -> failwith (sprintf "ReadAvgPxIndicator unknown fix tag: %A"  x) 
 
 
-let ReadTradeLinkIDIdx (bs:byte[]) (pos:int) (len:int): TradeLinkID =
+let ReadTradeLinkID (bs:byte[]) (pos:int) (len:int): TradeLinkID =
     ReadFieldStr bs pos len TradeLinkID.TradeLinkID
 
 
-let ReadOrderInputDeviceIdx (bs:byte[]) (pos:int) (len:int): OrderInputDevice =
+let ReadOrderInputDevice (bs:byte[]) (pos:int) (len:int): OrderInputDevice =
     ReadFieldStr bs pos len OrderInputDevice.OrderInputDevice
 
 
-let ReadUnderlyingTradingSessionIDIdx (bs:byte[]) (pos:int) (len:int): UnderlyingTradingSessionID =
+let ReadUnderlyingTradingSessionID (bs:byte[]) (pos:int) (len:int): UnderlyingTradingSessionID =
     ReadFieldStr bs pos len UnderlyingTradingSessionID.UnderlyingTradingSessionID
 
 
-let ReadUnderlyingTradingSessionSubIDIdx (bs:byte[]) (pos:int) (len:int): UnderlyingTradingSessionSubID =
+let ReadUnderlyingTradingSessionSubID (bs:byte[]) (pos:int) (len:int): UnderlyingTradingSessionSubID =
     ReadFieldStr bs pos len UnderlyingTradingSessionSubID.UnderlyingTradingSessionSubID
 
 
-let ReadTradeLegRefIDIdx (bs:byte[]) (pos:int) (len:int): TradeLegRefID =
+let ReadTradeLegRefID (bs:byte[]) (pos:int) (len:int): TradeLegRefID =
     ReadFieldStr bs pos len TradeLegRefID.TradeLegRefID
 
 
-let ReadExchangeRuleIdx (bs:byte[]) (pos:int) (len:int): ExchangeRule =
+let ReadExchangeRule (bs:byte[]) (pos:int) (len:int): ExchangeRule =
     ReadFieldStr bs pos len ExchangeRule.ExchangeRule
 
 
-let ReadTradeAllocIndicatorIdx (bs:byte[]) (pos:int) (len:int): TradeAllocIndicator =
+let ReadTradeAllocIndicator (bs:byte[]) (pos:int) (len:int): TradeAllocIndicator =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5123,7 +5123,7 @@ let ReadTradeAllocIndicatorIdx (bs:byte[]) (pos:int) (len:int): TradeAllocIndica
     | x -> failwith (sprintf "ReadTradeAllocIndicator unknown fix tag: %A"  x) 
 
 
-let ReadExpirationCycleIdx (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
+let ReadExpirationCycle (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5132,7 +5132,7 @@ let ReadExpirationCycleIdx (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
     | x -> failwith (sprintf "ReadExpirationCycle unknown fix tag: %A"  x) 
 
 
-let ReadTrdTypeIdx (bs:byte[]) (pos:int) (len:int): TrdType =
+let ReadTrdType (bs:byte[]) (pos:int) (len:int): TrdType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5150,31 +5150,31 @@ let ReadTrdTypeIdx (bs:byte[]) (pos:int) (len:int): TrdType =
     | x -> failwith (sprintf "ReadTrdType unknown fix tag: %A"  x) 
 
 
-let ReadTrdSubTypeIdx (bs:byte[]) (pos:int) (len:int): TrdSubType =
+let ReadTrdSubType (bs:byte[]) (pos:int) (len:int): TrdSubType =
     ReadFieldInt bs pos len TrdSubType.TrdSubType
 
 
-let ReadTransferReasonIdx (bs:byte[]) (pos:int) (len:int): TransferReason =
+let ReadTransferReason (bs:byte[]) (pos:int) (len:int): TransferReason =
     ReadFieldStr bs pos len TransferReason.TransferReason
 
 
-let ReadAsgnReqIDIdx (bs:byte[]) (pos:int) (len:int): AsgnReqID =
+let ReadAsgnReqID (bs:byte[]) (pos:int) (len:int): AsgnReqID =
     ReadFieldStr bs pos len AsgnReqID.AsgnReqID
 
 
-let ReadTotNumAssignmentReportsIdx (bs:byte[]) (pos:int) (len:int): TotNumAssignmentReports =
+let ReadTotNumAssignmentReports (bs:byte[]) (pos:int) (len:int): TotNumAssignmentReports =
     ReadFieldInt bs pos len TotNumAssignmentReports.TotNumAssignmentReports
 
 
-let ReadAsgnRptIDIdx (bs:byte[]) (pos:int) (len:int): AsgnRptID =
+let ReadAsgnRptID (bs:byte[]) (pos:int) (len:int): AsgnRptID =
     ReadFieldStr bs pos len AsgnRptID.AsgnRptID
 
 
-let ReadThresholdAmountIdx (bs:byte[]) (pos:int) (len:int): ThresholdAmount =
+let ReadThresholdAmount (bs:byte[]) (pos:int) (len:int): ThresholdAmount =
     ReadFieldDecimal bs pos len ThresholdAmount.ThresholdAmount
 
 
-let ReadPegMoveTypeIdx (bs:byte[]) (pos:int) (len:int): PegMoveType =
+let ReadPegMoveType (bs:byte[]) (pos:int) (len:int): PegMoveType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5183,7 +5183,7 @@ let ReadPegMoveTypeIdx (bs:byte[]) (pos:int) (len:int): PegMoveType =
     | x -> failwith (sprintf "ReadPegMoveType unknown fix tag: %A"  x) 
 
 
-let ReadPegOffsetTypeIdx (bs:byte[]) (pos:int) (len:int): PegOffsetType =
+let ReadPegOffsetType (bs:byte[]) (pos:int) (len:int): PegOffsetType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5194,7 +5194,7 @@ let ReadPegOffsetTypeIdx (bs:byte[]) (pos:int) (len:int): PegOffsetType =
     | x -> failwith (sprintf "ReadPegOffsetType unknown fix tag: %A"  x) 
 
 
-let ReadPegLimitTypeIdx (bs:byte[]) (pos:int) (len:int): PegLimitType =
+let ReadPegLimitType (bs:byte[]) (pos:int) (len:int): PegLimitType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5204,7 +5204,7 @@ let ReadPegLimitTypeIdx (bs:byte[]) (pos:int) (len:int): PegLimitType =
     | x -> failwith (sprintf "ReadPegLimitType unknown fix tag: %A"  x) 
 
 
-let ReadPegRoundDirectionIdx (bs:byte[]) (pos:int) (len:int): PegRoundDirection =
+let ReadPegRoundDirection (bs:byte[]) (pos:int) (len:int): PegRoundDirection =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5213,11 +5213,11 @@ let ReadPegRoundDirectionIdx (bs:byte[]) (pos:int) (len:int): PegRoundDirection 
     | x -> failwith (sprintf "ReadPegRoundDirection unknown fix tag: %A"  x) 
 
 
-let ReadPeggedPriceIdx (bs:byte[]) (pos:int) (len:int): PeggedPrice =
+let ReadPeggedPrice (bs:byte[]) (pos:int) (len:int): PeggedPrice =
     ReadFieldDecimal bs pos len PeggedPrice.PeggedPrice
 
 
-let ReadPegScopeIdx (bs:byte[]) (pos:int) (len:int): PegScope =
+let ReadPegScope (bs:byte[]) (pos:int) (len:int): PegScope =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5228,7 +5228,7 @@ let ReadPegScopeIdx (bs:byte[]) (pos:int) (len:int): PegScope =
     | x -> failwith (sprintf "ReadPegScope unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionMoveTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
+let ReadDiscretionMoveType (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5237,7 +5237,7 @@ let ReadDiscretionMoveTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionMoveTyp
     | x -> failwith (sprintf "ReadDiscretionMoveType unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionOffsetTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionOffsetType =
+let ReadDiscretionOffsetType (bs:byte[]) (pos:int) (len:int): DiscretionOffsetType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5248,7 +5248,7 @@ let ReadDiscretionOffsetTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionOffse
     | x -> failwith (sprintf "ReadDiscretionOffsetType unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionLimitTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionLimitType =
+let ReadDiscretionLimitType (bs:byte[]) (pos:int) (len:int): DiscretionLimitType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5258,7 +5258,7 @@ let ReadDiscretionLimitTypeIdx (bs:byte[]) (pos:int) (len:int): DiscretionLimitT
     | x -> failwith (sprintf "ReadDiscretionLimitType unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionRoundDirectionIdx (bs:byte[]) (pos:int) (len:int): DiscretionRoundDirection =
+let ReadDiscretionRoundDirection (bs:byte[]) (pos:int) (len:int): DiscretionRoundDirection =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5267,11 +5267,11 @@ let ReadDiscretionRoundDirectionIdx (bs:byte[]) (pos:int) (len:int): DiscretionR
     | x -> failwith (sprintf "ReadDiscretionRoundDirection unknown fix tag: %A"  x) 
 
 
-let ReadDiscretionPriceIdx (bs:byte[]) (pos:int) (len:int): DiscretionPrice =
+let ReadDiscretionPrice (bs:byte[]) (pos:int) (len:int): DiscretionPrice =
     ReadFieldDecimal bs pos len DiscretionPrice.DiscretionPrice
 
 
-let ReadDiscretionScopeIdx (bs:byte[]) (pos:int) (len:int): DiscretionScope =
+let ReadDiscretionScope (bs:byte[]) (pos:int) (len:int): DiscretionScope =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5282,23 +5282,23 @@ let ReadDiscretionScopeIdx (bs:byte[]) (pos:int) (len:int): DiscretionScope =
     | x -> failwith (sprintf "ReadDiscretionScope unknown fix tag: %A"  x) 
 
 
-let ReadTargetStrategyIdx (bs:byte[]) (pos:int) (len:int): TargetStrategy =
+let ReadTargetStrategy (bs:byte[]) (pos:int) (len:int): TargetStrategy =
     ReadFieldInt bs pos len TargetStrategy.TargetStrategy
 
 
-let ReadTargetStrategyParametersIdx (bs:byte[]) (pos:int) (len:int): TargetStrategyParameters =
+let ReadTargetStrategyParameters (bs:byte[]) (pos:int) (len:int): TargetStrategyParameters =
     ReadFieldStr bs pos len TargetStrategyParameters.TargetStrategyParameters
 
 
-let ReadParticipationRateIdx (bs:byte[]) (pos:int) (len:int): ParticipationRate =
+let ReadParticipationRate (bs:byte[]) (pos:int) (len:int): ParticipationRate =
     ReadFieldDecimal bs pos len ParticipationRate.ParticipationRate
 
 
-let ReadTargetStrategyPerformanceIdx (bs:byte[]) (pos:int) (len:int): TargetStrategyPerformance =
+let ReadTargetStrategyPerformance (bs:byte[]) (pos:int) (len:int): TargetStrategyPerformance =
     ReadFieldDecimal bs pos len TargetStrategyPerformance.TargetStrategyPerformance
 
 
-let ReadLastLiquidityIndIdx (bs:byte[]) (pos:int) (len:int): LastLiquidityInd =
+let ReadLastLiquidityInd (bs:byte[]) (pos:int) (len:int): LastLiquidityInd =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5308,11 +5308,11 @@ let ReadLastLiquidityIndIdx (bs:byte[]) (pos:int) (len:int): LastLiquidityInd =
     | x -> failwith (sprintf "ReadLastLiquidityInd unknown fix tag: %A"  x) 
 
 
-let ReadPublishTrdIndicatorIdx (bs:byte[]) (pos:int) (len:int): PublishTrdIndicator =
+let ReadPublishTrdIndicator (bs:byte[]) (pos:int) (len:int): PublishTrdIndicator =
     ReadFieldBool bs pos len PublishTrdIndicator.PublishTrdIndicator
 
 
-let ReadShortSaleReasonIdx (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
+let ReadShortSaleReason (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5325,7 +5325,7 @@ let ReadShortSaleReasonIdx (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
     | x -> failwith (sprintf "ReadShortSaleReason unknown fix tag: %A"  x) 
 
 
-let ReadQtyTypeIdx (bs:byte[]) (pos:int) (len:int): QtyType =
+let ReadQtyType (bs:byte[]) (pos:int) (len:int): QtyType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5334,11 +5334,11 @@ let ReadQtyTypeIdx (bs:byte[]) (pos:int) (len:int): QtyType =
     | x -> failwith (sprintf "ReadQtyType unknown fix tag: %A"  x) 
 
 
-let ReadSecondaryTrdTypeIdx (bs:byte[]) (pos:int) (len:int): SecondaryTrdType =
+let ReadSecondaryTrdType (bs:byte[]) (pos:int) (len:int): SecondaryTrdType =
     ReadFieldInt bs pos len SecondaryTrdType.SecondaryTrdType
 
 
-let ReadTradeReportTypeIdx (bs:byte[]) (pos:int) (len:int): TradeReportType =
+let ReadTradeReportType (bs:byte[]) (pos:int) (len:int): TradeReportType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5353,7 +5353,7 @@ let ReadTradeReportTypeIdx (bs:byte[]) (pos:int) (len:int): TradeReportType =
     | x -> failwith (sprintf "ReadTradeReportType unknown fix tag: %A"  x) 
 
 
-let ReadAllocNoOrdersTypeIdx (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType =
+let ReadAllocNoOrdersType (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5362,35 +5362,35 @@ let ReadAllocNoOrdersTypeIdx (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType 
     | x -> failwith (sprintf "ReadAllocNoOrdersType unknown fix tag: %A"  x) 
 
 
-let ReadSharedCommissionIdx (bs:byte[]) (pos:int) (len:int): SharedCommission =
+let ReadSharedCommission (bs:byte[]) (pos:int) (len:int): SharedCommission =
     ReadFieldDecimal bs pos len SharedCommission.SharedCommission
 
 
-let ReadConfirmReqIDIdx (bs:byte[]) (pos:int) (len:int): ConfirmReqID =
+let ReadConfirmReqID (bs:byte[]) (pos:int) (len:int): ConfirmReqID =
     ReadFieldStr bs pos len ConfirmReqID.ConfirmReqID
 
 
-let ReadAvgParPxIdx (bs:byte[]) (pos:int) (len:int): AvgParPx =
+let ReadAvgParPx (bs:byte[]) (pos:int) (len:int): AvgParPx =
     ReadFieldDecimal bs pos len AvgParPx.AvgParPx
 
 
-let ReadReportedPxIdx (bs:byte[]) (pos:int) (len:int): ReportedPx =
+let ReadReportedPx (bs:byte[]) (pos:int) (len:int): ReportedPx =
     ReadFieldDecimal bs pos len ReportedPx.ReportedPx
 
 
-let ReadNoCapacitiesIdx (bs:byte[]) (pos:int) (len:int): NoCapacities =
+let ReadNoCapacities (bs:byte[]) (pos:int) (len:int): NoCapacities =
     ReadFieldInt bs pos len NoCapacities.NoCapacities
 
 
-let ReadOrderCapacityQtyIdx (bs:byte[]) (pos:int) (len:int): OrderCapacityQty =
+let ReadOrderCapacityQty (bs:byte[]) (pos:int) (len:int): OrderCapacityQty =
     ReadFieldDecimal bs pos len OrderCapacityQty.OrderCapacityQty
 
 
-let ReadNoEventsIdx (bs:byte[]) (pos:int) (len:int): NoEvents =
+let ReadNoEvents (bs:byte[]) (pos:int) (len:int): NoEvents =
     ReadFieldInt bs pos len NoEvents.NoEvents
 
 
-let ReadEventTypeIdx (bs:byte[]) (pos:int) (len:int): EventType =
+let ReadEventType (bs:byte[]) (pos:int) (len:int): EventType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5402,27 +5402,27 @@ let ReadEventTypeIdx (bs:byte[]) (pos:int) (len:int): EventType =
     | x -> failwith (sprintf "ReadEventType unknown fix tag: %A"  x) 
 
 
-let ReadEventDateIdx (bs:byte[]) (pos:int) (len:int): EventDate =
+let ReadEventDate (bs:byte[]) (pos:int) (len:int): EventDate =
     ReadFieldLocalMktDate bs pos len EventDate.EventDate
 
 
-let ReadEventPxIdx (bs:byte[]) (pos:int) (len:int): EventPx =
+let ReadEventPx (bs:byte[]) (pos:int) (len:int): EventPx =
     ReadFieldDecimal bs pos len EventPx.EventPx
 
 
-let ReadEventTextIdx (bs:byte[]) (pos:int) (len:int): EventText =
+let ReadEventText (bs:byte[]) (pos:int) (len:int): EventText =
     ReadFieldStr bs pos len EventText.EventText
 
 
-let ReadPctAtRiskIdx (bs:byte[]) (pos:int) (len:int): PctAtRisk =
+let ReadPctAtRisk (bs:byte[]) (pos:int) (len:int): PctAtRisk =
     ReadFieldDecimal bs pos len PctAtRisk.PctAtRisk
 
 
-let ReadNoInstrAttribIdx (bs:byte[]) (pos:int) (len:int): NoInstrAttrib =
+let ReadNoInstrAttrib (bs:byte[]) (pos:int) (len:int): NoInstrAttrib =
     ReadFieldInt bs pos len NoInstrAttrib.NoInstrAttrib
 
 
-let ReadInstrAttribTypeIdx (bs:byte[]) (pos:int) (len:int): InstrAttribType =
+let ReadInstrAttribType (bs:byte[]) (pos:int) (len:int): InstrAttribType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5452,83 +5452,83 @@ let ReadInstrAttribTypeIdx (bs:byte[]) (pos:int) (len:int): InstrAttribType =
     | x -> failwith (sprintf "ReadInstrAttribType unknown fix tag: %A"  x) 
 
 
-let ReadInstrAttribValueIdx (bs:byte[]) (pos:int) (len:int): InstrAttribValue =
+let ReadInstrAttribValue (bs:byte[]) (pos:int) (len:int): InstrAttribValue =
     ReadFieldStr bs pos len InstrAttribValue.InstrAttribValue
 
 
-let ReadDatedDateIdx (bs:byte[]) (pos:int) (len:int): DatedDate =
+let ReadDatedDate (bs:byte[]) (pos:int) (len:int): DatedDate =
     ReadFieldLocalMktDate bs pos len DatedDate.DatedDate
 
 
-let ReadInterestAccrualDateIdx (bs:byte[]) (pos:int) (len:int): InterestAccrualDate =
+let ReadInterestAccrualDate (bs:byte[]) (pos:int) (len:int): InterestAccrualDate =
     ReadFieldLocalMktDate bs pos len InterestAccrualDate.InterestAccrualDate
 
 
-let ReadCPProgramIdx (bs:byte[]) (pos:int) (len:int): CPProgram =
+let ReadCPProgram (bs:byte[]) (pos:int) (len:int): CPProgram =
     ReadFieldInt bs pos len CPProgram.CPProgram
 
 
-let ReadCPRegTypeIdx (bs:byte[]) (pos:int) (len:int): CPRegType =
+let ReadCPRegType (bs:byte[]) (pos:int) (len:int): CPRegType =
     ReadFieldStr bs pos len CPRegType.CPRegType
 
 
-let ReadUnderlyingCPProgramIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCPProgram =
+let ReadUnderlyingCPProgram (bs:byte[]) (pos:int) (len:int): UnderlyingCPProgram =
     ReadFieldStr bs pos len UnderlyingCPProgram.UnderlyingCPProgram
 
 
-let ReadUnderlyingCPRegTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCPRegType =
+let ReadUnderlyingCPRegType (bs:byte[]) (pos:int) (len:int): UnderlyingCPRegType =
     ReadFieldStr bs pos len UnderlyingCPRegType.UnderlyingCPRegType
 
 
-let ReadUnderlyingQtyIdx (bs:byte[]) (pos:int) (len:int): UnderlyingQty =
+let ReadUnderlyingQty (bs:byte[]) (pos:int) (len:int): UnderlyingQty =
     ReadFieldDecimal bs pos len UnderlyingQty.UnderlyingQty
 
 
-let ReadTrdMatchIDIdx (bs:byte[]) (pos:int) (len:int): TrdMatchID =
+let ReadTrdMatchID (bs:byte[]) (pos:int) (len:int): TrdMatchID =
     ReadFieldStr bs pos len TrdMatchID.TrdMatchID
 
 
-let ReadSecondaryTradeReportRefIDIdx (bs:byte[]) (pos:int) (len:int): SecondaryTradeReportRefID =
+let ReadSecondaryTradeReportRefID (bs:byte[]) (pos:int) (len:int): SecondaryTradeReportRefID =
     ReadFieldStr bs pos len SecondaryTradeReportRefID.SecondaryTradeReportRefID
 
 
-let ReadUnderlyingDirtyPriceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingDirtyPrice =
+let ReadUnderlyingDirtyPrice (bs:byte[]) (pos:int) (len:int): UnderlyingDirtyPrice =
     ReadFieldDecimal bs pos len UnderlyingDirtyPrice.UnderlyingDirtyPrice
 
 
-let ReadUnderlyingEndPriceIdx (bs:byte[]) (pos:int) (len:int): UnderlyingEndPrice =
+let ReadUnderlyingEndPrice (bs:byte[]) (pos:int) (len:int): UnderlyingEndPrice =
     ReadFieldDecimal bs pos len UnderlyingEndPrice.UnderlyingEndPrice
 
 
-let ReadUnderlyingStartValueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStartValue =
+let ReadUnderlyingStartValue (bs:byte[]) (pos:int) (len:int): UnderlyingStartValue =
     ReadFieldDecimal bs pos len UnderlyingStartValue.UnderlyingStartValue
 
 
-let ReadUnderlyingCurrentValueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingCurrentValue =
+let ReadUnderlyingCurrentValue (bs:byte[]) (pos:int) (len:int): UnderlyingCurrentValue =
     ReadFieldDecimal bs pos len UnderlyingCurrentValue.UnderlyingCurrentValue
 
 
-let ReadUnderlyingEndValueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingEndValue =
+let ReadUnderlyingEndValue (bs:byte[]) (pos:int) (len:int): UnderlyingEndValue =
     ReadFieldDecimal bs pos len UnderlyingEndValue.UnderlyingEndValue
 
 
-let ReadNoUnderlyingStipsIdx (bs:byte[]) (pos:int) (len:int): NoUnderlyingStips =
+let ReadNoUnderlyingStips (bs:byte[]) (pos:int) (len:int): NoUnderlyingStips =
     ReadFieldInt bs pos len NoUnderlyingStips.NoUnderlyingStips
 
 
-let ReadUnderlyingStipTypeIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStipType =
+let ReadUnderlyingStipType (bs:byte[]) (pos:int) (len:int): UnderlyingStipType =
     ReadFieldStr bs pos len UnderlyingStipType.UnderlyingStipType
 
 
-let ReadUnderlyingStipValueIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStipValue =
+let ReadUnderlyingStipValue (bs:byte[]) (pos:int) (len:int): UnderlyingStipValue =
     ReadFieldStr bs pos len UnderlyingStipValue.UnderlyingStipValue
 
 
-let ReadMaturityNetMoneyIdx (bs:byte[]) (pos:int) (len:int): MaturityNetMoney =
+let ReadMaturityNetMoney (bs:byte[]) (pos:int) (len:int): MaturityNetMoney =
     ReadFieldDecimal bs pos len MaturityNetMoney.MaturityNetMoney
 
 
-let ReadMiscFeeBasisIdx (bs:byte[]) (pos:int) (len:int): MiscFeeBasis =
+let ReadMiscFeeBasis (bs:byte[]) (pos:int) (len:int): MiscFeeBasis =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5538,19 +5538,19 @@ let ReadMiscFeeBasisIdx (bs:byte[]) (pos:int) (len:int): MiscFeeBasis =
     | x -> failwith (sprintf "ReadMiscFeeBasis unknown fix tag: %A"  x) 
 
 
-let ReadTotNoAllocsIdx (bs:byte[]) (pos:int) (len:int): TotNoAllocs =
+let ReadTotNoAllocs (bs:byte[]) (pos:int) (len:int): TotNoAllocs =
     ReadFieldInt bs pos len TotNoAllocs.TotNoAllocs
 
 
-let ReadLastFragmentIdx (bs:byte[]) (pos:int) (len:int): LastFragment =
+let ReadLastFragment (bs:byte[]) (pos:int) (len:int): LastFragment =
     ReadFieldBool bs pos len LastFragment.LastFragment
 
 
-let ReadCollReqIDIdx (bs:byte[]) (pos:int) (len:int): CollReqID =
+let ReadCollReqID (bs:byte[]) (pos:int) (len:int): CollReqID =
     ReadFieldStr bs pos len CollReqID.CollReqID
 
 
-let ReadCollAsgnReasonIdx (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
+let ReadCollAsgnReason (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5565,7 +5565,7 @@ let ReadCollAsgnReasonIdx (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
     | x -> failwith (sprintf "ReadCollAsgnReason unknown fix tag: %A"  x) 
 
 
-let ReadCollInquiryQualifierIdx (bs:byte[]) (pos:int) (len:int): CollInquiryQualifier =
+let ReadCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): CollInquiryQualifier =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5580,31 +5580,31 @@ let ReadCollInquiryQualifierIdx (bs:byte[]) (pos:int) (len:int): CollInquiryQual
     | x -> failwith (sprintf "ReadCollInquiryQualifier unknown fix tag: %A"  x) 
 
 
-let ReadNoTradesIdx (bs:byte[]) (pos:int) (len:int): NoTrades =
+let ReadNoTrades (bs:byte[]) (pos:int) (len:int): NoTrades =
     ReadFieldInt bs pos len NoTrades.NoTrades
 
 
-let ReadMarginRatioIdx (bs:byte[]) (pos:int) (len:int): MarginRatio =
+let ReadMarginRatio (bs:byte[]) (pos:int) (len:int): MarginRatio =
     ReadFieldDecimal bs pos len MarginRatio.MarginRatio
 
 
-let ReadMarginExcessIdx (bs:byte[]) (pos:int) (len:int): MarginExcess =
+let ReadMarginExcess (bs:byte[]) (pos:int) (len:int): MarginExcess =
     ReadFieldDecimal bs pos len MarginExcess.MarginExcess
 
 
-let ReadTotalNetValueIdx (bs:byte[]) (pos:int) (len:int): TotalNetValue =
+let ReadTotalNetValue (bs:byte[]) (pos:int) (len:int): TotalNetValue =
     ReadFieldDecimal bs pos len TotalNetValue.TotalNetValue
 
 
-let ReadCashOutstandingIdx (bs:byte[]) (pos:int) (len:int): CashOutstanding =
+let ReadCashOutstanding (bs:byte[]) (pos:int) (len:int): CashOutstanding =
     ReadFieldDecimal bs pos len CashOutstanding.CashOutstanding
 
 
-let ReadCollAsgnIDIdx (bs:byte[]) (pos:int) (len:int): CollAsgnID =
+let ReadCollAsgnID (bs:byte[]) (pos:int) (len:int): CollAsgnID =
     ReadFieldStr bs pos len CollAsgnID.CollAsgnID
 
 
-let ReadCollAsgnTransTypeIdx (bs:byte[]) (pos:int) (len:int): CollAsgnTransType =
+let ReadCollAsgnTransType (bs:byte[]) (pos:int) (len:int): CollAsgnTransType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5616,11 +5616,11 @@ let ReadCollAsgnTransTypeIdx (bs:byte[]) (pos:int) (len:int): CollAsgnTransType 
     | x -> failwith (sprintf "ReadCollAsgnTransType unknown fix tag: %A"  x) 
 
 
-let ReadCollRespIDIdx (bs:byte[]) (pos:int) (len:int): CollRespID =
+let ReadCollRespID (bs:byte[]) (pos:int) (len:int): CollRespID =
     ReadFieldStr bs pos len CollRespID.CollRespID
 
 
-let ReadCollAsgnRespTypeIdx (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
+let ReadCollAsgnRespType (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5631,7 +5631,7 @@ let ReadCollAsgnRespTypeIdx (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
     | x -> failwith (sprintf "ReadCollAsgnRespType unknown fix tag: %A"  x) 
 
 
-let ReadCollAsgnRejectReasonIdx (bs:byte[]) (pos:int) (len:int): CollAsgnRejectReason =
+let ReadCollAsgnRejectReason (bs:byte[]) (pos:int) (len:int): CollAsgnRejectReason =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5645,19 +5645,19 @@ let ReadCollAsgnRejectReasonIdx (bs:byte[]) (pos:int) (len:int): CollAsgnRejectR
     | x -> failwith (sprintf "ReadCollAsgnRejectReason unknown fix tag: %A"  x) 
 
 
-let ReadCollAsgnRefIDIdx (bs:byte[]) (pos:int) (len:int): CollAsgnRefID =
+let ReadCollAsgnRefID (bs:byte[]) (pos:int) (len:int): CollAsgnRefID =
     ReadFieldStr bs pos len CollAsgnRefID.CollAsgnRefID
 
 
-let ReadCollRptIDIdx (bs:byte[]) (pos:int) (len:int): CollRptID =
+let ReadCollRptID (bs:byte[]) (pos:int) (len:int): CollRptID =
     ReadFieldStr bs pos len CollRptID.CollRptID
 
 
-let ReadCollInquiryIDIdx (bs:byte[]) (pos:int) (len:int): CollInquiryID =
+let ReadCollInquiryID (bs:byte[]) (pos:int) (len:int): CollInquiryID =
     ReadFieldStr bs pos len CollInquiryID.CollInquiryID
 
 
-let ReadCollStatusIdx (bs:byte[]) (pos:int) (len:int): CollStatus =
+let ReadCollStatus (bs:byte[]) (pos:int) (len:int): CollStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5669,39 +5669,39 @@ let ReadCollStatusIdx (bs:byte[]) (pos:int) (len:int): CollStatus =
     | x -> failwith (sprintf "ReadCollStatus unknown fix tag: %A"  x) 
 
 
-let ReadTotNumReportsIdx (bs:byte[]) (pos:int) (len:int): TotNumReports =
+let ReadTotNumReports (bs:byte[]) (pos:int) (len:int): TotNumReports =
     ReadFieldInt bs pos len TotNumReports.TotNumReports
 
 
-let ReadLastRptRequestedIdx (bs:byte[]) (pos:int) (len:int): LastRptRequested =
+let ReadLastRptRequested (bs:byte[]) (pos:int) (len:int): LastRptRequested =
     ReadFieldBool bs pos len LastRptRequested.LastRptRequested
 
 
-let ReadAgreementDescIdx (bs:byte[]) (pos:int) (len:int): AgreementDesc =
+let ReadAgreementDesc (bs:byte[]) (pos:int) (len:int): AgreementDesc =
     ReadFieldStr bs pos len AgreementDesc.AgreementDesc
 
 
-let ReadAgreementIDIdx (bs:byte[]) (pos:int) (len:int): AgreementID =
+let ReadAgreementID (bs:byte[]) (pos:int) (len:int): AgreementID =
     ReadFieldStr bs pos len AgreementID.AgreementID
 
 
-let ReadAgreementDateIdx (bs:byte[]) (pos:int) (len:int): AgreementDate =
+let ReadAgreementDate (bs:byte[]) (pos:int) (len:int): AgreementDate =
     ReadFieldLocalMktDate bs pos len AgreementDate.AgreementDate
 
 
-let ReadStartDateIdx (bs:byte[]) (pos:int) (len:int): StartDate =
+let ReadStartDate (bs:byte[]) (pos:int) (len:int): StartDate =
     ReadFieldLocalMktDate bs pos len StartDate.StartDate
 
 
-let ReadEndDateIdx (bs:byte[]) (pos:int) (len:int): EndDate =
+let ReadEndDate (bs:byte[]) (pos:int) (len:int): EndDate =
     ReadFieldLocalMktDate bs pos len EndDate.EndDate
 
 
-let ReadAgreementCurrencyIdx (bs:byte[]) (pos:int) (len:int): AgreementCurrency =
+let ReadAgreementCurrency (bs:byte[]) (pos:int) (len:int): AgreementCurrency =
     ReadFieldStr bs pos len AgreementCurrency.AgreementCurrency
 
 
-let ReadDeliveryTypeIdx (bs:byte[]) (pos:int) (len:int): DeliveryType =
+let ReadDeliveryType (bs:byte[]) (pos:int) (len:int): DeliveryType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5712,23 +5712,23 @@ let ReadDeliveryTypeIdx (bs:byte[]) (pos:int) (len:int): DeliveryType =
     | x -> failwith (sprintf "ReadDeliveryType unknown fix tag: %A"  x) 
 
 
-let ReadEndAccruedInterestAmtIdx (bs:byte[]) (pos:int) (len:int): EndAccruedInterestAmt =
+let ReadEndAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): EndAccruedInterestAmt =
     ReadFieldDecimal bs pos len EndAccruedInterestAmt.EndAccruedInterestAmt
 
 
-let ReadStartCashIdx (bs:byte[]) (pos:int) (len:int): StartCash =
+let ReadStartCash (bs:byte[]) (pos:int) (len:int): StartCash =
     ReadFieldDecimal bs pos len StartCash.StartCash
 
 
-let ReadEndCashIdx (bs:byte[]) (pos:int) (len:int): EndCash =
+let ReadEndCash (bs:byte[]) (pos:int) (len:int): EndCash =
     ReadFieldDecimal bs pos len EndCash.EndCash
 
 
-let ReadUserRequestIDIdx (bs:byte[]) (pos:int) (len:int): UserRequestID =
+let ReadUserRequestID (bs:byte[]) (pos:int) (len:int): UserRequestID =
     ReadFieldStr bs pos len UserRequestID.UserRequestID
 
 
-let ReadUserRequestTypeIdx (bs:byte[]) (pos:int) (len:int): UserRequestType =
+let ReadUserRequestType (bs:byte[]) (pos:int) (len:int): UserRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5739,11 +5739,11 @@ let ReadUserRequestTypeIdx (bs:byte[]) (pos:int) (len:int): UserRequestType =
     | x -> failwith (sprintf "ReadUserRequestType unknown fix tag: %A"  x) 
 
 
-let ReadNewPasswordIdx (bs:byte[]) (pos:int) (len:int): NewPassword =
+let ReadNewPassword (bs:byte[]) (pos:int) (len:int): NewPassword =
     ReadFieldStr bs pos len NewPassword.NewPassword
 
 
-let ReadUserStatusIdx (bs:byte[]) (pos:int) (len:int): UserStatus =
+let ReadUserStatus (bs:byte[]) (pos:int) (len:int): UserStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5756,11 +5756,11 @@ let ReadUserStatusIdx (bs:byte[]) (pos:int) (len:int): UserStatus =
     | x -> failwith (sprintf "ReadUserStatus unknown fix tag: %A"  x) 
 
 
-let ReadUserStatusTextIdx (bs:byte[]) (pos:int) (len:int): UserStatusText =
+let ReadUserStatusText (bs:byte[]) (pos:int) (len:int): UserStatusText =
     ReadFieldStr bs pos len UserStatusText.UserStatusText
 
 
-let ReadStatusValueIdx (bs:byte[]) (pos:int) (len:int): StatusValue =
+let ReadStatusValue (bs:byte[]) (pos:int) (len:int): StatusValue =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5771,31 +5771,31 @@ let ReadStatusValueIdx (bs:byte[]) (pos:int) (len:int): StatusValue =
     | x -> failwith (sprintf "ReadStatusValue unknown fix tag: %A"  x) 
 
 
-let ReadStatusTextIdx (bs:byte[]) (pos:int) (len:int): StatusText =
+let ReadStatusText (bs:byte[]) (pos:int) (len:int): StatusText =
     ReadFieldStr bs pos len StatusText.StatusText
 
 
-let ReadRefCompIDIdx (bs:byte[]) (pos:int) (len:int): RefCompID =
+let ReadRefCompID (bs:byte[]) (pos:int) (len:int): RefCompID =
     ReadFieldStr bs pos len RefCompID.RefCompID
 
 
-let ReadRefSubIDIdx (bs:byte[]) (pos:int) (len:int): RefSubID =
+let ReadRefSubID (bs:byte[]) (pos:int) (len:int): RefSubID =
     ReadFieldStr bs pos len RefSubID.RefSubID
 
 
-let ReadNetworkResponseIDIdx (bs:byte[]) (pos:int) (len:int): NetworkResponseID =
+let ReadNetworkResponseID (bs:byte[]) (pos:int) (len:int): NetworkResponseID =
     ReadFieldStr bs pos len NetworkResponseID.NetworkResponseID
 
 
-let ReadNetworkRequestIDIdx (bs:byte[]) (pos:int) (len:int): NetworkRequestID =
+let ReadNetworkRequestID (bs:byte[]) (pos:int) (len:int): NetworkRequestID =
     ReadFieldStr bs pos len NetworkRequestID.NetworkRequestID
 
 
-let ReadLastNetworkResponseIDIdx (bs:byte[]) (pos:int) (len:int): LastNetworkResponseID =
+let ReadLastNetworkResponseID (bs:byte[]) (pos:int) (len:int): LastNetworkResponseID =
     ReadFieldStr bs pos len LastNetworkResponseID.LastNetworkResponseID
 
 
-let ReadNetworkRequestTypeIdx (bs:byte[]) (pos:int) (len:int): NetworkRequestType =
+let ReadNetworkRequestType (bs:byte[]) (pos:int) (len:int): NetworkRequestType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5806,11 +5806,11 @@ let ReadNetworkRequestTypeIdx (bs:byte[]) (pos:int) (len:int): NetworkRequestTyp
     | x -> failwith (sprintf "ReadNetworkRequestType unknown fix tag: %A"  x) 
 
 
-let ReadNoCompIDsIdx (bs:byte[]) (pos:int) (len:int): NoCompIDs =
+let ReadNoCompIDs (bs:byte[]) (pos:int) (len:int): NoCompIDs =
     ReadFieldInt bs pos len NoCompIDs.NoCompIDs
 
 
-let ReadNetworkStatusResponseTypeIdx (bs:byte[]) (pos:int) (len:int): NetworkStatusResponseType =
+let ReadNetworkStatusResponseType (bs:byte[]) (pos:int) (len:int): NetworkStatusResponseType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5819,11 +5819,11 @@ let ReadNetworkStatusResponseTypeIdx (bs:byte[]) (pos:int) (len:int): NetworkSta
     | x -> failwith (sprintf "ReadNetworkStatusResponseType unknown fix tag: %A"  x) 
 
 
-let ReadNoCollInquiryQualifierIdx (bs:byte[]) (pos:int) (len:int): NoCollInquiryQualifier =
+let ReadNoCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): NoCollInquiryQualifier =
     ReadFieldInt bs pos len NoCollInquiryQualifier.NoCollInquiryQualifier
 
 
-let ReadTrdRptStatusIdx (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
+let ReadTrdRptStatus (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5832,7 +5832,7 @@ let ReadTrdRptStatusIdx (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
     | x -> failwith (sprintf "ReadTrdRptStatus unknown fix tag: %A"  x) 
 
 
-let ReadAffirmStatusIdx (bs:byte[]) (pos:int) (len:int): AffirmStatus =
+let ReadAffirmStatus (bs:byte[]) (pos:int) (len:int): AffirmStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5842,19 +5842,19 @@ let ReadAffirmStatusIdx (bs:byte[]) (pos:int) (len:int): AffirmStatus =
     | x -> failwith (sprintf "ReadAffirmStatus unknown fix tag: %A"  x) 
 
 
-let ReadUnderlyingStrikeCurrencyIdx (bs:byte[]) (pos:int) (len:int): UnderlyingStrikeCurrency =
+let ReadUnderlyingStrikeCurrency (bs:byte[]) (pos:int) (len:int): UnderlyingStrikeCurrency =
     ReadFieldStr bs pos len UnderlyingStrikeCurrency.UnderlyingStrikeCurrency
 
 
-let ReadLegStrikeCurrencyIdx (bs:byte[]) (pos:int) (len:int): LegStrikeCurrency =
+let ReadLegStrikeCurrency (bs:byte[]) (pos:int) (len:int): LegStrikeCurrency =
     ReadFieldStr bs pos len LegStrikeCurrency.LegStrikeCurrency
 
 
-let ReadTimeBracketIdx (bs:byte[]) (pos:int) (len:int): TimeBracket =
+let ReadTimeBracket (bs:byte[]) (pos:int) (len:int): TimeBracket =
     ReadFieldStr bs pos len TimeBracket.TimeBracket
 
 
-let ReadCollActionIdx (bs:byte[]) (pos:int) (len:int): CollAction =
+let ReadCollAction (bs:byte[]) (pos:int) (len:int): CollAction =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5864,7 +5864,7 @@ let ReadCollActionIdx (bs:byte[]) (pos:int) (len:int): CollAction =
     | x -> failwith (sprintf "ReadCollAction unknown fix tag: %A"  x) 
 
 
-let ReadCollInquiryStatusIdx (bs:byte[]) (pos:int) (len:int): CollInquiryStatus =
+let ReadCollInquiryStatus (bs:byte[]) (pos:int) (len:int): CollInquiryStatus =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5876,7 +5876,7 @@ let ReadCollInquiryStatusIdx (bs:byte[]) (pos:int) (len:int): CollInquiryStatus 
     | x -> failwith (sprintf "ReadCollInquiryStatus unknown fix tag: %A"  x) 
 
 
-let ReadCollInquiryResultIdx (bs:byte[]) (pos:int) (len:int): CollInquiryResult =
+let ReadCollInquiryResult (bs:byte[]) (pos:int) (len:int): CollInquiryResult =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
@@ -5894,43 +5894,43 @@ let ReadCollInquiryResultIdx (bs:byte[]) (pos:int) (len:int): CollInquiryResult 
     | x -> failwith (sprintf "ReadCollInquiryResult unknown fix tag: %A"  x) 
 
 
-let ReadStrikeCurrencyIdx (bs:byte[]) (pos:int) (len:int): StrikeCurrency =
+let ReadStrikeCurrency (bs:byte[]) (pos:int) (len:int): StrikeCurrency =
     ReadFieldStr bs pos len StrikeCurrency.StrikeCurrency
 
 
-let ReadNoNested3PartyIDsIdx (bs:byte[]) (pos:int) (len:int): NoNested3PartyIDs =
+let ReadNoNested3PartyIDs (bs:byte[]) (pos:int) (len:int): NoNested3PartyIDs =
     ReadFieldInt bs pos len NoNested3PartyIDs.NoNested3PartyIDs
 
 
-let ReadNested3PartyIDIdx (bs:byte[]) (pos:int) (len:int): Nested3PartyID =
+let ReadNested3PartyID (bs:byte[]) (pos:int) (len:int): Nested3PartyID =
     ReadFieldStr bs pos len Nested3PartyID.Nested3PartyID
 
 
-let ReadNested3PartyIDSourceIdx (bs:byte[]) (pos:int) (len:int): Nested3PartyIDSource =
+let ReadNested3PartyIDSource (bs:byte[]) (pos:int) (len:int): Nested3PartyIDSource =
     ReadFieldChar bs pos len Nested3PartyIDSource.Nested3PartyIDSource
 
 
-let ReadNested3PartyRoleIdx (bs:byte[]) (pos:int) (len:int): Nested3PartyRole =
+let ReadNested3PartyRole (bs:byte[]) (pos:int) (len:int): Nested3PartyRole =
     ReadFieldInt bs pos len Nested3PartyRole.Nested3PartyRole
 
 
-let ReadNoNested3PartySubIDsIdx (bs:byte[]) (pos:int) (len:int): NoNested3PartySubIDs =
+let ReadNoNested3PartySubIDs (bs:byte[]) (pos:int) (len:int): NoNested3PartySubIDs =
     ReadFieldInt bs pos len NoNested3PartySubIDs.NoNested3PartySubIDs
 
 
-let ReadNested3PartySubIDIdx (bs:byte[]) (pos:int) (len:int): Nested3PartySubID =
+let ReadNested3PartySubID (bs:byte[]) (pos:int) (len:int): Nested3PartySubID =
     ReadFieldStr bs pos len Nested3PartySubID.Nested3PartySubID
 
 
-let ReadNested3PartySubIDTypeIdx (bs:byte[]) (pos:int) (len:int): Nested3PartySubIDType =
+let ReadNested3PartySubIDType (bs:byte[]) (pos:int) (len:int): Nested3PartySubIDType =
     ReadFieldInt bs pos len Nested3PartySubIDType.Nested3PartySubIDType
 
 
-let ReadLegContractSettlMonthIdx (bs:byte[]) (pos:int) (len:int): LegContractSettlMonth =
+let ReadLegContractSettlMonth (bs:byte[]) (pos:int) (len:int): LegContractSettlMonth =
     ReadFieldMonthYear bs pos len LegContractSettlMonth.LegContractSettlMonth
 
 
-let ReadLegInterestAccrualDateIdx (bs:byte[]) (pos:int) (len:int): LegInterestAccrualDate =
+let ReadLegInterestAccrualDate (bs:byte[]) (pos:int) (len:int): LegInterestAccrualDate =
     ReadFieldLocalMktDate bs pos len LegInterestAccrualDate.LegInterestAccrualDate
 
 

@@ -79,7 +79,7 @@ let main args =
 
     printfn "generating group and component reading functions"
     use swGroupReadFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemReaders.fs")
-    do CompoundItemGenerator.GenReadFuncsIdx fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
+    do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 
     let msgsx = 

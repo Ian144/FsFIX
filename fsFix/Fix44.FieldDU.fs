@@ -1822,2703 +1822,2703 @@ let ReadField (bs:byte[]) (pos:int) =
    let len = posEnd - pos2
    match tag with
     | 1 ->
-        let fld = ReadAccountIdx bs pos2 len
+        let fld = ReadAccount bs pos2 len
         fld |> FIXField.Account
     | 2 ->
-        let fld = ReadAdvIdIdx bs pos2 len
+        let fld = ReadAdvId bs pos2 len
         fld |> FIXField.AdvId
     | 3 ->
-        let fld = ReadAdvRefIDIdx bs pos2 len
+        let fld = ReadAdvRefID bs pos2 len
         fld |> FIXField.AdvRefID
     | 4 ->
-        let fld = ReadAdvSideIdx bs pos2 len
+        let fld = ReadAdvSide bs pos2 len
         fld |> FIXField.AdvSide
     | 5 ->
-        let fld = ReadAdvTransTypeIdx bs pos2 len
+        let fld = ReadAdvTransType bs pos2 len
         fld |> FIXField.AdvTransType
     | 6 ->
-        let fld = ReadAvgPxIdx bs pos2 len
+        let fld = ReadAvgPx bs pos2 len
         fld |> FIXField.AvgPx
     | 7 ->
-        let fld = ReadBeginSeqNoIdx bs pos2 len
+        let fld = ReadBeginSeqNo bs pos2 len
         fld |> FIXField.BeginSeqNo
     | 8 ->
-        let fld = ReadBeginStringIdx bs pos2 len
+        let fld = ReadBeginString bs pos2 len
         fld |> FIXField.BeginString
     | 9 ->
-        let fld = ReadBodyLengthIdx bs pos2 len
+        let fld = ReadBodyLength bs pos2 len
         fld |> FIXField.BodyLength
     | 10 ->
-        let fld = ReadCheckSumIdx bs pos2 len
+        let fld = ReadCheckSum bs pos2 len
         fld |> FIXField.CheckSum
     | 11 ->
-        let fld = ReadClOrdIDIdx bs pos2 len
+        let fld = ReadClOrdID bs pos2 len
         fld |> FIXField.ClOrdID
     | 12 ->
-        let fld = ReadCommissionIdx bs pos2 len
+        let fld = ReadCommission bs pos2 len
         fld |> FIXField.Commission
     | 13 ->
-        let fld = ReadCommTypeIdx bs pos2 len
+        let fld = ReadCommType bs pos2 len
         fld |> FIXField.CommType
     | 14 ->
-        let fld = ReadCumQtyIdx bs pos2 len
+        let fld = ReadCumQty bs pos2 len
         fld |> FIXField.CumQty
     | 15 ->
-        let fld = ReadCurrencyIdx bs pos2 len
+        let fld = ReadCurrency bs pos2 len
         fld |> FIXField.Currency
     | 16 ->
-        let fld = ReadEndSeqNoIdx bs pos2 len
+        let fld = ReadEndSeqNo bs pos2 len
         fld |> FIXField.EndSeqNo
     | 17 ->
-        let fld = ReadExecIDIdx bs pos2 len
+        let fld = ReadExecID bs pos2 len
         fld |> FIXField.ExecID
     | 18 ->
-        let fld = ReadExecInstIdx bs pos2 len
+        let fld = ReadExecInst bs pos2 len
         fld |> FIXField.ExecInst
     | 19 ->
-        let fld = ReadExecRefIDIdx bs pos2 len
+        let fld = ReadExecRefID bs pos2 len
         fld |> FIXField.ExecRefID
     | 21 ->
-        let fld = ReadHandlInstIdx bs pos2 len
+        let fld = ReadHandlInst bs pos2 len
         fld |> FIXField.HandlInst
     | 22 ->
-        let fld = ReadSecurityIDSourceIdx bs pos2 len
+        let fld = ReadSecurityIDSource bs pos2 len
         fld |> FIXField.SecurityIDSource
     | 23 ->
-        let fld = ReadIOIidIdx bs pos2 len
+        let fld = ReadIOIid bs pos2 len
         fld |> FIXField.IOIid
     | 25 ->
-        let fld = ReadIOIQltyIndIdx bs pos2 len
+        let fld = ReadIOIQltyInd bs pos2 len
         fld |> FIXField.IOIQltyInd
     | 26 ->
-        let fld = ReadIOIRefIDIdx bs pos2 len
+        let fld = ReadIOIRefID bs pos2 len
         fld |> FIXField.IOIRefID
     | 27 ->
-        let fld = ReadIOIQtyIdx bs pos2 len
+        let fld = ReadIOIQty bs pos2 len
         fld |> FIXField.IOIQty
     | 28 ->
-        let fld = ReadIOITransTypeIdx bs pos2 len
+        let fld = ReadIOITransType bs pos2 len
         fld |> FIXField.IOITransType
     | 29 ->
-        let fld = ReadLastCapacityIdx bs pos2 len
+        let fld = ReadLastCapacity bs pos2 len
         fld |> FIXField.LastCapacity
     | 30 ->
-        let fld = ReadLastMktIdx bs pos2 len
+        let fld = ReadLastMkt bs pos2 len
         fld |> FIXField.LastMkt
     | 31 ->
-        let fld = ReadLastPxIdx bs pos2 len
+        let fld = ReadLastPx bs pos2 len
         fld |> FIXField.LastPx
     | 32 ->
-        let fld = ReadLastQtyIdx bs pos2 len
+        let fld = ReadLastQty bs pos2 len
         fld |> FIXField.LastQty
     | 33 ->
-        let fld = ReadLinesOfTextIdx bs pos2 len
+        let fld = ReadLinesOfText bs pos2 len
         fld |> FIXField.LinesOfText
     | 34 ->
-        let fld = ReadMsgSeqNumIdx bs pos2 len
+        let fld = ReadMsgSeqNum bs pos2 len
         fld |> FIXField.MsgSeqNum
     | 35 ->
-        let fld = ReadMsgTypeIdx bs pos2 len
+        let fld = ReadMsgType bs pos2 len
         fld |> FIXField.MsgType
     | 36 ->
-        let fld = ReadNewSeqNoIdx bs pos2 len
+        let fld = ReadNewSeqNo bs pos2 len
         fld |> FIXField.NewSeqNo
     | 37 ->
-        let fld = ReadOrderIDIdx bs pos2 len
+        let fld = ReadOrderID bs pos2 len
         fld |> FIXField.OrderID
     | 38 ->
-        let fld = ReadOrderQtyIdx bs pos2 len
+        let fld = ReadOrderQty bs pos2 len
         fld |> FIXField.OrderQty
     | 39 ->
-        let fld = ReadOrdStatusIdx bs pos2 len
+        let fld = ReadOrdStatus bs pos2 len
         fld |> FIXField.OrdStatus
     | 40 ->
-        let fld = ReadOrdTypeIdx bs pos2 len
+        let fld = ReadOrdType bs pos2 len
         fld |> FIXField.OrdType
     | 41 ->
-        let fld = ReadOrigClOrdIDIdx bs pos2 len
+        let fld = ReadOrigClOrdID bs pos2 len
         fld |> FIXField.OrigClOrdID
     | 42 ->
-        let fld = ReadOrigTimeIdx bs pos2 len
+        let fld = ReadOrigTime bs pos2 len
         fld |> FIXField.OrigTime
     | 43 ->
-        let fld = ReadPossDupFlagIdx bs pos2 len
+        let fld = ReadPossDupFlag bs pos2 len
         fld |> FIXField.PossDupFlag
     | 44 ->
-        let fld = ReadPriceIdx bs pos2 len
+        let fld = ReadPrice bs pos2 len
         fld |> FIXField.Price
     | 45 ->
-        let fld = ReadRefSeqNumIdx bs pos2 len
+        let fld = ReadRefSeqNum bs pos2 len
         fld |> FIXField.RefSeqNum
     | 48 ->
-        let fld = ReadSecurityIDIdx bs pos2 len
+        let fld = ReadSecurityID bs pos2 len
         fld |> FIXField.SecurityID
     | 49 ->
-        let fld = ReadSenderCompIDIdx bs pos2 len
+        let fld = ReadSenderCompID bs pos2 len
         fld |> FIXField.SenderCompID
     | 50 ->
-        let fld = ReadSenderSubIDIdx bs pos2 len
+        let fld = ReadSenderSubID bs pos2 len
         fld |> FIXField.SenderSubID
     | 52 ->
-        let fld = ReadSendingTimeIdx bs pos2 len
+        let fld = ReadSendingTime bs pos2 len
         fld |> FIXField.SendingTime
     | 53 ->
-        let fld = ReadQuantityIdx bs pos2 len
+        let fld = ReadQuantity bs pos2 len
         fld |> FIXField.Quantity
     | 54 ->
-        let fld = ReadSideIdx bs pos2 len
+        let fld = ReadSide bs pos2 len
         fld |> FIXField.Side
     | 55 ->
-        let fld = ReadSymbolIdx bs pos2 len
+        let fld = ReadSymbol bs pos2 len
         fld |> FIXField.Symbol
     | 56 ->
-        let fld = ReadTargetCompIDIdx bs pos2 len
+        let fld = ReadTargetCompID bs pos2 len
         fld |> FIXField.TargetCompID
     | 57 ->
-        let fld = ReadTargetSubIDIdx bs pos2 len
+        let fld = ReadTargetSubID bs pos2 len
         fld |> FIXField.TargetSubID
     | 58 ->
-        let fld = ReadTextIdx bs pos2 len
+        let fld = ReadText bs pos2 len
         fld |> FIXField.Text
     | 59 ->
-        let fld = ReadTimeInForceIdx bs pos2 len
+        let fld = ReadTimeInForce bs pos2 len
         fld |> FIXField.TimeInForce
     | 60 ->
-        let fld = ReadTransactTimeIdx bs pos2 len
+        let fld = ReadTransactTime bs pos2 len
         fld |> FIXField.TransactTime
     | 61 ->
-        let fld = ReadUrgencyIdx bs pos2 len
+        let fld = ReadUrgency bs pos2 len
         fld |> FIXField.Urgency
     | 62 ->
-        let fld = ReadValidUntilTimeIdx bs pos2 len
+        let fld = ReadValidUntilTime bs pos2 len
         fld |> FIXField.ValidUntilTime
     | 63 ->
-        let fld = ReadSettlTypeIdx bs pos2 len
+        let fld = ReadSettlType bs pos2 len
         fld |> FIXField.SettlType
     | 64 ->
-        let fld = ReadSettlDateIdx bs pos2 len
+        let fld = ReadSettlDate bs pos2 len
         fld |> FIXField.SettlDate
     | 65 ->
-        let fld = ReadSymbolSfxIdx bs pos2 len
+        let fld = ReadSymbolSfx bs pos2 len
         fld |> FIXField.SymbolSfx
     | 66 ->
-        let fld = ReadListIDIdx bs pos2 len
+        let fld = ReadListID bs pos2 len
         fld |> FIXField.ListID
     | 67 ->
-        let fld = ReadListSeqNoIdx bs pos2 len
+        let fld = ReadListSeqNo bs pos2 len
         fld |> FIXField.ListSeqNo
     | 68 ->
-        let fld = ReadTotNoOrdersIdx bs pos2 len
+        let fld = ReadTotNoOrders bs pos2 len
         fld |> FIXField.TotNoOrders
     | 69 ->
-        let fld = ReadListExecInstIdx bs pos2 len
+        let fld = ReadListExecInst bs pos2 len
         fld |> FIXField.ListExecInst
     | 70 ->
-        let fld = ReadAllocIDIdx bs pos2 len
+        let fld = ReadAllocID bs pos2 len
         fld |> FIXField.AllocID
     | 71 ->
-        let fld = ReadAllocTransTypeIdx bs pos2 len
+        let fld = ReadAllocTransType bs pos2 len
         fld |> FIXField.AllocTransType
     | 72 ->
-        let fld = ReadRefAllocIDIdx bs pos2 len
+        let fld = ReadRefAllocID bs pos2 len
         fld |> FIXField.RefAllocID
     | 73 ->
-        let fld = ReadNoOrdersIdx bs pos2 len
+        let fld = ReadNoOrders bs pos2 len
         fld |> FIXField.NoOrders
     | 74 ->
-        let fld = ReadAvgPxPrecisionIdx bs pos2 len
+        let fld = ReadAvgPxPrecision bs pos2 len
         fld |> FIXField.AvgPxPrecision
     | 75 ->
-        let fld = ReadTradeDateIdx bs pos2 len
+        let fld = ReadTradeDate bs pos2 len
         fld |> FIXField.TradeDate
     | 77 ->
-        let fld = ReadPositionEffectIdx bs pos2 len
+        let fld = ReadPositionEffect bs pos2 len
         fld |> FIXField.PositionEffect
     | 78 ->
-        let fld = ReadNoAllocsIdx bs pos2 len
+        let fld = ReadNoAllocs bs pos2 len
         fld |> FIXField.NoAllocs
     | 79 ->
-        let fld = ReadAllocAccountIdx bs pos2 len
+        let fld = ReadAllocAccount bs pos2 len
         fld |> FIXField.AllocAccount
     | 80 ->
-        let fld = ReadAllocQtyIdx bs pos2 len
+        let fld = ReadAllocQty bs pos2 len
         fld |> FIXField.AllocQty
     | 81 ->
-        let fld = ReadProcessCodeIdx bs pos2 len
+        let fld = ReadProcessCode bs pos2 len
         fld |> FIXField.ProcessCode
     | 82 ->
-        let fld = ReadNoRptsIdx bs pos2 len
+        let fld = ReadNoRpts bs pos2 len
         fld |> FIXField.NoRpts
     | 83 ->
-        let fld = ReadRptSeqIdx bs pos2 len
+        let fld = ReadRptSeq bs pos2 len
         fld |> FIXField.RptSeq
     | 84 ->
-        let fld = ReadCxlQtyIdx bs pos2 len
+        let fld = ReadCxlQty bs pos2 len
         fld |> FIXField.CxlQty
     | 85 ->
-        let fld = ReadNoDlvyInstIdx bs pos2 len
+        let fld = ReadNoDlvyInst bs pos2 len
         fld |> FIXField.NoDlvyInst
     | 87 ->
-        let fld = ReadAllocStatusIdx bs pos2 len
+        let fld = ReadAllocStatus bs pos2 len
         fld |> FIXField.AllocStatus
     | 88 ->
-        let fld = ReadAllocRejCodeIdx bs pos2 len
+        let fld = ReadAllocRejCode bs pos2 len
         fld |> FIXField.AllocRejCode
     | 93 ->
-        let fld = ReadSignatureIdx bs pos2 len
+        let fld = ReadSignature bs pos2 len
         fld |> FIXField.Signature // len->string compound field
     | 90 ->
-        let fld = ReadSecureDataIdx bs pos2 len
+        let fld = ReadSecureData bs pos2 len
         fld |> FIXField.SecureData // len->string compound field
     | 94 ->
-        let fld = ReadEmailTypeIdx bs pos2 len
+        let fld = ReadEmailType bs pos2 len
         fld |> FIXField.EmailType
     | 95 ->
-        let fld = ReadRawDataIdx bs pos2 len
+        let fld = ReadRawData bs pos2 len
         fld |> FIXField.RawData // len->string compound field
     | 97 ->
-        let fld = ReadPossResendIdx bs pos2 len
+        let fld = ReadPossResend bs pos2 len
         fld |> FIXField.PossResend
     | 98 ->
-        let fld = ReadEncryptMethodIdx bs pos2 len
+        let fld = ReadEncryptMethod bs pos2 len
         fld |> FIXField.EncryptMethod
     | 99 ->
-        let fld = ReadStopPxIdx bs pos2 len
+        let fld = ReadStopPx bs pos2 len
         fld |> FIXField.StopPx
     | 100 ->
-        let fld = ReadExDestinationIdx bs pos2 len
+        let fld = ReadExDestination bs pos2 len
         fld |> FIXField.ExDestination
     | 102 ->
-        let fld = ReadCxlRejReasonIdx bs pos2 len
+        let fld = ReadCxlRejReason bs pos2 len
         fld |> FIXField.CxlRejReason
     | 103 ->
-        let fld = ReadOrdRejReasonIdx bs pos2 len
+        let fld = ReadOrdRejReason bs pos2 len
         fld |> FIXField.OrdRejReason
     | 104 ->
-        let fld = ReadIOIQualifierIdx bs pos2 len
+        let fld = ReadIOIQualifier bs pos2 len
         fld |> FIXField.IOIQualifier
     | 105 ->
-        let fld = ReadWaveNoIdx bs pos2 len
+        let fld = ReadWaveNo bs pos2 len
         fld |> FIXField.WaveNo
     | 106 ->
-        let fld = ReadIssuerIdx bs pos2 len
+        let fld = ReadIssuer bs pos2 len
         fld |> FIXField.Issuer
     | 107 ->
-        let fld = ReadSecurityDescIdx bs pos2 len
+        let fld = ReadSecurityDesc bs pos2 len
         fld |> FIXField.SecurityDesc
     | 108 ->
-        let fld = ReadHeartBtIntIdx bs pos2 len
+        let fld = ReadHeartBtInt bs pos2 len
         fld |> FIXField.HeartBtInt
     | 110 ->
-        let fld = ReadMinQtyIdx bs pos2 len
+        let fld = ReadMinQty bs pos2 len
         fld |> FIXField.MinQty
     | 111 ->
-        let fld = ReadMaxFloorIdx bs pos2 len
+        let fld = ReadMaxFloor bs pos2 len
         fld |> FIXField.MaxFloor
     | 112 ->
-        let fld = ReadTestReqIDIdx bs pos2 len
+        let fld = ReadTestReqID bs pos2 len
         fld |> FIXField.TestReqID
     | 113 ->
-        let fld = ReadReportToExchIdx bs pos2 len
+        let fld = ReadReportToExch bs pos2 len
         fld |> FIXField.ReportToExch
     | 114 ->
-        let fld = ReadLocateReqdIdx bs pos2 len
+        let fld = ReadLocateReqd bs pos2 len
         fld |> FIXField.LocateReqd
     | 115 ->
-        let fld = ReadOnBehalfOfCompIDIdx bs pos2 len
+        let fld = ReadOnBehalfOfCompID bs pos2 len
         fld |> FIXField.OnBehalfOfCompID
     | 116 ->
-        let fld = ReadOnBehalfOfSubIDIdx bs pos2 len
+        let fld = ReadOnBehalfOfSubID bs pos2 len
         fld |> FIXField.OnBehalfOfSubID
     | 117 ->
-        let fld = ReadQuoteIDIdx bs pos2 len
+        let fld = ReadQuoteID bs pos2 len
         fld |> FIXField.QuoteID
     | 118 ->
-        let fld = ReadNetMoneyIdx bs pos2 len
+        let fld = ReadNetMoney bs pos2 len
         fld |> FIXField.NetMoney
     | 119 ->
-        let fld = ReadSettlCurrAmtIdx bs pos2 len
+        let fld = ReadSettlCurrAmt bs pos2 len
         fld |> FIXField.SettlCurrAmt
     | 120 ->
-        let fld = ReadSettlCurrencyIdx bs pos2 len
+        let fld = ReadSettlCurrency bs pos2 len
         fld |> FIXField.SettlCurrency
     | 121 ->
-        let fld = ReadForexReqIdx bs pos2 len
+        let fld = ReadForexReq bs pos2 len
         fld |> FIXField.ForexReq
     | 122 ->
-        let fld = ReadOrigSendingTimeIdx bs pos2 len
+        let fld = ReadOrigSendingTime bs pos2 len
         fld |> FIXField.OrigSendingTime
     | 123 ->
-        let fld = ReadGapFillFlagIdx bs pos2 len
+        let fld = ReadGapFillFlag bs pos2 len
         fld |> FIXField.GapFillFlag
     | 124 ->
-        let fld = ReadNoExecsIdx bs pos2 len
+        let fld = ReadNoExecs bs pos2 len
         fld |> FIXField.NoExecs
     | 126 ->
-        let fld = ReadExpireTimeIdx bs pos2 len
+        let fld = ReadExpireTime bs pos2 len
         fld |> FIXField.ExpireTime
     | 127 ->
-        let fld = ReadDKReasonIdx bs pos2 len
+        let fld = ReadDKReason bs pos2 len
         fld |> FIXField.DKReason
     | 128 ->
-        let fld = ReadDeliverToCompIDIdx bs pos2 len
+        let fld = ReadDeliverToCompID bs pos2 len
         fld |> FIXField.DeliverToCompID
     | 129 ->
-        let fld = ReadDeliverToSubIDIdx bs pos2 len
+        let fld = ReadDeliverToSubID bs pos2 len
         fld |> FIXField.DeliverToSubID
     | 130 ->
-        let fld = ReadIOINaturalFlagIdx bs pos2 len
+        let fld = ReadIOINaturalFlag bs pos2 len
         fld |> FIXField.IOINaturalFlag
     | 131 ->
-        let fld = ReadQuoteReqIDIdx bs pos2 len
+        let fld = ReadQuoteReqID bs pos2 len
         fld |> FIXField.QuoteReqID
     | 132 ->
-        let fld = ReadBidPxIdx bs pos2 len
+        let fld = ReadBidPx bs pos2 len
         fld |> FIXField.BidPx
     | 133 ->
-        let fld = ReadOfferPxIdx bs pos2 len
+        let fld = ReadOfferPx bs pos2 len
         fld |> FIXField.OfferPx
     | 134 ->
-        let fld = ReadBidSizeIdx bs pos2 len
+        let fld = ReadBidSize bs pos2 len
         fld |> FIXField.BidSize
     | 135 ->
-        let fld = ReadOfferSizeIdx bs pos2 len
+        let fld = ReadOfferSize bs pos2 len
         fld |> FIXField.OfferSize
     | 136 ->
-        let fld = ReadNoMiscFeesIdx bs pos2 len
+        let fld = ReadNoMiscFees bs pos2 len
         fld |> FIXField.NoMiscFees
     | 137 ->
-        let fld = ReadMiscFeeAmtIdx bs pos2 len
+        let fld = ReadMiscFeeAmt bs pos2 len
         fld |> FIXField.MiscFeeAmt
     | 138 ->
-        let fld = ReadMiscFeeCurrIdx bs pos2 len
+        let fld = ReadMiscFeeCurr bs pos2 len
         fld |> FIXField.MiscFeeCurr
     | 139 ->
-        let fld = ReadMiscFeeTypeIdx bs pos2 len
+        let fld = ReadMiscFeeType bs pos2 len
         fld |> FIXField.MiscFeeType
     | 140 ->
-        let fld = ReadPrevClosePxIdx bs pos2 len
+        let fld = ReadPrevClosePx bs pos2 len
         fld |> FIXField.PrevClosePx
     | 141 ->
-        let fld = ReadResetSeqNumFlagIdx bs pos2 len
+        let fld = ReadResetSeqNumFlag bs pos2 len
         fld |> FIXField.ResetSeqNumFlag
     | 142 ->
-        let fld = ReadSenderLocationIDIdx bs pos2 len
+        let fld = ReadSenderLocationID bs pos2 len
         fld |> FIXField.SenderLocationID
     | 143 ->
-        let fld = ReadTargetLocationIDIdx bs pos2 len
+        let fld = ReadTargetLocationID bs pos2 len
         fld |> FIXField.TargetLocationID
     | 144 ->
-        let fld = ReadOnBehalfOfLocationIDIdx bs pos2 len
+        let fld = ReadOnBehalfOfLocationID bs pos2 len
         fld |> FIXField.OnBehalfOfLocationID
     | 145 ->
-        let fld = ReadDeliverToLocationIDIdx bs pos2 len
+        let fld = ReadDeliverToLocationID bs pos2 len
         fld |> FIXField.DeliverToLocationID
     | 146 ->
-        let fld = ReadNoRelatedSymIdx bs pos2 len
+        let fld = ReadNoRelatedSym bs pos2 len
         fld |> FIXField.NoRelatedSym
     | 147 ->
-        let fld = ReadSubjectIdx bs pos2 len
+        let fld = ReadSubject bs pos2 len
         fld |> FIXField.Subject
     | 148 ->
-        let fld = ReadHeadlineIdx bs pos2 len
+        let fld = ReadHeadline bs pos2 len
         fld |> FIXField.Headline
     | 149 ->
-        let fld = ReadURLLinkIdx bs pos2 len
+        let fld = ReadURLLink bs pos2 len
         fld |> FIXField.URLLink
     | 150 ->
-        let fld = ReadExecTypeIdx bs pos2 len
+        let fld = ReadExecType bs pos2 len
         fld |> FIXField.ExecType
     | 151 ->
-        let fld = ReadLeavesQtyIdx bs pos2 len
+        let fld = ReadLeavesQty bs pos2 len
         fld |> FIXField.LeavesQty
     | 152 ->
-        let fld = ReadCashOrderQtyIdx bs pos2 len
+        let fld = ReadCashOrderQty bs pos2 len
         fld |> FIXField.CashOrderQty
     | 153 ->
-        let fld = ReadAllocAvgPxIdx bs pos2 len
+        let fld = ReadAllocAvgPx bs pos2 len
         fld |> FIXField.AllocAvgPx
     | 154 ->
-        let fld = ReadAllocNetMoneyIdx bs pos2 len
+        let fld = ReadAllocNetMoney bs pos2 len
         fld |> FIXField.AllocNetMoney
     | 155 ->
-        let fld = ReadSettlCurrFxRateIdx bs pos2 len
+        let fld = ReadSettlCurrFxRate bs pos2 len
         fld |> FIXField.SettlCurrFxRate
     | 156 ->
-        let fld = ReadSettlCurrFxRateCalcIdx bs pos2 len
+        let fld = ReadSettlCurrFxRateCalc bs pos2 len
         fld |> FIXField.SettlCurrFxRateCalc
     | 157 ->
-        let fld = ReadNumDaysInterestIdx bs pos2 len
+        let fld = ReadNumDaysInterest bs pos2 len
         fld |> FIXField.NumDaysInterest
     | 158 ->
-        let fld = ReadAccruedInterestRateIdx bs pos2 len
+        let fld = ReadAccruedInterestRate bs pos2 len
         fld |> FIXField.AccruedInterestRate
     | 159 ->
-        let fld = ReadAccruedInterestAmtIdx bs pos2 len
+        let fld = ReadAccruedInterestAmt bs pos2 len
         fld |> FIXField.AccruedInterestAmt
     | 160 ->
-        let fld = ReadSettlInstModeIdx bs pos2 len
+        let fld = ReadSettlInstMode bs pos2 len
         fld |> FIXField.SettlInstMode
     | 161 ->
-        let fld = ReadAllocTextIdx bs pos2 len
+        let fld = ReadAllocText bs pos2 len
         fld |> FIXField.AllocText
     | 162 ->
-        let fld = ReadSettlInstIDIdx bs pos2 len
+        let fld = ReadSettlInstID bs pos2 len
         fld |> FIXField.SettlInstID
     | 163 ->
-        let fld = ReadSettlInstTransTypeIdx bs pos2 len
+        let fld = ReadSettlInstTransType bs pos2 len
         fld |> FIXField.SettlInstTransType
     | 164 ->
-        let fld = ReadEmailThreadIDIdx bs pos2 len
+        let fld = ReadEmailThreadID bs pos2 len
         fld |> FIXField.EmailThreadID
     | 165 ->
-        let fld = ReadSettlInstSourceIdx bs pos2 len
+        let fld = ReadSettlInstSource bs pos2 len
         fld |> FIXField.SettlInstSource
     | 167 ->
-        let fld = ReadSecurityTypeIdx bs pos2 len
+        let fld = ReadSecurityType bs pos2 len
         fld |> FIXField.SecurityType
     | 168 ->
-        let fld = ReadEffectiveTimeIdx bs pos2 len
+        let fld = ReadEffectiveTime bs pos2 len
         fld |> FIXField.EffectiveTime
     | 169 ->
-        let fld = ReadStandInstDbTypeIdx bs pos2 len
+        let fld = ReadStandInstDbType bs pos2 len
         fld |> FIXField.StandInstDbType
     | 170 ->
-        let fld = ReadStandInstDbNameIdx bs pos2 len
+        let fld = ReadStandInstDbName bs pos2 len
         fld |> FIXField.StandInstDbName
     | 171 ->
-        let fld = ReadStandInstDbIDIdx bs pos2 len
+        let fld = ReadStandInstDbID bs pos2 len
         fld |> FIXField.StandInstDbID
     | 172 ->
-        let fld = ReadSettlDeliveryTypeIdx bs pos2 len
+        let fld = ReadSettlDeliveryType bs pos2 len
         fld |> FIXField.SettlDeliveryType
     | 188 ->
-        let fld = ReadBidSpotRateIdx bs pos2 len
+        let fld = ReadBidSpotRate bs pos2 len
         fld |> FIXField.BidSpotRate
     | 189 ->
-        let fld = ReadBidForwardPointsIdx bs pos2 len
+        let fld = ReadBidForwardPoints bs pos2 len
         fld |> FIXField.BidForwardPoints
     | 190 ->
-        let fld = ReadOfferSpotRateIdx bs pos2 len
+        let fld = ReadOfferSpotRate bs pos2 len
         fld |> FIXField.OfferSpotRate
     | 191 ->
-        let fld = ReadOfferForwardPointsIdx bs pos2 len
+        let fld = ReadOfferForwardPoints bs pos2 len
         fld |> FIXField.OfferForwardPoints
     | 192 ->
-        let fld = ReadOrderQty2Idx bs pos2 len
+        let fld = ReadOrderQty2 bs pos2 len
         fld |> FIXField.OrderQty2
     | 193 ->
-        let fld = ReadSettlDate2Idx bs pos2 len
+        let fld = ReadSettlDate2 bs pos2 len
         fld |> FIXField.SettlDate2
     | 194 ->
-        let fld = ReadLastSpotRateIdx bs pos2 len
+        let fld = ReadLastSpotRate bs pos2 len
         fld |> FIXField.LastSpotRate
     | 195 ->
-        let fld = ReadLastForwardPointsIdx bs pos2 len
+        let fld = ReadLastForwardPoints bs pos2 len
         fld |> FIXField.LastForwardPoints
     | 196 ->
-        let fld = ReadAllocLinkIDIdx bs pos2 len
+        let fld = ReadAllocLinkID bs pos2 len
         fld |> FIXField.AllocLinkID
     | 197 ->
-        let fld = ReadAllocLinkTypeIdx bs pos2 len
+        let fld = ReadAllocLinkType bs pos2 len
         fld |> FIXField.AllocLinkType
     | 198 ->
-        let fld = ReadSecondaryOrderIDIdx bs pos2 len
+        let fld = ReadSecondaryOrderID bs pos2 len
         fld |> FIXField.SecondaryOrderID
     | 199 ->
-        let fld = ReadNoIOIQualifiersIdx bs pos2 len
+        let fld = ReadNoIOIQualifiers bs pos2 len
         fld |> FIXField.NoIOIQualifiers
     | 200 ->
-        let fld = ReadMaturityMonthYearIdx bs pos2 len
+        let fld = ReadMaturityMonthYear bs pos2 len
         fld |> FIXField.MaturityMonthYear
     | 201 ->
-        let fld = ReadPutOrCallIdx bs pos2 len
+        let fld = ReadPutOrCall bs pos2 len
         fld |> FIXField.PutOrCall
     | 202 ->
-        let fld = ReadStrikePriceIdx bs pos2 len
+        let fld = ReadStrikePrice bs pos2 len
         fld |> FIXField.StrikePrice
     | 203 ->
-        let fld = ReadCoveredOrUncoveredIdx bs pos2 len
+        let fld = ReadCoveredOrUncovered bs pos2 len
         fld |> FIXField.CoveredOrUncovered
     | 206 ->
-        let fld = ReadOptAttributeIdx bs pos2 len
+        let fld = ReadOptAttribute bs pos2 len
         fld |> FIXField.OptAttribute
     | 207 ->
-        let fld = ReadSecurityExchangeIdx bs pos2 len
+        let fld = ReadSecurityExchange bs pos2 len
         fld |> FIXField.SecurityExchange
     | 208 ->
-        let fld = ReadNotifyBrokerOfCreditIdx bs pos2 len
+        let fld = ReadNotifyBrokerOfCredit bs pos2 len
         fld |> FIXField.NotifyBrokerOfCredit
     | 209 ->
-        let fld = ReadAllocHandlInstIdx bs pos2 len
+        let fld = ReadAllocHandlInst bs pos2 len
         fld |> FIXField.AllocHandlInst
     | 210 ->
-        let fld = ReadMaxShowIdx bs pos2 len
+        let fld = ReadMaxShow bs pos2 len
         fld |> FIXField.MaxShow
     | 211 ->
-        let fld = ReadPegOffsetValueIdx bs pos2 len
+        let fld = ReadPegOffsetValue bs pos2 len
         fld |> FIXField.PegOffsetValue
     | 212 ->
-        let fld = ReadXmlDataIdx bs pos2 len
+        let fld = ReadXmlData bs pos2 len
         fld |> FIXField.XmlData // len->string compound field
     | 214 ->
-        let fld = ReadSettlInstRefIDIdx bs pos2 len
+        let fld = ReadSettlInstRefID bs pos2 len
         fld |> FIXField.SettlInstRefID
     | 215 ->
-        let fld = ReadNoRoutingIDsIdx bs pos2 len
+        let fld = ReadNoRoutingIDs bs pos2 len
         fld |> FIXField.NoRoutingIDs
     | 216 ->
-        let fld = ReadRoutingTypeIdx bs pos2 len
+        let fld = ReadRoutingType bs pos2 len
         fld |> FIXField.RoutingType
     | 217 ->
-        let fld = ReadRoutingIDIdx bs pos2 len
+        let fld = ReadRoutingID bs pos2 len
         fld |> FIXField.RoutingID
     | 218 ->
-        let fld = ReadSpreadIdx bs pos2 len
+        let fld = ReadSpread bs pos2 len
         fld |> FIXField.Spread
     | 220 ->
-        let fld = ReadBenchmarkCurveCurrencyIdx bs pos2 len
+        let fld = ReadBenchmarkCurveCurrency bs pos2 len
         fld |> FIXField.BenchmarkCurveCurrency
     | 221 ->
-        let fld = ReadBenchmarkCurveNameIdx bs pos2 len
+        let fld = ReadBenchmarkCurveName bs pos2 len
         fld |> FIXField.BenchmarkCurveName
     | 222 ->
-        let fld = ReadBenchmarkCurvePointIdx bs pos2 len
+        let fld = ReadBenchmarkCurvePoint bs pos2 len
         fld |> FIXField.BenchmarkCurvePoint
     | 223 ->
-        let fld = ReadCouponRateIdx bs pos2 len
+        let fld = ReadCouponRate bs pos2 len
         fld |> FIXField.CouponRate
     | 224 ->
-        let fld = ReadCouponPaymentDateIdx bs pos2 len
+        let fld = ReadCouponPaymentDate bs pos2 len
         fld |> FIXField.CouponPaymentDate
     | 225 ->
-        let fld = ReadIssueDateIdx bs pos2 len
+        let fld = ReadIssueDate bs pos2 len
         fld |> FIXField.IssueDate
     | 226 ->
-        let fld = ReadRepurchaseTermIdx bs pos2 len
+        let fld = ReadRepurchaseTerm bs pos2 len
         fld |> FIXField.RepurchaseTerm
     | 227 ->
-        let fld = ReadRepurchaseRateIdx bs pos2 len
+        let fld = ReadRepurchaseRate bs pos2 len
         fld |> FIXField.RepurchaseRate
     | 228 ->
-        let fld = ReadFactorIdx bs pos2 len
+        let fld = ReadFactor bs pos2 len
         fld |> FIXField.Factor
     | 229 ->
-        let fld = ReadTradeOriginationDateIdx bs pos2 len
+        let fld = ReadTradeOriginationDate bs pos2 len
         fld |> FIXField.TradeOriginationDate
     | 230 ->
-        let fld = ReadExDateIdx bs pos2 len
+        let fld = ReadExDate bs pos2 len
         fld |> FIXField.ExDate
     | 231 ->
-        let fld = ReadContractMultiplierIdx bs pos2 len
+        let fld = ReadContractMultiplier bs pos2 len
         fld |> FIXField.ContractMultiplier
     | 232 ->
-        let fld = ReadNoStipulationsIdx bs pos2 len
+        let fld = ReadNoStipulations bs pos2 len
         fld |> FIXField.NoStipulations
     | 233 ->
-        let fld = ReadStipulationTypeIdx bs pos2 len
+        let fld = ReadStipulationType bs pos2 len
         fld |> FIXField.StipulationType
     | 234 ->
-        let fld = ReadStipulationValueIdx bs pos2 len
+        let fld = ReadStipulationValue bs pos2 len
         fld |> FIXField.StipulationValue
     | 235 ->
-        let fld = ReadYieldTypeIdx bs pos2 len
+        let fld = ReadYieldType bs pos2 len
         fld |> FIXField.YieldType
     | 236 ->
-        let fld = ReadYieldIdx bs pos2 len
+        let fld = ReadYield bs pos2 len
         fld |> FIXField.Yield
     | 237 ->
-        let fld = ReadTotalTakedownIdx bs pos2 len
+        let fld = ReadTotalTakedown bs pos2 len
         fld |> FIXField.TotalTakedown
     | 238 ->
-        let fld = ReadConcessionIdx bs pos2 len
+        let fld = ReadConcession bs pos2 len
         fld |> FIXField.Concession
     | 239 ->
-        let fld = ReadRepoCollateralSecurityTypeIdx bs pos2 len
+        let fld = ReadRepoCollateralSecurityType bs pos2 len
         fld |> FIXField.RepoCollateralSecurityType
     | 240 ->
-        let fld = ReadRedemptionDateIdx bs pos2 len
+        let fld = ReadRedemptionDate bs pos2 len
         fld |> FIXField.RedemptionDate
     | 241 ->
-        let fld = ReadUnderlyingCouponPaymentDateIdx bs pos2 len
+        let fld = ReadUnderlyingCouponPaymentDate bs pos2 len
         fld |> FIXField.UnderlyingCouponPaymentDate
     | 242 ->
-        let fld = ReadUnderlyingIssueDateIdx bs pos2 len
+        let fld = ReadUnderlyingIssueDate bs pos2 len
         fld |> FIXField.UnderlyingIssueDate
     | 243 ->
-        let fld = ReadUnderlyingRepoCollateralSecurityTypeIdx bs pos2 len
+        let fld = ReadUnderlyingRepoCollateralSecurityType bs pos2 len
         fld |> FIXField.UnderlyingRepoCollateralSecurityType
     | 244 ->
-        let fld = ReadUnderlyingRepurchaseTermIdx bs pos2 len
+        let fld = ReadUnderlyingRepurchaseTerm bs pos2 len
         fld |> FIXField.UnderlyingRepurchaseTerm
     | 245 ->
-        let fld = ReadUnderlyingRepurchaseRateIdx bs pos2 len
+        let fld = ReadUnderlyingRepurchaseRate bs pos2 len
         fld |> FIXField.UnderlyingRepurchaseRate
     | 246 ->
-        let fld = ReadUnderlyingFactorIdx bs pos2 len
+        let fld = ReadUnderlyingFactor bs pos2 len
         fld |> FIXField.UnderlyingFactor
     | 247 ->
-        let fld = ReadUnderlyingRedemptionDateIdx bs pos2 len
+        let fld = ReadUnderlyingRedemptionDate bs pos2 len
         fld |> FIXField.UnderlyingRedemptionDate
     | 248 ->
-        let fld = ReadLegCouponPaymentDateIdx bs pos2 len
+        let fld = ReadLegCouponPaymentDate bs pos2 len
         fld |> FIXField.LegCouponPaymentDate
     | 249 ->
-        let fld = ReadLegIssueDateIdx bs pos2 len
+        let fld = ReadLegIssueDate bs pos2 len
         fld |> FIXField.LegIssueDate
     | 250 ->
-        let fld = ReadLegRepoCollateralSecurityTypeIdx bs pos2 len
+        let fld = ReadLegRepoCollateralSecurityType bs pos2 len
         fld |> FIXField.LegRepoCollateralSecurityType
     | 251 ->
-        let fld = ReadLegRepurchaseTermIdx bs pos2 len
+        let fld = ReadLegRepurchaseTerm bs pos2 len
         fld |> FIXField.LegRepurchaseTerm
     | 252 ->
-        let fld = ReadLegRepurchaseRateIdx bs pos2 len
+        let fld = ReadLegRepurchaseRate bs pos2 len
         fld |> FIXField.LegRepurchaseRate
     | 253 ->
-        let fld = ReadLegFactorIdx bs pos2 len
+        let fld = ReadLegFactor bs pos2 len
         fld |> FIXField.LegFactor
     | 254 ->
-        let fld = ReadLegRedemptionDateIdx bs pos2 len
+        let fld = ReadLegRedemptionDate bs pos2 len
         fld |> FIXField.LegRedemptionDate
     | 255 ->
-        let fld = ReadCreditRatingIdx bs pos2 len
+        let fld = ReadCreditRating bs pos2 len
         fld |> FIXField.CreditRating
     | 256 ->
-        let fld = ReadUnderlyingCreditRatingIdx bs pos2 len
+        let fld = ReadUnderlyingCreditRating bs pos2 len
         fld |> FIXField.UnderlyingCreditRating
     | 257 ->
-        let fld = ReadLegCreditRatingIdx bs pos2 len
+        let fld = ReadLegCreditRating bs pos2 len
         fld |> FIXField.LegCreditRating
     | 258 ->
-        let fld = ReadTradedFlatSwitchIdx bs pos2 len
+        let fld = ReadTradedFlatSwitch bs pos2 len
         fld |> FIXField.TradedFlatSwitch
     | 259 ->
-        let fld = ReadBasisFeatureDateIdx bs pos2 len
+        let fld = ReadBasisFeatureDate bs pos2 len
         fld |> FIXField.BasisFeatureDate
     | 260 ->
-        let fld = ReadBasisFeaturePriceIdx bs pos2 len
+        let fld = ReadBasisFeaturePrice bs pos2 len
         fld |> FIXField.BasisFeaturePrice
     | 262 ->
-        let fld = ReadMDReqIDIdx bs pos2 len
+        let fld = ReadMDReqID bs pos2 len
         fld |> FIXField.MDReqID
     | 263 ->
-        let fld = ReadSubscriptionRequestTypeIdx bs pos2 len
+        let fld = ReadSubscriptionRequestType bs pos2 len
         fld |> FIXField.SubscriptionRequestType
     | 264 ->
-        let fld = ReadMarketDepthIdx bs pos2 len
+        let fld = ReadMarketDepth bs pos2 len
         fld |> FIXField.MarketDepth
     | 265 ->
-        let fld = ReadMDUpdateTypeIdx bs pos2 len
+        let fld = ReadMDUpdateType bs pos2 len
         fld |> FIXField.MDUpdateType
     | 266 ->
-        let fld = ReadAggregatedBookIdx bs pos2 len
+        let fld = ReadAggregatedBook bs pos2 len
         fld |> FIXField.AggregatedBook
     | 267 ->
-        let fld = ReadNoMDEntryTypesIdx bs pos2 len
+        let fld = ReadNoMDEntryTypes bs pos2 len
         fld |> FIXField.NoMDEntryTypes
     | 268 ->
-        let fld = ReadNoMDEntriesIdx bs pos2 len
+        let fld = ReadNoMDEntries bs pos2 len
         fld |> FIXField.NoMDEntries
     | 269 ->
-        let fld = ReadMDEntryTypeIdx bs pos2 len
+        let fld = ReadMDEntryType bs pos2 len
         fld |> FIXField.MDEntryType
     | 270 ->
-        let fld = ReadMDEntryPxIdx bs pos2 len
+        let fld = ReadMDEntryPx bs pos2 len
         fld |> FIXField.MDEntryPx
     | 271 ->
-        let fld = ReadMDEntrySizeIdx bs pos2 len
+        let fld = ReadMDEntrySize bs pos2 len
         fld |> FIXField.MDEntrySize
     | 272 ->
-        let fld = ReadMDEntryDateIdx bs pos2 len
+        let fld = ReadMDEntryDate bs pos2 len
         fld |> FIXField.MDEntryDate
     | 273 ->
-        let fld = ReadMDEntryTimeIdx bs pos2 len
+        let fld = ReadMDEntryTime bs pos2 len
         fld |> FIXField.MDEntryTime
     | 274 ->
-        let fld = ReadTickDirectionIdx bs pos2 len
+        let fld = ReadTickDirection bs pos2 len
         fld |> FIXField.TickDirection
     | 275 ->
-        let fld = ReadMDMktIdx bs pos2 len
+        let fld = ReadMDMkt bs pos2 len
         fld |> FIXField.MDMkt
     | 276 ->
-        let fld = ReadQuoteConditionIdx bs pos2 len
+        let fld = ReadQuoteCondition bs pos2 len
         fld |> FIXField.QuoteCondition
     | 277 ->
-        let fld = ReadTradeConditionIdx bs pos2 len
+        let fld = ReadTradeCondition bs pos2 len
         fld |> FIXField.TradeCondition
     | 278 ->
-        let fld = ReadMDEntryIDIdx bs pos2 len
+        let fld = ReadMDEntryID bs pos2 len
         fld |> FIXField.MDEntryID
     | 279 ->
-        let fld = ReadMDUpdateActionIdx bs pos2 len
+        let fld = ReadMDUpdateAction bs pos2 len
         fld |> FIXField.MDUpdateAction
     | 280 ->
-        let fld = ReadMDEntryRefIDIdx bs pos2 len
+        let fld = ReadMDEntryRefID bs pos2 len
         fld |> FIXField.MDEntryRefID
     | 281 ->
-        let fld = ReadMDReqRejReasonIdx bs pos2 len
+        let fld = ReadMDReqRejReason bs pos2 len
         fld |> FIXField.MDReqRejReason
     | 282 ->
-        let fld = ReadMDEntryOriginatorIdx bs pos2 len
+        let fld = ReadMDEntryOriginator bs pos2 len
         fld |> FIXField.MDEntryOriginator
     | 283 ->
-        let fld = ReadLocationIDIdx bs pos2 len
+        let fld = ReadLocationID bs pos2 len
         fld |> FIXField.LocationID
     | 284 ->
-        let fld = ReadDeskIDIdx bs pos2 len
+        let fld = ReadDeskID bs pos2 len
         fld |> FIXField.DeskID
     | 285 ->
-        let fld = ReadDeleteReasonIdx bs pos2 len
+        let fld = ReadDeleteReason bs pos2 len
         fld |> FIXField.DeleteReason
     | 286 ->
-        let fld = ReadOpenCloseSettlFlagIdx bs pos2 len
+        let fld = ReadOpenCloseSettlFlag bs pos2 len
         fld |> FIXField.OpenCloseSettlFlag
     | 287 ->
-        let fld = ReadSellerDaysIdx bs pos2 len
+        let fld = ReadSellerDays bs pos2 len
         fld |> FIXField.SellerDays
     | 288 ->
-        let fld = ReadMDEntryBuyerIdx bs pos2 len
+        let fld = ReadMDEntryBuyer bs pos2 len
         fld |> FIXField.MDEntryBuyer
     | 289 ->
-        let fld = ReadMDEntrySellerIdx bs pos2 len
+        let fld = ReadMDEntrySeller bs pos2 len
         fld |> FIXField.MDEntrySeller
     | 290 ->
-        let fld = ReadMDEntryPositionNoIdx bs pos2 len
+        let fld = ReadMDEntryPositionNo bs pos2 len
         fld |> FIXField.MDEntryPositionNo
     | 291 ->
-        let fld = ReadFinancialStatusIdx bs pos2 len
+        let fld = ReadFinancialStatus bs pos2 len
         fld |> FIXField.FinancialStatus
     | 292 ->
-        let fld = ReadCorporateActionIdx bs pos2 len
+        let fld = ReadCorporateAction bs pos2 len
         fld |> FIXField.CorporateAction
     | 293 ->
-        let fld = ReadDefBidSizeIdx bs pos2 len
+        let fld = ReadDefBidSize bs pos2 len
         fld |> FIXField.DefBidSize
     | 294 ->
-        let fld = ReadDefOfferSizeIdx bs pos2 len
+        let fld = ReadDefOfferSize bs pos2 len
         fld |> FIXField.DefOfferSize
     | 295 ->
-        let fld = ReadNoQuoteEntriesIdx bs pos2 len
+        let fld = ReadNoQuoteEntries bs pos2 len
         fld |> FIXField.NoQuoteEntries
     | 296 ->
-        let fld = ReadNoQuoteSetsIdx bs pos2 len
+        let fld = ReadNoQuoteSets bs pos2 len
         fld |> FIXField.NoQuoteSets
     | 297 ->
-        let fld = ReadQuoteStatusIdx bs pos2 len
+        let fld = ReadQuoteStatus bs pos2 len
         fld |> FIXField.QuoteStatus
     | 298 ->
-        let fld = ReadQuoteCancelTypeIdx bs pos2 len
+        let fld = ReadQuoteCancelType bs pos2 len
         fld |> FIXField.QuoteCancelType
     | 299 ->
-        let fld = ReadQuoteEntryIDIdx bs pos2 len
+        let fld = ReadQuoteEntryID bs pos2 len
         fld |> FIXField.QuoteEntryID
     | 300 ->
-        let fld = ReadQuoteRejectReasonIdx bs pos2 len
+        let fld = ReadQuoteRejectReason bs pos2 len
         fld |> FIXField.QuoteRejectReason
     | 301 ->
-        let fld = ReadQuoteResponseLevelIdx bs pos2 len
+        let fld = ReadQuoteResponseLevel bs pos2 len
         fld |> FIXField.QuoteResponseLevel
     | 302 ->
-        let fld = ReadQuoteSetIDIdx bs pos2 len
+        let fld = ReadQuoteSetID bs pos2 len
         fld |> FIXField.QuoteSetID
     | 303 ->
-        let fld = ReadQuoteRequestTypeIdx bs pos2 len
+        let fld = ReadQuoteRequestType bs pos2 len
         fld |> FIXField.QuoteRequestType
     | 304 ->
-        let fld = ReadTotNoQuoteEntriesIdx bs pos2 len
+        let fld = ReadTotNoQuoteEntries bs pos2 len
         fld |> FIXField.TotNoQuoteEntries
     | 305 ->
-        let fld = ReadUnderlyingSecurityIDSourceIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityIDSource bs pos2 len
         fld |> FIXField.UnderlyingSecurityIDSource
     | 306 ->
-        let fld = ReadUnderlyingIssuerIdx bs pos2 len
+        let fld = ReadUnderlyingIssuer bs pos2 len
         fld |> FIXField.UnderlyingIssuer
     | 307 ->
-        let fld = ReadUnderlyingSecurityDescIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityDesc bs pos2 len
         fld |> FIXField.UnderlyingSecurityDesc
     | 308 ->
-        let fld = ReadUnderlyingSecurityExchangeIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityExchange bs pos2 len
         fld |> FIXField.UnderlyingSecurityExchange
     | 309 ->
-        let fld = ReadUnderlyingSecurityIDIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityID bs pos2 len
         fld |> FIXField.UnderlyingSecurityID
     | 310 ->
-        let fld = ReadUnderlyingSecurityTypeIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityType bs pos2 len
         fld |> FIXField.UnderlyingSecurityType
     | 311 ->
-        let fld = ReadUnderlyingSymbolIdx bs pos2 len
+        let fld = ReadUnderlyingSymbol bs pos2 len
         fld |> FIXField.UnderlyingSymbol
     | 312 ->
-        let fld = ReadUnderlyingSymbolSfxIdx bs pos2 len
+        let fld = ReadUnderlyingSymbolSfx bs pos2 len
         fld |> FIXField.UnderlyingSymbolSfx
     | 313 ->
-        let fld = ReadUnderlyingMaturityMonthYearIdx bs pos2 len
+        let fld = ReadUnderlyingMaturityMonthYear bs pos2 len
         fld |> FIXField.UnderlyingMaturityMonthYear
     | 315 ->
-        let fld = ReadUnderlyingPutOrCallIdx bs pos2 len
+        let fld = ReadUnderlyingPutOrCall bs pos2 len
         fld |> FIXField.UnderlyingPutOrCall
     | 316 ->
-        let fld = ReadUnderlyingStrikePriceIdx bs pos2 len
+        let fld = ReadUnderlyingStrikePrice bs pos2 len
         fld |> FIXField.UnderlyingStrikePrice
     | 317 ->
-        let fld = ReadUnderlyingOptAttributeIdx bs pos2 len
+        let fld = ReadUnderlyingOptAttribute bs pos2 len
         fld |> FIXField.UnderlyingOptAttribute
     | 318 ->
-        let fld = ReadUnderlyingCurrencyIdx bs pos2 len
+        let fld = ReadUnderlyingCurrency bs pos2 len
         fld |> FIXField.UnderlyingCurrency
     | 320 ->
-        let fld = ReadSecurityReqIDIdx bs pos2 len
+        let fld = ReadSecurityReqID bs pos2 len
         fld |> FIXField.SecurityReqID
     | 321 ->
-        let fld = ReadSecurityRequestTypeIdx bs pos2 len
+        let fld = ReadSecurityRequestType bs pos2 len
         fld |> FIXField.SecurityRequestType
     | 322 ->
-        let fld = ReadSecurityResponseIDIdx bs pos2 len
+        let fld = ReadSecurityResponseID bs pos2 len
         fld |> FIXField.SecurityResponseID
     | 323 ->
-        let fld = ReadSecurityResponseTypeIdx bs pos2 len
+        let fld = ReadSecurityResponseType bs pos2 len
         fld |> FIXField.SecurityResponseType
     | 324 ->
-        let fld = ReadSecurityStatusReqIDIdx bs pos2 len
+        let fld = ReadSecurityStatusReqID bs pos2 len
         fld |> FIXField.SecurityStatusReqID
     | 325 ->
-        let fld = ReadUnsolicitedIndicatorIdx bs pos2 len
+        let fld = ReadUnsolicitedIndicator bs pos2 len
         fld |> FIXField.UnsolicitedIndicator
     | 326 ->
-        let fld = ReadSecurityTradingStatusIdx bs pos2 len
+        let fld = ReadSecurityTradingStatus bs pos2 len
         fld |> FIXField.SecurityTradingStatus
     | 327 ->
-        let fld = ReadHaltReasonIdx bs pos2 len
+        let fld = ReadHaltReason bs pos2 len
         fld |> FIXField.HaltReason
     | 328 ->
-        let fld = ReadInViewOfCommonIdx bs pos2 len
+        let fld = ReadInViewOfCommon bs pos2 len
         fld |> FIXField.InViewOfCommon
     | 329 ->
-        let fld = ReadDueToRelatedIdx bs pos2 len
+        let fld = ReadDueToRelated bs pos2 len
         fld |> FIXField.DueToRelated
     | 330 ->
-        let fld = ReadBuyVolumeIdx bs pos2 len
+        let fld = ReadBuyVolume bs pos2 len
         fld |> FIXField.BuyVolume
     | 331 ->
-        let fld = ReadSellVolumeIdx bs pos2 len
+        let fld = ReadSellVolume bs pos2 len
         fld |> FIXField.SellVolume
     | 332 ->
-        let fld = ReadHighPxIdx bs pos2 len
+        let fld = ReadHighPx bs pos2 len
         fld |> FIXField.HighPx
     | 333 ->
-        let fld = ReadLowPxIdx bs pos2 len
+        let fld = ReadLowPx bs pos2 len
         fld |> FIXField.LowPx
     | 334 ->
-        let fld = ReadAdjustmentIdx bs pos2 len
+        let fld = ReadAdjustment bs pos2 len
         fld |> FIXField.Adjustment
     | 335 ->
-        let fld = ReadTradSesReqIDIdx bs pos2 len
+        let fld = ReadTradSesReqID bs pos2 len
         fld |> FIXField.TradSesReqID
     | 336 ->
-        let fld = ReadTradingSessionIDIdx bs pos2 len
+        let fld = ReadTradingSessionID bs pos2 len
         fld |> FIXField.TradingSessionID
     | 337 ->
-        let fld = ReadContraTraderIdx bs pos2 len
+        let fld = ReadContraTrader bs pos2 len
         fld |> FIXField.ContraTrader
     | 338 ->
-        let fld = ReadTradSesMethodIdx bs pos2 len
+        let fld = ReadTradSesMethod bs pos2 len
         fld |> FIXField.TradSesMethod
     | 339 ->
-        let fld = ReadTradSesModeIdx bs pos2 len
+        let fld = ReadTradSesMode bs pos2 len
         fld |> FIXField.TradSesMode
     | 340 ->
-        let fld = ReadTradSesStatusIdx bs pos2 len
+        let fld = ReadTradSesStatus bs pos2 len
         fld |> FIXField.TradSesStatus
     | 341 ->
-        let fld = ReadTradSesStartTimeIdx bs pos2 len
+        let fld = ReadTradSesStartTime bs pos2 len
         fld |> FIXField.TradSesStartTime
     | 342 ->
-        let fld = ReadTradSesOpenTimeIdx bs pos2 len
+        let fld = ReadTradSesOpenTime bs pos2 len
         fld |> FIXField.TradSesOpenTime
     | 343 ->
-        let fld = ReadTradSesPreCloseTimeIdx bs pos2 len
+        let fld = ReadTradSesPreCloseTime bs pos2 len
         fld |> FIXField.TradSesPreCloseTime
     | 344 ->
-        let fld = ReadTradSesCloseTimeIdx bs pos2 len
+        let fld = ReadTradSesCloseTime bs pos2 len
         fld |> FIXField.TradSesCloseTime
     | 345 ->
-        let fld = ReadTradSesEndTimeIdx bs pos2 len
+        let fld = ReadTradSesEndTime bs pos2 len
         fld |> FIXField.TradSesEndTime
     | 346 ->
-        let fld = ReadNumberOfOrdersIdx bs pos2 len
+        let fld = ReadNumberOfOrders bs pos2 len
         fld |> FIXField.NumberOfOrders
     | 347 ->
-        let fld = ReadMessageEncodingIdx bs pos2 len
+        let fld = ReadMessageEncoding bs pos2 len
         fld |> FIXField.MessageEncoding
     | 348 ->
-        let fld = ReadEncodedIssuerIdx bs pos2 len
+        let fld = ReadEncodedIssuer bs pos2 len
         fld |> FIXField.EncodedIssuer // len->string compound field
     | 350 ->
-        let fld = ReadEncodedSecurityDescIdx bs pos2 len
+        let fld = ReadEncodedSecurityDesc bs pos2 len
         fld |> FIXField.EncodedSecurityDesc // len->string compound field
     | 352 ->
-        let fld = ReadEncodedListExecInstIdx bs pos2 len
+        let fld = ReadEncodedListExecInst bs pos2 len
         fld |> FIXField.EncodedListExecInst // len->string compound field
     | 354 ->
-        let fld = ReadEncodedTextIdx bs pos2 len
+        let fld = ReadEncodedText bs pos2 len
         fld |> FIXField.EncodedText // len->string compound field
     | 356 ->
-        let fld = ReadEncodedSubjectIdx bs pos2 len
+        let fld = ReadEncodedSubject bs pos2 len
         fld |> FIXField.EncodedSubject // len->string compound field
     | 358 ->
-        let fld = ReadEncodedHeadlineIdx bs pos2 len
+        let fld = ReadEncodedHeadline bs pos2 len
         fld |> FIXField.EncodedHeadline // len->string compound field
     | 360 ->
-        let fld = ReadEncodedAllocTextIdx bs pos2 len
+        let fld = ReadEncodedAllocText bs pos2 len
         fld |> FIXField.EncodedAllocText // len->string compound field
     | 362 ->
-        let fld = ReadEncodedUnderlyingIssuerIdx bs pos2 len
+        let fld = ReadEncodedUnderlyingIssuer bs pos2 len
         fld |> FIXField.EncodedUnderlyingIssuer // len->string compound field
     | 364 ->
-        let fld = ReadEncodedUnderlyingSecurityDescIdx bs pos2 len
+        let fld = ReadEncodedUnderlyingSecurityDesc bs pos2 len
         fld |> FIXField.EncodedUnderlyingSecurityDesc // len->string compound field
     | 366 ->
-        let fld = ReadAllocPriceIdx bs pos2 len
+        let fld = ReadAllocPrice bs pos2 len
         fld |> FIXField.AllocPrice
     | 367 ->
-        let fld = ReadQuoteSetValidUntilTimeIdx bs pos2 len
+        let fld = ReadQuoteSetValidUntilTime bs pos2 len
         fld |> FIXField.QuoteSetValidUntilTime
     | 368 ->
-        let fld = ReadQuoteEntryRejectReasonIdx bs pos2 len
+        let fld = ReadQuoteEntryRejectReason bs pos2 len
         fld |> FIXField.QuoteEntryRejectReason
     | 369 ->
-        let fld = ReadLastMsgSeqNumProcessedIdx bs pos2 len
+        let fld = ReadLastMsgSeqNumProcessed bs pos2 len
         fld |> FIXField.LastMsgSeqNumProcessed
     | 371 ->
-        let fld = ReadRefTagIDIdx bs pos2 len
+        let fld = ReadRefTagID bs pos2 len
         fld |> FIXField.RefTagID
     | 372 ->
-        let fld = ReadRefMsgTypeIdx bs pos2 len
+        let fld = ReadRefMsgType bs pos2 len
         fld |> FIXField.RefMsgType
     | 373 ->
-        let fld = ReadSessionRejectReasonIdx bs pos2 len
+        let fld = ReadSessionRejectReason bs pos2 len
         fld |> FIXField.SessionRejectReason
     | 374 ->
-        let fld = ReadBidRequestTransTypeIdx bs pos2 len
+        let fld = ReadBidRequestTransType bs pos2 len
         fld |> FIXField.BidRequestTransType
     | 375 ->
-        let fld = ReadContraBrokerIdx bs pos2 len
+        let fld = ReadContraBroker bs pos2 len
         fld |> FIXField.ContraBroker
     | 376 ->
-        let fld = ReadComplianceIDIdx bs pos2 len
+        let fld = ReadComplianceID bs pos2 len
         fld |> FIXField.ComplianceID
     | 377 ->
-        let fld = ReadSolicitedFlagIdx bs pos2 len
+        let fld = ReadSolicitedFlag bs pos2 len
         fld |> FIXField.SolicitedFlag
     | 378 ->
-        let fld = ReadExecRestatementReasonIdx bs pos2 len
+        let fld = ReadExecRestatementReason bs pos2 len
         fld |> FIXField.ExecRestatementReason
     | 379 ->
-        let fld = ReadBusinessRejectRefIDIdx bs pos2 len
+        let fld = ReadBusinessRejectRefID bs pos2 len
         fld |> FIXField.BusinessRejectRefID
     | 380 ->
-        let fld = ReadBusinessRejectReasonIdx bs pos2 len
+        let fld = ReadBusinessRejectReason bs pos2 len
         fld |> FIXField.BusinessRejectReason
     | 381 ->
-        let fld = ReadGrossTradeAmtIdx bs pos2 len
+        let fld = ReadGrossTradeAmt bs pos2 len
         fld |> FIXField.GrossTradeAmt
     | 382 ->
-        let fld = ReadNoContraBrokersIdx bs pos2 len
+        let fld = ReadNoContraBrokers bs pos2 len
         fld |> FIXField.NoContraBrokers
     | 383 ->
-        let fld = ReadMaxMessageSizeIdx bs pos2 len
+        let fld = ReadMaxMessageSize bs pos2 len
         fld |> FIXField.MaxMessageSize
     | 384 ->
-        let fld = ReadNoMsgTypesIdx bs pos2 len
+        let fld = ReadNoMsgTypes bs pos2 len
         fld |> FIXField.NoMsgTypes
     | 385 ->
-        let fld = ReadMsgDirectionIdx bs pos2 len
+        let fld = ReadMsgDirection bs pos2 len
         fld |> FIXField.MsgDirection
     | 386 ->
-        let fld = ReadNoTradingSessionsIdx bs pos2 len
+        let fld = ReadNoTradingSessions bs pos2 len
         fld |> FIXField.NoTradingSessions
     | 387 ->
-        let fld = ReadTotalVolumeTradedIdx bs pos2 len
+        let fld = ReadTotalVolumeTraded bs pos2 len
         fld |> FIXField.TotalVolumeTraded
     | 388 ->
-        let fld = ReadDiscretionInstIdx bs pos2 len
+        let fld = ReadDiscretionInst bs pos2 len
         fld |> FIXField.DiscretionInst
     | 389 ->
-        let fld = ReadDiscretionOffsetValueIdx bs pos2 len
+        let fld = ReadDiscretionOffsetValue bs pos2 len
         fld |> FIXField.DiscretionOffsetValue
     | 390 ->
-        let fld = ReadBidIDIdx bs pos2 len
+        let fld = ReadBidID bs pos2 len
         fld |> FIXField.BidID
     | 391 ->
-        let fld = ReadClientBidIDIdx bs pos2 len
+        let fld = ReadClientBidID bs pos2 len
         fld |> FIXField.ClientBidID
     | 392 ->
-        let fld = ReadListNameIdx bs pos2 len
+        let fld = ReadListName bs pos2 len
         fld |> FIXField.ListName
     | 393 ->
-        let fld = ReadTotNoRelatedSymIdx bs pos2 len
+        let fld = ReadTotNoRelatedSym bs pos2 len
         fld |> FIXField.TotNoRelatedSym
     | 394 ->
-        let fld = ReadBidTypeIdx bs pos2 len
+        let fld = ReadBidType bs pos2 len
         fld |> FIXField.BidType
     | 395 ->
-        let fld = ReadNumTicketsIdx bs pos2 len
+        let fld = ReadNumTickets bs pos2 len
         fld |> FIXField.NumTickets
     | 396 ->
-        let fld = ReadSideValue1Idx bs pos2 len
+        let fld = ReadSideValue1 bs pos2 len
         fld |> FIXField.SideValue1
     | 397 ->
-        let fld = ReadSideValue2Idx bs pos2 len
+        let fld = ReadSideValue2 bs pos2 len
         fld |> FIXField.SideValue2
     | 398 ->
-        let fld = ReadNoBidDescriptorsIdx bs pos2 len
+        let fld = ReadNoBidDescriptors bs pos2 len
         fld |> FIXField.NoBidDescriptors
     | 399 ->
-        let fld = ReadBidDescriptorTypeIdx bs pos2 len
+        let fld = ReadBidDescriptorType bs pos2 len
         fld |> FIXField.BidDescriptorType
     | 400 ->
-        let fld = ReadBidDescriptorIdx bs pos2 len
+        let fld = ReadBidDescriptor bs pos2 len
         fld |> FIXField.BidDescriptor
     | 401 ->
-        let fld = ReadSideValueIndIdx bs pos2 len
+        let fld = ReadSideValueInd bs pos2 len
         fld |> FIXField.SideValueInd
     | 402 ->
-        let fld = ReadLiquidityPctLowIdx bs pos2 len
+        let fld = ReadLiquidityPctLow bs pos2 len
         fld |> FIXField.LiquidityPctLow
     | 403 ->
-        let fld = ReadLiquidityPctHighIdx bs pos2 len
+        let fld = ReadLiquidityPctHigh bs pos2 len
         fld |> FIXField.LiquidityPctHigh
     | 404 ->
-        let fld = ReadLiquidityValueIdx bs pos2 len
+        let fld = ReadLiquidityValue bs pos2 len
         fld |> FIXField.LiquidityValue
     | 405 ->
-        let fld = ReadEFPTrackingErrorIdx bs pos2 len
+        let fld = ReadEFPTrackingError bs pos2 len
         fld |> FIXField.EFPTrackingError
     | 406 ->
-        let fld = ReadFairValueIdx bs pos2 len
+        let fld = ReadFairValue bs pos2 len
         fld |> FIXField.FairValue
     | 407 ->
-        let fld = ReadOutsideIndexPctIdx bs pos2 len
+        let fld = ReadOutsideIndexPct bs pos2 len
         fld |> FIXField.OutsideIndexPct
     | 408 ->
-        let fld = ReadValueOfFuturesIdx bs pos2 len
+        let fld = ReadValueOfFutures bs pos2 len
         fld |> FIXField.ValueOfFutures
     | 409 ->
-        let fld = ReadLiquidityIndTypeIdx bs pos2 len
+        let fld = ReadLiquidityIndType bs pos2 len
         fld |> FIXField.LiquidityIndType
     | 410 ->
-        let fld = ReadWtAverageLiquidityIdx bs pos2 len
+        let fld = ReadWtAverageLiquidity bs pos2 len
         fld |> FIXField.WtAverageLiquidity
     | 411 ->
-        let fld = ReadExchangeForPhysicalIdx bs pos2 len
+        let fld = ReadExchangeForPhysical bs pos2 len
         fld |> FIXField.ExchangeForPhysical
     | 412 ->
-        let fld = ReadOutMainCntryUIndexIdx bs pos2 len
+        let fld = ReadOutMainCntryUIndex bs pos2 len
         fld |> FIXField.OutMainCntryUIndex
     | 413 ->
-        let fld = ReadCrossPercentIdx bs pos2 len
+        let fld = ReadCrossPercent bs pos2 len
         fld |> FIXField.CrossPercent
     | 414 ->
-        let fld = ReadProgRptReqsIdx bs pos2 len
+        let fld = ReadProgRptReqs bs pos2 len
         fld |> FIXField.ProgRptReqs
     | 415 ->
-        let fld = ReadProgPeriodIntervalIdx bs pos2 len
+        let fld = ReadProgPeriodInterval bs pos2 len
         fld |> FIXField.ProgPeriodInterval
     | 416 ->
-        let fld = ReadIncTaxIndIdx bs pos2 len
+        let fld = ReadIncTaxInd bs pos2 len
         fld |> FIXField.IncTaxInd
     | 417 ->
-        let fld = ReadNumBiddersIdx bs pos2 len
+        let fld = ReadNumBidders bs pos2 len
         fld |> FIXField.NumBidders
     | 418 ->
-        let fld = ReadBidTradeTypeIdx bs pos2 len
+        let fld = ReadBidTradeType bs pos2 len
         fld |> FIXField.BidTradeType
     | 419 ->
-        let fld = ReadBasisPxTypeIdx bs pos2 len
+        let fld = ReadBasisPxType bs pos2 len
         fld |> FIXField.BasisPxType
     | 420 ->
-        let fld = ReadNoBidComponentsIdx bs pos2 len
+        let fld = ReadNoBidComponents bs pos2 len
         fld |> FIXField.NoBidComponents
     | 421 ->
-        let fld = ReadCountryIdx bs pos2 len
+        let fld = ReadCountry bs pos2 len
         fld |> FIXField.Country
     | 422 ->
-        let fld = ReadTotNoStrikesIdx bs pos2 len
+        let fld = ReadTotNoStrikes bs pos2 len
         fld |> FIXField.TotNoStrikes
     | 423 ->
-        let fld = ReadPriceTypeIdx bs pos2 len
+        let fld = ReadPriceType bs pos2 len
         fld |> FIXField.PriceType
     | 424 ->
-        let fld = ReadDayOrderQtyIdx bs pos2 len
+        let fld = ReadDayOrderQty bs pos2 len
         fld |> FIXField.DayOrderQty
     | 425 ->
-        let fld = ReadDayCumQtyIdx bs pos2 len
+        let fld = ReadDayCumQty bs pos2 len
         fld |> FIXField.DayCumQty
     | 426 ->
-        let fld = ReadDayAvgPxIdx bs pos2 len
+        let fld = ReadDayAvgPx bs pos2 len
         fld |> FIXField.DayAvgPx
     | 427 ->
-        let fld = ReadGTBookingInstIdx bs pos2 len
+        let fld = ReadGTBookingInst bs pos2 len
         fld |> FIXField.GTBookingInst
     | 428 ->
-        let fld = ReadNoStrikesIdx bs pos2 len
+        let fld = ReadNoStrikes bs pos2 len
         fld |> FIXField.NoStrikes
     | 429 ->
-        let fld = ReadListStatusTypeIdx bs pos2 len
+        let fld = ReadListStatusType bs pos2 len
         fld |> FIXField.ListStatusType
     | 430 ->
-        let fld = ReadNetGrossIndIdx bs pos2 len
+        let fld = ReadNetGrossInd bs pos2 len
         fld |> FIXField.NetGrossInd
     | 431 ->
-        let fld = ReadListOrderStatusIdx bs pos2 len
+        let fld = ReadListOrderStatus bs pos2 len
         fld |> FIXField.ListOrderStatus
     | 432 ->
-        let fld = ReadExpireDateIdx bs pos2 len
+        let fld = ReadExpireDate bs pos2 len
         fld |> FIXField.ExpireDate
     | 433 ->
-        let fld = ReadListExecInstTypeIdx bs pos2 len
+        let fld = ReadListExecInstType bs pos2 len
         fld |> FIXField.ListExecInstType
     | 434 ->
-        let fld = ReadCxlRejResponseToIdx bs pos2 len
+        let fld = ReadCxlRejResponseTo bs pos2 len
         fld |> FIXField.CxlRejResponseTo
     | 435 ->
-        let fld = ReadUnderlyingCouponRateIdx bs pos2 len
+        let fld = ReadUnderlyingCouponRate bs pos2 len
         fld |> FIXField.UnderlyingCouponRate
     | 436 ->
-        let fld = ReadUnderlyingContractMultiplierIdx bs pos2 len
+        let fld = ReadUnderlyingContractMultiplier bs pos2 len
         fld |> FIXField.UnderlyingContractMultiplier
     | 437 ->
-        let fld = ReadContraTradeQtyIdx bs pos2 len
+        let fld = ReadContraTradeQty bs pos2 len
         fld |> FIXField.ContraTradeQty
     | 438 ->
-        let fld = ReadContraTradeTimeIdx bs pos2 len
+        let fld = ReadContraTradeTime bs pos2 len
         fld |> FIXField.ContraTradeTime
     | 441 ->
-        let fld = ReadLiquidityNumSecuritiesIdx bs pos2 len
+        let fld = ReadLiquidityNumSecurities bs pos2 len
         fld |> FIXField.LiquidityNumSecurities
     | 442 ->
-        let fld = ReadMultiLegReportingTypeIdx bs pos2 len
+        let fld = ReadMultiLegReportingType bs pos2 len
         fld |> FIXField.MultiLegReportingType
     | 443 ->
-        let fld = ReadStrikeTimeIdx bs pos2 len
+        let fld = ReadStrikeTime bs pos2 len
         fld |> FIXField.StrikeTime
     | 444 ->
-        let fld = ReadListStatusTextIdx bs pos2 len
+        let fld = ReadListStatusText bs pos2 len
         fld |> FIXField.ListStatusText
     | 445 ->
-        let fld = ReadEncodedListStatusTextIdx bs pos2 len
+        let fld = ReadEncodedListStatusText bs pos2 len
         fld |> FIXField.EncodedListStatusText // len->string compound field
     | 447 ->
-        let fld = ReadPartyIDSourceIdx bs pos2 len
+        let fld = ReadPartyIDSource bs pos2 len
         fld |> FIXField.PartyIDSource
     | 448 ->
-        let fld = ReadPartyIDIdx bs pos2 len
+        let fld = ReadPartyID bs pos2 len
         fld |> FIXField.PartyID
     | 451 ->
-        let fld = ReadNetChgPrevDayIdx bs pos2 len
+        let fld = ReadNetChgPrevDay bs pos2 len
         fld |> FIXField.NetChgPrevDay
     | 452 ->
-        let fld = ReadPartyRoleIdx bs pos2 len
+        let fld = ReadPartyRole bs pos2 len
         fld |> FIXField.PartyRole
     | 453 ->
-        let fld = ReadNoPartyIDsIdx bs pos2 len
+        let fld = ReadNoPartyIDs bs pos2 len
         fld |> FIXField.NoPartyIDs
     | 454 ->
-        let fld = ReadNoSecurityAltIDIdx bs pos2 len
+        let fld = ReadNoSecurityAltID bs pos2 len
         fld |> FIXField.NoSecurityAltID
     | 455 ->
-        let fld = ReadSecurityAltIDIdx bs pos2 len
+        let fld = ReadSecurityAltID bs pos2 len
         fld |> FIXField.SecurityAltID
     | 456 ->
-        let fld = ReadSecurityAltIDSourceIdx bs pos2 len
+        let fld = ReadSecurityAltIDSource bs pos2 len
         fld |> FIXField.SecurityAltIDSource
     | 457 ->
-        let fld = ReadNoUnderlyingSecurityAltIDIdx bs pos2 len
+        let fld = ReadNoUnderlyingSecurityAltID bs pos2 len
         fld |> FIXField.NoUnderlyingSecurityAltID
     | 458 ->
-        let fld = ReadUnderlyingSecurityAltIDIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityAltID bs pos2 len
         fld |> FIXField.UnderlyingSecurityAltID
     | 459 ->
-        let fld = ReadUnderlyingSecurityAltIDSourceIdx bs pos2 len
+        let fld = ReadUnderlyingSecurityAltIDSource bs pos2 len
         fld |> FIXField.UnderlyingSecurityAltIDSource
     | 460 ->
-        let fld = ReadProductIdx bs pos2 len
+        let fld = ReadProduct bs pos2 len
         fld |> FIXField.Product
     | 461 ->
-        let fld = ReadCFICodeIdx bs pos2 len
+        let fld = ReadCFICode bs pos2 len
         fld |> FIXField.CFICode
     | 462 ->
-        let fld = ReadUnderlyingProductIdx bs pos2 len
+        let fld = ReadUnderlyingProduct bs pos2 len
         fld |> FIXField.UnderlyingProduct
     | 463 ->
-        let fld = ReadUnderlyingCFICodeIdx bs pos2 len
+        let fld = ReadUnderlyingCFICode bs pos2 len
         fld |> FIXField.UnderlyingCFICode
     | 464 ->
-        let fld = ReadTestMessageIndicatorIdx bs pos2 len
+        let fld = ReadTestMessageIndicator bs pos2 len
         fld |> FIXField.TestMessageIndicator
     | 465 ->
-        let fld = ReadQuantityTypeIdx bs pos2 len
+        let fld = ReadQuantityType bs pos2 len
         fld |> FIXField.QuantityType
     | 466 ->
-        let fld = ReadBookingRefIDIdx bs pos2 len
+        let fld = ReadBookingRefID bs pos2 len
         fld |> FIXField.BookingRefID
     | 467 ->
-        let fld = ReadIndividualAllocIDIdx bs pos2 len
+        let fld = ReadIndividualAllocID bs pos2 len
         fld |> FIXField.IndividualAllocID
     | 468 ->
-        let fld = ReadRoundingDirectionIdx bs pos2 len
+        let fld = ReadRoundingDirection bs pos2 len
         fld |> FIXField.RoundingDirection
     | 469 ->
-        let fld = ReadRoundingModulusIdx bs pos2 len
+        let fld = ReadRoundingModulus bs pos2 len
         fld |> FIXField.RoundingModulus
     | 470 ->
-        let fld = ReadCountryOfIssueIdx bs pos2 len
+        let fld = ReadCountryOfIssue bs pos2 len
         fld |> FIXField.CountryOfIssue
     | 471 ->
-        let fld = ReadStateOrProvinceOfIssueIdx bs pos2 len
+        let fld = ReadStateOrProvinceOfIssue bs pos2 len
         fld |> FIXField.StateOrProvinceOfIssue
     | 472 ->
-        let fld = ReadLocaleOfIssueIdx bs pos2 len
+        let fld = ReadLocaleOfIssue bs pos2 len
         fld |> FIXField.LocaleOfIssue
     | 473 ->
-        let fld = ReadNoRegistDtlsIdx bs pos2 len
+        let fld = ReadNoRegistDtls bs pos2 len
         fld |> FIXField.NoRegistDtls
     | 474 ->
-        let fld = ReadMailingDtlsIdx bs pos2 len
+        let fld = ReadMailingDtls bs pos2 len
         fld |> FIXField.MailingDtls
     | 475 ->
-        let fld = ReadInvestorCountryOfResidenceIdx bs pos2 len
+        let fld = ReadInvestorCountryOfResidence bs pos2 len
         fld |> FIXField.InvestorCountryOfResidence
     | 476 ->
-        let fld = ReadPaymentRefIdx bs pos2 len
+        let fld = ReadPaymentRef bs pos2 len
         fld |> FIXField.PaymentRef
     | 477 ->
-        let fld = ReadDistribPaymentMethodIdx bs pos2 len
+        let fld = ReadDistribPaymentMethod bs pos2 len
         fld |> FIXField.DistribPaymentMethod
     | 478 ->
-        let fld = ReadCashDistribCurrIdx bs pos2 len
+        let fld = ReadCashDistribCurr bs pos2 len
         fld |> FIXField.CashDistribCurr
     | 479 ->
-        let fld = ReadCommCurrencyIdx bs pos2 len
+        let fld = ReadCommCurrency bs pos2 len
         fld |> FIXField.CommCurrency
     | 480 ->
-        let fld = ReadCancellationRightsIdx bs pos2 len
+        let fld = ReadCancellationRights bs pos2 len
         fld |> FIXField.CancellationRights
     | 481 ->
-        let fld = ReadMoneyLaunderingStatusIdx bs pos2 len
+        let fld = ReadMoneyLaunderingStatus bs pos2 len
         fld |> FIXField.MoneyLaunderingStatus
     | 482 ->
-        let fld = ReadMailingInstIdx bs pos2 len
+        let fld = ReadMailingInst bs pos2 len
         fld |> FIXField.MailingInst
     | 483 ->
-        let fld = ReadTransBkdTimeIdx bs pos2 len
+        let fld = ReadTransBkdTime bs pos2 len
         fld |> FIXField.TransBkdTime
     | 484 ->
-        let fld = ReadExecPriceTypeIdx bs pos2 len
+        let fld = ReadExecPriceType bs pos2 len
         fld |> FIXField.ExecPriceType
     | 485 ->
-        let fld = ReadExecPriceAdjustmentIdx bs pos2 len
+        let fld = ReadExecPriceAdjustment bs pos2 len
         fld |> FIXField.ExecPriceAdjustment
     | 486 ->
-        let fld = ReadDateOfBirthIdx bs pos2 len
+        let fld = ReadDateOfBirth bs pos2 len
         fld |> FIXField.DateOfBirth
     | 487 ->
-        let fld = ReadTradeReportTransTypeIdx bs pos2 len
+        let fld = ReadTradeReportTransType bs pos2 len
         fld |> FIXField.TradeReportTransType
     | 488 ->
-        let fld = ReadCardHolderNameIdx bs pos2 len
+        let fld = ReadCardHolderName bs pos2 len
         fld |> FIXField.CardHolderName
     | 489 ->
-        let fld = ReadCardNumberIdx bs pos2 len
+        let fld = ReadCardNumber bs pos2 len
         fld |> FIXField.CardNumber
     | 490 ->
-        let fld = ReadCardExpDateIdx bs pos2 len
+        let fld = ReadCardExpDate bs pos2 len
         fld |> FIXField.CardExpDate
     | 491 ->
-        let fld = ReadCardIssNumIdx bs pos2 len
+        let fld = ReadCardIssNum bs pos2 len
         fld |> FIXField.CardIssNum
     | 492 ->
-        let fld = ReadPaymentMethodIdx bs pos2 len
+        let fld = ReadPaymentMethod bs pos2 len
         fld |> FIXField.PaymentMethod
     | 493 ->
-        let fld = ReadRegistAcctTypeIdx bs pos2 len
+        let fld = ReadRegistAcctType bs pos2 len
         fld |> FIXField.RegistAcctType
     | 494 ->
-        let fld = ReadDesignationIdx bs pos2 len
+        let fld = ReadDesignation bs pos2 len
         fld |> FIXField.Designation
     | 495 ->
-        let fld = ReadTaxAdvantageTypeIdx bs pos2 len
+        let fld = ReadTaxAdvantageType bs pos2 len
         fld |> FIXField.TaxAdvantageType
     | 496 ->
-        let fld = ReadRegistRejReasonTextIdx bs pos2 len
+        let fld = ReadRegistRejReasonText bs pos2 len
         fld |> FIXField.RegistRejReasonText
     | 497 ->
-        let fld = ReadFundRenewWaivIdx bs pos2 len
+        let fld = ReadFundRenewWaiv bs pos2 len
         fld |> FIXField.FundRenewWaiv
     | 498 ->
-        let fld = ReadCashDistribAgentNameIdx bs pos2 len
+        let fld = ReadCashDistribAgentName bs pos2 len
         fld |> FIXField.CashDistribAgentName
     | 499 ->
-        let fld = ReadCashDistribAgentCodeIdx bs pos2 len
+        let fld = ReadCashDistribAgentCode bs pos2 len
         fld |> FIXField.CashDistribAgentCode
     | 500 ->
-        let fld = ReadCashDistribAgentAcctNumberIdx bs pos2 len
+        let fld = ReadCashDistribAgentAcctNumber bs pos2 len
         fld |> FIXField.CashDistribAgentAcctNumber
     | 501 ->
-        let fld = ReadCashDistribPayRefIdx bs pos2 len
+        let fld = ReadCashDistribPayRef bs pos2 len
         fld |> FIXField.CashDistribPayRef
     | 502 ->
-        let fld = ReadCashDistribAgentAcctNameIdx bs pos2 len
+        let fld = ReadCashDistribAgentAcctName bs pos2 len
         fld |> FIXField.CashDistribAgentAcctName
     | 503 ->
-        let fld = ReadCardStartDateIdx bs pos2 len
+        let fld = ReadCardStartDate bs pos2 len
         fld |> FIXField.CardStartDate
     | 504 ->
-        let fld = ReadPaymentDateIdx bs pos2 len
+        let fld = ReadPaymentDate bs pos2 len
         fld |> FIXField.PaymentDate
     | 505 ->
-        let fld = ReadPaymentRemitterIDIdx bs pos2 len
+        let fld = ReadPaymentRemitterID bs pos2 len
         fld |> FIXField.PaymentRemitterID
     | 506 ->
-        let fld = ReadRegistStatusIdx bs pos2 len
+        let fld = ReadRegistStatus bs pos2 len
         fld |> FIXField.RegistStatus
     | 507 ->
-        let fld = ReadRegistRejReasonCodeIdx bs pos2 len
+        let fld = ReadRegistRejReasonCode bs pos2 len
         fld |> FIXField.RegistRejReasonCode
     | 508 ->
-        let fld = ReadRegistRefIDIdx bs pos2 len
+        let fld = ReadRegistRefID bs pos2 len
         fld |> FIXField.RegistRefID
     | 509 ->
-        let fld = ReadRegistDtlsIdx bs pos2 len
+        let fld = ReadRegistDtls bs pos2 len
         fld |> FIXField.RegistDtls
     | 510 ->
-        let fld = ReadNoDistribInstsIdx bs pos2 len
+        let fld = ReadNoDistribInsts bs pos2 len
         fld |> FIXField.NoDistribInsts
     | 511 ->
-        let fld = ReadRegistEmailIdx bs pos2 len
+        let fld = ReadRegistEmail bs pos2 len
         fld |> FIXField.RegistEmail
     | 512 ->
-        let fld = ReadDistribPercentageIdx bs pos2 len
+        let fld = ReadDistribPercentage bs pos2 len
         fld |> FIXField.DistribPercentage
     | 513 ->
-        let fld = ReadRegistIDIdx bs pos2 len
+        let fld = ReadRegistID bs pos2 len
         fld |> FIXField.RegistID
     | 514 ->
-        let fld = ReadRegistTransTypeIdx bs pos2 len
+        let fld = ReadRegistTransType bs pos2 len
         fld |> FIXField.RegistTransType
     | 515 ->
-        let fld = ReadExecValuationPointIdx bs pos2 len
+        let fld = ReadExecValuationPoint bs pos2 len
         fld |> FIXField.ExecValuationPoint
     | 516 ->
-        let fld = ReadOrderPercentIdx bs pos2 len
+        let fld = ReadOrderPercent bs pos2 len
         fld |> FIXField.OrderPercent
     | 517 ->
-        let fld = ReadOwnershipTypeIdx bs pos2 len
+        let fld = ReadOwnershipType bs pos2 len
         fld |> FIXField.OwnershipType
     | 518 ->
-        let fld = ReadNoContAmtsIdx bs pos2 len
+        let fld = ReadNoContAmts bs pos2 len
         fld |> FIXField.NoContAmts
     | 519 ->
-        let fld = ReadContAmtTypeIdx bs pos2 len
+        let fld = ReadContAmtType bs pos2 len
         fld |> FIXField.ContAmtType
     | 520 ->
-        let fld = ReadContAmtValueIdx bs pos2 len
+        let fld = ReadContAmtValue bs pos2 len
         fld |> FIXField.ContAmtValue
     | 521 ->
-        let fld = ReadContAmtCurrIdx bs pos2 len
+        let fld = ReadContAmtCurr bs pos2 len
         fld |> FIXField.ContAmtCurr
     | 522 ->
-        let fld = ReadOwnerTypeIdx bs pos2 len
+        let fld = ReadOwnerType bs pos2 len
         fld |> FIXField.OwnerType
     | 523 ->
-        let fld = ReadPartySubIDIdx bs pos2 len
+        let fld = ReadPartySubID bs pos2 len
         fld |> FIXField.PartySubID
     | 524 ->
-        let fld = ReadNestedPartyIDIdx bs pos2 len
+        let fld = ReadNestedPartyID bs pos2 len
         fld |> FIXField.NestedPartyID
     | 525 ->
-        let fld = ReadNestedPartyIDSourceIdx bs pos2 len
+        let fld = ReadNestedPartyIDSource bs pos2 len
         fld |> FIXField.NestedPartyIDSource
     | 526 ->
-        let fld = ReadSecondaryClOrdIDIdx bs pos2 len
+        let fld = ReadSecondaryClOrdID bs pos2 len
         fld |> FIXField.SecondaryClOrdID
     | 527 ->
-        let fld = ReadSecondaryExecIDIdx bs pos2 len
+        let fld = ReadSecondaryExecID bs pos2 len
         fld |> FIXField.SecondaryExecID
     | 528 ->
-        let fld = ReadOrderCapacityIdx bs pos2 len
+        let fld = ReadOrderCapacity bs pos2 len
         fld |> FIXField.OrderCapacity
     | 529 ->
-        let fld = ReadOrderRestrictionsIdx bs pos2 len
+        let fld = ReadOrderRestrictions bs pos2 len
         fld |> FIXField.OrderRestrictions
     | 530 ->
-        let fld = ReadMassCancelRequestTypeIdx bs pos2 len
+        let fld = ReadMassCancelRequestType bs pos2 len
         fld |> FIXField.MassCancelRequestType
     | 531 ->
-        let fld = ReadMassCancelResponseIdx bs pos2 len
+        let fld = ReadMassCancelResponse bs pos2 len
         fld |> FIXField.MassCancelResponse
     | 532 ->
-        let fld = ReadMassCancelRejectReasonIdx bs pos2 len
+        let fld = ReadMassCancelRejectReason bs pos2 len
         fld |> FIXField.MassCancelRejectReason
     | 533 ->
-        let fld = ReadTotalAffectedOrdersIdx bs pos2 len
+        let fld = ReadTotalAffectedOrders bs pos2 len
         fld |> FIXField.TotalAffectedOrders
     | 534 ->
-        let fld = ReadNoAffectedOrdersIdx bs pos2 len
+        let fld = ReadNoAffectedOrders bs pos2 len
         fld |> FIXField.NoAffectedOrders
     | 535 ->
-        let fld = ReadAffectedOrderIDIdx bs pos2 len
+        let fld = ReadAffectedOrderID bs pos2 len
         fld |> FIXField.AffectedOrderID
     | 536 ->
-        let fld = ReadAffectedSecondaryOrderIDIdx bs pos2 len
+        let fld = ReadAffectedSecondaryOrderID bs pos2 len
         fld |> FIXField.AffectedSecondaryOrderID
     | 537 ->
-        let fld = ReadQuoteTypeIdx bs pos2 len
+        let fld = ReadQuoteType bs pos2 len
         fld |> FIXField.QuoteType
     | 538 ->
-        let fld = ReadNestedPartyRoleIdx bs pos2 len
+        let fld = ReadNestedPartyRole bs pos2 len
         fld |> FIXField.NestedPartyRole
     | 539 ->
-        let fld = ReadNoNestedPartyIDsIdx bs pos2 len
+        let fld = ReadNoNestedPartyIDs bs pos2 len
         fld |> FIXField.NoNestedPartyIDs
     | 540 ->
-        let fld = ReadTotalAccruedInterestAmtIdx bs pos2 len
+        let fld = ReadTotalAccruedInterestAmt bs pos2 len
         fld |> FIXField.TotalAccruedInterestAmt
     | 541 ->
-        let fld = ReadMaturityDateIdx bs pos2 len
+        let fld = ReadMaturityDate bs pos2 len
         fld |> FIXField.MaturityDate
     | 542 ->
-        let fld = ReadUnderlyingMaturityDateIdx bs pos2 len
+        let fld = ReadUnderlyingMaturityDate bs pos2 len
         fld |> FIXField.UnderlyingMaturityDate
     | 543 ->
-        let fld = ReadInstrRegistryIdx bs pos2 len
+        let fld = ReadInstrRegistry bs pos2 len
         fld |> FIXField.InstrRegistry
     | 544 ->
-        let fld = ReadCashMarginIdx bs pos2 len
+        let fld = ReadCashMargin bs pos2 len
         fld |> FIXField.CashMargin
     | 545 ->
-        let fld = ReadNestedPartySubIDIdx bs pos2 len
+        let fld = ReadNestedPartySubID bs pos2 len
         fld |> FIXField.NestedPartySubID
     | 546 ->
-        let fld = ReadScopeIdx bs pos2 len
+        let fld = ReadScope bs pos2 len
         fld |> FIXField.Scope
     | 547 ->
-        let fld = ReadMDImplicitDeleteIdx bs pos2 len
+        let fld = ReadMDImplicitDelete bs pos2 len
         fld |> FIXField.MDImplicitDelete
     | 548 ->
-        let fld = ReadCrossIDIdx bs pos2 len
+        let fld = ReadCrossID bs pos2 len
         fld |> FIXField.CrossID
     | 549 ->
-        let fld = ReadCrossTypeIdx bs pos2 len
+        let fld = ReadCrossType bs pos2 len
         fld |> FIXField.CrossType
     | 550 ->
-        let fld = ReadCrossPrioritizationIdx bs pos2 len
+        let fld = ReadCrossPrioritization bs pos2 len
         fld |> FIXField.CrossPrioritization
     | 551 ->
-        let fld = ReadOrigCrossIDIdx bs pos2 len
+        let fld = ReadOrigCrossID bs pos2 len
         fld |> FIXField.OrigCrossID
     | 552 ->
-        let fld = ReadNoSidesIdx bs pos2 len
+        let fld = ReadNoSides bs pos2 len
         fld |> FIXField.NoSides
     | 553 ->
-        let fld = ReadUsernameIdx bs pos2 len
+        let fld = ReadUsername bs pos2 len
         fld |> FIXField.Username
     | 554 ->
-        let fld = ReadPasswordIdx bs pos2 len
+        let fld = ReadPassword bs pos2 len
         fld |> FIXField.Password
     | 555 ->
-        let fld = ReadNoLegsIdx bs pos2 len
+        let fld = ReadNoLegs bs pos2 len
         fld |> FIXField.NoLegs
     | 556 ->
-        let fld = ReadLegCurrencyIdx bs pos2 len
+        let fld = ReadLegCurrency bs pos2 len
         fld |> FIXField.LegCurrency
     | 557 ->
-        let fld = ReadTotNoSecurityTypesIdx bs pos2 len
+        let fld = ReadTotNoSecurityTypes bs pos2 len
         fld |> FIXField.TotNoSecurityTypes
     | 558 ->
-        let fld = ReadNoSecurityTypesIdx bs pos2 len
+        let fld = ReadNoSecurityTypes bs pos2 len
         fld |> FIXField.NoSecurityTypes
     | 559 ->
-        let fld = ReadSecurityListRequestTypeIdx bs pos2 len
+        let fld = ReadSecurityListRequestType bs pos2 len
         fld |> FIXField.SecurityListRequestType
     | 560 ->
-        let fld = ReadSecurityRequestResultIdx bs pos2 len
+        let fld = ReadSecurityRequestResult bs pos2 len
         fld |> FIXField.SecurityRequestResult
     | 561 ->
-        let fld = ReadRoundLotIdx bs pos2 len
+        let fld = ReadRoundLot bs pos2 len
         fld |> FIXField.RoundLot
     | 562 ->
-        let fld = ReadMinTradeVolIdx bs pos2 len
+        let fld = ReadMinTradeVol bs pos2 len
         fld |> FIXField.MinTradeVol
     | 563 ->
-        let fld = ReadMultiLegRptTypeReqIdx bs pos2 len
+        let fld = ReadMultiLegRptTypeReq bs pos2 len
         fld |> FIXField.MultiLegRptTypeReq
     | 564 ->
-        let fld = ReadLegPositionEffectIdx bs pos2 len
+        let fld = ReadLegPositionEffect bs pos2 len
         fld |> FIXField.LegPositionEffect
     | 565 ->
-        let fld = ReadLegCoveredOrUncoveredIdx bs pos2 len
+        let fld = ReadLegCoveredOrUncovered bs pos2 len
         fld |> FIXField.LegCoveredOrUncovered
     | 566 ->
-        let fld = ReadLegPriceIdx bs pos2 len
+        let fld = ReadLegPrice bs pos2 len
         fld |> FIXField.LegPrice
     | 567 ->
-        let fld = ReadTradSesStatusRejReasonIdx bs pos2 len
+        let fld = ReadTradSesStatusRejReason bs pos2 len
         fld |> FIXField.TradSesStatusRejReason
     | 568 ->
-        let fld = ReadTradeRequestIDIdx bs pos2 len
+        let fld = ReadTradeRequestID bs pos2 len
         fld |> FIXField.TradeRequestID
     | 569 ->
-        let fld = ReadTradeRequestTypeIdx bs pos2 len
+        let fld = ReadTradeRequestType bs pos2 len
         fld |> FIXField.TradeRequestType
     | 570 ->
-        let fld = ReadPreviouslyReportedIdx bs pos2 len
+        let fld = ReadPreviouslyReported bs pos2 len
         fld |> FIXField.PreviouslyReported
     | 571 ->
-        let fld = ReadTradeReportIDIdx bs pos2 len
+        let fld = ReadTradeReportID bs pos2 len
         fld |> FIXField.TradeReportID
     | 572 ->
-        let fld = ReadTradeReportRefIDIdx bs pos2 len
+        let fld = ReadTradeReportRefID bs pos2 len
         fld |> FIXField.TradeReportRefID
     | 573 ->
-        let fld = ReadMatchStatusIdx bs pos2 len
+        let fld = ReadMatchStatus bs pos2 len
         fld |> FIXField.MatchStatus
     | 574 ->
-        let fld = ReadMatchTypeIdx bs pos2 len
+        let fld = ReadMatchType bs pos2 len
         fld |> FIXField.MatchType
     | 575 ->
-        let fld = ReadOddLotIdx bs pos2 len
+        let fld = ReadOddLot bs pos2 len
         fld |> FIXField.OddLot
     | 576 ->
-        let fld = ReadNoClearingInstructionsIdx bs pos2 len
+        let fld = ReadNoClearingInstructions bs pos2 len
         fld |> FIXField.NoClearingInstructions
     | 577 ->
-        let fld = ReadClearingInstructionIdx bs pos2 len
+        let fld = ReadClearingInstruction bs pos2 len
         fld |> FIXField.ClearingInstruction
     | 578 ->
-        let fld = ReadTradeInputSourceIdx bs pos2 len
+        let fld = ReadTradeInputSource bs pos2 len
         fld |> FIXField.TradeInputSource
     | 579 ->
-        let fld = ReadTradeInputDeviceIdx bs pos2 len
+        let fld = ReadTradeInputDevice bs pos2 len
         fld |> FIXField.TradeInputDevice
     | 580 ->
-        let fld = ReadNoDatesIdx bs pos2 len
+        let fld = ReadNoDates bs pos2 len
         fld |> FIXField.NoDates
     | 581 ->
-        let fld = ReadAccountTypeIdx bs pos2 len
+        let fld = ReadAccountType bs pos2 len
         fld |> FIXField.AccountType
     | 582 ->
-        let fld = ReadCustOrderCapacityIdx bs pos2 len
+        let fld = ReadCustOrderCapacity bs pos2 len
         fld |> FIXField.CustOrderCapacity
     | 583 ->
-        let fld = ReadClOrdLinkIDIdx bs pos2 len
+        let fld = ReadClOrdLinkID bs pos2 len
         fld |> FIXField.ClOrdLinkID
     | 584 ->
-        let fld = ReadMassStatusReqIDIdx bs pos2 len
+        let fld = ReadMassStatusReqID bs pos2 len
         fld |> FIXField.MassStatusReqID
     | 585 ->
-        let fld = ReadMassStatusReqTypeIdx bs pos2 len
+        let fld = ReadMassStatusReqType bs pos2 len
         fld |> FIXField.MassStatusReqType
     | 586 ->
-        let fld = ReadOrigOrdModTimeIdx bs pos2 len
+        let fld = ReadOrigOrdModTime bs pos2 len
         fld |> FIXField.OrigOrdModTime
     | 587 ->
-        let fld = ReadLegSettlTypeIdx bs pos2 len
+        let fld = ReadLegSettlType bs pos2 len
         fld |> FIXField.LegSettlType
     | 588 ->
-        let fld = ReadLegSettlDateIdx bs pos2 len
+        let fld = ReadLegSettlDate bs pos2 len
         fld |> FIXField.LegSettlDate
     | 589 ->
-        let fld = ReadDayBookingInstIdx bs pos2 len
+        let fld = ReadDayBookingInst bs pos2 len
         fld |> FIXField.DayBookingInst
     | 590 ->
-        let fld = ReadBookingUnitIdx bs pos2 len
+        let fld = ReadBookingUnit bs pos2 len
         fld |> FIXField.BookingUnit
     | 591 ->
-        let fld = ReadPreallocMethodIdx bs pos2 len
+        let fld = ReadPreallocMethod bs pos2 len
         fld |> FIXField.PreallocMethod
     | 592 ->
-        let fld = ReadUnderlyingCountryOfIssueIdx bs pos2 len
+        let fld = ReadUnderlyingCountryOfIssue bs pos2 len
         fld |> FIXField.UnderlyingCountryOfIssue
     | 593 ->
-        let fld = ReadUnderlyingStateOrProvinceOfIssueIdx bs pos2 len
+        let fld = ReadUnderlyingStateOrProvinceOfIssue bs pos2 len
         fld |> FIXField.UnderlyingStateOrProvinceOfIssue
     | 594 ->
-        let fld = ReadUnderlyingLocaleOfIssueIdx bs pos2 len
+        let fld = ReadUnderlyingLocaleOfIssue bs pos2 len
         fld |> FIXField.UnderlyingLocaleOfIssue
     | 595 ->
-        let fld = ReadUnderlyingInstrRegistryIdx bs pos2 len
+        let fld = ReadUnderlyingInstrRegistry bs pos2 len
         fld |> FIXField.UnderlyingInstrRegistry
     | 596 ->
-        let fld = ReadLegCountryOfIssueIdx bs pos2 len
+        let fld = ReadLegCountryOfIssue bs pos2 len
         fld |> FIXField.LegCountryOfIssue
     | 597 ->
-        let fld = ReadLegStateOrProvinceOfIssueIdx bs pos2 len
+        let fld = ReadLegStateOrProvinceOfIssue bs pos2 len
         fld |> FIXField.LegStateOrProvinceOfIssue
     | 598 ->
-        let fld = ReadLegLocaleOfIssueIdx bs pos2 len
+        let fld = ReadLegLocaleOfIssue bs pos2 len
         fld |> FIXField.LegLocaleOfIssue
     | 599 ->
-        let fld = ReadLegInstrRegistryIdx bs pos2 len
+        let fld = ReadLegInstrRegistry bs pos2 len
         fld |> FIXField.LegInstrRegistry
     | 600 ->
-        let fld = ReadLegSymbolIdx bs pos2 len
+        let fld = ReadLegSymbol bs pos2 len
         fld |> FIXField.LegSymbol
     | 601 ->
-        let fld = ReadLegSymbolSfxIdx bs pos2 len
+        let fld = ReadLegSymbolSfx bs pos2 len
         fld |> FIXField.LegSymbolSfx
     | 602 ->
-        let fld = ReadLegSecurityIDIdx bs pos2 len
+        let fld = ReadLegSecurityID bs pos2 len
         fld |> FIXField.LegSecurityID
     | 603 ->
-        let fld = ReadLegSecurityIDSourceIdx bs pos2 len
+        let fld = ReadLegSecurityIDSource bs pos2 len
         fld |> FIXField.LegSecurityIDSource
     | 604 ->
-        let fld = ReadNoLegSecurityAltIDIdx bs pos2 len
+        let fld = ReadNoLegSecurityAltID bs pos2 len
         fld |> FIXField.NoLegSecurityAltID
     | 605 ->
-        let fld = ReadLegSecurityAltIDIdx bs pos2 len
+        let fld = ReadLegSecurityAltID bs pos2 len
         fld |> FIXField.LegSecurityAltID
     | 606 ->
-        let fld = ReadLegSecurityAltIDSourceIdx bs pos2 len
+        let fld = ReadLegSecurityAltIDSource bs pos2 len
         fld |> FIXField.LegSecurityAltIDSource
     | 607 ->
-        let fld = ReadLegProductIdx bs pos2 len
+        let fld = ReadLegProduct bs pos2 len
         fld |> FIXField.LegProduct
     | 608 ->
-        let fld = ReadLegCFICodeIdx bs pos2 len
+        let fld = ReadLegCFICode bs pos2 len
         fld |> FIXField.LegCFICode
     | 609 ->
-        let fld = ReadLegSecurityTypeIdx bs pos2 len
+        let fld = ReadLegSecurityType bs pos2 len
         fld |> FIXField.LegSecurityType
     | 610 ->
-        let fld = ReadLegMaturityMonthYearIdx bs pos2 len
+        let fld = ReadLegMaturityMonthYear bs pos2 len
         fld |> FIXField.LegMaturityMonthYear
     | 611 ->
-        let fld = ReadLegMaturityDateIdx bs pos2 len
+        let fld = ReadLegMaturityDate bs pos2 len
         fld |> FIXField.LegMaturityDate
     | 612 ->
-        let fld = ReadLegStrikePriceIdx bs pos2 len
+        let fld = ReadLegStrikePrice bs pos2 len
         fld |> FIXField.LegStrikePrice
     | 613 ->
-        let fld = ReadLegOptAttributeIdx bs pos2 len
+        let fld = ReadLegOptAttribute bs pos2 len
         fld |> FIXField.LegOptAttribute
     | 614 ->
-        let fld = ReadLegContractMultiplierIdx bs pos2 len
+        let fld = ReadLegContractMultiplier bs pos2 len
         fld |> FIXField.LegContractMultiplier
     | 615 ->
-        let fld = ReadLegCouponRateIdx bs pos2 len
+        let fld = ReadLegCouponRate bs pos2 len
         fld |> FIXField.LegCouponRate
     | 616 ->
-        let fld = ReadLegSecurityExchangeIdx bs pos2 len
+        let fld = ReadLegSecurityExchange bs pos2 len
         fld |> FIXField.LegSecurityExchange
     | 617 ->
-        let fld = ReadLegIssuerIdx bs pos2 len
+        let fld = ReadLegIssuer bs pos2 len
         fld |> FIXField.LegIssuer
     | 618 ->
-        let fld = ReadEncodedLegIssuerIdx bs pos2 len
+        let fld = ReadEncodedLegIssuer bs pos2 len
         fld |> FIXField.EncodedLegIssuer // len->string compound field
     | 620 ->
-        let fld = ReadLegSecurityDescIdx bs pos2 len
+        let fld = ReadLegSecurityDesc bs pos2 len
         fld |> FIXField.LegSecurityDesc
     | 621 ->
-        let fld = ReadEncodedLegSecurityDescIdx bs pos2 len
+        let fld = ReadEncodedLegSecurityDesc bs pos2 len
         fld |> FIXField.EncodedLegSecurityDesc // len->string compound field
     | 623 ->
-        let fld = ReadLegRatioQtyIdx bs pos2 len
+        let fld = ReadLegRatioQty bs pos2 len
         fld |> FIXField.LegRatioQty
     | 624 ->
-        let fld = ReadLegSideIdx bs pos2 len
+        let fld = ReadLegSide bs pos2 len
         fld |> FIXField.LegSide
     | 625 ->
-        let fld = ReadTradingSessionSubIDIdx bs pos2 len
+        let fld = ReadTradingSessionSubID bs pos2 len
         fld |> FIXField.TradingSessionSubID
     | 626 ->
-        let fld = ReadAllocTypeIdx bs pos2 len
+        let fld = ReadAllocType bs pos2 len
         fld |> FIXField.AllocType
     | 627 ->
-        let fld = ReadNoHopsIdx bs pos2 len
+        let fld = ReadNoHops bs pos2 len
         fld |> FIXField.NoHops
     | 628 ->
-        let fld = ReadHopCompIDIdx bs pos2 len
+        let fld = ReadHopCompID bs pos2 len
         fld |> FIXField.HopCompID
     | 629 ->
-        let fld = ReadHopSendingTimeIdx bs pos2 len
+        let fld = ReadHopSendingTime bs pos2 len
         fld |> FIXField.HopSendingTime
     | 630 ->
-        let fld = ReadHopRefIDIdx bs pos2 len
+        let fld = ReadHopRefID bs pos2 len
         fld |> FIXField.HopRefID
     | 631 ->
-        let fld = ReadMidPxIdx bs pos2 len
+        let fld = ReadMidPx bs pos2 len
         fld |> FIXField.MidPx
     | 632 ->
-        let fld = ReadBidYieldIdx bs pos2 len
+        let fld = ReadBidYield bs pos2 len
         fld |> FIXField.BidYield
     | 633 ->
-        let fld = ReadMidYieldIdx bs pos2 len
+        let fld = ReadMidYield bs pos2 len
         fld |> FIXField.MidYield
     | 634 ->
-        let fld = ReadOfferYieldIdx bs pos2 len
+        let fld = ReadOfferYield bs pos2 len
         fld |> FIXField.OfferYield
     | 635 ->
-        let fld = ReadClearingFeeIndicatorIdx bs pos2 len
+        let fld = ReadClearingFeeIndicator bs pos2 len
         fld |> FIXField.ClearingFeeIndicator
     | 636 ->
-        let fld = ReadWorkingIndicatorIdx bs pos2 len
+        let fld = ReadWorkingIndicator bs pos2 len
         fld |> FIXField.WorkingIndicator
     | 637 ->
-        let fld = ReadLegLastPxIdx bs pos2 len
+        let fld = ReadLegLastPx bs pos2 len
         fld |> FIXField.LegLastPx
     | 638 ->
-        let fld = ReadPriorityIndicatorIdx bs pos2 len
+        let fld = ReadPriorityIndicator bs pos2 len
         fld |> FIXField.PriorityIndicator
     | 639 ->
-        let fld = ReadPriceImprovementIdx bs pos2 len
+        let fld = ReadPriceImprovement bs pos2 len
         fld |> FIXField.PriceImprovement
     | 640 ->
-        let fld = ReadPrice2Idx bs pos2 len
+        let fld = ReadPrice2 bs pos2 len
         fld |> FIXField.Price2
     | 641 ->
-        let fld = ReadLastForwardPoints2Idx bs pos2 len
+        let fld = ReadLastForwardPoints2 bs pos2 len
         fld |> FIXField.LastForwardPoints2
     | 642 ->
-        let fld = ReadBidForwardPoints2Idx bs pos2 len
+        let fld = ReadBidForwardPoints2 bs pos2 len
         fld |> FIXField.BidForwardPoints2
     | 643 ->
-        let fld = ReadOfferForwardPoints2Idx bs pos2 len
+        let fld = ReadOfferForwardPoints2 bs pos2 len
         fld |> FIXField.OfferForwardPoints2
     | 644 ->
-        let fld = ReadRFQReqIDIdx bs pos2 len
+        let fld = ReadRFQReqID bs pos2 len
         fld |> FIXField.RFQReqID
     | 645 ->
-        let fld = ReadMktBidPxIdx bs pos2 len
+        let fld = ReadMktBidPx bs pos2 len
         fld |> FIXField.MktBidPx
     | 646 ->
-        let fld = ReadMktOfferPxIdx bs pos2 len
+        let fld = ReadMktOfferPx bs pos2 len
         fld |> FIXField.MktOfferPx
     | 647 ->
-        let fld = ReadMinBidSizeIdx bs pos2 len
+        let fld = ReadMinBidSize bs pos2 len
         fld |> FIXField.MinBidSize
     | 648 ->
-        let fld = ReadMinOfferSizeIdx bs pos2 len
+        let fld = ReadMinOfferSize bs pos2 len
         fld |> FIXField.MinOfferSize
     | 649 ->
-        let fld = ReadQuoteStatusReqIDIdx bs pos2 len
+        let fld = ReadQuoteStatusReqID bs pos2 len
         fld |> FIXField.QuoteStatusReqID
     | 650 ->
-        let fld = ReadLegalConfirmIdx bs pos2 len
+        let fld = ReadLegalConfirm bs pos2 len
         fld |> FIXField.LegalConfirm
     | 651 ->
-        let fld = ReadUnderlyingLastPxIdx bs pos2 len
+        let fld = ReadUnderlyingLastPx bs pos2 len
         fld |> FIXField.UnderlyingLastPx
     | 652 ->
-        let fld = ReadUnderlyingLastQtyIdx bs pos2 len
+        let fld = ReadUnderlyingLastQty bs pos2 len
         fld |> FIXField.UnderlyingLastQty
     | 654 ->
-        let fld = ReadLegRefIDIdx bs pos2 len
+        let fld = ReadLegRefID bs pos2 len
         fld |> FIXField.LegRefID
     | 655 ->
-        let fld = ReadContraLegRefIDIdx bs pos2 len
+        let fld = ReadContraLegRefID bs pos2 len
         fld |> FIXField.ContraLegRefID
     | 656 ->
-        let fld = ReadSettlCurrBidFxRateIdx bs pos2 len
+        let fld = ReadSettlCurrBidFxRate bs pos2 len
         fld |> FIXField.SettlCurrBidFxRate
     | 657 ->
-        let fld = ReadSettlCurrOfferFxRateIdx bs pos2 len
+        let fld = ReadSettlCurrOfferFxRate bs pos2 len
         fld |> FIXField.SettlCurrOfferFxRate
     | 658 ->
-        let fld = ReadQuoteRequestRejectReasonIdx bs pos2 len
+        let fld = ReadQuoteRequestRejectReason bs pos2 len
         fld |> FIXField.QuoteRequestRejectReason
     | 659 ->
-        let fld = ReadSideComplianceIDIdx bs pos2 len
+        let fld = ReadSideComplianceID bs pos2 len
         fld |> FIXField.SideComplianceID
     | 660 ->
-        let fld = ReadAcctIDSourceIdx bs pos2 len
+        let fld = ReadAcctIDSource bs pos2 len
         fld |> FIXField.AcctIDSource
     | 661 ->
-        let fld = ReadAllocAcctIDSourceIdx bs pos2 len
+        let fld = ReadAllocAcctIDSource bs pos2 len
         fld |> FIXField.AllocAcctIDSource
     | 662 ->
-        let fld = ReadBenchmarkPriceIdx bs pos2 len
+        let fld = ReadBenchmarkPrice bs pos2 len
         fld |> FIXField.BenchmarkPrice
     | 663 ->
-        let fld = ReadBenchmarkPriceTypeIdx bs pos2 len
+        let fld = ReadBenchmarkPriceType bs pos2 len
         fld |> FIXField.BenchmarkPriceType
     | 664 ->
-        let fld = ReadConfirmIDIdx bs pos2 len
+        let fld = ReadConfirmID bs pos2 len
         fld |> FIXField.ConfirmID
     | 665 ->
-        let fld = ReadConfirmStatusIdx bs pos2 len
+        let fld = ReadConfirmStatus bs pos2 len
         fld |> FIXField.ConfirmStatus
     | 666 ->
-        let fld = ReadConfirmTransTypeIdx bs pos2 len
+        let fld = ReadConfirmTransType bs pos2 len
         fld |> FIXField.ConfirmTransType
     | 667 ->
-        let fld = ReadContractSettlMonthIdx bs pos2 len
+        let fld = ReadContractSettlMonth bs pos2 len
         fld |> FIXField.ContractSettlMonth
     | 668 ->
-        let fld = ReadDeliveryFormIdx bs pos2 len
+        let fld = ReadDeliveryForm bs pos2 len
         fld |> FIXField.DeliveryForm
     | 669 ->
-        let fld = ReadLastParPxIdx bs pos2 len
+        let fld = ReadLastParPx bs pos2 len
         fld |> FIXField.LastParPx
     | 670 ->
-        let fld = ReadNoLegAllocsIdx bs pos2 len
+        let fld = ReadNoLegAllocs bs pos2 len
         fld |> FIXField.NoLegAllocs
     | 671 ->
-        let fld = ReadLegAllocAccountIdx bs pos2 len
+        let fld = ReadLegAllocAccount bs pos2 len
         fld |> FIXField.LegAllocAccount
     | 672 ->
-        let fld = ReadLegIndividualAllocIDIdx bs pos2 len
+        let fld = ReadLegIndividualAllocID bs pos2 len
         fld |> FIXField.LegIndividualAllocID
     | 673 ->
-        let fld = ReadLegAllocQtyIdx bs pos2 len
+        let fld = ReadLegAllocQty bs pos2 len
         fld |> FIXField.LegAllocQty
     | 674 ->
-        let fld = ReadLegAllocAcctIDSourceIdx bs pos2 len
+        let fld = ReadLegAllocAcctIDSource bs pos2 len
         fld |> FIXField.LegAllocAcctIDSource
     | 675 ->
-        let fld = ReadLegSettlCurrencyIdx bs pos2 len
+        let fld = ReadLegSettlCurrency bs pos2 len
         fld |> FIXField.LegSettlCurrency
     | 676 ->
-        let fld = ReadLegBenchmarkCurveCurrencyIdx bs pos2 len
+        let fld = ReadLegBenchmarkCurveCurrency bs pos2 len
         fld |> FIXField.LegBenchmarkCurveCurrency
     | 677 ->
-        let fld = ReadLegBenchmarkCurveNameIdx bs pos2 len
+        let fld = ReadLegBenchmarkCurveName bs pos2 len
         fld |> FIXField.LegBenchmarkCurveName
     | 678 ->
-        let fld = ReadLegBenchmarkCurvePointIdx bs pos2 len
+        let fld = ReadLegBenchmarkCurvePoint bs pos2 len
         fld |> FIXField.LegBenchmarkCurvePoint
     | 679 ->
-        let fld = ReadLegBenchmarkPriceIdx bs pos2 len
+        let fld = ReadLegBenchmarkPrice bs pos2 len
         fld |> FIXField.LegBenchmarkPrice
     | 680 ->
-        let fld = ReadLegBenchmarkPriceTypeIdx bs pos2 len
+        let fld = ReadLegBenchmarkPriceType bs pos2 len
         fld |> FIXField.LegBenchmarkPriceType
     | 681 ->
-        let fld = ReadLegBidPxIdx bs pos2 len
+        let fld = ReadLegBidPx bs pos2 len
         fld |> FIXField.LegBidPx
     | 682 ->
-        let fld = ReadLegIOIQtyIdx bs pos2 len
+        let fld = ReadLegIOIQty bs pos2 len
         fld |> FIXField.LegIOIQty
     | 683 ->
-        let fld = ReadNoLegStipulationsIdx bs pos2 len
+        let fld = ReadNoLegStipulations bs pos2 len
         fld |> FIXField.NoLegStipulations
     | 684 ->
-        let fld = ReadLegOfferPxIdx bs pos2 len
+        let fld = ReadLegOfferPx bs pos2 len
         fld |> FIXField.LegOfferPx
     | 685 ->
-        let fld = ReadLegOrderQtyIdx bs pos2 len
+        let fld = ReadLegOrderQty bs pos2 len
         fld |> FIXField.LegOrderQty
     | 686 ->
-        let fld = ReadLegPriceTypeIdx bs pos2 len
+        let fld = ReadLegPriceType bs pos2 len
         fld |> FIXField.LegPriceType
     | 687 ->
-        let fld = ReadLegQtyIdx bs pos2 len
+        let fld = ReadLegQty bs pos2 len
         fld |> FIXField.LegQty
     | 688 ->
-        let fld = ReadLegStipulationTypeIdx bs pos2 len
+        let fld = ReadLegStipulationType bs pos2 len
         fld |> FIXField.LegStipulationType
     | 689 ->
-        let fld = ReadLegStipulationValueIdx bs pos2 len
+        let fld = ReadLegStipulationValue bs pos2 len
         fld |> FIXField.LegStipulationValue
     | 690 ->
-        let fld = ReadLegSwapTypeIdx bs pos2 len
+        let fld = ReadLegSwapType bs pos2 len
         fld |> FIXField.LegSwapType
     | 691 ->
-        let fld = ReadPoolIdx bs pos2 len
+        let fld = ReadPool bs pos2 len
         fld |> FIXField.Pool
     | 692 ->
-        let fld = ReadQuotePriceTypeIdx bs pos2 len
+        let fld = ReadQuotePriceType bs pos2 len
         fld |> FIXField.QuotePriceType
     | 693 ->
-        let fld = ReadQuoteRespIDIdx bs pos2 len
+        let fld = ReadQuoteRespID bs pos2 len
         fld |> FIXField.QuoteRespID
     | 694 ->
-        let fld = ReadQuoteRespTypeIdx bs pos2 len
+        let fld = ReadQuoteRespType bs pos2 len
         fld |> FIXField.QuoteRespType
     | 695 ->
-        let fld = ReadQuoteQualifierIdx bs pos2 len
+        let fld = ReadQuoteQualifier bs pos2 len
         fld |> FIXField.QuoteQualifier
     | 696 ->
-        let fld = ReadYieldRedemptionDateIdx bs pos2 len
+        let fld = ReadYieldRedemptionDate bs pos2 len
         fld |> FIXField.YieldRedemptionDate
     | 697 ->
-        let fld = ReadYieldRedemptionPriceIdx bs pos2 len
+        let fld = ReadYieldRedemptionPrice bs pos2 len
         fld |> FIXField.YieldRedemptionPrice
     | 698 ->
-        let fld = ReadYieldRedemptionPriceTypeIdx bs pos2 len
+        let fld = ReadYieldRedemptionPriceType bs pos2 len
         fld |> FIXField.YieldRedemptionPriceType
     | 699 ->
-        let fld = ReadBenchmarkSecurityIDIdx bs pos2 len
+        let fld = ReadBenchmarkSecurityID bs pos2 len
         fld |> FIXField.BenchmarkSecurityID
     | 700 ->
-        let fld = ReadReversalIndicatorIdx bs pos2 len
+        let fld = ReadReversalIndicator bs pos2 len
         fld |> FIXField.ReversalIndicator
     | 701 ->
-        let fld = ReadYieldCalcDateIdx bs pos2 len
+        let fld = ReadYieldCalcDate bs pos2 len
         fld |> FIXField.YieldCalcDate
     | 702 ->
-        let fld = ReadNoPositionsIdx bs pos2 len
+        let fld = ReadNoPositions bs pos2 len
         fld |> FIXField.NoPositions
     | 703 ->
-        let fld = ReadPosTypeIdx bs pos2 len
+        let fld = ReadPosType bs pos2 len
         fld |> FIXField.PosType
     | 704 ->
-        let fld = ReadLongQtyIdx bs pos2 len
+        let fld = ReadLongQty bs pos2 len
         fld |> FIXField.LongQty
     | 705 ->
-        let fld = ReadShortQtyIdx bs pos2 len
+        let fld = ReadShortQty bs pos2 len
         fld |> FIXField.ShortQty
     | 706 ->
-        let fld = ReadPosQtyStatusIdx bs pos2 len
+        let fld = ReadPosQtyStatus bs pos2 len
         fld |> FIXField.PosQtyStatus
     | 707 ->
-        let fld = ReadPosAmtTypeIdx bs pos2 len
+        let fld = ReadPosAmtType bs pos2 len
         fld |> FIXField.PosAmtType
     | 708 ->
-        let fld = ReadPosAmtIdx bs pos2 len
+        let fld = ReadPosAmt bs pos2 len
         fld |> FIXField.PosAmt
     | 709 ->
-        let fld = ReadPosTransTypeIdx bs pos2 len
+        let fld = ReadPosTransType bs pos2 len
         fld |> FIXField.PosTransType
     | 710 ->
-        let fld = ReadPosReqIDIdx bs pos2 len
+        let fld = ReadPosReqID bs pos2 len
         fld |> FIXField.PosReqID
     | 711 ->
-        let fld = ReadNoUnderlyingsIdx bs pos2 len
+        let fld = ReadNoUnderlyings bs pos2 len
         fld |> FIXField.NoUnderlyings
     | 712 ->
-        let fld = ReadPosMaintActionIdx bs pos2 len
+        let fld = ReadPosMaintAction bs pos2 len
         fld |> FIXField.PosMaintAction
     | 713 ->
-        let fld = ReadOrigPosReqRefIDIdx bs pos2 len
+        let fld = ReadOrigPosReqRefID bs pos2 len
         fld |> FIXField.OrigPosReqRefID
     | 714 ->
-        let fld = ReadPosMaintRptRefIDIdx bs pos2 len
+        let fld = ReadPosMaintRptRefID bs pos2 len
         fld |> FIXField.PosMaintRptRefID
     | 715 ->
-        let fld = ReadClearingBusinessDateIdx bs pos2 len
+        let fld = ReadClearingBusinessDate bs pos2 len
         fld |> FIXField.ClearingBusinessDate
     | 716 ->
-        let fld = ReadSettlSessIDIdx bs pos2 len
+        let fld = ReadSettlSessID bs pos2 len
         fld |> FIXField.SettlSessID
     | 717 ->
-        let fld = ReadSettlSessSubIDIdx bs pos2 len
+        let fld = ReadSettlSessSubID bs pos2 len
         fld |> FIXField.SettlSessSubID
     | 718 ->
-        let fld = ReadAdjustmentTypeIdx bs pos2 len
+        let fld = ReadAdjustmentType bs pos2 len
         fld |> FIXField.AdjustmentType
     | 719 ->
-        let fld = ReadContraryInstructionIndicatorIdx bs pos2 len
+        let fld = ReadContraryInstructionIndicator bs pos2 len
         fld |> FIXField.ContraryInstructionIndicator
     | 720 ->
-        let fld = ReadPriorSpreadIndicatorIdx bs pos2 len
+        let fld = ReadPriorSpreadIndicator bs pos2 len
         fld |> FIXField.PriorSpreadIndicator
     | 721 ->
-        let fld = ReadPosMaintRptIDIdx bs pos2 len
+        let fld = ReadPosMaintRptID bs pos2 len
         fld |> FIXField.PosMaintRptID
     | 722 ->
-        let fld = ReadPosMaintStatusIdx bs pos2 len
+        let fld = ReadPosMaintStatus bs pos2 len
         fld |> FIXField.PosMaintStatus
     | 723 ->
-        let fld = ReadPosMaintResultIdx bs pos2 len
+        let fld = ReadPosMaintResult bs pos2 len
         fld |> FIXField.PosMaintResult
     | 724 ->
-        let fld = ReadPosReqTypeIdx bs pos2 len
+        let fld = ReadPosReqType bs pos2 len
         fld |> FIXField.PosReqType
     | 725 ->
-        let fld = ReadResponseTransportTypeIdx bs pos2 len
+        let fld = ReadResponseTransportType bs pos2 len
         fld |> FIXField.ResponseTransportType
     | 726 ->
-        let fld = ReadResponseDestinationIdx bs pos2 len
+        let fld = ReadResponseDestination bs pos2 len
         fld |> FIXField.ResponseDestination
     | 727 ->
-        let fld = ReadTotalNumPosReportsIdx bs pos2 len
+        let fld = ReadTotalNumPosReports bs pos2 len
         fld |> FIXField.TotalNumPosReports
     | 728 ->
-        let fld = ReadPosReqResultIdx bs pos2 len
+        let fld = ReadPosReqResult bs pos2 len
         fld |> FIXField.PosReqResult
     | 729 ->
-        let fld = ReadPosReqStatusIdx bs pos2 len
+        let fld = ReadPosReqStatus bs pos2 len
         fld |> FIXField.PosReqStatus
     | 730 ->
-        let fld = ReadSettlPriceIdx bs pos2 len
+        let fld = ReadSettlPrice bs pos2 len
         fld |> FIXField.SettlPrice
     | 731 ->
-        let fld = ReadSettlPriceTypeIdx bs pos2 len
+        let fld = ReadSettlPriceType bs pos2 len
         fld |> FIXField.SettlPriceType
     | 732 ->
-        let fld = ReadUnderlyingSettlPriceIdx bs pos2 len
+        let fld = ReadUnderlyingSettlPrice bs pos2 len
         fld |> FIXField.UnderlyingSettlPrice
     | 733 ->
-        let fld = ReadUnderlyingSettlPriceTypeIdx bs pos2 len
+        let fld = ReadUnderlyingSettlPriceType bs pos2 len
         fld |> FIXField.UnderlyingSettlPriceType
     | 734 ->
-        let fld = ReadPriorSettlPriceIdx bs pos2 len
+        let fld = ReadPriorSettlPrice bs pos2 len
         fld |> FIXField.PriorSettlPrice
     | 735 ->
-        let fld = ReadNoQuoteQualifiersIdx bs pos2 len
+        let fld = ReadNoQuoteQualifiers bs pos2 len
         fld |> FIXField.NoQuoteQualifiers
     | 736 ->
-        let fld = ReadAllocSettlCurrencyIdx bs pos2 len
+        let fld = ReadAllocSettlCurrency bs pos2 len
         fld |> FIXField.AllocSettlCurrency
     | 737 ->
-        let fld = ReadAllocSettlCurrAmtIdx bs pos2 len
+        let fld = ReadAllocSettlCurrAmt bs pos2 len
         fld |> FIXField.AllocSettlCurrAmt
     | 738 ->
-        let fld = ReadInterestAtMaturityIdx bs pos2 len
+        let fld = ReadInterestAtMaturity bs pos2 len
         fld |> FIXField.InterestAtMaturity
     | 739 ->
-        let fld = ReadLegDatedDateIdx bs pos2 len
+        let fld = ReadLegDatedDate bs pos2 len
         fld |> FIXField.LegDatedDate
     | 740 ->
-        let fld = ReadLegPoolIdx bs pos2 len
+        let fld = ReadLegPool bs pos2 len
         fld |> FIXField.LegPool
     | 741 ->
-        let fld = ReadAllocInterestAtMaturityIdx bs pos2 len
+        let fld = ReadAllocInterestAtMaturity bs pos2 len
         fld |> FIXField.AllocInterestAtMaturity
     | 742 ->
-        let fld = ReadAllocAccruedInterestAmtIdx bs pos2 len
+        let fld = ReadAllocAccruedInterestAmt bs pos2 len
         fld |> FIXField.AllocAccruedInterestAmt
     | 743 ->
-        let fld = ReadDeliveryDateIdx bs pos2 len
+        let fld = ReadDeliveryDate bs pos2 len
         fld |> FIXField.DeliveryDate
     | 744 ->
-        let fld = ReadAssignmentMethodIdx bs pos2 len
+        let fld = ReadAssignmentMethod bs pos2 len
         fld |> FIXField.AssignmentMethod
     | 745 ->
-        let fld = ReadAssignmentUnitIdx bs pos2 len
+        let fld = ReadAssignmentUnit bs pos2 len
         fld |> FIXField.AssignmentUnit
     | 746 ->
-        let fld = ReadOpenInterestIdx bs pos2 len
+        let fld = ReadOpenInterest bs pos2 len
         fld |> FIXField.OpenInterest
     | 747 ->
-        let fld = ReadExerciseMethodIdx bs pos2 len
+        let fld = ReadExerciseMethod bs pos2 len
         fld |> FIXField.ExerciseMethod
     | 748 ->
-        let fld = ReadTotNumTradeReportsIdx bs pos2 len
+        let fld = ReadTotNumTradeReports bs pos2 len
         fld |> FIXField.TotNumTradeReports
     | 749 ->
-        let fld = ReadTradeRequestResultIdx bs pos2 len
+        let fld = ReadTradeRequestResult bs pos2 len
         fld |> FIXField.TradeRequestResult
     | 750 ->
-        let fld = ReadTradeRequestStatusIdx bs pos2 len
+        let fld = ReadTradeRequestStatus bs pos2 len
         fld |> FIXField.TradeRequestStatus
     | 751 ->
-        let fld = ReadTradeReportRejectReasonIdx bs pos2 len
+        let fld = ReadTradeReportRejectReason bs pos2 len
         fld |> FIXField.TradeReportRejectReason
     | 752 ->
-        let fld = ReadSideMultiLegReportingTypeIdx bs pos2 len
+        let fld = ReadSideMultiLegReportingType bs pos2 len
         fld |> FIXField.SideMultiLegReportingType
     | 753 ->
-        let fld = ReadNoPosAmtIdx bs pos2 len
+        let fld = ReadNoPosAmt bs pos2 len
         fld |> FIXField.NoPosAmt
     | 754 ->
-        let fld = ReadAutoAcceptIndicatorIdx bs pos2 len
+        let fld = ReadAutoAcceptIndicator bs pos2 len
         fld |> FIXField.AutoAcceptIndicator
     | 755 ->
-        let fld = ReadAllocReportIDIdx bs pos2 len
+        let fld = ReadAllocReportID bs pos2 len
         fld |> FIXField.AllocReportID
     | 756 ->
-        let fld = ReadNoNested2PartyIDsIdx bs pos2 len
+        let fld = ReadNoNested2PartyIDs bs pos2 len
         fld |> FIXField.NoNested2PartyIDs
     | 757 ->
-        let fld = ReadNested2PartyIDIdx bs pos2 len
+        let fld = ReadNested2PartyID bs pos2 len
         fld |> FIXField.Nested2PartyID
     | 758 ->
-        let fld = ReadNested2PartyIDSourceIdx bs pos2 len
+        let fld = ReadNested2PartyIDSource bs pos2 len
         fld |> FIXField.Nested2PartyIDSource
     | 759 ->
-        let fld = ReadNested2PartyRoleIdx bs pos2 len
+        let fld = ReadNested2PartyRole bs pos2 len
         fld |> FIXField.Nested2PartyRole
     | 760 ->
-        let fld = ReadNested2PartySubIDIdx bs pos2 len
+        let fld = ReadNested2PartySubID bs pos2 len
         fld |> FIXField.Nested2PartySubID
     | 761 ->
-        let fld = ReadBenchmarkSecurityIDSourceIdx bs pos2 len
+        let fld = ReadBenchmarkSecurityIDSource bs pos2 len
         fld |> FIXField.BenchmarkSecurityIDSource
     | 762 ->
-        let fld = ReadSecuritySubTypeIdx bs pos2 len
+        let fld = ReadSecuritySubType bs pos2 len
         fld |> FIXField.SecuritySubType
     | 763 ->
-        let fld = ReadUnderlyingSecuritySubTypeIdx bs pos2 len
+        let fld = ReadUnderlyingSecuritySubType bs pos2 len
         fld |> FIXField.UnderlyingSecuritySubType
     | 764 ->
-        let fld = ReadLegSecuritySubTypeIdx bs pos2 len
+        let fld = ReadLegSecuritySubType bs pos2 len
         fld |> FIXField.LegSecuritySubType
     | 765 ->
-        let fld = ReadAllowableOneSidednessPctIdx bs pos2 len
+        let fld = ReadAllowableOneSidednessPct bs pos2 len
         fld |> FIXField.AllowableOneSidednessPct
     | 766 ->
-        let fld = ReadAllowableOneSidednessValueIdx bs pos2 len
+        let fld = ReadAllowableOneSidednessValue bs pos2 len
         fld |> FIXField.AllowableOneSidednessValue
     | 767 ->
-        let fld = ReadAllowableOneSidednessCurrIdx bs pos2 len
+        let fld = ReadAllowableOneSidednessCurr bs pos2 len
         fld |> FIXField.AllowableOneSidednessCurr
     | 768 ->
-        let fld = ReadNoTrdRegTimestampsIdx bs pos2 len
+        let fld = ReadNoTrdRegTimestamps bs pos2 len
         fld |> FIXField.NoTrdRegTimestamps
     | 769 ->
-        let fld = ReadTrdRegTimestampIdx bs pos2 len
+        let fld = ReadTrdRegTimestamp bs pos2 len
         fld |> FIXField.TrdRegTimestamp
     | 770 ->
-        let fld = ReadTrdRegTimestampTypeIdx bs pos2 len
+        let fld = ReadTrdRegTimestampType bs pos2 len
         fld |> FIXField.TrdRegTimestampType
     | 771 ->
-        let fld = ReadTrdRegTimestampOriginIdx bs pos2 len
+        let fld = ReadTrdRegTimestampOrigin bs pos2 len
         fld |> FIXField.TrdRegTimestampOrigin
     | 772 ->
-        let fld = ReadConfirmRefIDIdx bs pos2 len
+        let fld = ReadConfirmRefID bs pos2 len
         fld |> FIXField.ConfirmRefID
     | 773 ->
-        let fld = ReadConfirmTypeIdx bs pos2 len
+        let fld = ReadConfirmType bs pos2 len
         fld |> FIXField.ConfirmType
     | 774 ->
-        let fld = ReadConfirmRejReasonIdx bs pos2 len
+        let fld = ReadConfirmRejReason bs pos2 len
         fld |> FIXField.ConfirmRejReason
     | 775 ->
-        let fld = ReadBookingTypeIdx bs pos2 len
+        let fld = ReadBookingType bs pos2 len
         fld |> FIXField.BookingType
     | 776 ->
-        let fld = ReadIndividualAllocRejCodeIdx bs pos2 len
+        let fld = ReadIndividualAllocRejCode bs pos2 len
         fld |> FIXField.IndividualAllocRejCode
     | 777 ->
-        let fld = ReadSettlInstMsgIDIdx bs pos2 len
+        let fld = ReadSettlInstMsgID bs pos2 len
         fld |> FIXField.SettlInstMsgID
     | 778 ->
-        let fld = ReadNoSettlInstIdx bs pos2 len
+        let fld = ReadNoSettlInst bs pos2 len
         fld |> FIXField.NoSettlInst
     | 779 ->
-        let fld = ReadLastUpdateTimeIdx bs pos2 len
+        let fld = ReadLastUpdateTime bs pos2 len
         fld |> FIXField.LastUpdateTime
     | 780 ->
-        let fld = ReadAllocSettlInstTypeIdx bs pos2 len
+        let fld = ReadAllocSettlInstType bs pos2 len
         fld |> FIXField.AllocSettlInstType
     | 781 ->
-        let fld = ReadNoSettlPartyIDsIdx bs pos2 len
+        let fld = ReadNoSettlPartyIDs bs pos2 len
         fld |> FIXField.NoSettlPartyIDs
     | 782 ->
-        let fld = ReadSettlPartyIDIdx bs pos2 len
+        let fld = ReadSettlPartyID bs pos2 len
         fld |> FIXField.SettlPartyID
     | 783 ->
-        let fld = ReadSettlPartyIDSourceIdx bs pos2 len
+        let fld = ReadSettlPartyIDSource bs pos2 len
         fld |> FIXField.SettlPartyIDSource
     | 784 ->
-        let fld = ReadSettlPartyRoleIdx bs pos2 len
+        let fld = ReadSettlPartyRole bs pos2 len
         fld |> FIXField.SettlPartyRole
     | 785 ->
-        let fld = ReadSettlPartySubIDIdx bs pos2 len
+        let fld = ReadSettlPartySubID bs pos2 len
         fld |> FIXField.SettlPartySubID
     | 786 ->
-        let fld = ReadSettlPartySubIDTypeIdx bs pos2 len
+        let fld = ReadSettlPartySubIDType bs pos2 len
         fld |> FIXField.SettlPartySubIDType
     | 787 ->
-        let fld = ReadDlvyInstTypeIdx bs pos2 len
+        let fld = ReadDlvyInstType bs pos2 len
         fld |> FIXField.DlvyInstType
     | 788 ->
-        let fld = ReadTerminationTypeIdx bs pos2 len
+        let fld = ReadTerminationType bs pos2 len
         fld |> FIXField.TerminationType
     | 789 ->
-        let fld = ReadNextExpectedMsgSeqNumIdx bs pos2 len
+        let fld = ReadNextExpectedMsgSeqNum bs pos2 len
         fld |> FIXField.NextExpectedMsgSeqNum
     | 790 ->
-        let fld = ReadOrdStatusReqIDIdx bs pos2 len
+        let fld = ReadOrdStatusReqID bs pos2 len
         fld |> FIXField.OrdStatusReqID
     | 791 ->
-        let fld = ReadSettlInstReqIDIdx bs pos2 len
+        let fld = ReadSettlInstReqID bs pos2 len
         fld |> FIXField.SettlInstReqID
     | 792 ->
-        let fld = ReadSettlInstReqRejCodeIdx bs pos2 len
+        let fld = ReadSettlInstReqRejCode bs pos2 len
         fld |> FIXField.SettlInstReqRejCode
     | 793 ->
-        let fld = ReadSecondaryAllocIDIdx bs pos2 len
+        let fld = ReadSecondaryAllocID bs pos2 len
         fld |> FIXField.SecondaryAllocID
     | 794 ->
-        let fld = ReadAllocReportTypeIdx bs pos2 len
+        let fld = ReadAllocReportType bs pos2 len
         fld |> FIXField.AllocReportType
     | 795 ->
-        let fld = ReadAllocReportRefIDIdx bs pos2 len
+        let fld = ReadAllocReportRefID bs pos2 len
         fld |> FIXField.AllocReportRefID
     | 796 ->
-        let fld = ReadAllocCancReplaceReasonIdx bs pos2 len
+        let fld = ReadAllocCancReplaceReason bs pos2 len
         fld |> FIXField.AllocCancReplaceReason
     | 797 ->
-        let fld = ReadCopyMsgIndicatorIdx bs pos2 len
+        let fld = ReadCopyMsgIndicator bs pos2 len
         fld |> FIXField.CopyMsgIndicator
     | 798 ->
-        let fld = ReadAllocAccountTypeIdx bs pos2 len
+        let fld = ReadAllocAccountType bs pos2 len
         fld |> FIXField.AllocAccountType
     | 799 ->
-        let fld = ReadOrderAvgPxIdx bs pos2 len
+        let fld = ReadOrderAvgPx bs pos2 len
         fld |> FIXField.OrderAvgPx
     | 800 ->
-        let fld = ReadOrderBookingQtyIdx bs pos2 len
+        let fld = ReadOrderBookingQty bs pos2 len
         fld |> FIXField.OrderBookingQty
     | 801 ->
-        let fld = ReadNoSettlPartySubIDsIdx bs pos2 len
+        let fld = ReadNoSettlPartySubIDs bs pos2 len
         fld |> FIXField.NoSettlPartySubIDs
     | 802 ->
-        let fld = ReadNoPartySubIDsIdx bs pos2 len
+        let fld = ReadNoPartySubIDs bs pos2 len
         fld |> FIXField.NoPartySubIDs
     | 803 ->
-        let fld = ReadPartySubIDTypeIdx bs pos2 len
+        let fld = ReadPartySubIDType bs pos2 len
         fld |> FIXField.PartySubIDType
     | 804 ->
-        let fld = ReadNoNestedPartySubIDsIdx bs pos2 len
+        let fld = ReadNoNestedPartySubIDs bs pos2 len
         fld |> FIXField.NoNestedPartySubIDs
     | 805 ->
-        let fld = ReadNestedPartySubIDTypeIdx bs pos2 len
+        let fld = ReadNestedPartySubIDType bs pos2 len
         fld |> FIXField.NestedPartySubIDType
     | 806 ->
-        let fld = ReadNoNested2PartySubIDsIdx bs pos2 len
+        let fld = ReadNoNested2PartySubIDs bs pos2 len
         fld |> FIXField.NoNested2PartySubIDs
     | 807 ->
-        let fld = ReadNested2PartySubIDTypeIdx bs pos2 len
+        let fld = ReadNested2PartySubIDType bs pos2 len
         fld |> FIXField.Nested2PartySubIDType
     | 808 ->
-        let fld = ReadAllocIntermedReqTypeIdx bs pos2 len
+        let fld = ReadAllocIntermedReqType bs pos2 len
         fld |> FIXField.AllocIntermedReqType
     | 810 ->
-        let fld = ReadUnderlyingPxIdx bs pos2 len
+        let fld = ReadUnderlyingPx bs pos2 len
         fld |> FIXField.UnderlyingPx
     | 811 ->
-        let fld = ReadPriceDeltaIdx bs pos2 len
+        let fld = ReadPriceDelta bs pos2 len
         fld |> FIXField.PriceDelta
     | 812 ->
-        let fld = ReadApplQueueMaxIdx bs pos2 len
+        let fld = ReadApplQueueMax bs pos2 len
         fld |> FIXField.ApplQueueMax
     | 813 ->
-        let fld = ReadApplQueueDepthIdx bs pos2 len
+        let fld = ReadApplQueueDepth bs pos2 len
         fld |> FIXField.ApplQueueDepth
     | 814 ->
-        let fld = ReadApplQueueResolutionIdx bs pos2 len
+        let fld = ReadApplQueueResolution bs pos2 len
         fld |> FIXField.ApplQueueResolution
     | 815 ->
-        let fld = ReadApplQueueActionIdx bs pos2 len
+        let fld = ReadApplQueueAction bs pos2 len
         fld |> FIXField.ApplQueueAction
     | 816 ->
-        let fld = ReadNoAltMDSourceIdx bs pos2 len
+        let fld = ReadNoAltMDSource bs pos2 len
         fld |> FIXField.NoAltMDSource
     | 817 ->
-        let fld = ReadAltMDSourceIDIdx bs pos2 len
+        let fld = ReadAltMDSourceID bs pos2 len
         fld |> FIXField.AltMDSourceID
     | 818 ->
-        let fld = ReadSecondaryTradeReportIDIdx bs pos2 len
+        let fld = ReadSecondaryTradeReportID bs pos2 len
         fld |> FIXField.SecondaryTradeReportID
     | 819 ->
-        let fld = ReadAvgPxIndicatorIdx bs pos2 len
+        let fld = ReadAvgPxIndicator bs pos2 len
         fld |> FIXField.AvgPxIndicator
     | 820 ->
-        let fld = ReadTradeLinkIDIdx bs pos2 len
+        let fld = ReadTradeLinkID bs pos2 len
         fld |> FIXField.TradeLinkID
     | 821 ->
-        let fld = ReadOrderInputDeviceIdx bs pos2 len
+        let fld = ReadOrderInputDevice bs pos2 len
         fld |> FIXField.OrderInputDevice
     | 822 ->
-        let fld = ReadUnderlyingTradingSessionIDIdx bs pos2 len
+        let fld = ReadUnderlyingTradingSessionID bs pos2 len
         fld |> FIXField.UnderlyingTradingSessionID
     | 823 ->
-        let fld = ReadUnderlyingTradingSessionSubIDIdx bs pos2 len
+        let fld = ReadUnderlyingTradingSessionSubID bs pos2 len
         fld |> FIXField.UnderlyingTradingSessionSubID
     | 824 ->
-        let fld = ReadTradeLegRefIDIdx bs pos2 len
+        let fld = ReadTradeLegRefID bs pos2 len
         fld |> FIXField.TradeLegRefID
     | 825 ->
-        let fld = ReadExchangeRuleIdx bs pos2 len
+        let fld = ReadExchangeRule bs pos2 len
         fld |> FIXField.ExchangeRule
     | 826 ->
-        let fld = ReadTradeAllocIndicatorIdx bs pos2 len
+        let fld = ReadTradeAllocIndicator bs pos2 len
         fld |> FIXField.TradeAllocIndicator
     | 827 ->
-        let fld = ReadExpirationCycleIdx bs pos2 len
+        let fld = ReadExpirationCycle bs pos2 len
         fld |> FIXField.ExpirationCycle
     | 828 ->
-        let fld = ReadTrdTypeIdx bs pos2 len
+        let fld = ReadTrdType bs pos2 len
         fld |> FIXField.TrdType
     | 829 ->
-        let fld = ReadTrdSubTypeIdx bs pos2 len
+        let fld = ReadTrdSubType bs pos2 len
         fld |> FIXField.TrdSubType
     | 830 ->
-        let fld = ReadTransferReasonIdx bs pos2 len
+        let fld = ReadTransferReason bs pos2 len
         fld |> FIXField.TransferReason
     | 831 ->
-        let fld = ReadAsgnReqIDIdx bs pos2 len
+        let fld = ReadAsgnReqID bs pos2 len
         fld |> FIXField.AsgnReqID
     | 832 ->
-        let fld = ReadTotNumAssignmentReportsIdx bs pos2 len
+        let fld = ReadTotNumAssignmentReports bs pos2 len
         fld |> FIXField.TotNumAssignmentReports
     | 833 ->
-        let fld = ReadAsgnRptIDIdx bs pos2 len
+        let fld = ReadAsgnRptID bs pos2 len
         fld |> FIXField.AsgnRptID
     | 834 ->
-        let fld = ReadThresholdAmountIdx bs pos2 len
+        let fld = ReadThresholdAmount bs pos2 len
         fld |> FIXField.ThresholdAmount
     | 835 ->
-        let fld = ReadPegMoveTypeIdx bs pos2 len
+        let fld = ReadPegMoveType bs pos2 len
         fld |> FIXField.PegMoveType
     | 836 ->
-        let fld = ReadPegOffsetTypeIdx bs pos2 len
+        let fld = ReadPegOffsetType bs pos2 len
         fld |> FIXField.PegOffsetType
     | 837 ->
-        let fld = ReadPegLimitTypeIdx bs pos2 len
+        let fld = ReadPegLimitType bs pos2 len
         fld |> FIXField.PegLimitType
     | 838 ->
-        let fld = ReadPegRoundDirectionIdx bs pos2 len
+        let fld = ReadPegRoundDirection bs pos2 len
         fld |> FIXField.PegRoundDirection
     | 839 ->
-        let fld = ReadPeggedPriceIdx bs pos2 len
+        let fld = ReadPeggedPrice bs pos2 len
         fld |> FIXField.PeggedPrice
     | 840 ->
-        let fld = ReadPegScopeIdx bs pos2 len
+        let fld = ReadPegScope bs pos2 len
         fld |> FIXField.PegScope
     | 841 ->
-        let fld = ReadDiscretionMoveTypeIdx bs pos2 len
+        let fld = ReadDiscretionMoveType bs pos2 len
         fld |> FIXField.DiscretionMoveType
     | 842 ->
-        let fld = ReadDiscretionOffsetTypeIdx bs pos2 len
+        let fld = ReadDiscretionOffsetType bs pos2 len
         fld |> FIXField.DiscretionOffsetType
     | 843 ->
-        let fld = ReadDiscretionLimitTypeIdx bs pos2 len
+        let fld = ReadDiscretionLimitType bs pos2 len
         fld |> FIXField.DiscretionLimitType
     | 844 ->
-        let fld = ReadDiscretionRoundDirectionIdx bs pos2 len
+        let fld = ReadDiscretionRoundDirection bs pos2 len
         fld |> FIXField.DiscretionRoundDirection
     | 845 ->
-        let fld = ReadDiscretionPriceIdx bs pos2 len
+        let fld = ReadDiscretionPrice bs pos2 len
         fld |> FIXField.DiscretionPrice
     | 846 ->
-        let fld = ReadDiscretionScopeIdx bs pos2 len
+        let fld = ReadDiscretionScope bs pos2 len
         fld |> FIXField.DiscretionScope
     | 847 ->
-        let fld = ReadTargetStrategyIdx bs pos2 len
+        let fld = ReadTargetStrategy bs pos2 len
         fld |> FIXField.TargetStrategy
     | 848 ->
-        let fld = ReadTargetStrategyParametersIdx bs pos2 len
+        let fld = ReadTargetStrategyParameters bs pos2 len
         fld |> FIXField.TargetStrategyParameters
     | 849 ->
-        let fld = ReadParticipationRateIdx bs pos2 len
+        let fld = ReadParticipationRate bs pos2 len
         fld |> FIXField.ParticipationRate
     | 850 ->
-        let fld = ReadTargetStrategyPerformanceIdx bs pos2 len
+        let fld = ReadTargetStrategyPerformance bs pos2 len
         fld |> FIXField.TargetStrategyPerformance
     | 851 ->
-        let fld = ReadLastLiquidityIndIdx bs pos2 len
+        let fld = ReadLastLiquidityInd bs pos2 len
         fld |> FIXField.LastLiquidityInd
     | 852 ->
-        let fld = ReadPublishTrdIndicatorIdx bs pos2 len
+        let fld = ReadPublishTrdIndicator bs pos2 len
         fld |> FIXField.PublishTrdIndicator
     | 853 ->
-        let fld = ReadShortSaleReasonIdx bs pos2 len
+        let fld = ReadShortSaleReason bs pos2 len
         fld |> FIXField.ShortSaleReason
     | 854 ->
-        let fld = ReadQtyTypeIdx bs pos2 len
+        let fld = ReadQtyType bs pos2 len
         fld |> FIXField.QtyType
     | 855 ->
-        let fld = ReadSecondaryTrdTypeIdx bs pos2 len
+        let fld = ReadSecondaryTrdType bs pos2 len
         fld |> FIXField.SecondaryTrdType
     | 856 ->
-        let fld = ReadTradeReportTypeIdx bs pos2 len
+        let fld = ReadTradeReportType bs pos2 len
         fld |> FIXField.TradeReportType
     | 857 ->
-        let fld = ReadAllocNoOrdersTypeIdx bs pos2 len
+        let fld = ReadAllocNoOrdersType bs pos2 len
         fld |> FIXField.AllocNoOrdersType
     | 858 ->
-        let fld = ReadSharedCommissionIdx bs pos2 len
+        let fld = ReadSharedCommission bs pos2 len
         fld |> FIXField.SharedCommission
     | 859 ->
-        let fld = ReadConfirmReqIDIdx bs pos2 len
+        let fld = ReadConfirmReqID bs pos2 len
         fld |> FIXField.ConfirmReqID
     | 860 ->
-        let fld = ReadAvgParPxIdx bs pos2 len
+        let fld = ReadAvgParPx bs pos2 len
         fld |> FIXField.AvgParPx
     | 861 ->
-        let fld = ReadReportedPxIdx bs pos2 len
+        let fld = ReadReportedPx bs pos2 len
         fld |> FIXField.ReportedPx
     | 862 ->
-        let fld = ReadNoCapacitiesIdx bs pos2 len
+        let fld = ReadNoCapacities bs pos2 len
         fld |> FIXField.NoCapacities
     | 863 ->
-        let fld = ReadOrderCapacityQtyIdx bs pos2 len
+        let fld = ReadOrderCapacityQty bs pos2 len
         fld |> FIXField.OrderCapacityQty
     | 864 ->
-        let fld = ReadNoEventsIdx bs pos2 len
+        let fld = ReadNoEvents bs pos2 len
         fld |> FIXField.NoEvents
     | 865 ->
-        let fld = ReadEventTypeIdx bs pos2 len
+        let fld = ReadEventType bs pos2 len
         fld |> FIXField.EventType
     | 866 ->
-        let fld = ReadEventDateIdx bs pos2 len
+        let fld = ReadEventDate bs pos2 len
         fld |> FIXField.EventDate
     | 867 ->
-        let fld = ReadEventPxIdx bs pos2 len
+        let fld = ReadEventPx bs pos2 len
         fld |> FIXField.EventPx
     | 868 ->
-        let fld = ReadEventTextIdx bs pos2 len
+        let fld = ReadEventText bs pos2 len
         fld |> FIXField.EventText
     | 869 ->
-        let fld = ReadPctAtRiskIdx bs pos2 len
+        let fld = ReadPctAtRisk bs pos2 len
         fld |> FIXField.PctAtRisk
     | 870 ->
-        let fld = ReadNoInstrAttribIdx bs pos2 len
+        let fld = ReadNoInstrAttrib bs pos2 len
         fld |> FIXField.NoInstrAttrib
     | 871 ->
-        let fld = ReadInstrAttribTypeIdx bs pos2 len
+        let fld = ReadInstrAttribType bs pos2 len
         fld |> FIXField.InstrAttribType
     | 872 ->
-        let fld = ReadInstrAttribValueIdx bs pos2 len
+        let fld = ReadInstrAttribValue bs pos2 len
         fld |> FIXField.InstrAttribValue
     | 873 ->
-        let fld = ReadDatedDateIdx bs pos2 len
+        let fld = ReadDatedDate bs pos2 len
         fld |> FIXField.DatedDate
     | 874 ->
-        let fld = ReadInterestAccrualDateIdx bs pos2 len
+        let fld = ReadInterestAccrualDate bs pos2 len
         fld |> FIXField.InterestAccrualDate
     | 875 ->
-        let fld = ReadCPProgramIdx bs pos2 len
+        let fld = ReadCPProgram bs pos2 len
         fld |> FIXField.CPProgram
     | 876 ->
-        let fld = ReadCPRegTypeIdx bs pos2 len
+        let fld = ReadCPRegType bs pos2 len
         fld |> FIXField.CPRegType
     | 877 ->
-        let fld = ReadUnderlyingCPProgramIdx bs pos2 len
+        let fld = ReadUnderlyingCPProgram bs pos2 len
         fld |> FIXField.UnderlyingCPProgram
     | 878 ->
-        let fld = ReadUnderlyingCPRegTypeIdx bs pos2 len
+        let fld = ReadUnderlyingCPRegType bs pos2 len
         fld |> FIXField.UnderlyingCPRegType
     | 879 ->
-        let fld = ReadUnderlyingQtyIdx bs pos2 len
+        let fld = ReadUnderlyingQty bs pos2 len
         fld |> FIXField.UnderlyingQty
     | 880 ->
-        let fld = ReadTrdMatchIDIdx bs pos2 len
+        let fld = ReadTrdMatchID bs pos2 len
         fld |> FIXField.TrdMatchID
     | 881 ->
-        let fld = ReadSecondaryTradeReportRefIDIdx bs pos2 len
+        let fld = ReadSecondaryTradeReportRefID bs pos2 len
         fld |> FIXField.SecondaryTradeReportRefID
     | 882 ->
-        let fld = ReadUnderlyingDirtyPriceIdx bs pos2 len
+        let fld = ReadUnderlyingDirtyPrice bs pos2 len
         fld |> FIXField.UnderlyingDirtyPrice
     | 883 ->
-        let fld = ReadUnderlyingEndPriceIdx bs pos2 len
+        let fld = ReadUnderlyingEndPrice bs pos2 len
         fld |> FIXField.UnderlyingEndPrice
     | 884 ->
-        let fld = ReadUnderlyingStartValueIdx bs pos2 len
+        let fld = ReadUnderlyingStartValue bs pos2 len
         fld |> FIXField.UnderlyingStartValue
     | 885 ->
-        let fld = ReadUnderlyingCurrentValueIdx bs pos2 len
+        let fld = ReadUnderlyingCurrentValue bs pos2 len
         fld |> FIXField.UnderlyingCurrentValue
     | 886 ->
-        let fld = ReadUnderlyingEndValueIdx bs pos2 len
+        let fld = ReadUnderlyingEndValue bs pos2 len
         fld |> FIXField.UnderlyingEndValue
     | 887 ->
-        let fld = ReadNoUnderlyingStipsIdx bs pos2 len
+        let fld = ReadNoUnderlyingStips bs pos2 len
         fld |> FIXField.NoUnderlyingStips
     | 888 ->
-        let fld = ReadUnderlyingStipTypeIdx bs pos2 len
+        let fld = ReadUnderlyingStipType bs pos2 len
         fld |> FIXField.UnderlyingStipType
     | 889 ->
-        let fld = ReadUnderlyingStipValueIdx bs pos2 len
+        let fld = ReadUnderlyingStipValue bs pos2 len
         fld |> FIXField.UnderlyingStipValue
     | 890 ->
-        let fld = ReadMaturityNetMoneyIdx bs pos2 len
+        let fld = ReadMaturityNetMoney bs pos2 len
         fld |> FIXField.MaturityNetMoney
     | 891 ->
-        let fld = ReadMiscFeeBasisIdx bs pos2 len
+        let fld = ReadMiscFeeBasis bs pos2 len
         fld |> FIXField.MiscFeeBasis
     | 892 ->
-        let fld = ReadTotNoAllocsIdx bs pos2 len
+        let fld = ReadTotNoAllocs bs pos2 len
         fld |> FIXField.TotNoAllocs
     | 893 ->
-        let fld = ReadLastFragmentIdx bs pos2 len
+        let fld = ReadLastFragment bs pos2 len
         fld |> FIXField.LastFragment
     | 894 ->
-        let fld = ReadCollReqIDIdx bs pos2 len
+        let fld = ReadCollReqID bs pos2 len
         fld |> FIXField.CollReqID
     | 895 ->
-        let fld = ReadCollAsgnReasonIdx bs pos2 len
+        let fld = ReadCollAsgnReason bs pos2 len
         fld |> FIXField.CollAsgnReason
     | 896 ->
-        let fld = ReadCollInquiryQualifierIdx bs pos2 len
+        let fld = ReadCollInquiryQualifier bs pos2 len
         fld |> FIXField.CollInquiryQualifier
     | 897 ->
-        let fld = ReadNoTradesIdx bs pos2 len
+        let fld = ReadNoTrades bs pos2 len
         fld |> FIXField.NoTrades
     | 898 ->
-        let fld = ReadMarginRatioIdx bs pos2 len
+        let fld = ReadMarginRatio bs pos2 len
         fld |> FIXField.MarginRatio
     | 899 ->
-        let fld = ReadMarginExcessIdx bs pos2 len
+        let fld = ReadMarginExcess bs pos2 len
         fld |> FIXField.MarginExcess
     | 900 ->
-        let fld = ReadTotalNetValueIdx bs pos2 len
+        let fld = ReadTotalNetValue bs pos2 len
         fld |> FIXField.TotalNetValue
     | 901 ->
-        let fld = ReadCashOutstandingIdx bs pos2 len
+        let fld = ReadCashOutstanding bs pos2 len
         fld |> FIXField.CashOutstanding
     | 902 ->
-        let fld = ReadCollAsgnIDIdx bs pos2 len
+        let fld = ReadCollAsgnID bs pos2 len
         fld |> FIXField.CollAsgnID
     | 903 ->
-        let fld = ReadCollAsgnTransTypeIdx bs pos2 len
+        let fld = ReadCollAsgnTransType bs pos2 len
         fld |> FIXField.CollAsgnTransType
     | 904 ->
-        let fld = ReadCollRespIDIdx bs pos2 len
+        let fld = ReadCollRespID bs pos2 len
         fld |> FIXField.CollRespID
     | 905 ->
-        let fld = ReadCollAsgnRespTypeIdx bs pos2 len
+        let fld = ReadCollAsgnRespType bs pos2 len
         fld |> FIXField.CollAsgnRespType
     | 906 ->
-        let fld = ReadCollAsgnRejectReasonIdx bs pos2 len
+        let fld = ReadCollAsgnRejectReason bs pos2 len
         fld |> FIXField.CollAsgnRejectReason
     | 907 ->
-        let fld = ReadCollAsgnRefIDIdx bs pos2 len
+        let fld = ReadCollAsgnRefID bs pos2 len
         fld |> FIXField.CollAsgnRefID
     | 908 ->
-        let fld = ReadCollRptIDIdx bs pos2 len
+        let fld = ReadCollRptID bs pos2 len
         fld |> FIXField.CollRptID
     | 909 ->
-        let fld = ReadCollInquiryIDIdx bs pos2 len
+        let fld = ReadCollInquiryID bs pos2 len
         fld |> FIXField.CollInquiryID
     | 910 ->
-        let fld = ReadCollStatusIdx bs pos2 len
+        let fld = ReadCollStatus bs pos2 len
         fld |> FIXField.CollStatus
     | 911 ->
-        let fld = ReadTotNumReportsIdx bs pos2 len
+        let fld = ReadTotNumReports bs pos2 len
         fld |> FIXField.TotNumReports
     | 912 ->
-        let fld = ReadLastRptRequestedIdx bs pos2 len
+        let fld = ReadLastRptRequested bs pos2 len
         fld |> FIXField.LastRptRequested
     | 913 ->
-        let fld = ReadAgreementDescIdx bs pos2 len
+        let fld = ReadAgreementDesc bs pos2 len
         fld |> FIXField.AgreementDesc
     | 914 ->
-        let fld = ReadAgreementIDIdx bs pos2 len
+        let fld = ReadAgreementID bs pos2 len
         fld |> FIXField.AgreementID
     | 915 ->
-        let fld = ReadAgreementDateIdx bs pos2 len
+        let fld = ReadAgreementDate bs pos2 len
         fld |> FIXField.AgreementDate
     | 916 ->
-        let fld = ReadStartDateIdx bs pos2 len
+        let fld = ReadStartDate bs pos2 len
         fld |> FIXField.StartDate
     | 917 ->
-        let fld = ReadEndDateIdx bs pos2 len
+        let fld = ReadEndDate bs pos2 len
         fld |> FIXField.EndDate
     | 918 ->
-        let fld = ReadAgreementCurrencyIdx bs pos2 len
+        let fld = ReadAgreementCurrency bs pos2 len
         fld |> FIXField.AgreementCurrency
     | 919 ->
-        let fld = ReadDeliveryTypeIdx bs pos2 len
+        let fld = ReadDeliveryType bs pos2 len
         fld |> FIXField.DeliveryType
     | 920 ->
-        let fld = ReadEndAccruedInterestAmtIdx bs pos2 len
+        let fld = ReadEndAccruedInterestAmt bs pos2 len
         fld |> FIXField.EndAccruedInterestAmt
     | 921 ->
-        let fld = ReadStartCashIdx bs pos2 len
+        let fld = ReadStartCash bs pos2 len
         fld |> FIXField.StartCash
     | 922 ->
-        let fld = ReadEndCashIdx bs pos2 len
+        let fld = ReadEndCash bs pos2 len
         fld |> FIXField.EndCash
     | 923 ->
-        let fld = ReadUserRequestIDIdx bs pos2 len
+        let fld = ReadUserRequestID bs pos2 len
         fld |> FIXField.UserRequestID
     | 924 ->
-        let fld = ReadUserRequestTypeIdx bs pos2 len
+        let fld = ReadUserRequestType bs pos2 len
         fld |> FIXField.UserRequestType
     | 925 ->
-        let fld = ReadNewPasswordIdx bs pos2 len
+        let fld = ReadNewPassword bs pos2 len
         fld |> FIXField.NewPassword
     | 926 ->
-        let fld = ReadUserStatusIdx bs pos2 len
+        let fld = ReadUserStatus bs pos2 len
         fld |> FIXField.UserStatus
     | 927 ->
-        let fld = ReadUserStatusTextIdx bs pos2 len
+        let fld = ReadUserStatusText bs pos2 len
         fld |> FIXField.UserStatusText
     | 928 ->
-        let fld = ReadStatusValueIdx bs pos2 len
+        let fld = ReadStatusValue bs pos2 len
         fld |> FIXField.StatusValue
     | 929 ->
-        let fld = ReadStatusTextIdx bs pos2 len
+        let fld = ReadStatusText bs pos2 len
         fld |> FIXField.StatusText
     | 930 ->
-        let fld = ReadRefCompIDIdx bs pos2 len
+        let fld = ReadRefCompID bs pos2 len
         fld |> FIXField.RefCompID
     | 931 ->
-        let fld = ReadRefSubIDIdx bs pos2 len
+        let fld = ReadRefSubID bs pos2 len
         fld |> FIXField.RefSubID
     | 932 ->
-        let fld = ReadNetworkResponseIDIdx bs pos2 len
+        let fld = ReadNetworkResponseID bs pos2 len
         fld |> FIXField.NetworkResponseID
     | 933 ->
-        let fld = ReadNetworkRequestIDIdx bs pos2 len
+        let fld = ReadNetworkRequestID bs pos2 len
         fld |> FIXField.NetworkRequestID
     | 934 ->
-        let fld = ReadLastNetworkResponseIDIdx bs pos2 len
+        let fld = ReadLastNetworkResponseID bs pos2 len
         fld |> FIXField.LastNetworkResponseID
     | 935 ->
-        let fld = ReadNetworkRequestTypeIdx bs pos2 len
+        let fld = ReadNetworkRequestType bs pos2 len
         fld |> FIXField.NetworkRequestType
     | 936 ->
-        let fld = ReadNoCompIDsIdx bs pos2 len
+        let fld = ReadNoCompIDs bs pos2 len
         fld |> FIXField.NoCompIDs
     | 937 ->
-        let fld = ReadNetworkStatusResponseTypeIdx bs pos2 len
+        let fld = ReadNetworkStatusResponseType bs pos2 len
         fld |> FIXField.NetworkStatusResponseType
     | 938 ->
-        let fld = ReadNoCollInquiryQualifierIdx bs pos2 len
+        let fld = ReadNoCollInquiryQualifier bs pos2 len
         fld |> FIXField.NoCollInquiryQualifier
     | 939 ->
-        let fld = ReadTrdRptStatusIdx bs pos2 len
+        let fld = ReadTrdRptStatus bs pos2 len
         fld |> FIXField.TrdRptStatus
     | 940 ->
-        let fld = ReadAffirmStatusIdx bs pos2 len
+        let fld = ReadAffirmStatus bs pos2 len
         fld |> FIXField.AffirmStatus
     | 941 ->
-        let fld = ReadUnderlyingStrikeCurrencyIdx bs pos2 len
+        let fld = ReadUnderlyingStrikeCurrency bs pos2 len
         fld |> FIXField.UnderlyingStrikeCurrency
     | 942 ->
-        let fld = ReadLegStrikeCurrencyIdx bs pos2 len
+        let fld = ReadLegStrikeCurrency bs pos2 len
         fld |> FIXField.LegStrikeCurrency
     | 943 ->
-        let fld = ReadTimeBracketIdx bs pos2 len
+        let fld = ReadTimeBracket bs pos2 len
         fld |> FIXField.TimeBracket
     | 944 ->
-        let fld = ReadCollActionIdx bs pos2 len
+        let fld = ReadCollAction bs pos2 len
         fld |> FIXField.CollAction
     | 945 ->
-        let fld = ReadCollInquiryStatusIdx bs pos2 len
+        let fld = ReadCollInquiryStatus bs pos2 len
         fld |> FIXField.CollInquiryStatus
     | 946 ->
-        let fld = ReadCollInquiryResultIdx bs pos2 len
+        let fld = ReadCollInquiryResult bs pos2 len
         fld |> FIXField.CollInquiryResult
     | 947 ->
-        let fld = ReadStrikeCurrencyIdx bs pos2 len
+        let fld = ReadStrikeCurrency bs pos2 len
         fld |> FIXField.StrikeCurrency
     | 948 ->
-        let fld = ReadNoNested3PartyIDsIdx bs pos2 len
+        let fld = ReadNoNested3PartyIDs bs pos2 len
         fld |> FIXField.NoNested3PartyIDs
     | 949 ->
-        let fld = ReadNested3PartyIDIdx bs pos2 len
+        let fld = ReadNested3PartyID bs pos2 len
         fld |> FIXField.Nested3PartyID
     | 950 ->
-        let fld = ReadNested3PartyIDSourceIdx bs pos2 len
+        let fld = ReadNested3PartyIDSource bs pos2 len
         fld |> FIXField.Nested3PartyIDSource
     | 951 ->
-        let fld = ReadNested3PartyRoleIdx bs pos2 len
+        let fld = ReadNested3PartyRole bs pos2 len
         fld |> FIXField.Nested3PartyRole
     | 952 ->
-        let fld = ReadNoNested3PartySubIDsIdx bs pos2 len
+        let fld = ReadNoNested3PartySubIDs bs pos2 len
         fld |> FIXField.NoNested3PartySubIDs
     | 953 ->
-        let fld = ReadNested3PartySubIDIdx bs pos2 len
+        let fld = ReadNested3PartySubID bs pos2 len
         fld |> FIXField.Nested3PartySubID
     | 954 ->
-        let fld = ReadNested3PartySubIDTypeIdx bs pos2 len
+        let fld = ReadNested3PartySubIDType bs pos2 len
         fld |> FIXField.Nested3PartySubIDType
     | 955 ->
-        let fld = ReadLegContractSettlMonthIdx bs pos2 len
+        let fld = ReadLegContractSettlMonth bs pos2 len
         fld |> FIXField.LegContractSettlMonth
     | 956 ->
-        let fld = ReadLegInterestAccrualDateIdx bs pos2 len
+        let fld = ReadLegInterestAccrualDate bs pos2 len
         fld |> FIXField.LegInterestAccrualDate
     |  _  -> failwith "FIXField invalid tag" 

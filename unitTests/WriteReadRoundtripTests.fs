@@ -69,7 +69,7 @@ let NoHopsGrp () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadNoHopsGrpIdx bs index
+    let xOut = ReadNoHopsGrp bs index
     xIn =! xOut
 
 
@@ -123,7 +123,7 @@ let InstrumentLegFG () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadInstrumentLegFGIdx bs index
+    let xOut = ReadInstrumentLegFG bs index
     xIn =! xOut
 
 
@@ -179,7 +179,7 @@ let InstrumentLegFG2 () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadInstrumentLegFGIdx bs index
+    let xOut = ReadInstrumentLegFG bs index
     xIn =! xOut
     
 
@@ -222,7 +222,7 @@ let MassQuoteNoQuoteEntriesGrp () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2 //todo: allowing probe for the next optional field to look past endPos/end of the index, is there a better way to do this
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadMassQuoteNoQuoteEntriesGrpIdx bs index
+    let xOut = ReadMassQuoteNoQuoteEntriesGrp bs index
     xIn =! xOut
 
 
@@ -281,7 +281,7 @@ let MarketDataIncrementalRefreshNoMDEntriesGrp () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 4
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrpIdx bs index
+    let xOut = ReadMarketDataIncrementalRefreshNoMDEntriesGrp bs index
     xIn =! xOut
 
 
@@ -346,7 +346,7 @@ let NoSidesGrp () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 128
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadNoSidesGrpIdx bs index
+    let xOut = ReadNoSidesGrp bs index
     xIn =! xOut
 
 
@@ -369,7 +369,7 @@ let NoPartyIDsGrp () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 128
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let xOut = ReadNoPartyIDsGrpIdx bs index
+    let xOut = ReadNoPartyIDsGrp bs index
     ptyIdGrp =! xOut
 
 
@@ -391,7 +391,7 @@ let EncodedHeadline2 () =
     let posW = Fix44.FieldWriters.WriteEncodedHeadline bs 0 eh
     let pos2, tag = FIXBuf.readTag bs 0
     let len = bs.Length - pos2
-    let ehOut = Fix44.FieldReaders.ReadEncodedHeadlineIdx bs pos2 len
+    let ehOut = Fix44.FieldReaders.ReadEncodedHeadline bs pos2 len
     eh =! ehOut
 
 

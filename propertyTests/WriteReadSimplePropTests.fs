@@ -55,21 +55,21 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) readFunc =
 
 [<PropTest>]
 let PosMaintRptID (fldIn:Fix44.Fields. PosMaintRptID) = 
-    WriteReadFieldTest fldIn Fix44.FieldWriters.WritePosMaintRptID Fix44.FieldReaders.ReadPosMaintRptIDIdx
+    WriteReadFieldTest fldIn Fix44.FieldWriters.WritePosMaintRptID Fix44.FieldReaders.ReadPosMaintRptID
 
 // MDEntryTime wraps UTCTimeOnly
 [<PropTest>]
-let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteMDEntryTime Fix44.FieldReaders.ReadMDEntryTimeIdx
+let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteMDEntryTime Fix44.FieldReaders.ReadMDEntryTime
 
 
 // RawData is a compound len+data field, the data portion of which may contain field or tag-value seperators
 [<PropTest>]
-let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawDataIdx
+let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawData
 
 
 
 [<PropTest>]
-let SecurityRequestType (fldIn:Fix44.Fields.SecurityRequestType) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteSecurityRequestType Fix44.FieldReaders.ReadSecurityRequestTypeIdx
+let SecurityRequestType (fldIn:Fix44.Fields.SecurityRequestType) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteSecurityRequestType Fix44.FieldReaders.ReadSecurityRequestType
 
 
 

@@ -28,24 +28,9 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:Fie
 
 
 let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list) =
-    let readerFuncErrMsg = sprintf "Read%s unknown case tag:" typeName
-    let lines = [
-            yield  sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" typeName typeName 
-            yield  sprintf "    let pos2, valIn = FIXBuf.readValAfterTagValSep bs pos"
-            yield  sprintf "    let fld = "
-            yield  sprintf "        match valIn with"
-            yield! values |> List.map (fun vv -> 
-                   sprintf "        |\"%s\"B -> %s.%s" vv.Case typeName vv.Description )
-            yield          "        | x -> failwith (sprintf \"" + readerFuncErrMsg + " %A\"  x) " // the failure case (nested sprintf makes this difficult to code with a sprintf)
-            yield  sprintf "    pos2, fld"
-    ]    
-    StringEx.join "\n" lines
-
-
-let private makeMultiCaseDUReaderFuncIdx (typeName:string) (values:FieldDUCase list) =
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
-            yield  sprintf "let Read%sIdx (bs:byte[]) (pos:int) (len:int): %s =" typeName typeName 
+            yield  sprintf "let Read%s (bs:byte[]) (pos:int) (len:int): %s =" typeName typeName 
             yield  sprintf "    let tagBs = Array.zeroCreate<byte> len"
             yield  sprintf "    Array.Copy( bs, pos, tagBs, 0, len)"
             yield  sprintf "    match tagBs with"
@@ -61,7 +46,7 @@ let private createFieldDUWithValues (typeName:string) (fixTag:uint32) (values:Fi
     let typeStr = sprintf "type %s =" typeName
     let caseStr = values |> List.map (fun vv -> sprintf "    | %s" vv.Description) |> StringEx.join "\n"
     let typeStr = sprintf "%s\n%s" typeStr caseStr
-    let readerFunc = makeMultiCaseDUReaderFuncIdx typeName values
+    let readerFunc = makeMultiCaseDUReaderFunc typeName values
     let writerFunc = createFieldDUWriterFunc typeName fixTag values
     typeStr, readerFunc, writerFunc
 
@@ -104,39 +89,22 @@ let private matchMsgTypeTagToFieldNameFIX44 (ss:string) =
 let private correctDUNames = correctDUCaseNames >> prefixNumericCaseNames >> correctNone >> matchMsgTypeTagToFieldNameFIX44
 
 
-//let private getSingleCaseDUReadFuncString (fieldType:string) =
-//    match fieldType with
-//    | "uint32"          -> "ReadFieldUint32"
-//    | "int"             -> "ReadFieldInt"
-//    | "decimal"         -> "ReadFieldDecimal"
-//    | "bool"            -> "ReadFieldBool"
-//    | "char"            -> "ReadFieldChar"
-//    | "string"          -> "ReadFieldStr"
-//    | "byte []"         -> "ReadFieldData"
-//    | "UTCTimeOnly"     -> "ReadFieldUTCTimeOnly"
-//    | "UTCDate"         -> "ReadFieldUTCDate"
-//    | "UTCTimestamp"    -> "ReadFieldUTCTimestamp" 
-//    | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
-//    | "MonthYear"       -> "ReadFieldMonthYear"
-//    | "LocalMktDate"    -> "ReadFieldLocalMktDate"
-//    | _                 -> failwith "unknown type name"
 
-
-let private getSingleCaseDUReadFuncStringIdx (fieldType:string) =
+let private getSingleCaseDUReadFuncString (fieldType:string) =
     match fieldType with
-    | "uint32"          -> "ReadFieldUIntIdx"
-    | "int"             -> "ReadFieldIntIdx"
-    | "decimal"         -> "ReadFieldDecimalIdx"
-    | "bool"            -> "ReadFieldBoolIdx"
-    | "char"            -> "ReadFieldCharIdx"
-    | "string"          -> "ReadFieldStrIdx"
-    | "byte []"         -> "ReadFieldDataIdx"
-    | "UTCTimeOnly"     -> "ReadFieldUTCTimeOnlyIdx"
-    | "UTCDate"         -> "ReadFieldUTCDateIdx"
-    | "UTCTimestamp"    -> "ReadFieldUTCTimestampIdx"
-    | "TZTimeOnly"      -> "ReadFieldTZTimeOnlyIdx"
-    | "MonthYear"       -> "ReadFieldMonthYearIdx"
-    | "LocalMktDate"    -> "ReadFieldLocalMktDateIdx"
+    | "uint32"          -> "ReadFieldUInt"
+    | "int"             -> "ReadFieldInt"
+    | "decimal"         -> "ReadFieldDecimal"
+    | "bool"            -> "ReadFieldBool"
+    | "char"            -> "ReadFieldChar"
+    | "string"          -> "ReadFieldStr"
+    | "byte []"         -> "ReadFieldData"
+    | "UTCTimeOnly"     -> "ReadFieldUTCTimeOnly"
+    | "UTCDate"         -> "ReadFieldUTCDate"
+    | "UTCTimestamp"    -> "ReadFieldUTCTimestamp"
+    | "TZTimeOnly"      -> "ReadFieldTZTimeOnly"
+    | "MonthYear"       -> "ReadFieldMonthYear"
+    | "LocalMktDate"    -> "ReadFieldLocalMktDate"
     | _                 -> failwith "unknown type name"
 
 
@@ -169,19 +137,11 @@ let private makeSingleCaseDUWriterFunc (wrappedType:string) (fieldName:string) (
     StringEx.join "\n" lines
 
 
-//let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
-//    let readFunc = getSingleCaseDUReadFuncString wrappedType
-//    let lines = [
-//            sprintf "let Read%s (bs:byte[]) (pos:int): (int*%s) =" fieldName fieldName
-//            sprintf "    %s bs pos %s.%s" readFunc fieldName fieldName
-//    ]    
-//    StringEx.join "\n" lines
 
-
-let private makeSingleCaseDUReaderFuncIdx (wrappedType:string) (fieldName:string) =
-    let readFunc = getSingleCaseDUReadFuncStringIdx wrappedType
+let private makeSingleCaseDUReaderFunc (wrappedType:string) (fieldName:string) =
+    let readFunc = getSingleCaseDUReadFuncString wrappedType
     let lines = [
-            sprintf "let Read%sIdx (bs:byte[]) (pos:int) (len:int): %s =" fieldName fieldName
+            sprintf "let Read%s (bs:byte[]) (pos:int) (len:int): %s =" fieldName fieldName
             sprintf "    %s bs pos len %s.%s" readFunc fieldName fieldName
     ]    
     StringEx.join "\n" lines
@@ -190,7 +150,7 @@ let private makeSingleCaseDUReaderFuncIdx (wrappedType:string) (fieldName:string
 let private makeSingleCaseDU (fieldName:string) (tag:uint32) (innerType:string) =
     let fieldDefStr = sprintf "type %s =\n    |%s of %s\n     member x.Value = let (%s v) = x in v" fieldName fieldName innerType fieldName
     //let readerFunc = sprintf "let Read%s valIn =\n    let tmp = %s valIn\n    %s.%s tmp" typeName (getParseFuncString fsharpInnerType) typeName typeName
-    let readerFunc = makeSingleCaseDUReaderFuncIdx innerType fieldName
+    let readerFunc = makeSingleCaseDUReaderFunc innerType fieldName
     let writerFunc = makeSingleCaseDUWriterFunc  innerType fieldName tag
     fieldDefStr, readerFunc, writerFunc
 
@@ -303,11 +263,11 @@ let ParseFieldData (parentXL:XElement) : SimpleField list =
 
 
 
-let private createLenDataFieldReadFunctionIdx (fld:CompoundField) =
+let private createLenDataFieldReadFunction (fld:CompoundField) =
     let lines = [   
             sprintf "// compound read"
-            sprintf "let Read%sIdx (bs:byte[]) (pos:int) (len:int): %s =" fld.Name fld.Name
-            sprintf "    ReadLengthDataCompoundFieldIdx bs pos len \"%d\"B %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
+            sprintf "let Read%s (bs:byte[]) (pos:int) (len:int): %s =" fld.Name fld.Name
+            sprintf "    ReadLengthDataCompoundField bs pos len \"%d\"B %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
     ]
     StringEx.join "\n" lines
 
@@ -316,13 +276,6 @@ let private createLenDataFieldReadFunctionIdx (fld:CompoundField) =
 let private createLenDataFieldDefinition (cfd:CompoundField) =
     sprintf "// compound len+str field\ntype %s =\n    |%s of byte []\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
 
-let private createLenDataFieldReadFunction (fld:CompoundField) =
-    let lines = [   
-            sprintf "// compound read"
-            sprintf "let Read%s (bs:byte[]) (pos:int) : (int * %s) =" fld.Name fld.Name
-            sprintf "    ReadLengthDataCompoundField (bs:byte[]) (pos:int) \"%d\"B %s.%s" (fld.DataField.Tag) fld.Name fld.Name 
-    ]
-    StringEx.join "\n" lines
 
 let private createLenDataFieldWriteFunction (fld:CompoundField) =
     let lines = [   
@@ -374,7 +327,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
                 match fd with
                 | SimpleField sfd   ->  let _, rdrFunc, _= createFieldTypes sfd
                                         rdrFunc
-                | CompoundField cfd ->  createLenDataFieldReadFunctionIdx cfd
+                | CompoundField cfd ->  createLenDataFieldReadFunction cfd
             swReadFuncs.WriteLine readerFunc
             swReadFuncs.WriteLine ""
             swReadFuncs.WriteLine ""
@@ -452,7 +405,7 @@ let Gen (fieldData:Field list) (sw:StreamWriter) (swReadFuncs:StreamWriter) (swW
     fieldData |> Seq.iter (fun fd ->
             let ss =
                 match fd with
-                | SimpleField fd      ->   sprintf "    | %d ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
-                | CompoundField fd    ->   sprintf "    | %d ->\n        let fld = Read%sIdx bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
+                | SimpleField fd      ->   sprintf "    | %d ->\n        let fld = Read%s bs pos2 len\n        fld |> FIXField.%s" fd.Tag  fd.Name fd.Name
+                | CompoundField fd    ->   sprintf "    | %d ->\n        let fld = Read%s bs pos2 len\n        fld |> FIXField.%s // len->string compound field" fd.LenField.Tag fd.Name fd.Name // the length field is always read first
             swFieldDU.WriteLine ss )
     swFieldDU.WriteLine "    |  _  -> failwith \"FIXField invalid tag\" "
