@@ -42,34 +42,10 @@ let bytesToDecimalIdx (bs:byte[]) pos len =
 
 
 
-
-
-let bytesToStrRename bs = System.Text.Encoding.UTF8.GetString(bs)
-
-let bytesToInt32x = bytesToStrRename >> System.Convert.ToInt32 
-
-let bytesToUInt32 = bytesToStrRename >> System.Convert.ToUInt32
-
-
-let bytesToBool (bs:byte[]) =
-    match bs with
-    | "N"B ->  false
-    | "Y"B ->  true
-    | _ ->  failwith (sprintf "invalid value for bool field: %A" bs) 
-    
-
-let bytesToDecimalRename (bs:byte[]) = 
-    let ss = bs |> bytesToStrRename
-    match Decimal.TryParse(ss) with
-    | false, _  -> failwith (sprintf "invalid value for decimal field: %s" ss) 
-    | true, dd  -> dd
-
-
 let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
 
 
-
-
+//todo: consider how to avoid allocation by writing into a pre-allocated array at a give postion
 [<AbstractClass;Sealed>]
 type ToBytes private () =
     static member Convert (str:string) = sToB str
