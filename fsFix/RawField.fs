@@ -10,63 +10,63 @@ open LocalMktDate
 
 
 
-// todo: microbenchmark inlining these read funcs OR manually inline them
-let ReadFieldIntIdx bs pos len fldCtor =
+// todo: microbenchmark inlining these read funcs OR manually elide them
+let ReadFieldInt bs pos len fldCtor =
     Conversions.bytesToInt32 bs pos len |> fldCtor
 
 
-let ReadFieldUIntIdx bs pos len fldCtor =
+let ReadFieldUInt bs pos len fldCtor =
     Conversions.bytesToUInt32 bs pos len |> fldCtor
 
 
-let ReadFieldCharIdx bs pos len fldCtor =
+let ReadFieldChar bs pos len fldCtor =
     Conversions.bytesToChar bs pos len |> fldCtor
 
 
-let ReadFieldDecimalIdx bs pos len fldCtor =
+let ReadFieldDecimal bs pos len fldCtor =
     Conversions.bytesToDecimal bs pos len |> fldCtor
 
 
-let ReadFieldBoolIdx bs pos (len:int) fldCtor =
+let ReadFieldBool bs pos (len:int) fldCtor =
     Conversions.bytesToBool bs pos |> fldCtor
 
 
-let ReadFieldStrIdx bs pos len fldCtor =
+let ReadFieldStr bs pos len fldCtor =
     Conversions.bytesToStr bs pos len |> fldCtor
 
 // todo: ReadFieldDataIdx allocates, can this be safely avoided, maybe using an ArraySegment?
-let ReadFieldDataIdx bs pos len fldCtor =
+let ReadFieldData bs pos len fldCtor =
     let subArray = Array.zeroCreate<byte> len
     Array.Copy(bs, pos, subArray, 0, len)
     fldCtor subArray
 
 
-let ReadFieldUTCTimeOnlyIdx bs pos len fldCtor =
+let ReadFieldUTCTimeOnly bs pos len fldCtor =
     UTCDateTime.readUTCTimeOnly bs pos len |> fldCtor
 
 
-let ReadFieldUTCDateIdx bs pos len fldCtor =
+let ReadFieldUTCDate bs pos len fldCtor =
     UTCDateTime.readUTCDate bs pos len |> fldCtor
 
 
-let ReadFieldLocalMktDateIdx bs pos len fldCtor =
+let ReadFieldLocalMktDate bs pos len fldCtor =
     LocalMktDate.readLocalMktDate bs pos len |> fldCtor
 
 
-let ReadFieldUTCTimestampIdx bs pos len fldCtor =
+let ReadFieldUTCTimestamp bs pos len fldCtor =
     UTCDateTime.readUTCTimestamp bs pos len |> fldCtor
 
 
-let ReadFieldTZTimeOnlyIdx bs pos (len:int) fldCtor = 
+let ReadFieldTZTimeOnly bs pos (len:int) fldCtor = 
     TZDateTime.readTZTimeOnly bs pos len |> fldCtor
 
 
-let ReadFieldMonthYearIdx bs pos (len:int) fldCtor =
+let ReadFieldMonthYear bs pos (len:int) fldCtor =
     MonthYear.read bs pos len |> fldCtor
     
 
 // pos is pointing to the the begining of the length value
-let ReadLengthDataCompoundFieldIdx (bs:byte[]) (pos:int) (lenREMOVEME:int) (dataTagExpected:byte[]) fldCtor =
+let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (lenTODO:int) (dataTagExpected:byte[]) fldCtor =
     let lengthFieldTermPos = FIXBuf.findNextFieldTermOrEnd bs pos
     let dataFieldLength = Conversions.bytesToInt32 bs pos (lengthFieldTermPos - pos)
 
