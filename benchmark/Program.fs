@@ -84,7 +84,7 @@ let instrument: Instrument =
       }
 
 
-let newOrderMultilet:NewOrderMultileg =
+let newOrderMultileg:NewOrderMultileg =
    {ClOrdID = ClOrdID "PZXWQ"
     SecondaryClOrdID = Some (SecondaryClOrdID "EFZDRSMQ")
     ClOrdLinkID = None
@@ -180,15 +180,48 @@ let newOrderMultilet:NewOrderMultileg =
     MultiLegRptTypeReq = Some ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity}
 
 
+let msg = newOrderMultileg |> Fix44.MessageDU.NewOrderMultileg
 
+
+let bufSize = 1024 * 16
+
+type BenchmarkNewOrderMultileg () =
+    
+    member val buf:byte array =  Array.zeroCreate<byte> bufSize
+    member val tmpBuf:byte array =  Array.zeroCreate<byte> bufSize
+    member val BeginString:BeginString = BeginString.BeginString "FIX.4.4"
+    //member val BodyLength:BodyLength = BodyLength.BodyLength 99u
+    member val MsgType:MsgType = MsgType.Logon
+    member val SenderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
+    member val TargetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
+    member val MsgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
+    member val SendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
+
+
+    [<Benchmark>]
+    member this.Write () =
+        let posW = MsgReadWrite.WriteMessageDU 
+                                    this.tmpBuf 
+                                    this.buf 
+                                    0 
+                                    this.BeginString 
+                                    this.SenderCompID
+                                    this.TargetCompID
+                                    this.MsgSeqNum
+                                    this.SendingTime
+                                    msg
+
+
+        ()
+
+
+    
 
 
 type BenchmarkWriteLogon () =
 
-    //member val Dst:byte array =  [||] with get, set
+
     member val Dst:byte array =  Array.zeroCreate<byte> 2048
-
-
     member val BeginString:BeginString = BeginString.BeginString "FIX.4.4"
     member val BodyLength:BodyLength = BodyLength.BodyLength 99u
     member val MsgType:MsgType = MsgType.Logon
