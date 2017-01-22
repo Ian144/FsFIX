@@ -31,7 +31,7 @@ let inline private validate_yyyyMM (yy, mm)  = yy >= 0 && yy <= 9999 && 1 >= 0 &
 
 
 [<AbstractClass;Sealed>]
-type MakeMonthYear private () =
+type MakeMonthYear () =
     static member Make (year,month) =
         match year, month with
         | yy, mm when validate_yyyyMM (yy,mm)       ->  YYYYMM (yy, mm)

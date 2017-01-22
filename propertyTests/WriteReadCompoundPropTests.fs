@@ -20,9 +20,9 @@ let bufSize = 1024 * 82 // so as not to go into the LOH
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        EndSize = 4,
-        Verbose = false,
+        MaxTest = 1000,
+        EndSize = 1,
+        Verbose = true,
         QuietOnSuccess = true
         )
 
@@ -32,7 +32,7 @@ type PropTestSlow() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 100,
-        EndSize = 2,
+        EndSize = 1,
         Verbose = false,
         QuietOnSuccess = true
         )
@@ -60,6 +60,10 @@ let MessageWithHeaderTrailer
                                 msgSeqNum
                                 sendingTime
                                 msg
+
+//    let ss = FIXBuf.toS buf posW
+//    printf "%s" ss
+
     let msgOut = MsgReadWrite.ReadMessage buf posW
     msg =! msgOut
 

@@ -10,7 +10,7 @@ open LocalMktDate
 
 
 
-// todo: microbenchmark inlining these read funcs OR manually elide them
+// todo: microbenchmark inlining these read funcs, consider manually eliding them
 let ReadFieldInt bs pos len fldCtor =
     Conversions.bytesToInt32 bs pos len |> fldCtor
 

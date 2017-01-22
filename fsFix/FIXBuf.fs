@@ -5,7 +5,7 @@ open System
 
 
 
-// converts a byte array, usually containing a FIX msg, to a reasonably readable string
+// converts a byte array containing a FIX msg to a reasonably readable string
 let toS (bs:byte[]) (pos:int) = (System.Text.Encoding.UTF8.GetString bs).Substring(0, pos)
 
 

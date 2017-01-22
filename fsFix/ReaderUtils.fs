@@ -24,7 +24,7 @@ let ReadField bs (index:FIXBufIndexer.FixBufIndex) tag readFunc =
         index.LastReadIdx <- tagIdx
         readFunc bs fpData.Pos fpData.Len
     else
-        failwithf "field not found, tag: %s" "XXX"
+        failwithf "field not found, tag: %d" tag
 
 
 
