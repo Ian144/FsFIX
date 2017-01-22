@@ -1,21 +1,21 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    BenchmarkDotNet (0.10.1)
-      BenchmarkDotNet.Core (>= 0.10.1) - framework: net10, net11, net20, net30, net35, net40, net40-full
-      BenchmarkDotNet.Toolchains.Roslyn (>= 0.10.1) - framework: >= net45
-    BenchmarkDotNet.Core (0.10.1) - framework: >= net10
+    BenchmarkDotNet (0.10.2)
+      BenchmarkDotNet.Core (>= 0.10.2) - framework: net10, net11, net20, net30, net35, net40, net40-full
+      BenchmarkDotNet.Toolchains.Roslyn (>= 0.10.2) - framework: >= net45
+    BenchmarkDotNet.Core (0.10.2) - framework: >= net10
       Microsoft.DotNet.InternalAbstractions (>= 1.0) - framework: net10, net11, net20, net30, net35, net40, net40-full
       Microsoft.NETCore.App (>= 1.1) - framework: net10, net11, net20, net30, net35, net40, net40-full
       System.Runtime.Serialization.Primitives (>= 4.1.1) - framework: net10, net11, net20, net30, net35, net40, net40-full
       System.Xml.XPath.XmlDocument (>= 4.0.1) - framework: net10, net11, net20, net30, net35, net40, net40-full
-    BenchmarkDotNet.Toolchains.Roslyn (0.10.1) - framework: >= net45
-      BenchmarkDotNet.Core (>= 0.10.1) - framework: >= net45
+    BenchmarkDotNet.Toolchains.Roslyn (0.10.2) - framework: >= net45
+      BenchmarkDotNet.Core (>= 0.10.2) - framework: >= net45
       Microsoft.CodeAnalysis.CSharp (>= 1.3.2) - framework: >= net45
       System.Threading.Tasks (>= 4.0) - framework: >= net45
-    FsCheck (2.6.2)
+    FsCheck (2.7)
       FSharp.Core (>= 3.1.2.5)
-    FsCheck.Xunit (2.6.2)
-      FsCheck (>= 2.6.2)
+    FsCheck.Xunit (2.7)
+      FsCheck (>= 2.7)
       xunit.extensibility.execution (>= 2.1 < 3.0)
     FSharp.Core (4.0.0.1)
     Libuv (1.9.1) - framework: net10, net11, net20, net30, net35, net40, net40-full
@@ -133,7 +133,7 @@ NUGET
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, netstandard10, >= netstandard13
       System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
     System.Collections.Concurrent (4.3) - framework: >= net46
-    System.Collections.Immutable (1.3) - framework: >= net10
+    System.Collections.Immutable (1.3.1) - framework: >= net10
     System.ComponentModel (4.3) - framework: net10, net11, net20, net30, net35, net40, net40-full
     System.ComponentModel.Annotations (4.3) - framework: net10, net11, net20, net30, net35, net40, net40-full
     System.Console (4.3) - framework: >= net46
@@ -213,7 +213,7 @@ NUGET
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, >= netstandard10
       System.Reflection (>= 4.3) - framework: dnxcore50, >= netstandard10
       System.Runtime (>= 4.3) - framework: dnxcore50, >= netstandard10
-    System.Reflection.Metadata (1.4.1) - framework: >= net10
+    System.Reflection.Metadata (1.4.2) - framework: >= net10
     System.Reflection.Primitives (4.3) - framework: net10, net11, net20, net30, net35, net40, net40-full, >= net46, dnxcore50
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, >= netstandard10
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, >= netstandard10
