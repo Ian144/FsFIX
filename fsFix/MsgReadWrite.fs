@@ -55,7 +55,6 @@ let WriteMessageDU
     let checksum = CalcCheckSum dest 0 nextFreeIdx
     let ss = System.Text.Encoding.UTF8.GetString dest
 
-
     // not sending optional signature fields in the trailer, this may change
     //  <trailer>
     //    <field name="SignatureLength" required="N" />
@@ -69,18 +68,6 @@ let WriteMessageDU
 
 
 
-
-// quickfix executor replies to a logon msg by returning a logon msg with the fields in this order
-// 8=FIX.4.4
-// 9=70
-// 35=A
-// 34=1
-// 49=EXECUTOR
-// 52=20161231-07:17:23.037
-// 56=CLIENT1
-// 98=0
-// 108=30
-// 10=090
 
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
