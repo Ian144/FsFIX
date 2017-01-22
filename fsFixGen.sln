@@ -28,6 +28,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleTradeClient", "Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyXUnitTestProject2", "DummyXUnitTestProject2\DummyXUnitTestProject2.csproj", "{0D755A64-0BB9-4780-9021-77A8743C9C9E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scratchConsoleApp", "scratchConsoleApp\scratchConsoleApp.fsproj", "{96A09A78-0337-451C-8C5B-8695D48B2F22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
