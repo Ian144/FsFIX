@@ -63,6 +63,7 @@
     <Compile Include="Generators.fs" />
     <Compile Include="WriteReadSimplePropTests.fs" />
     <Compile Include="FIXMsgIndexingPropTests.fs" />
+    <Compile Include="QuickFixEchoIssuePropTests.fs" />
     <Compile Include="WriteReadCompoundPropTests.fs" />
     <None Include="paket.references" />
   </ItemGroup>
