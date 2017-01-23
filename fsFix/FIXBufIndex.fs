@@ -10,6 +10,20 @@ open System
 //    deconstruct the tag??
 
 
+//
+// type PosLen =
+//    struct
+//      val Pos:int
+//      val len:int
+//      new(pos:int;len:int) = {Pos=pos; Len=len}
+//    end
+// 
+//type FieldIndex =
+//   struct
+//      val Tag: int array// storing tag as an int32 (ok so long as tags are 4 bytes or less long), an array is a refernce type, this avoids chasing down references
+//      val PosLen: PosLen array
+//      new(tag:int array, pl:PosLen array) = { Tag = tag; PosLen = pl}
+//   end
 
 
 // the msg index should not be an array of value types, do not the reference chasing and cache misses, hence FieldPos is a struct
@@ -18,7 +32,7 @@ type FieldPos =
       val Tag: int // storing tag as an int32 (ok so long as tags are 4 bytes or less long), an array is a refernce type, this avoids chasing down references
       val Pos: int
       val Len: int
-      new(tag:int, pos:int, len:int) = { Tag = tag; Pos = pos; Len = len}
+      new(tag:int, pos:int, len:int) = {Tag = tag; Pos = pos; Len = len}
    end
     // this member func is for developer convenience, it should not be called in performance critical code
     override this.ToString() =

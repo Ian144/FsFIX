@@ -28,7 +28,7 @@ type PropTest() =
 
 
 [<PropTest>]
-let FindTagsWithoutValues (msg:FIXMessage) = 
+let ``check all fields have values of non-zero length`` (msg:FIXMessage) = 
     System.Array.Clear (bs, 0, bs.Length)
     System.Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
     let posW = Fix44.MessageDU.WriteMessage bs 0 msg

@@ -45,10 +45,13 @@ let ``write multicase DU`` () =
     expectedBytesWritten =! dest2
     expectedBytesWritten.Length =! endPos
     
+
+let mkRawData = NonEmptyByteArray.Make >> RawData
+
     
 [<Fact>]
 let ``write len+data pair`` () =
-    let fld = RawData.RawData "12345678"B
+    let fld = mkRawData "12345678"B
     let dest = Array.zeroCreate<byte> 32
     let endPos = WriteRawData dest 0 fld
     let expectedBytesWritten  =  [| yield! "95=8"B; yield 1uy           // length is 8
@@ -60,7 +63,7 @@ let ``write len+data pair`` () =
 
 [<Fact>]
 let ``write len+str pair, contains field seperator`` () =
-    let fld = RawData.RawData [| yield! "1234"B;  yield 1uy; yield! "5678"B |]
+    let fld = mkRawData [| yield! "1234"B;  yield 1uy; yield! "5678"B |]
     let dest = Array.zeroCreate<byte> 32
     let endPos = WriteRawData dest 0 fld
     let expectedBytesWritten  =  [| yield! "95=9"B; yield 1uy   // length is 9
@@ -72,7 +75,7 @@ let ``write len+str pair, contains field seperator`` () =
 
 [<Fact>]
 let ``write len+str pair, contains tag-value seperator`` () =
-    let fld = RawData.RawData "1234=5678"B
+    let fld = mkRawData "1234=5678"B
     let dest = Array.zeroCreate<byte> 32
     let endPos = WriteRawData dest 0 fld
     let expectedBytesWritten  =  [| yield! "95=9"B; yield 1uy   // length is 9

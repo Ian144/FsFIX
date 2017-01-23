@@ -7,7 +7,7 @@ open UTCDateTime
 open LocalMktDate
 
 
-
+open NonEmptyByteArray
 
 
 // todo: microbenchmark inlining these read funcs, consider manually eliding them
@@ -63,7 +63,6 @@ let ReadFieldTZTimeOnly bs pos (len:int) fldCtor =
 
 let ReadFieldMonthYear bs pos (len:int) fldCtor =
     MonthYear.read bs pos len |> fldCtor
-    
 
 // pos is pointing to the the begining of the length value
 let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (lenTODO:int) (dataTagExpected:byte[]) fldCtor =
@@ -76,7 +75,8 @@ let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (lenTODO:int) (dataTagExpe
     let dataPos, dataTagBytes = FIXBuf.readTagAfterFieldDelim bs dataTagPos
     if dataTagExpected = dataTagBytes then
         let _, bs = FIXBuf.readNBytesVal dataPos dataFieldLength bs
-        fldCtor bs
+        let nonEmptyBs = NonEmptyByteArray.Make bs
+        nonEmptyBs |> fldCtor
     else
         failwith "ReadLengthDataCompoundField, unexpected string field tag" //todo: add a better error msg
 
@@ -218,9 +218,10 @@ let inline WriteFieldData (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int
     pos3 + 1 // +1 to move past the delimeter
 
 
-// compound write, of a compound length+data field
+
 let inline WriteFieldLengthData (bs:byte []) (pos:int) (lenTag:byte[]) (dataTag:byte[]) (fieldIn:^T) : int =
-    let dataBs = (^T :(member Value:byte[]) fieldIn)
+    let nonEmptyBs = (^T :(member Value:NonEmptyByteArray) fieldIn)
+    let dataBs = nonEmptyBs.Value
     // write the len part of the field
     Buffer.BlockCopy (lenTag, 0, bs, pos, lenTag.Length)
     let pos2 = pos + lenTag.Length
@@ -236,6 +237,8 @@ let inline WriteFieldLengthData (bs:byte []) (pos:int) (lenTag:byte[]) (dataTag:
     let pos6 = pos5 + dataBs.Length
     bs.[pos6] <- 1uy // write the SOH field delimeter
     pos6 + 1 // +1 to move past the delimeter
+
+
 
 
 

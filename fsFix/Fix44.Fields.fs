@@ -660,13 +660,13 @@ type AllocRejCode =
 
 // compound len+str field
 type Signature =
-    |Signature of byte []
+    |Signature of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (Signature v) = x in v
 
 
 // compound len+str field
 type SecureData =
-    |SecureData of byte []
+    |SecureData of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (SecureData v) = x in v
 
 
@@ -678,7 +678,7 @@ type EmailType =
 
 // compound len+str field
 type RawData =
-    |RawData of byte []
+    |RawData of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (RawData v) = x in v
 
 
@@ -1331,7 +1331,7 @@ type PegOffsetValue =
 
 // compound len+str field
 type XmlData =
-    |XmlData of byte []
+    |XmlData of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (XmlData v) = x in v
 
 
@@ -2221,55 +2221,55 @@ type MessageEncoding =
 
 // compound len+str field
 type EncodedIssuer =
-    |EncodedIssuer of byte []
+    |EncodedIssuer of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedIssuer v) = x in v
 
 
 // compound len+str field
 type EncodedSecurityDesc =
-    |EncodedSecurityDesc of byte []
+    |EncodedSecurityDesc of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedSecurityDesc v) = x in v
 
 
 // compound len+str field
 type EncodedListExecInst =
-    |EncodedListExecInst of byte []
+    |EncodedListExecInst of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedListExecInst v) = x in v
 
 
 // compound len+str field
 type EncodedText =
-    |EncodedText of byte []
+    |EncodedText of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedText v) = x in v
 
 
 // compound len+str field
 type EncodedSubject =
-    |EncodedSubject of byte []
+    |EncodedSubject of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedSubject v) = x in v
 
 
 // compound len+str field
 type EncodedHeadline =
-    |EncodedHeadline of byte []
+    |EncodedHeadline of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedHeadline v) = x in v
 
 
 // compound len+str field
 type EncodedAllocText =
-    |EncodedAllocText of byte []
+    |EncodedAllocText of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedAllocText v) = x in v
 
 
 // compound len+str field
 type EncodedUnderlyingIssuer =
-    |EncodedUnderlyingIssuer of byte []
+    |EncodedUnderlyingIssuer of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedUnderlyingIssuer v) = x in v
 
 
 // compound len+str field
 type EncodedUnderlyingSecurityDesc =
-    |EncodedUnderlyingSecurityDesc of byte []
+    |EncodedUnderlyingSecurityDesc of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedUnderlyingSecurityDesc v) = x in v
 
 
@@ -2739,7 +2739,7 @@ type ListStatusText =
 
 // compound len+str field
 type EncodedListStatusText =
-    |EncodedListStatusText of byte []
+    |EncodedListStatusText of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedListStatusText v) = x in v
 
 
@@ -3818,7 +3818,7 @@ type LegIssuer =
 
 // compound len+str field
 type EncodedLegIssuer =
-    |EncodedLegIssuer of byte []
+    |EncodedLegIssuer of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedLegIssuer v) = x in v
 
 
@@ -3829,7 +3829,7 @@ type LegSecurityDesc =
 
 // compound len+str field
 type EncodedLegSecurityDesc =
-    |EncodedLegSecurityDesc of byte []
+    |EncodedLegSecurityDesc of NonEmptyByteArray.NonEmptyByteArray
      member x.Value = let (EncodedLegSecurityDesc v) = x in v
 
 

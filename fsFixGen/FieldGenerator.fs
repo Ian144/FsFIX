@@ -273,7 +273,7 @@ let private createLenDataFieldReadFunction (fld:CompoundField) =
 
 
 let private createLenDataFieldDefinition (cfd:CompoundField) =
-    sprintf "// compound len+str field\ntype %s =\n    |%s of byte []\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
+    sprintf "// compound len+str field\ntype %s =\n    |%s of NonEmptyByteArray.NonEmptyByteArray\n     member x.Value = let (%s v) = x in v" cfd.Name cfd.Name cfd.Name
 
 
 let private createLenDataFieldWriteFunction (fld:CompoundField) =

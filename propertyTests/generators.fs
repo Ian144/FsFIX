@@ -28,6 +28,12 @@ let genByteTagValueSeperator = Gen.constant 61uy
 // generate byte arrays with lots of tag-value and field seperators
 let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
+let genNonEmptyByteArray = 
+    gen{
+        let! len = Gen.choose(1, 1025)
+        let! bytes = Gen.arrayOfLength len genByte
+        return NonEmptyByteArray.Make bytes
+    }
 
 let genDecimal15dp =
     gen {
@@ -56,6 +62,7 @@ let genCountry =
 
 
 type ArbOverrides() =
+    static member NonEmptyByteArray = Arb.fromGen genNonEmptyByteArray // todo: genNonEmptyByteArray  is shrinkable
     static member Byte()            = Arb.fromGen genByte
     static member Char()            = Arb.fromGen genChar
     static member String()          = Arb.fromGen genAlphaString

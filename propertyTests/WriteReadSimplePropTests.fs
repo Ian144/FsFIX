@@ -64,7 +64,8 @@ let MDEntryTime (fldIn:Fix44.Fields.MDEntryTime) = WriteReadFieldTest fldIn Fix4
 
 // RawData is a compound len+data field, the data portion of which may contain field or tag-value seperators
 [<PropTest>]
-let RawData (fldIn:Fix44.Fields.RawData) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawData
+let RawData (fldIn:Fix44.Fields.RawData) = 
+    WriteReadFieldTest fldIn Fix44.FieldWriters.WriteRawData Fix44.FieldReaders.ReadRawData
 
 
 

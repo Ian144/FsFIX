@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="OneOrTwo.fs" />
+    <Compile Include="NonEmptyArray.fs" />
     <Compile Include="Conversions.fs" />
     <Compile Include="FIXBuf.fs" />
     <Compile Include="FIXBufIndex.fs" />

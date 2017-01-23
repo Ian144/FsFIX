@@ -68,9 +68,9 @@ let instrument: Instrument =
       CouponRate = Some (CouponRate -792281.625142643375807M)
       SecurityExchange = None
       Issuer = Some (Issuer "GHBFTU")
-      EncodedIssuer = Some (EncodedIssuer [||])
+      EncodedIssuer ="aa"B |> NonEmptyByteArray.Make |> EncodedIssuer |> Some
       SecurityDesc = Some (SecurityDesc "QUOJDHBP")
-      EncodedSecurityDesc = Some (EncodedSecurityDesc [||])
+      EncodedSecurityDesc = "aa"B |> NonEmptyByteArray.Make |> EncodedSecurityDesc |> Some
       Pool = Some (Pool "DRSWQEF")
       ContractSettlMonth = None
       CPProgram = Some (CPProgram -2)
@@ -147,7 +147,7 @@ let newOrderMultileg:NewOrderMultileg =
     SettlCurrency = Some (SettlCurrency "ZTXLMG")
     BookingType = Some RegularBooking
     Text = Some (Fix44.Fields.Text "MGBVZT")
-    EncodedText = Some (EncodedText [||])
+    EncodedText = "aa"B |> NonEmptyByteArray.Make |> EncodedText |> Some
     PositionEffect = Some Close
     CoveredOrUncovered = Some Covered
     MaxShow = Some (MaxShow -792281.624773708494590M)
@@ -242,13 +242,13 @@ type BenchmarkNewOrderMultilegMsgRead () =
 
 
 
-
+let mkRawData = NonEmptyByteArray.Make >> RawData
 
 let Dst:byte array =  Array.zeroCreate<byte> 2048
 let logonMsg:Fix44.Messages.Logon = {
         EncryptMethod = EncryptMethod.NoneOther
         HeartBtInt = HeartBtInt.HeartBtInt 30
-        RawData = RawData.RawData "some data, some more data"B |> Option.Some
+        RawData = "some data, some more data"B |> mkRawData |> Option.Some
         ResetSeqNumFlag = ResetSeqNumFlag.ResetSeqNumFlag false |> Option.Some
         NextExpectedMsgSeqNum = NextExpectedMsgSeqNum.NextExpectedMsgSeqNum 99u |> Option.Some
         MaxMessageSize = MaxMessageSize.MaxMessageSize 256u |> Option.Some
