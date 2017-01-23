@@ -63,7 +63,6 @@ let main argv_ =
     let tmpBuf = Array.zeroCreate<byte> 2048
     let buf = Array.zeroCreate<byte> 2048
     let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNumLogon sendingTime logonMsg
-
     do strm.Write (buf, 0, posW)
     printfn "logon sent"
 
@@ -72,7 +71,6 @@ let main argv_ =
     let ii = strm.Read (bufOut, 0, 2048)
     let strReceived = FIXBuf.toS bufOut ii
     printfn "logon reply: %s" strReceived
-    
     let logonMsgReply = MsgReadWrite.ReadMessage bufOut
 
     while true do
@@ -92,7 +90,7 @@ let main argv_ =
         let strReceivedNews = FIXBuf.toS buf2 ii3
         printfn "received: %s" strReceivedNews
         let newsMsgOut = MsgReadWrite.ReadMessage buf3 ii3
-        printfn "receieved: %A" newsMsgOut
+        printfn "received: %A" newsMsgOut
 
 //        let asyncRequestResponse = 
 //            async{

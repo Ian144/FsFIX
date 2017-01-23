@@ -261,21 +261,17 @@ let logonMsg:Fix44.Messages.Logon = {
 
 type BenchmarkWriteLogon () =
 
-    [<Benchmark(Baseline=true)>]
+    [<Benchmark>]
     member this.WriteLogonMsg () =
         Fix44.MsgWriters.WriteLogon Dst 0 logonMsg |> ignore
         ()
 
-    [<Benchmark>]
-    member this.WriteLogon2Msg () =
-        Fix44.MsgWriters.WriteLogon2 Dst 0 logonMsg |> ignore
-        ()
 
-//    [<Benchmark>]
-//    member this.WriteLogonIncHdrTrl () =
-//        let logonMsgDu = logonMsg |> Fix44.MessageDU.Logon
-//        let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsgDu
-//        ()
+    [<Benchmark>]
+    member this.WriteLogonIncHdrTrl () =
+        let logonMsgDu = logonMsg |> Fix44.MessageDU.Logon
+        let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsgDu
+        ()
 
         
 

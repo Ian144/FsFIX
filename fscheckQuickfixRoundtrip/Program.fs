@@ -9,6 +9,17 @@ open Fix44.Messages
 open Fix44.MessageDU
 
 
+
+Arb.register<Generators.ArbOverrides>() |> ignore
+
+
+let host = "localhost"
+let port = 5001
+let client = new TcpClient() 
+client.Connect (host, port)
+let strm = client.GetStream()
+
+
 let logon =  {
         EncryptMethod = EncryptMethod.NoneOther
         HeartBtInt = HeartBtInt 60
@@ -22,43 +33,77 @@ let logon =  {
         Password = None
     }
 
-let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 
-Arb.register<Generators.ArbOverrides>() |> ignore
+let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
+let beginString = BeginString "FIX.4.4"
+let senderCompID = SenderCompID "CLIENT1"
+let targetCompID = TargetCompID "EXECUTOR" // also for quickFixEcho
+let mutable seqNum = 1u
+let msgSeqNum = MsgSeqNum seqNum
+let utcNow = System.DateTime.UtcNow
+let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
+let sendingTime = SendingTime ts
+
 
 let bufSize = 1024 * 64
 
+let tmpBuf = Array.zeroCreate<byte> bufSize
+let buf = Array.zeroCreate<byte> bufSize
+let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsg
+do strm.Write (buf, 0, posW)
+printfn "logon sent"
 
-let propSendMsgToQuickfixEchoConfirmReplyIsTheSame
-        (beginString:BeginString) 
-        (senderCompID:SenderCompID) 
-        (targetCompID:TargetCompID) 
-        (msgSeqNum:MsgSeqNum) 
-        (sendingTime:SendingTime) 
-        (msg:FIXMessage) =
-    let fixBuf = Array.zeroCreate<byte> bufSize
-    let tmpBuf = Array.zeroCreate<byte> bufSize
-    let posW = MsgReadWrite.WriteMessageDU 
-                                tmpBuf 
-                                fixBuf 
-                                0 
-                                beginString 
-                                senderCompID
-                                targetCompID
-                                msgSeqNum
-                                sendingTime
-                                msg
-    let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
-    let indexEnd = FIXBufIndexer.Index index fixBuf posW
-    let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
-    // trim fixBuf
-    let fixBuf2 = Array.zeroCreate<byte> posW
-    Array.Copy(fixBuf, fixBuf2, posW)
-    fixBuf2 =! reconstructedFIXBuf
+let ii = strm.Read (buf, 0, bufSize)
+printfn "logon reply: %d bytes received" ii
+let logonMsgReply = MsgReadWrite.ReadMessage buf
 
 
 
-[<EntryPoint>]
-let main argv = 
-    printfn "%A" argv
-    0 // return an integer exit code
+let isNotLogonLogoff (msgIn:FIXMessage) = 
+    match msgIn with
+    | FIXMessage.Logon  _ -> false
+    | FIXMessage.Logout _ -> false
+    | _                   -> true
+
+
+let propSendMsgToQuickfixEchoConfirmReplyIsTheSame  (msgIn:FIXMessage) =
+    isNotLogonLogoff msgIn ==> lazy 
+        printfn "%A" msgIn
+        seqNum <- seqNum + 1u
+        let msgSeqNum = MsgSeqNum seqNum
+        let utcNow = System.DateTime.UtcNow
+        let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
+        let sendingTime = SendingTime ts
+
+        // send msg to quickfix echo
+        let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
+        strm.Write (buf, 0, numBytesToSend)
+
+        // receive the reply, assuming all bytes are read
+        let numBytesReceived = strm.Read (buf, 0, bufSize)
+        let msgOut = MsgReadWrite.ReadMessage buf numBytesReceived
+    
+        // should be the same msg
+        msgIn =! msgOut
+
+
+
+
+
+let config = { Config.Quick with EndSize = 4; MaxTest = 10 }
+
+
+#nowarn "52"
+let WaitForExitCmd () = 
+    while stdin.Read() <> 88 do // 88 is 'X'
+        ()
+
+Check.One (config, propSendMsgToQuickfixEchoConfirmReplyIsTheSame)
+
+
+WaitForExitCmd ()
+
+
+//todo:  log off
+
+
