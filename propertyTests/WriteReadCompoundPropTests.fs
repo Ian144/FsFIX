@@ -74,6 +74,8 @@ let MessageWithHeaderTrailer
 let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->FIXBufIndexer.FixBufIndex->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
+    let ss = FIXBuf.toS bs posW
+    printfn "%s" ss
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
     let index = FIXBufIndexer.FixBufIndex(indexEnd, fieldPosArr)
@@ -123,6 +125,9 @@ let NoSidesGrp (gIn:NoSidesGrp) = WriteReadIndexTest gIn WriteNoSidesGrp Fix44.C
 [<PropTest>]
 let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadIndexTest usIn WriteInstrumentLegFG Fix44.CompoundItemReaders.ReadInstrumentLegFG
 
+
+[<PropTest>]
+let MarketDataSnapshotFullRefresh (usIn:Fix44.Messages.MarketDataSnapshotFullRefresh) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteMarketDataSnapshotFullRefresh Fix44.MsgReaders.ReadMarketDataSnapshotFullRefresh
 
 
 

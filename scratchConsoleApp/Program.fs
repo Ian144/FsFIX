@@ -175,16 +175,7 @@ let main argv =
     let msgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
     let sendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
 
-    let posW = MsgReadWrite.WriteMessageDU 
-                                    tmpBuf 
-                                    buf 
-                                    0 
-                                    beginString 
-                                    senderCompID
-                                    targetCompID
-                                    msgSeqNum
-                                    sendingTime
-                                    msg
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
     let ss = FIXBuf.toS buf posW
     printfn "%s" ss
 

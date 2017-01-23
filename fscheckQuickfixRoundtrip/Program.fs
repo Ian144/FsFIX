@@ -1,42 +1,35 @@
-﻿open FsCheck
-
-
+﻿
+open System.Net.Sockets
 open System
-
-open Fix44.Fields
-open Fix44.MessageDU
-
+open FsCheck
 open Swensen.Unquote
 
+open Fix44.Fields
+open Fix44.Messages
+open Fix44.MessageDU
+
+
+let logon =  {
+        EncryptMethod = EncryptMethod.NoneOther
+        HeartBtInt = HeartBtInt 60
+        RawData = None
+        ResetSeqNumFlag = None
+        NextExpectedMsgSeqNum = None
+        MaxMessageSize = None
+        NoMsgTypesGrp = None
+        TestMessageIndicator = None
+        Username = None
+        Password = None
+    }
+
+let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 
 Arb.register<Generators.ArbOverrides>() |> ignore
-
-//let propReadWriteFIXFieldRoundtrip (fieldIn:FIXField) =
-//    let bs = Array.zeroCreate<byte> 2048
-//    WriteField bs 0 fieldIn |> ignore
-//    let _, fieldOut = ReadField bs 0
-//    fieldIn = fieldOut
-
 
 let bufSize = 1024 * 64
 
 
-//let mutable ctr:int = 0
-//
-//let propReadWriteCompoundItem (ciIn:FIXGroup) =
-//    ctr <- ctr + 1
-//    if ctr % 10 = 0 then
-//        printfn "test count: %d" ctr
-//
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = WriteCITest  bs 0 ciIn
-//    let posR, ciOut =  ReadCITest ciIn bs 0
-//    posW = posR && ciIn = ciOut
-
-
-
-
-let propReconstructFIXMessageBufFromIndex
+let propSendMsgToQuickfixEchoConfirmReplyIsTheSame
         (beginString:BeginString) 
         (senderCompID:SenderCompID) 
         (targetCompID:TargetCompID) 
@@ -65,25 +58,7 @@ let propReconstructFIXMessageBufFromIndex
 
 
 
-
-let config = {  Config.Quick with 
-//                    EveryShrink = (sprintf "%A" )
-//                    Replay = Some (Random.StdGen (310046944,296129814))
-//                    StartSize = 64
-                    EndSize = 64
-
-//                    MaxFail = 10000
-                    MaxTest = 10000000 }
-
-
-
-#nowarn "52"
-let WaitForExitCmd () = 
-    while stdin.Read() <> 88 do // 88 is 'X'
-        ()
-
-Check.One (config, propReconstructFIXMessageBufFromIndex)
-//Check.One (Config.Quick, propReadWriteFIXFieldRoundtrip)
-
-
-//WaitForExitCmd ()
+[<EntryPoint>]
+let main argv = 
+    printfn "%A" argv
+    0 // return an integer exit code

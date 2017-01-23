@@ -53,8 +53,6 @@ let WriteMessageDU
     let nextFreeIdx = nextFreeIdx + innerLen
 
     let checksum = CalcCheckSum dest 0 nextFreeIdx
-    let ss = System.Text.Encoding.UTF8.GetString dest
-
     // not sending optional signature fields in the trailer, this may change
     //  <trailer>
     //    <field name="SignatureLength" required="N" />
@@ -71,6 +69,90 @@ let WriteMessageDU
 
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+
+    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
+    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
+    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLength
+    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgType
+    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNum
+    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompID
+    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTime
+    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompID
+
+    let msg = ReadMessageDU msgTag bs index
+
+    let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
+    let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
+    let checksumTagPlusDelimLen = 3
+    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
+    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSum
+    if calcedCheckSum = receivedCheckSum then
+        msg
+    else
+        failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+
+
+
+
+let ReadMessage2 (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
+    //let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+
+    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
+    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
+    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLength
+    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgType
+    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNum
+    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompID
+    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTime
+    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompID
+
+    let msg = ReadMessageDU msgTag bs index
+
+    let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
+    let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
+    let checksumTagPlusDelimLen = 3
+    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
+    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSum
+    if calcedCheckSum = receivedCheckSum then
+        msg
+    else
+        failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+
+
+let ReadMessage3 (bs, posEnd)  : FIXMessage =
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
+    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
+    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+
+    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
+    let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
+    let bodyLen        = ReaderUtils.ReadFieldOrdered true bs index 9 ReadBodyLength
+    let msgTag         = ReaderUtils.ReadFieldOrdered true bs index 35 ReadMsgType
+    let seqNum         = ReaderUtils.ReadFieldOrdered true bs index 34 ReadMsgSeqNum
+    let senderCompID   = ReaderUtils.ReadFieldOrdered true bs index 49 ReadSenderCompID
+    let sendTime       = ReaderUtils.ReadFieldOrdered true bs index 52 ReadSendingTime
+    let targetCompID   = ReaderUtils.ReadFieldOrdered true bs index 56 ReadTargetCompID
+
+    let msg = ReadMessageDU msgTag bs index
+
+    let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
+    let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
+    let checksumTagPlusDelimLen = 3
+    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
+    let receivedCheckSum   = ReaderUtils.ReadField bs index 10 ReadCheckSum
+    if calcedCheckSum = receivedCheckSum then
+        msg
+    else
+        failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+
+
+
+let ReadMessage4 (bs, posEnd, fieldPosArr)  : FIXMessage =
+    //let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
 

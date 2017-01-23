@@ -63,8 +63,8 @@
     <Compile Include="Generators.fs" />
     <Compile Include="WriteReadSimplePropTests.fs" />
     <Compile Include="FIXMsgIndexingPropTests.fs" />
-    <None Include="paket.references" />
     <Compile Include="WriteReadCompoundPropTests.fs" />
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

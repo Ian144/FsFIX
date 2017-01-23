@@ -6,7 +6,7 @@ open System
 
 
 // converts a byte array containing a FIX msg to a reasonably readable string
-let toS (bs:byte[]) (pos:int) = (System.Text.Encoding.UTF8.GetString bs).Substring(0, pos)
+let toS (bs:byte[]) (posEnd:int) = (System.Text.Encoding.UTF8.GetString bs).Substring(0, posEnd)
 
 
 

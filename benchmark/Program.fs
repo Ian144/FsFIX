@@ -6,32 +6,29 @@ open Fix44.CompoundItems
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Running
 
+open BenchmarkDotNet.Configs
+open BenchmarkDotNet.Diagnosers
+open BenchmarkDotNet.Jobs
+
+//private class Config : ManualConfig
+//{
+//    public Config()
+//    {
+//        Add(MemoryDiagnoser.Default);
+//        Add(new InliningDiagnoser());
+//    }
+//}
 
 
-//// tag: A
-//let WriteLogon2 (dest:byte []) (nextFreeIdx:int) (beginString:BeginString) (bodyLength:BodyLength) (msgType:MsgType) (senderCompID:SenderCompID) (targetCompID:TargetCompID) (msgSeqNum:MsgSeqNum) (sendingTime:SendingTime) (xx:Logon) =
-//    let mutable nextFreeIdx = nextFreeIdx
-//    nextFreeIdx <- WriteEncryptMethod dest nextFreeIdx xx.EncryptMethod
-//    nextFreeIdx <- WriteHeartBtInt dest nextFreeIdx xx.HeartBtInt
-//
-//    if xx.RawDataLength.IsSome then nextFreeIdx <- WriteRawDataLength dest nextFreeIdx xx.RawDataLength.Value
-//    if xx.RawData.IsSome then nextFreeIdx <- WriteRawData dest nextFreeIdx xx.RawData.Value
-//
-//    if xx.ResetSeqNumFlag.IsSome then nextFreeIdx <- WriteResetSeqNumFlag dest nextFreeIdx xx.ResetSeqNumFlag.Value
-//    if xx.NextExpectedMsgSeqNum.IsSome then nextFreeIdx <- WriteNextExpectedMsgSeqNum dest nextFreeIdx xx.NextExpectedMsgSeqNum.Value
-//    if xx.MaxMessageSize.IsSome then nextFreeIdx <- WriteMaxMessageSize dest nextFreeIdx xx.MaxMessageSize.Value
-//
-//    nextFreeIdx <- Option.fold (fun innerNextFreeIdx (gs:NoMsgTypesGrp list) ->
-//                                        let numGrps = gs.Length
-//                                        let innerNextFreeIdx2 = WriteNoMsgTypes dest innerNextFreeIdx (Fix44.Fields.NoMsgTypes numGrps) // write the 'num group repeats' field
-//                                        List.fold (fun accFreeIdx gg -> WriteNoMsgTypesGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
-//                                  nextFreeIdx
-//                                  xx.NoMsgTypesGrp  // end Option.fold
-//
-//    if xx.TestMessageIndicator.IsSome then nextFreeIdx <- WriteTestMessageIndicator dest nextFreeIdx xx.TestMessageIndicator.Value
-//    if xx.Username.IsSome then nextFreeIdx <- WriteUsername dest nextFreeIdx xx.Username.Value
-//    if xx.Password.IsSome then nextFreeIdx <- WritePassword dest nextFreeIdx xx.Password.Value
-//    nextFreeIdx
+//type MyConfig () as this =
+//    inherit ManualConfig()
+//    do
+////        let md:IDiagnoser = BenchmarkDotNet.Diagnosers.MemoryDiagnoser() :> IDiagnoser
+//        let cd:IDiagnoser = BenchmarkDotNet.Diagnosers.CompositeDiagnoser() :> IDiagnoser
+//        this.Add cd
+
+
+
 
 
 
@@ -179,9 +176,7 @@ let newOrderMultileg:NewOrderMultileg =
     Designation = None
     MultiLegRptTypeReq = Some ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity}
 
-
-let msg = newOrderMultileg |> Fix44.MessageDU.NewOrderMultileg
-
+let newOrderMultilegDu = newOrderMultileg |> Fix44.MessageDU.NewOrderMultileg
 
 // todo: put a single def of this function in a common location
 let convFieldSep (bb:byte) = 
@@ -189,16 +184,11 @@ let convFieldSep (bb:byte) =
     | 124uy -> 1uy
     | n     -> n
 
-
 // the same NewOrderMultileg in byte array form
 let newOrderMultilegBytes = "8=FIX.4.4|9=1491|35=AB|34=99|49=senderCompID|52=20071123-05:30:00.000|56=targetCompID|11=PZXWQ|526=EFZDRSMQ|453=0|229=20170122|75=20170122|1=PKNOIWA|660=3|581=2|589=0|590=1|70=ZNOSMQBF|78=0|63=9|64=20170122|544=2|635=H|21=3|110=792281624589241053767102627.850000000000000|111=3.689348814312414|100=UYJN|386=0|81=0|54=F|55=RSWQE|65=WI|48=FJXY|22=D|454=0|461=WAUIJ|167=TIPS|762=JXYCWAL|200=201701w1|541=20170122|201=0|224=20170122|239=0|226=1|227=-5534023222112865484.700000000000000|228=79228162477.370849433239945|255=ESTXRVJK|543=YSWHLF|470=IMGKYZT|472=VZNO|240=20170122|202=79228162458924105376.710262785000000|947=CWKL|206=4|231=-3689348814312413.593900000000000|223=-792281.625142643375807|106=GHBFTU|348=0|349=|107=QUOJDHBP|350=0|351=|691=DRSWQEF|875=-2|876=UVZTX|864=0|873=20170122|874=20170122|140=-7922816249581759353.271930061100000|555=0|114=N|60=20170122-06:54:00|854=1|152=-0.000000003689349|516=-5534.023223401355674|468=1|469=792281.624958175935327|40=M|44=36.893488143124136|99=79228162477370849459009.748992000000000|15=USD|376=NHVWAUY|377=Y|23=ALPJNB|117=KOCDXBP|168=20170122-06:54:00|432=20170122|126=20170122-06:54:00|427=2|12=-79228.162495817593533|13=4|479=VZTHIMGU|497=N|529=7|582=4|121=Y|120=ZTXLMG|775=0|58=MGBVZT|354=0|355=|77=C|203=0|210=-792281.624773708494590|211=-79228162477370849.454714781696000|836=1|837=2|838=2|840=1|388=6|389=-79228162514264337580659048.449000000000000|841=1|842=0|843=0|844=1|846=1|847=-3|848=UOSMHBFZ|849=-55.340232221128655|480=N|481=1|513=EFJDHS|563=1|10=110|"B |> Array.map convFieldSep
 
-
 let bufSize = 1024 * 16
-
-
-
-let buf:byte array =  Array.zeroCreate<byte> bufSize
+let buf:byte array = Array.zeroCreate<byte> bufSize
 let tmpBuf:byte array =  Array.zeroCreate<byte> bufSize
 let beginString:BeginString = BeginString.BeginString "FIX.4.4"
 let senderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
@@ -206,15 +196,15 @@ let targetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
 let msgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
 let sendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
 
+let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2048
 
-
-type BenchmarkNewOrderMultilegMsg () =
-
+//http://benchmarkdotnet.org/Configs/Configs.htm
+//[<Config("columns=Mean,StdDev,Gen0,Gen1,Gen2,Allocated")>]
+type BenchmarkNewOrderMultilegMsgWrite () =
     [<Benchmark>]
     member this.WriteIncHdrTrlr () =
-        let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
+        let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime newOrderMultilegDu
         ()
-    
 
     [<Benchmark>]
     member this.Write () =
@@ -222,17 +212,40 @@ type BenchmarkNewOrderMultilegMsg () =
         ()
 
 
-    [<Benchmark>]
+type BenchmarkNewOrderMultilegMsgRead () =
+    [<Benchmark(Baseline=true)>]
     member this.ReadIncHdrTrlr () =
         let msg = MsgReadWrite.ReadMessage newOrderMultilegBytes newOrderMultilegBytes.Length
+        ()
+
+    [<Benchmark>]
+    member this.ReadIncHdrTrlrIndexParam () =
+        let msg = MsgReadWrite.ReadMessage2 newOrderMultilegBytes newOrderMultilegBytes.Length fieldPosArr 
+        ()
+
+    [<Benchmark>]
+    member this.ReadIncHdrTrlrTupleParam () =
+        let msg = MsgReadWrite.ReadMessage3 (newOrderMultilegBytes, newOrderMultilegBytes.Length)
+        ()
+
+    [<Benchmark>]
+    member this.ReadIncHdrTrlrTupleIndexParam () =
+        let msg = MsgReadWrite.ReadMessage4 (newOrderMultilegBytes, newOrderMultilegBytes.Length, fieldPosArr)
+        ()
+
+    [<Benchmark>]
+    member this.Read () =
+        let indexEnd = FIXBufIndexer.Index fieldPosArr newOrderMultilegBytes newOrderMultilegBytes.Length
+        let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+        let msg = Fix44.MsgReaders.ReadNewOrderMultileg newOrderMultilegBytes index
         ()
 
 
 
 
-type BenchmarkWriteLogon () =
-    member val Dst:byte array =  Array.zeroCreate<byte> 2048
-    member val logonMsg:Fix44.Messages.Logon = {
+
+let Dst:byte array =  Array.zeroCreate<byte> 2048
+let logonMsg:Fix44.Messages.Logon = {
         EncryptMethod = EncryptMethod.NoneOther
         HeartBtInt = HeartBtInt.HeartBtInt 30
         RawData = RawData.RawData "some data, some more data"B |> Option.Some
@@ -246,22 +259,33 @@ type BenchmarkWriteLogon () =
     }
 
 
-    [<Benchmark>]
+type BenchmarkWriteLogon () =
+
+    [<Benchmark(Baseline=true)>]
     member this.WriteLogonMsg () =
-        Fix44.MsgWriters.WriteLogon this.Dst 0 this.logonMsg |> ignore
+        Fix44.MsgWriters.WriteLogon Dst 0 logonMsg |> ignore
         ()
 
     [<Benchmark>]
-    member this.LogonMsg () =
-        Fix44.MsgWriters.WriteLogon this.Dst 0 this.logonMsg |> ignore
+    member this.WriteLogon2Msg () =
+        Fix44.MsgWriters.WriteLogon2 Dst 0 logonMsg |> ignore
         ()
 
+//    [<Benchmark>]
+//    member this.WriteLogonIncHdrTrl () =
+//        let logonMsgDu = logonMsg |> Fix44.MessageDU.Logon
+//        let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsgDu
+//        ()
+
+        
 
 
 [<EntryPoint>]
 let main argv =
-    BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsg>() |> ignore
-    BenchmarkRunner.Run<BenchmarkWriteLogon>() |> ignore
+//    BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsgRead>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
+//    BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsg>() |> ignore
+
+    BenchmarkRunner.Run<BenchmarkWriteLogon>(DefaultConfig.Instance.With(Job.RyuJitX64)) |> ignore
     0
 
 
