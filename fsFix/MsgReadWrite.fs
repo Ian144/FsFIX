@@ -44,23 +44,22 @@ let WriteMessageDU
     let nextFreeIdxInner = WriteSenderCompID tmpBuf nextFreeIdxInner senderCompID
     let nextFreeIdxInner = WriteSendingTime tmpBuf nextFreeIdxInner sendingTime    
     let nextFreeIdxInner = WriteTargetCompID tmpBuf nextFreeIdxInner targetCompID
-    
     let innerLen = Fix44.MessageDU.WriteMessage tmpBuf nextFreeIdxInner msg
+
     let nextFreeIdx = WriteBeginString dest nextFreeIdx beginString
     let nextFreeIdx = WriteBodyLength dest nextFreeIdx (innerLen |> uint32 |> BodyLength)
 
     System.Buffer.BlockCopy(tmpBuf, 0, dest, nextFreeIdx, innerLen)
     let nextFreeIdx = nextFreeIdx + innerLen
 
-    let checksum = CalcCheckSum dest 0 nextFreeIdx
     // not sending optional signature fields in the trailer, this may change
     //  <trailer>
     //    <field name="SignatureLength" required="N" />
     //    <field name="Signature" required="N" />
     //    <field name="CheckSum" required="Y" />    
     //  </trailer>
-    // CheckSum is defined in fix44.xml as a string field, but will always be a three digit number
-    
+
+    let checksum = CalcCheckSum dest 0 nextFreeIdx
     let nextFreeIdx = WriteCheckSum dest nextFreeIdx checksum
     nextFreeIdx
 
