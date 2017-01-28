@@ -689,7 +689,7 @@ let WriteAllocationInstructionNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:A
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
     let nextFreeIdx = Option.fold (WriteAllocPrice dest) nextFreeIdx xx.AllocPrice
-    let nextFreeIdx = Option.fold (WriteAllocQty dest) nextFreeIdx xx.AllocQty
+    let nextFreeIdx = WriteAllocQty dest nextFreeIdx xx.AllocQty
     let nextFreeIdx = Option.fold (WriteIndividualAllocID dest) nextFreeIdx xx.IndividualAllocID
     let nextFreeIdx = Option.fold (WriteProcessCode dest) nextFreeIdx xx.ProcessCode
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -1022,7 +1022,7 @@ let WriteNewOrderListNoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderLi
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteComplianceID dest) nextFreeIdx xx.ComplianceID
     let nextFreeIdx = Option.fold (WriteSolicitedFlag dest) nextFreeIdx xx.SolicitedFlag
-    let nextFreeIdx = Option.fold (WriteIOIid dest) nextFreeIdx xx.IOIid
+    let nextFreeIdx = Option.fold (WriteIOIID dest) nextFreeIdx xx.IOIID
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = Option.fold (WriteTimeInForce dest) nextFreeIdx xx.TimeInForce
     let nextFreeIdx = Option.fold (WriteEffectiveTime dest) nextFreeIdx xx.EffectiveTime

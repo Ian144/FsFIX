@@ -1154,7 +1154,7 @@ let ReadAllocationInstructionNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.FixBuf
     let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
     let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatus
     let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
+    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQty
     let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
     let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
     let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
@@ -1783,7 +1783,7 @@ let ReadNewOrderListNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
     let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
     let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
     let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
-    let iOIid = ReadOptionalFieldOrdered true bs index 23 ReadIOIid
+    let iOIID = ReadOptionalFieldOrdered true bs index 23 ReadIOIID
     let quoteID = ReadOptionalFieldOrdered true bs index 117 ReadQuoteID
     let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
     let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTime
@@ -1858,7 +1858,7 @@ let ReadNewOrderListNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) : 
         Currency = currency
         ComplianceID = complianceID
         SolicitedFlag = solicitedFlag
-        IOIid = iOIid
+        IOIID = iOIID
         QuoteID = quoteID
         TimeInForce = timeInForce
         EffectiveTime = effectiveTime

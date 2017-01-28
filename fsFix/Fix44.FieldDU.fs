@@ -29,7 +29,7 @@ type FIXField =
     | ExecRefID of ExecRefID
     | HandlInst of HandlInst
     | SecurityIDSource of SecurityIDSource
-    | IOIid of IOIid
+    | IOIID of IOIID
     | IOIQltyInd of IOIQltyInd
     | IOIRefID of IOIRefID
     | IOIQty of IOIQty
@@ -933,7 +933,7 @@ let WriteField dest nextFreeIdx fixField =
     | ExecRefID fixField -> WriteExecRefID dest nextFreeIdx fixField
     | HandlInst fixField -> WriteHandlInst dest nextFreeIdx fixField
     | SecurityIDSource fixField -> WriteSecurityIDSource dest nextFreeIdx fixField
-    | IOIid fixField -> WriteIOIid dest nextFreeIdx fixField
+    | IOIID fixField -> WriteIOIID dest nextFreeIdx fixField
     | IOIQltyInd fixField -> WriteIOIQltyInd dest nextFreeIdx fixField
     | IOIRefID fixField -> WriteIOIRefID dest nextFreeIdx fixField
     | IOIQty fixField -> WriteIOIQty dest nextFreeIdx fixField
@@ -1886,8 +1886,8 @@ let ReadField (bs:byte[]) (pos:int) =
         let fld = ReadSecurityIDSource bs pos2 len
         fld |> FIXField.SecurityIDSource
     | 23 ->
-        let fld = ReadIOIid bs pos2 len
-        fld |> FIXField.IOIid
+        let fld = ReadIOIID bs pos2 len
+        fld |> FIXField.IOIID
     | 25 ->
         let fld = ReadIOIQltyInd bs pos2 len
         fld |> FIXField.IOIQltyInd

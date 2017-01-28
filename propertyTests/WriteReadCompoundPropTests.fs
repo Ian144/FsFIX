@@ -130,6 +130,9 @@ let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadIndexTest usIn WriteInstru
 let MarketDataSnapshotFullRefresh (usIn:Fix44.Messages.MarketDataSnapshotFullRefresh) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteMarketDataSnapshotFullRefresh Fix44.MsgReaders.ReadMarketDataSnapshotFullRefresh
 
 
+[<PropTest>]
+let CollateralInquiry (usIn:Fix44.Messages.CollateralInquiry) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteCollateralInquiry Fix44.MsgReaders.ReadCollateralInquiry
+
 
 let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->FIXBufIndexer.FixBufIndex->'t) =
     let bs = Array.zeroCreate<byte> bufSize

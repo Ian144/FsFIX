@@ -12,7 +12,9 @@ open FieldGenerator
 
 
 // FIX spec downloaded by paket from the quickfixn github repo
-let fixSpecXmlFile = "FIX44.xml"
+//let fixSpecXmlFile = "FIX44.xml"
+let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixj\quickfixj-messages\quickfixj-messages-fix44\src\main\resources\FIX44.xml"""
+
 
 [<EntryPoint>]
 let main args = 

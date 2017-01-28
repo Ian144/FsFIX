@@ -482,7 +482,7 @@ type AllocationInstructionNoAllocsGrp = {
     AllocAcctIDSource: AllocAcctIDSource option
     MatchStatus: MatchStatus option
     AllocPrice: AllocPrice option
-    AllocQty: AllocQty option
+    AllocQty: AllocQty
     IndividualAllocID: IndividualAllocID option
     ProcessCode: ProcessCode option
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp list option // group
@@ -727,7 +727,7 @@ type NewOrderListNoOrdersGrp = {
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option

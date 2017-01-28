@@ -4,6 +4,8 @@
 
 open FsCheck
 
+open Fix44.CompoundItems
+
 open DateTimeGenerators
 
 
@@ -32,7 +34,7 @@ let genByte2 = Gen.choose(0, 255) |> Gen.map byte
 let genNonEmptyByteArray = 
     gen{
         let! len = Gen.choose(1, 8)
-        let! bytes = Gen.arrayOfLength len genByte2
+        let! bytes = Gen.arrayOfLength len genByte
         return NonEmptyByteArray.Make bytes
     }
 
@@ -62,6 +64,8 @@ let genCountry =
     }
 
 
+
+
 type ArbOverrides() =
     static member NonEmptyByteArray = Arb.fromGen genNonEmptyByteArray // todo: genNonEmptyByteArray  is shrinkable
     static member Byte()            = Arb.fromGen genByte
@@ -76,3 +80,5 @@ type ArbOverrides() =
     static member LocalMktDate()    = Arb.fromGen genLocalMktDate
     static member Currency()        = Arb.fromGen genCurrency
     static member Country()         = Arb.fromGen genCountry
+    static member ListT()           = Arb.fromGen (Gen.nonEmptyListOf Arb.generate) // quickfixj considers and option.Some empty list to be option.None, so forcing all lists to be at least 1 long
+

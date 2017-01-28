@@ -21,7 +21,7 @@ let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
+        MaxTest = 10,
         EndSize = 1,
         Verbose = true,
         QuietOnSuccess = true
@@ -29,7 +29,7 @@ type PropTest() =
 
 
 [<PropTest>]
-let ``check all fields have values of non-zero length`` (msg:FIXMessage) = 
+let ``all fields have values of non-zero length`` (msg:FIXMessage) = 
     System.Array.Clear (bs, 0, bs.Length)
     System.Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
     let posW = Fix44.MessageDU.WriteMessage bs 0 msg
@@ -51,29 +51,40 @@ let ``check all fields have values of non-zero length`` (msg:FIXMessage) =
     
     
 
-
+// quickfix echo says fsFix messages have an incorrect body length, this test seems to indicate fsFix is correct (different interpretation of fix spec?)
 [<PropTest>]
-let ``check that the body length field contains the correct value`` (msg:FIXMessage) =
+let ``the body length field contains the correct value`` (msg:FIXMessage) =
     System.Array.Clear (bs, 0, bs.Length)
     System.Array.Clear (tmpBs, 0, tmpBs.Length)
     System.Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
+
     let beginString:BeginString = BeginString.BeginString "FIX.4.4"
-    let msgType:MsgType = MsgType.NewOrderMultileg
     let senderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
     let targetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
     let msgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
     let sendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20170123-05:30:00.000"B 0 21)
     let posW = MsgReadWrite.WriteMessageDU tmpBs bs 0 beginString senderCompID targetCompID msgSeqNum  sendingTime msg
+
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
-    let bodyLenTag = 9
-    let checkSumTag = 10
-    let bodyLenFieldIdx = FIXBufIndexer.FindFieldIdx index indexEnd bodyLenTag
-    let bodyLenFieldPos = fieldPosArr.[bodyLenFieldIdx]
-    let checkSumFieldIdx = FIXBufIndexer.FindFieldIdx index indexEnd checkSumTag
-    let checkSumFieldPos = fieldPosArr.[checkSumFieldIdx]
+
+    let bodyLenFieldPos = fieldPosArr.[1] // bodylen is always the 2nd field
+    let checkSumFieldPos = fieldPosArr.[indexEnd - 1] // checksum is always the last field
     let firstByteAfterBodyLen = bodyLenFieldPos.Pos + bodyLenFieldPos.Len + 1
     let lastFieldTermBeforeChecksumPos = checkSumFieldPos.Pos - 4 // checkSumFieldPos.Pos contains the position of the checksum value, need to move back 4 to get to the prev field terminator
     let calcedBodyLen = lastFieldTermBeforeChecksumPos - (firstByteAfterBodyLen-1)
     let receivedBodyLen = Conversions.bytesToInt32 bs bodyLenFieldPos.Pos bodyLenFieldPos.Len
+
+
+    let endBodyLen2 = fieldPosArr.[1].Pos + fieldPosArr.[1].Len + 1
+    let endBodyLen = fieldPosArr.[2].Pos - 4 // 2 is the index of the msgTag, the tag + tag-value seperator length is 3
+    let endTargetCompId = fieldPosArr.[6].Pos + fieldPosArr.[6].Len
+    let hdrLen = endTargetCompId - endBodyLen
+    let nonHdrLen = lastFieldTermBeforeChecksumPos - endTargetCompId
+
+
     calcedBodyLen =! receivedBodyLen
+
+
+
+
+

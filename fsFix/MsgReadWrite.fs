@@ -67,7 +67,7 @@ let WriteMessageDU
 
 
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)// todo, make index size a parameter 
     let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
     let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
 
