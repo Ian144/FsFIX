@@ -200,7 +200,7 @@ let WriteMessage dest nextFreeIdx msg =
 
 
 
-let ReadMessage selector bs (index:FIXBufIndexer.FixBufIndex) =
+let ReadMessage selector bs (index:FIXBufIndexer.IndexData) =
     match selector with
     | Advertisement _ ->
         let msg = ReadAdvertisement bs index
@@ -481,7 +481,7 @@ let ReadMessage selector bs (index:FIXBufIndexer.FixBufIndex) =
 
 
 
-let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex) =
+let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.IndexData) =
     match tag with
     | Fix44.Fields.MsgType.Heartbeat   ->  ReadHeartbeat bs index |> FIXMessage.Heartbeat
     | Fix44.Fields.MsgType.Logon   ->  ReadLogon bs index |> FIXMessage.Logon

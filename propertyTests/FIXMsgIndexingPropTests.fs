@@ -67,7 +67,7 @@ let ``reconstruct FIX message buf with header and trailer``
                                 sendingTime
                                 msg
     let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
-    let indexEnd = FIXBufIndexer.Index index fixBuf posW
+    let indexEnd = FIXBufIndexer.BuildIndex index fixBuf posW
     let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
     // trim fixBuf
     let fixBuf2 = Array.zeroCreate<byte> posW

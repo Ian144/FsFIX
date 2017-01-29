@@ -40,13 +40,13 @@ type FieldPos =
 
 
 [< NoComparison; NoEquality>]
-type FixBufIndex (endPos: int, fieldPosArr: FieldPos[]) =
+type IndexData (endPos: int, fieldPosArr: FieldPos[]) =
     member this.EndPos = endPos
     member this.FieldPosArr = fieldPosArr
     member val LastReadIdx = -1 with get,set
 
 
-let FindFieldIdx (index:FixBufIndex) (indexEnd:int) (tagRequired:int) =
+let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
     let mutable ctr = 0
     let mutable foundPos = -1
     let fieldPosArr = index.FieldPosArr
@@ -128,7 +128,7 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
 
 
 // returns the index one after the last populated
-let Index (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
+let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0
     let mutable ctr = 0

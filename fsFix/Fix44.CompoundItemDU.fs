@@ -224,7 +224,7 @@ let WriteCITest dest nextFreeIdx grp =
 
 
 
-let ReadCITest (selector:FIXGroup) bs (index:FIXBufIndexer.FixBufIndex) =
+let ReadCITest (selector:FIXGroup) bs (index:FIXBufIndexer.IndexData) =
     match selector with
     | AdvertisementNoUnderlyingsGrp _ ->
         let grp = ReadAdvertisementNoUnderlyingsGrp bs index

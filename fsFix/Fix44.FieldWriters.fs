@@ -8955,12 +8955,12 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MassCancelRejectReason.Other ->
-        let tag = "532=99"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
+//    | MassCancelRejectReason.Other ->
+//        let tag = "532=99"B
+//        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+//        let nextFreeIdx2 = nextFreeIdx + tag.Length
+//        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+//        nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
 let WriteTotalAffectedOrders (dest:byte []) (pos:int) (valIn:TotalAffectedOrders) : int = 

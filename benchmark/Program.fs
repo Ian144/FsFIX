@@ -235,8 +235,8 @@ type BenchmarkNewOrderMultilegMsgRead () =
 
     [<Benchmark>]
     member this.Read () =
-        let indexEnd = FIXBufIndexer.Index fieldPosArr newOrderMultilegBytes newOrderMultilegBytes.Length
-        let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+        let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr newOrderMultilegBytes newOrderMultilegBytes.Length
+        let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
         let msg = Fix44.MsgReaders.ReadNewOrderMultileg newOrderMultilegBytes index
         ()
 

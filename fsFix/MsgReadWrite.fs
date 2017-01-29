@@ -68,8 +68,8 @@ let WriteMessageDU
 
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)// todo, make index size a parameter 
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
     let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
@@ -97,8 +97,8 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
 
 let ReadMessage2 (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
     //let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
     let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
@@ -124,8 +124,8 @@ let ReadMessage2 (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
 
 let ReadMessage3 (bs, posEnd)  : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
     let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString
@@ -152,8 +152,8 @@ let ReadMessage3 (bs, posEnd)  : FIXMessage =
 
 let ReadMessage4 (bs, posEnd, fieldPosArr)  : FIXMessage =
     //let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024 // todo, make index size a parameter 
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posEnd
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
     let beginString    = ReaderUtils.ReadFieldOrdered true bs index 8 ReadBeginString

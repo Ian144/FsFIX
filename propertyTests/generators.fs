@@ -37,7 +37,7 @@ let genByte2 = Gen.choose(64, 90) |> Gen.map byte
 let genNonEmptyByteArray = 
     gen{
         let! len = Gen.choose(1, 8)
-        let! bytes = Gen.arrayOfLength len genByte
+        let! bytes = Gen.arrayOfLength len genByte2
         return NonEmptyByteArray.Make bytes
     }
 
@@ -66,7 +66,8 @@ let genCountry =
        return Fix44.Fields.Country ss
     }
 
-
+let genMessageEncoding = gen{ return Fix44.Fields.MessageEncoding.Utf8 }
+//let genMessageEncoding2:Gen<Fix44.Fields.MessageEncoding> = Arb.generate
 
 
 type ArbOverrides() =
@@ -84,4 +85,4 @@ type ArbOverrides() =
     static member Currency()        = Arb.fromGen genCurrency
     static member Country()         = Arb.fromGen genCountry
     static member ListT()           = Arb.fromGen (Gen.nonEmptyListOf Arb.generate) // quickfixj considers and option.Some empty list to be option.None, so forcing all lists to be at least 1 long
-
+    static member MessageEncoding   = Arb.fromGen genMessageEncoding

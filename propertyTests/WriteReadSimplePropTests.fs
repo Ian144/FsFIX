@@ -46,7 +46,7 @@ let WriteReadFieldTest (tIn:'t) (writeFunc:byte[]->int->'t->int) readFunc =
     let posW = writeFunc bs 0 tIn
     bs.[posW] <- 1uy // append a field terminator
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
     let fpData = fieldPosArr.[0]
     let tOut = readFunc bs fpData.Pos fpData.Len
     tIn =! tOut

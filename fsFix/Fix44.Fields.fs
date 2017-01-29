@@ -3348,7 +3348,7 @@ type MassCancelRejectReason =
     | InvalidOrUnknownCficode
     | InvalidOrUnknownSecurityType
     | InvalidOrUnknownTradingSession
-    | Other
+//    | Other
 
 
 type TotalAffectedOrders =

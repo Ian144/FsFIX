@@ -3470,7 +3470,7 @@ let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelReject
     |"4"B -> MassCancelRejectReason.InvalidOrUnknownCficode
     |"5"B -> MassCancelRejectReason.InvalidOrUnknownSecurityType
     |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
-    |"99"B -> MassCancelRejectReason.Other
+//    |"99"B -> MassCancelRejectReason.Other
     | x -> failwithf "ReadMassCancelRejectReason unknown fix tag: %A"  x
 
 

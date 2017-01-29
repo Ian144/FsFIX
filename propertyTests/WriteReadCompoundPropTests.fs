@@ -71,14 +71,14 @@ let MessageWithHeaderTrailer
 
 
 
-let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->FIXBufIndexer.FixBufIndex->'t) =
+let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->FIXBufIndexer.IndexData->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
     let ss = FIXBuf.toS bs posW
     printfn "%s" ss
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
-    let index = FIXBufIndexer.FixBufIndex(indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
+    let index = FIXBufIndexer.IndexData(indexEnd, fieldPosArr)
     let tOut = readFunc bs index
     tIn =! tOut
 
@@ -98,12 +98,12 @@ let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadIndexTest grpIn WriteNoC
 let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadIndexTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReaders.ReadNoUnderlyingStipsGrp
 
 
-let WriteReadIndexOrderedTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:bool->byte[]->FIXBufIndexer.FixBufIndex->'t) =
+let WriteReadIndexOrderedTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:bool->byte[]->FIXBufIndexer.IndexData->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
-    let index = FIXBufIndexer.FixBufIndex(indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
+    let index = FIXBufIndexer.IndexData(indexEnd, fieldPosArr)
     let tOut = readFunc true bs index
     tIn =! tOut
 
@@ -134,12 +134,12 @@ let MarketDataSnapshotFullRefresh (usIn:Fix44.Messages.MarketDataSnapshotFullRef
 let CollateralInquiry (usIn:Fix44.Messages.CollateralInquiry) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteCollateralInquiry Fix44.MsgReaders.ReadCollateralInquiry
 
 
-let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->FIXBufIndexer.FixBufIndex->'t) =
+let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->FIXBufIndexer.IndexData->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
-    let indexEnd = FIXBufIndexer.Index fieldPosArr bs posW
-    let index = FIXBufIndexer.FixBufIndex (indexEnd, fieldPosArr)
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
     let tOut = readFunc tIn bs index
     tIn =! tOut
 

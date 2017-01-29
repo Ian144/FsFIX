@@ -11,7 +11,7 @@ open Fix44.CompoundItemReaders
 open Fix44.Messages
 
 
-let ReadHeartbeat (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadHeartbeat (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let testReqID = ReadOptionalField bs index 112 ReadTestReqID
     let ci:Heartbeat = {
         TestReqID = testReqID
@@ -19,7 +19,7 @@ let ReadHeartbeat (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadLogon (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadLogon (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let encryptMethod = ReadField bs index 98 ReadEncryptMethod
     let heartBtInt = ReadField bs index 108 ReadHeartBtInt
     let rawData = ReadOptionalField bs index 95 ReadRawData
@@ -45,7 +45,7 @@ let ReadLogon (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadTestRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTestRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let testReqID = ReadField bs index 112 ReadTestReqID
     let ci:TestRequest = {
         TestReqID = testReqID
@@ -53,7 +53,7 @@ let ReadTestRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadResendRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadResendRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let beginSeqNo = ReadField bs index 7 ReadBeginSeqNo
     let endSeqNo = ReadField bs index 16 ReadEndSeqNo
     let ci:ResendRequest = {
@@ -63,7 +63,7 @@ let ReadResendRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let refSeqNum = ReadField bs index 45 ReadRefSeqNum
     let refTagID = ReadOptionalField bs index 371 ReadRefTagID
     let refMsgType = ReadOptionalField bs index 372 ReadRefMsgType
@@ -81,7 +81,7 @@ let ReadReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSequenceReset (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSequenceReset (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let gapFillFlag = ReadOptionalField bs index 123 ReadGapFillFlag
     let newSeqNo = ReadField bs index 36 ReadNewSeqNo
     let ci:SequenceReset = {
@@ -91,7 +91,7 @@ let ReadSequenceReset (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadLogout (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadLogout (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let ci:Logout = {
@@ -101,7 +101,7 @@ let ReadLogout (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadBusinessMessageReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadBusinessMessageReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let refSeqNum = ReadOptionalField bs index 45 ReadRefSeqNum
     let refMsgType = ReadField bs index 372 ReadRefMsgType
     let businessRejectRefID = ReadOptionalField bs index 379 ReadBusinessRejectRefID
@@ -119,7 +119,7 @@ let ReadBusinessMessageReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadUserRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadUserRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let userRequestID = ReadField bs index 923 ReadUserRequestID
     let userRequestType = ReadField bs index 924 ReadUserRequestType
     let username = ReadField bs index 553 ReadUsername
@@ -137,7 +137,7 @@ let ReadUserRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadUserResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadUserResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let userRequestID = ReadField bs index 923 ReadUserRequestID
     let username = ReadField bs index 553 ReadUsername
     let userStatus = ReadOptionalField bs index 926 ReadUserStatus
@@ -151,7 +151,7 @@ let ReadUserResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAdvertisement (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAdvertisement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let advId = ReadField bs index 2 ReadAdvId
     let advTransType = ReadField bs index 5 ReadAdvTransType
     let advRefID = ReadOptionalField bs index 3 ReadAdvRefID
@@ -195,7 +195,7 @@ let ReadAdvertisement (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadIndicationOfInterest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadIndicationOfInterest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let iOIID = ReadField bs index 23 ReadIOIID
     let iOITransType = ReadField bs index 28 ReadIOITransType
     let iOIRefID = ReadOptionalField bs index 26 ReadIOIRefID
@@ -253,7 +253,7 @@ let ReadIndicationOfInterest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNews (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNews (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let origTime = ReadOptionalField bs index 42 ReadOrigTime
     let urgency = ReadOptionalField bs index 61 ReadUrgency
     let headline = ReadField bs index 148 ReadHeadline
@@ -281,7 +281,7 @@ let ReadNews (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadEmail (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadEmail (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let emailThreadID = ReadField bs index 164 ReadEmailThreadID
     let emailType = ReadField bs index 94 ReadEmailType
     let origTime = ReadOptionalField bs index 42 ReadOrigTime
@@ -313,7 +313,7 @@ let ReadEmail (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadField bs index 131 ReadQuoteReqID
     let rFQReqID = ReadOptionalField bs index 644 ReadRFQReqID
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
@@ -333,7 +333,7 @@ let ReadQuoteRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteRespID = ReadField bs index 693 ReadQuoteRespID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let quoteRespType = ReadField bs index 694 ReadQuoteRespType
@@ -459,7 +459,7 @@ let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteRequestReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadField bs index 131 ReadQuoteReqID
     let rFQReqID = ReadOptionalField bs index 644 ReadRFQReqID
     let quoteRequestRejectReason = ReadField bs index 658 ReadQuoteRequestRejectReason
@@ -499,7 +499,7 @@ let ReadQuoteRequestReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadRFQRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadRFQRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let rFQReqID = ReadField bs index 644 ReadRFQReqID
     let rFQRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadRFQRequestNoRelatedSymGrp
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -511,7 +511,7 @@ let ReadRFQRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuote (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteRespID = ReadOptionalField bs index 693 ReadQuoteRespID
@@ -633,7 +633,7 @@ let ReadQuote (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteCancelType = ReadField bs index 298 ReadQuoteCancelType
@@ -661,7 +661,7 @@ let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteStatusReqID = ReadOptionalField bs index 649 ReadQuoteStatusReqID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let instrument = ReadComponent bs index ReadInstrument
@@ -693,7 +693,7 @@ let ReadQuoteStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteStatusReqID = ReadOptionalField bs index 649 ReadQuoteStatusReqID
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
@@ -819,7 +819,7 @@ let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteType = ReadOptionalField bs index 537 ReadQuoteType
@@ -847,7 +847,7 @@ let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let quoteStatus = ReadField bs index 297 ReadQuoteStatus
@@ -879,7 +879,7 @@ let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let mDReqID = ReadField bs index 262 ReadMDReqID
     let subscriptionRequestType = ReadField bs index 263 ReadSubscriptionRequestType
     let marketDepth = ReadField bs index 264 ReadMarketDepth
@@ -911,7 +911,7 @@ let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadMarketDataSnapshotFullRefresh (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMarketDataSnapshotFullRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
     let instrument = ReadComponent bs index ReadInstrument
     let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
@@ -937,7 +937,7 @@ let ReadMarketDataSnapshotFullRefresh (bs:byte[]) (index:FIXBufIndexer.FixBufInd
     ci
 
 
-let ReadMarketDataIncrementalRefresh (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMarketDataIncrementalRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
     let marketDataIncrementalRefreshNoMDEntriesGrp = ReadGroup bs index 268 ReadMarketDataIncrementalRefreshNoMDEntriesGrp
     let applQueueDepth = ReadOptionalField bs index 813 ReadApplQueueDepth
@@ -951,7 +951,7 @@ let ReadMarketDataIncrementalRefresh (bs:byte[]) (index:FIXBufIndexer.FixBufInde
     ci
 
 
-let ReadMarketDataRequestReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMarketDataRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let mDReqID = ReadField bs index 262 ReadMDReqID
     let mDReqRejReason = ReadOptionalField bs index 281 ReadMDReqRejReason
     let noAltMDSourceGrp = ReadOptionalGroup bs index 816 ReadNoAltMDSourceGrp
@@ -967,7 +967,7 @@ let ReadMarketDataRequestReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityDefinitionRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityDefinitionRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityRequestType = ReadField bs index 321 ReadSecurityRequestType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
@@ -999,7 +999,7 @@ let ReadSecurityDefinitionRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
     ci
 
 
-let ReadSecurityDefinition (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityDefinition (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityResponseType = ReadField bs index 323 ReadSecurityResponseType
@@ -1035,7 +1035,7 @@ let ReadSecurityDefinition (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityTypeRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityTypeRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
@@ -1057,7 +1057,7 @@ let ReadSecurityTypeRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityTypes (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityTypes (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityResponseType = ReadField bs index 323 ReadSecurityResponseType
@@ -1085,7 +1085,7 @@ let ReadSecurityTypes (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityListRequestType = ReadField bs index 559 ReadSecurityListRequestType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
@@ -1117,7 +1117,7 @@ let ReadSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityRequestResult = ReadField bs index 560 ReadSecurityRequestResult
@@ -1135,7 +1135,7 @@ let ReadSecurityList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadDerivativeSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadDerivativeSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityListRequestType = ReadField bs index 559 ReadSecurityListRequestType
     let underlyingInstrument = ReadOptionalComponent bs index 311 ReadUnderlyingInstrument
@@ -1161,7 +1161,7 @@ let ReadDerivativeSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.FixBufInd
     ci
 
 
-let ReadDerivativeSecurityList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadDerivativeSecurityList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityRequestResult = ReadField bs index 560 ReadSecurityRequestResult
@@ -1181,7 +1181,7 @@ let ReadDerivativeSecurityList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityStatusReqID = ReadField bs index 324 ReadSecurityStatusReqID
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
@@ -1205,7 +1205,7 @@ let ReadSecurityStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSecurityStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSecurityStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityStatusReqID = ReadOptionalField bs index 324 ReadSecurityStatusReqID
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
@@ -1259,7 +1259,7 @@ let ReadSecurityStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadTradingSessionStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradingSessionStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradSesReqID = ReadField bs index 335 ReadTradSesReqID
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
@@ -1277,7 +1277,7 @@ let ReadTradingSessionStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex
     ci
 
 
-let ReadTradingSessionStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradingSessionStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradSesReqID = ReadOptionalField bs index 335 ReadTradSesReqID
     let tradingSessionID = ReadField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
@@ -1315,7 +1315,7 @@ let ReadTradingSessionStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let clOrdLinkID = ReadOptionalField bs index 583 ReadClOrdLinkID
@@ -1471,7 +1471,7 @@ let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
@@ -1751,7 +1751,7 @@ let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadDontKnowTrade (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadDontKnowTrade (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let execID = ReadField bs index 17 ReadExecID
@@ -1783,7 +1783,7 @@ let ReadDontKnowTrade (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let parties = ReadComponent bs index ReadParties
     let tradeOriginationDate = ReadOptionalField bs index 229 ReadTradeOriginationDate
@@ -1937,7 +1937,7 @@ let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
     ci
 
 
-let ReadOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let origClOrdID = ReadField bs index 41 ReadOrigClOrdID
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let clOrdID = ReadField bs index 11 ReadClOrdID
@@ -1983,7 +1983,7 @@ let ReadOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderCancelReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderCancelReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
@@ -2029,7 +2029,7 @@ let ReadOrderCancelReject (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
@@ -2059,7 +2059,7 @@ let ReadOrderStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderMassCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderMassCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let massCancelRequestType = ReadField bs index 530 ReadMassCancelRequestType
@@ -2087,7 +2087,7 @@ let ReadOrderMassCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderMassCancelReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderMassCancelReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let orderID = ReadField bs index 37 ReadOrderID
@@ -2127,7 +2127,7 @@ let ReadOrderMassCancelReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadOrderMassStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadOrderMassStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let massStatusReqID = ReadField bs index 584 ReadMassStatusReqID
     let massStatusReqType = ReadField bs index 585 ReadMassStatusReqType
     let parties = ReadComponent bs index ReadParties
@@ -2153,7 +2153,7 @@ let ReadOrderMassStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let crossID = ReadField bs index 548 ReadCrossID
     let crossType = ReadField bs index 549 ReadCrossType
     let crossPrioritization = ReadField bs index 550 ReadCrossPrioritization
@@ -2249,7 +2249,7 @@ let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let crossID = ReadField bs index 548 ReadCrossID
     let origCrossID = ReadField bs index 551 ReadOrigCrossID
@@ -2349,7 +2349,7 @@ let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIn
     ci
 
 
-let ReadCrossOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCrossOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let crossID = ReadField bs index 548 ReadCrossID
     let origCrossID = ReadField bs index 551 ReadOrigCrossID
@@ -2375,7 +2375,7 @@ let ReadCrossOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let clOrdLinkID = ReadOptionalField bs index 583 ReadClOrdLinkID
@@ -2521,7 +2521,7 @@ let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let origClOrdID = ReadField bs index 41 ReadOrigClOrdID
     let clOrdID = ReadField bs index 11 ReadClOrdID
@@ -2673,7 +2673,7 @@ let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.FixBu
     ci
 
 
-let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadField bs index 391 ReadClientBidID
     let bidRequestTransType = ReadField bs index 374 ReadBidRequestTransType
@@ -2735,7 +2735,7 @@ let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadBidResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadBidResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadOptionalField bs index 391 ReadClientBidID
     let bidResponseNoBidComponentsGrp = ReadGroup bs index 420 ReadBidResponseNoBidComponentsGrp
@@ -2747,7 +2747,7 @@ let ReadBidResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadOptionalField bs index 391 ReadClientBidID
@@ -2789,7 +2789,7 @@ let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadListStrikePrice (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadListStrikePrice (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let totNoStrikes = ReadField bs index 422 ReadTotNoStrikes
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
@@ -2805,7 +2805,7 @@ let ReadListStrikePrice (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadListStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadListStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let listStatusType = ReadField bs index 429 ReadListStatusType
     let noRpts = ReadField bs index 82 ReadNoRpts
@@ -2833,7 +2833,7 @@ let ReadListStatus (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadListExecute (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadListExecute (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let clientBidID = ReadOptionalField bs index 391 ReadClientBidID
     let bidID = ReadOptionalField bs index 390 ReadBidID
@@ -2851,7 +2851,7 @@ let ReadListExecute (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadListCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadListCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let transactTime = ReadField bs index 60 ReadTransactTime
     let tradeOriginationDate = ReadOptionalField bs index 229 ReadTradeOriginationDate
@@ -2869,7 +2869,7 @@ let ReadListCancelRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadListStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadListStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let listID = ReadField bs index 66 ReadListID
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
@@ -2881,7 +2881,7 @@ let ReadListStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocID = ReadField bs index 70 ReadAllocID
     let allocTransType = ReadField bs index 71 ReadAllocTransType
     let allocType = ReadField bs index 626 ReadAllocType
@@ -3011,7 +3011,7 @@ let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocID = ReadField bs index 70 ReadAllocID
     let parties = ReadComponent bs index ReadParties
     let secondaryAllocID = ReadOptionalField bs index 793 ReadSecondaryAllocID
@@ -3047,7 +3047,7 @@ let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocReportID = ReadField bs index 755 ReadAllocReportID
     let allocID = ReadOptionalField bs index 70 ReadAllocID
     let allocTransType = ReadField bs index 71 ReadAllocTransType
@@ -3185,7 +3185,7 @@ let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocReportID = ReadField bs index 755 ReadAllocReportID
     let allocID = ReadField bs index 70 ReadAllocID
     let parties = ReadComponent bs index ReadParties
@@ -3223,7 +3223,7 @@ let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let confirmID = ReadField bs index 664 ReadConfirmID
     let confirmRefID = ReadOptionalField bs index 772 ReadConfirmRefID
     let confirmReqID = ReadOptionalField bs index 859 ReadConfirmReqID
@@ -3357,7 +3357,7 @@ let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadConfirmationAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadConfirmationAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let confirmID = ReadField bs index 664 ReadConfirmID
     let tradeDate = ReadField bs index 75 ReadTradeDate
     let transactTime = ReadField bs index 60 ReadTransactTime
@@ -3379,7 +3379,7 @@ let ReadConfirmationAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadConfirmationRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadConfirmationRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let confirmReqID = ReadField bs index 859 ReadConfirmReqID
     let confirmType = ReadField bs index 773 ReadConfirmType
     let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
@@ -3409,7 +3409,7 @@ let ReadConfirmationRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSettlementInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSettlementInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let settlInstMsgID = ReadField bs index 777 ReadSettlInstMsgID
     let settlInstReqID = ReadOptionalField bs index 791 ReadSettlInstReqID
     let settlInstMode = ReadField bs index 160 ReadSettlInstMode
@@ -3435,7 +3435,7 @@ let ReadSettlementInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadSettlementInstructionRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadSettlementInstructionRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let settlInstReqID = ReadField bs index 791 ReadSettlInstReqID
     let transactTime = ReadField bs index 60 ReadTransactTime
     let parties = ReadComponent bs index ReadParties
@@ -3471,7 +3471,7 @@ let ReadSettlementInstructionRequest (bs:byte[]) (index:FIXBufIndexer.FixBufInde
     ci
 
 
-let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradeRequestID = ReadField bs index 568 ReadTradeRequestID
     let tradeRequestType = ReadField bs index 569 ReadTradeRequestType
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -3547,7 +3547,7 @@ let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
     ci
 
 
-let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradeRequestID = ReadField bs index 568 ReadTradeRequestID
     let tradeRequestType = ReadField bs index 569 ReadTradeRequestType
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -3581,7 +3581,7 @@ let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.FixBufInde
     ci
 
 
-let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradeReportID = ReadField bs index 571 ReadTradeReportID
     let tradeReportTransType = ReadOptionalField bs index 487 ReadTradeReportTransType
     let tradeReportType = ReadOptionalField bs index 856 ReadTradeReportType
@@ -3701,7 +3701,7 @@ let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradeReportID = ReadField bs index 571 ReadTradeReportID
     let tradeReportTransType = ReadOptionalField bs index 487 ReadTradeReportTransType
     let tradeReportType = ReadOptionalField bs index 856 ReadTradeReportType
@@ -3779,7 +3779,7 @@ let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadRegistrationInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadRegistrationInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let registID = ReadField bs index 513 ReadRegistID
     let registTransType = ReadField bs index 514 ReadRegistTransType
     let registRefID = ReadField bs index 508 ReadRegistRefID
@@ -3809,7 +3809,7 @@ let ReadRegistrationInstructions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadRegistrationInstructionsResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadRegistrationInstructionsResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let registID = ReadField bs index 513 ReadRegistID
     let registTransType = ReadField bs index 514 ReadRegistTransType
     let registRefID = ReadField bs index 508 ReadRegistRefID
@@ -3835,7 +3835,7 @@ let ReadRegistrationInstructionsResponse (bs:byte[]) (index:FIXBufIndexer.FixBuf
     ci
 
 
-let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let posReqID = ReadField bs index 710 ReadPosReqID
     let posTransType = ReadField bs index 709 ReadPosTransType
     let posMaintAction = ReadField bs index 712 ReadPosMaintAction
@@ -3891,7 +3891,7 @@ let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex)
     ci
 
 
-let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posTransType = ReadField bs index 709 ReadPosTransType
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
@@ -3949,7 +3949,7 @@ let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) 
     ci
 
 
-let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let posReqID = ReadField bs index 710 ReadPosReqID
     let posReqType = ReadField bs index 724 ReadPosReqType
     let matchStatus = ReadOptionalField bs index 573 ReadMatchStatus
@@ -3997,7 +3997,7 @@ let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
     let totalNumPosReports = ReadOptionalField bs index 727 ReadTotalNumPosReports
@@ -4039,7 +4039,7 @@ let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
     let posReqType = ReadOptionalField bs index 724 ReadPosReqType
@@ -4099,7 +4099,7 @@ let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let asgnRptID = ReadField bs index 833 ReadAsgnRptID
     let totNumAssignmentReports = ReadOptionalField bs index 832 ReadTotNumAssignmentReports
     let lastRptRequested = ReadOptionalField bs index 912 ReadLastRptRequested
@@ -4157,7 +4157,7 @@ let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collReqID = ReadField bs index 894 ReadCollReqID
     let collAsgnReason = ReadField bs index 895 ReadCollAsgnReason
     let transactTime = ReadField bs index 60 ReadTransactTime
@@ -4247,7 +4247,7 @@ let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collAsgnID = ReadField bs index 902 ReadCollAsgnID
     let collReqID = ReadOptionalField bs index 894 ReadCollReqID
     let collAsgnReason = ReadField bs index 895 ReadCollAsgnReason
@@ -4345,7 +4345,7 @@ let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collRespID = ReadField bs index 904 ReadCollRespID
     let collAsgnID = ReadField bs index 902 ReadCollAsgnID
     let collReqID = ReadOptionalField bs index 894 ReadCollReqID
@@ -4433,7 +4433,7 @@ let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collRptID = ReadField bs index 908 ReadCollRptID
     let collInquiryID = ReadOptionalField bs index 909 ReadCollInquiryID
     let collStatus = ReadField bs index 910 ReadCollStatus
@@ -4527,7 +4527,7 @@ let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collInquiryID = ReadOptionalField bs index 909 ReadCollInquiryID
     let noCollInquiryQualifierGrp = ReadOptionalGroup bs index 938 ReadNoCollInquiryQualifierGrp
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -4619,7 +4619,7 @@ let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNetworkStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNetworkStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let networkRequestType = ReadField bs index 935 ReadNetworkRequestType
     let networkRequestID = ReadField bs index 933 ReadNetworkRequestID
     let noCompIDsGrp = ReadOptionalGroup bs index 936 ReadNoCompIDsGrp
@@ -4631,7 +4631,7 @@ let ReadNetworkStatusRequest (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadNetworkStatusResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadNetworkStatusResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let networkStatusResponseType = ReadField bs index 937 ReadNetworkStatusResponseType
     let networkRequestID = ReadOptionalField bs index 933 ReadNetworkRequestID
     let networkResponseID = ReadOptionalField bs index 932 ReadNetworkResponseID
@@ -4647,7 +4647,7 @@ let ReadNetworkStatusResponse (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
     ci
 
 
-let ReadCollateralInquiryAck (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =
+let ReadCollateralInquiryAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let collInquiryID = ReadField bs index 909 ReadCollInquiryID
     let collInquiryStatus = ReadField bs index 945 ReadCollInquiryStatus
     let collInquiryResult = ReadOptionalField bs index 946 ReadCollInquiryResult
