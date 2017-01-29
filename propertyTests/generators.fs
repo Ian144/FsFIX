@@ -27,9 +27,12 @@ let genByteMain = Gen.choose(0, 255) |> Gen.map byte
 let genByteFieldSeperator = Gen.constant 1uy
 let genByteTagValueSeperator = Gen.constant 61uy
 
-// generate byte arrays with lots of tag-value and field seperators
+// used to generate byte arrays with lots of tag-value and field seperators
 let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
-let genByte2 = Gen.choose(0, 255) |> Gen.map byte
+
+// used to generate byte arrays with no tag-value or field seperators
+//let genByte2 = Gen.choose(0, 255) |> Gen.filter (fun x -> x <> 1 && x <> 61)  |> Gen.map byte
+let genByte2 = Gen.choose(64, 90) |> Gen.map byte
 
 let genNonEmptyByteArray = 
     gen{
