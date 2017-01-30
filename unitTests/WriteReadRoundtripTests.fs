@@ -31,7 +31,7 @@ let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
     let indexEnd = FIXBufIndexer.BuildIndex index bs bs.Length
     let indexData = FIXBufIndexer.IndexData (indexEnd, index)
     indexData.LastReadIdx <- 9
-    let nqeGrps =  ReaderUtils.ReadGroup bs indexData 296 Fix44.CompoundItemReaders.ReadNoQuoteSetsGrp
+    let nqeGrps =  GenericReaders.ReadGroup bs indexData 296 Fix44.CompoundItemReaders.ReadNoQuoteSetsGrp
 
     let outerGrp1 = nqeGrps.Head
     let outerGrp2 = nqeGrps.Tail.Head

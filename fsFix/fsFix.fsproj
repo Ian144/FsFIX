@@ -54,7 +54,7 @@
     <Compile Include="TZDateTime.fs" />
     <Compile Include="UTCDateTime.fs" />
     <Compile Include="MonthYear.fs" />
-    <Compile Include="ReaderUtils.fs" />
+    <Compile Include="GenericReaders.fs" />
     <Compile Include="RawField.fs" />
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReaders.fs" />

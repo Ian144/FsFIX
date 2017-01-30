@@ -1,4 +1,4 @@
-﻿module ReaderUtils
+﻿module GenericReaders
 
 
 
