@@ -141,7 +141,7 @@ let ``read RawDataLength + RawData pair USING INDEX, containing a tag-value sepe
 
 // todo: put a single def of this function in a common location
 let convFieldSep (bb:byte) = 
-    match bb with 
+    match bb with
     | 124uy -> 1uy
     | n     -> n
 

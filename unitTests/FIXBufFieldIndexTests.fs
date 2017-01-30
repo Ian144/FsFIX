@@ -12,8 +12,6 @@ let convFieldSep (bb:byte) =
 
 
 
-
-
 //// compound write, of a length field and the corresponding string field
 //let WriteRawData (dest:byte []) (pos:int) (fld:RawData) : int =
 //    WriteFieldLengthData dest pos "95="B "96="B fld

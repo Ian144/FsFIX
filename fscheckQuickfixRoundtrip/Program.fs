@@ -55,14 +55,15 @@ let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 16)
 let bufSize = 1024 * 128
 
 let tmpBuf = Array.zeroCreate<byte> bufSize
-let buf = Array.zeroCreate<byte> bufSize
-let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsg
-do strm.Write (buf, 0, posW)
+let bufIn = Array.zeroCreate<byte> bufSize
+let bufOut = Array.zeroCreate<byte> bufSize
+let posW = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsg
+do strm.Write (bufIn, 0, posW)
 printfn "logon sent"
 
-let ii = strm.Read (buf, 0, bufSize)
-printfn "logon reply: %d bytes received" ii
-let logonMsgReply = MsgReadWrite.ReadMessage buf
+let numBytesReceived = strm.Read (bufIn, 0, bufSize)
+printfn "logon reply: %d bytes received" numBytesReceived
+let logonMsgReply = MsgReadWrite.ReadMessage bufIn numBytesReceived
 
 
 
@@ -106,27 +107,29 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
         let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
         let sendingTime = SendingTime ts
 
-        System.Array.Clear (buf, 0, buf.Length)
+        System.Array.Clear (bufIn, 0, bufIn.Length)
         System.Array.Clear (tmpBuf, 0, tmpBuf.Length)
+        System.Array.Clear (bufOut, 0, bufIn.Length)
         System.Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
 
         // send msg to quickfix echo
-        let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
-        let _ = FIXBufIndexer.BuildIndex fieldPosArr buf numBytesToSend
+        let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
+        let _ = FIXBufIndexer.BuildIndex fieldPosArr bufIn numBytesToSend
         let excludedFields = fieldPosArr |> Array.filter fieldExclusions |> Array.length
         if excludedFields = 0 then
             printfn "sending seqNum: %d" seqNumxx
-            strm.Write (buf, 0, numBytesToSend)
+            strm.Write (bufIn, 0, numBytesToSend)
 
 
             // receive the reply, assuming all bytes are read
-            let numBytesReceived = strm.Read (buf, 0, bufSize)
-            let msgOut = MsgReadWrite.ReadMessage buf numBytesReceived
+            let numBytesReceived = strm.Read (bufOut, 0, bufSize)
+            let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived
             printfn " reading reply seqNum: %d" seqNumxx
             let msgOut2 =
                 if isHeartbeat msgOut then
-                    let numBytesReceived = strm.Read (buf, 0, bufSize)
-                    MsgReadWrite.ReadMessage buf numBytesReceived
+                    System.Array.Clear (bufIn, 0, bufIn.Length)
+                    let numBytesReceived = strm.Read (bufIn, 0, bufSize)
+                    MsgReadWrite.ReadMessage bufIn numBytesReceived
                 else
                     msgOut
 
@@ -134,8 +137,12 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             if msgIn <> msgOut then
                 use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
                 use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+                use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
+                use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
                 fprintfn swA "%A" msgIn
                 fprintfn swB "%A" msgOut
+                fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
+                fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
                 printfn "diffs persisted"
             msgIn = msgOut2
         else // numLenDataFields <> 0
