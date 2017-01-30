@@ -20,7 +20,7 @@ let ReadField bs (index:FIXBufIndexer.IndexData) tag readFunc =
     let fieldPosArr = index.FieldPosArr
     let tagIdx = FIXBufIndexer.FindFieldIdx index index.EndPos tag
     if tagIdx <> -1 then 
-        let fpData = fieldPosArr.[tagIdx]
+        let fpData = fieldPosArr.[tagIdx] // this is the expected case, and so comes first
         index.LastReadIdx <- tagIdx
         readFunc bs fpData.Pos fpData.Len
     else
@@ -33,8 +33,8 @@ let ReadFieldOrdered  (_:bool) bs (index:FIXBufIndexer.IndexData) tag readFunc =
     let nextFieldIdx = index.LastReadIdx + 1
     let fpData = index.FieldPosArr.[nextFieldIdx]
     if fpData.Tag = tag then
-        index.LastReadIdx <- nextFieldIdx
-        readFunc bs fpData.Pos fpData.Len // this is the expected case
+        index.LastReadIdx <- nextFieldIdx // this is the expected case, and so comes first
+        readFunc bs fpData.Pos fpData.Len 
     else
         failwithf "field not found, tag: %d at field pos: %d" tag nextFieldIdx
 
@@ -86,26 +86,74 @@ let ReadGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) read
         failwithf "group num field not found, tag: %d" numFieldTag
 
 
+// the tag is the tag of the "number group repeats" field, which must be the next field relative to the last field read-in
+// the rest of the group fields must come consecutively after this point
+let ReadGroupOrdered (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
+    let nextFieldIndex = index.LastReadIdx + 1 // if the group exists the num field must be here
+    let fpData = index.FieldPosArr.[nextFieldIndex]
+    if fpData.Tag = numFieldTag then 
+        let numFieldData = index.FieldPosArr.[nextFieldIndex]
+        index.LastReadIdx <- nextFieldIndex
+        let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
+        readGrpInner bs index [] numRepeats readFunc
+    else
+        failwithf "group num field not found, tag: %d" numFieldTag
 
 
+// #### readGroup
+// @@@@ readGroupOrdered
+// ####readOptionalGroup
+// #####readOptionalGroupOrdered
+// readNoSidesGroupOrdered
 
 let ReadNoSidesGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
     let fieldPosArr = index.FieldPosArr
     let numFieldIndex = FIXBufIndexer.FindFieldIdx index index.EndPos numFieldTag
-    if numFieldIndex = -1 then 
+    if numFieldIndex <> -1 then 
+        let numFieldData = fieldPosArr.[numFieldIndex]
+        index.LastReadIdx <- numFieldIndex
+        let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
+        match numRepeats with
+        | 1u  -> let grp = readFunc bs index // the group must start after the num field
+                 OneOrTwo.One grp
+        | 2u  -> let grp1 = readFunc bs index
+                 let grp2 = readFunc bs index
+                 OneOrTwo.Two (grp1, grp2)
+        | x   -> failwithf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x
+    else
+       failwithf "group num field not found, tag: %d" numFieldTag
+
+
+let ReadNoSidesGroupOrdered (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
+    let nextFieldIndex = index.LastReadIdx + 1 // if the group exists the num field must be here
+    let numFieldData = index.FieldPosArr.[nextFieldIndex]
+    if numFieldData.Tag = numFieldTag then 
+        index.LastReadIdx <- nextFieldIndex
+        let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
+        match numRepeats with
+        | 1u  -> let grp = readFunc bs index // the group must start after the num field
+                 OneOrTwo.One grp
+        | 2u  -> let grp1 = readFunc bs index
+                 let grp2 = readFunc bs index
+                 OneOrTwo.Two (grp1, grp2)
+        | x   -> failwithf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x
+    else
         failwithf "group num field not found, tag: %d" numFieldTag
 
-    let numFieldData = fieldPosArr.[numFieldIndex]
-    index.LastReadIdx <- numFieldIndex
-    let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
-    match numRepeats with
-    | 1u  -> let grp = readFunc bs index // the group must start after the num field
-             OneOrTwo.One grp
-    | 2u  -> let grp1 = readFunc bs index
-             let grp2 = readFunc bs index
-             OneOrTwo.Two (grp1, grp2)
-    | x   -> failwithf "ReadNoSidesGroup invalid num repeats, must be 1 or 2, was: %d" x
 
+let ReadOptionalGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc: 'grp list option =
+    // the optional group is allowed to start anywhere
+    let fieldPosArr = index.FieldPosArr
+    let numFieldIdx = FIXBufIndexer.FindFieldIdx index index.EndPos numFieldTag
+    if numFieldIdx = -1 then 
+        Option.None // the optional group is not present
+    else
+        // the optional group is present, so read the number of repeats, then read each instance of the repeating group
+        let fpData = fieldPosArr.[numFieldIdx]
+        index.LastReadIdx <- numFieldIdx
+        let numRepeats = Conversions.bytesToUInt32 bs fpData.Pos fpData.Len
+        let gs = readGrpInner bs index [] numRepeats readFunc
+        Option.Some gs
 
 
 let ReadOptionalGroupOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc: 'grp list option =
@@ -119,18 +167,6 @@ let ReadOptionalGroupOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.IndexDat
         Option.None // the optional group is not present
 
 
-let ReadOptionalGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc: 'grp list option =
-    let fieldPosArr = index.FieldPosArr
-    let numFieldIdx = FIXBufIndexer.FindFieldIdx index index.EndPos numFieldTag
-    if numFieldIdx = -1 then 
-        Option.None // the optional group is not present
-    else
-        // the optional group is present, so read the number of repeats, then read each instance of the repeating group
-        let fpData = fieldPosArr.[numFieldIdx]
-        index.LastReadIdx <- numFieldIdx
-        let numRepeats = Conversions.bytesToUInt32 bs fpData.Pos fpData.Len
-        let gs = readGrpInner bs index [] numRepeats readFunc
-        Option.Some gs
 
 
 let ReadComponent (bs:byte[]) (index:FIXBufIndexer.IndexData) readFunc = 
