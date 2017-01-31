@@ -76,7 +76,7 @@ let WriteLogout (dest:byte []) (nextFreeIdx:int)  (xx:Logout) =
 
 
 // tag: j
-let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int) (xx:BusinessMessageReject) = 
+let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int)  (xx:BusinessMessageReject) = 
     let nextFreeIdx = Option.fold (WriteRefSeqNum dest) nextFreeIdx xx.RefSeqNum
     let nextFreeIdx = WriteRefMsgType dest nextFreeIdx xx.RefMsgType
     let nextFreeIdx = Option.fold (WriteBusinessRejectRefID dest) nextFreeIdx xx.BusinessRejectRefID
@@ -87,7 +87,7 @@ let WriteBusinessMessageReject (dest:byte []) (nextFreeIdx:int) (xx:BusinessMess
 
 
 // tag: BE
-let WriteUserRequest (dest:byte []) (nextFreeIdx:int) (xx:UserRequest) = 
+let WriteUserRequest (dest:byte []) (nextFreeIdx:int)  (xx:UserRequest) = 
     let nextFreeIdx = WriteUserRequestID dest nextFreeIdx xx.UserRequestID
     let nextFreeIdx = WriteUserRequestType dest nextFreeIdx xx.UserRequestType
     let nextFreeIdx = WriteUsername dest nextFreeIdx xx.Username

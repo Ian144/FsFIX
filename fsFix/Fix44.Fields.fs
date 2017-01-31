@@ -937,9 +937,9 @@ type MiscFeeType =
     | Other
     | Markup
     | ConsumptionTax
-//    | PerTransaction
-//    | Conversion
-//    | Agent
+    | PerTransaction
+    | Conversion
+    | Agent
 
 
 type PrevClosePx =
@@ -3348,7 +3348,7 @@ type MassCancelRejectReason =
     | InvalidOrUnknownCficode
     | InvalidOrUnknownSecurityType
     | InvalidOrUnknownTradingSession
-//    | Other
+    | Other
 
 
 type TotalAffectedOrders =

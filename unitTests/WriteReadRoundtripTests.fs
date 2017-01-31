@@ -20,9 +20,6 @@ let convFieldSep (bb:byte) =
     | 124uy -> 1uy
     | n     -> n
 
-//
-//let WriteNoQuoteSets (dest:byte []) (pos:int) (valIn:NoQuoteSets) : int = 
-//    WriteFieldInt dest pos "296="B valIn
 
 [<Fact>]
 let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
@@ -40,6 +37,78 @@ let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
     let innerGrp2 = outerGrp2.MassQuoteNoQuoteEntriesGrp.Head
 
     test<@ innerGrp1 <> innerGrp2 @>
+
+
+// outer SettlInstSource is None
+// inner SettlInstSource is Some
+// 
+
+[<Fact>]
+let SettlementInstructionsReadWrite () = 
+    let si:SettlementInstructions =
+       {SettlInstMsgID = SettlInstMsgID "XRVWQEI"
+        SettlInstReqID = None
+        SettlInstMode = Default
+        SettlInstReqRejCode = None
+        Text = None
+        EncodedText = None
+        SettlInstSource = None
+        ClOrdID = None
+        TransactTime = TransactTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00))
+        NoSettlInstGrp =
+         Some
+           [{SettlInstID = SettlInstID "OCWXBP"
+             SettlInstTransType = Some SettlInstTransType.Cancel
+             SettlInstRefID = Some (SettlInstRefID "PQKYCDXL")
+             NoPartyIDsGrp =
+              Some
+                [{PartyID = PartyID "TNOCGAB"
+                  PartyIDSource = Some GenerallyAcceptedMarketParticipantIdentifier
+                  PartyRole = Some RegulatoryBody
+                  NoPartySubIDsGrp =
+                   Some [{PartySubID = PartySubID "KESFFX"
+                          PartySubIDType = Some (PartySubIDType 0)}]}]
+             Side = Some Lend
+             Product = None
+             SecurityType = Some TaxExemptCommercialPaper
+             CFICode = Some (CFICode "GUOPTMN")
+             EffectiveTime =
+              Some (EffectiveTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
+             ExpireTime = Some (ExpireTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
+             LastUpdateTime =
+              Some (LastUpdateTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
+             SettlInstructionsData =
+              {SettlDeliveryType = Some SettlDeliveryType.Free
+               StandInstDbType = Some DtcSid
+               StandInstDbName = Some (StandInstDbName "AJGBILUH")
+               StandInstDbID = None
+               NoDlvyInstGrp =
+                Some
+                  [{SettlInstSource = Investor
+                    DlvyInstType = Some Cash
+                    NoSettlPartyIDsGrp =
+                     Some
+                       [{SettlPartyID = SettlPartyID "UIJNHVW"
+                         SettlPartyIDSource = Some (SettlPartyIDSource '\139')
+                         SettlPartyRole = None
+                         NoSettlPartySubIDsGrp =
+                          Some
+                            [{SettlPartySubID = SettlPartySubID "QFGMFDIF"
+                              SettlPartySubIDType = Some (SettlPartySubIDType 0)}]}]}]}
+             PaymentMethod = Some Crest
+             PaymentRef = Some (PaymentRef "FJBGCWJK")
+             CardHolderName = Some (CardHolderName "QKOCDXB")
+             CardNumber = Some (CardNumber "DEYCWRLP")
+             CardStartDate = None
+             CardExpDate = Some (CardExpDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
+             CardIssNum = Some (CardIssNum "LHPIW")
+             PaymentDate = Some (PaymentDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
+             PaymentRemitterID = Some (PaymentRemitterID "XVFOM")}]}
+    false
+
+
+
+
 
 
 

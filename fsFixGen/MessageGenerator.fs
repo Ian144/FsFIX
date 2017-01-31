@@ -102,7 +102,7 @@ let GenWriteFuncs (hdrItems:FIXItem list) (groups:Msg list) (sw:StreamWriter) =
 
 
 let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
-    let funcSig = sprintf "let Read%s (bs:byte[]) (index:FIXBufIndexer.FixBufIndex) =" msg.MName
+    let funcSig = sprintf "let Read%s (bs:byte[]) (index:FIXBufIndexer.IndexData) =" msg.MName
     sw.WriteLine funcSig
     let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName msg.Items
     readFIXItemStrs |> List.iter sw.WriteLine
@@ -169,7 +169,7 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
 
     // create the 'TestReadMessage DU function, probably will only used in property based tests
-    sw.WriteLine "let ReadMessage selector bs (index:FIXBufIndexer.FixBufIndex) ="
+    sw.WriteLine "let ReadMessage selector bs (index:FIXBufIndexer.IndexData) ="
     sw.WriteLine "    match selector with"
     names |> List.iter (fun strName ->
                 let ss1  = sprintf "    | %s _ ->" strName
@@ -184,7 +184,7 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
 
 
     // create the 'ReadMessage' DU function that keys off a msg tag
-//   sw.WriteLine "let ReadMessageDU tag bs (index:FIXBufIndexer.FixBufIndex) ="
+//   sw.WriteLine "let ReadMessageDU tag bs (index:FIXBufIndexer.IndexData) ="
 //    msgs |> List.iter (fun msg ->
 //                let ss = sprintf "    | \"%s\"B   ->  Read%s bs index |> FIXMessage.%s"  msg.Tag msg.MName msg.MName
 //                sw.WriteLine ss )
@@ -194,7 +194,7 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
 //    sw.WriteLine ss2
 //    sw.WriteLine ss3
     
-    sw.WriteLine "let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.FixBufIndex) ="
+    sw.WriteLine "let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.IndexData) ="
     sw.WriteLine "    match tag with"
     msgs |> List.iter (fun msg ->
                 //let ss = sprintf "    | \"%s\"B   ->  Read%s bs index |> FIXMessage.%s"  msg.Tag msg.MName msg.MName

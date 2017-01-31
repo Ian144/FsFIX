@@ -959,9 +959,9 @@ let ReadMiscFeeType (bs:byte[]) (pos:int) (len:int): MiscFeeType =
     |"7"B -> MiscFeeType.Other
     |"8"B -> MiscFeeType.Markup
     |"9"B -> MiscFeeType.ConsumptionTax
-//    |"10"B -> MiscFeeType.PerTransaction
-//    |"11"B -> MiscFeeType.Conversion
-//    |"12"B -> MiscFeeType.Agent
+    |"10"B -> MiscFeeType.PerTransaction
+    |"11"B -> MiscFeeType.Conversion
+    |"12"B -> MiscFeeType.Agent
     | x -> failwithf "ReadMiscFeeType unknown fix tag: %A"  x
 
 
@@ -3470,7 +3470,7 @@ let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelReject
     |"4"B -> MassCancelRejectReason.InvalidOrUnknownCficode
     |"5"B -> MassCancelRejectReason.InvalidOrUnknownSecurityType
     |"6"B -> MassCancelRejectReason.InvalidOrUnknownTradingSession
-//    |"99"B -> MassCancelRejectReason.Other
+    |"99"B -> MassCancelRejectReason.Other
     | x -> failwithf "ReadMassCancelRejectReason unknown fix tag: %A"  x
 
 

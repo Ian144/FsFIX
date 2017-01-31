@@ -88,23 +88,17 @@ let ReadGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) read
 
 // the tag is the tag of the "number group repeats" field, which must be the next field relative to the last field read-in
 // the rest of the group fields must come consecutively after this point
-let ReadGroupOrdered (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
+let ReadGroupOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
     let nextFieldIndex = index.LastReadIdx + 1 // if the group exists the num field must be here
     let fpData = index.FieldPosArr.[nextFieldIndex]
     if fpData.Tag = numFieldTag then 
         let numFieldData = index.FieldPosArr.[nextFieldIndex]
         index.LastReadIdx <- nextFieldIndex
         let numRepeats = Conversions.bytesToUInt32 bs numFieldData.Pos numFieldData.Len
-        readGrpInner bs index [] numRepeats readFunc
+        readGrpInner bs index [] numRepeats readFunc 
     else
         failwithf "group num field not found, tag: %d" numFieldTag
 
-
-// #### readGroup
-// @@@@ readGroupOrdered
-// ####readOptionalGroup
-// #####readOptionalGroupOrdered
-// readNoSidesGroupOrdered
 
 let ReadNoSidesGroup (bs:byte[]) (index:FIXBufIndexer.IndexData) (numFieldTag:int) readFunc =
     let fieldPosArr = index.FieldPosArr

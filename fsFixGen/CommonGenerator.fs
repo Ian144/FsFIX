@@ -121,27 +121,14 @@ let private genReadGroup (varName:string) (longName:string) (parentName:string) 
         [   sprintf "    let %sGrp = ReadGroup bs index %d Read%sGrp" varName tag longName ]
 
 
+let private genReadGroupOrdered (varName:string) (longName:string) (parentName:string) (tag:uint32)  = 
+    let varName = StringEx.lCaseFirstChar longName
+    let isNoSides = longName.Contains "NoSides"
+    if isNoSides then   // return a literal list of strings
+        [   sprintf "    let %sGrp = ReadNoSidesGroupOrdered true bs index %d Read%sGrp" varName tag longName ]
+    else
+        [   sprintf "    let %sGrp = ReadGroupOrdered true bs index %d Read%sGrp" varName tag longName ]
 
-//let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (parentName:string) (items:FIXItem list) =
-//    items |> List.collect (fun item ->
-//        let tag = FIXItem.getTag fieldNameMap compNameMap item
-//        match item with
-//        | FIXItem.FieldRef fld          ->  let name = fld.FName
-//                                            let varName = StringEx.lCaseFirstChar name |> fixYield
-//                                            match fld.Required with
-//                                            | Required     ->  [   sprintf "    let pos, %s = ReadField bs pos \"Read%s\" \"%d\"B Read%s" varName parentName tag name ]
-//                                            | NotRequired  ->  [   sprintf "    let pos, %s = ReadOptionalField bs pos \"%d\"B  Read%s" varName tag name ]
-//        | FIXItem.ComponentRef cmpRef   ->  let (ComponentName name) = cmpRef.CRName
-//                                            let varName = StringEx.lCaseFirstChar name
-//                                            match cmpRef.Required with
-//                                            | Required      ->  [   sprintf "    let pos, %s = ReadComponent bs pos \"Read%s component\" Read%s" varName name name ]
-//                                            | NotRequired   ->  [   sprintf "    let pos, %s = ReadOptionalComponent bs pos \"%d\"B Read%s" varName tag name ]
-//        | FIXItem.Group grp             ->  let (GroupLongName longName) = Group.makeLongName grp
-//                                            let varName = StringEx.lCaseFirstChar longName
-//                                            match grp.Required with
-//                                            | Required     ->  genReadGroup varName longName parentName tag 
-//                                            | NotRequired  ->  [   sprintf "    let pos, %sGrp = ReadOptionalGroup bs pos \"%d\"B Read%sGrp" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
-//        ) // end List.collect
 
 
 
@@ -162,7 +149,7 @@ let genItemListReaderStrs (fieldNameMap:Map<string,Field>) (compNameMap:Map<Comp
         | FIXItem.Group grp             ->  let (GroupLongName longName) = Group.makeLongName grp
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
-                                            | Required     ->  genReadGroup varName longName parentName tag 
+                                            | Required     ->  genReadGroup varName longName parentName tag  // the generated group reader searches for the groups numElements field in any position, thereafter reading is ordered
                                             | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroup bs index %d Read%sGrp" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
@@ -186,7 +173,7 @@ let genItemListReaderStrsOrdered (fieldNameMap:Map<string,Field>) (compNameMap:M
         | FIXItem.Group grp             ->  let (GroupLongName longName) = Group.makeLongName grp
                                             let varName = StringEx.lCaseFirstChar longName
                                             match grp.Required with
-                                            | Required     ->  genReadGroup varName longName parentName tag 
+                                            | Required     ->  genReadGroupOrdered varName longName parentName tag  // the generated group reader looks for the groups numElements field after the previously read-in field
                                             | NotRequired  ->  [   sprintf "    let %sGrp = ReadOptionalGroupOrdered true bs index %d Read%sGrp" varName tag longName ] //there are no optional 'NoSides' groups in fix 4.4, this may change in other version
         ) // end List.collect
 
