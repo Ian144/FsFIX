@@ -43,9 +43,8 @@ let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
 // inner SettlInstSource is Some
 // write-> read results in a outer SettlInstSource taking the value of the inner
 [<Fact>]
-let SettlementInstructionsReadWrite () =
+let ``SettlementInstructions and contained group both have SettlInstSource fields, is write+read correct`` () =
     let timeStamp = UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)
-    let dt = LocalMktDate.MakeLocalMktDate(2017,01,31)
     let si:SettlementInstructions = {
         SettlInstMsgID = SettlInstMsgID "XRVWQEI"
         SettlInstReqID = None
@@ -74,10 +73,11 @@ let SettlementInstructionsReadWrite () =
                     StandInstDbType = None
                     StandInstDbName = None
                     StandInstDbID = None
-                    NoDlvyInstGrp = Some [
-                        {   SettlInstSource = Investor // inner SettlInstSource
-                            DlvyInstType = None
-                            NoSettlPartyIDsGrp = None 
+                    NoDlvyInstGrp = 
+                        Some 
+                            [{  SettlInstSource = Investor // inner SettlInstSource
+                                DlvyInstType = None
+                                NoSettlPartyIDsGrp = None 
                         }]
                 }
              PaymentMethod = None
@@ -98,14 +98,10 @@ let SettlementInstructionsReadWrite () =
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
     let indexData = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
-    let settlInstSourceTag = 165
-    let numSettlInstSourceFields = fieldPosArr |> Array.filter (fun fd -> fd.Tag = settlInstSourceTag) |> Array.length
-
-    numSettlInstSourceFields =! 1
-
     let siOut = Fix44.MsgReaders.ReadSettlementInstructions buf indexData
 
-    // test if outer SettlInstSource is None is still None
+    // expecting this test to fail at the time of writing, as the outer SettlInstSource will have pulled in the value of the inner
+    // test if outer SettlInstSource is None
     siOut.SettlInstSource =! Option.None
 
 

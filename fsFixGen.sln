@@ -32,6 +32,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scratchConsoleApp", "scratc
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fscheckQuickfixRoundtrip", "fscheckQuickfixRoundtrip\fscheckQuickfixRoundtrip.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fscheckQuickfixRoundtripSingleMsg", "fscheckQuickfixRoundtripSingleMsg\fscheckQuickfixRoundtripSingleMsg.fsproj", "{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
