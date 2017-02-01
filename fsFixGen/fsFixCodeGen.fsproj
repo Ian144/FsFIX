@@ -8,11 +8,11 @@
     <ProjectGuid>2ad79ae4-17d7-4991-85f6-328ed07cbdf4</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>fsFixGen</RootNamespace>
-    <AssemblyName>fsFixGen</AssemblyName>
+    <AssemblyName>fsFixCodeGen</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>fsFixGen</Name>
+    <Name>fsFixCodeGen</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

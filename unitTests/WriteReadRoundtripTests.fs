@@ -41,8 +41,7 @@ let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
 
 // outer SettlInstSource is None
 // inner SettlInstSource is Some
-// 
-
+// write-> read results in a outer SettlInstSource taking the value of the inner
 [<Fact>]
 let SettlementInstructionsReadWrite () = 
     let si:SettlementInstructions =
@@ -103,10 +102,23 @@ let SettlementInstructionsReadWrite () =
              CardExpDate = Some (CardExpDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
              CardIssNum = Some (CardIssNum "LHPIW")
              PaymentDate = Some (PaymentDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
-             PaymentRemitterID = Some (PaymentRemitterID "XVFOM")}]}
-    false
+             PaymentRemitterID = Some (PaymentRemitterID "XVFOM")}]} 
 
+    let buf = Array.zeroCreate<byte> 2048
+    let posW = Fix44.MsgWriters.WriteSettlementInstructions buf 0 si
 
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
+    let indexData = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
+
+    let settlInstSourceTag = 165
+    let numSettlInstSourceFields = fieldPosArr |> Array.filter (fun fd -> fd.Tag = settlInstSourceTag) |> Array.length
+
+    numSettlInstSourceFields =! 1
+
+    let siOut = Fix44.MsgReaders.ReadSettlementInstructions buf indexData
+
+    siOut.SettlInstSource =! Option.None
 
 
 
