@@ -43,66 +43,53 @@ let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
 // inner SettlInstSource is Some
 // write-> read results in a outer SettlInstSource taking the value of the inner
 [<Fact>]
-let SettlementInstructionsReadWrite () = 
-    let si:SettlementInstructions =
-       {SettlInstMsgID = SettlInstMsgID "XRVWQEI"
+let SettlementInstructionsReadWrite () =
+    let timeStamp = UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)
+    let dt = LocalMktDate.MakeLocalMktDate(2017,01,31)
+    let si:SettlementInstructions = {
+        SettlInstMsgID = SettlInstMsgID "XRVWQEI"
         SettlInstReqID = None
         SettlInstMode = Default
         SettlInstReqRejCode = None
         Text = None
         EncodedText = None
-        SettlInstSource = None
+        SettlInstSource = None  // outer SettlInstSource is None
         ClOrdID = None
-        TransactTime = TransactTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00))
+        TransactTime = TransactTime timeStamp
         NoSettlInstGrp =
          Some
            [{SettlInstID = SettlInstID "OCWXBP"
-             SettlInstTransType = Some SettlInstTransType.Cancel
-             SettlInstRefID = Some (SettlInstRefID "PQKYCDXL")
-             NoPartyIDsGrp =
-              Some
-                [{PartyID = PartyID "TNOCGAB"
-                  PartyIDSource = Some GenerallyAcceptedMarketParticipantIdentifier
-                  PartyRole = Some RegulatoryBody
-                  NoPartySubIDsGrp =
-                   Some [{PartySubID = PartySubID "KESFFX"
-                          PartySubIDType = Some (PartySubIDType 0)}]}]
-             Side = Some Lend
+             SettlInstTransType = None
+             SettlInstRefID = None
+             NoPartyIDsGrp = None
+             Side = None
              Product = None
-             SecurityType = Some TaxExemptCommercialPaper
-             CFICode = Some (CFICode "GUOPTMN")
-             EffectiveTime =
-              Some (EffectiveTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
-             ExpireTime = Some (ExpireTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
-             LastUpdateTime =
-              Some (LastUpdateTime (UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)))
-             SettlInstructionsData =
-              {SettlDeliveryType = Some SettlDeliveryType.Free
-               StandInstDbType = Some DtcSid
-               StandInstDbName = Some (StandInstDbName "AJGBILUH")
-               StandInstDbID = None
-               NoDlvyInstGrp =
-                Some
-                  [{SettlInstSource = Investor
-                    DlvyInstType = Some Cash
-                    NoSettlPartyIDsGrp =
-                     Some
-                       [{SettlPartyID = SettlPartyID "UIJNHVW"
-                         SettlPartyIDSource = Some (SettlPartyIDSource '\139')
-                         SettlPartyRole = None
-                         NoSettlPartySubIDsGrp =
-                          Some
-                            [{SettlPartySubID = SettlPartySubID "QFGMFDIF"
-                              SettlPartySubIDType = Some (SettlPartySubIDType 0)}]}]}]}
-             PaymentMethod = Some Crest
-             PaymentRef = Some (PaymentRef "FJBGCWJK")
-             CardHolderName = Some (CardHolderName "QKOCDXB")
-             CardNumber = Some (CardNumber "DEYCWRLP")
+             SecurityType = None
+             CFICode = None
+             EffectiveTime = None   
+             ExpireTime = None
+             LastUpdateTime = None
+             SettlInstructionsData = 
+                {   SettlDeliveryType = Some SettlDeliveryType.Free
+                    StandInstDbType = None
+                    StandInstDbName = None
+                    StandInstDbID = None
+                    NoDlvyInstGrp = Some [
+                        {   SettlInstSource = Investor // inner SettlInstSource
+                            DlvyInstType = None
+                            NoSettlPartyIDsGrp = None 
+                        }]
+                }
+             PaymentMethod = None
+             PaymentRef = None
+             CardHolderName = None
+             CardNumber = None
              CardStartDate = None
-             CardExpDate = Some (CardExpDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
-             CardIssNum = Some (CardIssNum "LHPIW")
-             PaymentDate = Some (PaymentDate (LocalMktDate.MakeLocalMktDate(2017,01,31)))
-             PaymentRemitterID = Some (PaymentRemitterID "XVFOM")}]} 
+             CardExpDate = None
+             CardIssNum = None
+             PaymentDate = None
+             PaymentRemitterID = None}]
+        }
 
     let buf = Array.zeroCreate<byte> 2048
     let posW = Fix44.MsgWriters.WriteSettlementInstructions buf 0 si
@@ -118,6 +105,7 @@ let SettlementInstructionsReadWrite () =
 
     let siOut = Fix44.MsgReaders.ReadSettlementInstructions buf indexData
 
+    // test if outer SettlInstSource is None is still None
     siOut.SettlInstSource =! Option.None
 
 
