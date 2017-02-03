@@ -6,7 +6,7 @@ open System
 
 
 // converts a byte array containing a FIX msg to a reasonably readable string
-let toS (bs:byte array) (posEnd:int) = (System.Text.Encoding.UTF8.GetString bs).Substring(0, posEnd)
+let toS (bs:byte array) (posEnd:int) = (System.Text.Encoding.ASCII.GetString bs).Substring(0, posEnd)
 
 
 
@@ -31,6 +31,7 @@ let findNext (bs:byte array) (pos:int) (bytesToFind:byte) =
         else
             ctr <- ctr + 1
     if found then ctr else -1
+
 
 let findNextFieldTerm (bs:byte array) (pos:int) = findNext bs pos 1uy 
 let findNextTagValSep (bs:byte array) (pos:int) = findNext bs pos 61uy

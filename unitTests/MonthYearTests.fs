@@ -1,4 +1,4 @@
-﻿module MonthYearTests
+﻿module MonthYearUnitTests
 
 open Xunit
 open Swensen.Unquote

@@ -20,8 +20,8 @@ let bufSize = 1024 * 82 // so as not to go into the LOH
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000,
-        EndSize = 1,
+        MaxTest = 100,
+        EndSize = 4,
         Verbose = true,
         QuietOnSuccess = true
         )
@@ -31,9 +31,9 @@ type PropTest() =
 type PropTestSlow() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
+        MaxTest = 10,
         EndSize = 1,
-        Verbose = false,
+        Verbose = true,
         QuietOnSuccess = true
         )
 

@@ -1785,7 +1785,6 @@ type SettlementInstructions = {
     SettlInstReqRejCode: SettlInstReqRejCode option
     Text: Text option
     EncodedText: EncodedText option
-    SettlInstSource: SettlInstSource option
     ClOrdID: ClOrdID option
     TransactTime: TransactTime
     NoSettlInstGrp: NoSettlInstGrp list option // group

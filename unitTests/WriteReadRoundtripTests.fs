@@ -52,7 +52,7 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
         SettlInstReqRejCode = None
         Text = None
         EncodedText = None
-        SettlInstSource = None  // outer SettlInstSource is None
+//        SettlInstSource = Some BrokersInstructions //None  // outer SettlInstSource is None
         ClOrdID = None
         TransactTime = TransactTime timeStamp
         NoSettlInstGrp =
@@ -102,7 +102,7 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
 
     // expecting this test to fail at the time of writing, as the outer SettlInstSource will have pulled in the value of the inner
     // test if outer SettlInstSource is None
-    siOut.SettlInstSource =! Option.None
+    siOut =! si
 
 
 
@@ -133,8 +133,6 @@ let MessageWithHeaderTrailerUnit () =
                     Text = None
                     EncodedText = None
                     AllocationInstructionAckNoAllocsGrp = None} |> Fix44.MessageDU.AllocationInstructionAck
-
-
     let buf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize
     let posW = MsgReadWrite.WriteMessageDU 

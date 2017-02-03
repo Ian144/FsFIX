@@ -199,7 +199,7 @@ let WriteMessage dest nextFreeIdx msg =
     | UserResponse msg -> WriteUserResponse dest nextFreeIdx msg
 
 
-
+// used in property write-read tests, where the original is used to determine the read function to call
 let ReadMessage selector bs (index:FIXBufIndexer.IndexData) =
     match selector with
     | Advertisement _ ->

@@ -1,4 +1,4 @@
-﻿module TZOffsetTests
+﻿module TZOffsetUnitTests
 
 open Xunit
 open Swensen.Unquote

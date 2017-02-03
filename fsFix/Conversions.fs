@@ -3,11 +3,10 @@
 open System
 
 
-let bytesToStr bs pos len = System.Text.Encoding.UTF8.GetString (bs, pos, len)
+let bytesToStr bs pos len = System.Text.Encoding.ASCII.GetString (bs, pos, len)
 
-// todo: UTF8 chars may be more than one byte long, deal with this
+    
 let bytesToChar (bs:byte[]) pos len = 
-    //let cs = System.Text.Encoding.UTF8.GetChars(bs, pos, len)
     if len = 1 then
         let b = bs.[pos]
         char (b)
@@ -42,7 +41,7 @@ let bytesToDecimal (bs:byte[]) pos len =
 
 
 
-let private sToB (ss:string) = System.Text.Encoding.UTF8.GetBytes ss
+let private sToB (ss:string) = System.Text.Encoding.ASCII.GetBytes ss
 
 
 //todo: consider how to avoid allocation by writing into a pre-allocated array at a give postion

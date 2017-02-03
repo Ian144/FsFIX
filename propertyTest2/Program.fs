@@ -34,7 +34,8 @@ let bufSize = 1024 * 64
 //    posW = posR && ciIn = ciOut
 
 
-
+let fixBuf = Array.zeroCreate<byte> bufSize
+let tmpBuf = Array.zeroCreate<byte> bufSize
 
 let propReconstructFIXMessageBufFromIndex
         (beginString:BeginString) 
@@ -43,8 +44,7 @@ let propReconstructFIXMessageBufFromIndex
         (msgSeqNum:MsgSeqNum) 
         (sendingTime:SendingTime) 
         (msg:FIXMessage) =
-    let fixBuf = Array.zeroCreate<byte> bufSize
-    let tmpBuf = Array.zeroCreate<byte> bufSize
+    Array.Clear(fixBuf, 0, fixBuf.Length)
     let posW = MsgReadWrite.WriteMessageDU 
                                 tmpBuf 
                                 fixBuf 
@@ -64,6 +64,25 @@ let propReconstructFIXMessageBufFromIndex
     fixBuf2 =! reconstructedFIXBuf
 
 
+let buf = Array.zeroCreate<byte> bufSize
+let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
+
+
+let mutable ctr = 0
+
+let propMessageWriteRead (msgIn:FIXMessage) = //Fix44.MessageDU.WriteReadSelectorTest msg 
+    ctr <- ctr + 1
+    if (ctr % 10000) = 0 then
+        printfn "%d" ctr
+    Array.Clear(buf, 0, fixBuf.Length)
+    Array.Clear(fieldPosArr, 0, fieldPosArr.Length)
+    let posW = Fix44.MessageDU.WriteMessage buf 0 msgIn
+    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
+    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
+    let msgOut = Fix44.MessageDU.ReadMessage msgIn buf index
+    msgIn =! msgOut
+
+
 
 
 let config = {  Config.Quick with 
@@ -77,12 +96,13 @@ let config = {  Config.Quick with
 
 
 
-#nowarn "52"
-let WaitForExitCmd () = 
-    while stdin.Read() <> 88 do // 88 is 'X'
-        ()
+//#nowarn "52"
+//let WaitForExitCmd () = 
+//    while stdin.Read() <> 88 do // 88 is 'X'
+//        ()
 
-Check.One (config, propReconstructFIXMessageBufFromIndex)
+//Check.One (config, propReconstructFIXMessageBufFromIndex)
+Check.One (config, propMessageWriteRead)
 //Check.One (Config.Quick, propReadWriteFIXFieldRoundtrip)
 
 

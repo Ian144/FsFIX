@@ -1,4 +1,4 @@
-﻿module UTCTimeOnlyTests
+﻿module UTCTimeOnlyUnitTests
 
 open Xunit
 open Swensen.Unquote

@@ -150,7 +150,7 @@ let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : by
 
     let convIntToTagBytes (tag:int) = 
         let ss = sprintf "%d" tag
-        System.Text.Encoding.UTF8.GetBytes( ss)
+        System.Text.Encoding.ASCII.GetBytes  ss
 
     for fp in index do
         // tag

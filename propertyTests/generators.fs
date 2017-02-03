@@ -66,7 +66,7 @@ let genCountry =
        return Fix44.Fields.Country ss
     }
 
-let genMessageEncoding = gen{ return Fix44.Fields.MessageEncoding.Utf8 }
+let genMessageEncoding = gen{ return Fix44.Fields.MessageEncoding.Utf8 } // for 'Encoded' fields
 //let genMessageEncoding2:Gen<Fix44.Fields.MessageEncoding> = Arb.generate
 
 
