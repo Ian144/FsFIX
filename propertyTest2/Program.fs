@@ -68,20 +68,62 @@ let buf = Array.zeroCreate<byte> bufSize
 let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
 
 
+
+let isAllocationInstruction (msgIn:FIXMessage) = 
+    match msgIn with
+    | FIXMessage.AllocationInstruction xx   -> true
+    | _                                     -> false
+
 let mutable ctr = 0
 
-let propMessageWriteRead (msgIn:FIXMessage) = //Fix44.MessageDU.WriteReadSelectorTest msg 
-    ctr <- ctr + 1
-    if (ctr % 10000) = 0 then
-        printfn "%d" ctr
-    Array.Clear(buf, 0, fixBuf.Length)
-    Array.Clear(fieldPosArr, 0, fieldPosArr.Length)
-    let posW = Fix44.MessageDU.WriteMessage buf 0 msgIn
-    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
-    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-    let msgOut = Fix44.MessageDU.ReadMessage msgIn buf index
-    msgIn =! msgOut
 
+let propMessageWriteRead (msgIn:FIXMessage) =
+//    if msgIn |> isAllocationInstruction |> not then
+        ctr <- ctr + 1
+        if (ctr % 100) = 0 then
+            printfn "%d" ctr
+        Array.Clear(buf, 0, fixBuf.Length)
+        Array.Clear(fieldPosArr, 0, fieldPosArr.Length)
+        let posW = Fix44.MessageDU.WriteMessage buf 0 msgIn
+        let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
+        let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
+        let msgOut = Fix44.MessageDU.ReadMessage msgIn buf index
+
+        if msgIn <> msgOut then
+            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
+            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+            fprintfn swA "%A" msgIn
+            fprintfn swB "%A" msgOut
+
+        let ok = msgIn = msgOut
+        ok
+//    else
+//        true
+
+let propAllocationInstructionWriteRead (allocInstr:Fix44.Messages.AllocationInstruction) =
+        let msgIn = allocInstr |> FIXMessage.AllocationInstruction
+        ctr <- ctr + 1
+        if (ctr % 10) = 0 then
+            printfn "%d" ctr
+
+        Array.Clear(buf, 0, fixBuf.Length)
+        Array.Clear(fieldPosArr, 0, fieldPosArr.Length)
+        let posW = Fix44.MessageDU.WriteMessage buf 0 msgIn
+        let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf posW
+        let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
+        let msgOut = Fix44.MessageDU.ReadMessage msgIn buf index
+
+        if msgIn <> msgOut then
+            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
+            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+            fprintfn swA "%A" msgIn
+            fprintfn swB "%A" msgOut
+
+
+//        printfn "beg ok"
+        let ok = msgIn = msgOut
+//        printfn "end ok: %A" (msgIn.GetType())
+        ok
 
 
 
@@ -89,21 +131,21 @@ let config = {  Config.Quick with
 //                    EveryShrink = (sprintf "%A" )
 //                    Replay = Some (Random.StdGen (310046944,296129814))
 //                    StartSize = 64
-                    EndSize = 64
+                    EndSize = 1
 
 //                    MaxFail = 10000
                     MaxTest = 10000000 }
 
 
 
-//#nowarn "52"
-//let WaitForExitCmd () = 
-//    while stdin.Read() <> 88 do // 88 is 'X'
-//        ()
+#nowarn "52"
+let WaitForExitCmd () = 
+    while stdin.Read() <> 88 do // 88 is 'X'
+        ()
 
 //Check.One (config, propReconstructFIXMessageBufFromIndex)
-Check.One (config, propMessageWriteRead)
+Check.One (config, propAllocationInstructionWriteRead)
 //Check.One (Config.Quick, propReadWriteFIXFieldRoundtrip)
 
 
-//WaitForExitCmd ()
+WaitForExitCmd ()

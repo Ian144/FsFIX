@@ -52,7 +52,7 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
         SettlInstReqRejCode = None
         Text = None
         EncodedText = None
-//        SettlInstSource = Some BrokersInstructions //None  // outer SettlInstSource is None
+        SettlInstSource = Some BrokersInstructions //outer SettlInstSource
         ClOrdID = None
         TransactTime = TransactTime timeStamp
         NoSettlInstGrp =

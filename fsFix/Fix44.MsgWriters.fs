@@ -2466,6 +2466,7 @@ let WriteSettlementInstructions (dest:byte []) (nextFreeIdx:int)  (xx:Settlement
     let nextFreeIdx = Option.fold (WriteSettlInstReqRejCode dest) nextFreeIdx xx.SettlInstReqRejCode
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
+    let nextFreeIdx = Option.fold (WriteSettlInstSource dest) nextFreeIdx xx.SettlInstSource
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
     // group (apologies for this nested fold code, will refactor when I think of something better)

@@ -30,17 +30,17 @@ let genByteTagValueSeperator = Gen.constant 61uy
 // used to generate byte arrays with lots of tag-value and field seperators
 let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
-// used to generate byte arrays with no tag-value or field seperators
-//let genByte2 = Gen.choose(0, 255) |> Gen.filter (fun x -> x <> 1 && x <> 61)  |> Gen.map byte
 let genByte2 = Gen.choose(64, 90) |> Gen.map byte
 
 let genNonEmptyByteArray = 
     gen{
         let! len = Gen.choose(1, 8)
-        let! bytes = Gen.arrayOfLength len genByte2
+        let! bytes = Gen.arrayOfLength len genByte
         return NonEmptyByteArray.Make bytes
     }
 
+
+// adapted from fsCheck code
 let genDecimal15dp =
     gen {
         let! lo = Arb.generate
@@ -51,6 +51,7 @@ let genDecimal15dp =
         let d1 = System.Decimal(lo, mid, hi, isNegative, scale)
         return System.Math.Round(d1, 15)
     }
+
 
 
 let genCurrency = 
@@ -71,7 +72,7 @@ let genMessageEncoding = gen{ return Fix44.Fields.MessageEncoding.Utf8 } // for 
 
 
 type ArbOverrides() =
-    static member NonEmptyByteArray = Arb.fromGen genNonEmptyByteArray // todo: genNonEmptyByteArray  is shrinkable
+    static member NonEmptyByteArray = Arb.fromGen genNonEmptyByteArray // todo: genNonEmptyByteArray should be shrinkable
     static member Byte()            = Arb.fromGen genByte
     static member Char()            = Arb.fromGen genChar
     static member String()          = Arb.fromGen genAlphaString
@@ -80,7 +81,8 @@ type ArbOverrides() =
     static member UTCTimestamp()    = Arb.fromGen genUTCTimestamp
     static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
     static member MonthYear()       = Arb.fromGen genMonthYear
-    static member Decimal15dp       = Arb.fromGenShrink (genDecimal15dp, Arb.shrink)
+    static member Decimal15dp       = Arb.fromGenShrink (genDecimal15dp, Arb.shrinkNumber)
+    //static member Decimal15dp       = Arb.fromGen genDecimal15dp
     static member LocalMktDate()    = Arb.fromGen genLocalMktDate
     static member Currency()        = Arb.fromGen genCurrency
     static member Country()         = Arb.fromGen genCountry
