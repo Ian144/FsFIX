@@ -373,6 +373,23 @@ let WriteNoMiscFeesGrp (dest:byte []) (nextFreeIdx:int) (xx:NoMiscFeesGrp) =
 
 
 // group
+let WriteTradeCaptureReportNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportNoAllocsGrp) =
+    let nextFreeIdx = WriteAllocAccount dest nextFreeIdx xx.AllocAccount
+    let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
+    let nextFreeIdx = Option.fold (WriteAllocSettlCurrency dest) nextFreeIdx xx.AllocSettlCurrency
+    let nextFreeIdx = Option.fold (WriteIndividualAllocID dest) nextFreeIdx xx.IndividualAllocID
+    // group (apologies for this nested fold code, will refactor when I think of something better)
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoNested2PartyIDsGrp list) ->
+                                        let numGrps = gs.Length
+                                        let innerNextFreeIdx2 = WriteNoNested2PartyIDs dest innerNextFreeIdx (Fix44.Fields.NoNested2PartyIDs numGrps) // write the 'num group repeats' field
+                                        List.fold (fun accFreeIdx gg -> WriteNoNested2PartyIDsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                  nextFreeIdx
+                                  xx.NoNested2PartyIDsGrp  // end Option.fold
+    let nextFreeIdx = Option.fold (WriteAllocQty dest) nextFreeIdx xx.AllocQty
+    nextFreeIdx
+
+
+// group
 let WriteTradeCaptureReportNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:TradeCaptureReportNoSidesGrp) =
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteOrderID dest nextFreeIdx xx.OrderID
@@ -461,6 +478,13 @@ let WriteTradeCaptureReportNoSidesGrp (dest:byte []) (nextFreeIdx:int) (xx:Trade
     let nextFreeIdx = Option.fold (WriteTradeAllocIndicator dest) nextFreeIdx xx.TradeAllocIndicator
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
+    // group (apologies for this nested fold code, will refactor when I think of something better)
+    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:TradeCaptureReportNoAllocsGrp list) ->
+                                        let numGrps = gs.Length
+                                        let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
+                                        List.fold (fun accFreeIdx gg -> WriteTradeCaptureReportNoAllocsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
+                                  nextFreeIdx
+                                  xx.TradeCaptureReportNoAllocsGrp  // end Option.fold
     nextFreeIdx
 
 
@@ -665,7 +689,7 @@ let WriteAllocationInstructionNoAllocsGrp (dest:byte []) (nextFreeIdx:int) (xx:A
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
     let nextFreeIdx = Option.fold (WriteMatchStatus dest) nextFreeIdx xx.MatchStatus
     let nextFreeIdx = Option.fold (WriteAllocPrice dest) nextFreeIdx xx.AllocPrice
-    let nextFreeIdx = Option.fold (WriteAllocQty dest) nextFreeIdx xx.AllocQty
+    let nextFreeIdx = WriteAllocQty dest nextFreeIdx xx.AllocQty
     let nextFreeIdx = Option.fold (WriteIndividualAllocID dest) nextFreeIdx xx.IndividualAllocID
     let nextFreeIdx = Option.fold (WriteProcessCode dest) nextFreeIdx xx.ProcessCode
     // group (apologies for this nested fold code, will refactor when I think of something better)
@@ -998,7 +1022,7 @@ let WriteNewOrderListNoOrdersGrp (dest:byte []) (nextFreeIdx:int) (xx:NewOrderLi
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteComplianceID dest) nextFreeIdx xx.ComplianceID
     let nextFreeIdx = Option.fold (WriteSolicitedFlag dest) nextFreeIdx xx.SolicitedFlag
-    let nextFreeIdx = Option.fold (WriteIOIid dest) nextFreeIdx xx.IOIid
+    let nextFreeIdx = Option.fold (WriteIOIID dest) nextFreeIdx xx.IOIID
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = Option.fold (WriteTimeInForce dest) nextFreeIdx xx.TimeInForce
     let nextFreeIdx = Option.fold (WriteEffectiveTime dest) nextFreeIdx xx.EffectiveTime

@@ -113,7 +113,7 @@ let writeTZOffset (bs:byte[]) (pos:int) (offSet:TZOffset) : int =
 
 
 
-
+// no leapsecond support according to http://www.fixtradingcommunity.org/FIXimate/FIXimate3.0/en/FIX.5.0SP2/fix_datatypes.html
 [<AbstractClass;Sealed>]
 type MakeTZTimeOnly private () =
     static member Make (offset:TZOffset, hh:int, mm:int) =

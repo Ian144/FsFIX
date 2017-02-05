@@ -56,16 +56,7 @@ let ``reconstruct FIX message buf with header and trailer``
         (msg:FIXMessage) =
     let fixBuf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize
-    let posW = MsgReadWrite.WriteMessageDU 
-                                tmpBuf 
-                                fixBuf 
-                                0 
-                                beginString 
-                                senderCompID
-                                targetCompID
-                                msgSeqNum
-                                sendingTime
-                                msg
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf fixBuf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
     let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
     let indexEnd = FIXBufIndexer.BuildIndex index fixBuf posW
     let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
@@ -73,26 +64,3 @@ let ``reconstruct FIX message buf with header and trailer``
     let fixBuf2 = Array.zeroCreate<byte> posW
     Array.Copy(fixBuf, fixBuf2, posW)
     fixBuf2 =! reconstructedFIXBuf
-
-
-    
-    
-//[<Fact>]
-//let ``reconstruct message buf, xunit`` () =
-//    let msg: NetworkStatusResponse = {  NetworkStatusResponseType = NetworkStatusResponseType.Full
-//                                        NetworkRequestID = None
-//                                        NetworkResponseID = None
-//                                        LastNetworkResponseID = None
-//                                        NetworkStatusResponseNoCompIDsGrp = []}
-//    let msg = msg |> FIXMessage.NetworkStatusResponse        
-//
-//    let fixBuf = Array.zeroCreate<byte> bufSize
-//    let posW = Fix44.MessageDU.WriteMessage fixBuf 0 msg
-//    
-//    let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
-//    let indexEnd = FIXBufIndexer.Index index fixBuf posW
-//    let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
-//
-//    let fixBuf2 = Array.zeroCreate<byte> posW
-//    Array.Copy(fixBuf, fixBuf2, posW)
-//    fixBuf2 =! reconstructedFIXBuf

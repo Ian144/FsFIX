@@ -22,7 +22,6 @@ let ``read UTC hh:mm:ss `` () =
     expected =! tm
 
 
-
 [<Fact>]
 let ``read invalid offset marker from bytes`` () =
     try

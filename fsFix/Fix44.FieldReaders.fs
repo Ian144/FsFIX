@@ -188,8 +188,8 @@ let ReadSecurityIDSource (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
     | x -> failwithf "ReadSecurityIDSource unknown fix tag: %A"  x
 
 
-let ReadIOIid (bs:byte[]) (pos:int) (len:int): IOIid =
-    ReadFieldStr bs pos len IOIid.IOIid
+let ReadIOIID (bs:byte[]) (pos:int) (len:int): IOIID =
+    ReadFieldStr bs pos len IOIID.IOIID
 
 
 let ReadIOIQltyInd (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
@@ -584,6 +584,9 @@ let ReadAllocTransType (bs:byte[]) (pos:int) (len:int): AllocTransType =
     |"0"B -> AllocTransType.New
     |"1"B -> AllocTransType.Replace
     |"2"B -> AllocTransType.Cancel
+    |"3"B -> AllocTransType.Preliminary
+    |"4"B -> AllocTransType.Calculated
+    |"5"B -> AllocTransType.CalculatedWithoutPreliminary
     | x -> failwithf "ReadAllocTransType unknown fix tag: %A"  x
 
 
@@ -1117,100 +1120,100 @@ let ReadSecurityType (bs:byte[]) (pos:int) (len:int): SecurityType =
     let tagBs = Array.zeroCreate<byte> len
     Array.Copy( bs, pos, tagBs, 0, len)
     match tagBs with
-    |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
-    |"FAC"B -> SecurityType.FederalAgencyCoupon
-    |"FADN"B -> SecurityType.FederalAgencyDiscountNote
-    |"PEF"B -> SecurityType.PrivateExportFunding
-    |"SUPRA"B -> SecurityType.UsdSupranationalCoupons
-    |"FUT"B -> SecurityType.Future
-    |"OPT"B -> SecurityType.Option
-    |"CORP"B -> SecurityType.CorporateBond
-    |"CPP"B -> SecurityType.CorporatePrivatePlacement
-    |"CB"B -> SecurityType.ConvertibleBond
-    |"DUAL"B -> SecurityType.DualCurrency
-    |"EUCORP"B -> SecurityType.EuroCorporateBond
-    |"XLINKD"B -> SecurityType.IndexedLinked
-    |"STRUCT"B -> SecurityType.StructuredNotes
-    |"YANK"B -> SecurityType.YankeeCorporateBond
-    |"FOR"B -> SecurityType.ForeignExchangeContract
-    |"CS"B -> SecurityType.CommonStock
-    |"PS"B -> SecurityType.PreferredStock
-    |"BRADY"B -> SecurityType.BradyBond
-    |"EUSOV"B -> SecurityType.EuroSovereigns
-    |"TBOND"B -> SecurityType.UsTreasuryBond
-    |"TINT"B -> SecurityType.InterestStripFromAnyBondOrNote
-    |"TIPS"B -> SecurityType.TreasuryInflationProtectedSecurities
-    |"TCAL"B -> SecurityType.PrincipalStripOfACallableBondOrNote
-    |"TPRN"B -> SecurityType.PrincipalStripFromANonCallableBondOrNote
-    |"TNOTE"B -> SecurityType.UsTreasuryNote
-    |"TBILL"B -> SecurityType.UsTreasuryBill
-    |"REPO"B -> SecurityType.Repurchase
-    |"FORWARD"B -> SecurityType.Forward
-    |"BUYSELL"B -> SecurityType.BuySellback
-    |"SECLOAN"B -> SecurityType.SecuritiesLoan
-    |"SECPLEDGE"B -> SecurityType.SecuritiesPledge
-    |"TERM"B -> SecurityType.TermLoan
-    |"RVLV"B -> SecurityType.RevolverLoan
-    |"RVLVTRM"B -> SecurityType.RevolverTermLoan
-    |"BRIDGE"B -> SecurityType.BridgeLoan
-    |"LOFC"B -> SecurityType.LetterOfCredit
-    |"SWING"B -> SecurityType.SwingLineFacility
-    |"DINP"B -> SecurityType.DebtorInPossession
-    |"DEFLTED"B -> SecurityType.Defaulted
-    |"WITHDRN"B -> SecurityType.Withdrawn
-    |"REPLACD"B -> SecurityType.Replaced
-    |"MATURED"B -> SecurityType.Matured
+    |"?"B -> SecurityType.Wildcard
+    |"ABS"B -> SecurityType.AssetBackedSecurities
     |"AMENDED"B -> SecurityType.AmendedAndRestated
-    |"RETIRED"B -> SecurityType.Retired
+    |"AN"B -> SecurityType.OtherAnticipationNotes
     |"BA"B -> SecurityType.BankersAcceptance
     |"BN"B -> SecurityType.BankNotes
     |"BOX"B -> SecurityType.BillOfExchanges
+    |"BRADY"B -> SecurityType.BradyBond
+    |"BRIDGE"B -> SecurityType.BridgeLoan
+    |"BUYSELL"B -> SecurityType.BuySellback
+    |"CB"B -> SecurityType.ConvertibleBond
     |"CD"B -> SecurityType.CertificateOfDeposit
     |"CL"B -> SecurityType.CallLoans
-    |"CP"B -> SecurityType.CommercialPaper
-    |"DN"B -> SecurityType.DepositNotes
-    |"EUCD"B -> SecurityType.EuroCertificateOfDeposit
-    |"EUCP"B -> SecurityType.EuroCommercialPaper
-    |"LQN"B -> SecurityType.LiquidityNote
-    |"MTN"B -> SecurityType.MediumTermNotes
-    |"ONITE"B -> SecurityType.Overnight
-    |"PN"B -> SecurityType.PromissoryNote
-    |"PZFJ"B -> SecurityType.PlazosFijos
-    |"STN"B -> SecurityType.ShortTermLoanNote
-    |"TD"B -> SecurityType.TimeDeposit
-    |"XCN"B -> SecurityType.ExtendedCommNote
-    |"YCD"B -> SecurityType.YankeeCertificateOfDeposit
-    |"ABS"B -> SecurityType.AssetBackedSecurities
     |"CMBS"B -> SecurityType.CorpMortgageBackedSecurities
     |"CMO"B -> SecurityType.CollateralizedMortgageObligation
+    |"COFO"B -> SecurityType.CertificateOfObligation
+    |"COFP"B -> SecurityType.CertificateOfParticipation
+    |"CORP"B -> SecurityType.CorporateBond
+    |"CP"B -> SecurityType.CommercialPaper
+    |"CPP"B -> SecurityType.CorporatePrivatePlacement
+    |"CS"B -> SecurityType.CommonStock
+    |"DEFLTED"B -> SecurityType.Defaulted
+    |"DINP"B -> SecurityType.DebtorInPossession
+    |"DN"B -> SecurityType.DepositNotes
+    |"DUAL"B -> SecurityType.DualCurrency
+    |"EUCD"B -> SecurityType.EuroCertificateOfDeposit
+    |"EUCORP"B -> SecurityType.EuroCorporateBond
+    |"EUCP"B -> SecurityType.EuroCommercialPaper
+    |"EUSOV"B -> SecurityType.EuroSovereigns
+    |"EUSUPRA"B -> SecurityType.EuroSupranationalCoupons
+    |"FAC"B -> SecurityType.FederalAgencyCoupon
+    |"FADN"B -> SecurityType.FederalAgencyDiscountNote
+    |"FOR"B -> SecurityType.ForeignExchangeContract
+    |"FORWARD"B -> SecurityType.Forward
+    |"FUT"B -> SecurityType.Future
+    |"GO"B -> SecurityType.GeneralObligationBonds
     |"IET"B -> SecurityType.IoetteMortgage
+    |"LOFC"B -> SecurityType.LetterOfCredit
+    |"LQN"B -> SecurityType.LiquidityNote
+    |"MATURED"B -> SecurityType.Matured
     |"MBS"B -> SecurityType.MortgageBackedSecurities
+    |"MF"B -> SecurityType.MutualFund
     |"MIO"B -> SecurityType.MortgageInterestOnly
+    |"MLEG"B -> SecurityType.MultiLegInstrument
     |"MPO"B -> SecurityType.MortgagePrincipalOnly
     |"MPP"B -> SecurityType.MortgagePrivatePlacement
     |"MPT"B -> SecurityType.MiscellaneousPassThrough
-    |"PFAND"B -> SecurityType.Pfandbriefe
-    |"TBA"B -> SecurityType.ToBeAnnounced
-    |"AN"B -> SecurityType.OtherAnticipationNotes
-    |"COFO"B -> SecurityType.CertificateOfObligation
-    |"COFP"B -> SecurityType.CertificateOfParticipation
-    |"GO"B -> SecurityType.GeneralObligationBonds
     |"MT"B -> SecurityType.MandatoryTender
+    |"MTN"B -> SecurityType.MediumTermNotes
+    |"NONE"B -> SecurityType.NoSecurityType
+    |"ONITE"B -> SecurityType.Overnight
+    |"OPT"B -> SecurityType.Option
+    |"PEF"B -> SecurityType.PrivateExportFunding
+    |"PFAND"B -> SecurityType.Pfandbriefe
+    |"PN"B -> SecurityType.PromissoryNote
+    |"PS"B -> SecurityType.PreferredStock
+    |"PZFJ"B -> SecurityType.PlazosFijos
     |"RAN"B -> SecurityType.RevenueAnticipationNote
+    |"REPLACD"B -> SecurityType.Replaced
+    |"REPO"B -> SecurityType.Repurchase
+    |"RETIRED"B -> SecurityType.Retired
     |"REV"B -> SecurityType.RevenueBonds
+    |"RVLV"B -> SecurityType.RevolverLoan
+    |"RVLVTRM"B -> SecurityType.RevolverTermLoan
+    |"SECLOAN"B -> SecurityType.SecuritiesLoan
+    |"SECPLEDGE"B -> SecurityType.SecuritiesPledge
     |"SPCLA"B -> SecurityType.SpecialAssessment
     |"SPCLO"B -> SecurityType.SpecialObligation
     |"SPCLT"B -> SecurityType.SpecialTax
+    |"STN"B -> SecurityType.ShortTermLoanNote
+    |"STRUCT"B -> SecurityType.StructuredNotes
+    |"SUPRA"B -> SecurityType.UsdSupranationalCoupons
+    |"SWING"B -> SecurityType.SwingLineFacility
     |"TAN"B -> SecurityType.TaxAnticipationNote
     |"TAXA"B -> SecurityType.TaxAllocation
+    |"TBA"B -> SecurityType.ToBeAnnounced
+    |"TBILL"B -> SecurityType.UsTreasuryBill
+    |"TBOND"B -> SecurityType.UsTreasuryBond
+    |"TCAL"B -> SecurityType.PrincipalStripOfACallableBondOrNote
+    |"TD"B -> SecurityType.TimeDeposit
     |"TECP"B -> SecurityType.TaxExemptCommercialPaper
+    |"TERM"B -> SecurityType.TermLoan
+    |"TINT"B -> SecurityType.InterestStripFromAnyBondOrNote
+    |"TIPS"B -> SecurityType.TreasuryInflationProtectedSecurities
+    |"TNOTE"B -> SecurityType.UsTreasuryNote
+    |"TPRN"B -> SecurityType.PrincipalStripFromANonCallableBondOrNote
     |"TRAN"B -> SecurityType.TaxAndRevenueAnticipationNote
     |"VRDN"B -> SecurityType.VariableRateDemandNote
     |"WAR"B -> SecurityType.Warrant
-    |"MF"B -> SecurityType.MutualFund
-    |"MLEG"B -> SecurityType.MultiLegInstrument
-    |"NONE"B -> SecurityType.NoSecurityType
-    |"?"B -> SecurityType.Wildcard
+    |"WITHDRN"B -> SecurityType.Withdrawn
+    |"XCN"B -> SecurityType.ExtendedCommNote
+    |"XLINKD"B -> SecurityType.IndexedLinked
+    |"YANK"B -> SecurityType.YankeeCorporateBond
+    |"YCD"B -> SecurityType.YankeeCertificateOfDeposit
     | x -> failwithf "ReadSecurityType unknown fix tag: %A"  x
 
 
@@ -1598,7 +1601,7 @@ let ReadConcession (bs:byte[]) (pos:int) (len:int): Concession =
 
 
 let ReadRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): RepoCollateralSecurityType =
-    ReadFieldInt bs pos len RepoCollateralSecurityType.RepoCollateralSecurityType
+    ReadFieldStr bs pos len RepoCollateralSecurityType.RepoCollateralSecurityType
 
 
 let ReadRedemptionDate (bs:byte[]) (pos:int) (len:int): RedemptionDate =
@@ -1614,7 +1617,7 @@ let ReadUnderlyingIssueDate (bs:byte[]) (pos:int) (len:int): UnderlyingIssueDate
 
 
 let ReadUnderlyingRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): UnderlyingRepoCollateralSecurityType =
-    ReadFieldInt bs pos len UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
+    ReadFieldStr bs pos len UnderlyingRepoCollateralSecurityType.UnderlyingRepoCollateralSecurityType
 
 
 let ReadUnderlyingRepurchaseTerm (bs:byte[]) (pos:int) (len:int): UnderlyingRepurchaseTerm =
@@ -1642,7 +1645,7 @@ let ReadLegIssueDate (bs:byte[]) (pos:int) (len:int): LegIssueDate =
 
 
 let ReadLegRepoCollateralSecurityType (bs:byte[]) (pos:int) (len:int): LegRepoCollateralSecurityType =
-    ReadFieldInt bs pos len LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
+    ReadFieldStr bs pos len LegRepoCollateralSecurityType.LegRepoCollateralSecurityType
 
 
 let ReadLegRepurchaseTerm (bs:byte[]) (pos:int) (len:int): LegRepurchaseTerm =
@@ -2419,6 +2422,8 @@ let ReadExecRestatementReason (bs:byte[]) (pos:int) (len:int): ExecRestatementRe
     |"7"B -> ExecRestatementReason.CancelOnSystemFailure
     |"8"B -> ExecRestatementReason.MarketOption
     |"9"B -> ExecRestatementReason.CanceledNotBest
+    |"10"B -> ExecRestatementReason.WarehouseRecap
+    |"99"B -> ExecRestatementReason.Other
     | x -> failwithf "ReadExecRestatementReason unknown fix tag: %A"  x
 
 
@@ -4686,7 +4691,7 @@ let ReadTradeRequestResult (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
     |"5"B -> TradeRequestResult.InvalidDestinationRequested
     |"8"B -> TradeRequestResult.TraderequesttypeNotSupported
     |"9"B -> TradeRequestResult.UnauthorizedForTradeCaptureReportRequest
-    |"10"B -> TradeRequestResult.Yield
+    |"99"B -> TradeRequestResult.Other
     | x -> failwithf "ReadTradeRequestResult unknown fix tag: %A"  x
 
 
@@ -4709,7 +4714,7 @@ let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportReje
     |"2"B -> TradeReportRejectReason.UnknownInstrument
     |"3"B -> TradeReportRejectReason.UnauthorizedToReportTrades
     |"4"B -> TradeReportRejectReason.InvalidTradeType
-    |"10"B -> TradeReportRejectReason.Yield
+    |"99"B -> TradeReportRejectReason.Other
     | x -> failwithf "ReadTradeReportRejectReason unknown fix tag: %A"  x
 
 
@@ -4756,7 +4761,29 @@ let ReadNested2PartySubID (bs:byte[]) (pos:int) (len:int): Nested2PartySubID =
 
 
 let ReadBenchmarkSecurityIDSource (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityIDSource =
-    ReadFieldStr bs pos len BenchmarkSecurityIDSource.BenchmarkSecurityIDSource
+    let tagBs = Array.zeroCreate<byte> len
+    Array.Copy( bs, pos, tagBs, 0, len)
+    match tagBs with
+    |"1"B -> BenchmarkSecurityIDSource.Cusip
+    |"2"B -> BenchmarkSecurityIDSource.Sedol
+    |"3"B -> BenchmarkSecurityIDSource.Quik
+    |"4"B -> BenchmarkSecurityIDSource.IsinNumber
+    |"5"B -> BenchmarkSecurityIDSource.RicCode
+    |"6"B -> BenchmarkSecurityIDSource.IsoCurrencyCode
+    |"7"B -> BenchmarkSecurityIDSource.IsoCountryCode
+    |"8"B -> BenchmarkSecurityIDSource.ExchangeSymbol
+    |"9"B -> BenchmarkSecurityIDSource.ConsolidatedTapeAssociation
+    |"A"B -> BenchmarkSecurityIDSource.BloombergSymbol
+    |"B"B -> BenchmarkSecurityIDSource.Wertpapier
+    |"C"B -> BenchmarkSecurityIDSource.Dutch
+    |"D"B -> BenchmarkSecurityIDSource.Valoren
+    |"E"B -> BenchmarkSecurityIDSource.Sicovam
+    |"F"B -> BenchmarkSecurityIDSource.Belgian
+    |"G"B -> BenchmarkSecurityIDSource.Common
+    |"H"B -> BenchmarkSecurityIDSource.ClearingHouseClearingOrganization
+    |"I"B -> BenchmarkSecurityIDSource.IsdaFpmlProductSpecification
+    |"J"B -> BenchmarkSecurityIDSource.OptionsPriceReportingAuthority
+    | x -> failwithf "ReadBenchmarkSecurityIDSource unknown fix tag: %A"  x
 
 
 let ReadSecuritySubType (bs:byte[]) (pos:int) (len:int): SecuritySubType =

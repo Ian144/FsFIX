@@ -279,6 +279,16 @@ type NoMiscFeesGrp = {
     }
 
 // group
+type TradeCaptureReportNoAllocsGrp = {
+    AllocAccount: AllocAccount
+    AllocAcctIDSource: AllocAcctIDSource option
+    AllocSettlCurrency: AllocSettlCurrency option
+    IndividualAllocID: IndividualAllocID option
+    NoNested2PartyIDsGrp: NoNested2PartyIDsGrp list option // group
+    AllocQty: AllocQty option
+    }
+
+// group
 type TradeCaptureReportNoSidesGrp = {
     Side: Side
     OrderID: OrderID
@@ -337,6 +347,7 @@ type TradeCaptureReportNoSidesGrp = {
     TradeAllocIndicator: TradeAllocIndicator option
     PreallocMethod: PreallocMethod option
     AllocID: AllocID option
+    TradeCaptureReportNoAllocsGrp: TradeCaptureReportNoAllocsGrp list option // group
     }
 
 // group
@@ -471,7 +482,7 @@ type AllocationInstructionNoAllocsGrp = {
     AllocAcctIDSource: AllocAcctIDSource option
     MatchStatus: MatchStatus option
     AllocPrice: AllocPrice option
-    AllocQty: AllocQty option
+    AllocQty: AllocQty
     IndividualAllocID: IndividualAllocID option
     ProcessCode: ProcessCode option
     NoNestedPartyIDsGrp: NoNestedPartyIDsGrp list option // group
@@ -716,7 +727,7 @@ type NewOrderListNoOrdersGrp = {
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option

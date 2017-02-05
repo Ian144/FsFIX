@@ -109,6 +109,7 @@ type FIXGroup =
     | SecurityListNoRelatedSymGrp of SecurityListNoRelatedSymGrp
     | TradeCaptureReportAckNoAllocsGrp of TradeCaptureReportAckNoAllocsGrp
     | TradeCaptureReportAckNoLegsGrp of TradeCaptureReportAckNoLegsGrp
+    | TradeCaptureReportNoAllocsGrp of TradeCaptureReportNoAllocsGrp
     | TradeCaptureReportNoLegsGrp of TradeCaptureReportNoLegsGrp
     | TradeCaptureReportNoSidesGrp of TradeCaptureReportNoSidesGrp
 
@@ -217,6 +218,7 @@ let WriteCITest dest nextFreeIdx grp =
     | SecurityListNoRelatedSymGrp grp -> WriteSecurityListNoRelatedSymGrp dest nextFreeIdx grp
     | TradeCaptureReportAckNoAllocsGrp grp -> WriteTradeCaptureReportAckNoAllocsGrp dest nextFreeIdx grp
     | TradeCaptureReportAckNoLegsGrp grp -> WriteTradeCaptureReportAckNoLegsGrp dest nextFreeIdx grp
+    | TradeCaptureReportNoAllocsGrp grp -> WriteTradeCaptureReportNoAllocsGrp dest nextFreeIdx grp
     | TradeCaptureReportNoLegsGrp grp -> WriteTradeCaptureReportNoLegsGrp dest nextFreeIdx grp
     | TradeCaptureReportNoSidesGrp grp -> WriteTradeCaptureReportNoSidesGrp dest nextFreeIdx grp
 
@@ -527,6 +529,9 @@ let ReadCITest (selector:FIXGroup) bs (index:FIXBufIndexer.IndexData) =
     | TradeCaptureReportAckNoLegsGrp _ ->
         let grp = ReadTradeCaptureReportAckNoLegsGrp bs index
         grp |> FIXGroup.TradeCaptureReportAckNoLegsGrp
+    | TradeCaptureReportNoAllocsGrp _ ->
+        let grp = ReadTradeCaptureReportNoAllocsGrp bs index
+        grp |> FIXGroup.TradeCaptureReportNoAllocsGrp
     | TradeCaptureReportNoLegsGrp _ ->
         let grp = ReadTradeCaptureReportNoLegsGrp bs index
         grp |> FIXGroup.TradeCaptureReportNoLegsGrp
