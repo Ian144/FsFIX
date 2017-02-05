@@ -20,13 +20,13 @@ let ReadHeartbeat (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadLogon (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noMsgTypesGrp = ReadOptionalGroup bs index 384 ReadNoMsgTypesGrp
     let encryptMethod = ReadField bs index 98 ReadEncryptMethod
     let heartBtInt = ReadField bs index 108 ReadHeartBtInt
     let rawData = ReadOptionalField bs index 95 ReadRawData
     let resetSeqNumFlag = ReadOptionalField bs index 141 ReadResetSeqNumFlag
     let nextExpectedMsgSeqNum = ReadOptionalField bs index 789 ReadNextExpectedMsgSeqNum
     let maxMessageSize = ReadOptionalField bs index 383 ReadMaxMessageSize
-    let noMsgTypesGrp = ReadOptionalGroup bs index 384 ReadNoMsgTypesGrp
     let testMessageIndicator = ReadOptionalField bs index 464 ReadTestMessageIndicator
     let username = ReadOptionalField bs index 553 ReadUsername
     let password = ReadOptionalField bs index 554 ReadPassword
@@ -152,12 +152,12 @@ let ReadUserResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAdvertisement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let advertisementNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadAdvertisementNoUnderlyingsGrp
     let advId = ReadField bs index 2 ReadAdvId
     let advTransType = ReadField bs index 5 ReadAdvTransType
     let advRefID = ReadOptionalField bs index 3 ReadAdvRefID
     let instrument = ReadComponent bs index ReadInstrument
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let advertisementNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadAdvertisementNoUnderlyingsGrp
     let advSide = ReadField bs index 4 ReadAdvSide
     let quantity = ReadField bs index 53 ReadQuantity
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
@@ -196,30 +196,30 @@ let ReadAdvertisement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadIndicationOfInterest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let indicationOfInterestNoLegsGrp = ReadOptionalGroup bs index 555 ReadIndicationOfInterestNoLegsGrp
+    let noIOIQualifiersGrp = ReadOptionalGroup bs index 199 ReadNoIOIQualifiersGrp
+    let noRoutingIDsGrp = ReadOptionalGroup bs index 215 ReadNoRoutingIDsGrp
     let iOIid = ReadField bs index 23 ReadIOIid
     let iOITransType = ReadField bs index 28 ReadIOITransType
     let iOIRefID = ReadOptionalField bs index 26 ReadIOIRefID
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadField bs index 54 ReadSide
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let iOIQty = ReadField bs index 27 ReadIOIQty
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let stipulations = ReadComponent bs index ReadStipulations
-    let indicationOfInterestNoLegsGrp = ReadOptionalGroup bs index 555 ReadIndicationOfInterestNoLegsGrp
     let priceType = ReadOptionalField bs index 423 ReadPriceType
     let price = ReadOptionalField bs index 44 ReadPrice
     let validUntilTime = ReadOptionalField bs index 62 ReadValidUntilTime
     let iOIQltyInd = ReadOptionalField bs index 25 ReadIOIQltyInd
     let iOINaturalFlag = ReadOptionalField bs index 130 ReadIOINaturalFlag
-    let noIOIQualifiersGrp = ReadOptionalGroup bs index 199 ReadNoIOIQualifiersGrp
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let transactTime = ReadOptionalField bs index 60 ReadTransactTime
     let uRLLink = ReadOptionalField bs index 149 ReadURLLink
-    let noRoutingIDsGrp = ReadOptionalGroup bs index 215 ReadNoRoutingIDsGrp
     let spreadOrBenchmarkCurveData = ReadComponent bs index ReadSpreadOrBenchmarkCurveData
     let yieldData = ReadComponent bs index ReadYieldData
     let ci:IndicationOfInterest = {
@@ -254,15 +254,15 @@ let ReadIndicationOfInterest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNews (bs:byte[]) (index:FIXBufIndexer.IndexData) =
-    let origTime = ReadOptionalField bs index 42 ReadOrigTime
-    let urgency = ReadOptionalField bs index 61 ReadUrgency
-    let headline = ReadField bs index 148 ReadHeadline
-    let encodedHeadline = ReadOptionalField bs index 358 ReadEncodedHeadline
     let noRoutingIDsGrp = ReadOptionalGroup bs index 215 ReadNoRoutingIDsGrp
     let noRelatedSymGrp = ReadOptionalGroup bs index 146 ReadNoRelatedSymGrp
     let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let linesOfTextGrp = ReadGroup bs index 33 ReadLinesOfTextGrp
+    let origTime = ReadOptionalField bs index 42 ReadOrigTime
+    let urgency = ReadOptionalField bs index 61 ReadUrgency
+    let headline = ReadField bs index 148 ReadHeadline
+    let encodedHeadline = ReadOptionalField bs index 358 ReadEncodedHeadline
     let uRLLink = ReadOptionalField bs index 149 ReadURLLink
     let rawData = ReadOptionalField bs index 95 ReadRawData
     let ci:News = {
@@ -282,18 +282,18 @@ let ReadNews (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadEmail (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noRoutingIDsGrp = ReadOptionalGroup bs index 215 ReadNoRoutingIDsGrp
+    let noRelatedSymGrp = ReadOptionalGroup bs index 146 ReadNoRelatedSymGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let linesOfTextGrp = ReadGroup bs index 33 ReadLinesOfTextGrp
     let emailThreadID = ReadField bs index 164 ReadEmailThreadID
     let emailType = ReadField bs index 94 ReadEmailType
     let origTime = ReadOptionalField bs index 42 ReadOrigTime
     let subject = ReadField bs index 147 ReadSubject
     let encodedSubject = ReadOptionalField bs index 356 ReadEncodedSubject
-    let noRoutingIDsGrp = ReadOptionalGroup bs index 215 ReadNoRoutingIDsGrp
-    let noRelatedSymGrp = ReadOptionalGroup bs index 146 ReadNoRelatedSymGrp
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
-    let linesOfTextGrp = ReadGroup bs index 33 ReadLinesOfTextGrp
     let rawData = ReadOptionalField bs index 95 ReadRawData
     let ci:Email = {
         EmailThreadID = emailThreadID
@@ -314,11 +314,11 @@ let ReadEmail (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let quoteRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadQuoteRequestNoRelatedSymGrp
     let quoteReqID = ReadField bs index 131 ReadQuoteReqID
     let rFQReqID = ReadOptionalField bs index 644 ReadRFQReqID
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
     let orderCapacity = ReadOptionalField bs index 528 ReadOrderCapacity
-    let quoteRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadQuoteRequestNoRelatedSymGrp
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let ci:QuoteRequest = {
@@ -334,6 +334,9 @@ let ReadQuoteRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let quoteResponseNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteResponseNoLegsGrp
     let quoteRespID = ReadField bs index 693 ReadQuoteRespID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let quoteRespType = ReadField bs index 694 ReadQuoteRespType
@@ -341,13 +344,11 @@ let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderCapacity = ReadOptionalField bs index 528 ReadOrderCapacity
     let iOIid = ReadOptionalField bs index 23 ReadIOIid
     let quoteType = ReadOptionalField bs index 537 ReadQuoteType
-    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let parties = ReadComponent bs index ReadParties
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadOptionalField bs index 54 ReadSide
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let settlType = ReadOptionalField bs index 63 ReadSettlType
@@ -359,7 +360,6 @@ let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let account = ReadOptionalField bs index 1 ReadAccount
     let acctIDSource = ReadOptionalField bs index 660 ReadAcctIDSource
     let accountType = ReadOptionalField bs index 581 ReadAccountType
-    let quoteResponseNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteResponseNoLegsGrp
     let bidPx = ReadOptionalField bs index 132 ReadBidPx
     let offerPx = ReadOptionalField bs index 133 ReadOfferPx
     let mktBidPx = ReadOptionalField bs index 645 ReadMktBidPx
@@ -460,11 +460,11 @@ let ReadQuoteResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let quoteRequestRejectNoRelatedSymGrp = ReadGroup bs index 146 ReadQuoteRequestRejectNoRelatedSymGrp
+    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let quoteReqID = ReadField bs index 131 ReadQuoteReqID
     let rFQReqID = ReadOptionalField bs index 644 ReadRFQReqID
     let quoteRequestRejectReason = ReadField bs index 658 ReadQuoteRequestRejectReason
-    let quoteRequestRejectNoRelatedSymGrp = ReadGroup bs index 146 ReadQuoteRequestRejectNoRelatedSymGrp
-    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let quotePriceType = ReadOptionalField bs index 692 ReadQuotePriceType
     let ordType = ReadOptionalField bs index 40 ReadOrdType
     let expireTime = ReadOptionalField bs index 126 ReadExpireTime
@@ -500,8 +500,8 @@ let ReadQuoteRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadRFQRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
-    let rFQReqID = ReadField bs index 644 ReadRFQReqID
     let rFQRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadRFQRequestNoRelatedSymGrp
+    let rFQReqID = ReadField bs index 644 ReadRFQReqID
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
     let ci:RFQRequest = {
         RFQReqID = rFQReqID
@@ -512,18 +512,19 @@ let ReadRFQRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let quoteNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteNoLegsGrp
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteRespID = ReadOptionalField bs index 693 ReadQuoteRespID
     let quoteType = ReadOptionalField bs index 537 ReadQuoteType
-    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let quoteResponseLevel = ReadOptionalField bs index 301 ReadQuoteResponseLevel
     let parties = ReadComponent bs index ReadParties
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadOptionalField bs index 54 ReadSide
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let settlType = ReadOptionalField bs index 63 ReadSettlType
@@ -535,7 +536,6 @@ let ReadQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let account = ReadOptionalField bs index 1 ReadAccount
     let acctIDSource = ReadOptionalField bs index 660 ReadAcctIDSource
     let accountType = ReadOptionalField bs index 581 ReadAccountType
-    let quoteNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteNoLegsGrp
     let bidPx = ReadOptionalField bs index 132 ReadBidPx
     let offerPx = ReadOptionalField bs index 133 ReadOfferPx
     let mktBidPx = ReadOptionalField bs index 645 ReadMktBidPx
@@ -634,6 +634,7 @@ let ReadQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noQuoteEntriesGrp = ReadOptionalGroup bs index 295 ReadNoQuoteEntriesGrp
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteCancelType = ReadField bs index 298 ReadQuoteCancelType
@@ -644,7 +645,6 @@ let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadOptionalField bs index 581 ReadAccountType
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
-    let noQuoteEntriesGrp = ReadOptionalGroup bs index 295 ReadNoQuoteEntriesGrp
     let ci:QuoteCancel = {
         QuoteReqID = quoteReqID
         QuoteID = quoteID
@@ -662,12 +662,12 @@ let ReadQuoteCancel (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let quoteStatusReqID = ReadOptionalField bs index 649 ReadQuoteStatusReqID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let parties = ReadComponent bs index ReadParties
     let account = ReadOptionalField bs index 1 ReadAccount
     let acctIDSource = ReadOptionalField bs index 660 ReadAcctIDSource
@@ -694,6 +694,9 @@ let ReadQuoteStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let quoteStatusReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteStatusReportNoLegsGrp
+    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let quoteStatusReqID = ReadOptionalField bs index 649 ReadQuoteStatusReqID
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
@@ -704,7 +707,6 @@ let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadOptionalField bs index 54 ReadSide
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let settlType = ReadOptionalField bs index 63 ReadSettlType
@@ -716,8 +718,6 @@ let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let account = ReadOptionalField bs index 1 ReadAccount
     let acctIDSource = ReadOptionalField bs index 660 ReadAcctIDSource
     let accountType = ReadOptionalField bs index 581 ReadAccountType
-    let quoteStatusReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadQuoteStatusReportNoLegsGrp
-    let noQuoteQualifiersGrp = ReadOptionalGroup bs index 735 ReadNoQuoteQualifiersGrp
     let expireTime = ReadOptionalField bs index 126 ReadExpireTime
     let price = ReadOptionalField bs index 44 ReadPrice
     let priceType = ReadOptionalField bs index 423 ReadPriceType
@@ -820,6 +820,7 @@ let ReadQuoteStatusReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noQuoteSetsGrp = ReadGroup bs index 296 ReadNoQuoteSetsGrp
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadField bs index 117 ReadQuoteID
     let quoteType = ReadOptionalField bs index 537 ReadQuoteType
@@ -830,7 +831,6 @@ let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadOptionalField bs index 581 ReadAccountType
     let defBidSize = ReadOptionalField bs index 293 ReadDefBidSize
     let defOfferSize = ReadOptionalField bs index 294 ReadDefOfferSize
-    let noQuoteSetsGrp = ReadGroup bs index 296 ReadNoQuoteSetsGrp
     let ci:MassQuote = {
         QuoteReqID = quoteReqID
         QuoteID = quoteID
@@ -848,6 +848,7 @@ let ReadMassQuote (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let massQuoteAcknowledgementNoQuoteSetsGrp = ReadOptionalGroup bs index 296 ReadMassQuoteAcknowledgementNoQuoteSetsGrp
     let quoteReqID = ReadOptionalField bs index 131 ReadQuoteReqID
     let quoteID = ReadOptionalField bs index 117 ReadQuoteID
     let quoteStatus = ReadField bs index 297 ReadQuoteStatus
@@ -860,7 +861,6 @@ let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadOptionalField bs index 581 ReadAccountType
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
-    let massQuoteAcknowledgementNoQuoteSetsGrp = ReadOptionalGroup bs index 296 ReadMassQuoteAcknowledgementNoQuoteSetsGrp
     let ci:MassQuoteAcknowledgement = {
         QuoteReqID = quoteReqID
         QuoteID = quoteID
@@ -880,6 +880,9 @@ let ReadMassQuoteAcknowledgement (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noMDEntryTypesGrp = ReadGroup bs index 267 ReadNoMDEntryTypesGrp
+    let marketDataRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadMarketDataRequestNoRelatedSymGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let mDReqID = ReadField bs index 262 ReadMDReqID
     let subscriptionRequestType = ReadField bs index 263 ReadSubscriptionRequestType
     let marketDepth = ReadField bs index 264 ReadMarketDepth
@@ -888,9 +891,6 @@ let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let openCloseSettlFlag = ReadOptionalField bs index 286 ReadOpenCloseSettlFlag
     let scope = ReadOptionalField bs index 546 ReadScope
     let mDImplicitDelete = ReadOptionalField bs index 547 ReadMDImplicitDelete
-    let noMDEntryTypesGrp = ReadGroup bs index 267 ReadNoMDEntryTypesGrp
-    let marketDataRequestNoRelatedSymGrp = ReadGroup bs index 146 ReadMarketDataRequestNoRelatedSymGrp
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let applQueueAction = ReadOptionalField bs index 815 ReadApplQueueAction
     let applQueueMax = ReadOptionalField bs index 812 ReadApplQueueMax
     let ci:MarketDataRequest = {
@@ -912,14 +912,14 @@ let ReadMarketDataRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadMarketDataSnapshotFullRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData) =
-    let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
-    let instrument = ReadComponent bs index ReadInstrument
     let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noMDEntriesGrp = ReadGroup bs index 268 ReadNoMDEntriesGrp
+    let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
+    let instrument = ReadComponent bs index ReadInstrument
     let financialStatus = ReadOptionalField bs index 291 ReadFinancialStatus
     let corporateAction = ReadOptionalField bs index 292 ReadCorporateAction
     let netChgPrevDay = ReadOptionalField bs index 451 ReadNetChgPrevDay
-    let noMDEntriesGrp = ReadGroup bs index 268 ReadNoMDEntriesGrp
     let applQueueDepth = ReadOptionalField bs index 813 ReadApplQueueDepth
     let applQueueResolution = ReadOptionalField bs index 814 ReadApplQueueResolution
     let ci:MarketDataSnapshotFullRefresh = {
@@ -938,8 +938,8 @@ let ReadMarketDataSnapshotFullRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData
 
 
 let ReadMarketDataIncrementalRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData) =
-    let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
     let marketDataIncrementalRefreshNoMDEntriesGrp = ReadGroup bs index 268 ReadMarketDataIncrementalRefreshNoMDEntriesGrp
+    let mDReqID = ReadOptionalField bs index 262 ReadMDReqID
     let applQueueDepth = ReadOptionalField bs index 813 ReadApplQueueDepth
     let applQueueResolution = ReadOptionalField bs index 814 ReadApplQueueResolution
     let ci:MarketDataIncrementalRefresh = {
@@ -952,9 +952,9 @@ let ReadMarketDataIncrementalRefresh (bs:byte[]) (index:FIXBufIndexer.IndexData)
 
 
 let ReadMarketDataRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noAltMDSourceGrp = ReadOptionalGroup bs index 816 ReadNoAltMDSourceGrp
     let mDReqID = ReadField bs index 262 ReadMDReqID
     let mDReqRejReason = ReadOptionalField bs index 281 ReadMDReqRejReason
-    let noAltMDSourceGrp = ReadOptionalGroup bs index 816 ReadNoAltMDSourceGrp
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let ci:MarketDataRequestReject = {
@@ -968,17 +968,17 @@ let ReadMarketDataRequestReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityDefinitionRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityRequestType = ReadField bs index 321 ReadSecurityRequestType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let expirationCycle = ReadOptionalField bs index 827 ReadExpirationCycle
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
     let ci:SecurityDefinitionRequest = {
@@ -1000,18 +1000,18 @@ let ReadSecurityDefinitionRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityDefinition (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityResponseType = ReadField bs index 323 ReadSecurityResponseType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let expirationCycle = ReadOptionalField bs index 827 ReadExpirationCycle
     let roundLot = ReadOptionalField bs index 561 ReadRoundLot
     let minTradeVol = ReadOptionalField bs index 562 ReadMinTradeVol
@@ -1058,12 +1058,12 @@ let ReadSecurityTypeRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityTypes (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noSecurityTypesGrp = ReadOptionalGroup bs index 558 ReadNoSecurityTypesGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityResponseType = ReadField bs index 323 ReadSecurityResponseType
     let totNoSecurityTypes = ReadOptionalField bs index 557 ReadTotNoSecurityTypes
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let noSecurityTypesGrp = ReadOptionalGroup bs index 558 ReadNoSecurityTypesGrp
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
@@ -1086,13 +1086,13 @@ let ReadSecurityTypes (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityListRequestType = ReadField bs index 559 ReadSecurityListRequestType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
@@ -1118,12 +1118,12 @@ let ReadSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let securityListNoRelatedSymGrp = ReadOptionalGroup bs index 146 ReadSecurityListNoRelatedSymGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityRequestResult = ReadField bs index 560 ReadSecurityRequestResult
     let totNoRelatedSym = ReadOptionalField bs index 393 ReadTotNoRelatedSym
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let securityListNoRelatedSymGrp = ReadOptionalGroup bs index 146 ReadSecurityListNoRelatedSymGrp
     let ci:SecurityList = {
         SecurityReqID = securityReqID
         SecurityResponseID = securityResponseID
@@ -1162,13 +1162,13 @@ let ReadDerivativeSecurityListRequest (bs:byte[]) (index:FIXBufIndexer.IndexData
 
 
 let ReadDerivativeSecurityList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let derivativeSecurityListNoRelatedSymGrp = ReadOptionalGroup bs index 146 ReadDerivativeSecurityListNoRelatedSymGrp
     let securityReqID = ReadField bs index 320 ReadSecurityReqID
     let securityResponseID = ReadField bs index 322 ReadSecurityResponseID
     let securityRequestResult = ReadField bs index 560 ReadSecurityRequestResult
     let underlyingInstrument = ReadOptionalComponent bs index 311 ReadUnderlyingInstrument
     let totNoRelatedSym = ReadOptionalField bs index 393 ReadTotNoRelatedSym
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let derivativeSecurityListNoRelatedSymGrp = ReadOptionalGroup bs index 146 ReadDerivativeSecurityListNoRelatedSymGrp
     let ci:DerivativeSecurityList = {
         SecurityReqID = securityReqID
         SecurityResponseID = securityResponseID
@@ -1182,11 +1182,11 @@ let ReadDerivativeSecurityList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let securityStatusReqID = ReadField bs index 324 ReadSecurityStatusReqID
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let subscriptionRequestType = ReadField bs index 263 ReadSubscriptionRequestType
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
@@ -1206,11 +1206,11 @@ let ReadSecurityStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSecurityStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let securityStatusReqID = ReadOptionalField bs index 324 ReadSecurityStatusReqID
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
@@ -1316,6 +1316,9 @@ let ReadTradingSessionStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noAllocsGrp = ReadOptionalGroup bs index 78 ReadNoAllocsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let clOrdLinkID = ReadOptionalField bs index 583 ReadClOrdLinkID
@@ -1329,7 +1332,6 @@ let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let bookingUnit = ReadOptionalField bs index 590 ReadBookingUnit
     let preallocMethod = ReadOptionalField bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalField bs index 70 ReadAllocID
-    let noAllocsGrp = ReadOptionalGroup bs index 78 ReadNoAllocsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let cashMargin = ReadOptionalField bs index 544 ReadCashMargin
@@ -1339,11 +1341,9 @@ let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let processCode = ReadOptionalField bs index 81 ReadProcessCode
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let prevClosePx = ReadOptionalField bs index 140 ReadPrevClosePx
     let side = ReadField bs index 54 ReadSide
     let locateReqd = ReadOptionalField bs index 114 ReadLocateReqd
@@ -1472,6 +1472,11 @@ let ReadNewOrderSingle (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noContraBrokersGrp = ReadOptionalGroup bs index 382 ReadNoContraBrokersGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noContAmtsGrp = ReadOptionalGroup bs index 518 ReadNoContAmtsGrp
+    let executionReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadExecutionReportNoLegsGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let orderID = ReadField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
@@ -1486,7 +1491,6 @@ let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let lastRptRequested = ReadOptionalField bs index 912 ReadLastRptRequested
     let parties = ReadComponent bs index ReadParties
     let tradeOriginationDate = ReadOptionalField bs index 229 ReadTradeOriginationDate
-    let noContraBrokersGrp = ReadOptionalGroup bs index 382 ReadNoContraBrokersGrp
     let listID = ReadOptionalField bs index 66 ReadListID
     let crossID = ReadOptionalField bs index 548 ReadCrossID
     let origCrossID = ReadOptionalField bs index 551 ReadOrigCrossID
@@ -1510,7 +1514,6 @@ let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let clearingFeeIndicator = ReadOptionalField bs index 635 ReadClearingFeeIndicator
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadField bs index 54 ReadSide
     let stipulations = ReadComponent bs index ReadStipulations
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
@@ -1605,10 +1608,7 @@ let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let priorityIndicator = ReadOptionalField bs index 638 ReadPriorityIndicator
     let priceImprovement = ReadOptionalField bs index 639 ReadPriceImprovement
     let lastLiquidityInd = ReadOptionalField bs index 851 ReadLastLiquidityInd
-    let noContAmtsGrp = ReadOptionalGroup bs index 518 ReadNoContAmtsGrp
-    let executionReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadExecutionReportNoLegsGrp
     let copyMsgIndicator = ReadOptionalField bs index 797 ReadCopyMsgIndicator
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let ci:ExecutionReport = {
         OrderID = orderID
         SecondaryOrderID = secondaryOrderID
@@ -1752,13 +1752,13 @@ let ReadExecutionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadDontKnowTrade (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let orderID = ReadField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let execID = ReadField bs index 17 ReadExecID
     let dKReason = ReadField bs index 127 ReadDKReason
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let side = ReadField bs index 54 ReadSide
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let lastQty = ReadOptionalField bs index 32 ReadLastQty
@@ -1784,6 +1784,9 @@ let ReadDontKnowTrade (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noAllocsGrp = ReadOptionalGroup bs index 78 ReadNoAllocsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let parties = ReadComponent bs index ReadParties
     let tradeOriginationDate = ReadOptionalField bs index 229 ReadTradeOriginationDate
@@ -1801,7 +1804,6 @@ let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let bookingUnit = ReadOptionalField bs index 590 ReadBookingUnit
     let preallocMethod = ReadOptionalField bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalField bs index 70 ReadAllocID
-    let noAllocsGrp = ReadOptionalGroup bs index 78 ReadNoAllocsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let cashMargin = ReadOptionalField bs index 544 ReadCashMargin
@@ -1811,10 +1813,8 @@ let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadField bs index 54 ReadSide
     let transactTime = ReadField bs index 60 ReadTransactTime
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
@@ -1938,6 +1938,7 @@ let ReadOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let origClOrdID = ReadField bs index 41 ReadOrigClOrdID
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let clOrdID = ReadField bs index 11 ReadClOrdID
@@ -1951,7 +1952,6 @@ let ReadOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let parties = ReadComponent bs index ReadParties
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadField bs index 54 ReadSide
     let transactTime = ReadField bs index 60 ReadTransactTime
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
@@ -2030,6 +2030,7 @@ let ReadOrderCancelReject (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadOrderStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
@@ -2040,7 +2041,6 @@ let ReadOrderStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let acctIDSource = ReadOptionalField bs index 660 ReadAcctIDSource
     let instrument = ReadComponent bs index ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let side = ReadField bs index 54 ReadSide
     let ci:OrderStatusRequest = {
         OrderID = orderID
@@ -2088,6 +2088,7 @@ let ReadOrderMassCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadOrderMassCancelReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noAffectedOrdersGrp = ReadOptionalGroup bs index 534 ReadNoAffectedOrdersGrp
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let orderID = ReadField bs index 37 ReadOrderID
@@ -2096,7 +2097,6 @@ let ReadOrderMassCancelReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let massCancelResponse = ReadField bs index 531 ReadMassCancelResponse
     let massCancelRejectReason = ReadOptionalField bs index 532 ReadMassCancelRejectReason
     let totalAffectedOrders = ReadOptionalField bs index 533 ReadTotalAffectedOrders
-    let noAffectedOrdersGrp = ReadOptionalGroup bs index 534 ReadNoAffectedOrdersGrp
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
@@ -2154,13 +2154,14 @@ let ReadOrderMassStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noSidesGrp = ReadNoSidesGroup bs index 552 ReadNoSidesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let crossID = ReadField bs index 548 ReadCrossID
     let crossType = ReadField bs index 549 ReadCrossType
     let crossPrioritization = ReadField bs index 550 ReadCrossPrioritization
-    let noSidesGrp = ReadNoSidesGroup bs index 552 ReadNoSidesGrp
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let handlInst = ReadOptionalField bs index 21 ReadHandlInst
@@ -2168,7 +2169,6 @@ let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let processCode = ReadOptionalField bs index 81 ReadProcessCode
     let prevClosePx = ReadOptionalField bs index 140 ReadPrevClosePx
     let locateReqd = ReadOptionalField bs index 114 ReadLocateReqd
@@ -2250,15 +2250,16 @@ let ReadNewOrderCross (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let crossOrderCancelReplaceRequestNoSidesGrp = ReadNoSidesGroup bs index 552 ReadCrossOrderCancelReplaceRequestNoSidesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let crossID = ReadField bs index 548 ReadCrossID
     let origCrossID = ReadField bs index 551 ReadOrigCrossID
     let crossType = ReadField bs index 549 ReadCrossType
     let crossPrioritization = ReadField bs index 550 ReadCrossPrioritization
-    let crossOrderCancelReplaceRequestNoSidesGrp = ReadNoSidesGroup bs index 552 ReadCrossOrderCancelReplaceRequestNoSidesGrp
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let handlInst = ReadOptionalField bs index 21 ReadHandlInst
@@ -2266,7 +2267,6 @@ let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexDat
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let processCode = ReadOptionalField bs index 81 ReadProcessCode
     let prevClosePx = ReadOptionalField bs index 140 ReadPrevClosePx
     let locateReqd = ReadOptionalField bs index 114 ReadLocateReqd
@@ -2350,15 +2350,15 @@ let ReadCrossOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexDat
 
 
 let ReadCrossOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let crossOrderCancelRequestNoSidesGrp = ReadNoSidesGroup bs index 552 ReadCrossOrderCancelRequestNoSidesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let crossID = ReadField bs index 548 ReadCrossID
     let origCrossID = ReadField bs index 551 ReadOrigCrossID
     let crossType = ReadField bs index 549 ReadCrossType
     let crossPrioritization = ReadField bs index 550 ReadCrossPrioritization
-    let crossOrderCancelRequestNoSidesGrp = ReadNoSidesGroup bs index 552 ReadCrossOrderCancelRequestNoSidesGrp
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let transactTime = ReadField bs index 60 ReadTransactTime
     let ci:CrossOrderCancelRequest = {
         OrderID = orderID
@@ -2376,6 +2376,10 @@ let ReadCrossOrderCancelRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let newOrderMultilegNoAllocsGrp = ReadOptionalGroup bs index 78 ReadNewOrderMultilegNoAllocsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let newOrderMultilegNoLegsGrp = ReadGroup bs index 555 ReadNewOrderMultilegNoLegsGrp
     let clOrdID = ReadField bs index 11 ReadClOrdID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
     let clOrdLinkID = ReadOptionalField bs index 583 ReadClOrdLinkID
@@ -2389,7 +2393,6 @@ let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let bookingUnit = ReadOptionalField bs index 590 ReadBookingUnit
     let preallocMethod = ReadOptionalField bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalField bs index 70 ReadAllocID
-    let newOrderMultilegNoAllocsGrp = ReadOptionalGroup bs index 78 ReadNewOrderMultilegNoAllocsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let cashMargin = ReadOptionalField bs index 544 ReadCashMargin
@@ -2399,13 +2402,10 @@ let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let processCode = ReadOptionalField bs index 81 ReadProcessCode
     let side = ReadField bs index 54 ReadSide
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let prevClosePx = ReadOptionalField bs index 140 ReadPrevClosePx
-    let newOrderMultilegNoLegsGrp = ReadGroup bs index 555 ReadNewOrderMultilegNoLegsGrp
     let locateReqd = ReadOptionalField bs index 114 ReadLocateReqd
     let transactTime = ReadField bs index 60 ReadTransactTime
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
@@ -2522,6 +2522,10 @@ let ReadNewOrderMultileg (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let multilegOrderCancelReplaceRequestNoAllocsGrp = ReadOptionalGroup bs index 78 ReadMultilegOrderCancelReplaceRequestNoAllocsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let multilegOrderCancelReplaceRequestNoLegsGrp = ReadGroup bs index 555 ReadMultilegOrderCancelReplaceRequestNoLegsGrp
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let origClOrdID = ReadField bs index 41 ReadOrigClOrdID
     let clOrdID = ReadField bs index 11 ReadClOrdID
@@ -2538,7 +2542,6 @@ let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.Index
     let bookingUnit = ReadOptionalField bs index 590 ReadBookingUnit
     let preallocMethod = ReadOptionalField bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalField bs index 70 ReadAllocID
-    let multilegOrderCancelReplaceRequestNoAllocsGrp = ReadOptionalGroup bs index 78 ReadMultilegOrderCancelReplaceRequestNoAllocsGrp
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let cashMargin = ReadOptionalField bs index 544 ReadCashMargin
@@ -2548,13 +2551,10 @@ let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.Index
     let minQty = ReadOptionalField bs index 110 ReadMinQty
     let maxFloor = ReadOptionalField bs index 111 ReadMaxFloor
     let exDestination = ReadOptionalField bs index 100 ReadExDestination
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let processCode = ReadOptionalField bs index 81 ReadProcessCode
     let side = ReadField bs index 54 ReadSide
     let instrument = ReadComponent bs index ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let prevClosePx = ReadOptionalField bs index 140 ReadPrevClosePx
-    let multilegOrderCancelReplaceRequestNoLegsGrp = ReadGroup bs index 555 ReadMultilegOrderCancelReplaceRequestNoLegsGrp
     let locateReqd = ReadOptionalField bs index 114 ReadLocateReqd
     let transactTime = ReadField bs index 60 ReadTransactTime
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
@@ -2674,6 +2674,8 @@ let ReadMultilegOrderCancelReplaceRequest (bs:byte[]) (index:FIXBufIndexer.Index
 
 
 let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noBidDescriptorsGrp = ReadOptionalGroup bs index 398 ReadNoBidDescriptorsGrp
+    let noBidComponentsGrp = ReadOptionalGroup bs index 420 ReadNoBidComponentsGrp
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadField bs index 391 ReadClientBidID
     let bidRequestTransType = ReadField bs index 374 ReadBidRequestTransType
@@ -2684,8 +2686,6 @@ let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let sideValue1 = ReadOptionalField bs index 396 ReadSideValue1
     let sideValue2 = ReadOptionalField bs index 397 ReadSideValue2
-    let noBidDescriptorsGrp = ReadOptionalGroup bs index 398 ReadNoBidDescriptorsGrp
-    let noBidComponentsGrp = ReadOptionalGroup bs index 420 ReadNoBidComponentsGrp
     let liquidityIndType = ReadOptionalField bs index 409 ReadLiquidityIndType
     let wtAverageLiquidity = ReadOptionalField bs index 410 ReadWtAverageLiquidity
     let exchangeForPhysical = ReadOptionalField bs index 411 ReadExchangeForPhysical
@@ -2736,9 +2736,9 @@ let ReadBidRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadBidResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let bidResponseNoBidComponentsGrp = ReadGroup bs index 420 ReadBidResponseNoBidComponentsGrp
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadOptionalField bs index 391 ReadClientBidID
-    let bidResponseNoBidComponentsGrp = ReadGroup bs index 420 ReadBidResponseNoBidComponentsGrp
     let ci:BidResponse = {
         BidID = bidID
         ClientBidID = clientBidID
@@ -2748,6 +2748,7 @@ let ReadBidResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let newOrderListNoOrdersGrp = ReadGroup bs index 73 ReadNewOrderListNoOrdersGrp
     let listID = ReadField bs index 66 ReadListID
     let bidID = ReadOptionalField bs index 390 ReadBidID
     let clientBidID = ReadOptionalField bs index 391 ReadClientBidID
@@ -2765,7 +2766,6 @@ let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allowableOneSidednessCurr = ReadOptionalField bs index 767 ReadAllowableOneSidednessCurr
     let totNoOrders = ReadField bs index 68 ReadTotNoOrders
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let newOrderListNoOrdersGrp = ReadGroup bs index 73 ReadNewOrderListNoOrdersGrp
     let ci:NewOrderList = {
         ListID = listID
         BidID = bidID
@@ -2790,11 +2790,11 @@ let ReadNewOrderList (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadListStrikePrice (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noStrikesGrp = ReadGroup bs index 428 ReadNoStrikesGrp
+    let listStrikePriceNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadListStrikePriceNoUnderlyingsGrp
     let listID = ReadField bs index 66 ReadListID
     let totNoStrikes = ReadField bs index 422 ReadTotNoStrikes
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let noStrikesGrp = ReadGroup bs index 428 ReadNoStrikesGrp
-    let listStrikePriceNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadListStrikePriceNoUnderlyingsGrp
     let ci:ListStrikePrice = {
         ListID = listID
         TotNoStrikes = totNoStrikes
@@ -2806,6 +2806,7 @@ let ReadListStrikePrice (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadListStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let listStatusNoOrdersGrp = ReadGroup bs index 73 ReadListStatusNoOrdersGrp
     let listID = ReadField bs index 66 ReadListID
     let listStatusType = ReadField bs index 429 ReadListStatusType
     let noRpts = ReadField bs index 82 ReadNoRpts
@@ -2816,7 +2817,6 @@ let ReadListStatus (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let transactTime = ReadOptionalField bs index 60 ReadTransactTime
     let totNoOrders = ReadField bs index 68 ReadTotNoOrders
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let listStatusNoOrdersGrp = ReadGroup bs index 73 ReadListStatusNoOrdersGrp
     let ci:ListStatus = {
         ListID = listID
         ListStatusType = listStatusType
@@ -2882,6 +2882,11 @@ let ReadListStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
+    let allocationInstructionNoExecsGrp = ReadOptionalGroup bs index 124 ReadAllocationInstructionNoExecsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let allocationInstructionNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationInstructionNoAllocsGrp
     let allocID = ReadField bs index 70 ReadAllocID
     let allocTransType = ReadField bs index 71 ReadAllocTransType
     let allocType = ReadField bs index 626 ReadAllocType
@@ -2893,8 +2898,6 @@ let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocLinkType = ReadOptionalField bs index 197 ReadAllocLinkType
     let bookingRefID = ReadOptionalField bs index 466 ReadBookingRefID
     let allocNoOrdersType = ReadField bs index 857 ReadAllocNoOrdersType
-    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
-    let allocationInstructionNoExecsGrp = ReadOptionalGroup bs index 124 ReadAllocationInstructionNoExecsGrp
     let previouslyReported = ReadOptionalField bs index 570 ReadPreviouslyReported
     let reversalIndicator = ReadOptionalField bs index 700 ReadReversalIndicator
     let matchType = ReadOptionalField bs index 574 ReadMatchType
@@ -2902,8 +2905,6 @@ let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let quantity = ReadField bs index 53 ReadQuantity
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
     let lastMkt = ReadOptionalField bs index 30 ReadLastMkt
@@ -2943,7 +2944,6 @@ let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let yieldData = ReadComponent bs index ReadYieldData
     let totNoAllocs = ReadOptionalField bs index 892 ReadTotNoAllocs
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let allocationInstructionNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationInstructionNoAllocsGrp
     let ci:AllocationInstruction = {
         AllocID = allocID
         AllocTransType = allocTransType
@@ -3012,6 +3012,7 @@ let ReadAllocationInstruction (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let allocationInstructionAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationInstructionAckNoAllocsGrp
     let allocID = ReadField bs index 70 ReadAllocID
     let parties = ReadComponent bs index ReadParties
     let secondaryAllocID = ReadOptionalField bs index 793 ReadSecondaryAllocID
@@ -3026,7 +3027,6 @@ let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityType = ReadOptionalField bs index 167 ReadSecurityType
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
-    let allocationInstructionAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationInstructionAckNoAllocsGrp
     let ci:AllocationInstructionAck = {
         AllocID = allocID
         Parties = parties
@@ -3048,6 +3048,11 @@ let ReadAllocationInstructionAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
+    let allocationReportNoExecsGrp = ReadOptionalGroup bs index 124 ReadAllocationReportNoExecsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let allocationReportNoAllocsGrp = ReadGroup bs index 78 ReadAllocationReportNoAllocsGrp
     let allocReportID = ReadField bs index 755 ReadAllocReportID
     let allocID = ReadOptionalField bs index 70 ReadAllocID
     let allocTransType = ReadField bs index 71 ReadAllocTransType
@@ -3063,8 +3068,6 @@ let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let allocLinkType = ReadOptionalField bs index 197 ReadAllocLinkType
     let bookingRefID = ReadOptionalField bs index 466 ReadBookingRefID
     let allocNoOrdersType = ReadField bs index 857 ReadAllocNoOrdersType
-    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
-    let allocationReportNoExecsGrp = ReadOptionalGroup bs index 124 ReadAllocationReportNoExecsGrp
     let previouslyReported = ReadOptionalField bs index 570 ReadPreviouslyReported
     let reversalIndicator = ReadOptionalField bs index 700 ReadReversalIndicator
     let matchType = ReadOptionalField bs index 574 ReadMatchType
@@ -3072,8 +3075,6 @@ let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let quantity = ReadField bs index 53 ReadQuantity
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
     let lastMkt = ReadOptionalField bs index 30 ReadLastMkt
@@ -3113,7 +3114,6 @@ let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let yieldData = ReadComponent bs index ReadYieldData
     let totNoAllocs = ReadOptionalField bs index 892 ReadTotNoAllocs
     let lastFragment = ReadOptionalField bs index 893 ReadLastFragment
-    let allocationReportNoAllocsGrp = ReadGroup bs index 78 ReadAllocationReportNoAllocsGrp
     let ci:AllocationReport = {
         AllocReportID = allocReportID
         AllocID = allocID
@@ -3186,6 +3186,7 @@ let ReadAllocationReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let allocationReportAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationReportAckNoAllocsGrp
     let allocReportID = ReadField bs index 755 ReadAllocReportID
     let allocID = ReadField bs index 70 ReadAllocID
     let parties = ReadComponent bs index ReadParties
@@ -3201,7 +3202,6 @@ let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let securityType = ReadOptionalField bs index 167 ReadSecurityType
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
-    let allocationReportAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadAllocationReportAckNoAllocsGrp
     let ci:AllocationReportAck = {
         AllocReportID = allocReportID
         AllocID = allocID
@@ -3224,6 +3224,11 @@ let ReadAllocationReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
+    let noUnderlyingsGrp = ReadGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadGroup bs index 555 ReadNoLegsGrp
+    let noCapacitiesGrp = ReadGroup bs index 862 ReadNoCapacitiesGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let confirmID = ReadField bs index 664 ReadConfirmID
     let confirmRefID = ReadOptionalField bs index 772 ReadConfirmRefID
     let confirmReqID = ReadOptionalField bs index 859 ReadConfirmReqID
@@ -3233,7 +3238,6 @@ let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let legalConfirm = ReadOptionalField bs index 650 ReadLegalConfirm
     let confirmStatus = ReadField bs index 665 ReadConfirmStatus
     let parties = ReadComponent bs index ReadParties
-    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
     let allocID = ReadOptionalField bs index 70 ReadAllocID
     let secondaryAllocID = ReadOptionalField bs index 793 ReadSecondaryAllocID
     let individualAllocID = ReadOptionalField bs index 467 ReadIndividualAllocID
@@ -3243,15 +3247,12 @@ let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let instrument = ReadComponent bs index ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadGroup bs index 555 ReadNoLegsGrp
     let yieldData = ReadComponent bs index ReadYieldData
     let allocQty = ReadField bs index 80 ReadAllocQty
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
     let side = ReadField bs index 54 ReadSide
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let lastMkt = ReadOptionalField bs index 30 ReadLastMkt
-    let noCapacitiesGrp = ReadGroup bs index 862 ReadNoCapacitiesGrp
     let allocAccount = ReadField bs index 79 ReadAllocAccount
     let allocAcctIDSource = ReadOptionalField bs index 661 ReadAllocAcctIDSource
     let allocAccountType = ReadOptionalField bs index 798 ReadAllocAccountType
@@ -3287,7 +3288,6 @@ let ReadConfirmation (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let commissionData = ReadComponent bs index ReadCommissionData
     let sharedCommission = ReadOptionalField bs index 858 ReadSharedCommission
     let stipulations = ReadComponent bs index ReadStipulations
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let ci:Confirmation = {
         ConfirmID = confirmID
         ConfirmRefID = confirmRefID
@@ -3380,9 +3380,9 @@ let ReadConfirmationAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadConfirmationRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
     let confirmReqID = ReadField bs index 859 ReadConfirmReqID
     let confirmType = ReadField bs index 773 ReadConfirmType
-    let noOrdersGrp = ReadOptionalGroup bs index 73 ReadNoOrdersGrp
     let allocID = ReadOptionalField bs index 70 ReadAllocID
     let secondaryAllocID = ReadOptionalField bs index 793 ReadSecondaryAllocID
     let individualAllocID = ReadOptionalField bs index 467 ReadIndividualAllocID
@@ -3410,6 +3410,7 @@ let ReadConfirmationRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadSettlementInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noSettlInstGrp = ReadOptionalGroup bs index 778 ReadNoSettlInstGrp
     let settlInstMsgID = ReadField bs index 777 ReadSettlInstMsgID
     let settlInstReqID = ReadOptionalField bs index 791 ReadSettlInstReqID
     let settlInstMode = ReadField bs index 160 ReadSettlInstMode
@@ -3419,7 +3420,6 @@ let ReadSettlementInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let settlInstSource = ReadOptionalField bs index 165 ReadSettlInstSource
     let clOrdID = ReadOptionalField bs index 11 ReadClOrdID
     let transactTime = ReadField bs index 60 ReadTransactTime
-    let noSettlInstGrp = ReadOptionalGroup bs index 778 ReadNoSettlInstGrp
     let ci:SettlementInstructions = {
         SettlInstMsgID = settlInstMsgID
         SettlInstReqID = settlInstReqID
@@ -3472,6 +3472,9 @@ let ReadSettlementInstructionRequest (bs:byte[]) (index:FIXBufIndexer.IndexData)
 
 
 let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noDatesGrp = ReadOptionalGroup bs index 580 ReadNoDatesGrp
     let tradeRequestID = ReadField bs index 568 ReadTradeRequestID
     let tradeRequestType = ReadField bs index 569 ReadTradeRequestType
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -3492,9 +3495,6 @@ let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let instrumentExtension = ReadComponent bs index ReadInstrumentExtension
     let financingDetails = ReadComponent bs index ReadFinancingDetails
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let noDatesGrp = ReadOptionalGroup bs index 580 ReadNoDatesGrp
     let clearingBusinessDate = ReadOptionalField bs index 715 ReadClearingBusinessDate
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
@@ -3548,6 +3548,8 @@ let ReadTradeCaptureReportRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let tradeRequestID = ReadField bs index 568 ReadTradeRequestID
     let tradeRequestType = ReadField bs index 569 ReadTradeRequestType
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
@@ -3555,8 +3557,6 @@ let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.IndexData)
     let tradeRequestResult = ReadField bs index 749 ReadTradeRequestResult
     let tradeRequestStatus = ReadField bs index 750 ReadTradeRequestStatus
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
     let multiLegReportingType = ReadOptionalField bs index 442 ReadMultiLegReportingType
     let responseTransportType = ReadOptionalField bs index 725 ReadResponseTransportType
     let responseDestination = ReadOptionalField bs index 726 ReadResponseDestination
@@ -3582,6 +3582,9 @@ let ReadTradeCaptureReportRequestAck (bs:byte[]) (index:FIXBufIndexer.IndexData)
 
 
 let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let tradeCaptureReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadTradeCaptureReportNoLegsGrp
+    let tradeCaptureReportNoSidesGrp = ReadNoSidesGroup bs index 552 ReadTradeCaptureReportNoSidesGrp
     let tradeReportID = ReadField bs index 571 ReadTradeReportID
     let tradeReportTransType = ReadOptionalField bs index 487 ReadTradeReportTransType
     let tradeReportType = ReadOptionalField bs index 856 ReadTradeReportType
@@ -3611,7 +3614,6 @@ let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderQtyData = ReadComponent bs index ReadOrderQtyData
     let qtyType = ReadOptionalField bs index 854 ReadQtyType
     let yieldData = ReadComponent bs index ReadYieldData
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let underlyingTradingSessionID = ReadOptionalField bs index 822 ReadUnderlyingTradingSessionID
     let underlyingTradingSessionSubID = ReadOptionalField bs index 823 ReadUnderlyingTradingSessionSubID
     let lastQty = ReadField bs index 32 ReadLastQty
@@ -3628,14 +3630,12 @@ let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let positionAmountData = ReadOptionalComponent bs index 753 ReadPositionAmountData
     let multiLegReportingType = ReadOptionalField bs index 442 ReadMultiLegReportingType
     let tradeLegRefID = ReadOptionalField bs index 824 ReadTradeLegRefID
-    let tradeCaptureReportNoLegsGrp = ReadOptionalGroup bs index 555 ReadTradeCaptureReportNoLegsGrp
     let transactTime = ReadField bs index 60 ReadTransactTime
     let trdRegTimestamps = ReadOptionalComponent bs index 768 ReadTrdRegTimestamps
     let settlType = ReadOptionalField bs index 63 ReadSettlType
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
     let matchStatus = ReadOptionalField bs index 573 ReadMatchStatus
     let matchType = ReadOptionalField bs index 574 ReadMatchType
-    let tradeCaptureReportNoSidesGrp = ReadNoSidesGroup bs index 552 ReadTradeCaptureReportNoSidesGrp
     let copyMsgIndicator = ReadOptionalField bs index 797 ReadCopyMsgIndicator
     let publishTrdIndicator = ReadOptionalField bs index 852 ReadPublishTrdIndicator
     let shortSaleReason = ReadOptionalField bs index 853 ReadShortSaleReason
@@ -3702,6 +3702,8 @@ let ReadTradeCaptureReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let tradeCaptureReportAckNoLegsGrp = ReadOptionalGroup bs index 555 ReadTradeCaptureReportAckNoLegsGrp
+    let tradeCaptureReportAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadTradeCaptureReportAckNoAllocsGrp
     let tradeReportID = ReadField bs index 571 ReadTradeReportID
     let tradeReportTransType = ReadOptionalField bs index 487 ReadTradeReportTransType
     let tradeReportType = ReadOptionalField bs index 856 ReadTradeReportType
@@ -3727,7 +3729,6 @@ let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let responseDestination = ReadOptionalField bs index 726 ReadResponseDestination
     let text = ReadOptionalField bs index 58 ReadText
     let encodedText = ReadOptionalField bs index 354 ReadEncodedText
-    let tradeCaptureReportAckNoLegsGrp = ReadOptionalGroup bs index 555 ReadTradeCaptureReportAckNoLegsGrp
     let clearingFeeIndicator = ReadOptionalField bs index 635 ReadClearingFeeIndicator
     let orderCapacity = ReadOptionalField bs index 528 ReadOrderCapacity
     let orderRestrictions = ReadOptionalField bs index 529 ReadOrderRestrictions
@@ -3737,7 +3738,6 @@ let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadOptionalField bs index 581 ReadAccountType
     let positionEffect = ReadOptionalField bs index 77 ReadPositionEffect
     let preallocMethod = ReadOptionalField bs index 591 ReadPreallocMethod
-    let tradeCaptureReportAckNoAllocsGrp = ReadOptionalGroup bs index 78 ReadTradeCaptureReportAckNoAllocsGrp
     let ci:TradeCaptureReportAck = {
         TradeReportID = tradeReportID
         TradeReportTransType = tradeReportTransType
@@ -3780,6 +3780,8 @@ let ReadTradeCaptureReportAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadRegistrationInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noRegistDtlsGrp = ReadOptionalGroup bs index 473 ReadNoRegistDtlsGrp
+    let noDistribInstsGrp = ReadOptionalGroup bs index 510 ReadNoDistribInstsGrp
     let registID = ReadField bs index 513 ReadRegistID
     let registTransType = ReadField bs index 514 ReadRegistTransType
     let registRefID = ReadField bs index 508 ReadRegistRefID
@@ -3790,8 +3792,6 @@ let ReadRegistrationInstructions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let registAcctType = ReadOptionalField bs index 493 ReadRegistAcctType
     let taxAdvantageType = ReadOptionalField bs index 495 ReadTaxAdvantageType
     let ownershipType = ReadOptionalField bs index 517 ReadOwnershipType
-    let noRegistDtlsGrp = ReadOptionalGroup bs index 473 ReadNoRegistDtlsGrp
-    let noDistribInstsGrp = ReadOptionalGroup bs index 510 ReadNoDistribInstsGrp
     let ci:RegistrationInstructions = {
         RegistID = registID
         RegistTransType = registTransType
@@ -3836,6 +3836,9 @@ let ReadRegistrationInstructionsResponse (bs:byte[]) (index:FIXBufIndexer.IndexD
 
 
 let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let posReqID = ReadField bs index 710 ReadPosReqID
     let posTransType = ReadField bs index 709 ReadPosTransType
     let posMaintAction = ReadField bs index 712 ReadPosMaintAction
@@ -3850,9 +3853,6 @@ let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadField bs index 581 ReadAccountType
     let instrument = ReadComponent bs index ReadInstrument
     let currency = ReadOptionalField bs index 15 ReadCurrency
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let transactTime = ReadField bs index 60 ReadTransactTime
     let positionQty = ReadComponent bs index ReadPositionQty
     let adjustmentType = ReadOptionalField bs index 718 ReadAdjustmentType
@@ -3892,6 +3892,9 @@ let ReadPositionMaintenanceRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posTransType = ReadField bs index 709 ReadPosTransType
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
@@ -3908,9 +3911,6 @@ let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadField bs index 581 ReadAccountType
     let instrument = ReadComponent bs index ReadInstrument
     let currency = ReadOptionalField bs index 15 ReadCurrency
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let transactTime = ReadField bs index 60 ReadTransactTime
     let positionQty = ReadComponent bs index ReadPositionQty
     let positionAmountData = ReadComponent bs index ReadPositionAmountData
@@ -3950,6 +3950,9 @@ let ReadPositionMaintenanceReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let posReqID = ReadField bs index 710 ReadPosReqID
     let posReqType = ReadField bs index 724 ReadPosReqType
     let matchStatus = ReadOptionalField bs index 573 ReadMatchStatus
@@ -3960,12 +3963,9 @@ let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadField bs index 581 ReadAccountType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let currency = ReadOptionalField bs index 15 ReadCurrency
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let clearingBusinessDate = ReadField bs index 715 ReadClearingBusinessDate
     let settlSessID = ReadOptionalField bs index 716 ReadSettlSessID
     let settlSessSubID = ReadOptionalField bs index 717 ReadSettlSessSubID
-    let noTradingSessionsGrp = ReadOptionalGroup bs index 386 ReadNoTradingSessionsGrp
     let transactTime = ReadField bs index 60 ReadTransactTime
     let responseTransportType = ReadOptionalField bs index 725 ReadResponseTransportType
     let responseDestination = ReadOptionalField bs index 726 ReadResponseDestination
@@ -3998,6 +3998,8 @@ let ReadRequestForPositions (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
     let totalNumPosReports = ReadOptionalField bs index 727 ReadTotalNumPosReports
@@ -4010,8 +4012,6 @@ let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let accountType = ReadField bs index 581 ReadAccountType
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let currency = ReadOptionalField bs index 15 ReadCurrency
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let responseTransportType = ReadOptionalField bs index 725 ReadResponseTransportType
     let responseDestination = ReadOptionalField bs index 726 ReadResponseDestination
     let text = ReadOptionalField bs index 58 ReadText
@@ -4040,6 +4040,8 @@ let ReadRequestForPositionsAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
+    let positionReportNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadPositionReportNoUnderlyingsGrp
     let posMaintRptID = ReadField bs index 721 ReadPosMaintRptID
     let posReqID = ReadOptionalField bs index 710 ReadPosReqID
     let posReqType = ReadOptionalField bs index 724 ReadPosReqType
@@ -4059,8 +4061,6 @@ let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let settlPrice = ReadField bs index 730 ReadSettlPrice
     let settlPriceType = ReadField bs index 731 ReadSettlPriceType
     let priorSettlPrice = ReadField bs index 734 ReadPriorSettlPrice
-    let noLegsGrp = ReadOptionalGroup bs index 555 ReadNoLegsGrp
-    let positionReportNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadPositionReportNoUnderlyingsGrp
     let positionQty = ReadComponent bs index ReadPositionQty
     let positionAmountData = ReadComponent bs index ReadPositionAmountData
     let registStatus = ReadOptionalField bs index 506 ReadRegistStatus
@@ -4100,6 +4100,7 @@ let ReadPositionReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let asgnRptID = ReadField bs index 833 ReadAsgnRptID
     let totNumAssignmentReports = ReadOptionalField bs index 832 ReadTotNumAssignmentReports
     let lastRptRequested = ReadOptionalField bs index 912 ReadLastRptRequested
@@ -4110,7 +4111,6 @@ let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let positionQty = ReadComponent bs index ReadPositionQty
     let positionAmountData = ReadComponent bs index ReadPositionAmountData
     let thresholdAmount = ReadOptionalField bs index 834 ReadThresholdAmount
@@ -4160,6 +4160,10 @@ let ReadAssignmentReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let collateralRequestNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralRequestNoUnderlyingsGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let collReqID = ReadField bs index 894 ReadCollReqID
     let collAsgnReason = ReadField bs index 895 ReadCollAsgnReason
     let transactTime = ReadField bs index 60 ReadTransactTime
@@ -4171,8 +4175,6 @@ let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4181,13 +4183,11 @@ let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let collateralRequestNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralRequestNoUnderlyingsGrp
     let marginExcess = ReadOptionalField bs index 899 ReadMarginExcess
     let totalNetValue = ReadOptionalField bs index 900 ReadTotalNetValue
     let cashOutstanding = ReadOptionalField bs index 901 ReadCashOutstanding
     let trdRegTimestamps = ReadOptionalComponent bs index 768 ReadTrdRegTimestamps
     let side = ReadOptionalField bs index 54 ReadSide
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let price = ReadOptionalField bs index 44 ReadPrice
     let priceType = ReadOptionalField bs index 423 ReadPriceType
     let accruedInterestAmt = ReadOptionalField bs index 159 ReadAccruedInterestAmt
@@ -4252,6 +4252,10 @@ let ReadCollateralRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let collateralAssignmentNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralAssignmentNoUnderlyingsGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let collAsgnID = ReadField bs index 902 ReadCollAsgnID
     let collReqID = ReadOptionalField bs index 894 ReadCollReqID
     let collAsgnReason = ReadField bs index 895 ReadCollAsgnReason
@@ -4266,8 +4270,6 @@ let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4276,13 +4278,11 @@ let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let collateralAssignmentNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralAssignmentNoUnderlyingsGrp
     let marginExcess = ReadOptionalField bs index 899 ReadMarginExcess
     let totalNetValue = ReadOptionalField bs index 900 ReadTotalNetValue
     let cashOutstanding = ReadOptionalField bs index 901 ReadCashOutstanding
     let trdRegTimestamps = ReadOptionalComponent bs index 768 ReadTrdRegTimestamps
     let side = ReadOptionalField bs index 54 ReadSide
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let price = ReadOptionalField bs index 44 ReadPrice
     let priceType = ReadOptionalField bs index 423 ReadPriceType
     let accruedInterestAmt = ReadOptionalField bs index 159 ReadAccruedInterestAmt
@@ -4352,6 +4352,10 @@ let ReadCollateralAssignment (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let collateralResponseNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralResponseNoUnderlyingsGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let collRespID = ReadField bs index 904 ReadCollRespID
     let collAsgnID = ReadField bs index 902 ReadCollAsgnID
     let collReqID = ReadOptionalField bs index 894 ReadCollReqID
@@ -4367,8 +4371,6 @@ let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4377,13 +4379,11 @@ let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let collateralResponseNoUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadCollateralResponseNoUnderlyingsGrp
     let marginExcess = ReadOptionalField bs index 899 ReadMarginExcess
     let totalNetValue = ReadOptionalField bs index 900 ReadTotalNetValue
     let cashOutstanding = ReadOptionalField bs index 901 ReadCashOutstanding
     let trdRegTimestamps = ReadOptionalComponent bs index 768 ReadTrdRegTimestamps
     let side = ReadOptionalField bs index 54 ReadSide
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let price = ReadOptionalField bs index 44 ReadPrice
     let priceType = ReadOptionalField bs index 423 ReadPriceType
     let accruedInterestAmt = ReadOptionalField bs index 159 ReadAccruedInterestAmt
@@ -4442,6 +4442,10 @@ let ReadCollateralResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let collRptID = ReadField bs index 908 ReadCollRptID
     let collInquiryID = ReadOptionalField bs index 909 ReadCollInquiryID
     let collStatus = ReadField bs index 910 ReadCollStatus
@@ -4454,8 +4458,6 @@ let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4464,13 +4466,11 @@ let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let marginExcess = ReadOptionalField bs index 899 ReadMarginExcess
     let totalNetValue = ReadOptionalField bs index 900 ReadTotalNetValue
     let cashOutstanding = ReadOptionalField bs index 901 ReadCashOutstanding
     let trdRegTimestamps = ReadOptionalComponent bs index 768 ReadTrdRegTimestamps
     let side = ReadOptionalField bs index 54 ReadSide
-    let noMiscFeesGrp = ReadOptionalGroup bs index 136 ReadNoMiscFeesGrp
     let price = ReadOptionalField bs index 44 ReadPrice
     let priceType = ReadOptionalField bs index 423 ReadPriceType
     let accruedInterestAmt = ReadOptionalField bs index 159 ReadAccruedInterestAmt
@@ -4538,8 +4538,11 @@ let ReadCollateralReport (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.IndexData) =
-    let collInquiryID = ReadOptionalField bs index 909 ReadCollInquiryID
     let noCollInquiryQualifierGrp = ReadOptionalGroup bs index 938 ReadNoCollInquiryQualifierGrp
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
+    let collInquiryID = ReadOptionalField bs index 909 ReadCollInquiryID
     let subscriptionRequestType = ReadOptionalField bs index 263 ReadSubscriptionRequestType
     let responseTransportType = ReadOptionalField bs index 725 ReadResponseTransportType
     let responseDestination = ReadOptionalField bs index 726 ReadResponseDestination
@@ -4550,8 +4553,6 @@ let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4560,7 +4561,6 @@ let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let marginExcess = ReadOptionalField bs index 899 ReadMarginExcess
     let totalNetValue = ReadOptionalField bs index 900 ReadTotalNetValue
     let cashOutstanding = ReadOptionalField bs index 901 ReadCashOutstanding
@@ -4632,9 +4632,9 @@ let ReadCollateralInquiry (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNetworkStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noCompIDsGrp = ReadOptionalGroup bs index 936 ReadNoCompIDsGrp
     let networkRequestType = ReadField bs index 935 ReadNetworkRequestType
     let networkRequestID = ReadField bs index 933 ReadNetworkRequestID
-    let noCompIDsGrp = ReadOptionalGroup bs index 936 ReadNoCompIDsGrp
     let ci:NetworkStatusRequest = {
         NetworkRequestType = networkRequestType
         NetworkRequestID = networkRequestID
@@ -4644,11 +4644,11 @@ let ReadNetworkStatusRequest (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadNetworkStatusResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let networkStatusResponseNoCompIDsGrp = ReadGroup bs index 936 ReadNetworkStatusResponseNoCompIDsGrp
     let networkStatusResponseType = ReadField bs index 937 ReadNetworkStatusResponseType
     let networkRequestID = ReadOptionalField bs index 933 ReadNetworkRequestID
     let networkResponseID = ReadOptionalField bs index 932 ReadNetworkResponseID
     let lastNetworkResponseID = ReadOptionalField bs index 934 ReadLastNetworkResponseID
-    let networkStatusResponseNoCompIDsGrp = ReadGroup bs index 936 ReadNetworkStatusResponseNoCompIDsGrp
     let ci:NetworkStatusResponse = {
         NetworkStatusResponseType = networkStatusResponseType
         NetworkRequestID = networkRequestID
@@ -4660,10 +4660,13 @@ let ReadNetworkStatusResponse (bs:byte[]) (index:FIXBufIndexer.IndexData) =
 
 
 let ReadCollateralInquiryAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
+    let noCollInquiryQualifierGrp = ReadOptionalGroup bs index 938 ReadNoCollInquiryQualifierGrp
+    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
+    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
+    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let collInquiryID = ReadField bs index 909 ReadCollInquiryID
     let collInquiryStatus = ReadField bs index 945 ReadCollInquiryStatus
     let collInquiryResult = ReadOptionalField bs index 946 ReadCollInquiryResult
-    let noCollInquiryQualifierGrp = ReadOptionalGroup bs index 938 ReadNoCollInquiryQualifierGrp
     let totNumReports = ReadOptionalField bs index 911 ReadTotNumReports
     let parties = ReadComponent bs index ReadParties
     let account = ReadOptionalField bs index 1 ReadAccount
@@ -4672,8 +4675,6 @@ let ReadCollateralInquiryAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let orderID = ReadOptionalField bs index 37 ReadOrderID
     let secondaryOrderID = ReadOptionalField bs index 198 ReadSecondaryOrderID
     let secondaryClOrdID = ReadOptionalField bs index 526 ReadSecondaryClOrdID
-    let noExecsGrp = ReadOptionalGroup bs index 124 ReadNoExecsGrp
-    let noTradesGrp = ReadOptionalGroup bs index 897 ReadNoTradesGrp
     let instrument = ReadOptionalComponent bs index 55 ReadInstrument
     let financingDetails = ReadComponent bs index ReadFinancingDetails
     let settlDate = ReadOptionalField bs index 64 ReadSettlDate
@@ -4682,7 +4683,6 @@ let ReadCollateralInquiryAck (bs:byte[]) (index:FIXBufIndexer.IndexData) =
     let currency = ReadOptionalField bs index 15 ReadCurrency
     let noLegs = ReadOptionalField bs index 555 ReadNoLegs
     let instrumentLeg = ReadComponent bs index ReadInstrumentLeg
-    let noUnderlyingsGrp = ReadOptionalGroup bs index 711 ReadNoUnderlyingsGrp
     let tradingSessionID = ReadOptionalField bs index 336 ReadTradingSessionID
     let tradingSessionSubID = ReadOptionalField bs index 625 ReadTradingSessionSubID
     let settlSessID = ReadOptionalField bs index 716 ReadSettlSessID

@@ -15,7 +15,7 @@ let genAlphaChar = Gen.choose(65,90) |> Gen.map char
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 8)
+            let! len = Gen.choose(4, 32)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
@@ -30,11 +30,12 @@ let genByteTagValueSeperator = Gen.constant 61uy
 // used to generate byte arrays with lots of tag-value and field seperators
 let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
+// used to generate byte arrays that could concevialbly be ASCII encoded
 let genByte2 = Gen.choose(64, 90) |> Gen.map byte
 
 let genNonEmptyByteArray = 
     gen{
-        let! len = Gen.choose(1, 8)
+        let! len = Gen.choose(1, 64)
         let! bytes = Gen.arrayOfLength len genByte
         return NonEmptyByteArray.Make bytes
     }
@@ -82,7 +83,6 @@ type ArbOverrides() =
     static member TZTimeonly()      = Arb.fromGen genTZTimeOnly
     static member MonthYear()       = Arb.fromGen genMonthYear
     static member Decimal15dp       = Arb.fromGenShrink (genDecimal15dp, Arb.shrinkNumber)
-    //static member Decimal15dp       = Arb.fromGen genDecimal15dp
     static member LocalMktDate()    = Arb.fromGen genLocalMktDate
     static member Currency()        = Arb.fromGen genCurrency
     static member Country()         = Arb.fromGen genCountry

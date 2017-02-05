@@ -4,9 +4,6 @@ open FsCheck.Xunit
 open Swensen.Unquote
 
 open Fix44.Fields
-open Fix44.CompoundItems
-open Fix44.CompoundItemWriters
-open Fix44.CompoundItemDU
 open Fix44.MessageDU
 
 open Generators
@@ -14,34 +11,17 @@ open Generators
 
 
 let bufSize = 1024 * 1024
-
 let indexBufSize = 1024 * 32
 
 
-
-    
-
 type PropTest() =
     inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        EndSize = 2,
+        Arbitrary = [|typeof<ArbOverrides>|],
+        MaxTest = 1600,
+        EndSize = 4,
         Verbose = false,
         QuietOnSuccess = true
         )
-
-
-
-type PropTestSlow() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10,
-        EndSize = 1,
-        Verbose = false,
-        QuietOnSuccess = true
-        )
-
-
 
 
 [<PropTest>]
@@ -54,20 +34,9 @@ let MessageWithHeaderTrailer
         (msg:FIXMessage) =
     let buf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize
-    let posW = MsgReadWrite.WriteMessageDU 
-                                tmpBuf 
-                                buf 
-                                0 
-                                beginString 
-                                senderCompID
-                                targetCompID
-                                msgSeqNum
-                                sendingTime
-                                msg
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf  buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
     let msgOut = MsgReadWrite.ReadMessage buf posW
     msg =! msgOut
-
-
 
 
 
@@ -82,75 +51,10 @@ let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     let tOut = readFunc bs indexData
     for ctr = 0 to indexEnd do
         if index.[ctr] = FIXBufIndexer.emptyFieldPos then
-            ()  // the common case is first, being friendly to the branch predictor
+            ()
         else
             failwith "a FIX field was not read from the buffer"
     tIn =! tOut
-
-
-[<PropTest>]
-let msgUserRequest (msg:Fix44.Messages.UserRequest) = WriteReadIndexTest msg Fix44.MsgWriters.WriteUserRequest Fix44.MsgReaders.ReadUserRequest
-
-
-[<PropTest>]
-let NoCapacitiesGrp (grpIn:NoCapacitiesGrp ) = WriteReadIndexTest grpIn WriteNoCapacitiesGrp Fix44.CompoundItemReaders.ReadNoCapacitiesGrp
-
-[<PropTest>]
-let UnderlyingStipulationsGrp (usIn:NoUnderlyingStipsGrp ) = WriteReadIndexTest usIn WriteNoUnderlyingStipsGrp Fix44.CompoundItemReaders.ReadNoUnderlyingStipsGrp
-
-
-let WriteReadIndexOrderedTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:bool->byte[]->FIXBufIndexer.IndexData->'t) =
-    let bs = Array.zeroCreate<byte> bufSize
-    let posW = writeFunc bs 0 tIn
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> indexBufSize
-    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
-    let index = FIXBufIndexer.IndexData(indexEnd, fieldPosArr)
-    let tOut = readFunc true bs index
-    tIn =! tOut
-
-
-
-//[<PropTest>]
-//let UnderlyingInstrument (usIn:UnderlyingInstrument ) = WriteReadIndexOrderedTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReaders.ReadUnderlyingInstrumentOrdered
-//
-//
-//[<PropTest>]
-//let UnderlyingStipulations (usIn:UnderlyingStipulations) = WriteReadIndexTest usIn WriteUnderlyingStipulations Fix44.CompoundItemReaders.ReadUnderlyingStipulations
-//
-//[<PropTest>]
-//let UnderlyingInstument (usIn:UnderlyingInstrument) = WriteReadIndexTest usIn WriteUnderlyingInstrument Fix44.CompoundItemReaders.ReadUnderlyingInstrument
-//
-//[<PropTest>]
-//let NoSidesGrp (gIn:NoSidesGrp) = WriteReadIndexTest gIn WriteNoSidesGrp Fix44.CompoundItemReaders.ReadNoSidesGrp
-//
-//[<PropTest>]
-//let InstrumentLegFG (usIn:InstrumentLegFG) = WriteReadIndexTest usIn WriteInstrumentLegFG Fix44.CompoundItemReaders.ReadInstrumentLegFG
-//
-//
-//[<PropTest>]
-//let MarketDataSnapshotFullRefresh (usIn:Fix44.Messages.MarketDataSnapshotFullRefresh) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteMarketDataSnapshotFullRefresh Fix44.MsgReaders.ReadMarketDataSnapshotFullRefresh
-//
-//
-//[<PropTest>]
-//let CollateralInquiry (usIn:Fix44.Messages.CollateralInquiry) = WriteReadIndexTest usIn Fix44.MsgWriters.WriteCollateralInquiry Fix44.MsgReaders.ReadCollateralInquiry
-//
-//
-//let WriteReadSelectorTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:'t -> byte[]->FIXBufIndexer.IndexData->'t) =
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = writeFunc bs 0 tIn
-//    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> indexBufSize
-//    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
-//    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-//    let tOut = readFunc tIn bs index
-//    tIn =! tOut
-//
-//
-//[<PropTest>]
-//let CompoundItem (ciIn:FIXGroup) = WriteReadSelectorTest ciIn WriteCITest ReadCITest 
-//
-//
-//[<PropTest>]
-//let Message (msg:FIXMessage) = WriteReadSelectorTest msg WriteMessage ReadMessage 
 
 
 

@@ -114,6 +114,25 @@ let private genMsgReaderFunc (fieldNameMap:Map<string,Field>) (compNameMap:Map<C
     sw.WriteLine ""
     sw.WriteLine ""
 
+// In FIX4.4 AllocationInstruction and SettlementInstruction msgs have contain optional fields which are also contained within groups in the msg.
+// Reading groups first (which includes blanking their field index entries) to avoid the reading in the groups instance of the field when searching for the outer msg instance.
+let private genMsgReaderFuncReadGroupsFirst (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (sw:StreamWriter) (msg:Msg) = 
+    let funcSig = sprintf "let Read%s (bs:byte[]) (index:FIXBufIndexer.IndexData) =" msg.MName
+    sw.WriteLine funcSig
+    let groupItems, nonGroupItems = msg.Items |> List.partition FIXItem.isGroup
+    let allItems = groupItems @ nonGroupItems
+    let readFIXItemStrs = CommonGenerator.genItemListReaderStrs fieldNameMap compNameMap msg.MName allItems
+    readFIXItemStrs |> List.iter sw.WriteLine
+    let fieldInitStrs = genFieldInitStrs msg.Items
+    sw.WriteLine (sprintf "    let ci:%s = {" msg.MName)
+    fieldInitStrs |> List.iter sw.WriteLine
+    sw.WriteLine "    }"
+    sw.WriteLine "    ci"
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+
+
 
 let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName,Component>) (hdrItems:FIXItem list) (xs:Msg list) (sw:StreamWriter) =
     // let requiredHdrFields, optionalHdrFields = hdrItems |> List.partition FIXItem.getIsRequired
@@ -131,13 +150,12 @@ let GenReadFuncs (fieldNameMap:Map<string,Field>) (compNameMap:Map<ComponentName
     sw.WriteLine "open Fix44.Messages"
     sw.WriteLine ""
     sw.WriteLine ""
-    xs |> List.iter (genMsgReaderFunc fieldNameMap compNameMap sw)
+    xs |> List.iter (genMsgReaderFuncReadGroupsFirst fieldNameMap compNameMap sw)
 
 
 
 
 let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
-
     // write the 'group/component' DU, used only in property based tests
     sw.WriteLine "module Fix44.MessageDU"
     sw.WriteLine ""
@@ -181,18 +199,6 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine ""
-
-
-    // create the 'ReadMessage' DU function that keys off a msg tag
-//   sw.WriteLine "let ReadMessageDU tag bs (index:FIXBufIndexer.IndexData) ="
-//    msgs |> List.iter (fun msg ->
-//                let ss = sprintf "    | \"%s\"B   ->  Read%s bs index |> FIXMessage.%s"  msg.Tag msg.MName msg.MName
-//                sw.WriteLine ss )
-//    let ss1  = "    | invalidTag   ->"
-//    let ss2  = "        failwithf \"received unknown message type tag: %A\" invalidTag"
-//    sw.WriteLine ss1
-//    sw.WriteLine ss2
-//    sw.WriteLine ss3
     
     sw.WriteLine "let ReadMessageDU (tag:Fix44.Fields.MsgType) bs (index:FIXBufIndexer.IndexData) ="
     sw.WriteLine "    match tag with"
@@ -210,7 +216,6 @@ let GenMessageDU (msgs:Msg list) (sw:StreamWriter) =
     sw.WriteLine ""
     sw.WriteLine ""
     sw.WriteLine ""
-
 
     sw.WriteLine "let GetTag (msg:FIXMessage) ="
     sw.WriteLine "    match msg with"
