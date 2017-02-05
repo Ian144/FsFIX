@@ -38,6 +38,9 @@ type FieldPos =
     override this.ToString() =
         sprintf "%d-%d-%d" this.Tag this.Pos this.Len
 
+let emptyFieldPos = FieldPos(0,0,0)
+
+
 
 [< NoComparison; NoEquality>]
 type IndexData (endPos: int, fieldPosArr: FieldPos[]) =

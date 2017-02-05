@@ -24,8 +24,8 @@ let indexBufSize = 1024 * 32
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 500,
-        EndSize = 4,
+        MaxTest = 100,
+        EndSize = 2,
         Verbose = false,
         QuietOnSuccess = true
         )
@@ -64,10 +64,6 @@ let MessageWithHeaderTrailer
                                 msgSeqNum
                                 sendingTime
                                 msg
-
-//    let ss = FIXBuf.toS buf posW
-//    printf "%s" ss
-
     let msgOut = MsgReadWrite.ReadMessage buf posW
     msg =! msgOut
 
@@ -80,10 +76,15 @@ let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
     let posW = writeFunc bs 0 tIn
     let ss = FIXBuf.toS bs posW
     printfn "%s" ss
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> indexBufSize
-    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
-    let index = FIXBufIndexer.IndexData(indexEnd, fieldPosArr)
-    let tOut = readFunc bs index
+    let index = Array.zeroCreate<FIXBufIndexer.FieldPos> indexBufSize
+    let indexEnd = FIXBufIndexer.BuildIndex index bs posW
+    let indexData = FIXBufIndexer.IndexData(indexEnd, index)
+    let tOut = readFunc bs indexData
+    for ctr = 0 to indexEnd do
+        if index.[ctr] = FIXBufIndexer.emptyFieldPos then
+            ()  // the common case is first, being friendly to the branch predictor
+        else
+            failwith "a FIX field was not read from the buffer"
     tIn =! tOut
 
 
