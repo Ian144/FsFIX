@@ -8,9 +8,10 @@ open FsCheck
 
 let genUTCDate = 
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mm = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)
+            let! dd = Gen.choose(1, 28) // quickfix will check dates such as the 30th feb
             return UTCDateTime.MakeUTCDate(yy, mm, dd)
         }
 
@@ -48,17 +49,19 @@ let private genUTCTimeOnlyLeapSecondMs =
 
 let genUTCTimeOnly = Gen.frequency( [   19, genUTCTimeOnlyNoMs; 
                                         19, genUTCTimeOnlyMs; 
-                                        1,  genUTCTimeOnlyLeapSecondNoMs; 
-                                        1,  genUTCTimeOnlyLeapSecondMs   ])
+//                                        1,  genUTCTimeOnlyLeapSecondNoMs;  // quickfixN date conversions fail if leapseconds are present
+//                                        1,  genUTCTimeOnlyLeapSecondMs   
+                                        ])
 
 
 // UTCTimestamp
 
 let private genUTCTimestampNoMs =
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mth = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)            
+            let! dd = Gen.choose(1, 28)
             let! hh = Gen.choose(0, 23)
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
@@ -67,9 +70,10 @@ let private genUTCTimestampNoMs =
 
 let private genUTCTimestampMs =
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mth = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)            
+            let! dd = Gen.choose(1, 28)
             let! hh = Gen.choose(0, 23)
             let! mm = Gen.choose(0, 59)
             let! ss = Gen.choose(0, 59)
@@ -79,25 +83,28 @@ let private genUTCTimestampMs =
 
 let private genUTCTimestampLeapSecondNoMs =
         gen {
-            let! yy = Gen.choose(0, 9999)
-            let! mth = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)                        
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
+            let  mth = 6
+            let  dd = 30
             return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60 )
         }
 
 let private genUTCTimestampLeapSecondMs =
         gen {
-            let! yy = Gen.choose(0, 9999)
-            let! mth = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)                        
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
+            let  mth = 6
+            let  dd = 30
             let! ms = Gen.choose(0, 999)
             return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60, ms )
         }
 
 let genUTCTimestamp = Gen.frequency [  19, genUTCTimestampNoMs; 
                                        19, genUTCTimestampMs; 
-                                       1,  genUTCTimestampLeapSecondNoMs; 
-                                       1,  genUTCTimestampLeapSecondMs   ]
+//                                       1,  genUTCTimestampLeapSecondNoMs; 
+//                                       1,  genUTCTimestampLeapSecondMs   
+                                       ]
 
 // TZOffset
 
@@ -152,23 +159,26 @@ let genTZTimeOnly = Gen.frequency [1, genHHmmTZTimeOnlyHHmm; 1, genHHmmTZTimeOnl
 
 let private genMonthYearYYYYMM = 
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mm = Gen.choose(1, 12)
             return MonthYear.MakeMonthYear.Make (yy, mm)
         }
 
 let private genMonthYearYYYYMMDD = 
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mm = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)
+            let! dd = Gen.choose(1, 28)
             return MonthYear.MakeMonthYear.Make(yy, mm, dd)
         }
 
 
 let private genMonthYearYYYYMMWW = 
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mm = Gen.choose(1, 12)
             let! (ww:MonthYear.Week) = Arb.generate
             return MonthYear.MakeMonthYear.Make(yy, mm, ww)
@@ -178,8 +188,9 @@ let genMonthYear = Gen.frequency [1, genMonthYearYYYYMM; 1,genMonthYearYYYYMMDD;
 
 let genLocalMktDate = 
         gen {
-            let! yy = Gen.choose(0, 9999)
+            //let! yy = Gen.choose(0, 9999)
+            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
             let! mm = Gen.choose(1, 12)
-            let! dd = Gen.choose(1, 31)
+            let! dd = Gen.choose(1, 28)
             return LocalMktDate.MakeLocalMktDate(yy, mm, dd)
         }

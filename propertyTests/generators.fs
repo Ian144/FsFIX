@@ -20,7 +20,7 @@ let genAlphaString =
             return System.String chars
         }
 
-let genChar = Gen.choose(32,255) |> Gen.map char 
+let genChar = Gen.choose(62,127) |> Gen.map char 
 
 
 let genByteMain = Gen.choose(0, 255) |> Gen.map byte
@@ -30,13 +30,13 @@ let genByteTagValueSeperator = Gen.constant 61uy
 // used to generate byte arrays with lots of tag-value and field seperators
 let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
-// used to generate byte arrays that could concevialbly be ASCII encoded
+// used to generate byte arrays that could concievably be ASCII encoded, required for quickfix echo testing
 let genByte2 = Gen.choose(64, 90) |> Gen.map byte
 
 let genNonEmptyByteArray = 
     gen{
         let! len = Gen.choose(1, 64)
-        let! bytes = Gen.arrayOfLength len genByte
+        let! bytes = Gen.arrayOfLength len genByte2
         return NonEmptyByteArray.Make bytes
     }
 

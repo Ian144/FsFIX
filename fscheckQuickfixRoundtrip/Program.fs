@@ -14,8 +14,8 @@ Arb.register<Generators.ArbOverrides>() |> ignore
 
 
 let host = "localhost"
-//let port = 5001 // for quickFixN echo
-let port = 9880
+let port = 5001 // for quickFixN echo
+// let port = 9880 // for quickFixJ echo
 let client = new TcpClient()
 client.Connect (host, port)
 let strm = client.GetStream()
@@ -37,10 +37,10 @@ let logon =  {
 
 let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 let beginString = BeginString "FIX.4.4"
-//let senderCompID = SenderCompID "CLIENT1"
-//let targetCompID = TargetCompID "EXECUTOR" // also for quickFixN
-let senderCompID = SenderCompID "BANZAI"
-let targetCompID = TargetCompID "EXEC" // also for quickFixJ
+let senderCompID = SenderCompID "CLIENT1"
+let targetCompID = TargetCompID "EXECUTOR" // also for quickFixN
+//let senderCompID = SenderCompID "BANZAI"
+//let targetCompID = TargetCompID "EXEC" // also for quickFixJ
 
 
 
@@ -50,7 +50,7 @@ let utcNow = System.DateTime.UtcNow
 let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
 let sendingTime = SendingTime ts
 
-let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 16)
+let index = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 16)
 
 let bufSize = 1024 * 128
 
@@ -70,9 +70,20 @@ let logonMsgReply = MsgReadWrite.ReadMessage bufIn numBytesReceived
 // used to exclude msgs containing particular fields, by searching for the field in the msg index
 let fieldExclusions (fp:FIXBufIndexer.FieldPos) =
     match fp.Tag with
-//    | 206   -> true // OptAttribute   quickfixN had issues with this field
-    | 212   -> true // XmlData, fscheck generators currently not creating valid but random xml for this field
+    | 206                                                   -> true // OptAttribute quickfixN had issues with this field
+    //| 95                                                    -> true
+    //| 90 | 93                                               -> true 
+//    | 347                                                   -> true // quickfixN disagrees with body length if encoded fields are included in a msg, filter out all such msgs by excluding the encoding field
+//    | 348 | 350 | 352 | 354 | 356 | 358 | 360 | 362 | 364   -> true //
+//    | 445 | 618 | 621                                       -> true
+    | 212                                                   -> true // XmlData, fscheck generators currently not creating valid but random xml for this field
+    | _                                                     -> false
+
+let fieldExclusionsQuickFixJ (fp:FIXBufIndexer.FieldPos) =
+    match fp.Tag with
+    | 212   -> true
     | _     -> false
+
 
 
 let msgExclusions (msgIn:FIXMessage) =
@@ -85,8 +96,9 @@ let msgExclusions (msgIn:FIXMessage) =
     | FIXMessage.SequenceReset _             -> false // admin
     | FIXMessage.Heartbeat _                 -> false // admin
     | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
-    | FIXMessage.SettlementInstructions _    -> false // quickfixj echo'd msg missing optional SettlInstSource, excluding to help find other issues
-    | FIXMessage.AllocationInstruction _     -> false // quickfixj echo returns these msgs with a populated AccruedInterestAmt which was None going in
+    | FIXMessage.ConfirmationRequest _       -> false // quickfixN length issues
+    | FIXMessage.RegistrationInstructions _  -> false // quickfixN length issues
+    | FIXMessage.SettlementInstructions _    -> false // quickfixN length issues
     | _                                      -> true
 
 
@@ -97,9 +109,68 @@ let isHeartbeat (msg:FIXMessage) =
 
 
 
+// #### quickfixN diagnosis funcs
+let GetFieldBegin (index:FIXBufIndexer.IndexData) (indexEnd:int) (tag:int) : int =
+    let idx = FIXBufIndexer.FindFieldIdx index indexEnd tag
+    match idx with
+    | 0 ->  0
+    | n ->  let prevIdx = n - 1 // find the end of the previous field
+            let prevField = index.FieldPosArr.[prevIdx]
+            prevField.Pos + prevField.Len + 1
+
+let IsLenField (tag:int) = 
+    match tag with
+    | 8 | 9 | 10    -> false
+    | _             -> true
+    
+let IsHdrField (tag:int) = 
+    match tag with
+    | 35 | 34 | 49 | 52 | 56    -> true
+    | _                         -> false
+
+
+let DisplayLengths (index:FIXBufIndexer.FieldPos array) (indexEnd:int) (bs:byte array) = 
+    let indexData = FIXBufIndexer.IndexData (indexEnd, index)
+    let bodyLenFieldIdx = 1 // bodyLen is always the 2nd field
+    let bodyLenFieldPos = index.[bodyLenFieldIdx]
+   
+    let usedFields = index |> Array.toList  |> List.take indexEnd |> List.skip 2 |> List.rev |> List.skip 1 |> List.rev
+    let hdrFields, bodyFields = usedFields |> List.partition (fun fp -> IsHdrField fp.Tag )
+    
+    let xx = bodyFields |> Array.ofList
+
+    let getFieldBeg = GetFieldBegin indexData indexEnd
+
+    let hdrLens = hdrFields |> List.map (fun xx -> 
+        let fldB = getFieldBeg xx.Tag
+        let fldE = xx.Pos + xx.Len
+        let len = (fldE - fldB) + 1
+        xx.Tag, len
+        )
+
+    let bodyLens = bodyFields |> List.map (fun xx -> 
+        let fldB = getFieldBeg xx.Tag
+        let fldE = xx.Pos + xx.Len
+        let len = (fldE - fldB) + 1
+        xx.Tag, len
+        )
+
+    let hdrLen = hdrLens    |> List.sumBy (fun (_, len) -> len)
+    let bodyLen = bodyLens  |> List.sumBy (fun (_, len) -> len)
+    
+    printfn "calced len: %d" (hdrLen+bodyLen)
+    printfn "hdr fields: %d" hdrLen
+    hdrLens |> List.iter (printfn "%A")
+
+    printfn "body fields: %d" bodyLen
+    bodyLens |> List.iter (printfn "%A")
+
+    ()
+
+
 let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShrink) =
     let (DoNotShrink msgIn) = msgInDNS
-    if msgExclusions msgIn then // not using ==> lazy as that means that multiple property tests will be running concurrently
+    if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently
         seqNum <- seqNum + 1u
         let msgSeqNum = MsgSeqNum seqNum
         let seqNumxx = seqNum
@@ -110,21 +181,24 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
         System.Array.Clear (bufIn, 0, bufIn.Length)
         System.Array.Clear (tmpBuf, 0, tmpBuf.Length)
         System.Array.Clear (bufOut, 0, bufIn.Length)
-        System.Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
+        System.Array.Clear (index, 0, index.Length)
 
         // send msg to quickfix echo
         let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
-        let _ = FIXBufIndexer.BuildIndex fieldPosArr bufIn numBytesToSend
-        let excludedFields = fieldPosArr |> Array.filter fieldExclusions |> Array.length
+        let indexEnd = FIXBufIndexer.BuildIndex index bufIn numBytesToSend
+        let excludedFields = index |> Array.filter fieldExclusions |> Array.length
         if excludedFields = 0 then
-            printfn "sending seqNum: %d" seqNumxx
+            let tag = GetTag msgIn
+            let sTag = FIXBuf.toS tag tag.Length
+            printfn "35=%s" sTag
+            DisplayLengths index indexEnd bufIn
+            
             strm.Write (bufIn, 0, numBytesToSend)
-
 
             // receive the reply, assuming all bytes are read
             let numBytesReceived = strm.Read (bufOut, 0, bufSize)
             let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived
-            printfn " reading reply seqNum: %d" seqNumxx
+//            printfn " reading reply seqNum: %d" seqNumxx
             let msgOut2 =
                 if isHeartbeat msgOut then
                     System.Array.Clear (bufIn, 0, bufIn.Length)
@@ -134,16 +208,17 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
                     msgOut
 
             // uncomment and correct the path to your desktop to use beyondCompare to diff the sometimes large messages
-            if msgIn <> msgOut then
-                use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
-                use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
-                use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
-                use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
-                fprintfn swA "%A" msgIn
-                fprintfn swB "%A" msgOut
-                fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
-                fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
-                printfn "diffs persisted"
+//            if msgIn <> msgOut then
+//                use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
+//                use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+//                use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
+//                use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
+//                fprintfn swA "%A" msgIn
+//                fprintfn swB "%A" msgOut
+//                fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
+//                fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
+//                printfn "diffs persisted"
+
             msgIn = msgOut2
         else // numLenDataFields <> 0
             true

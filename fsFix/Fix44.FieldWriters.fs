@@ -2682,24 +2682,6 @@ let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MiscFeeType.PerTransaction ->
-        let tag = "139=10"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MiscFeeType.Conversion ->
-        let tag = "139=11"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MiscFeeType.Agent ->
-        let tag = "139=12"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
 let WritePrevClosePx (dest:byte []) (pos:int) (valIn:PrevClosePx) : int = 
@@ -8951,12 +8933,6 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
         nextFreeIdx2 + 1 // +1 to include the delimeter
     | MassCancelRejectReason.InvalidOrUnknownTradingSession ->
         let tag = "532=6"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | MassCancelRejectReason.Other ->
-        let tag = "532=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter

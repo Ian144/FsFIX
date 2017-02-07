@@ -5,7 +5,7 @@
 
 
 // why have a private ctor and still allow access to the wrapped data via the value member? 
-// if the ctor was not private it would allow the creation of empty NonEmptyArrays
+// if the ctor was not private it would allow the creation of empty NonEmptyArrays, arrays may be mutable but these will definately not be empty
 
 type NonEmptyByteArray = private NonEmptyByteArray of byte array
                                     member x.Value = let (NonEmptyByteArray v) = x in v
