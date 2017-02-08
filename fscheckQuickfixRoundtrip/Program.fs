@@ -67,25 +67,6 @@ let logonMsgReply = MsgReadWrite.ReadMessage bufIn numBytesReceived
 
 
 
-// used to exclude msgs containing particular fields, by searching for the field in the msg index
-let fieldExclusions (fp:FIXBufIndexer.FieldPos) =
-    match fp.Tag with
-    | 206                                                   -> true // OptAttribute quickfixN had issues with this field
-    //| 95                                                    -> true
-    //| 90 | 93                                               -> true 
-//    | 347                                                   -> true // quickfixN disagrees with body length if encoded fields are included in a msg, filter out all such msgs by excluding the encoding field
-//    | 348 | 350 | 352 | 354 | 356 | 358 | 360 | 362 | 364   -> true //
-//    | 445 | 618 | 621                                       -> true
-    | 212                                                   -> true // XmlData, fscheck generators currently not creating valid but random xml for this field
-    | _                                                     -> false
-
-let fieldExclusionsQuickFixJ (fp:FIXBufIndexer.FieldPos) =
-    match fp.Tag with
-    | 212   -> true
-    | _     -> false
-
-
-
 let msgExclusions (msgIn:FIXMessage) =
     match msgIn with
     | FIXMessage.Logon  _                    -> false // admin
@@ -95,10 +76,7 @@ let msgExclusions (msgIn:FIXMessage) =
     | FIXMessage.Reject _                    -> false // admin
     | FIXMessage.SequenceReset _             -> false // admin
     | FIXMessage.Heartbeat _                 -> false // admin
-    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
-    | FIXMessage.ConfirmationRequest _       -> false // quickfixN length issues
-    | FIXMessage.RegistrationInstructions _  -> false // quickfixN length issues
-    | FIXMessage.SettlementInstructions _    -> false // quickfixN length issues
+//    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
     | _                                      -> true
 
 
@@ -173,7 +151,6 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
     if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently
         seqNum <- seqNum + 1u
         let msgSeqNum = MsgSeqNum seqNum
-        let seqNumxx = seqNum
         let utcNow = System.DateTime.UtcNow
         let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
         let sendingTime = SendingTime ts
@@ -186,48 +163,46 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
         // send msg to quickfix echo
         let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
         let indexEnd = FIXBufIndexer.BuildIndex index bufIn numBytesToSend
-        let excludedFields = index |> Array.filter fieldExclusions |> Array.length
-        if excludedFields = 0 then
-            let tag = GetTag msgIn
-            let sTag = FIXBuf.toS tag tag.Length
-            printfn "35=%s" sTag
-            //DisplayLengths index indexEnd bufIn
+        let tag = GetTag msgIn
+        let sTag = FIXBuf.toS tag tag.Length
+        printfn "35=%s" sTag
+        //DisplayLengths index indexEnd bufIn
             
-            strm.Write (bufIn, 0, numBytesToSend)
+        strm.Write (bufIn, 0, numBytesToSend)
 
-            // receive the reply, assuming all bytes are read
-            let numBytesReceived = strm.Read (bufOut, 0, bufSize)
-            let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived
-//            printfn " reading reply seqNum: %d" seqNumxx
-            let msgOut2 =
-                if isHeartbeat msgOut then
-                    System.Array.Clear (bufIn, 0, bufIn.Length)
-                    let numBytesReceived = strm.Read (bufIn, 0, bufSize)
-                    MsgReadWrite.ReadMessage bufIn numBytesReceived
-                else
-                    msgOut
+        // receive the reply, assuming all bytes are read
+        let numBytesReceived = strm.Read (bufOut, 0, bufSize)
+        let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived
 
-            // uncomment and correct the path to your desktop to use beyondCompare to diff the sometimes large messages
-//            if msgIn <> msgOut then
-//                use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
-//                use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
-//                use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
-//                use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
-//                fprintfn swA "%A" msgIn
-//                fprintfn swB "%A" msgOut
-//                fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
-//                fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
-//                printfn "diffs persisted"
+        let msgOut2 =
+            if isHeartbeat msgOut then
+                System.Array.Clear (bufIn, 0, bufIn.Length)
+                let numBytesReceived = strm.Read (bufIn, 0, bufSize)
+                MsgReadWrite.ReadMessage bufIn numBytesReceived
+            else
+                msgOut
 
-            msgIn = msgOut2
-        else // numLenDataFields <> 0
+//             uncomment and correct the path to your desktop to use beyondCompare to diff the sometimes large messages
+        let ok = msgIn = msgOut2
+        if ok  then
             true
+        else
+            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
+            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+            use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
+            use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
+            fprintfn swA "%A" msgIn
+            fprintfn swB "%A" msgOut2
+            fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
+            fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
+            printfn "diffs persisted"
+            false
     else // msg is an admin msg
         true
 
 
 
-let config = { Config.Quick with StartSize = 1; EndSize = 8; MaxTest = 10000000 }
+let config = { Config.Quick with StartSize = 1; EndSize = 8; MaxTest = 100000000 }
 
 
 
