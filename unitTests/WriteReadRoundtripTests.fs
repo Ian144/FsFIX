@@ -466,13 +466,5 @@ let NoPartyIDsGrp () =
     ptyIdGrp =! xOut
 
 
-let mkEncodedHeadline = NonEmptyByteArray.Make >> EncodedHeadline >> Fix44.FieldDU.EncodedHeadline
 
-[<Fact>]
-let EncodedHeadline1 () =
-    let bs = Array.zeroCreate<byte> 1024
-    let eh = mkEncodedHeadline "headline"B
-    let posW = Fix44.FieldDU.WriteField bs 0 eh
-    let ehOut = Fix44.FieldDU.ReadField bs 0
-    eh =! ehOut
     

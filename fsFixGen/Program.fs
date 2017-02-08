@@ -37,12 +37,11 @@ let main args =
     use swFixFields = new StreamWriter (makeOutpath "Fix44.Fields.fs")
     use swFieldReadFuncs = new StreamWriter (makeOutpath "Fix44.FieldReaders.fs")
     use swFieldWriteFuncs = new StreamWriter (makeOutpath "Fix44.FieldWriters.fs")
-    use swFieldDU = new StreamWriter (makeOutpath "Fix44.FieldDU.fs")
     
     printfn "reading and generating FIX field source"
     let fields = FieldGenerator.ParseFieldData xpthFields 
     let lenFieldNames, mergedFields = FieldGenerator.MergeLenFields fields
-    FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs  swFieldDU
+    FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs
 
 
     let getFieldName (fld:Field) =
@@ -75,8 +74,7 @@ let main args =
 
     printfn "generating group and component writing functions"
     use swCompoundItems = new StreamWriter (makeOutpath "Fix44.CompoundItems.fs")
-    use swCompoundItemDU = new StreamWriter (makeOutpath "Fix44.CompoundItemDU.fs")
-    CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems swCompoundItemDU
+    CompoundItemGenerator.Gen componentNameMap constrainedCompoundItemsInDepOrder swCompoundItems
     use swGroupWriteFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemWriters.fs")
     do CompoundItemGenerator.GenWriteFuncs constrainedCompoundItemsInDepOrder swGroupWriteFuncs
 

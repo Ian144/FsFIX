@@ -1,8 +1,6 @@
 ﻿
 open System.Net.Sockets
-open System
 open FsCheck
-open Swensen.Unquote
 
 open Fix44.Fields
 open Fix44.Messages
@@ -37,10 +35,10 @@ let logon =  {
 
 let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 let beginString = BeginString "FIX.4.4"
-let senderCompID = SenderCompID "CLIENT1"
-let targetCompID = TargetCompID "EXECUTOR" // also for quickFixN
-//let senderCompID = SenderCompID "BANZAI"
-//let targetCompID = TargetCompID "EXEC" // also for quickFixJ
+let senderCompID = SenderCompID "CLIENT1" // for quickFixN
+let targetCompID = TargetCompID "EXECUTOR" // for quickFixN
+//let senderCompID = SenderCompID "BANZAI"//for quickFixJ
+//let targetCompID = TargetCompID "EXEC" // for quickFixJ
 
 
 
@@ -109,14 +107,10 @@ let IsHdrField (tag:int) =
 
 let DisplayLengths (index:FIXBufIndexer.FieldPos array) (indexEnd:int) (bs:byte array) = 
     let indexData = FIXBufIndexer.IndexData (indexEnd, index)
-    let bodyLenFieldIdx = 1 // bodyLen is always the 2nd field
-    let bodyLenFieldPos = index.[bodyLenFieldIdx]
-   
+  
     let usedFields = index |> Array.toList  |> List.take indexEnd |> List.skip 2 |> List.rev |> List.skip 1 |> List.rev
     let hdrFields, bodyFields = usedFields |> List.partition (fun fp -> IsHdrField fp.Tag )
     
-    let xx = bodyFields |> Array.ofList
-
     let getFieldBeg = GetFieldBegin indexData indexEnd
 
     let hdrLens = hdrFields |> List.map (fun xx -> 

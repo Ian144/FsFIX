@@ -7,7 +7,6 @@ open Swensen.Unquote
 open Fix44.Fields
 open Fix44.CompoundItems
 open Fix44.CompoundItemWriters
-open Fix44.CompoundItemDU
 open Fix44.MessageDU
 
 open Generators

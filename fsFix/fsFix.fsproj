@@ -59,11 +59,9 @@
     <Compile Include="Fix44.Fields.fs" />
     <Compile Include="Fix44.FieldReaders.fs" />
     <Compile Include="Fix44.FieldWriters.fs" />
-    <Compile Include="Fix44.FieldDU.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
     <Compile Include="Fix44.CompoundItemWriters.fs" />
     <Compile Include="Fix44.CompoundItemReaders.fs" />
-    <Compile Include="Fix44.CompoundItemDU.fs" />
     <Compile Include="Fix44.Messages.fs" />
     <Compile Include="Fix44.MsgWriters.fs" />
     <Compile Include="Fix44.MsgReaders.fs" />
