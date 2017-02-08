@@ -191,7 +191,7 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             let tag = GetTag msgIn
             let sTag = FIXBuf.toS tag tag.Length
             printfn "35=%s" sTag
-            DisplayLengths index indexEnd bufIn
+            //DisplayLengths index indexEnd bufIn
             
             strm.Write (bufIn, 0, numBytesToSend)
 

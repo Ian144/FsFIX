@@ -549,7 +549,7 @@ let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSo
         nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
-let WriteIOIID (dest:byte []) (pos:int) (valIn:IOIID) : int = 
+let WriteIOIid (dest:byte []) (pos:int) (valIn:IOIid) : int = 
     WriteFieldStr dest pos "23="B valIn
 
 
@@ -1825,24 +1825,6 @@ let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | AllocTransType.Preliminary ->
-        let tag = "71=3"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | AllocTransType.Calculated ->
-        let tag = "71=4"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | AllocTransType.CalculatedWithoutPreliminary ->
-        let tag = "71=5"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
 
 
 let WriteRefAllocID (dest:byte []) (pos:int) (valIn:RefAllocID) : int = 
@@ -2982,14 +2964,260 @@ let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSour
 
 let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : int =
     match xxIn with
-    | SecurityType.Wildcard ->
-        let tag = "167=?"B
+    | SecurityType.EuroSupranationalCoupons ->
+        let tag = "167=EUSUPRA"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.AssetBackedSecurities ->
-        let tag = "167=ABS"B
+    | SecurityType.FederalAgencyCoupon ->
+        let tag = "167=FAC"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.FederalAgencyDiscountNote ->
+        let tag = "167=FADN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PrivateExportFunding ->
+        let tag = "167=PEF"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.UsdSupranationalCoupons ->
+        let tag = "167=SUPRA"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Future ->
+        let tag = "167=FUT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Option ->
+        let tag = "167=OPT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.CorporateBond ->
+        let tag = "167=CORP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.CorporatePrivatePlacement ->
+        let tag = "167=CPP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.ConvertibleBond ->
+        let tag = "167=CB"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.DualCurrency ->
+        let tag = "167=DUAL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.EuroCorporateBond ->
+        let tag = "167=EUCORP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.IndexedLinked ->
+        let tag = "167=XLINKD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.StructuredNotes ->
+        let tag = "167=STRUCT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.YankeeCorporateBond ->
+        let tag = "167=YANK"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.ForeignExchangeContract ->
+        let tag = "167=FOR"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.CommonStock ->
+        let tag = "167=CS"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PreferredStock ->
+        let tag = "167=PS"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.BradyBond ->
+        let tag = "167=BRADY"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.EuroSovereigns ->
+        let tag = "167=EUSOV"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.UsTreasuryBond ->
+        let tag = "167=TBOND"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.InterestStripFromAnyBondOrNote ->
+        let tag = "167=TINT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.TreasuryInflationProtectedSecurities ->
+        let tag = "167=TIPS"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PrincipalStripOfACallableBondOrNote ->
+        let tag = "167=TCAL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PrincipalStripFromANonCallableBondOrNote ->
+        let tag = "167=TPRN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.UsTreasuryNote ->
+        let tag = "167=TNOTE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.UsTreasuryBill ->
+        let tag = "167=TBILL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Repurchase ->
+        let tag = "167=REPO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Forward ->
+        let tag = "167=FORWARD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.BuySellback ->
+        let tag = "167=BUYSELL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.SecuritiesLoan ->
+        let tag = "167=SECLOAN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.SecuritiesPledge ->
+        let tag = "167=SECPLEDGE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.TermLoan ->
+        let tag = "167=TERM"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.RevolverLoan ->
+        let tag = "167=RVLV"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.RevolverTermLoan ->
+        let tag = "167=RVLVTRM"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.BridgeLoan ->
+        let tag = "167=BRIDGE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.LetterOfCredit ->
+        let tag = "167=LOFC"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.SwingLineFacility ->
+        let tag = "167=SWING"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.DebtorInPossession ->
+        let tag = "167=DINP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Defaulted ->
+        let tag = "167=DEFLTED"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Withdrawn ->
+        let tag = "167=WITHDRN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Replaced ->
+        let tag = "167=REPLACD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Matured ->
+        let tag = "167=MATURED"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3000,8 +3228,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.OtherAnticipationNotes ->
-        let tag = "167=AN"B
+    | SecurityType.Retired ->
+        let tag = "167=RETIRED"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3024,30 +3252,6 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.BradyBond ->
-        let tag = "167=BRADY"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.BridgeLoan ->
-        let tag = "167=BRIDGE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.BuySellback ->
-        let tag = "167=BUYSELL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.ConvertibleBond ->
-        let tag = "167=CB"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.CertificateOfDeposit ->
         let tag = "167=CD"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3056,6 +3260,90 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.CallLoans ->
         let tag = "167=CL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.CommercialPaper ->
+        let tag = "167=CP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.DepositNotes ->
+        let tag = "167=DN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.EuroCertificateOfDeposit ->
+        let tag = "167=EUCD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.EuroCommercialPaper ->
+        let tag = "167=EUCP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.LiquidityNote ->
+        let tag = "167=LQN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.MediumTermNotes ->
+        let tag = "167=MTN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.Overnight ->
+        let tag = "167=ONITE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PromissoryNote ->
+        let tag = "167=PN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.PlazosFijos ->
+        let tag = "167=PZFJ"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.ShortTermLoanNote ->
+        let tag = "167=STN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.TimeDeposit ->
+        let tag = "167=TD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.ExtendedCommNote ->
+        let tag = "167=XCN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.YankeeCertificateOfDeposit ->
+        let tag = "167=YCD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.AssetBackedSecurities ->
+        let tag = "167=ABS"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3072,152 +3360,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CertificateOfObligation ->
-        let tag = "167=COFO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CertificateOfParticipation ->
-        let tag = "167=COFP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CorporateBond ->
-        let tag = "167=CORP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CommercialPaper ->
-        let tag = "167=CP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CorporatePrivatePlacement ->
-        let tag = "167=CPP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.CommonStock ->
-        let tag = "167=CS"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Defaulted ->
-        let tag = "167=DEFLTED"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.DebtorInPossession ->
-        let tag = "167=DINP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.DepositNotes ->
-        let tag = "167=DN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.DualCurrency ->
-        let tag = "167=DUAL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.EuroCertificateOfDeposit ->
-        let tag = "167=EUCD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.EuroCorporateBond ->
-        let tag = "167=EUCORP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.EuroCommercialPaper ->
-        let tag = "167=EUCP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.EuroSovereigns ->
-        let tag = "167=EUSOV"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.EuroSupranationalCoupons ->
-        let tag = "167=EUSUPRA"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.FederalAgencyCoupon ->
-        let tag = "167=FAC"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.FederalAgencyDiscountNote ->
-        let tag = "167=FADN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.ForeignExchangeContract ->
-        let tag = "167=FOR"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Forward ->
-        let tag = "167=FORWARD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Future ->
-        let tag = "167=FUT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.GeneralObligationBonds ->
-        let tag = "167=GO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.IoetteMortgage ->
         let tag = "167=IET"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.LetterOfCredit ->
-        let tag = "167=LOFC"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.LiquidityNote ->
-        let tag = "167=LQN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Matured ->
-        let tag = "167=MATURED"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3228,20 +3372,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.MutualFund ->
-        let tag = "167=MF"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.MortgageInterestOnly ->
         let tag = "167=MIO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.MultiLegInstrument ->
-        let tag = "167=MLEG"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3264,62 +3396,44 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.MandatoryTender ->
-        let tag = "167=MT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.MediumTermNotes ->
-        let tag = "167=MTN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.NoSecurityType ->
-        let tag = "167=NONE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Overnight ->
-        let tag = "167=ONITE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Option ->
-        let tag = "167=OPT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PrivateExportFunding ->
-        let tag = "167=PEF"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.Pfandbriefe ->
         let tag = "167=PFAND"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PromissoryNote ->
-        let tag = "167=PN"B
+    | SecurityType.ToBeAnnounced ->
+        let tag = "167=TBA"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PreferredStock ->
-        let tag = "167=PS"B
+    | SecurityType.OtherAnticipationNotes ->
+        let tag = "167=AN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PlazosFijos ->
-        let tag = "167=PZFJ"B
+    | SecurityType.CertificateOfObligation ->
+        let tag = "167=COFO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.CertificateOfParticipation ->
+        let tag = "167=COFP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.GeneralObligationBonds ->
+        let tag = "167=GO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
+        nextFreeIdx2 + 1 // +1 to include the delimeter
+    | SecurityType.MandatoryTender ->
+        let tag = "167=MT"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3330,50 +3444,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Replaced ->
-        let tag = "167=REPLACD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Repurchase ->
-        let tag = "167=REPO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Retired ->
-        let tag = "167=RETIRED"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.RevenueBonds ->
         let tag = "167=REV"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.RevolverLoan ->
-        let tag = "167=RVLV"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.RevolverTermLoan ->
-        let tag = "167=RVLVTRM"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.SecuritiesLoan ->
-        let tag = "167=SECLOAN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.SecuritiesPledge ->
-        let tag = "167=SECPLEDGE"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3396,30 +3468,6 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.ShortTermLoanNote ->
-        let tag = "167=STN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.StructuredNotes ->
-        let tag = "167=STRUCT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.UsdSupranationalCoupons ->
-        let tag = "167=SUPRA"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.SwingLineFacility ->
-        let tag = "167=SWING"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.TaxAnticipationNote ->
         let tag = "167=TAN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3432,68 +3480,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.ToBeAnnounced ->
-        let tag = "167=TBA"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.UsTreasuryBill ->
-        let tag = "167=TBILL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.UsTreasuryBond ->
-        let tag = "167=TBOND"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PrincipalStripOfACallableBondOrNote ->
-        let tag = "167=TCAL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.TimeDeposit ->
-        let tag = "167=TD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
     | SecurityType.TaxExemptCommercialPaper ->
         let tag = "167=TECP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.TermLoan ->
-        let tag = "167=TERM"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.InterestStripFromAnyBondOrNote ->
-        let tag = "167=TINT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.TreasuryInflationProtectedSecurities ->
-        let tag = "167=TIPS"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.UsTreasuryNote ->
-        let tag = "167=TNOTE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.PrincipalStripFromANonCallableBondOrNote ->
-        let tag = "167=TPRN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -3516,32 +3504,26 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.Withdrawn ->
-        let tag = "167=WITHDRN"B
+    | SecurityType.MutualFund ->
+        let tag = "167=MF"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.ExtendedCommNote ->
-        let tag = "167=XCN"B
+    | SecurityType.MultiLegInstrument ->
+        let tag = "167=MLEG"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.IndexedLinked ->
-        let tag = "167=XLINKD"B
+    | SecurityType.NoSecurityType ->
+        let tag = "167=NONE"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.YankeeCorporateBond ->
-        let tag = "167=YANK"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | SecurityType.YankeeCertificateOfDeposit ->
-        let tag = "167=YCD"B
+    | SecurityType.Wildcard ->
+        let tag = "167=?"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -4604,7 +4586,7 @@ let WriteConcession (dest:byte []) (pos:int) (valIn:Concession) : int =
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:RepoCollateralSecurityType) : int = 
-    WriteFieldStr dest pos "239="B valIn
+    WriteFieldInt dest pos "239="B valIn
 
 
 let WriteRedemptionDate (dest:byte []) (pos:int) (valIn:RedemptionDate) : int = 
@@ -4620,7 +4602,7 @@ let WriteUnderlyingIssueDate (dest:byte []) (pos:int) (valIn:UnderlyingIssueDate
 
 
 let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
-    WriteFieldStr dest pos "243="B valIn
+    WriteFieldInt dest pos "243="B valIn
 
 
 let WriteUnderlyingRepurchaseTerm (dest:byte []) (pos:int) (valIn:UnderlyingRepurchaseTerm) : int = 
@@ -4648,7 +4630,7 @@ let WriteLegIssueDate (dest:byte []) (pos:int) (valIn:LegIssueDate) : int =
 
 
 let WriteLegRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:LegRepoCollateralSecurityType) : int = 
-    WriteFieldStr dest pos "250="B valIn
+    WriteFieldInt dest pos "250="B valIn
 
 
 let WriteLegRepurchaseTerm (dest:byte []) (pos:int) (valIn:LegRepurchaseTerm) : int = 
@@ -6404,18 +6386,6 @@ let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRes
         nextFreeIdx2 + 1 // +1 to include the delimeter
     | ExecRestatementReason.CanceledNotBest ->
         let tag = "378=9"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | ExecRestatementReason.WarehouseRecap ->
-        let tag = "378=10"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | ExecRestatementReason.Other ->
-        let tag = "378=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -11139,8 +11109,8 @@ let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | TradeRequestResult.Other ->
-        let tag = "749=99"B
+    | TradeRequestResult.Yield ->
+        let tag = "749=10"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -11201,8 +11171,8 @@ let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Trade
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
         nextFreeIdx2 + 1 // +1 to include the delimeter
-    | TradeReportRejectReason.Other ->
-        let tag = "751=99"B
+    | TradeReportRejectReason.Yield ->
+        let tag = "751=10"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
@@ -11263,122 +11233,8 @@ let WriteNested2PartySubID (dest:byte []) (pos:int) (valIn:Nested2PartySubID) : 
     WriteFieldStr dest pos "760="B valIn
 
 
-let WriteBenchmarkSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkSecurityIDSource) : int =
-    match xxIn with
-    | BenchmarkSecurityIDSource.Cusip ->
-        let tag = "761=1"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Sedol ->
-        let tag = "761=2"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Quik ->
-        let tag = "761=3"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.IsinNumber ->
-        let tag = "761=4"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.RicCode ->
-        let tag = "761=5"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.IsoCurrencyCode ->
-        let tag = "761=6"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.IsoCountryCode ->
-        let tag = "761=7"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.ExchangeSymbol ->
-        let tag = "761=8"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.ConsolidatedTapeAssociation ->
-        let tag = "761=9"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.BloombergSymbol ->
-        let tag = "761=A"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Wertpapier ->
-        let tag = "761=B"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Dutch ->
-        let tag = "761=C"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Valoren ->
-        let tag = "761=D"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Sicovam ->
-        let tag = "761=E"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Belgian ->
-        let tag = "761=F"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.Common ->
-        let tag = "761=G"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.ClearingHouseClearingOrganization ->
-        let tag = "761=H"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.IsdaFpmlProductSpecification ->
-        let tag = "761=I"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
-    | BenchmarkSecurityIDSource.OptionsPriceReportingAuthority ->
-        let tag = "761=J"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter
-        nextFreeIdx2 + 1 // +1 to include the delimeter
+let WriteBenchmarkSecurityIDSource (dest:byte []) (pos:int) (valIn:BenchmarkSecurityIDSource) : int = 
+    WriteFieldStr dest pos "761="B valIn
 
 
 let WriteSecuritySubType (dest:byte []) (pos:int) (valIn:SecuritySubType) : int = 

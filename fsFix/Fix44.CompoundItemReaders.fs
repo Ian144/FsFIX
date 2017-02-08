@@ -1037,44 +1037,6 @@ let ReadNoMiscFeesGrpOrdered (bs:byte[]) (index:FIXBufIndexer.IndexData) : NoMis
 
 
 // group
-let ReadTradeCaptureReportNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.IndexData) : TradeCaptureReportNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
-    let ci:TradeCaptureReportNoAllocsGrp = {
-        AllocAccount = allocAccount
-        AllocAcctIDSource = allocAcctIDSource
-        AllocSettlCurrency = allocSettlCurrency
-        IndividualAllocID = individualAllocID
-        NoNested2PartyIDsGrp = noNested2PartyIDsGrp
-        AllocQty = allocQty
-    }
-    ci
-
-
-// group
-let ReadTradeCaptureReportNoAllocsGrpOrdered (bs:byte[]) (index:FIXBufIndexer.IndexData) : TradeCaptureReportNoAllocsGrp =
-    let allocAccount = ReadFieldOrdered true bs index 79 ReadAllocAccount
-    let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
-    let allocSettlCurrency = ReadOptionalFieldOrdered true bs index 736 ReadAllocSettlCurrency
-    let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
-    let noNested2PartyIDsGrp = ReadOptionalGroupOrdered true bs index 756 ReadNoNested2PartyIDsGrp
-    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
-    let ci:TradeCaptureReportNoAllocsGrp = {
-        AllocAccount = allocAccount
-        AllocAcctIDSource = allocAcctIDSource
-        AllocSettlCurrency = allocSettlCurrency
-        IndividualAllocID = individualAllocID
-        NoNested2PartyIDsGrp = noNested2PartyIDsGrp
-        AllocQty = allocQty
-    }
-    ci
-
-
-// group
 let ReadTradeCaptureReportNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.IndexData) : TradeCaptureReportNoSidesGrp =
     let side = ReadFieldOrdered true bs index 54 ReadSide
     let orderID = ReadFieldOrdered true bs index 37 ReadOrderID
@@ -1133,7 +1095,6 @@ let ReadTradeCaptureReportNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.IndexData)
     let tradeAllocIndicator = ReadOptionalFieldOrdered true bs index 826 ReadTradeAllocIndicator
     let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
-    let tradeCaptureReportNoAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadTradeCaptureReportNoAllocsGrp
     let ci:TradeCaptureReportNoSidesGrp = {
         Side = side
         OrderID = orderID
@@ -1192,7 +1153,6 @@ let ReadTradeCaptureReportNoSidesGrp (bs:byte[]) (index:FIXBufIndexer.IndexData)
         TradeAllocIndicator = tradeAllocIndicator
         PreallocMethod = preallocMethod
         AllocID = allocID
-        TradeCaptureReportNoAllocsGrp = tradeCaptureReportNoAllocsGrp
     }
     ci
 
@@ -1256,7 +1216,6 @@ let ReadTradeCaptureReportNoSidesGrpOrdered (bs:byte[]) (index:FIXBufIndexer.Ind
     let tradeAllocIndicator = ReadOptionalFieldOrdered true bs index 826 ReadTradeAllocIndicator
     let preallocMethod = ReadOptionalFieldOrdered true bs index 591 ReadPreallocMethod
     let allocID = ReadOptionalFieldOrdered true bs index 70 ReadAllocID
-    let tradeCaptureReportNoAllocsGrp = ReadOptionalGroupOrdered true bs index 78 ReadTradeCaptureReportNoAllocsGrp
     let ci:TradeCaptureReportNoSidesGrp = {
         Side = side
         OrderID = orderID
@@ -1315,7 +1274,6 @@ let ReadTradeCaptureReportNoSidesGrpOrdered (bs:byte[]) (index:FIXBufIndexer.Ind
         TradeAllocIndicator = tradeAllocIndicator
         PreallocMethod = preallocMethod
         AllocID = allocID
-        TradeCaptureReportNoAllocsGrp = tradeCaptureReportNoAllocsGrp
     }
     ci
 
@@ -1808,7 +1766,7 @@ let ReadAllocationInstructionNoAllocsGrp (bs:byte[]) (index:FIXBufIndexer.IndexD
     let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
     let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatus
     let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
-    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQty
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
     let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
     let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
@@ -1877,7 +1835,7 @@ let ReadAllocationInstructionNoAllocsGrpOrdered (bs:byte[]) (index:FIXBufIndexer
     let allocAcctIDSource = ReadOptionalFieldOrdered true bs index 661 ReadAllocAcctIDSource
     let matchStatus = ReadOptionalFieldOrdered true bs index 573 ReadMatchStatus
     let allocPrice = ReadOptionalFieldOrdered true bs index 366 ReadAllocPrice
-    let allocQty = ReadFieldOrdered true bs index 80 ReadAllocQty
+    let allocQty = ReadOptionalFieldOrdered true bs index 80 ReadAllocQty
     let individualAllocID = ReadOptionalFieldOrdered true bs index 467 ReadIndividualAllocID
     let processCode = ReadOptionalFieldOrdered true bs index 81 ReadProcessCode
     let noNestedPartyIDsGrp = ReadOptionalGroupOrdered true bs index 539 ReadNoNestedPartyIDsGrp
@@ -2630,7 +2588,7 @@ let ReadNewOrderListNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.IndexData) : Ne
     let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
     let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
     let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
-    let iOIID = ReadOptionalFieldOrdered true bs index 23 ReadIOIID
+    let iOIid = ReadOptionalFieldOrdered true bs index 23 ReadIOIid
     let quoteID = ReadOptionalFieldOrdered true bs index 117 ReadQuoteID
     let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
     let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTime
@@ -2705,7 +2663,7 @@ let ReadNewOrderListNoOrdersGrp (bs:byte[]) (index:FIXBufIndexer.IndexData) : Ne
         Currency = currency
         ComplianceID = complianceID
         SolicitedFlag = solicitedFlag
-        IOIID = iOIID
+        IOIid = iOIid
         QuoteID = quoteID
         TimeInForce = timeInForce
         EffectiveTime = effectiveTime
@@ -2785,7 +2743,7 @@ let ReadNewOrderListNoOrdersGrpOrdered (bs:byte[]) (index:FIXBufIndexer.IndexDat
     let currency = ReadOptionalFieldOrdered true bs index 15 ReadCurrency
     let complianceID = ReadOptionalFieldOrdered true bs index 376 ReadComplianceID
     let solicitedFlag = ReadOptionalFieldOrdered true bs index 377 ReadSolicitedFlag
-    let iOIID = ReadOptionalFieldOrdered true bs index 23 ReadIOIID
+    let iOIid = ReadOptionalFieldOrdered true bs index 23 ReadIOIid
     let quoteID = ReadOptionalFieldOrdered true bs index 117 ReadQuoteID
     let timeInForce = ReadOptionalFieldOrdered true bs index 59 ReadTimeInForce
     let effectiveTime = ReadOptionalFieldOrdered true bs index 168 ReadEffectiveTime
@@ -2860,7 +2818,7 @@ let ReadNewOrderListNoOrdersGrpOrdered (bs:byte[]) (index:FIXBufIndexer.IndexDat
         Currency = currency
         ComplianceID = complianceID
         SolicitedFlag = solicitedFlag
-        IOIID = iOIID
+        IOIid = iOIid
         QuoteID = quoteID
         TimeInForce = timeInForce
         EffectiveTime = effectiveTime

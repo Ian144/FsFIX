@@ -176,9 +176,9 @@ type SecurityIDSource =
     | OptionsPriceReportingAuthority
 
 
-type IOIID =
-    |IOIID of string
-     member x.Value = let (IOIID v) = x in v
+type IOIid =
+    |IOIid of string
+     member x.Value = let (IOIid v) = x in v
 
 
 type IOIQltyInd =
@@ -558,9 +558,6 @@ type AllocTransType =
     | New
     | Replace
     | Cancel
-    | Preliminary
-    | Calculated
-    | CalculatedWithoutPreliminary
 
 
 type RefAllocID =
@@ -1092,100 +1089,100 @@ type SettlInstSource =
 
 
 type SecurityType =
-    | Wildcard
-    | AssetBackedSecurities
-    | AmendedAndRestated
-    | OtherAnticipationNotes
-    | BankersAcceptance
-    | BankNotes
-    | BillOfExchanges
-    | BradyBond
-    | BridgeLoan
-    | BuySellback
-    | ConvertibleBond
-    | CertificateOfDeposit
-    | CallLoans
-    | CorpMortgageBackedSecurities
-    | CollateralizedMortgageObligation
-    | CertificateOfObligation
-    | CertificateOfParticipation
-    | CorporateBond
-    | CommercialPaper
-    | CorporatePrivatePlacement
-    | CommonStock
-    | Defaulted
-    | DebtorInPossession
-    | DepositNotes
-    | DualCurrency
-    | EuroCertificateOfDeposit
-    | EuroCorporateBond
-    | EuroCommercialPaper
-    | EuroSovereigns
     | EuroSupranationalCoupons
     | FederalAgencyCoupon
     | FederalAgencyDiscountNote
-    | ForeignExchangeContract
-    | Forward
+    | PrivateExportFunding
+    | UsdSupranationalCoupons
     | Future
-    | GeneralObligationBonds
-    | IoetteMortgage
+    | Option
+    | CorporateBond
+    | CorporatePrivatePlacement
+    | ConvertibleBond
+    | DualCurrency
+    | EuroCorporateBond
+    | IndexedLinked
+    | StructuredNotes
+    | YankeeCorporateBond
+    | ForeignExchangeContract
+    | CommonStock
+    | PreferredStock
+    | BradyBond
+    | EuroSovereigns
+    | UsTreasuryBond
+    | InterestStripFromAnyBondOrNote
+    | TreasuryInflationProtectedSecurities
+    | PrincipalStripOfACallableBondOrNote
+    | PrincipalStripFromANonCallableBondOrNote
+    | UsTreasuryNote
+    | UsTreasuryBill
+    | Repurchase
+    | Forward
+    | BuySellback
+    | SecuritiesLoan
+    | SecuritiesPledge
+    | TermLoan
+    | RevolverLoan
+    | RevolverTermLoan
+    | BridgeLoan
     | LetterOfCredit
-    | LiquidityNote
+    | SwingLineFacility
+    | DebtorInPossession
+    | Defaulted
+    | Withdrawn
+    | Replaced
     | Matured
+    | AmendedAndRestated
+    | Retired
+    | BankersAcceptance
+    | BankNotes
+    | BillOfExchanges
+    | CertificateOfDeposit
+    | CallLoans
+    | CommercialPaper
+    | DepositNotes
+    | EuroCertificateOfDeposit
+    | EuroCommercialPaper
+    | LiquidityNote
+    | MediumTermNotes
+    | Overnight
+    | PromissoryNote
+    | PlazosFijos
+    | ShortTermLoanNote
+    | TimeDeposit
+    | ExtendedCommNote
+    | YankeeCertificateOfDeposit
+    | AssetBackedSecurities
+    | CorpMortgageBackedSecurities
+    | CollateralizedMortgageObligation
+    | IoetteMortgage
     | MortgageBackedSecurities
-    | MutualFund
     | MortgageInterestOnly
-    | MultiLegInstrument
     | MortgagePrincipalOnly
     | MortgagePrivatePlacement
     | MiscellaneousPassThrough
-    | MandatoryTender
-    | MediumTermNotes
-    | NoSecurityType
-    | Overnight
-    | Option
-    | PrivateExportFunding
     | Pfandbriefe
-    | PromissoryNote
-    | PreferredStock
-    | PlazosFijos
+    | ToBeAnnounced
+    | OtherAnticipationNotes
+    | CertificateOfObligation
+    | CertificateOfParticipation
+    | GeneralObligationBonds
+    | MandatoryTender
     | RevenueAnticipationNote
-    | Replaced
-    | Repurchase
-    | Retired
     | RevenueBonds
-    | RevolverLoan
-    | RevolverTermLoan
-    | SecuritiesLoan
-    | SecuritiesPledge
     | SpecialAssessment
     | SpecialObligation
     | SpecialTax
-    | ShortTermLoanNote
-    | StructuredNotes
-    | UsdSupranationalCoupons
-    | SwingLineFacility
     | TaxAnticipationNote
     | TaxAllocation
-    | ToBeAnnounced
-    | UsTreasuryBill
-    | UsTreasuryBond
-    | PrincipalStripOfACallableBondOrNote
-    | TimeDeposit
     | TaxExemptCommercialPaper
-    | TermLoan
-    | InterestStripFromAnyBondOrNote
-    | TreasuryInflationProtectedSecurities
-    | UsTreasuryNote
-    | PrincipalStripFromANonCallableBondOrNote
     | TaxAndRevenueAnticipationNote
     | VariableRateDemandNote
     | Warrant
-    | Withdrawn
-    | ExtendedCommNote
-    | IndexedLinked
-    | YankeeCorporateBond
-    | YankeeCertificateOfDeposit
+    | MutualFund
+    | MultiLegInstrument
+    | NoSecurityType
+    | Wildcard
 
 
 type EffectiveTime =
@@ -1569,7 +1566,7 @@ type Concession =
 
 
 type RepoCollateralSecurityType =
-    |RepoCollateralSecurityType of string
+    |RepoCollateralSecurityType of int
      member x.Value = let (RepoCollateralSecurityType v) = x in v
 
 
@@ -1589,7 +1586,7 @@ type UnderlyingIssueDate =
 
 
 type UnderlyingRepoCollateralSecurityType =
-    |UnderlyingRepoCollateralSecurityType of string
+    |UnderlyingRepoCollateralSecurityType of int
      member x.Value = let (UnderlyingRepoCollateralSecurityType v) = x in v
 
 
@@ -1624,7 +1621,7 @@ type LegIssueDate =
 
 
 type LegRepoCollateralSecurityType =
-    |LegRepoCollateralSecurityType of string
+    |LegRepoCollateralSecurityType of int
      member x.Value = let (LegRepoCollateralSecurityType v) = x in v
 
 
@@ -2363,8 +2360,6 @@ type ExecRestatementReason =
     | CancelOnSystemFailure
     | MarketOption
     | CanceledNotBest
-    | WarehouseRecap
-    | Other
 
 
 type BusinessRejectRefID =
@@ -4549,7 +4544,7 @@ type TradeRequestResult =
     | InvalidDestinationRequested
     | TraderequesttypeNotSupported
     | UnauthorizedForTradeCaptureReportRequest
-    | Other
+    | Yield
 
 
 type TradeRequestStatus =
@@ -4564,7 +4559,7 @@ type TradeReportRejectReason =
     | UnknownInstrument
     | UnauthorizedToReportTrades
     | InvalidTradeType
-    | Other
+    | Yield
 
 
 type SideMultiLegReportingType =
@@ -4614,25 +4609,8 @@ type Nested2PartySubID =
 
 
 type BenchmarkSecurityIDSource =
-    | Cusip
-    | Sedol
-    | Quik
-    | IsinNumber
-    | RicCode
-    | IsoCurrencyCode
-    | IsoCountryCode
-    | ExchangeSymbol
-    | ConsolidatedTapeAssociation
-    | BloombergSymbol
-    | Wertpapier
-    | Dutch
-    | Valoren
-    | Sicovam
-    | Belgian
-    | Common
-    | ClearingHouseClearingOrganization
-    | IsdaFpmlProductSpecification
-    | OptionsPriceReportingAuthority
+    |BenchmarkSecurityIDSource of string
+     member x.Value = let (BenchmarkSecurityIDSource v) = x in v
 
 
 type SecuritySubType =

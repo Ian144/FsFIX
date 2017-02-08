@@ -81,23 +81,18 @@ let private genUTCTimestampMs =
             return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, hh, mm, ss, ms)
         }
 
+//https://en.wikipedia.org/wiki/Leap_second
+// past leap seconds "December 31, 2016 at 23:59:60 UTC"
+// past leap seconds "JUNE 30, 2015 at 23:59:60 UTC"
 let private genUTCTimestampLeapSecondNoMs =
         gen {
-            //let! yy = Gen.choose(0, 9999)
-            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
-            let  mth = 6
-            let  dd = 30
-            return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60 )
+            return UTCDateTime.MakeUTCTimestamp.Make(2016, 12, 31, 23, 59, 60 )
         }
-
+// an there was leap second at this UTC datetime "December 31, 2016 at 23:59:60"
 let private genUTCTimestampLeapSecondMs =
         gen {
-            //let! yy = Gen.choose(0, 9999)
-            let! yy = Gen.choose(2000, 2050) // attempting to run against quickfixN-echo, which does not like dates in the 0 - 9999 year range
-            let  mth = 6
-            let  dd = 30
             let! ms = Gen.choose(0, 999)
-            return UTCDateTime.MakeUTCTimestamp.Make(yy, mth, dd, 23, 59, 60, ms )
+            return UTCDateTime.MakeUTCTimestamp.Make(2016, 12, 31, 23, 59, 60, ms )
         }
 
 let genUTCTimestamp = Gen.frequency [  19, genUTCTimestampNoMs; 
