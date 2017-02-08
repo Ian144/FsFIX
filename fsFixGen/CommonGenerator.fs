@@ -50,7 +50,7 @@ let private genWriteGroup (parent:string) (grp:Group) =
     else
         [
             (sprintf   "    let numGrps = %s.%sGrp.Length" parent longName)
-            (sprintf   "    let nextFreeIdx = Write%s dest nextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") countFieldName countFieldName
+            (sprintf   "    let nextFreeIdx = Write%s dest nextFreeIdx (Fix44.Fields.%s numGrps) // the'num group repeats' field") countFieldName countFieldName
             (sprintf   "    let nextFreeIdx =  %s.%sGrp |> List.fold (fun accFreeIdx gg -> Write%sGrp dest accFreeIdx gg) nextFreeIdx") parent longName longName
         ]
 
@@ -73,7 +73,6 @@ let private genWriteOptionalGroup (parent:string) (grp:Group) =
         ]
     else
         [
-            (sprintf "    // group (apologies for this nested fold code, will refactor when I think of something better)")
             (sprintf "    let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:%sGrp list) ->" longName)
             (sprintf "                                        let numGrps = gs.Length")
             (sprintf "                                        let innerNextFreeIdx2 = Write%s dest innerNextFreeIdx (Fix44.Fields.%s numGrps) // write the 'num group repeats' field") countFieldName countFieldName

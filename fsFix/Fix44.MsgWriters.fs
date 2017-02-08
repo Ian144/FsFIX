@@ -24,7 +24,6 @@ let WriteLogon (dest:byte []) (nextFreeIdx:int)  (xx:Logon) =
     let nextFreeIdx = Option.fold (WriteResetSeqNumFlag dest) nextFreeIdx xx.ResetSeqNumFlag
     let nextFreeIdx = Option.fold (WriteNextExpectedMsgSeqNum dest) nextFreeIdx xx.NextExpectedMsgSeqNum
     let nextFreeIdx = Option.fold (WriteMaxMessageSize dest) nextFreeIdx xx.MaxMessageSize
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMsgTypesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMsgTypes dest innerNextFreeIdx (Fix44.Fields.NoMsgTypes numGrps) // write the 'num group repeats' field
@@ -112,14 +111,12 @@ let WriteAdvertisement (dest:byte []) (nextFreeIdx:int)  (xx:Advertisement) =
     let nextFreeIdx = WriteAdvTransType dest nextFreeIdx xx.AdvTransType
     let nextFreeIdx = Option.fold (WriteAdvRefID dest) nextFreeIdx xx.AdvRefID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AdvertisementNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -149,7 +146,6 @@ let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int)  (xx:IndicationOf
     let nextFreeIdx = Option.fold (WriteIOIRefID dest) nextFreeIdx xx.IOIRefID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -162,7 +158,6 @@ let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int)  (xx:IndicationOf
     let nextFreeIdx = WriteIOIQty dest nextFreeIdx xx.IOIQty
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = WriteStipulations dest nextFreeIdx xx.Stipulations   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:IndicationOfInterestNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -174,7 +169,6 @@ let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int)  (xx:IndicationOf
     let nextFreeIdx = Option.fold (WriteValidUntilTime dest) nextFreeIdx xx.ValidUntilTime
     let nextFreeIdx = Option.fold (WriteIOIQltyInd dest) nextFreeIdx xx.IOIQltyInd
     let nextFreeIdx = Option.fold (WriteIOINaturalFlag dest) nextFreeIdx xx.IOINaturalFlag
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoIOIQualifiersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoIOIQualifiers dest innerNextFreeIdx (Fix44.Fields.NoIOIQualifiers numGrps) // write the 'num group repeats' field
@@ -185,7 +179,6 @@ let WriteIndicationOfInterest (dest:byte []) (nextFreeIdx:int)  (xx:IndicationOf
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
     let nextFreeIdx = Option.fold (WriteTransactTime dest) nextFreeIdx xx.TransactTime
     let nextFreeIdx = Option.fold (WriteURLLink dest) nextFreeIdx xx.URLLink
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRoutingIDsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRoutingIDs dest innerNextFreeIdx (Fix44.Fields.NoRoutingIDs numGrps) // write the 'num group repeats' field
@@ -203,28 +196,24 @@ let WriteNews (dest:byte []) (nextFreeIdx:int)  (xx:News) =
     let nextFreeIdx = Option.fold (WriteUrgency dest) nextFreeIdx xx.Urgency
     let nextFreeIdx = WriteHeadline dest nextFreeIdx xx.Headline
     let nextFreeIdx = Option.fold (WriteEncodedHeadline dest) nextFreeIdx xx.EncodedHeadline
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRoutingIDsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRoutingIDs dest innerNextFreeIdx (Fix44.Fields.NoRoutingIDs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoRoutingIDsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoRoutingIDsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRelatedSymGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRelatedSym dest innerNextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoRelatedSymGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoRelatedSymGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -232,7 +221,7 @@ let WriteNews (dest:byte []) (nextFreeIdx:int)  (xx:News) =
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
     let numGrps = xx.LinesOfTextGrp.Length
-    let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.LinesOfTextGrp |> List.fold (fun accFreeIdx gg -> WriteLinesOfTextGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteURLLink dest) nextFreeIdx xx.URLLink
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
@@ -246,28 +235,24 @@ let WriteEmail (dest:byte []) (nextFreeIdx:int)  (xx:Email) =
     let nextFreeIdx = Option.fold (WriteOrigTime dest) nextFreeIdx xx.OrigTime
     let nextFreeIdx = WriteSubject dest nextFreeIdx xx.Subject
     let nextFreeIdx = Option.fold (WriteEncodedSubject dest) nextFreeIdx xx.EncodedSubject
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRoutingIDsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRoutingIDs dest innerNextFreeIdx (Fix44.Fields.NoRoutingIDs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoRoutingIDsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoRoutingIDsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRelatedSymGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRelatedSym dest innerNextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoRelatedSymGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoRelatedSymGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -277,7 +262,7 @@ let WriteEmail (dest:byte []) (nextFreeIdx:int)  (xx:Email) =
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
     let numGrps = xx.LinesOfTextGrp.Length
-    let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteLinesOfText dest nextFreeIdx (Fix44.Fields.LinesOfText numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.LinesOfTextGrp |> List.fold (fun accFreeIdx gg -> WriteLinesOfTextGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteRawData dest) nextFreeIdx xx.RawData
     nextFreeIdx
@@ -290,7 +275,7 @@ let WriteQuoteRequest (dest:byte []) (nextFreeIdx:int)  (xx:QuoteRequest) =
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
     let nextFreeIdx = Option.fold (WriteOrderCapacity dest) nextFreeIdx xx.OrderCapacity
     let numGrps = xx.QuoteRequestNoRelatedSymGrp.Length
-    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.QuoteRequestNoRelatedSymGrp |> List.fold (fun accFreeIdx gg -> WriteQuoteRequestNoRelatedSymGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
@@ -306,7 +291,6 @@ let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int)  (xx:QuoteResponse) =
     let nextFreeIdx = Option.fold (WriteOrderCapacity dest) nextFreeIdx xx.OrderCapacity
     let nextFreeIdx = Option.fold (WriteIOIid dest) nextFreeIdx xx.IOIid
     let nextFreeIdx = Option.fold (WriteQuoteType dest) nextFreeIdx xx.QuoteType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteQualifiersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteQualifiers dest innerNextFreeIdx (Fix44.Fields.NoQuoteQualifiers numGrps) // write the 'num group repeats' field
@@ -318,7 +302,6 @@ let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int)  (xx:QuoteResponse) =
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -336,7 +319,6 @@ let WriteQuoteResponse (dest:byte []) (nextFreeIdx:int)  (xx:QuoteResponse) =
     let nextFreeIdx = Option.fold (WriteAccount dest) nextFreeIdx xx.Account
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteResponseNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -386,9 +368,8 @@ let WriteQuoteRequestReject (dest:byte []) (nextFreeIdx:int)  (xx:QuoteRequestRe
     let nextFreeIdx = Option.fold (WriteRFQReqID dest) nextFreeIdx xx.RFQReqID
     let nextFreeIdx = WriteQuoteRequestRejectReason dest nextFreeIdx xx.QuoteRequestRejectReason
     let numGrps = xx.QuoteRequestRejectNoRelatedSymGrp.Length
-    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.QuoteRequestRejectNoRelatedSymGrp |> List.fold (fun accFreeIdx gg -> WriteQuoteRequestRejectNoRelatedSymGrp dest accFreeIdx gg) nextFreeIdx
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteQualifiersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteQualifiers dest innerNextFreeIdx (Fix44.Fields.NoQuoteQualifiers numGrps) // write the 'num group repeats' field
@@ -414,7 +395,7 @@ let WriteQuoteRequestReject (dest:byte []) (nextFreeIdx:int)  (xx:QuoteRequestRe
 let WriteRFQRequest (dest:byte []) (nextFreeIdx:int)  (xx:RFQRequest) = 
     let nextFreeIdx = WriteRFQReqID dest nextFreeIdx xx.RFQReqID
     let numGrps = xx.RFQRequestNoRelatedSymGrp.Length
-    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.RFQRequestNoRelatedSymGrp |> List.fold (fun accFreeIdx gg -> WriteRFQRequestNoRelatedSymGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteSubscriptionRequestType dest) nextFreeIdx xx.SubscriptionRequestType
     nextFreeIdx
@@ -426,7 +407,6 @@ let WriteQuote (dest:byte []) (nextFreeIdx:int)  (xx:Quote) =
     let nextFreeIdx = WriteQuoteID dest nextFreeIdx xx.QuoteID
     let nextFreeIdx = Option.fold (WriteQuoteRespID dest) nextFreeIdx xx.QuoteRespID
     let nextFreeIdx = Option.fold (WriteQuoteType dest) nextFreeIdx xx.QuoteType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteQualifiersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteQualifiers dest innerNextFreeIdx (Fix44.Fields.NoQuoteQualifiers numGrps) // write the 'num group repeats' field
@@ -439,7 +419,6 @@ let WriteQuote (dest:byte []) (nextFreeIdx:int)  (xx:Quote) =
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -457,7 +436,6 @@ let WriteQuote (dest:byte []) (nextFreeIdx:int)  (xx:Quote) =
     let nextFreeIdx = Option.fold (WriteAccount dest) nextFreeIdx xx.Account
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -513,7 +491,6 @@ let WriteQuoteCancel (dest:byte []) (nextFreeIdx:int)  (xx:QuoteCancel) =
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
     let nextFreeIdx = Option.fold (WriteTradingSessionID dest) nextFreeIdx xx.TradingSessionID
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteEntriesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteEntries dest innerNextFreeIdx (Fix44.Fields.NoQuoteEntries numGrps) // write the 'num group repeats' field
@@ -529,14 +506,12 @@ let WriteQuoteStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:QuoteStatusReq
     let nextFreeIdx = Option.fold (WriteQuoteID dest) nextFreeIdx xx.QuoteID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -565,7 +540,6 @@ let WriteQuoteStatusReport (dest:byte []) (nextFreeIdx:int)  (xx:QuoteStatusRepo
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -583,14 +557,12 @@ let WriteQuoteStatusReport (dest:byte []) (nextFreeIdx:int)  (xx:QuoteStatusRepo
     let nextFreeIdx = Option.fold (WriteAccount dest) nextFreeIdx xx.Account
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:QuoteStatusReportNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteQuoteStatusReportNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.QuoteStatusReportNoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoQuoteQualifiersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteQualifiers dest innerNextFreeIdx (Fix44.Fields.NoQuoteQualifiers numGrps) // write the 'num group repeats' field
@@ -649,7 +621,7 @@ let WriteMassQuote (dest:byte []) (nextFreeIdx:int)  (xx:MassQuote) =
     let nextFreeIdx = Option.fold (WriteDefBidSize dest) nextFreeIdx xx.DefBidSize
     let nextFreeIdx = Option.fold (WriteDefOfferSize dest) nextFreeIdx xx.DefOfferSize
     let numGrps = xx.NoQuoteSetsGrp.Length
-    let nextFreeIdx = WriteNoQuoteSets dest nextFreeIdx (Fix44.Fields.NoQuoteSets numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoQuoteSets dest nextFreeIdx (Fix44.Fields.NoQuoteSets numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoQuoteSetsGrp |> List.fold (fun accFreeIdx gg -> WriteNoQuoteSetsGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -668,7 +640,6 @@ let WriteMassQuoteAcknowledgement (dest:byte []) (nextFreeIdx:int)  (xx:MassQuot
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:MassQuoteAcknowledgementNoQuoteSetsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoQuoteSets dest innerNextFreeIdx (Fix44.Fields.NoQuoteSets numGrps) // write the 'num group repeats' field
@@ -689,12 +660,11 @@ let WriteMarketDataRequest (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataReque
     let nextFreeIdx = Option.fold (WriteScope dest) nextFreeIdx xx.Scope
     let nextFreeIdx = Option.fold (WriteMDImplicitDelete dest) nextFreeIdx xx.MDImplicitDelete
     let numGrps = xx.NoMDEntryTypesGrp.Length
-    let nextFreeIdx = WriteNoMDEntryTypes dest nextFreeIdx (Fix44.Fields.NoMDEntryTypes numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoMDEntryTypes dest nextFreeIdx (Fix44.Fields.NoMDEntryTypes numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoMDEntryTypesGrp |> List.fold (fun accFreeIdx gg -> WriteNoMDEntryTypesGrp dest accFreeIdx gg) nextFreeIdx
     let numGrps = xx.MarketDataRequestNoRelatedSymGrp.Length
-    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoRelatedSym dest nextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.MarketDataRequestNoRelatedSymGrp |> List.fold (fun accFreeIdx gg -> WriteMarketDataRequestNoRelatedSymGrp dest accFreeIdx gg) nextFreeIdx
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -710,14 +680,12 @@ let WriteMarketDataRequest (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataReque
 let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataSnapshotFullRefresh) = 
     let nextFreeIdx = Option.fold (WriteMDReqID dest) nextFreeIdx xx.MDReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -728,7 +696,7 @@ let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int)  (xx:Mar
     let nextFreeIdx = Option.fold (WriteCorporateAction dest) nextFreeIdx xx.CorporateAction
     let nextFreeIdx = Option.fold (WriteNetChgPrevDay dest) nextFreeIdx xx.NetChgPrevDay
     let numGrps = xx.NoMDEntriesGrp.Length
-    let nextFreeIdx = WriteNoMDEntries dest nextFreeIdx (Fix44.Fields.NoMDEntries numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoMDEntries dest nextFreeIdx (Fix44.Fields.NoMDEntries numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoMDEntriesGrp |> List.fold (fun accFreeIdx gg -> WriteNoMDEntriesGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteApplQueueDepth dest) nextFreeIdx xx.ApplQueueDepth
     let nextFreeIdx = Option.fold (WriteApplQueueResolution dest) nextFreeIdx xx.ApplQueueResolution
@@ -739,7 +707,7 @@ let WriteMarketDataSnapshotFullRefresh (dest:byte []) (nextFreeIdx:int)  (xx:Mar
 let WriteMarketDataIncrementalRefresh (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataIncrementalRefresh) = 
     let nextFreeIdx = Option.fold (WriteMDReqID dest) nextFreeIdx xx.MDReqID
     let numGrps = xx.MarketDataIncrementalRefreshNoMDEntriesGrp.Length
-    let nextFreeIdx = WriteNoMDEntries dest nextFreeIdx (Fix44.Fields.NoMDEntries numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoMDEntries dest nextFreeIdx (Fix44.Fields.NoMDEntries numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.MarketDataIncrementalRefreshNoMDEntriesGrp |> List.fold (fun accFreeIdx gg -> WriteMarketDataIncrementalRefreshNoMDEntriesGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteApplQueueDepth dest) nextFreeIdx xx.ApplQueueDepth
     let nextFreeIdx = Option.fold (WriteApplQueueResolution dest) nextFreeIdx xx.ApplQueueResolution
@@ -750,7 +718,6 @@ let WriteMarketDataIncrementalRefresh (dest:byte []) (nextFreeIdx:int)  (xx:Mark
 let WriteMarketDataRequestReject (dest:byte []) (nextFreeIdx:int)  (xx:MarketDataRequestReject) = 
     let nextFreeIdx = WriteMDReqID dest nextFreeIdx xx.MDReqID
     let nextFreeIdx = Option.fold (WriteMDReqRejReason dest) nextFreeIdx xx.MDReqRejReason
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoAltMDSourceGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAltMDSource dest innerNextFreeIdx (Fix44.Fields.NoAltMDSource numGrps) // write the 'num group repeats' field
@@ -768,7 +735,6 @@ let WriteSecurityDefinitionRequest (dest:byte []) (nextFreeIdx:int)  (xx:Securit
     let nextFreeIdx = WriteSecurityRequestType dest nextFreeIdx xx.SecurityRequestType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -780,7 +746,6 @@ let WriteSecurityDefinitionRequest (dest:byte []) (nextFreeIdx:int)  (xx:Securit
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
     let nextFreeIdx = Option.fold (WriteTradingSessionID dest) nextFreeIdx xx.TradingSessionID
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -799,7 +764,6 @@ let WriteSecurityDefinition (dest:byte []) (nextFreeIdx:int)  (xx:SecurityDefini
     let nextFreeIdx = WriteSecurityResponseType dest nextFreeIdx xx.SecurityResponseType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -811,7 +775,6 @@ let WriteSecurityDefinition (dest:byte []) (nextFreeIdx:int)  (xx:SecurityDefini
     let nextFreeIdx = Option.fold (WriteTradingSessionSubID dest) nextFreeIdx xx.TradingSessionSubID
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -844,7 +807,6 @@ let WriteSecurityTypes (dest:byte []) (nextFreeIdx:int)  (xx:SecurityTypes) =
     let nextFreeIdx = WriteSecurityResponseType dest nextFreeIdx xx.SecurityResponseType
     let nextFreeIdx = Option.fold (WriteTotNoSecurityTypes dest) nextFreeIdx xx.TotNoSecurityTypes
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoSecurityTypesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoSecurityTypes dest innerNextFreeIdx (Fix44.Fields.NoSecurityTypes numGrps) // write the 'num group repeats' field
@@ -866,14 +828,12 @@ let WriteSecurityListRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecurityListR
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -896,7 +856,6 @@ let WriteSecurityList (dest:byte []) (nextFreeIdx:int)  (xx:SecurityList) =
     let nextFreeIdx = WriteSecurityRequestResult dest nextFreeIdx xx.SecurityRequestResult
     let nextFreeIdx = Option.fold (WriteTotNoRelatedSym dest) nextFreeIdx xx.TotNoRelatedSym
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:SecurityListNoRelatedSymGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRelatedSym dest innerNextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
@@ -929,7 +888,6 @@ let WriteDerivativeSecurityList (dest:byte []) (nextFreeIdx:int)  (xx:Derivative
     let nextFreeIdx = Option.fold (WriteUnderlyingInstrument dest) nextFreeIdx xx.UnderlyingInstrument    // component option
     let nextFreeIdx = Option.fold (WriteTotNoRelatedSym dest) nextFreeIdx xx.TotNoRelatedSym
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:DerivativeSecurityListNoRelatedSymGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRelatedSym dest innerNextFreeIdx (Fix44.Fields.NoRelatedSym numGrps) // write the 'num group repeats' field
@@ -944,14 +902,12 @@ let WriteSecurityStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:SecuritySta
     let nextFreeIdx = WriteSecurityStatusReqID dest nextFreeIdx xx.SecurityStatusReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -970,14 +926,12 @@ let WriteSecurityStatus (dest:byte []) (nextFreeIdx:int)  (xx:SecurityStatus) =
     let nextFreeIdx = Option.fold (WriteSecurityStatusReqID dest) nextFreeIdx xx.SecurityStatusReqID
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1053,7 +1007,6 @@ let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderSingle) =
     let nextFreeIdx = Option.fold (WriteBookingUnit dest) nextFreeIdx xx.BookingUnit
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -1069,7 +1022,6 @@ let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderSingle) =
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1079,7 +1031,6 @@ let WriteNewOrderSingle (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderSingle) =
     let nextFreeIdx = Option.fold (WriteProcessCode dest) nextFreeIdx xx.ProcessCode
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1152,7 +1103,6 @@ let WriteExecutionReport (dest:byte []) (nextFreeIdx:int)  (xx:ExecutionReport) 
     let nextFreeIdx = Option.fold (WriteLastRptRequested dest) nextFreeIdx xx.LastRptRequested
     let nextFreeIdx = WriteParties dest nextFreeIdx xx.Parties   // component
     let nextFreeIdx = Option.fold (WriteTradeOriginationDate dest) nextFreeIdx xx.TradeOriginationDate
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoContraBrokersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoContraBrokers dest innerNextFreeIdx (Fix44.Fields.NoContraBrokers numGrps) // write the 'num group repeats' field
@@ -1182,7 +1132,6 @@ let WriteExecutionReport (dest:byte []) (nextFreeIdx:int)  (xx:ExecutionReport) 
     let nextFreeIdx = Option.fold (WriteClearingFeeIndicator dest) nextFreeIdx xx.ClearingFeeIndicator
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1283,14 +1232,12 @@ let WriteExecutionReport (dest:byte []) (nextFreeIdx:int)  (xx:ExecutionReport) 
     let nextFreeIdx = Option.fold (WritePriorityIndicator dest) nextFreeIdx xx.PriorityIndicator
     let nextFreeIdx = Option.fold (WritePriceImprovement dest) nextFreeIdx xx.PriceImprovement
     let nextFreeIdx = Option.fold (WriteLastLiquidityInd dest) nextFreeIdx xx.LastLiquidityInd
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoContAmtsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoContAmts dest innerNextFreeIdx (Fix44.Fields.NoContAmts numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoContAmtsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoContAmtsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:ExecutionReportNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1298,7 +1245,6 @@ let WriteExecutionReport (dest:byte []) (nextFreeIdx:int)  (xx:ExecutionReport) 
                                   nextFreeIdx
                                   xx.ExecutionReportNoLegsGrp  // end Option.fold
     let nextFreeIdx = Option.fold (WriteCopyMsgIndicator dest) nextFreeIdx xx.CopyMsgIndicator
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -1315,14 +1261,12 @@ let WriteDontKnowTrade (dest:byte []) (nextFreeIdx:int)  (xx:DontKnowTrade) =
     let nextFreeIdx = WriteExecID dest nextFreeIdx xx.ExecID
     let nextFreeIdx = WriteDKReason dest nextFreeIdx xx.DKReason
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1357,7 +1301,6 @@ let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCa
     let nextFreeIdx = Option.fold (WriteBookingUnit dest) nextFreeIdx xx.BookingUnit
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -1373,7 +1316,6 @@ let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCa
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1382,7 +1324,6 @@ let WriteOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCa
                                   xx.NoTradingSessionsGrp  // end Option.fold
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1450,7 +1391,6 @@ let WriteOrderCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderCancelReq
     let nextFreeIdx = WriteParties dest nextFreeIdx xx.Parties   // component
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1503,7 +1443,6 @@ let WriteOrderStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:OrderStatusReq
     let nextFreeIdx = Option.fold (WriteAcctIDSource dest) nextFreeIdx xx.AcctIDSource
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1540,7 +1479,6 @@ let WriteOrderMassCancelReport (dest:byte []) (nextFreeIdx:int)  (xx:OrderMassCa
     let nextFreeIdx = WriteMassCancelResponse dest nextFreeIdx xx.MassCancelResponse
     let nextFreeIdx = Option.fold (WriteMassCancelRejectReason dest) nextFreeIdx xx.MassCancelRejectReason
     let nextFreeIdx = Option.fold (WriteTotalAffectedOrders dest) nextFreeIdx xx.TotalAffectedOrders
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoAffectedOrdersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAffectedOrders dest innerNextFreeIdx (Fix44.Fields.NoAffectedOrders numGrps) // write the 'num group repeats' field
@@ -1585,14 +1523,12 @@ let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderCross) =
     let nextFreeIdx = WriteNoSides dest nextFreeIdx noSidesField
     let nextFreeIdx = xx.NoSidesGrp |> OneOrTwo.fold (WriteNoSidesGrp dest) nextFreeIdx  // group
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1606,7 +1542,6 @@ let WriteNewOrderCross (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderCross) =
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1660,14 +1595,12 @@ let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:Cr
     let nextFreeIdx = WriteNoSides dest nextFreeIdx noSidesField
     let nextFreeIdx = xx.CrossOrderCancelReplaceRequestNoSidesGrp |> OneOrTwo.fold (WriteCrossOrderCancelReplaceRequestNoSidesGrp dest) nextFreeIdx  // group
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1681,7 +1614,6 @@ let WriteCrossOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx:Cr
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1735,14 +1667,12 @@ let WriteCrossOrderCancelRequest (dest:byte []) (nextFreeIdx:int)  (xx:CrossOrde
     let nextFreeIdx = WriteNoSides dest nextFreeIdx noSidesField
     let nextFreeIdx = xx.CrossOrderCancelRequestNoSidesGrp |> OneOrTwo.fold (WriteCrossOrderCancelRequestNoSidesGrp dest) nextFreeIdx  // group
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -1768,7 +1698,6 @@ let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderMultileg
     let nextFreeIdx = Option.fold (WriteBookingUnit dest) nextFreeIdx xx.BookingUnit
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NewOrderMultilegNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -1784,7 +1713,6 @@ let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderMultileg
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1794,7 +1722,6 @@ let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderMultileg
     let nextFreeIdx = Option.fold (WriteProcessCode dest) nextFreeIdx xx.ProcessCode
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1803,7 +1730,7 @@ let WriteNewOrderMultileg (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderMultileg
                                   xx.NoUnderlyingsGrp  // end Option.fold
     let nextFreeIdx = Option.fold (WritePrevClosePx dest) nextFreeIdx xx.PrevClosePx
     let numGrps = xx.NewOrderMultilegNoLegsGrp.Length
-    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NewOrderMultilegNoLegsGrp |> List.fold (fun accFreeIdx gg -> WriteNewOrderMultilegNoLegsGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteLocateReqd dest) nextFreeIdx xx.LocateReqd
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
@@ -1866,7 +1793,6 @@ let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx
     let nextFreeIdx = Option.fold (WriteBookingUnit dest) nextFreeIdx xx.BookingUnit
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
     let nextFreeIdx = Option.fold (WriteAllocID dest) nextFreeIdx xx.AllocID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:MultilegOrderCancelReplaceRequestNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -1882,7 +1808,6 @@ let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx
     let nextFreeIdx = Option.fold (WriteMinQty dest) nextFreeIdx xx.MinQty
     let nextFreeIdx = Option.fold (WriteMaxFloor dest) nextFreeIdx xx.MaxFloor
     let nextFreeIdx = Option.fold (WriteExDestination dest) nextFreeIdx xx.ExDestination
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -1892,7 +1817,6 @@ let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx
     let nextFreeIdx = Option.fold (WriteProcessCode dest) nextFreeIdx xx.ProcessCode
     let nextFreeIdx = WriteSide dest nextFreeIdx xx.Side
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -1901,7 +1825,7 @@ let WriteMultilegOrderCancelReplaceRequest (dest:byte []) (nextFreeIdx:int)  (xx
                                   xx.NoUnderlyingsGrp  // end Option.fold
     let nextFreeIdx = Option.fold (WritePrevClosePx dest) nextFreeIdx xx.PrevClosePx
     let numGrps = xx.MultilegOrderCancelReplaceRequestNoLegsGrp.Length
-    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.MultilegOrderCancelReplaceRequestNoLegsGrp |> List.fold (fun accFreeIdx gg -> WriteMultilegOrderCancelReplaceRequestNoLegsGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = Option.fold (WriteLocateReqd dest) nextFreeIdx xx.LocateReqd
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
@@ -1958,14 +1882,12 @@ let WriteBidRequest (dest:byte []) (nextFreeIdx:int)  (xx:BidRequest) =
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteSideValue1 dest) nextFreeIdx xx.SideValue1
     let nextFreeIdx = Option.fold (WriteSideValue2 dest) nextFreeIdx xx.SideValue2
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoBidDescriptorsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoBidDescriptors dest innerNextFreeIdx (Fix44.Fields.NoBidDescriptors numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoBidDescriptorsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoBidDescriptorsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoBidComponentsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoBidComponents dest innerNextFreeIdx (Fix44.Fields.NoBidComponents numGrps) // write the 'num group repeats' field
@@ -1996,7 +1918,7 @@ let WriteBidResponse (dest:byte []) (nextFreeIdx:int)  (xx:BidResponse) =
     let nextFreeIdx = Option.fold (WriteBidID dest) nextFreeIdx xx.BidID
     let nextFreeIdx = Option.fold (WriteClientBidID dest) nextFreeIdx xx.ClientBidID
     let numGrps = xx.BidResponseNoBidComponentsGrp.Length
-    let nextFreeIdx = WriteNoBidComponents dest nextFreeIdx (Fix44.Fields.NoBidComponents numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoBidComponents dest nextFreeIdx (Fix44.Fields.NoBidComponents numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.BidResponseNoBidComponentsGrp |> List.fold (fun accFreeIdx gg -> WriteBidResponseNoBidComponentsGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -2021,7 +1943,7 @@ let WriteNewOrderList (dest:byte []) (nextFreeIdx:int)  (xx:NewOrderList) =
     let nextFreeIdx = WriteTotNoOrders dest nextFreeIdx xx.TotNoOrders
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
     let numGrps = xx.NewOrderListNoOrdersGrp.Length
-    let nextFreeIdx = WriteNoOrders dest nextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoOrders dest nextFreeIdx (Fix44.Fields.NoOrders numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NewOrderListNoOrdersGrp |> List.fold (fun accFreeIdx gg -> WriteNewOrderListNoOrdersGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -2032,9 +1954,8 @@ let WriteListStrikePrice (dest:byte []) (nextFreeIdx:int)  (xx:ListStrikePrice) 
     let nextFreeIdx = WriteTotNoStrikes dest nextFreeIdx xx.TotNoStrikes
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
     let numGrps = xx.NoStrikesGrp.Length
-    let nextFreeIdx = WriteNoStrikes dest nextFreeIdx (Fix44.Fields.NoStrikes numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoStrikes dest nextFreeIdx (Fix44.Fields.NoStrikes numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoStrikesGrp |> List.fold (fun accFreeIdx gg -> WriteNoStrikesGrp dest accFreeIdx gg) nextFreeIdx
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:ListStrikePriceNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -2057,7 +1978,7 @@ let WriteListStatus (dest:byte []) (nextFreeIdx:int)  (xx:ListStatus) =
     let nextFreeIdx = WriteTotNoOrders dest nextFreeIdx xx.TotNoOrders
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
     let numGrps = xx.ListStatusNoOrdersGrp.Length
-    let nextFreeIdx = WriteNoOrders dest nextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoOrders dest nextFreeIdx (Fix44.Fields.NoOrders numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.ListStatusNoOrdersGrp |> List.fold (fun accFreeIdx gg -> WriteListStatusNoOrdersGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -2105,14 +2026,12 @@ let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int)  (xx:AllocationI
     let nextFreeIdx = Option.fold (WriteAllocLinkType dest) nextFreeIdx xx.AllocLinkType
     let nextFreeIdx = Option.fold (WriteBookingRefID dest) nextFreeIdx xx.BookingRefID
     let nextFreeIdx = WriteAllocNoOrdersType dest nextFreeIdx xx.AllocNoOrdersType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoOrdersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoOrders dest innerNextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoOrdersGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoOrdersGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AllocationInstructionNoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
@@ -2126,14 +2045,12 @@ let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int)  (xx:AllocationI
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -2179,7 +2096,6 @@ let WriteAllocationInstruction (dest:byte []) (nextFreeIdx:int)  (xx:AllocationI
     let nextFreeIdx = WriteYieldData dest nextFreeIdx xx.YieldData   // component
     let nextFreeIdx = Option.fold (WriteTotNoAllocs dest) nextFreeIdx xx.TotNoAllocs
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AllocationInstructionNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -2205,7 +2121,6 @@ let WriteAllocationInstructionAck (dest:byte []) (nextFreeIdx:int)  (xx:Allocati
     let nextFreeIdx = Option.fold (WriteSecurityType dest) nextFreeIdx xx.SecurityType
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AllocationInstructionAckNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -2232,14 +2147,12 @@ let WriteAllocationReport (dest:byte []) (nextFreeIdx:int)  (xx:AllocationReport
     let nextFreeIdx = Option.fold (WriteAllocLinkType dest) nextFreeIdx xx.AllocLinkType
     let nextFreeIdx = Option.fold (WriteBookingRefID dest) nextFreeIdx xx.BookingRefID
     let nextFreeIdx = WriteAllocNoOrdersType dest nextFreeIdx xx.AllocNoOrdersType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoOrdersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoOrders dest innerNextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoOrdersGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoOrdersGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AllocationReportNoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
@@ -2253,14 +2166,12 @@ let WriteAllocationReport (dest:byte []) (nextFreeIdx:int)  (xx:AllocationReport
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -2307,7 +2218,7 @@ let WriteAllocationReport (dest:byte []) (nextFreeIdx:int)  (xx:AllocationReport
     let nextFreeIdx = Option.fold (WriteTotNoAllocs dest) nextFreeIdx xx.TotNoAllocs
     let nextFreeIdx = Option.fold (WriteLastFragment dest) nextFreeIdx xx.LastFragment
     let numGrps = xx.AllocationReportNoAllocsGrp.Length
-    let nextFreeIdx = WriteNoAllocs dest nextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoAllocs dest nextFreeIdx (Fix44.Fields.NoAllocs numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.AllocationReportNoAllocsGrp |> List.fold (fun accFreeIdx gg -> WriteAllocationReportNoAllocsGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -2329,7 +2240,6 @@ let WriteAllocationReportAck (dest:byte []) (nextFreeIdx:int)  (xx:AllocationRep
     let nextFreeIdx = Option.fold (WriteSecurityType dest) nextFreeIdx xx.SecurityType
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:AllocationReportAckNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -2350,7 +2260,6 @@ let WriteConfirmation (dest:byte []) (nextFreeIdx:int)  (xx:Confirmation) =
     let nextFreeIdx = Option.fold (WriteLegalConfirm dest) nextFreeIdx xx.LegalConfirm
     let nextFreeIdx = WriteConfirmStatus dest nextFreeIdx xx.ConfirmStatus
     let nextFreeIdx = WriteParties dest nextFreeIdx xx.Parties   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoOrdersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoOrders dest innerNextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
@@ -2367,10 +2276,10 @@ let WriteConfirmation (dest:byte []) (nextFreeIdx:int)  (xx:Confirmation) =
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
     let numGrps = xx.NoUnderlyingsGrp.Length
-    let nextFreeIdx = WriteNoUnderlyings dest nextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoUnderlyings dest nextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoUnderlyingsGrp |> List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) nextFreeIdx
     let numGrps = xx.NoLegsGrp.Length
-    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoLegs dest nextFreeIdx (Fix44.Fields.NoLegs numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoLegsGrp |> List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = WriteYieldData dest nextFreeIdx xx.YieldData   // component
     let nextFreeIdx = WriteAllocQty dest nextFreeIdx xx.AllocQty
@@ -2379,7 +2288,7 @@ let WriteConfirmation (dest:byte []) (nextFreeIdx:int)  (xx:Confirmation) =
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteLastMkt dest) nextFreeIdx xx.LastMkt
     let numGrps = xx.NoCapacitiesGrp.Length
-    let nextFreeIdx = WriteNoCapacities dest nextFreeIdx (Fix44.Fields.NoCapacities numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoCapacities dest nextFreeIdx (Fix44.Fields.NoCapacities numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NoCapacitiesGrp |> List.fold (fun accFreeIdx gg -> WriteNoCapacitiesGrp dest accFreeIdx gg) nextFreeIdx
     let nextFreeIdx = WriteAllocAccount dest nextFreeIdx xx.AllocAccount
     let nextFreeIdx = Option.fold (WriteAllocAcctIDSource dest) nextFreeIdx xx.AllocAcctIDSource
@@ -2416,7 +2325,6 @@ let WriteConfirmation (dest:byte []) (nextFreeIdx:int)  (xx:Confirmation) =
     let nextFreeIdx = WriteCommissionData dest nextFreeIdx xx.CommissionData   // component
     let nextFreeIdx = Option.fold (WriteSharedCommission dest) nextFreeIdx xx.SharedCommission
     let nextFreeIdx = WriteStipulations dest nextFreeIdx xx.Stipulations   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -2443,7 +2351,6 @@ let WriteConfirmationAck (dest:byte []) (nextFreeIdx:int)  (xx:ConfirmationAck) 
 let WriteConfirmationRequest (dest:byte []) (nextFreeIdx:int)  (xx:ConfirmationRequest) = 
     let nextFreeIdx = WriteConfirmReqID dest nextFreeIdx xx.ConfirmReqID
     let nextFreeIdx = WriteConfirmType dest nextFreeIdx xx.ConfirmType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoOrdersGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoOrders dest innerNextFreeIdx (Fix44.Fields.NoOrders numGrps) // write the 'num group repeats' field
@@ -2473,7 +2380,6 @@ let WriteSettlementInstructions (dest:byte []) (nextFreeIdx:int)  (xx:Settlement
     let nextFreeIdx = Option.fold (WriteSettlInstSource dest) nextFreeIdx xx.SettlInstSource
     let nextFreeIdx = Option.fold (WriteClOrdID dest) nextFreeIdx xx.ClOrdID
     let nextFreeIdx = WriteTransactTime dest nextFreeIdx xx.TransactTime
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoSettlInstGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoSettlInst dest innerNextFreeIdx (Fix44.Fields.NoSettlInst numGrps) // write the 'num group repeats' field
@@ -2525,21 +2431,18 @@ let WriteTradeCaptureReportRequest (dest:byte []) (nextFreeIdx:int)  (xx:TradeCa
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = WriteInstrumentExtension dest nextFreeIdx xx.InstrumentExtension   // component
     let nextFreeIdx = WriteFinancingDetails dest nextFreeIdx xx.FinancingDetails   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoDatesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoDates dest innerNextFreeIdx (Fix44.Fields.NoDates numGrps) // write the 'num group repeats' field
@@ -2570,14 +2473,12 @@ let WriteTradeCaptureReportRequestAck (dest:byte []) (nextFreeIdx:int)  (xx:Trad
     let nextFreeIdx = WriteTradeRequestResult dest nextFreeIdx xx.TradeRequestResult
     let nextFreeIdx = WriteTradeRequestStatus dest nextFreeIdx xx.TradeRequestStatus
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -2623,7 +2524,6 @@ let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureRe
     let nextFreeIdx = WriteOrderQtyData dest nextFreeIdx xx.OrderQtyData   // component
     let nextFreeIdx = Option.fold (WriteQtyType dest) nextFreeIdx xx.QtyType
     let nextFreeIdx = WriteYieldData dest nextFreeIdx xx.YieldData   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -2646,7 +2546,6 @@ let WriteTradeCaptureReport (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptureRe
     let nextFreeIdx = Option.fold (WritePositionAmountData dest) nextFreeIdx xx.PositionAmountData    // component option
     let nextFreeIdx = Option.fold (WriteMultiLegReportingType dest) nextFreeIdx xx.MultiLegReportingType
     let nextFreeIdx = Option.fold (WriteTradeLegRefID dest) nextFreeIdx xx.TradeLegRefID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:TradeCaptureReportNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -2698,7 +2597,6 @@ let WriteTradeCaptureReportAck (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptur
     let nextFreeIdx = Option.fold (WriteResponseDestination dest) nextFreeIdx xx.ResponseDestination
     let nextFreeIdx = Option.fold (WriteText dest) nextFreeIdx xx.Text
     let nextFreeIdx = Option.fold (WriteEncodedText dest) nextFreeIdx xx.EncodedText
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:TradeCaptureReportAckNoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
@@ -2714,7 +2612,6 @@ let WriteTradeCaptureReportAck (dest:byte []) (nextFreeIdx:int)  (xx:TradeCaptur
     let nextFreeIdx = Option.fold (WriteAccountType dest) nextFreeIdx xx.AccountType
     let nextFreeIdx = Option.fold (WritePositionEffect dest) nextFreeIdx xx.PositionEffect
     let nextFreeIdx = Option.fold (WritePreallocMethod dest) nextFreeIdx xx.PreallocMethod
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:TradeCaptureReportAckNoAllocsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoAllocs dest innerNextFreeIdx (Fix44.Fields.NoAllocs numGrps) // write the 'num group repeats' field
@@ -2736,14 +2633,12 @@ let WriteRegistrationInstructions (dest:byte []) (nextFreeIdx:int)  (xx:Registra
     let nextFreeIdx = Option.fold (WriteRegistAcctType dest) nextFreeIdx xx.RegistAcctType
     let nextFreeIdx = Option.fold (WriteTaxAdvantageType dest) nextFreeIdx xx.TaxAdvantageType
     let nextFreeIdx = Option.fold (WriteOwnershipType dest) nextFreeIdx xx.OwnershipType
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoRegistDtlsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoRegistDtls dest innerNextFreeIdx (Fix44.Fields.NoRegistDtls numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoRegistDtlsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoRegistDtlsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoDistribInstsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoDistribInsts dest innerNextFreeIdx (Fix44.Fields.NoDistribInsts numGrps) // write the 'num group repeats' field
@@ -2784,21 +2679,18 @@ let WritePositionMaintenanceRequest (dest:byte []) (nextFreeIdx:int)  (xx:Positi
     let nextFreeIdx = WriteAccountType dest nextFreeIdx xx.AccountType
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -2834,21 +2726,18 @@ let WritePositionMaintenanceReport (dest:byte []) (nextFreeIdx:int)  (xx:Positio
     let nextFreeIdx = WriteAccountType dest nextFreeIdx xx.AccountType
     let nextFreeIdx = WriteInstrument dest nextFreeIdx xx.Instrument   // component
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoUnderlyingsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoUnderlyingsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -2877,14 +2766,12 @@ let WriteRequestForPositions (dest:byte []) (nextFreeIdx:int)  (xx:RequestForPos
     let nextFreeIdx = WriteAccountType dest nextFreeIdx xx.AccountType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -2894,7 +2781,6 @@ let WriteRequestForPositions (dest:byte []) (nextFreeIdx:int)  (xx:RequestForPos
     let nextFreeIdx = WriteClearingBusinessDate dest nextFreeIdx xx.ClearingBusinessDate
     let nextFreeIdx = Option.fold (WriteSettlSessID dest) nextFreeIdx xx.SettlSessID
     let nextFreeIdx = Option.fold (WriteSettlSessSubID dest) nextFreeIdx xx.SettlSessSubID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradingSessionsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTradingSessions dest innerNextFreeIdx (Fix44.Fields.NoTradingSessions numGrps) // write the 'num group repeats' field
@@ -2923,14 +2809,12 @@ let WriteRequestForPositionsAck (dest:byte []) (nextFreeIdx:int)  (xx:RequestFor
     let nextFreeIdx = WriteAccountType dest nextFreeIdx xx.AccountType
     let nextFreeIdx = Option.fold (WriteInstrument dest) nextFreeIdx xx.Instrument    // component option
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -2965,14 +2849,12 @@ let WritePositionReport (dest:byte []) (nextFreeIdx:int)  (xx:PositionReport) =
     let nextFreeIdx = WriteSettlPrice dest nextFreeIdx xx.SettlPrice
     let nextFreeIdx = WriteSettlPriceType dest nextFreeIdx xx.SettlPriceType
     let nextFreeIdx = WritePriorSettlPrice dest nextFreeIdx xx.PriorSettlPrice
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoLegsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoLegs dest innerNextFreeIdx (Fix44.Fields.NoLegs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoLegsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoLegsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:PositionReportNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3000,7 +2882,6 @@ let WriteAssignmentReport (dest:byte []) (nextFreeIdx:int)  (xx:AssignmentReport
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3039,14 +2920,12 @@ let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReque
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3061,7 +2940,6 @@ let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReque
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:CollateralRequestNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3073,7 +2951,6 @@ let WriteCollateralRequest (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReque
     let nextFreeIdx = Option.fold (WriteCashOutstanding dest) nextFreeIdx xx.CashOutstanding
     let nextFreeIdx = Option.fold (WriteTrdRegTimestamps dest) nextFreeIdx xx.TrdRegTimestamps    // component option
     let nextFreeIdx = Option.fold (WriteSide dest) nextFreeIdx xx.Side
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -3114,14 +2991,12 @@ let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int)  (xx:CollateralAs
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3136,7 +3011,6 @@ let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int)  (xx:CollateralAs
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:CollateralAssignmentNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3148,7 +3022,6 @@ let WriteCollateralAssignment (dest:byte []) (nextFreeIdx:int)  (xx:CollateralAs
     let nextFreeIdx = Option.fold (WriteCashOutstanding dest) nextFreeIdx xx.CashOutstanding
     let nextFreeIdx = Option.fold (WriteTrdRegTimestamps dest) nextFreeIdx xx.TrdRegTimestamps    // component option
     let nextFreeIdx = Option.fold (WriteSide dest) nextFreeIdx xx.Side
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -3191,14 +3064,12 @@ let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int)  (xx:CollateralResp
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3213,7 +3084,6 @@ let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int)  (xx:CollateralResp
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:CollateralResponseNoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3225,7 +3095,6 @@ let WriteCollateralResponse (dest:byte []) (nextFreeIdx:int)  (xx:CollateralResp
     let nextFreeIdx = Option.fold (WriteCashOutstanding dest) nextFreeIdx xx.CashOutstanding
     let nextFreeIdx = Option.fold (WriteTrdRegTimestamps dest) nextFreeIdx xx.TrdRegTimestamps    // component option
     let nextFreeIdx = Option.fold (WriteSide dest) nextFreeIdx xx.Side
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -3259,14 +3128,12 @@ let WriteCollateralReport (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReport
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3281,7 +3148,6 @@ let WriteCollateralReport (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReport
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3293,7 +3159,6 @@ let WriteCollateralReport (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReport
     let nextFreeIdx = Option.fold (WriteCashOutstanding dest) nextFreeIdx xx.CashOutstanding
     let nextFreeIdx = Option.fold (WriteTrdRegTimestamps dest) nextFreeIdx xx.TrdRegTimestamps    // component option
     let nextFreeIdx = Option.fold (WriteSide dest) nextFreeIdx xx.Side
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoMiscFeesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoMiscFees dest innerNextFreeIdx (Fix44.Fields.NoMiscFees numGrps) // write the 'num group repeats' field
@@ -3322,7 +3187,6 @@ let WriteCollateralReport (dest:byte []) (nextFreeIdx:int)  (xx:CollateralReport
 // tag: BB
 let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInquiry) = 
     let nextFreeIdx = Option.fold (WriteCollInquiryID dest) nextFreeIdx xx.CollInquiryID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoCollInquiryQualifierGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoCollInquiryQualifier dest innerNextFreeIdx (Fix44.Fields.NoCollInquiryQualifier numGrps) // write the 'num group repeats' field
@@ -3339,14 +3203,12 @@ let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInqui
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3361,7 +3223,6 @@ let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInqui
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field
@@ -3396,7 +3257,6 @@ let WriteCollateralInquiry (dest:byte []) (nextFreeIdx:int)  (xx:CollateralInqui
 let WriteNetworkStatusRequest (dest:byte []) (nextFreeIdx:int)  (xx:NetworkStatusRequest) = 
     let nextFreeIdx = WriteNetworkRequestType dest nextFreeIdx xx.NetworkRequestType
     let nextFreeIdx = WriteNetworkRequestID dest nextFreeIdx xx.NetworkRequestID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoCompIDsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoCompIDs dest innerNextFreeIdx (Fix44.Fields.NoCompIDs numGrps) // write the 'num group repeats' field
@@ -3413,7 +3273,7 @@ let WriteNetworkStatusResponse (dest:byte []) (nextFreeIdx:int)  (xx:NetworkStat
     let nextFreeIdx = Option.fold (WriteNetworkResponseID dest) nextFreeIdx xx.NetworkResponseID
     let nextFreeIdx = Option.fold (WriteLastNetworkResponseID dest) nextFreeIdx xx.LastNetworkResponseID
     let numGrps = xx.NetworkStatusResponseNoCompIDsGrp.Length
-    let nextFreeIdx = WriteNoCompIDs dest nextFreeIdx (Fix44.Fields.NoCompIDs numGrps) // write the 'num group repeats' field
+    let nextFreeIdx = WriteNoCompIDs dest nextFreeIdx (Fix44.Fields.NoCompIDs numGrps) // the'num group repeats' field
     let nextFreeIdx =  xx.NetworkStatusResponseNoCompIDsGrp |> List.fold (fun accFreeIdx gg -> WriteNetworkStatusResponseNoCompIDsGrp dest accFreeIdx gg) nextFreeIdx
     nextFreeIdx
 
@@ -3423,7 +3283,6 @@ let WriteCollateralInquiryAck (dest:byte []) (nextFreeIdx:int)  (xx:CollateralIn
     let nextFreeIdx = WriteCollInquiryID dest nextFreeIdx xx.CollInquiryID
     let nextFreeIdx = WriteCollInquiryStatus dest nextFreeIdx xx.CollInquiryStatus
     let nextFreeIdx = Option.fold (WriteCollInquiryResult dest) nextFreeIdx xx.CollInquiryResult
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoCollInquiryQualifierGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoCollInquiryQualifier dest innerNextFreeIdx (Fix44.Fields.NoCollInquiryQualifier numGrps) // write the 'num group repeats' field
@@ -3438,14 +3297,12 @@ let WriteCollateralInquiryAck (dest:byte []) (nextFreeIdx:int)  (xx:CollateralIn
     let nextFreeIdx = Option.fold (WriteOrderID dest) nextFreeIdx xx.OrderID
     let nextFreeIdx = Option.fold (WriteSecondaryOrderID dest) nextFreeIdx xx.SecondaryOrderID
     let nextFreeIdx = Option.fold (WriteSecondaryClOrdID dest) nextFreeIdx xx.SecondaryClOrdID
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoExecsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoExecs dest innerNextFreeIdx (Fix44.Fields.NoExecs numGrps) // write the 'num group repeats' field
                                         List.fold (fun accFreeIdx gg -> WriteNoExecsGrp dest accFreeIdx gg) innerNextFreeIdx2 gs  ) // returns the accumulated nextFreeIdx
                                   nextFreeIdx
                                   xx.NoExecsGrp  // end Option.fold
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoTradesGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoTrades dest innerNextFreeIdx (Fix44.Fields.NoTrades numGrps) // write the 'num group repeats' field
@@ -3460,7 +3317,6 @@ let WriteCollateralInquiryAck (dest:byte []) (nextFreeIdx:int)  (xx:CollateralIn
     let nextFreeIdx = Option.fold (WriteCurrency dest) nextFreeIdx xx.Currency
     let nextFreeIdx = Option.fold (WriteNoLegs dest) nextFreeIdx xx.NoLegs
     let nextFreeIdx = WriteInstrumentLeg dest nextFreeIdx xx.InstrumentLeg   // component
-    // group (apologies for this nested fold code, will refactor when I think of something better)
     let nextFreeIdx = Option.fold (fun innerNextFreeIdx (gs:NoUnderlyingsGrp list) ->
                                         let numGrps = gs.Length
                                         let innerNextFreeIdx2 = WriteNoUnderlyings dest innerNextFreeIdx (Fix44.Fields.NoUnderlyings numGrps) // write the 'num group repeats' field

@@ -20,8 +20,8 @@ let private createFieldDUWriterFunc (fldName:string) (fixTag:uint32) (values:Fie
         yield (sprintf "        let tag = \"%d=%s\"B"  fixTag  vv.Case)
         yield (sprintf "        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)")
         yield (sprintf "        let nextFreeIdx2 = nextFreeIdx + tag.Length")
-        yield (sprintf "        dest.[nextFreeIdx2] <- 1uy // write the SOH field delimeter")
-        yield (sprintf "        nextFreeIdx2 + 1 // +1 to include the delimeter")
+        yield (sprintf "        dest.[nextFreeIdx2] <- 1uy")
+        yield (sprintf "        nextFreeIdx2 + 1")
     ]
     lines  |> StringEx.join "\n"
 

@@ -105,12 +105,7 @@ let readUTCTimeOnly (bs:byte[]) (pos:int) (len:int) : UTCTimeOnly =
 
 
 
-//let writeBytesUTCDate (tm:UTCDate) (bs:byte[]) (pos:int) : int =
-//    let UTCDate (yyyy, mm, dd) = tm
-//    write2ByteInt bs pos yyyy
-//    write2ByteInt bs (pos + 4) mm
-//    write2ByteInt bs (pos + 6) dd
-//    pos + 8
+
 
 //  DATE_ONLY_FORMAT = "yyyyMMdd";
 let writeUTCDate (dt:UTCDate) (bs:byte[]) (pos:int) : int =
@@ -127,8 +122,8 @@ let readUTCDate (bs:byte[]) (pos:int) (len:int)  : UTCDate =
 
 
 
-//public const string DATE_TIME_FORMAT_WITH_MILLISECONDS = "{0:yyyyMMdd-HH:mm:ss.fff}";
-//public const string DATE_TIME_FORMAT_WITHOUT_MILLISECONDS = "{0:yyyyMMdd-HH:mm:ss}";
+//date+time with milliseconds yyyyMMdd-HH:mm:ss.fff
+//date+time yyyyMMdd-HH:mm:ss
 let writeUTCTimestamp (tm:UTCTimestamp) (bs:byte[]) (pos:int) : int =
     match tm with
     | UTCTimestamp (yy, mth, dd, hh, mm, ss)          ->

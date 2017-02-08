@@ -11,6 +11,9 @@ open Fix44.MessageDU
 Arb.register<Generators.ArbOverrides>() |> ignore
 
 
+//let pt = Fix44.Fields.PosType.AdjustmentQty
+
+
 let host = "localhost"
 let port = 5001 // for quickFixN echo
 // let port = 9880 // for quickFixJ echo
