@@ -28,15 +28,15 @@ let genByteFieldSeperator = Gen.constant 1uy
 let genByteTagValueSeperator = Gen.constant 61uy
 
 // used to generate byte arrays with lots of tag-value and field seperators
-let genByte = Gen.frequency[  4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
+let genRawByte = Gen.frequency[ 4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
 // used to generate byte arrays that could concievably be ASCII encoded, required for quickfix echo testing
-let genByte2 = Gen.choose(64, 90) |> Gen.map byte
+let genNonFieldValueSeperatorByte = Gen.choose(64, 90) |> Gen.map byte
 
 let genNonEmptyByteArray = 
     gen{
         let! len = Gen.choose(1, 64)
-        let! bytes = Gen.arrayOfLength len genByte2
+        let! bytes = Gen.arrayOfLength len genNonFieldValueSeperatorByte
         return NonEmptyByteArray.Make bytes
     }
 
@@ -68,14 +68,28 @@ let genCountry =
        return Fix44.Fields.Country ss
     }
 
-let genMessageEncoding = gen{ return Fix44.Fields.MessageEncoding.Utf8 } // for 'Encoded' fields
+let genRawData =
+    gen{
+        let! len = Gen.choose(1, 64)
+        let! bytes = Gen.arrayOfLength len genRawByte
+        return NonEmptyByteArray.Make bytes |> Fix44.Fields.RawData
+    }
+    
+
+
+// For the purposes of echoing FIX messages to quickfixJ and quickfixN, stop the encoding 
+// from being randomly chosen, as fscheck generated Encoded fields contents could concevibly 
+// be Utf8 but probably not Iso2022Jp, EucJp or ShiftJis
+let genMessageEncoding = gen{ 
+    return Fix44.Fields.MessageEncoding.Utf8 
+    } // for 'Encoded' fields
 //let genMessageEncoding2:Gen<Fix44.Fields.MessageEncoding> = Arb.generate
 
 
 type ArbOverrides() =
     static member NonEmptyByteArray = Arb.fromGen genNonEmptyByteArray // todo: genNonEmptyByteArray should be shrinkable
-    static member Byte()            = Arb.fromGen genByte
-    static member Char()            = Arb.fromGen genChar
+    static member RawData()         = Arb.fromGen genRawData
+    static member Char()            = Arb.fromGen genChar 
     static member String()          = Arb.fromGen genAlphaString
     static member UTCTimeOnly()     = Arb.fromGen genUTCTimeOnly
     static member UTCDate()         = Arb.fromGen genUTCDate

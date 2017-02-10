@@ -53,7 +53,7 @@ let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[
         if index.[ctr] = FIXBufIndexer.emptyFieldPos then
             ()
         else
-            failwith "a FIX field was not read from the buffer"
+            failwithf "there is an unread FIX field in the fix buffer index, tag: %d" index.[ctr].Tag
     tIn =! tOut
 
 
