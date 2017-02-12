@@ -549,7 +549,7 @@ let WriteSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityIDSo
         nextFreeIdx2 + 1
 
 
-let WriteIOIid (dest:byte []) (pos:int) (valIn:IOIid) : int = 
+let WriteIOIID (dest:byte []) (pos:int) (valIn:IOIID) : int = 
     WriteFieldStr dest pos "23="B valIn
 
 
@@ -1825,6 +1825,24 @@ let WriteAllocTransType (dest:byte array) (nextFreeIdx:int) (xxIn:AllocTransType
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | AllocTransType.Preliminary ->
+        let tag = "71=3"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | AllocTransType.Calculated ->
+        let tag = "71=4"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | AllocTransType.CalculatedWithoutPreliminary ->
+        let tag = "71=5"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
 
 
 let WriteRefAllocID (dest:byte []) (pos:int) (valIn:RefAllocID) : int = 
@@ -2964,260 +2982,14 @@ let WriteSettlInstSource (dest:byte array) (nextFreeIdx:int) (xxIn:SettlInstSour
 
 let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : int =
     match xxIn with
-    | SecurityType.EuroSupranationalCoupons ->
-        let tag = "167=EUSUPRA"B
+    | SecurityType.Wildcard ->
+        let tag = "167=?"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.FederalAgencyCoupon ->
-        let tag = "167=FAC"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.FederalAgencyDiscountNote ->
-        let tag = "167=FADN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PrivateExportFunding ->
-        let tag = "167=PEF"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.UsdSupranationalCoupons ->
-        let tag = "167=SUPRA"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Future ->
-        let tag = "167=FUT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Option ->
-        let tag = "167=OPT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.CorporateBond ->
-        let tag = "167=CORP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.CorporatePrivatePlacement ->
-        let tag = "167=CPP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.ConvertibleBond ->
-        let tag = "167=CB"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.DualCurrency ->
-        let tag = "167=DUAL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.EuroCorporateBond ->
-        let tag = "167=EUCORP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.IndexedLinked ->
-        let tag = "167=XLINKD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.StructuredNotes ->
-        let tag = "167=STRUCT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.YankeeCorporateBond ->
-        let tag = "167=YANK"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.ForeignExchangeContract ->
-        let tag = "167=FOR"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.CommonStock ->
-        let tag = "167=CS"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PreferredStock ->
-        let tag = "167=PS"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.BradyBond ->
-        let tag = "167=BRADY"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.EuroSovereigns ->
-        let tag = "167=EUSOV"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.UsTreasuryBond ->
-        let tag = "167=TBOND"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.InterestStripFromAnyBondOrNote ->
-        let tag = "167=TINT"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.TreasuryInflationProtectedSecurities ->
-        let tag = "167=TIPS"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PrincipalStripOfACallableBondOrNote ->
-        let tag = "167=TCAL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PrincipalStripFromANonCallableBondOrNote ->
-        let tag = "167=TPRN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.UsTreasuryNote ->
-        let tag = "167=TNOTE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.UsTreasuryBill ->
-        let tag = "167=TBILL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Repurchase ->
-        let tag = "167=REPO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Forward ->
-        let tag = "167=FORWARD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.BuySellback ->
-        let tag = "167=BUYSELL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.SecuritiesLoan ->
-        let tag = "167=SECLOAN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.SecuritiesPledge ->
-        let tag = "167=SECPLEDGE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.TermLoan ->
-        let tag = "167=TERM"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.RevolverLoan ->
-        let tag = "167=RVLV"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.RevolverTermLoan ->
-        let tag = "167=RVLVTRM"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.BridgeLoan ->
-        let tag = "167=BRIDGE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.LetterOfCredit ->
-        let tag = "167=LOFC"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.SwingLineFacility ->
-        let tag = "167=SWING"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.DebtorInPossession ->
-        let tag = "167=DINP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Defaulted ->
-        let tag = "167=DEFLTED"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Withdrawn ->
-        let tag = "167=WITHDRN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Replaced ->
-        let tag = "167=REPLACD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Matured ->
-        let tag = "167=MATURED"B
+    | SecurityType.AssetBackedSecurities ->
+        let tag = "167=ABS"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3228,8 +3000,8 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.Retired ->
-        let tag = "167=RETIRED"B
+    | SecurityType.OtherAnticipationNotes ->
+        let tag = "167=AN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3252,6 +3024,30 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.BradyBond ->
+        let tag = "167=BRADY"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.BridgeLoan ->
+        let tag = "167=BRIDGE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.BuySellback ->
+        let tag = "167=BUYSELL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.ConvertibleBond ->
+        let tag = "167=CB"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.CertificateOfDeposit ->
         let tag = "167=CD"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3260,90 +3056,6 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         nextFreeIdx2 + 1
     | SecurityType.CallLoans ->
         let tag = "167=CL"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.CommercialPaper ->
-        let tag = "167=CP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.DepositNotes ->
-        let tag = "167=DN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.EuroCertificateOfDeposit ->
-        let tag = "167=EUCD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.EuroCommercialPaper ->
-        let tag = "167=EUCP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.LiquidityNote ->
-        let tag = "167=LQN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.MediumTermNotes ->
-        let tag = "167=MTN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.Overnight ->
-        let tag = "167=ONITE"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PromissoryNote ->
-        let tag = "167=PN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.PlazosFijos ->
-        let tag = "167=PZFJ"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.ShortTermLoanNote ->
-        let tag = "167=STN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.TimeDeposit ->
-        let tag = "167=TD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.ExtendedCommNote ->
-        let tag = "167=XCN"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.YankeeCertificateOfDeposit ->
-        let tag = "167=YCD"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.AssetBackedSecurities ->
-        let tag = "167=ABS"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3360,8 +3072,152 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.CertificateOfObligation ->
+        let tag = "167=COFO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.CertificateOfParticipation ->
+        let tag = "167=COFP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.CorporateBond ->
+        let tag = "167=CORP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.CommercialPaper ->
+        let tag = "167=CP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.CorporatePrivatePlacement ->
+        let tag = "167=CPP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.CommonStock ->
+        let tag = "167=CS"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Defaulted ->
+        let tag = "167=DEFLTED"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.DebtorInPossession ->
+        let tag = "167=DINP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.DepositNotes ->
+        let tag = "167=DN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.DualCurrency ->
+        let tag = "167=DUAL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.EuroCertificateOfDeposit ->
+        let tag = "167=EUCD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.EuroCorporateBond ->
+        let tag = "167=EUCORP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.EuroCommercialPaper ->
+        let tag = "167=EUCP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.EuroSovereigns ->
+        let tag = "167=EUSOV"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.EuroSupranationalCoupons ->
+        let tag = "167=EUSUPRA"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.FederalAgencyCoupon ->
+        let tag = "167=FAC"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.FederalAgencyDiscountNote ->
+        let tag = "167=FADN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.ForeignExchangeContract ->
+        let tag = "167=FOR"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Forward ->
+        let tag = "167=FORWARD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Future ->
+        let tag = "167=FUT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.GeneralObligationBonds ->
+        let tag = "167=GO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.IoetteMortgage ->
         let tag = "167=IET"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.LetterOfCredit ->
+        let tag = "167=LOFC"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.LiquidityNote ->
+        let tag = "167=LQN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Matured ->
+        let tag = "167=MATURED"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3372,8 +3228,20 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.MutualFund ->
+        let tag = "167=MF"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.MortgageInterestOnly ->
         let tag = "167=MIO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.MultiLegInstrument ->
+        let tag = "167=MLEG"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3396,44 +3264,62 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.MandatoryTender ->
+        let tag = "167=MT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.MediumTermNotes ->
+        let tag = "167=MTN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.NoSecurityType ->
+        let tag = "167=NONE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Overnight ->
+        let tag = "167=ONITE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Option ->
+        let tag = "167=OPT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.PrivateExportFunding ->
+        let tag = "167=PEF"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.Pfandbriefe ->
         let tag = "167=PFAND"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.ToBeAnnounced ->
-        let tag = "167=TBA"B
+    | SecurityType.PromissoryNote ->
+        let tag = "167=PN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.OtherAnticipationNotes ->
-        let tag = "167=AN"B
+    | SecurityType.PreferredStock ->
+        let tag = "167=PS"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.CertificateOfObligation ->
-        let tag = "167=COFO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.CertificateOfParticipation ->
-        let tag = "167=COFP"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.GeneralObligationBonds ->
-        let tag = "167=GO"B
-        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
-        let nextFreeIdx2 = nextFreeIdx + tag.Length
-        dest.[nextFreeIdx2] <- 1uy
-        nextFreeIdx2 + 1
-    | SecurityType.MandatoryTender ->
-        let tag = "167=MT"B
+    | SecurityType.PlazosFijos ->
+        let tag = "167=PZFJ"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3444,8 +3330,50 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.Replaced ->
+        let tag = "167=REPLACD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Repurchase ->
+        let tag = "167=REPO"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.Retired ->
+        let tag = "167=RETIRED"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.RevenueBonds ->
         let tag = "167=REV"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.RevolverLoan ->
+        let tag = "167=RVLV"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.RevolverTermLoan ->
+        let tag = "167=RVLVTRM"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.SecuritiesLoan ->
+        let tag = "167=SECLOAN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.SecuritiesPledge ->
+        let tag = "167=SECPLEDGE"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3468,6 +3396,30 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.ShortTermLoanNote ->
+        let tag = "167=STN"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.StructuredNotes ->
+        let tag = "167=STRUCT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.UsdSupranationalCoupons ->
+        let tag = "167=SUPRA"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.SwingLineFacility ->
+        let tag = "167=SWING"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.TaxAnticipationNote ->
         let tag = "167=TAN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
@@ -3480,8 +3432,68 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | SecurityType.ToBeAnnounced ->
+        let tag = "167=TBA"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.UsTreasuryBill ->
+        let tag = "167=TBILL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.UsTreasuryBond ->
+        let tag = "167=TBOND"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.PrincipalStripOfACallableBondOrNote ->
+        let tag = "167=TCAL"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.TimeDeposit ->
+        let tag = "167=TD"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
     | SecurityType.TaxExemptCommercialPaper ->
         let tag = "167=TECP"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.TermLoan ->
+        let tag = "167=TERM"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.InterestStripFromAnyBondOrNote ->
+        let tag = "167=TINT"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.TreasuryInflationProtectedSecurities ->
+        let tag = "167=TIPS"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.UsTreasuryNote ->
+        let tag = "167=TNOTE"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.PrincipalStripFromANonCallableBondOrNote ->
+        let tag = "167=TPRN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -3504,26 +3516,32 @@ let WriteSecurityType (dest:byte array) (nextFreeIdx:int) (xxIn:SecurityType) : 
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.MutualFund ->
-        let tag = "167=MF"B
+    | SecurityType.Withdrawn ->
+        let tag = "167=WITHDRN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.MultiLegInstrument ->
-        let tag = "167=MLEG"B
+    | SecurityType.ExtendedCommNote ->
+        let tag = "167=XCN"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.NoSecurityType ->
-        let tag = "167=NONE"B
+    | SecurityType.IndexedLinked ->
+        let tag = "167=XLINKD"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | SecurityType.Wildcard ->
-        let tag = "167=?"B
+    | SecurityType.YankeeCorporateBond ->
+        let tag = "167=YANK"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | SecurityType.YankeeCertificateOfDeposit ->
+        let tag = "167=YCD"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -4586,7 +4604,7 @@ let WriteConcession (dest:byte []) (pos:int) (valIn:Concession) : int =
 
 
 let WriteRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:RepoCollateralSecurityType) : int = 
-    WriteFieldInt dest pos "239="B valIn
+    WriteFieldStr dest pos "239="B valIn
 
 
 let WriteRedemptionDate (dest:byte []) (pos:int) (valIn:RedemptionDate) : int = 
@@ -4602,7 +4620,7 @@ let WriteUnderlyingIssueDate (dest:byte []) (pos:int) (valIn:UnderlyingIssueDate
 
 
 let WriteUnderlyingRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:UnderlyingRepoCollateralSecurityType) : int = 
-    WriteFieldInt dest pos "243="B valIn
+    WriteFieldStr dest pos "243="B valIn
 
 
 let WriteUnderlyingRepurchaseTerm (dest:byte []) (pos:int) (valIn:UnderlyingRepurchaseTerm) : int = 
@@ -4630,7 +4648,7 @@ let WriteLegIssueDate (dest:byte []) (pos:int) (valIn:LegIssueDate) : int =
 
 
 let WriteLegRepoCollateralSecurityType (dest:byte []) (pos:int) (valIn:LegRepoCollateralSecurityType) : int = 
-    WriteFieldInt dest pos "250="B valIn
+    WriteFieldStr dest pos "250="B valIn
 
 
 let WriteLegRepurchaseTerm (dest:byte []) (pos:int) (valIn:LegRepurchaseTerm) : int = 
@@ -6386,6 +6404,18 @@ let WriteExecRestatementReason (dest:byte array) (nextFreeIdx:int) (xxIn:ExecRes
         nextFreeIdx2 + 1
     | ExecRestatementReason.CanceledNotBest ->
         let tag = "378=9"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | ExecRestatementReason.WarehouseRecap ->
+        let tag = "378=10"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | ExecRestatementReason.Other ->
+        let tag = "378=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -11109,8 +11139,8 @@ let WriteTradeRequestResult (dest:byte array) (nextFreeIdx:int) (xxIn:TradeReque
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | TradeRequestResult.Yield ->
-        let tag = "749=10"B
+    | TradeRequestResult.Other ->
+        let tag = "749=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -11171,8 +11201,8 @@ let WriteTradeReportRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:Trade
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
-    | TradeReportRejectReason.Yield ->
-        let tag = "751=10"B
+    | TradeReportRejectReason.Other ->
+        let tag = "751=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
@@ -11233,8 +11263,122 @@ let WriteNested2PartySubID (dest:byte []) (pos:int) (valIn:Nested2PartySubID) : 
     WriteFieldStr dest pos "760="B valIn
 
 
-let WriteBenchmarkSecurityIDSource (dest:byte []) (pos:int) (valIn:BenchmarkSecurityIDSource) : int = 
-    WriteFieldStr dest pos "761="B valIn
+let WriteBenchmarkSecurityIDSource (dest:byte array) (nextFreeIdx:int) (xxIn:BenchmarkSecurityIDSource) : int =
+    match xxIn with
+    | BenchmarkSecurityIDSource.Cusip ->
+        let tag = "761=1"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Sedol ->
+        let tag = "761=2"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Quik ->
+        let tag = "761=3"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.IsinNumber ->
+        let tag = "761=4"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.RicCode ->
+        let tag = "761=5"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.IsoCurrencyCode ->
+        let tag = "761=6"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.IsoCountryCode ->
+        let tag = "761=7"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.ExchangeSymbol ->
+        let tag = "761=8"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.ConsolidatedTapeAssociation ->
+        let tag = "761=9"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.BloombergSymbol ->
+        let tag = "761=A"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Wertpapier ->
+        let tag = "761=B"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Dutch ->
+        let tag = "761=C"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Valoren ->
+        let tag = "761=D"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Sicovam ->
+        let tag = "761=E"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Belgian ->
+        let tag = "761=F"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.Common ->
+        let tag = "761=G"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.ClearingHouseClearingOrganization ->
+        let tag = "761=H"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.IsdaFpmlProductSpecification ->
+        let tag = "761=I"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | BenchmarkSecurityIDSource.OptionsPriceReportingAuthority ->
+        let tag = "761=J"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
 
 
 let WriteSecuritySubType (dest:byte []) (pos:int) (valIn:SecuritySubType) : int = 

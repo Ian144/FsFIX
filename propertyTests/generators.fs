@@ -27,11 +27,14 @@ let genByteMain = Gen.choose(0, 255) |> Gen.map byte
 let genByteFieldSeperator = Gen.constant 1uy
 let genByteTagValueSeperator = Gen.constant 61uy
 
-// used to generate byte arrays with lots of tag-value and field seperators
-let genRawByte = Gen.frequency[ 4, genByteMain; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
 
 // used to generate byte arrays that could concievably be ASCII encoded, required for quickfix echo testing
 let genNonFieldValueSeperatorByte = Gen.choose(64, 90) |> Gen.map byte
+
+// used to generate byte arrays with lots of tag-value and field seperators
+let genRawByte = Gen.frequency[ 4, genNonFieldValueSeperatorByte; 1, genByteFieldSeperator; 1, genByteTagValueSeperator ]
+
+
 
 let genNonEmptyByteArray = 
     gen{
@@ -52,7 +55,6 @@ let genDecimal15dp =
         let d1 = System.Decimal(lo, mid, hi, isNegative, scale)
         return System.Math.Round(d1, 15)
     }
-
 
 
 let genCurrency = 

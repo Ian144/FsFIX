@@ -17,8 +17,8 @@ let indexBufSize = 1024 * 32
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [|typeof<ArbOverrides>|],
-        MaxTest = 100,
-        EndSize = 4,
+        MaxTest = 1000,
+        EndSize = 8,
         Verbose = false,
         QuietOnSuccess = true
         )

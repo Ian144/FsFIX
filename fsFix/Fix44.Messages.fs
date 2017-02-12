@@ -113,7 +113,7 @@ type Advertisement = {
 
 //app
 type IndicationOfInterest = {
-    IOIid: IOIid
+    IOIID: IOIID
     IOITransType: IOITransType
     IOIRefID: IOIRefID option
     Instrument: Instrument // component
@@ -191,7 +191,7 @@ type QuoteResponse = {
     QuoteRespType: QuoteRespType
     ClOrdID: ClOrdID option
     OrderCapacity: OrderCapacity option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteType: QuoteType option
     NoQuoteQualifiersGrp: NoQuoteQualifiersGrp list option // group
     Parties: Parties // component
@@ -746,7 +746,7 @@ type NewOrderSingle = {
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option
@@ -1159,7 +1159,7 @@ type NewOrderCross = {
     YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option
@@ -1210,7 +1210,7 @@ type CrossOrderCancelReplaceRequest = {
     YieldData: YieldData // component
     Currency: Currency option
     ComplianceID: ComplianceID option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option
@@ -1286,7 +1286,7 @@ type NewOrderMultileg = {
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option
@@ -1363,7 +1363,7 @@ type MultilegOrderCancelReplaceRequest = {
     Currency: Currency option
     ComplianceID: ComplianceID option
     SolicitedFlag: SolicitedFlag option
-    IOIid: IOIid option
+    IOIID: IOIID option
     QuoteID: QuoteID option
     TimeInForce: TimeInForce option
     EffectiveTime: EffectiveTime option
@@ -1569,7 +1569,7 @@ type AllocationInstruction = {
     YieldData: YieldData // component
     TotNoAllocs: TotNoAllocs option
     LastFragment: LastFragment option
-    AllocationInstructionNoAllocsGrp: AllocationInstructionNoAllocsGrp list option // group
+    AllocationInstructionNoAllocsGrp: AllocationInstructionNoAllocsGrp list // group
     }
 
 //app
@@ -2145,8 +2145,7 @@ type AssignmentReport = {
     AccountType: AccountType
     Instrument: Instrument option // component
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     PositionQty: PositionQty // component
     PositionAmountData: PositionAmountData // component
@@ -2187,8 +2186,7 @@ type CollateralRequest = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     CollateralRequestNoUnderlyingsGrp: CollateralRequestNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2237,8 +2235,7 @@ type CollateralAssignment = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     CollateralAssignmentNoUnderlyingsGrp: CollateralAssignmentNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2289,8 +2286,7 @@ type CollateralResponse = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     CollateralResponseNoUnderlyingsGrp: CollateralResponseNoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2332,8 +2328,7 @@ type CollateralReport = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2381,8 +2376,7 @@ type CollateralInquiry = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     MarginExcess: MarginExcess option
     TotalNetValue: TotalNetValue option
@@ -2445,8 +2439,7 @@ type CollateralInquiryAck = {
     Quantity: Quantity option
     QtyType: QtyType option
     Currency: Currency option
-    NoLegs: NoLegs option
-    InstrumentLeg: InstrumentLeg // component
+    NoLegsGrp: NoLegsGrp list option // group
     NoUnderlyingsGrp: NoUnderlyingsGrp list option // group
     TradingSessionID: TradingSessionID option
     TradingSessionSubID: TradingSessionSubID option

@@ -66,6 +66,20 @@ let WriteMessageDU
 
 
 
+let private join (ss:string seq) = String.Join( ", ", ss)
+
+let private checkAllFieldsHaveBeenRead (fieldPosArr:FIXBufIndexer.FieldPos array) (indexEnd:int) : unit =
+    for ctr in 0 .. indexEnd do
+        let fieldData = fieldPosArr.[ctr]
+        if fieldData.Tag = 0 then 
+            () // putting the common case first to help branch predition
+        else 
+            // the hopefully uncommon case, so it does not matter if its slow
+            let unreadFields = fieldPosArr |> Array.toList |> List.filter (fun fd -> fd.Tag <> 0) |> List.map (fun fd -> sprintf "%d" fd.Tag) |> join
+            failwithf "unread fields in FIX buf, tags: %s" unreadFields
+    ()
+
+
 let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)// todo, make index size a parameter 
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
@@ -81,16 +95,16 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let targetCompID   = GenericReaders.ReadFieldOrdered true bs index 56 ReadTargetCompID
 
     let msg = ReadMessageDU msgTag bs index
-
     let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
     let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
     let checksumTagPlusDelimLen = 3
     let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
     let receivedCheckSum   = GenericReaders.ReadField bs index 10 ReadCheckSum
-    if calcedCheckSum = receivedCheckSum then
-        msg
-    else
-        failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+    checkAllFieldsHaveBeenRead fieldPosArr indexEnd
+    if calcedCheckSum = receivedCheckSum then msg
+    else failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
+
+
 
 
 

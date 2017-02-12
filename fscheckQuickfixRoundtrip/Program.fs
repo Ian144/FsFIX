@@ -15,8 +15,8 @@ Arb.register<Generators.ArbOverrides>() |> ignore
 
 
 let host = "localhost"
-let port = 5001 // for quickFixN echo
-// let port = 9880 // for quickFixJ echo
+//let port = 5001 // for quickFixN echo
+let port = 9880 // for quickFixJ echo
 let client = new TcpClient()
 client.Connect (host, port)
 let strm = client.GetStream()
@@ -38,10 +38,10 @@ let logon =  {
 
 let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
 let beginString = BeginString "FIX.4.4"
-let senderCompID = SenderCompID "CLIENT1" // for quickFixN
-let targetCompID = TargetCompID "EXECUTOR" // for quickFixN
-//let senderCompID = SenderCompID "BANZAI"//for quickFixJ
-//let targetCompID = TargetCompID "EXEC" // for quickFixJ
+//let senderCompID = SenderCompID "CLIENT1" // for quickFixN
+//let targetCompID = TargetCompID "EXECUTOR" // for quickFixN
+let senderCompID = SenderCompID "BANZAI"//for quickFixJ
+let targetCompID = TargetCompID "EXEC" // for quickFixJ
 
 
 
@@ -77,7 +77,7 @@ let msgExclusions (msgIn:FIXMessage) =
     | FIXMessage.Reject _                    -> false // admin
     | FIXMessage.SequenceReset _             -> false // admin
     | FIXMessage.Heartbeat _                 -> false // admin
-//    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
+    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
     | _                                      -> true
 
 
