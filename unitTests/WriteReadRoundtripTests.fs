@@ -111,9 +111,12 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
 
 
 
+
+
+
 [<Fact>]
-let ``msg buf number of groups field says two group instances, when there is only one`` () =
-    // field 778 is the num group instances field
+let ``missing group instance detected when reading msg buf`` () =
+    // field 778 is the num group instances field, it sayst there are two group instances, only one is present
     let buf = "777=XRVWQEI|160=0|165=1|60=20170131-06:37:00|778=2|162=GROUP1|172=1|85=1|165=3"B |> Array.map convFieldSep
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf buf.Length
@@ -125,9 +128,18 @@ let ``msg buf number of groups field says two group instances, when there is onl
 
 
 [<Fact>]
-let ``msg buf contains extra unexpected group instance`` () =
+let ``unexpected group instance detected when reading msg buf`` () =
+    // field 778 is the num group instances field, it sayst there is one group instances, two are present (the group instances begin with tag 162)
     let buf = "8=FIX.4.4|9=167|35=T|34=0|49=UPGLIM|52=20161229-19:09:00|56=WKOPJXBC|777=XRVWQEI|160=0|165=1|60=20161229-19:09:00|778=1|162=GROUP|172=1|85=1|165=3|162=UNEXPECTEDGROUP|172=1|85=1|165=3|10=141|"B |> Array.map convFieldSep
     raisesWith<System.Exception> <@ MsgReadWrite.ReadMessage buf buf.Length @> (fun e ->  <@ e.Message = "unread fields in FIX buf, tags: 162, 172, 85, 165" @>)
+
+//[<Fact>]
+//let ``invalid msg len field value detected when reading msg buf`` () =
+//    // msg len should be 131, not 999
+//    let buf = "8=FIX.4.4|9=999|35=T|34=0|49=UPGLIM|52=20161229-19:09:00|56=WKOPJXBC|777=XRVWQEI|160=0|165=1|60=20161229-19:09:00|778=1|162=GROUP|172=1|85=1|165=3|10=141|"B |> Array.map convFieldSep
+//    raisesWith<System.Exception> <@ MsgReadWrite.ReadMessage buf buf.Length @> (fun e ->  <@ e.Message = "unread fields in FIX buf, tags: 162, 172, 85, 165" @>)
+
+
 
 
 [<Fact>]

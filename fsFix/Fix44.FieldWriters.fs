@@ -2682,6 +2682,24 @@ let WriteMiscFeeType (dest:byte array) (nextFreeIdx:int) (xxIn:MiscFeeType) : in
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy
         nextFreeIdx2 + 1
+    | MiscFeeType.PerTransaction ->
+        let tag = "139=10"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | MiscFeeType.Conversion ->
+        let tag = "139=11"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | MiscFeeType.Agent ->
+        let tag = "139=12"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
 
 
 let WritePrevClosePx (dest:byte []) (pos:int) (valIn:PrevClosePx) : int = 
@@ -8933,6 +8951,12 @@ let WriteMassCancelRejectReason (dest:byte array) (nextFreeIdx:int) (xxIn:MassCa
         nextFreeIdx2 + 1
     | MassCancelRejectReason.InvalidOrUnknownTradingSession ->
         let tag = "532=6"B
+        Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
+        let nextFreeIdx2 = nextFreeIdx + tag.Length
+        dest.[nextFreeIdx2] <- 1uy
+        nextFreeIdx2 + 1
+    | MassCancelRejectReason.Other ->
+        let tag = "532=99"B
         Buffer.BlockCopy (tag, 0, dest, nextFreeIdx, tag.Length)
         let nextFreeIdx2 = nextFreeIdx + tag.Length
         dest.[nextFreeIdx2] <- 1uy

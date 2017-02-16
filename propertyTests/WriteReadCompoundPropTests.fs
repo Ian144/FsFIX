@@ -198,8 +198,7 @@ let NewOrderList (msgIn:Fix44.Messages.NewOrderList) = WriteReadIndexTest msgIn 
 let NewOrderMultileg (msgIn:Fix44.Messages.NewOrderMultileg) = WriteReadIndexTest msgIn Fix44.MsgWriters.WriteNewOrderMultileg Fix44.MsgReaders.ReadNewOrderMultileg
 
 [<PropTest>]
-let NewOrderSingle (msgIn:Fix44.Messages.NewOrderSingle) = 
-    WriteReadIndexTest msgIn Fix44.MsgWriters.WriteNewOrderSingle Fix44.MsgReaders.ReadNewOrderSingle
+let NewOrderSingle (msgIn:Fix44.Messages.NewOrderSingle) = WriteReadIndexTest msgIn Fix44.MsgWriters.WriteNewOrderSingle Fix44.MsgReaders.ReadNewOrderSingle
 
 [<PropTest>]
 let News (msgIn:Fix44.Messages.News) = WriteReadIndexTest msgIn Fix44.MsgWriters.WriteNews Fix44.MsgReaders.ReadNews

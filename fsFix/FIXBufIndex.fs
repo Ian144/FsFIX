@@ -113,7 +113,7 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
     let fldBeg = tagValSepPos + 1
     let tagInt = convTagToInt bs pos tagValSepPos
     if IsLenDataCompoundTag tagInt then
-        // eat the next field, i.e. data field, including the tag
+        // eat the next field, i.e. the data field component of the len+data pair, including the tag
         let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
         let len = fieldTerm - (tagValSepPos+1)
         let dataFieldLen = Conversions.bytesToInt32 bs (tagValSepPos+1) len
@@ -130,7 +130,8 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
         nextFldOrEnd + 1, fp
 
 
-// returns the index one after the last populated
+// populates the fieldIndex array - this is not functional programming, using imperative techniques for performance
+// returns the array cell index one after the last populated
 let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0

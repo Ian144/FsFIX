@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyXUnitTestProject2", "D
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scratchConsoleApp", "scratchConsoleApp\scratchConsoleApp.fsproj", "{96A09A78-0337-451C-8C5B-8695D48B2F22}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fscheckQuickfixRoundtrip", "fscheckQuickfixRoundtrip\fscheckQuickfixRoundtrip.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFIXEcho", "fscheckQuickfixRoundtrip\FsFIXEcho.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fscheckQuickfixRoundtripSingleMsg", "fscheckQuickfixRoundtripSingleMsg\fscheckQuickfixRoundtripSingleMsg.fsproj", "{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}"
 EndProject
