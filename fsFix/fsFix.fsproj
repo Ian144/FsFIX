@@ -60,6 +60,7 @@
     <Compile Include="Fix44.FieldReaders.fs" />
     <Compile Include="Fix44.FieldWriters.fs" />
     <Compile Include="Fix44.CompoundItems.fs" />
+    <Compile Include="Fix44.CompoundItemFactoryFuncs.fs" />
     <Compile Include="Fix44.CompoundItemWriters.fs" />
     <Compile Include="Fix44.CompoundItemReaders.fs" />
     <Compile Include="Fix44.Messages.fs" />

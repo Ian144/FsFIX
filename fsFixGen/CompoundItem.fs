@@ -96,7 +96,6 @@ let extractComponents (cis:CompoundItem list) : Component list =
 
 
 let GenFactoryFuncs (typeName:string) (typeMembers:FIXItem list) (sw:System.IO.StreamWriter) =
-
     let getParamType (fi:FIXItem) =
         match fi with
         | FIXItem.FieldRef fld      ->  fld.FName
@@ -106,7 +105,6 @@ let GenFactoryFuncs (typeName:string) (typeMembers:FIXItem list) (sw:System.IO.S
                                         match nm.Contains("NoSides") with
                                         | true  -> sprintf "%sGrp OneOrTwo" nm
                                         | false -> sprintf "%sGrp list" nm
-
     sw.WriteLine ""
     sw.WriteLine ""
 
@@ -136,9 +134,7 @@ let GenFactoryFuncs (typeName:string) (typeMembers:FIXItem list) (sw:System.IO.S
         )
 
     memberInitStrs |> List.iter sw.WriteLine
-
     sw.WriteLine "  }"
-
     ()
     
     

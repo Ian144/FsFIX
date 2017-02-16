@@ -82,6 +82,11 @@ let main args =
     use swGroupReadFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemReaders.fs")
     do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
+    printfn "generating group and component factory functions"
+    use swGroupCompFactoryFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemFactoryFuncs.fs")
+    do CompoundItemGenerator.GenFactoryFuncs constrainedCompoundItemsInDepOrder swGroupCompFactoryFuncs
+
+
 
     let msgsFinal = 
         [   for msg in msgsAfterGroupMerge do
@@ -106,7 +111,7 @@ let main args =
 
     printfn "generating message factory functions"
     use swMsgFactoryFuncs = new StreamWriter (makeOutpath "Fix44.MessageFactoryFunctions.fs")
-    MessageGenerator.GenMessageFactoryFuncs msgsFinal swMsgFactoryFuncs
+    MessageGenerator.GenFactoryFuncs msgsFinal swMsgFactoryFuncs
 
 
     0 // exit code
