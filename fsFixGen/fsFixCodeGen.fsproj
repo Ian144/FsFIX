@@ -61,9 +61,9 @@
     <Compile Include="FIXSpecReader.fs" />
     <Compile Include="FieldGenerator.fs" />
     <Compile Include="Group.fs" />
+    <Compile Include="FIXItem.fs" />
     <Compile Include="CompoundItem.fs" />
     <Compile Include="DependencyConstraintSolver.fs" />
-    <Compile Include="FIXItem.fs" />
     <Compile Include="CompoundItemRules.fs" />
     <Compile Include="CommonGenerator.fs" />
     <Compile Include="ComponentReader.fs" />

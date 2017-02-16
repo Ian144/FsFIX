@@ -63,6 +63,7 @@
     <Compile Include="Fix44.CompoundItemWriters.fs" />
     <Compile Include="Fix44.CompoundItemReaders.fs" />
     <Compile Include="Fix44.Messages.fs" />
+    <Compile Include="Fix44.MessageFactoryFunctions.fs" />
     <Compile Include="Fix44.MsgWriters.fs" />
     <Compile Include="Fix44.MsgReaders.fs" />
     <Compile Include="Fix44.MessageDU.fs" />

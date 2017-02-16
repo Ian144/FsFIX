@@ -31,8 +31,7 @@ let private makeMultiCaseDUReaderFunc (typeName:string) (values:FieldDUCase list
     let readerFuncErrMsg = sprintf "Read%s unknown fix tag:" typeName
     let lines = [
             yield  sprintf "let Read%s (bs:byte[]) (pos:int) (len:int): %s =" typeName typeName 
-            yield  sprintf "    let tagBs = Array.zeroCreate<byte> len"
-            yield  sprintf "    Array.Copy( bs, pos, tagBs, 0, len)"
+            yield  sprintf "    let tagBs = bs.[pos..(pos+len-1)]"
             yield  sprintf "    match tagBs with"
             yield! values |> List.map (fun vv -> 
                    sprintf "    |\"%s\"B -> %s.%s" vv.Case typeName vv.Description )

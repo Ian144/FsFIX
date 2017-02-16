@@ -200,7 +200,7 @@ let index = Array.zeroCreate<FIXBufIndexer.FieldPos> 2048
 //[<Config("columns=Mean,StdDev,Gen0,Gen1,Gen2,Allocated")>]
 type BenchmarkNewOrderMultilegMsgWrite () =
     [<Benchmark>]
-    member this.WriteIncHdrTrlr () =
+    member this.WriteIncHeaderTrailer () =
         let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime newOrderMultilegDu
         ()
 
@@ -211,25 +211,25 @@ type BenchmarkNewOrderMultilegMsgWrite () =
 
 
 type BenchmarkNewOrderMultilegMsgRead () =
-    [<Benchmark(Baseline=true)>]
-    member this.ReadIncHdrTrlr () =
-        let msg = MsgReadWrite.ReadMessage newOrderMultilegBytes newOrderMultilegBytes.Length
-        ()
+//    [<Benchmark(Baseline=true)>]
+//    member this.ReadIncHdrTrlr () =
+//        let msg = MsgReadWrite.ReadMessage newOrderMultilegBytes newOrderMultilegBytes.Length
+//        ()
 
     [<Benchmark>]
-    member this.ReadIncHdrTrlrIndexParam () =
+    member this.ReadIncHeaderTrailer_FIXBufIndexIsAParam () =
         let msg = MsgReadWrite.ReadMessage2 newOrderMultilegBytes newOrderMultilegBytes.Length index 
         ()
 
-    [<Benchmark>]
-    member this.ReadIncHdrTrlrTupleParam () =
-        let msg = MsgReadWrite.ReadMessage3 (newOrderMultilegBytes, newOrderMultilegBytes.Length)
-        ()
-
-    [<Benchmark>]
-    member this.ReadIncHdrTrlrTupleIndexParam () =
-        let msg = MsgReadWrite.ReadMessage4 (newOrderMultilegBytes, newOrderMultilegBytes.Length, index)
-        ()
+//    [<Benchmark>]
+//    member this.ReadIncHdrTrlrTupleParam () =
+//        let msg = MsgReadWrite.ReadMessage3 (newOrderMultilegBytes, newOrderMultilegBytes.Length)
+//        ()
+//
+//    [<Benchmark>]
+//    member this.ReadIncHdrTrlrTupleIndexParam () =
+//        let msg = MsgReadWrite.ReadMessage4 (newOrderMultilegBytes, newOrderMultilegBytes.Length, index)
+//        ()
 
     [<Benchmark>]
     member this.Read () =
@@ -278,8 +278,8 @@ type BenchmarkWriteLogon () =
 let main argv =
 
     BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsgRead>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
-//    BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsgWrite>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
-//    BenchmarkRunner.Run<BenchmarkWriteLogon>(DefaultConfig.Instance.With(Job.RyuJitX64)) |> ignore
+    BenchmarkRunner.Run<BenchmarkNewOrderMultilegMsgWrite>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
+    BenchmarkRunner.Run<BenchmarkWriteLogon>(DefaultConfig.Instance.With(Job.RyuJitX64)) |> ignore
     0
 
 

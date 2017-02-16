@@ -35,9 +35,8 @@ let ReadFieldStr bs pos len fldCtor =
     Conversions.bytesToStr bs pos len |> fldCtor
 
 // todo: ReadFieldDataIdx allocates, can this be safely avoided, maybe using an ArraySegment?
-let ReadFieldData bs pos len fldCtor =
-    let subArray = Array.zeroCreate<byte> len
-    Array.Copy(bs, pos, subArray, 0, len)
+let ReadFieldData (bs:byte array) pos len fldCtor =
+    let subArray = bs.[pos..(pos+len-1)]
     fldCtor subArray
 
 

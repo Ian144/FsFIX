@@ -20,28 +20,9 @@ type FsFixPropertyTest() =
         MaxTest = 100,
         EndSize = 4,
         Verbose = false
-//        QuietOnSuccess = true
         )
 
 let bufSize = 82 * 1024
-
-
-
-//[<FsFixPropertyTest>]
-//let ReconstructMessageBuf (msg:FIXMessage) =
-//    let fixBuf = Array.zeroCreate<byte> bufSize
-//    let posW = Fix44.MessageDU.WriteMessage fixBuf 0 msg
-//
-//    // ignore msgs with len zero bodies (Heartbeats)
-//    posW > 0 ==> lazy 
-//        let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
-//        let indexEnd = FIXBufIndexer.Index index fixBuf posW
-//        let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
-//        // trim fixBuf
-//        let fixBuf2 = Array.zeroCreate<byte> posW
-//        Array.Copy(fixBuf, fixBuf2, posW)
-//        fixBuf2 =! reconstructedFIXBuf
-
 
 
 
@@ -60,7 +41,5 @@ let ``reconstruct FIX message buf with header and trailer``
     let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
     let indexEnd = FIXBufIndexer.BuildIndex index fixBuf posW
     let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
-    // trim fixBuf
-    let fixBuf2 = Array.zeroCreate<byte> posW
-    Array.Copy(fixBuf, fixBuf2, posW)
+    let fixBuf2 = fixBuf.[..(posW-1)] // trim fixBuf
     fixBuf2 =! reconstructedFIXBuf

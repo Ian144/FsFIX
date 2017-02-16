@@ -58,15 +58,12 @@ let propReconstructFIXMessageBufFromIndex
     let index = Array.zeroCreate<FIXBufIndexer.FieldPos> bufSize
     let indexEnd = FIXBufIndexer.BuildIndex index fixBuf posW
     let reconstructedFIXBuf = FIXBufIndexer.reconstructFromIndex fixBuf index indexEnd
-    // trim fixBuf
-    let fixBuf2 = Array.zeroCreate<byte> posW
-    Array.Copy(fixBuf, fixBuf2, posW)
+    let fixBuf2 = fixBuf.[..(posW-1)]     // trim fixBuf
     fixBuf2 =! reconstructedFIXBuf
 
 
 let buf = Array.zeroCreate<byte> bufSize
 let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
-
 
 
 let isAllocationInstruction (msgIn:FIXMessage) = 

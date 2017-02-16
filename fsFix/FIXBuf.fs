@@ -44,8 +44,7 @@ let readNBytesVal (pos:int) (count:int) (bs:byte array) =
     // byte value of '=' is 61, of field delim is 1
     if bs.[pos-1] <> 61uy then failwith "readNBytesVal, prev byte is not a tag value separator"
     if bs.[pos+count] <> 1uy then failwith "readNBytesVal, next byte is not a field delimator"
-    let bsVal = Array.zeroCreate<byte> count
-    Buffer.BlockCopy (bs, pos, bsVal, 0, count)
+    let bsVal = bs.[pos..(pos+count-1)]
     pos+count+1, bsVal
 
 
@@ -54,7 +53,6 @@ let readTagAfterFieldDelim (bs:byte array) (pos:int) =
     if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
     let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "could not find next tag-value separator"
-    let tagLen = tagValSepPos - pos
-    let bsVal = Array.zeroCreate<byte> tagLen
-    Buffer.BlockCopy (bs, pos, bsVal, 0, tagLen)
+    let count = tagValSepPos - pos
+    let bsVal = bs.[pos..(pos+count-1)]
     tagValSepPos + 1, bsVal

@@ -91,3 +91,54 @@ let extractComponents (cis:CompoundItem list) : Component list =
         | CompoundItem.Group _          -> None
         | CompoundItem.Component cmp    -> Some cmp
     cis |> List.choose extract
+
+
+
+
+let GenFactoryFuncs (typeName:string) (typeMembers:FIXItem list) (sw:System.IO.StreamWriter) =
+
+    let getParamType (fi:FIXItem) =
+        match fi with
+        | FIXItem.FieldRef fld      ->  fld.FName
+        | FIXItem.ComponentRef cmp  ->  let (ComponentName nm) = cmp.CRName
+                                        nm
+        | FIXItem.Group grp         ->  let (GroupLongName nm) = Group.makeLongName grp
+                                        match nm.Contains("NoSides") with
+                                        | true  -> sprintf "%sGrp OneOrTwo" nm
+                                        | false -> sprintf "%sGrp list" nm
+
+    sw.WriteLine ""
+    sw.WriteLine ""
+
+    // required items are factory func parameters
+    let requiredItems = typeMembers |> List.filter FIXItem.getIsRequired
+    let parameterStrs = requiredItems |> List.map (fun prm -> 
+            let prmName = FIXItem.getNameLN prm |> StringEx.lCaseFirstChar
+            let prmType = getParamType prm 
+            sprintf "%s:%s" prmName prmType )
+    let parameterStr = parameterStrs |> StringEx.join ", "
+    
+    let funcSigElements =  [ 
+                yield   (sprintf "let Mk%s (" typeName)
+                yield   parameterStr
+                yield   (sprintf ") : %s = {" typeName)  
+            ]
+
+    let funcSig = funcSigElements |> StringEx.join ""
+    sw.WriteLine funcSig
+
+    let memberInitStrs = typeMembers |> List.map (fun mbr ->
+            let mbrName = FIXItem.getNameLN mbr
+            let isRequired = FIXItem.getIsRequired mbr
+            match isRequired with
+            | true  ->  sprintf "    %s = %s"   mbrName (mbrName |> StringEx.lCaseFirstChar)
+            | false ->  sprintf "    %s = None" mbrName
+        )
+
+    memberInitStrs |> List.iter sw.WriteLine
+
+    sw.WriteLine "  }"
+
+    ()
+    
+    

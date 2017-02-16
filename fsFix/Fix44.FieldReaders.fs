@@ -23,8 +23,7 @@ let ReadAdvRefID (bs:byte[]) (pos:int) (len:int): AdvRefID =
 
 
 let ReadAdvSide (bs:byte[]) (pos:int) (len:int): AdvSide =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"B"B -> AdvSide.Buy
     |"S"B -> AdvSide.Sell
@@ -34,8 +33,7 @@ let ReadAdvSide (bs:byte[]) (pos:int) (len:int): AdvSide =
 
 
 let ReadAdvTransType (bs:byte[]) (pos:int) (len:int): AdvTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"N"B -> AdvTransType.New
     |"C"B -> AdvTransType.Cancel
@@ -72,8 +70,7 @@ let ReadCommission (bs:byte[]) (pos:int) (len:int): Commission =
 
 
 let ReadCommType (bs:byte[]) (pos:int) (len:int): CommType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> CommType.PerUnit
     |"2"B -> CommType.Percentage
@@ -101,8 +98,7 @@ let ReadExecID (bs:byte[]) (pos:int) (len:int): ExecID =
 
 
 let ReadExecInst (bs:byte[]) (pos:int) (len:int): ExecInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ExecInst.NotHeld
     |"2"B -> ExecInst.Work
@@ -153,8 +149,7 @@ let ReadExecRefID (bs:byte[]) (pos:int) (len:int): ExecRefID =
 
 
 let ReadHandlInst (bs:byte[]) (pos:int) (len:int): HandlInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> HandlInst.AutomatedExecutionOrderPrivate
     |"2"B -> HandlInst.AutomatedExecutionOrderPublic
@@ -163,8 +158,7 @@ let ReadHandlInst (bs:byte[]) (pos:int) (len:int): HandlInst =
 
 
 let ReadSecurityIDSource (bs:byte[]) (pos:int) (len:int): SecurityIDSource =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SecurityIDSource.Cusip
     |"2"B -> SecurityIDSource.Sedol
@@ -193,8 +187,7 @@ let ReadIOIID (bs:byte[]) (pos:int) (len:int): IOIID =
 
 
 let ReadIOIQltyInd (bs:byte[]) (pos:int) (len:int): IOIQltyInd =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"L"B -> IOIQltyInd.Low
     |"M"B -> IOIQltyInd.Medium
@@ -211,8 +204,7 @@ let ReadIOIQty (bs:byte[]) (pos:int) (len:int): IOIQty =
 
 
 let ReadIOITransType (bs:byte[]) (pos:int) (len:int): IOITransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"N"B -> IOITransType.New
     |"C"B -> IOITransType.Cancel
@@ -221,8 +213,7 @@ let ReadIOITransType (bs:byte[]) (pos:int) (len:int): IOITransType =
 
 
 let ReadLastCapacity (bs:byte[]) (pos:int) (len:int): LastCapacity =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> LastCapacity.Agent
     |"2"B -> LastCapacity.CrossAsAgent
@@ -252,8 +243,7 @@ let ReadMsgSeqNum (bs:byte[]) (pos:int) (len:int): MsgSeqNum =
 
 
 let ReadMsgType (bs:byte[]) (pos:int) (len:int): MsgType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MsgType.Heartbeat
     |"1"B -> MsgType.TestRequest
@@ -364,8 +354,7 @@ let ReadOrderQty (bs:byte[]) (pos:int) (len:int): OrderQty =
 
 
 let ReadOrdStatus (bs:byte[]) (pos:int) (len:int): OrdStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> OrdStatus.New
     |"1"B -> OrdStatus.PartiallyFilled
@@ -386,8 +375,7 @@ let ReadOrdStatus (bs:byte[]) (pos:int) (len:int): OrdStatus =
 
 
 let ReadOrdType (bs:byte[]) (pos:int) (len:int): OrdType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> OrdType.Market
     |"2"B -> OrdType.Limit
@@ -456,8 +444,7 @@ let ReadQuantity (bs:byte[]) (pos:int) (len:int): Quantity =
 
 
 let ReadSide (bs:byte[]) (pos:int) (len:int): Side =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> Side.Buy
     |"2"B -> Side.Sell
@@ -495,8 +482,7 @@ let ReadText (bs:byte[]) (pos:int) (len:int): Text =
 
 
 let ReadTimeInForce (bs:byte[]) (pos:int) (len:int): TimeInForce =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TimeInForce.Day
     |"1"B -> TimeInForce.GoodTillCancel
@@ -514,8 +500,7 @@ let ReadTransactTime (bs:byte[]) (pos:int) (len:int): TransactTime =
 
 
 let ReadUrgency (bs:byte[]) (pos:int) (len:int): Urgency =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> Urgency.Normal
     |"1"B -> Urgency.Flash
@@ -528,8 +513,7 @@ let ReadValidUntilTime (bs:byte[]) (pos:int) (len:int): ValidUntilTime =
 
 
 let ReadSettlType (bs:byte[]) (pos:int) (len:int): SettlType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SettlType.Regular
     |"1"B -> SettlType.Cash
@@ -549,8 +533,7 @@ let ReadSettlDate (bs:byte[]) (pos:int) (len:int): SettlDate =
 
 
 let ReadSymbolSfx (bs:byte[]) (pos:int) (len:int): SymbolSfx =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"WI"B -> SymbolSfx.WhenIssued
     |"CD"B -> SymbolSfx.AEucpWithLumpSumInterest
@@ -578,8 +561,7 @@ let ReadAllocID (bs:byte[]) (pos:int) (len:int): AllocID =
 
 
 let ReadAllocTransType (bs:byte[]) (pos:int) (len:int): AllocTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocTransType.New
     |"1"B -> AllocTransType.Replace
@@ -607,8 +589,7 @@ let ReadTradeDate (bs:byte[]) (pos:int) (len:int): TradeDate =
 
 
 let ReadPositionEffect (bs:byte[]) (pos:int) (len:int): PositionEffect =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"O"B -> PositionEffect.Open
     |"C"B -> PositionEffect.Close
@@ -630,8 +611,7 @@ let ReadAllocQty (bs:byte[]) (pos:int) (len:int): AllocQty =
 
 
 let ReadProcessCode (bs:byte[]) (pos:int) (len:int): ProcessCode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ProcessCode.Regular
     |"1"B -> ProcessCode.SoftDollar
@@ -660,8 +640,7 @@ let ReadNoDlvyInst (bs:byte[]) (pos:int) (len:int): NoDlvyInst =
 
 
 let ReadAllocStatus (bs:byte[]) (pos:int) (len:int): AllocStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocStatus.Accepted
     |"1"B -> AllocStatus.BlockLevelReject
@@ -673,8 +652,7 @@ let ReadAllocStatus (bs:byte[]) (pos:int) (len:int): AllocStatus =
 
 
 let ReadAllocRejCode (bs:byte[]) (pos:int) (len:int): AllocRejCode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocRejCode.UnknownAccount
     |"1"B -> AllocRejCode.IncorrectQuantity
@@ -704,8 +682,7 @@ let ReadSecureData (bs:byte[]) (pos:int) (len:int): SecureData =
 
 
 let ReadEmailType (bs:byte[]) (pos:int) (len:int): EmailType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> EmailType.New
     |"1"B -> EmailType.Reply
@@ -723,8 +700,7 @@ let ReadPossResend (bs:byte[]) (pos:int) (len:int): PossResend =
 
 
 let ReadEncryptMethod (bs:byte[]) (pos:int) (len:int): EncryptMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> EncryptMethod.NoneOther
     |"1"B -> EncryptMethod.Pkcs
@@ -745,8 +721,7 @@ let ReadExDestination (bs:byte[]) (pos:int) (len:int): ExDestination =
 
 
 let ReadCxlRejReason (bs:byte[]) (pos:int) (len:int): CxlRejReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CxlRejReason.TooLateToCancel
     |"1"B -> CxlRejReason.UnknownOrder
@@ -760,8 +735,7 @@ let ReadCxlRejReason (bs:byte[]) (pos:int) (len:int): CxlRejReason =
 
 
 let ReadOrdRejReason (bs:byte[]) (pos:int) (len:int): OrdRejReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> OrdRejReason.BrokerExchangeOption
     |"1"B -> OrdRejReason.UnknownSymbol
@@ -784,8 +758,7 @@ let ReadOrdRejReason (bs:byte[]) (pos:int) (len:int): OrdRejReason =
 
 
 let ReadIOIQualifier (bs:byte[]) (pos:int) (len:int): IOIQualifier =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> IOIQualifier.AllOrNone
     |"B"B -> IOIQualifier.MarketOnClose
@@ -889,8 +862,7 @@ let ReadExpireTime (bs:byte[]) (pos:int) (len:int): ExpireTime =
 
 
 let ReadDKReason (bs:byte[]) (pos:int) (len:int): DKReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> DKReason.UnknownSymbol
     |"B"B -> DKReason.WrongSide
@@ -947,8 +919,7 @@ let ReadMiscFeeCurr (bs:byte[]) (pos:int) (len:int): MiscFeeCurr =
 
 
 let ReadMiscFeeType (bs:byte[]) (pos:int) (len:int): MiscFeeType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> MiscFeeType.Regulatory
     |"2"B -> MiscFeeType.Tax
@@ -1006,8 +977,7 @@ let ReadURLLink (bs:byte[]) (pos:int) (len:int): URLLink =
 
 
 let ReadExecType (bs:byte[]) (pos:int) (len:int): ExecType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ExecType.New
     |"1"B -> ExecType.PartialFill
@@ -1052,8 +1022,7 @@ let ReadSettlCurrFxRate (bs:byte[]) (pos:int) (len:int): SettlCurrFxRate =
 
 
 let ReadSettlCurrFxRateCalc (bs:byte[]) (pos:int) (len:int): SettlCurrFxRateCalc =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"M"B -> SettlCurrFxRateCalc.Multiply
     |"D"B -> SettlCurrFxRateCalc.Divide
@@ -1073,8 +1042,7 @@ let ReadAccruedInterestAmt (bs:byte[]) (pos:int) (len:int): AccruedInterestAmt =
 
 
 let ReadSettlInstMode (bs:byte[]) (pos:int) (len:int): SettlInstMode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SettlInstMode.Default
     |"1"B -> SettlInstMode.StandingInstructionsProvided
@@ -1092,8 +1060,7 @@ let ReadSettlInstID (bs:byte[]) (pos:int) (len:int): SettlInstID =
 
 
 let ReadSettlInstTransType (bs:byte[]) (pos:int) (len:int): SettlInstTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"N"B -> SettlInstTransType.New
     |"C"B -> SettlInstTransType.Cancel
@@ -1107,8 +1074,7 @@ let ReadEmailThreadID (bs:byte[]) (pos:int) (len:int): EmailThreadID =
 
 
 let ReadSettlInstSource (bs:byte[]) (pos:int) (len:int): SettlInstSource =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SettlInstSource.BrokersInstructions
     |"2"B -> SettlInstSource.InstitutionsInstructions
@@ -1117,8 +1083,7 @@ let ReadSettlInstSource (bs:byte[]) (pos:int) (len:int): SettlInstSource =
 
 
 let ReadSecurityType (bs:byte[]) (pos:int) (len:int): SecurityType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"?"B -> SecurityType.Wildcard
     |"ABS"B -> SecurityType.AssetBackedSecurities
@@ -1222,8 +1187,7 @@ let ReadEffectiveTime (bs:byte[]) (pos:int) (len:int): EffectiveTime =
 
 
 let ReadStandInstDbType (bs:byte[]) (pos:int) (len:int): StandInstDbType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> StandInstDbType.Other
     |"1"B -> StandInstDbType.DtcSid
@@ -1242,8 +1206,7 @@ let ReadStandInstDbID (bs:byte[]) (pos:int) (len:int): StandInstDbID =
 
 
 let ReadSettlDeliveryType (bs:byte[]) (pos:int) (len:int): SettlDeliveryType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SettlDeliveryType.VersusPayment
     |"1"B -> SettlDeliveryType.Free
@@ -1289,8 +1252,7 @@ let ReadAllocLinkID (bs:byte[]) (pos:int) (len:int): AllocLinkID =
 
 
 let ReadAllocLinkType (bs:byte[]) (pos:int) (len:int): AllocLinkType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocLinkType.FXNetting
     |"1"B -> AllocLinkType.FXSwap
@@ -1310,8 +1272,7 @@ let ReadMaturityMonthYear (bs:byte[]) (pos:int) (len:int): MaturityMonthYear =
 
 
 let ReadPutOrCall (bs:byte[]) (pos:int) (len:int): PutOrCall =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PutOrCall.Put
     |"1"B -> PutOrCall.Call
@@ -1323,8 +1284,7 @@ let ReadStrikePrice (bs:byte[]) (pos:int) (len:int): StrikePrice =
 
 
 let ReadCoveredOrUncovered (bs:byte[]) (pos:int) (len:int): CoveredOrUncovered =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CoveredOrUncovered.Covered
     |"1"B -> CoveredOrUncovered.Uncovered
@@ -1344,8 +1304,7 @@ let ReadNotifyBrokerOfCredit (bs:byte[]) (pos:int) (len:int): NotifyBrokerOfCred
 
 
 let ReadAllocHandlInst (bs:byte[]) (pos:int) (len:int): AllocHandlInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AllocHandlInst.Match
     |"2"B -> AllocHandlInst.Forward
@@ -1375,8 +1334,7 @@ let ReadNoRoutingIDs (bs:byte[]) (pos:int) (len:int): NoRoutingIDs =
 
 
 let ReadRoutingType (bs:byte[]) (pos:int) (len:int): RoutingType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> RoutingType.TargetFirm
     |"2"B -> RoutingType.TargetList
@@ -1398,8 +1356,7 @@ let ReadBenchmarkCurveCurrency (bs:byte[]) (pos:int) (len:int): BenchmarkCurveCu
 
 
 let ReadBenchmarkCurveName (bs:byte[]) (pos:int) (len:int): BenchmarkCurveName =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"MuniAAA"B -> BenchmarkCurveName.Muniaaa
     |"FutureSWAP"B -> BenchmarkCurveName.Futureswap
@@ -1461,8 +1418,7 @@ let ReadNoStipulations (bs:byte[]) (pos:int) (len:int): NoStipulations =
 
 
 let ReadStipulationType (bs:byte[]) (pos:int) (len:int): StipulationType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"AMT"B -> StipulationType.Amt
     |"AUTOREINV"B -> StipulationType.AutoReinvestmentAtOrBetter
@@ -1527,8 +1483,7 @@ let ReadStipulationType (bs:byte[]) (pos:int) (len:int): StipulationType =
 
 
 let ReadStipulationValue (bs:byte[]) (pos:int) (len:int): StipulationValue =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"CD"B -> StipulationValue.SpecialCumDividend
     |"XD"B -> StipulationValue.SpecialExDividend
@@ -1548,8 +1503,7 @@ let ReadStipulationValue (bs:byte[]) (pos:int) (len:int): StipulationValue =
 
 
 let ReadYieldType (bs:byte[]) (pos:int) (len:int): YieldType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"AFTERTAX"B -> YieldType.AfterTaxYield
     |"ANNUAL"B -> YieldType.AnnualYield
@@ -1693,8 +1647,7 @@ let ReadMDReqID (bs:byte[]) (pos:int) (len:int): MDReqID =
 
 
 let ReadSubscriptionRequestType (bs:byte[]) (pos:int) (len:int): SubscriptionRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SubscriptionRequestType.Snapshot
     |"1"B -> SubscriptionRequestType.SnapshotPlusUpdates
@@ -1707,8 +1660,7 @@ let ReadMarketDepth (bs:byte[]) (pos:int) (len:int): MarketDepth =
 
 
 let ReadMDUpdateType (bs:byte[]) (pos:int) (len:int): MDUpdateType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MDUpdateType.FullRefresh
     |"1"B -> MDUpdateType.IncrementalRefresh
@@ -1728,8 +1680,7 @@ let ReadNoMDEntries (bs:byte[]) (pos:int) (len:int): NoMDEntries =
 
 
 let ReadMDEntryType (bs:byte[]) (pos:int) (len:int): MDEntryType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MDEntryType.Bid
     |"1"B -> MDEntryType.Offer
@@ -1764,8 +1715,7 @@ let ReadMDEntryTime (bs:byte[]) (pos:int) (len:int): MDEntryTime =
 
 
 let ReadTickDirection (bs:byte[]) (pos:int) (len:int): TickDirection =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TickDirection.PlusTick
     |"1"B -> TickDirection.ZeroPlusTick
@@ -1779,8 +1729,7 @@ let ReadMDMkt (bs:byte[]) (pos:int) (len:int): MDMkt =
 
 
 let ReadQuoteCondition (bs:byte[]) (pos:int) (len:int): QuoteCondition =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> QuoteCondition.OpenActive
     |"B"B -> QuoteCondition.ClosedInactive
@@ -1795,8 +1744,7 @@ let ReadQuoteCondition (bs:byte[]) (pos:int) (len:int): QuoteCondition =
 
 
 let ReadTradeCondition (bs:byte[]) (pos:int) (len:int): TradeCondition =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> TradeCondition.CashMarket
     |"B"B -> TradeCondition.AveragePriceTrade
@@ -1823,8 +1771,7 @@ let ReadMDEntryID (bs:byte[]) (pos:int) (len:int): MDEntryID =
 
 
 let ReadMDUpdateAction (bs:byte[]) (pos:int) (len:int): MDUpdateAction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MDUpdateAction.New
     |"1"B -> MDUpdateAction.Change
@@ -1837,8 +1784,7 @@ let ReadMDEntryRefID (bs:byte[]) (pos:int) (len:int): MDEntryRefID =
 
 
 let ReadMDReqRejReason (bs:byte[]) (pos:int) (len:int): MDReqRejReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MDReqRejReason.UnknownSymbol
     |"1"B -> MDReqRejReason.DuplicateMdreqid
@@ -1869,8 +1815,7 @@ let ReadDeskID (bs:byte[]) (pos:int) (len:int): DeskID =
 
 
 let ReadDeleteReason (bs:byte[]) (pos:int) (len:int): DeleteReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DeleteReason.CancelationTradeBust
     |"1"B -> DeleteReason.Error
@@ -1878,8 +1823,7 @@ let ReadDeleteReason (bs:byte[]) (pos:int) (len:int): DeleteReason =
 
 
 let ReadOpenCloseSettlFlag (bs:byte[]) (pos:int) (len:int): OpenCloseSettlFlag =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> OpenCloseSettlFlag.DailyOpenCloseSettlementEntry
     |"1"B -> OpenCloseSettlFlag.SessionOpenCloseSettlementEntry
@@ -1907,8 +1851,7 @@ let ReadMDEntryPositionNo (bs:byte[]) (pos:int) (len:int): MDEntryPositionNo =
 
 
 let ReadFinancialStatus (bs:byte[]) (pos:int) (len:int): FinancialStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> FinancialStatus.Bankrupt
     |"2"B -> FinancialStatus.PendingDelisting
@@ -1916,8 +1859,7 @@ let ReadFinancialStatus (bs:byte[]) (pos:int) (len:int): FinancialStatus =
 
 
 let ReadCorporateAction (bs:byte[]) (pos:int) (len:int): CorporateAction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> CorporateAction.ExDividend
     |"B"B -> CorporateAction.ExDistribution
@@ -1944,8 +1886,7 @@ let ReadNoQuoteSets (bs:byte[]) (pos:int) (len:int): NoQuoteSets =
 
 
 let ReadQuoteStatus (bs:byte[]) (pos:int) (len:int): QuoteStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> QuoteStatus.Accepted
     |"1"B -> QuoteStatus.CanceledForSymbol
@@ -1967,8 +1908,7 @@ let ReadQuoteStatus (bs:byte[]) (pos:int) (len:int): QuoteStatus =
 
 
 let ReadQuoteCancelType (bs:byte[]) (pos:int) (len:int): QuoteCancelType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteCancelType.CancelForSymbol
     |"2"B -> QuoteCancelType.CancelForSecurityType
@@ -1982,8 +1922,7 @@ let ReadQuoteEntryID (bs:byte[]) (pos:int) (len:int): QuoteEntryID =
 
 
 let ReadQuoteRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteRejectReason.UnknownSymbol
     |"2"B -> QuoteRejectReason.ExchangeClosed
@@ -1999,8 +1938,7 @@ let ReadQuoteRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRejectReason =
 
 
 let ReadQuoteResponseLevel (bs:byte[]) (pos:int) (len:int): QuoteResponseLevel =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> QuoteResponseLevel.NoAcknowledgement
     |"1"B -> QuoteResponseLevel.AcknowledgeOnlyNegativeOrErroneousQuotes
@@ -2013,8 +1951,7 @@ let ReadQuoteSetID (bs:byte[]) (pos:int) (len:int): QuoteSetID =
 
 
 let ReadQuoteRequestType (bs:byte[]) (pos:int) (len:int): QuoteRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteRequestType.Manual
     |"2"B -> QuoteRequestType.Automatic
@@ -2062,8 +1999,7 @@ let ReadUnderlyingMaturityMonthYear (bs:byte[]) (pos:int) (len:int): UnderlyingM
 
 
 let ReadUnderlyingPutOrCall (bs:byte[]) (pos:int) (len:int): UnderlyingPutOrCall =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> UnderlyingPutOrCall.Put
     |"1"B -> UnderlyingPutOrCall.Call
@@ -2087,8 +2023,7 @@ let ReadSecurityReqID (bs:byte[]) (pos:int) (len:int): SecurityReqID =
 
 
 let ReadSecurityRequestType (bs:byte[]) (pos:int) (len:int): SecurityRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SecurityRequestType.RequestSecurityIdentityAndSpecifications
     |"1"B -> SecurityRequestType.RequestSecurityIdentityForTheSpecificationsProvided
@@ -2102,8 +2037,7 @@ let ReadSecurityResponseID (bs:byte[]) (pos:int) (len:int): SecurityResponseID =
 
 
 let ReadSecurityResponseType (bs:byte[]) (pos:int) (len:int): SecurityResponseType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SecurityResponseType.AcceptSecurityProposalAsIs
     |"2"B -> SecurityResponseType.AcceptSecurityProposalWithRevisionsAsIndicatedInTheMessage
@@ -2123,8 +2057,7 @@ let ReadUnsolicitedIndicator (bs:byte[]) (pos:int) (len:int): UnsolicitedIndicat
 
 
 let ReadSecurityTradingStatus (bs:byte[]) (pos:int) (len:int): SecurityTradingStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SecurityTradingStatus.OpeningDelay
     |"2"B -> SecurityTradingStatus.TradingHalt
@@ -2153,8 +2086,7 @@ let ReadSecurityTradingStatus (bs:byte[]) (pos:int) (len:int): SecurityTradingSt
 
 
 let ReadHaltReason (bs:byte[]) (pos:int) (len:int): HaltReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"I"B -> HaltReason.OrderImbalance
     |"X"B -> HaltReason.EquipmentChangeover
@@ -2190,8 +2122,7 @@ let ReadLowPx (bs:byte[]) (pos:int) (len:int): LowPx =
 
 
 let ReadAdjustment (bs:byte[]) (pos:int) (len:int): Adjustment =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> Adjustment.Cancel
     |"2"B -> Adjustment.Error
@@ -2212,8 +2143,7 @@ let ReadContraTrader (bs:byte[]) (pos:int) (len:int): ContraTrader =
 
 
 let ReadTradSesMethod (bs:byte[]) (pos:int) (len:int): TradSesMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> TradSesMethod.Electronic
     |"2"B -> TradSesMethod.OpenOutcry
@@ -2222,8 +2152,7 @@ let ReadTradSesMethod (bs:byte[]) (pos:int) (len:int): TradSesMethod =
 
 
 let ReadTradSesMode (bs:byte[]) (pos:int) (len:int): TradSesMode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> TradSesMode.Testing
     |"2"B -> TradSesMode.Simulated
@@ -2232,8 +2161,7 @@ let ReadTradSesMode (bs:byte[]) (pos:int) (len:int): TradSesMode =
 
 
 let ReadTradSesStatus (bs:byte[]) (pos:int) (len:int): TradSesStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradSesStatus.Unknown
     |"1"B -> TradSesStatus.Halted
@@ -2270,8 +2198,7 @@ let ReadNumberOfOrders (bs:byte[]) (pos:int) (len:int): NumberOfOrders =
 
 
 let ReadMessageEncoding (bs:byte[]) (pos:int) (len:int): MessageEncoding =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"ISO-2022-JP"B -> MessageEncoding.Iso2022Jp
     |"EUC-JP"B -> MessageEncoding.EucJp
@@ -2334,8 +2261,7 @@ let ReadQuoteSetValidUntilTime (bs:byte[]) (pos:int) (len:int): QuoteSetValidUnt
 
 
 let ReadQuoteEntryRejectReason (bs:byte[]) (pos:int) (len:int): QuoteEntryRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteEntryRejectReason.UnknownSymbol
     |"2"B -> QuoteEntryRejectReason.ExchangeClosed
@@ -2362,8 +2288,7 @@ let ReadRefMsgType (bs:byte[]) (pos:int) (len:int): RefMsgType =
 
 
 let ReadSessionRejectReason (bs:byte[]) (pos:int) (len:int): SessionRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SessionRejectReason.InvalidTagNumber
     |"1"B -> SessionRejectReason.RequiredTagMissing
@@ -2388,8 +2313,7 @@ let ReadSessionRejectReason (bs:byte[]) (pos:int) (len:int): SessionRejectReason
 
 
 let ReadBidRequestTransType (bs:byte[]) (pos:int) (len:int): BidRequestTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"N"B -> BidRequestTransType.New
     |"C"B -> BidRequestTransType.Cancel
@@ -2409,8 +2333,7 @@ let ReadSolicitedFlag (bs:byte[]) (pos:int) (len:int): SolicitedFlag =
 
 
 let ReadExecRestatementReason (bs:byte[]) (pos:int) (len:int): ExecRestatementReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ExecRestatementReason.GtCorporateAction
     |"1"B -> ExecRestatementReason.GtRenewalRestatement
@@ -2432,8 +2355,7 @@ let ReadBusinessRejectRefID (bs:byte[]) (pos:int) (len:int): BusinessRejectRefID
 
 
 let ReadBusinessRejectReason (bs:byte[]) (pos:int) (len:int): BusinessRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> BusinessRejectReason.Other
     |"1"B -> BusinessRejectReason.UnkownId
@@ -2463,8 +2385,7 @@ let ReadNoMsgTypes (bs:byte[]) (pos:int) (len:int): NoMsgTypes =
 
 
 let ReadMsgDirection (bs:byte[]) (pos:int) (len:int): MsgDirection =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"S"B -> MsgDirection.Send
     |"R"B -> MsgDirection.Receive
@@ -2480,8 +2401,7 @@ let ReadTotalVolumeTraded (bs:byte[]) (pos:int) (len:int): TotalVolumeTraded =
 
 
 let ReadDiscretionInst (bs:byte[]) (pos:int) (len:int): DiscretionInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DiscretionInst.RelatedToDisplayedPrice
     |"1"B -> DiscretionInst.RelatedToMarketPrice
@@ -2514,8 +2434,7 @@ let ReadTotNoRelatedSym (bs:byte[]) (pos:int) (len:int): TotNoRelatedSym =
 
 
 let ReadBidType (bs:byte[]) (pos:int) (len:int): BidType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> BidType.NonDisclosed
     |"2"B -> BidType.DisclosedStyle
@@ -2540,8 +2459,7 @@ let ReadNoBidDescriptors (bs:byte[]) (pos:int) (len:int): NoBidDescriptors =
 
 
 let ReadBidDescriptorType (bs:byte[]) (pos:int) (len:int): BidDescriptorType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> BidDescriptorType.Sector
     |"2"B -> BidDescriptorType.Ccountry
@@ -2554,8 +2472,7 @@ let ReadBidDescriptor (bs:byte[]) (pos:int) (len:int): BidDescriptor =
 
 
 let ReadSideValueInd (bs:byte[]) (pos:int) (len:int): SideValueInd =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SideValueInd.Sidevalue1
     |"2"B -> SideValueInd.Sidevalue2
@@ -2591,8 +2508,7 @@ let ReadValueOfFutures (bs:byte[]) (pos:int) (len:int): ValueOfFutures =
 
 
 let ReadLiquidityIndType (bs:byte[]) (pos:int) (len:int): LiquidityIndType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> LiquidityIndType.FivedayMovingAverage
     |"2"B -> LiquidityIndType.TwentydayMovingAverage
@@ -2618,8 +2534,7 @@ let ReadCrossPercent (bs:byte[]) (pos:int) (len:int): CrossPercent =
 
 
 let ReadProgRptReqs (bs:byte[]) (pos:int) (len:int): ProgRptReqs =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ProgRptReqs.BuysideExplicitlyRequestsStatusUsingStatusrequest
     |"2"B -> ProgRptReqs.SellsidePeriodicallySendsStatusUsingListstatus
@@ -2632,8 +2547,7 @@ let ReadProgPeriodInterval (bs:byte[]) (pos:int) (len:int): ProgPeriodInterval =
 
 
 let ReadIncTaxInd (bs:byte[]) (pos:int) (len:int): IncTaxInd =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> IncTaxInd.Net
     |"2"B -> IncTaxInd.Gross
@@ -2645,8 +2559,7 @@ let ReadNumBidders (bs:byte[]) (pos:int) (len:int): NumBidders =
 
 
 let ReadBidTradeType (bs:byte[]) (pos:int) (len:int): BidTradeType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"R"B -> BidTradeType.RiskTrade
     |"G"B -> BidTradeType.VwapGuarantee
@@ -2656,8 +2569,7 @@ let ReadBidTradeType (bs:byte[]) (pos:int) (len:int): BidTradeType =
 
 
 let ReadBasisPxType (bs:byte[]) (pos:int) (len:int): BasisPxType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"2"B -> BasisPxType.ClosingPriceAtMorningSession
     |"3"B -> BasisPxType.ClosingPrice
@@ -2688,8 +2600,7 @@ let ReadTotNoStrikes (bs:byte[]) (pos:int) (len:int): TotNoStrikes =
 
 
 let ReadPriceType (bs:byte[]) (pos:int) (len:int): PriceType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PriceType.Percentage
     |"2"B -> PriceType.PerUnit
@@ -2718,8 +2629,7 @@ let ReadDayAvgPx (bs:byte[]) (pos:int) (len:int): DayAvgPx =
 
 
 let ReadGTBookingInst (bs:byte[]) (pos:int) (len:int): GTBookingInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> GTBookingInst.BookOutAllTradesOnDayOfExecution
     |"1"B -> GTBookingInst.AccumulateExecutionsUntilOrderIsFilledOrExpires
@@ -2732,8 +2642,7 @@ let ReadNoStrikes (bs:byte[]) (pos:int) (len:int): NoStrikes =
 
 
 let ReadListStatusType (bs:byte[]) (pos:int) (len:int): ListStatusType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ListStatusType.Ack
     |"2"B -> ListStatusType.Response
@@ -2745,8 +2654,7 @@ let ReadListStatusType (bs:byte[]) (pos:int) (len:int): ListStatusType =
 
 
 let ReadNetGrossInd (bs:byte[]) (pos:int) (len:int): NetGrossInd =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> NetGrossInd.Net
     |"2"B -> NetGrossInd.Gross
@@ -2754,8 +2662,7 @@ let ReadNetGrossInd (bs:byte[]) (pos:int) (len:int): NetGrossInd =
 
 
 let ReadListOrderStatus (bs:byte[]) (pos:int) (len:int): ListOrderStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ListOrderStatus.Inbiddingprocess
     |"2"B -> ListOrderStatus.Receivedforexecution
@@ -2772,8 +2679,7 @@ let ReadExpireDate (bs:byte[]) (pos:int) (len:int): ExpireDate =
 
 
 let ReadListExecInstType (bs:byte[]) (pos:int) (len:int): ListExecInstType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ListExecInstType.Immediate
     |"2"B -> ListExecInstType.WaitForExecuteInstruction
@@ -2784,8 +2690,7 @@ let ReadListExecInstType (bs:byte[]) (pos:int) (len:int): ListExecInstType =
 
 
 let ReadCxlRejResponseTo (bs:byte[]) (pos:int) (len:int): CxlRejResponseTo =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> CxlRejResponseTo.OrderCancelRequest
     |"2"B -> CxlRejResponseTo.OrderCancelReplaceRequest
@@ -2813,8 +2718,7 @@ let ReadLiquidityNumSecurities (bs:byte[]) (pos:int) (len:int): LiquidityNumSecu
 
 
 let ReadMultiLegReportingType (bs:byte[]) (pos:int) (len:int): MultiLegReportingType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> MultiLegReportingType.SingleSecurity
     |"2"B -> MultiLegReportingType.IndividualLegOfAMultiLegSecurity
@@ -2836,8 +2740,7 @@ let ReadEncodedListStatusText (bs:byte[]) (pos:int) (len:int): EncodedListStatus
 
 
 let ReadPartyIDSource (bs:byte[]) (pos:int) (len:int): PartyIDSource =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"B"B -> PartyIDSource.Bic
     |"C"B -> PartyIDSource.GenerallyAcceptedMarketParticipantIdentifier
@@ -2869,8 +2772,7 @@ let ReadNetChgPrevDay (bs:byte[]) (pos:int) (len:int): NetChgPrevDay =
 
 
 let ReadPartyRole (bs:byte[]) (pos:int) (len:int): PartyRole =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PartyRole.ExecutingFirm
     |"2"B -> PartyRole.BrokerOfCredit
@@ -2941,8 +2843,7 @@ let ReadUnderlyingSecurityAltIDSource (bs:byte[]) (pos:int) (len:int): Underlyin
 
 
 let ReadProduct (bs:byte[]) (pos:int) (len:int): Product =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> Product.Agency
     |"2"B -> Product.Commodity
@@ -2977,8 +2878,7 @@ let ReadTestMessageIndicator (bs:byte[]) (pos:int) (len:int): TestMessageIndicat
 
 
 let ReadQuantityType (bs:byte[]) (pos:int) (len:int): QuantityType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuantityType.Shares
     |"2"B -> QuantityType.Bonds
@@ -3000,8 +2900,7 @@ let ReadIndividualAllocID (bs:byte[]) (pos:int) (len:int): IndividualAllocID =
 
 
 let ReadRoundingDirection (bs:byte[]) (pos:int) (len:int): RoundingDirection =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> RoundingDirection.RoundToNearest
     |"1"B -> RoundingDirection.RoundDown
@@ -3042,8 +2941,7 @@ let ReadPaymentRef (bs:byte[]) (pos:int) (len:int): PaymentRef =
 
 
 let ReadDistribPaymentMethod (bs:byte[]) (pos:int) (len:int): DistribPaymentMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> DistribPaymentMethod.Crest
     |"2"B -> DistribPaymentMethod.Nscc
@@ -3069,8 +2967,7 @@ let ReadCommCurrency (bs:byte[]) (pos:int) (len:int): CommCurrency =
 
 
 let ReadCancellationRights (bs:byte[]) (pos:int) (len:int): CancellationRights =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"Y"B -> CancellationRights.Yes
     |"N"B -> CancellationRights.NoExecutionOnly
@@ -3080,8 +2977,7 @@ let ReadCancellationRights (bs:byte[]) (pos:int) (len:int): CancellationRights =
 
 
 let ReadMoneyLaunderingStatus (bs:byte[]) (pos:int) (len:int): MoneyLaunderingStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"Y"B -> MoneyLaunderingStatus.Passed
     |"N"B -> MoneyLaunderingStatus.NotChecked
@@ -3100,8 +2996,7 @@ let ReadTransBkdTime (bs:byte[]) (pos:int) (len:int): TransBkdTime =
 
 
 let ReadExecPriceType (bs:byte[]) (pos:int) (len:int): ExecPriceType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"B"B -> ExecPriceType.BidPrice
     |"C"B -> ExecPriceType.CreationPrice
@@ -3123,8 +3018,7 @@ let ReadDateOfBirth (bs:byte[]) (pos:int) (len:int): DateOfBirth =
 
 
 let ReadTradeReportTransType (bs:byte[]) (pos:int) (len:int): TradeReportTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeReportTransType.New
     |"1"B -> TradeReportTransType.Cancel
@@ -3151,8 +3045,7 @@ let ReadCardIssNum (bs:byte[]) (pos:int) (len:int): CardIssNum =
 
 
 let ReadPaymentMethod (bs:byte[]) (pos:int) (len:int): PaymentMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PaymentMethod.Crest
     |"2"B -> PaymentMethod.Nscc
@@ -3181,8 +3074,7 @@ let ReadDesignation (bs:byte[]) (pos:int) (len:int): Designation =
 
 
 let ReadTaxAdvantageType (bs:byte[]) (pos:int) (len:int): TaxAdvantageType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TaxAdvantageType.NNone
     |"1"B -> TaxAdvantageType.MaxiIsa
@@ -3203,8 +3095,7 @@ let ReadRegistRejReasonText (bs:byte[]) (pos:int) (len:int): RegistRejReasonText
 
 
 let ReadFundRenewWaiv (bs:byte[]) (pos:int) (len:int): FundRenewWaiv =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"Y"B -> FundRenewWaiv.Yes
     |"N"B -> FundRenewWaiv.No
@@ -3244,8 +3135,7 @@ let ReadPaymentRemitterID (bs:byte[]) (pos:int) (len:int): PaymentRemitterID =
 
 
 let ReadRegistStatus (bs:byte[]) (pos:int) (len:int): RegistStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> RegistStatus.Accepted
     |"R"B -> RegistStatus.Rejected
@@ -3255,8 +3145,7 @@ let ReadRegistStatus (bs:byte[]) (pos:int) (len:int): RegistStatus =
 
 
 let ReadRegistRejReasonCode (bs:byte[]) (pos:int) (len:int): RegistRejReasonCode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> RegistRejReasonCode.InvalidUnacceptableAccountType
     |"2"B -> RegistRejReasonCode.InvalidUnacceptableTaxExemptType
@@ -3305,8 +3194,7 @@ let ReadRegistID (bs:byte[]) (pos:int) (len:int): RegistID =
 
 
 let ReadRegistTransType (bs:byte[]) (pos:int) (len:int): RegistTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> RegistTransType.New
     |"1"B -> RegistTransType.Replace
@@ -3323,8 +3211,7 @@ let ReadOrderPercent (bs:byte[]) (pos:int) (len:int): OrderPercent =
 
 
 let ReadOwnershipType (bs:byte[]) (pos:int) (len:int): OwnershipType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"J"B -> OwnershipType.JointInvestors
     |"T"B -> OwnershipType.TenantsInCommon
@@ -3337,8 +3224,7 @@ let ReadNoContAmts (bs:byte[]) (pos:int) (len:int): NoContAmts =
 
 
 let ReadContAmtType (bs:byte[]) (pos:int) (len:int): ContAmtType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ContAmtType.CommissionAmount
     |"2"B -> ContAmtType.CommissionPercent
@@ -3361,8 +3247,7 @@ let ReadContAmtCurr (bs:byte[]) (pos:int) (len:int): ContAmtCurr =
 
 
 let ReadOwnerType (bs:byte[]) (pos:int) (len:int): OwnerType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> OwnerType.IndividualInvestor
     |"2"B -> OwnerType.PublicCompany
@@ -3401,8 +3286,7 @@ let ReadSecondaryExecID (bs:byte[]) (pos:int) (len:int): SecondaryExecID =
 
 
 let ReadOrderCapacity (bs:byte[]) (pos:int) (len:int): OrderCapacity =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> OrderCapacity.Agency
     |"G"B -> OrderCapacity.Proprietary
@@ -3414,8 +3298,7 @@ let ReadOrderCapacity (bs:byte[]) (pos:int) (len:int): OrderCapacity =
 
 
 let ReadOrderRestrictions (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> OrderRestrictions.ProgramTrade
     |"2"B -> OrderRestrictions.IndexArbitrage
@@ -3431,8 +3314,7 @@ let ReadOrderRestrictions (bs:byte[]) (pos:int) (len:int): OrderRestrictions =
 
 
 let ReadMassCancelRequestType (bs:byte[]) (pos:int) (len:int): MassCancelRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> MassCancelRequestType.CancelOrdersForASecurity
     |"2"B -> MassCancelRequestType.CancelOrdersForAnUnderlyingSecurity
@@ -3445,8 +3327,7 @@ let ReadMassCancelRequestType (bs:byte[]) (pos:int) (len:int): MassCancelRequest
 
 
 let ReadMassCancelResponse (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MassCancelResponse.CancelRequestRejected
     |"1"B -> MassCancelResponse.CancelOrdersForASecurity
@@ -3460,8 +3341,7 @@ let ReadMassCancelResponse (bs:byte[]) (pos:int) (len:int): MassCancelResponse =
 
 
 let ReadMassCancelRejectReason (bs:byte[]) (pos:int) (len:int): MassCancelRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MassCancelRejectReason.MassCancelNotSupported
     |"1"B -> MassCancelRejectReason.InvalidOrUnknownSecurity
@@ -3491,8 +3371,7 @@ let ReadAffectedSecondaryOrderID (bs:byte[]) (pos:int) (len:int): AffectedSecond
 
 
 let ReadQuoteType (bs:byte[]) (pos:int) (len:int): QuoteType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> QuoteType.Indicative
     |"1"B -> QuoteType.Tradeable
@@ -3526,8 +3405,7 @@ let ReadInstrRegistry (bs:byte[]) (pos:int) (len:int): InstrRegistry =
 
 
 let ReadCashMargin (bs:byte[]) (pos:int) (len:int): CashMargin =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> CashMargin.Cash
     |"2"B -> CashMargin.MarginOpen
@@ -3540,8 +3418,7 @@ let ReadNestedPartySubID (bs:byte[]) (pos:int) (len:int): NestedPartySubID =
 
 
 let ReadScope (bs:byte[]) (pos:int) (len:int): Scope =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> Scope.Local
     |"2"B -> Scope.National
@@ -3558,8 +3435,7 @@ let ReadCrossID (bs:byte[]) (pos:int) (len:int): CrossID =
 
 
 let ReadCrossType (bs:byte[]) (pos:int) (len:int): CrossType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> CrossType.CrossTradeWhichIsExecutedCompletelyOrNot
     |"2"B -> CrossType.CrossTradeWhichIsExecutedPartiallyAndTheRestIsCancelled
@@ -3569,8 +3445,7 @@ let ReadCrossType (bs:byte[]) (pos:int) (len:int): CrossType =
 
 
 let ReadCrossPrioritization (bs:byte[]) (pos:int) (len:int): CrossPrioritization =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CrossPrioritization.NNone
     |"1"B -> CrossPrioritization.BuySideIsPrioritized
@@ -3583,8 +3458,7 @@ let ReadOrigCrossID (bs:byte[]) (pos:int) (len:int): OrigCrossID =
 
 
 let ReadNoSides (bs:byte[]) (pos:int) (len:int): NoSides =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> NoSides.OneSide
     |"2"B -> NoSides.BothSides
@@ -3616,8 +3490,7 @@ let ReadNoSecurityTypes (bs:byte[]) (pos:int) (len:int): NoSecurityTypes =
 
 
 let ReadSecurityListRequestType (bs:byte[]) (pos:int) (len:int): SecurityListRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SecurityListRequestType.Symbol
     |"1"B -> SecurityListRequestType.SecuritytypeAndOrCficode
@@ -3628,8 +3501,7 @@ let ReadSecurityListRequestType (bs:byte[]) (pos:int) (len:int): SecurityListReq
 
 
 let ReadSecurityRequestResult (bs:byte[]) (pos:int) (len:int): SecurityRequestResult =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SecurityRequestResult.ValidRequest
     |"1"B -> SecurityRequestResult.InvalidOrUnsupportedRequest
@@ -3649,8 +3521,7 @@ let ReadMinTradeVol (bs:byte[]) (pos:int) (len:int): MinTradeVol =
 
 
 let ReadMultiLegRptTypeReq (bs:byte[]) (pos:int) (len:int): MultiLegRptTypeReq =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MultiLegRptTypeReq.ReportByMulitlegSecurityOnly
     |"1"B -> MultiLegRptTypeReq.ReportByMultilegSecurityAndByInstrumentLegsBelongingToTheMultilegSecurity
@@ -3671,8 +3542,7 @@ let ReadLegPrice (bs:byte[]) (pos:int) (len:int): LegPrice =
 
 
 let ReadTradSesStatusRejReason (bs:byte[]) (pos:int) (len:int): TradSesStatusRejReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> TradSesStatusRejReason.UnknownOrInvalidTradingsessionid
     | x -> failwithf "ReadTradSesStatusRejReason unknown fix tag: %A"  x
@@ -3683,8 +3553,7 @@ let ReadTradeRequestID (bs:byte[]) (pos:int) (len:int): TradeRequestID =
 
 
 let ReadTradeRequestType (bs:byte[]) (pos:int) (len:int): TradeRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeRequestType.AllTrades
     |"1"B -> TradeRequestType.MatchedTradesMatchingCriteriaProvidedOnRequest
@@ -3707,8 +3576,7 @@ let ReadTradeReportRefID (bs:byte[]) (pos:int) (len:int): TradeReportRefID =
 
 
 let ReadMatchStatus (bs:byte[]) (pos:int) (len:int): MatchStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MatchStatus.ComparedMatchedOrAffirmed
     |"1"B -> MatchStatus.UncomparedUnmatchedOrUnaffirmed
@@ -3729,8 +3597,7 @@ let ReadNoClearingInstructions (bs:byte[]) (pos:int) (len:int): NoClearingInstru
 
 
 let ReadClearingInstruction (bs:byte[]) (pos:int) (len:int): ClearingInstruction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ClearingInstruction.ProcessNormally
     |"1"B -> ClearingInstruction.ExcludeFromAllNetting
@@ -3762,8 +3629,7 @@ let ReadNoDates (bs:byte[]) (pos:int) (len:int): NoDates =
 
 
 let ReadAccountType (bs:byte[]) (pos:int) (len:int): AccountType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AccountType.AccountIsCarriedOnCustomerSideOfBooks
     |"2"B -> AccountType.AccountIsCarriedOnNonCustomerSideOfBooks
@@ -3776,8 +3642,7 @@ let ReadAccountType (bs:byte[]) (pos:int) (len:int): AccountType =
 
 
 let ReadCustOrderCapacity (bs:byte[]) (pos:int) (len:int): CustOrderCapacity =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> CustOrderCapacity.MemberTradingForTheirOwnAccount
     |"2"B -> CustOrderCapacity.ClearingFirmTradingForItsProprietaryAccount
@@ -3795,8 +3660,7 @@ let ReadMassStatusReqID (bs:byte[]) (pos:int) (len:int): MassStatusReqID =
 
 
 let ReadMassStatusReqType (bs:byte[]) (pos:int) (len:int): MassStatusReqType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> MassStatusReqType.StatusForOrdersForASecurity
     |"2"B -> MassStatusReqType.StatusForOrdersForAnUnderlyingSecurity
@@ -3822,8 +3686,7 @@ let ReadLegSettlDate (bs:byte[]) (pos:int) (len:int): LegSettlDate =
 
 
 let ReadDayBookingInst (bs:byte[]) (pos:int) (len:int): DayBookingInst =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DayBookingInst.CanTriggerBookingWithoutReferenceToTheOrderInitiator
     |"1"B -> DayBookingInst.SpeakWithOrderInitiatorBeforeBooking
@@ -3832,8 +3695,7 @@ let ReadDayBookingInst (bs:byte[]) (pos:int) (len:int): DayBookingInst =
 
 
 let ReadBookingUnit (bs:byte[]) (pos:int) (len:int): BookingUnit =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> BookingUnit.EachPartialExecutionIsABookableUnit
     |"1"B -> BookingUnit.AggregatePartialExecutionsOnThisOrderAndBookOneTradePerOrder
@@ -3842,8 +3704,7 @@ let ReadBookingUnit (bs:byte[]) (pos:int) (len:int): BookingUnit =
 
 
 let ReadPreallocMethod (bs:byte[]) (pos:int) (len:int): PreallocMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PreallocMethod.ProRata
     |"1"B -> PreallocMethod.DoNotProRata
@@ -3981,8 +3842,7 @@ let ReadTradingSessionSubID (bs:byte[]) (pos:int) (len:int): TradingSessionSubID
 
 
 let ReadAllocType (bs:byte[]) (pos:int) (len:int): AllocType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AllocType.Calculated
     |"2"B -> AllocType.Preliminary
@@ -4025,8 +3885,7 @@ let ReadOfferYield (bs:byte[]) (pos:int) (len:int): OfferYield =
 
 
 let ReadClearingFeeIndicator (bs:byte[]) (pos:int) (len:int): ClearingFeeIndicator =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"B"B -> ClearingFeeIndicator.CboeMember
     |"C"B -> ClearingFeeIndicator.NonMemberAndCustomer
@@ -4048,8 +3907,7 @@ let ReadLegLastPx (bs:byte[]) (pos:int) (len:int): LegLastPx =
 
 
 let ReadPriorityIndicator (bs:byte[]) (pos:int) (len:int): PriorityIndicator =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PriorityIndicator.PriorityUnchanged
     |"1"B -> PriorityIndicator.LostPriorityAsResultOfOrderChange
@@ -4129,8 +3987,7 @@ let ReadSettlCurrOfferFxRate (bs:byte[]) (pos:int) (len:int): SettlCurrOfferFxRa
 
 
 let ReadQuoteRequestRejectReason (bs:byte[]) (pos:int) (len:int): QuoteRequestRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteRequestRejectReason.UnknownSymbol
     |"2"B -> QuoteRequestRejectReason.ExchangeClosed
@@ -4151,8 +4008,7 @@ let ReadSideComplianceID (bs:byte[]) (pos:int) (len:int): SideComplianceID =
 
 
 let ReadAcctIDSource (bs:byte[]) (pos:int) (len:int): AcctIDSource =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AcctIDSource.Bic
     |"2"B -> AcctIDSource.SidCode
@@ -4180,8 +4036,7 @@ let ReadConfirmID (bs:byte[]) (pos:int) (len:int): ConfirmID =
 
 
 let ReadConfirmStatus (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ConfirmStatus.Received
     |"2"B -> ConfirmStatus.MismatchedAccount
@@ -4192,8 +4047,7 @@ let ReadConfirmStatus (bs:byte[]) (pos:int) (len:int): ConfirmStatus =
 
 
 let ReadConfirmTransType (bs:byte[]) (pos:int) (len:int): ConfirmTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ConfirmTransType.New
     |"1"B -> ConfirmTransType.Replace
@@ -4206,8 +4060,7 @@ let ReadContractSettlMonth (bs:byte[]) (pos:int) (len:int): ContractSettlMonth =
 
 
 let ReadDeliveryForm (bs:byte[]) (pos:int) (len:int): DeliveryForm =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> DeliveryForm.Bookentry
     |"2"B -> DeliveryForm.Bearer
@@ -4299,8 +4152,7 @@ let ReadLegStipulationValue (bs:byte[]) (pos:int) (len:int): LegStipulationValue
 
 
 let ReadLegSwapType (bs:byte[]) (pos:int) (len:int): LegSwapType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> LegSwapType.ParForPar
     |"2"B -> LegSwapType.ModifiedDuration
@@ -4314,8 +4166,7 @@ let ReadPool (bs:byte[]) (pos:int) (len:int): Pool =
 
 
 let ReadQuotePriceType (bs:byte[]) (pos:int) (len:int): QuotePriceType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuotePriceType.Percent
     |"2"B -> QuotePriceType.PerShare
@@ -4335,8 +4186,7 @@ let ReadQuoteRespID (bs:byte[]) (pos:int) (len:int): QuoteRespID =
 
 
 let ReadQuoteRespType (bs:byte[]) (pos:int) (len:int): QuoteRespType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> QuoteRespType.HitLift
     |"2"B -> QuoteRespType.Counter
@@ -4380,8 +4230,7 @@ let ReadNoPositions (bs:byte[]) (pos:int) (len:int): NoPositions =
 
 
 let ReadPosType (bs:byte[]) (pos:int) (len:int): PosType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"TQ"B -> PosType.TransactionQuantity
     |"IAS"B -> PosType.IntraSpreadQty
@@ -4414,8 +4263,7 @@ let ReadShortQty (bs:byte[]) (pos:int) (len:int): ShortQty =
 
 
 let ReadPosQtyStatus (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosQtyStatus.Submitted
     |"1"B -> PosQtyStatus.Accepted
@@ -4424,8 +4272,7 @@ let ReadPosQtyStatus (bs:byte[]) (pos:int) (len:int): PosQtyStatus =
 
 
 let ReadPosAmtType (bs:byte[]) (pos:int) (len:int): PosAmtType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"FMTM"B -> PosAmtType.FinalMarkToMarketAmount
     |"IMTM"B -> PosAmtType.IncrementalMarkToMarketAmount
@@ -4443,8 +4290,7 @@ let ReadPosAmt (bs:byte[]) (pos:int) (len:int): PosAmt =
 
 
 let ReadPosTransType (bs:byte[]) (pos:int) (len:int): PosTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PosTransType.Exercise
     |"2"B -> PosTransType.DoNotExercise
@@ -4463,8 +4309,7 @@ let ReadNoUnderlyings (bs:byte[]) (pos:int) (len:int): NoUnderlyings =
 
 
 let ReadPosMaintAction (bs:byte[]) (pos:int) (len:int): PosMaintAction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PosMaintAction.New
     |"2"B -> PosMaintAction.Replace
@@ -4493,8 +4338,7 @@ let ReadSettlSessSubID (bs:byte[]) (pos:int) (len:int): SettlSessSubID =
 
 
 let ReadAdjustmentType (bs:byte[]) (pos:int) (len:int): AdjustmentType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AdjustmentType.ProcessRequestAsMarginDisposition
     |"1"B -> AdjustmentType.DeltaPlus
@@ -4516,8 +4360,7 @@ let ReadPosMaintRptID (bs:byte[]) (pos:int) (len:int): PosMaintRptID =
 
 
 let ReadPosMaintStatus (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosMaintStatus.Accepted
     |"1"B -> PosMaintStatus.AcceptedWithWarnings
@@ -4528,8 +4371,7 @@ let ReadPosMaintStatus (bs:byte[]) (pos:int) (len:int): PosMaintStatus =
 
 
 let ReadPosMaintResult (bs:byte[]) (pos:int) (len:int): PosMaintResult =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosMaintResult.SuccessfulCompletionNoWarningsOrErrors
     |"1"B -> PosMaintResult.Rejected
@@ -4538,8 +4380,7 @@ let ReadPosMaintResult (bs:byte[]) (pos:int) (len:int): PosMaintResult =
 
 
 let ReadPosReqType (bs:byte[]) (pos:int) (len:int): PosReqType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosReqType.Positions
     |"1"B -> PosReqType.Trades
@@ -4549,8 +4390,7 @@ let ReadPosReqType (bs:byte[]) (pos:int) (len:int): PosReqType =
 
 
 let ReadResponseTransportType (bs:byte[]) (pos:int) (len:int): ResponseTransportType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ResponseTransportType.Inband
     |"1"B -> ResponseTransportType.OutOfBand
@@ -4566,8 +4406,7 @@ let ReadTotalNumPosReports (bs:byte[]) (pos:int) (len:int): TotalNumPosReports =
 
 
 let ReadPosReqResult (bs:byte[]) (pos:int) (len:int): PosReqResult =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosReqResult.ValidRequest
     |"1"B -> PosReqResult.InvalidOrUnsupportedRequest
@@ -4579,8 +4418,7 @@ let ReadPosReqResult (bs:byte[]) (pos:int) (len:int): PosReqResult =
 
 
 let ReadPosReqStatus (bs:byte[]) (pos:int) (len:int): PosReqStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PosReqStatus.Completed
     |"1"B -> PosReqStatus.CompletedWithWarnings
@@ -4593,8 +4431,7 @@ let ReadSettlPrice (bs:byte[]) (pos:int) (len:int): SettlPrice =
 
 
 let ReadSettlPriceType (bs:byte[]) (pos:int) (len:int): SettlPriceType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SettlPriceType.Final
     |"2"B -> SettlPriceType.Theoretical
@@ -4650,8 +4487,7 @@ let ReadDeliveryDate (bs:byte[]) (pos:int) (len:int): DeliveryDate =
 
 
 let ReadAssignmentMethod (bs:byte[]) (pos:int) (len:int): AssignmentMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"R"B -> AssignmentMethod.Random
     |"P"B -> AssignmentMethod.Prorata
@@ -4667,8 +4503,7 @@ let ReadOpenInterest (bs:byte[]) (pos:int) (len:int): OpenInterest =
 
 
 let ReadExerciseMethod (bs:byte[]) (pos:int) (len:int): ExerciseMethod =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"A"B -> ExerciseMethod.Automatic
     |"M"B -> ExerciseMethod.Manual
@@ -4680,8 +4515,7 @@ let ReadTotNumTradeReports (bs:byte[]) (pos:int) (len:int): TotNumTradeReports =
 
 
 let ReadTradeRequestResult (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeRequestResult.Successful
     |"1"B -> TradeRequestResult.InvalidOrUnknownInstrument
@@ -4696,8 +4530,7 @@ let ReadTradeRequestResult (bs:byte[]) (pos:int) (len:int): TradeRequestResult =
 
 
 let ReadTradeRequestStatus (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeRequestStatus.Accepted
     |"1"B -> TradeRequestStatus.Completed
@@ -4706,8 +4539,7 @@ let ReadTradeRequestStatus (bs:byte[]) (pos:int) (len:int): TradeRequestStatus =
 
 
 let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeReportRejectReason.Successful
     |"1"B -> TradeReportRejectReason.InvalidPartyInformation
@@ -4719,8 +4551,7 @@ let ReadTradeReportRejectReason (bs:byte[]) (pos:int) (len:int): TradeReportReje
 
 
 let ReadSideMultiLegReportingType (bs:byte[]) (pos:int) (len:int): SideMultiLegReportingType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> SideMultiLegReportingType.SingleSecurity
     |"2"B -> SideMultiLegReportingType.IndividualLegOfAMultiLegSecurity
@@ -4761,8 +4592,7 @@ let ReadNested2PartySubID (bs:byte[]) (pos:int) (len:int): Nested2PartySubID =
 
 
 let ReadBenchmarkSecurityIDSource (bs:byte[]) (pos:int) (len:int): BenchmarkSecurityIDSource =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> BenchmarkSecurityIDSource.Cusip
     |"2"B -> BenchmarkSecurityIDSource.Sedol
@@ -4819,8 +4649,7 @@ let ReadTrdRegTimestamp (bs:byte[]) (pos:int) (len:int): TrdRegTimestamp =
 
 
 let ReadTrdRegTimestampType (bs:byte[]) (pos:int) (len:int): TrdRegTimestampType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> TrdRegTimestampType.ExecutionTime
     |"2"B -> TrdRegTimestampType.TimeIn
@@ -4839,8 +4668,7 @@ let ReadConfirmRefID (bs:byte[]) (pos:int) (len:int): ConfirmRefID =
 
 
 let ReadConfirmType (bs:byte[]) (pos:int) (len:int): ConfirmType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ConfirmType.Status
     |"2"B -> ConfirmType.Confirmation
@@ -4849,8 +4677,7 @@ let ReadConfirmType (bs:byte[]) (pos:int) (len:int): ConfirmType =
 
 
 let ReadConfirmRejReason (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> ConfirmRejReason.MismatchedAccount
     |"2"B -> ConfirmRejReason.MissingSettlementInstructions
@@ -4859,8 +4686,7 @@ let ReadConfirmRejReason (bs:byte[]) (pos:int) (len:int): ConfirmRejReason =
 
 
 let ReadBookingType (bs:byte[]) (pos:int) (len:int): BookingType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> BookingType.RegularBooking
     |"1"B -> BookingType.Cfd
@@ -4885,8 +4711,7 @@ let ReadLastUpdateTime (bs:byte[]) (pos:int) (len:int): LastUpdateTime =
 
 
 let ReadAllocSettlInstType (bs:byte[]) (pos:int) (len:int): AllocSettlInstType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocSettlInstType.UseDefaultInstructions
     |"1"B -> AllocSettlInstType.DeriveFromParametersProvided
@@ -4921,8 +4746,7 @@ let ReadSettlPartySubIDType (bs:byte[]) (pos:int) (len:int): SettlPartySubIDType
 
 
 let ReadDlvyInstType (bs:byte[]) (pos:int) (len:int): DlvyInstType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"S"B -> DlvyInstType.Securities
     |"C"B -> DlvyInstType.Cash
@@ -4930,8 +4754,7 @@ let ReadDlvyInstType (bs:byte[]) (pos:int) (len:int): DlvyInstType =
 
 
 let ReadTerminationType (bs:byte[]) (pos:int) (len:int): TerminationType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> TerminationType.Overnight
     |"2"B -> TerminationType.Term
@@ -4953,8 +4776,7 @@ let ReadSettlInstReqID (bs:byte[]) (pos:int) (len:int): SettlInstReqID =
 
 
 let ReadSettlInstReqRejCode (bs:byte[]) (pos:int) (len:int): SettlInstReqRejCode =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> SettlInstReqRejCode.UnableToProcessRequest
     |"1"B -> SettlInstReqRejCode.UnknownAccount
@@ -4968,8 +4790,7 @@ let ReadSecondaryAllocID (bs:byte[]) (pos:int) (len:int): SecondaryAllocID =
 
 
 let ReadAllocReportType (bs:byte[]) (pos:int) (len:int): AllocReportType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"3"B -> AllocReportType.SellsideCalculatedUsingPreliminary
     |"4"B -> AllocReportType.SellsideCalculatedWithoutPreliminary
@@ -4983,8 +4804,7 @@ let ReadAllocReportRefID (bs:byte[]) (pos:int) (len:int): AllocReportRefID =
 
 
 let ReadAllocCancReplaceReason (bs:byte[]) (pos:int) (len:int): AllocCancReplaceReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AllocCancReplaceReason.OriginalDetailsIncompleteIncorrect
     |"2"B -> AllocCancReplaceReason.ChangeInUnderlyingOrderDetails
@@ -4996,8 +4816,7 @@ let ReadCopyMsgIndicator (bs:byte[]) (pos:int) (len:int): CopyMsgIndicator =
 
 
 let ReadAllocAccountType (bs:byte[]) (pos:int) (len:int): AllocAccountType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AllocAccountType.AccountIsCarriedOnCustomerSideOfBooks
     |"2"B -> AllocAccountType.AccountIsCarriedOnNonCustomerSideOfBooks
@@ -5046,8 +4865,7 @@ let ReadNested2PartySubIDType (bs:byte[]) (pos:int) (len:int): Nested2PartySubID
 
 
 let ReadAllocIntermedReqType (bs:byte[]) (pos:int) (len:int): AllocIntermedReqType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AllocIntermedReqType.PendingAccept
     |"2"B -> AllocIntermedReqType.PendingRelease
@@ -5075,8 +4893,7 @@ let ReadApplQueueDepth (bs:byte[]) (pos:int) (len:int): ApplQueueDepth =
 
 
 let ReadApplQueueResolution (bs:byte[]) (pos:int) (len:int): ApplQueueResolution =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ApplQueueResolution.NoActionTaken
     |"1"B -> ApplQueueResolution.QueueFlushed
@@ -5086,8 +4903,7 @@ let ReadApplQueueResolution (bs:byte[]) (pos:int) (len:int): ApplQueueResolution
 
 
 let ReadApplQueueAction (bs:byte[]) (pos:int) (len:int): ApplQueueAction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ApplQueueAction.NoActionTaken
     |"1"B -> ApplQueueAction.QueueFlushed
@@ -5109,8 +4925,7 @@ let ReadSecondaryTradeReportID (bs:byte[]) (pos:int) (len:int): SecondaryTradeRe
 
 
 let ReadAvgPxIndicator (bs:byte[]) (pos:int) (len:int): AvgPxIndicator =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AvgPxIndicator.NoAveragePricing
     |"1"B -> AvgPxIndicator.TradeIsPartOfAnAveragePriceGroupIdentifiedByTheTradelinkid
@@ -5143,8 +4958,7 @@ let ReadExchangeRule (bs:byte[]) (pos:int) (len:int): ExchangeRule =
 
 
 let ReadTradeAllocIndicator (bs:byte[]) (pos:int) (len:int): TradeAllocIndicator =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeAllocIndicator.AllocationNotRequired
     |"1"B -> TradeAllocIndicator.AllocationRequired
@@ -5153,8 +4967,7 @@ let ReadTradeAllocIndicator (bs:byte[]) (pos:int) (len:int): TradeAllocIndicator
 
 
 let ReadExpirationCycle (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ExpirationCycle.ExpireOnTradingSessionClose
     |"1"B -> ExpirationCycle.ExpireOnTradingSessionOpen
@@ -5162,8 +4975,7 @@ let ReadExpirationCycle (bs:byte[]) (pos:int) (len:int): ExpirationCycle =
 
 
 let ReadTrdType (bs:byte[]) (pos:int) (len:int): TrdType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TrdType.RegularTrade
     |"1"B -> TrdType.BlockTrade
@@ -5204,8 +5016,7 @@ let ReadThresholdAmount (bs:byte[]) (pos:int) (len:int): ThresholdAmount =
 
 
 let ReadPegMoveType (bs:byte[]) (pos:int) (len:int): PegMoveType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PegMoveType.Floating
     |"1"B -> PegMoveType.Fixed
@@ -5213,8 +5024,7 @@ let ReadPegMoveType (bs:byte[]) (pos:int) (len:int): PegMoveType =
 
 
 let ReadPegOffsetType (bs:byte[]) (pos:int) (len:int): PegOffsetType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PegOffsetType.Price
     |"1"B -> PegOffsetType.BasisPoints
@@ -5224,8 +5034,7 @@ let ReadPegOffsetType (bs:byte[]) (pos:int) (len:int): PegOffsetType =
 
 
 let ReadPegLimitType (bs:byte[]) (pos:int) (len:int): PegLimitType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> PegLimitType.OrBetter
     |"1"B -> PegLimitType.Strict
@@ -5234,8 +5043,7 @@ let ReadPegLimitType (bs:byte[]) (pos:int) (len:int): PegLimitType =
 
 
 let ReadPegRoundDirection (bs:byte[]) (pos:int) (len:int): PegRoundDirection =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PegRoundDirection.MoreAggressive
     |"2"B -> PegRoundDirection.MorePassive
@@ -5247,8 +5055,7 @@ let ReadPeggedPrice (bs:byte[]) (pos:int) (len:int): PeggedPrice =
 
 
 let ReadPegScope (bs:byte[]) (pos:int) (len:int): PegScope =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> PegScope.Local
     |"2"B -> PegScope.National
@@ -5258,8 +5065,7 @@ let ReadPegScope (bs:byte[]) (pos:int) (len:int): PegScope =
 
 
 let ReadDiscretionMoveType (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DiscretionMoveType.Floating
     |"1"B -> DiscretionMoveType.Fixed
@@ -5267,8 +5073,7 @@ let ReadDiscretionMoveType (bs:byte[]) (pos:int) (len:int): DiscretionMoveType =
 
 
 let ReadDiscretionOffsetType (bs:byte[]) (pos:int) (len:int): DiscretionOffsetType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DiscretionOffsetType.Price
     |"1"B -> DiscretionOffsetType.BasisPoints
@@ -5278,8 +5083,7 @@ let ReadDiscretionOffsetType (bs:byte[]) (pos:int) (len:int): DiscretionOffsetTy
 
 
 let ReadDiscretionLimitType (bs:byte[]) (pos:int) (len:int): DiscretionLimitType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DiscretionLimitType.OrBetter
     |"1"B -> DiscretionLimitType.Strict
@@ -5288,8 +5092,7 @@ let ReadDiscretionLimitType (bs:byte[]) (pos:int) (len:int): DiscretionLimitType
 
 
 let ReadDiscretionRoundDirection (bs:byte[]) (pos:int) (len:int): DiscretionRoundDirection =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> DiscretionRoundDirection.MoreAggressive
     |"2"B -> DiscretionRoundDirection.MorePassive
@@ -5301,8 +5104,7 @@ let ReadDiscretionPrice (bs:byte[]) (pos:int) (len:int): DiscretionPrice =
 
 
 let ReadDiscretionScope (bs:byte[]) (pos:int) (len:int): DiscretionScope =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> DiscretionScope.Local
     |"2"B -> DiscretionScope.National
@@ -5328,8 +5130,7 @@ let ReadTargetStrategyPerformance (bs:byte[]) (pos:int) (len:int): TargetStrateg
 
 
 let ReadLastLiquidityInd (bs:byte[]) (pos:int) (len:int): LastLiquidityInd =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> LastLiquidityInd.AddedLiquidity
     |"2"B -> LastLiquidityInd.RemovedLiquidity
@@ -5342,8 +5143,7 @@ let ReadPublishTrdIndicator (bs:byte[]) (pos:int) (len:int): PublishTrdIndicator
 
 
 let ReadShortSaleReason (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> ShortSaleReason.DealerSoldShort
     |"1"B -> ShortSaleReason.DealerSoldShortExempt
@@ -5355,8 +5155,7 @@ let ReadShortSaleReason (bs:byte[]) (pos:int) (len:int): ShortSaleReason =
 
 
 let ReadQtyType (bs:byte[]) (pos:int) (len:int): QtyType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> QtyType.Units
     |"1"B -> QtyType.Contracts
@@ -5368,8 +5167,7 @@ let ReadSecondaryTrdType (bs:byte[]) (pos:int) (len:int): SecondaryTrdType =
 
 
 let ReadTradeReportType (bs:byte[]) (pos:int) (len:int): TradeReportType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TradeReportType.Submit
     |"1"B -> TradeReportType.Alleged
@@ -5383,8 +5181,7 @@ let ReadTradeReportType (bs:byte[]) (pos:int) (len:int): TradeReportType =
 
 
 let ReadAllocNoOrdersType (bs:byte[]) (pos:int) (len:int): AllocNoOrdersType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> AllocNoOrdersType.NotSpecified
     |"1"B -> AllocNoOrdersType.ExplicitListProvided
@@ -5420,8 +5217,7 @@ let ReadNoEvents (bs:byte[]) (pos:int) (len:int): NoEvents =
 
 
 let ReadEventType (bs:byte[]) (pos:int) (len:int): EventType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> EventType.Put
     |"2"B -> EventType.Call
@@ -5452,8 +5248,7 @@ let ReadNoInstrAttrib (bs:byte[]) (pos:int) (len:int): NoInstrAttrib =
 
 
 let ReadInstrAttribType (bs:byte[]) (pos:int) (len:int): InstrAttribType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> InstrAttribType.Flat
     |"2"B -> InstrAttribType.ZeroCoupon
@@ -5558,8 +5353,7 @@ let ReadMaturityNetMoney (bs:byte[]) (pos:int) (len:int): MaturityNetMoney =
 
 
 let ReadMiscFeeBasis (bs:byte[]) (pos:int) (len:int): MiscFeeBasis =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> MiscFeeBasis.Absolute
     |"1"B -> MiscFeeBasis.PerUnit
@@ -5580,8 +5374,7 @@ let ReadCollReqID (bs:byte[]) (pos:int) (len:int): CollReqID =
 
 
 let ReadCollAsgnReason (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollAsgnReason.Initial
     |"1"B -> CollAsgnReason.Scheduled
@@ -5595,8 +5388,7 @@ let ReadCollAsgnReason (bs:byte[]) (pos:int) (len:int): CollAsgnReason =
 
 
 let ReadCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): CollInquiryQualifier =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollInquiryQualifier.Tradedate
     |"1"B -> CollInquiryQualifier.GcInstrument
@@ -5634,8 +5426,7 @@ let ReadCollAsgnID (bs:byte[]) (pos:int) (len:int): CollAsgnID =
 
 
 let ReadCollAsgnTransType (bs:byte[]) (pos:int) (len:int): CollAsgnTransType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollAsgnTransType.New
     |"1"B -> CollAsgnTransType.Replace
@@ -5650,8 +5441,7 @@ let ReadCollRespID (bs:byte[]) (pos:int) (len:int): CollRespID =
 
 
 let ReadCollAsgnRespType (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollAsgnRespType.Received
     |"1"B -> CollAsgnRespType.Accepted
@@ -5661,8 +5451,7 @@ let ReadCollAsgnRespType (bs:byte[]) (pos:int) (len:int): CollAsgnRespType =
 
 
 let ReadCollAsgnRejectReason (bs:byte[]) (pos:int) (len:int): CollAsgnRejectReason =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollAsgnRejectReason.UnknownDeal
     |"1"B -> CollAsgnRejectReason.UnknownOrInvalidInstrument
@@ -5687,8 +5476,7 @@ let ReadCollInquiryID (bs:byte[]) (pos:int) (len:int): CollInquiryID =
 
 
 let ReadCollStatus (bs:byte[]) (pos:int) (len:int): CollStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollStatus.Unassigned
     |"1"B -> CollStatus.PartiallyAssigned
@@ -5731,8 +5519,7 @@ let ReadAgreementCurrency (bs:byte[]) (pos:int) (len:int): AgreementCurrency =
 
 
 let ReadDeliveryType (bs:byte[]) (pos:int) (len:int): DeliveryType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> DeliveryType.VersusPayment
     |"1"B -> DeliveryType.Free
@@ -5758,8 +5545,7 @@ let ReadUserRequestID (bs:byte[]) (pos:int) (len:int): UserRequestID =
 
 
 let ReadUserRequestType (bs:byte[]) (pos:int) (len:int): UserRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> UserRequestType.Logonuser
     |"2"B -> UserRequestType.Logoffuser
@@ -5773,8 +5559,7 @@ let ReadNewPassword (bs:byte[]) (pos:int) (len:int): NewPassword =
 
 
 let ReadUserStatus (bs:byte[]) (pos:int) (len:int): UserStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> UserStatus.LoggedIn
     |"2"B -> UserStatus.NotLoggedIn
@@ -5790,8 +5575,7 @@ let ReadUserStatusText (bs:byte[]) (pos:int) (len:int): UserStatusText =
 
 
 let ReadStatusValue (bs:byte[]) (pos:int) (len:int): StatusValue =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> StatusValue.Connected
     |"2"B -> StatusValue.NotConnectedDownExpectedUp
@@ -5825,8 +5609,7 @@ let ReadLastNetworkResponseID (bs:byte[]) (pos:int) (len:int): LastNetworkRespon
 
 
 let ReadNetworkRequestType (bs:byte[]) (pos:int) (len:int): NetworkRequestType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> NetworkRequestType.Snapshot
     |"2"B -> NetworkRequestType.Subscribe
@@ -5840,8 +5623,7 @@ let ReadNoCompIDs (bs:byte[]) (pos:int) (len:int): NoCompIDs =
 
 
 let ReadNetworkStatusResponseType (bs:byte[]) (pos:int) (len:int): NetworkStatusResponseType =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> NetworkStatusResponseType.Full
     |"2"B -> NetworkStatusResponseType.IncrementalUpdate
@@ -5853,8 +5635,7 @@ let ReadNoCollInquiryQualifier (bs:byte[]) (pos:int) (len:int): NoCollInquiryQua
 
 
 let ReadTrdRptStatus (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> TrdRptStatus.Accepted
     |"1"B -> TrdRptStatus.Rejected
@@ -5862,8 +5643,7 @@ let ReadTrdRptStatus (bs:byte[]) (pos:int) (len:int): TrdRptStatus =
 
 
 let ReadAffirmStatus (bs:byte[]) (pos:int) (len:int): AffirmStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"1"B -> AffirmStatus.Received
     |"2"B -> AffirmStatus.ConfirmRejected
@@ -5884,8 +5664,7 @@ let ReadTimeBracket (bs:byte[]) (pos:int) (len:int): TimeBracket =
 
 
 let ReadCollAction (bs:byte[]) (pos:int) (len:int): CollAction =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollAction.Retain
     |"1"B -> CollAction.Add
@@ -5894,8 +5673,7 @@ let ReadCollAction (bs:byte[]) (pos:int) (len:int): CollAction =
 
 
 let ReadCollInquiryStatus (bs:byte[]) (pos:int) (len:int): CollInquiryStatus =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollInquiryStatus.Accepted
     |"1"B -> CollInquiryStatus.AcceptedWithWarnings
@@ -5906,8 +5684,7 @@ let ReadCollInquiryStatus (bs:byte[]) (pos:int) (len:int): CollInquiryStatus =
 
 
 let ReadCollInquiryResult (bs:byte[]) (pos:int) (len:int): CollInquiryResult =
-    let tagBs = Array.zeroCreate<byte> len
-    Array.Copy( bs, pos, tagBs, 0, len)
+    let tagBs = bs.[pos..(pos+len-1)]
     match tagBs with
     |"0"B -> CollInquiryResult.Successful
     |"1"B -> CollInquiryResult.InvalidOrUnknownInstrument

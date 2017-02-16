@@ -83,25 +83,30 @@ let main args =
     do CompoundItemGenerator.GenReadFuncs fieldNameMap componentNameMap constrainedCompoundItemsInDepOrder swGroupReadFuncs
 
 
-    let msgsx = 
+    let msgsFinal = 
         [   for msg in msgsAfterGroupMerge do
             let items2 = msg.Items |> List.collect (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner componentNameMap)
             yield {msg with Items = items2} ]
 
     printfn "generating F# message definitions"
     use swMsgs = new StreamWriter (makeOutpath "Fix44.Messages.fs")
-    MessageGenerator.Gen msgsx swMsgs
+    MessageGenerator.Gen msgsFinal swMsgs
 
     printfn "generating message writer funcs"
     use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgWriters.fs")
-    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
+    MessageGenerator.GenWriteFuncs hdrItemsAfterGroupMerge msgsFinal swMsgWriteFuncs
 
     printfn "generating message reader funcs"
     use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MsgReaders.fs")
-    MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsx swMsgWriteFuncs
+    MessageGenerator.GenReadFuncs fieldNameMap componentNameMap hdrItemsAfterGroupMerge msgsFinal swMsgWriteFuncs
 
     printfn "generating message DU"
     use swMsgWriteFuncs = new StreamWriter (makeOutpath "Fix44.MessageDU.fs")
-    MessageGenerator.GenMessageDU msgsx swMsgWriteFuncs
+    MessageGenerator.GenMessageDU msgsFinal swMsgWriteFuncs
+
+    printfn "generating message factory functions"
+    use swMsgFactoryFuncs = new StreamWriter (makeOutpath "Fix44.MessageFactoryFunctions.fs")
+    MessageGenerator.GenMessageFactoryFuncs msgsFinal swMsgFactoryFuncs
+
 
     0 // exit code
