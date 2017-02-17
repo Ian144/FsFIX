@@ -20,9 +20,9 @@ let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10,
-        EndSize = 1,
-        Verbose = true,
+        MaxTest = 100,
+        EndSize = 4,
+        Verbose = false,
         QuietOnSuccess = true
         )
 
