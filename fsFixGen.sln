@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFixCodeGen", "fsFixGen\fsFixCodeGen.fsproj", "{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixCodeGen", "fsFixGen\FsFixCodeGen.fsproj", "{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53C79F9C-38E6-40E9-BE39-D75560A18272}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Parallel2.runsettings = Parallel2.runsettings
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsFix", "fsFix\fsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFix", "fsFix\FsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "benchmark", "benchmark\benchmark.fsproj", "{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}"
 EndProject
@@ -22,17 +22,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dummyUnitTestProj", "UnitTe
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsXUnit", "propertyTests\propertyTestsXUnit.fsproj", "{D23D2990-8937-4EDB-9B71-F39FED8893B7}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "propertyTestsConsole", "propertyTest2\propertyTestsConsole.fsproj", "{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleTradeClient", "SimpleTradeClient\SimpleTradeClient.fsproj", "{83C58B4D-B689-414A-97DA-E901E4535161}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyXUnitTestProject2", "DummyXUnitTestProject2\DummyXUnitTestProject2.csproj", "{0D755A64-0BB9-4780-9021-77A8743C9C9E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scratchConsoleApp", "scratchConsoleApp\scratchConsoleApp.fsproj", "{96A09A78-0337-451C-8C5B-8695D48B2F22}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixReverseGen", "FsFixReverseGen\FsFixReverseGen.fsproj", "{754497B7-82EF-4325-A638-8B1D38851C88}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFIXEcho", "fscheckQuickfixRoundtrip\FsFIXEcho.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{113D10EE-B6A1-4A5C-9A12-1284A526F588}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fscheckQuickfixRoundtripSingleMsg", "fscheckQuickfixRoundtripSingleMsg\fscheckQuickfixRoundtripSingleMsg.fsproj", "{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generation", "Generation", "{17CF5BB4-7292-4C15-A464-B305B2CA24D4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFIXEcho", "FsFIXEcho\FsFIXEcho.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,32 +62,28 @@ Global
 		{D23D2990-8937-4EDB-9B71-F39FED8893B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D23D2990-8937-4EDB-9B71-F39FED8893B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D23D2990-8937-4EDB-9B71-F39FED8893B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC0B1304-B1F1-44FE-8B51-F8453515AF8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83C58B4D-B689-414A-97DA-E901E4535161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83C58B4D-B689-414A-97DA-E901E4535161}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83C58B4D-B689-414A-97DA-E901E4535161}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83C58B4D-B689-414A-97DA-E901E4535161}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D755A64-0BB9-4780-9021-77A8743C9C9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96A09A78-0337-451C-8C5B-8695D48B2F22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{754497B7-82EF-4325-A638-8B1D38851C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{754497B7-82EF-4325-A638-8B1D38851C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{754497B7-82EF-4325-A638-8B1D38851C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{754497B7-82EF-4325-A638-8B1D38851C88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5D9B59B-F74D-4325-B0E8-BDD5F29A26D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2AD79AE4-17D7-4991-85F6-328ED07CBDF4} = {17CF5BB4-7292-4C15-A464-B305B2CA24D4}
+		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034} = {113D10EE-B6A1-4A5C-9A12-1284A526F588}
+		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47} = {113D10EE-B6A1-4A5C-9A12-1284A526F588}
+		{D23D2990-8937-4EDB-9B71-F39FED8893B7} = {113D10EE-B6A1-4A5C-9A12-1284A526F588}
+		{0D755A64-0BB9-4780-9021-77A8743C9C9E} = {113D10EE-B6A1-4A5C-9A12-1284A526F588}
+		{754497B7-82EF-4325-A638-8B1D38851C88} = {17CF5BB4-7292-4C15-A464-B305B2CA24D4}
 	EndGlobalSection
 EndGlobal

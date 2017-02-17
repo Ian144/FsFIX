@@ -1,4 +1,4 @@
-﻿namespace propertyTest2.AssemblyInfo
+﻿namespace FsFixReverseGen.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,12 +7,12 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("propertyTest2")>]
+[<assembly: AssemblyTitle("FsFixReverseGen")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("propertyTest2")>]
-[<assembly: AssemblyCopyright("Copyright ©  2016")>]
+[<assembly: AssemblyProduct("FsFixReverseGen")>]
+[<assembly: AssemblyCopyright("Copyright ©  2017")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
@@ -22,7 +22,7 @@ open System.Runtime.InteropServices
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("dc0b1304-b1f1-44fe-8b51-f8453515af8e")>]
+[<assembly: Guid("754497b7-82ef-4325-a638-8b1d38851c88")>]
 
 // Version information for an assembly consists of the following four values:
 // 
