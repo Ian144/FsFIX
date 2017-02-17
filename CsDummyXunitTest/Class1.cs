@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using Xunit;
+﻿using Xunit;
 
-namespace DummyXUnitTestProject2
+namespace CsDummyXunitTest
 {
-    public class UnitTest1
+    public class Class1
     {
         [Fact]
         public void TestMethod1()
