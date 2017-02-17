@@ -85,9 +85,9 @@
     <Compile Include="TZOffsetTests.fs" />
     <Compile Include="TZTimeOnlyTests.fs" />
     <Compile Include="MonthYearTests.fs" />
+    <Compile Include="FieldWriteTests.fs" />
     <Content Include="App.config" />
     <None Include="paket.references" />
-    <Compile Include="FieldWriteTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

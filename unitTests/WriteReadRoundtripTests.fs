@@ -7,6 +7,7 @@ open Fix44.Fields
 open Fix44.CompoundItems
 open Fix44.CompoundItemReaders
 open Fix44.CompoundItemWriters
+open Fix44.CompoundItemFactoryFuncs
 open Fix44.Messages
 open Fix44.MsgReaders
 open Fix44.MsgWriters
@@ -413,84 +414,28 @@ let MarketDataIncrementalRefreshNoMDEntriesGrp () =
 
 [<Fact>]
 let NoSidesGrp () =
-    let bs = Array.zeroCreate<byte> 1024    
-
-    let ptyId1Grp1:NoPartyIDsGrp = 
-                {   PartyID = PartyID "HLFCBGEH"
-                    PartyIDSource = None
-                    PartyRole = None
-                    NoPartySubIDsGrp = Some []} 
-    let ptyId1Grp2:NoPartyIDsGrp = 
-                         {  PartyID = PartyID "MGDCHFI"
-                            PartyIDSource = None
-                            PartyRole = None
-                            NoPartySubIDsGrp = None}
-    
+    let ptyId1Grp1 = MkNoPartyIDsGrp (PartyID "HLFCBGEH")
+    let ptyId1Grp2 = MkNoPartyIDsGrp (PartyID "MGDCHFI")
     let noPartyIDsGrp =  [ ptyId1Grp1; ptyId1Grp2 ] |> Option.Some 
+    let ordQtyData = MkOrderQtyData()
+    let commissionData = MkCommissionData()
+    let noSidesIn:NoSidesGrp = MkNoSidesGrp ( Side.AsDefined, ClOrdID "ICGHV", ordQtyData, commissionData )
+    let noSidesIn = {noSidesIn with NoPartyIDsGrp = noPartyIDsGrp }
 
-    let xIn:NoSidesGrp = 
-                {Side = AsDefined
-                 ClOrdID = ClOrdID "ICGHV"
-                 SecondaryClOrdID = None
-                 ClOrdLinkID = None
-                 NoPartyIDsGrp = noPartyIDsGrp
-                 TradeOriginationDate = None
-                 TradeDate = None
-                 Account = None
-                 AcctIDSource = None
-                 AccountType = None
-                 DayBookingInst = None
-                 BookingUnit = None
-                 PreallocMethod = None
-                 AllocID = None
-                 NoAllocsGrp = None
-                 QtyType = None
-                 OrderQtyData = {OrderQty = None
-                                 CashOrderQty = None
-                                 OrderPercent = None
-                                 RoundingDirection = None
-                                 RoundingModulus = None}
-                 CommissionData = {Commission = None
-                                   CommType = None
-                                   CommCurrency = None
-                                   FundRenewWaiv = None}
-                 OrderCapacity = None
-                 OrderRestrictions = None
-                 CustOrderCapacity = None
-                 ForexReq = None
-                 SettlCurrency = None
-                 BookingType = None
-                 Text = None
-                 EncodedText = None
-                 PositionEffect = None
-                 CoveredOrUncovered = None
-                 CashMargin = None
-                 ClearingFeeIndicator = None
-                 SolicitedFlag = None
-                 SideComplianceID = None}
-    let posW = WriteNoSidesGrp  bs 0 xIn
+    let bs = Array.zeroCreate<byte> 1024    
+    let posW = WriteNoSidesGrp  bs 0 noSidesIn
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 128
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
     let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-    let xOut = ReadNoSidesGrp bs index
-    xIn =! xOut
+    let noSidesOut = ReadNoSidesGrp bs index
+    noSidesIn =! noSidesOut
 
 
 
 [<Fact>]
 let NoPartyIDsGrp () =
     let bs = Array.zeroCreate<byte> 1024
-    let ptyId1Grp1:NoPartyIDsGrp = 
-                {   PartyID = PartyID "HLFCBGEH"
-                    PartyIDSource = None
-                    PartyRole = None
-                    NoPartySubIDsGrp = Some []} 
-    let ptyId1Grp2:NoPartyIDsGrp = 
-                         {  PartyID = PartyID "MGDCHFI"
-                            PartyIDSource = None
-                            PartyRole = None
-                            NoPartySubIDsGrp = None}
-    let ptyIdGrp = ptyId1Grp1
+    let ptyIdGrp = MkNoPartyIDsGrp (PartyID "HLFCBGEH")
     let posW = WriteNoPartyIDsGrp  bs 0 ptyIdGrp
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 128
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posW
