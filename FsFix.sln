@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFix", "fsFix\FsFix.fsproj", "{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "benchmark\Benchmark.fsproj", "{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitTests", "unitTests\UnitTests.fsproj", "{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PropertyTests", "propertyTests\PropertyTests.fsproj", "{D23D2990-8937-4EDB-9B71-F39FED8893B7}"
@@ -21,6 +19,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ReverseXMLGen", "FsFixReverseGen\ReverseXMLGen.fsproj", "{754497B7-82EF-4325-A638-8B1D38851C88}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Echo", "FsFIXEcho\Echo.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "Benchmark\Benchmark.fsproj", "{15515346-8C13-4859-A530-75C0C8279011}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +36,6 @@ Global
 		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C90A912F-AA9D-4D66-8C64-B29EC34E3F9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{013C8C02-59B8-4DE3-871E-CF5E9C61AC67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AA5FFB1-A28C-4259-B611-FBC8BFC95034}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +52,10 @@ Global
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15515346-8C13-4859-A530-75C0C8279011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15515346-8C13-4859-A530-75C0C8279011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

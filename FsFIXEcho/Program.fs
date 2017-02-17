@@ -179,9 +179,9 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             else
                 msgOut
 
-//             uncomment and correct the path to your desktop to use beyondCompare to diff the sometimes large messages
+//             uncomment and correct the path for your to use beyondCompare or similar to diff the sometimes large messages
         let ok = msgIn = msgOut2
-        if ok  then
+        if ok then
             true
         else
             use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")

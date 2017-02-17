@@ -1,4 +1,4 @@
-﻿namespace benchmark.AssemblyInfo
+﻿namespace Benchmark.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,12 +7,12 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("benchmark")>]
+[<assembly: AssemblyTitle("Benchmark")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("benchmark")>]
-[<assembly: AssemblyCopyright("Copyright ©  2016")>]
+[<assembly: AssemblyProduct("Benchmark")>]
+[<assembly: AssemblyCopyright("Copyright ©  2017")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
@@ -22,7 +22,7 @@ open System.Runtime.InteropServices
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("013c8c02-59b8-4de3-871e-cf5e9c61ac67")>]
+[<assembly: Guid("15515346-8c13-4859-a530-75c0c8279011")>]
 
 // Version information for an assembly consists of the following four values:
 // 
