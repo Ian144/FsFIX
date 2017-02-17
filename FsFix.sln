@@ -18,7 +18,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PropertyTests", "propertyTe
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ReverseXMLGen", "FsFixReverseGen\ReverseXMLGen.fsproj", "{754497B7-82EF-4325-A638-8B1D38851C88}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Echo", "FsFIXEcho\Echo.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QuickFIXEcho", "FsFIXEcho\QuickFIXEcho.fsproj", "{28D4295A-89CD-4CFA-9F6F-D1E730FE2FBF}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "Benchmark\Benchmark.fsproj", "{15515346-8C13-4859-A530-75C0C8279011}"
 EndProject

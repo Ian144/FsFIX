@@ -86,8 +86,6 @@ let main args =
     use swGroupCompFactoryFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemFactoryFuncs.fs")
     do CompoundItemGenerator.GenFactoryFuncs constrainedCompoundItemsInDepOrder swGroupCompFactoryFuncs
 
-
-
     let msgsFinal = 
         [   for msg in msgsAfterGroupMerge do
             let items2 = msg.Items |> List.collect (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner componentNameMap)
