@@ -44,10 +44,9 @@ let main args =
     FieldGenerator.Gen mergedFields swFixFields swFieldReadFuncs swFieldWriteFuncs
 
 
-    let getFieldName (fld:Field) =
-        match fld with
-        | SimpleField sf -> sf.Name
-        | CompoundField cf -> cf.Name
+    let getFieldName = function
+        | SimpleField sf    -> sf.Name
+        | CompoundField cf  -> cf.Name
 
     // Make a map of field name to field definition, used to connect a field reference with the field definition.
     let fieldNameMap = mergedFields |> List.map (fun fld -> (getFieldName fld), fld ) |> Map.ofList

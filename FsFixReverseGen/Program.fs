@@ -2,16 +2,6 @@
 
 
 
-//let (|TypeName|Member|Uninteresting|) (ss:string) =
-//    if ss.Contains("Type") then
-//        TypeName
-//    else if ss.Contains(":") then
-//        Member
-//    else
-//        Uninteresting
-
-
-let getTypeName2 (ss:string) = ss.Replace("type ", "").Replace(" = {", "")
     
 type ParseData = 
         | TypeName of string
@@ -19,51 +9,44 @@ type ParseData =
         | Category of string
         | Uninteresting
 
-let getCategory pd = 
-    match pd with
+
+type MessageElement = 
+    | Field     of string*string*bool
+    | Group     of string*string*bool
+    | Component of string*string*bool
+
+type MessageXmlData = {MsgName:string; MsgType:string; Cat:string; MessageElements: MessageElement list }
+
+
+let getCategory = function
     | Category catStr   -> catStr
     | _                 -> failwith "non cat pd"
 
-let getTypeName pd = 
-    match pd with
+let getTypeName = function
     | TypeName tn   -> tn
     | _             -> failwith "non typename pd"
 
-let getMember pd = 
-    match pd with
+let getMember = function
     | Member (s1, s2)   -> s1, s2
     | _                 -> failwith "non typename pd"
 
-
-
-
-let isInteresting (pd:ParseData) = 
-    match pd with
-    | TypeName _        -> true
-    | Member _          -> true
-    | Category _        -> true 
+let isInteresting = function
     | Uninteresting _   -> false
+    | _                 -> true
+
+let getRequiredString = function
+    | true  -> "Y"
+    | false -> "N"
 
 
-
-let isNewMsg (pd:ParseData) =
-    match pd with
-    | TypeName _        -> false
-    | Member _          -> false
-    | Category _        -> true
-    | Uninteresting _   -> false
-
-
-
-
-let isSameMsg = isNewMsg >> not
+let typeNameFromFsStr (ss:string) = ss.Replace("type ", "").Replace(" = {", "")
 
 
 let ParseFsTypes (sourcePath:string) = 
     let fsTypeData = System.IO.File.ReadLines sourcePath |> Seq.toList
     let pds = fsTypeData |> List.map (fun ss -> 
             if ss.Contains("type ") then
-                let tn = getTypeName2 ss
+                let tn = typeNameFromFsStr ss
                 ParseData.TypeName tn
             else if ss.Contains(":") then
                 let xx = ss.Split(':')
@@ -78,47 +61,36 @@ let ParseFsTypes (sourcePath:string) =
     pds
 
 
-
-
-
 let rec ChunkByMsg (pds:ParseData list) : ParseData list list =
+    let isSameMsg = function | Category _  -> false | _-> true
     match pds with
     | []        ->  []
     | hd::tl    ->  let curMsgPds = tl |> List.takeWhile isSameMsg
                     let remainingPds = pds |> List.skip (curMsgPds.Length + 1)
                     (hd::curMsgPds) :: (ChunkByMsg remainingPds)
 
-
-type MessageElement = 
-    | Field     of string*string*bool
-    | Group     of string*string*bool
-    | Component of string*string*bool
-
-
-type MessageXmlData = {MsgName:string; MsgType:string; Cat:string; MessageElements: MessageElement list }
-
-
-let getRequiredString (required:bool) =
-    match required with
-    | true  -> "Y"
-    | false -> "N"
+let rec ChunkByGroupOrComponent (pds:ParseData list) : ParseData list list =
+    let isSameType = function | TypeName _  -> false | _-> true
+    match pds with
+    | []        ->  []
+    | hd::tl    ->  let curMsgPds = tl |> List.takeWhile isSameType
+                    let remainingPds = pds |> List.skip (curMsgPds.Length + 1)
+                    (hd::curMsgPds) :: (ChunkByGroupOrComponent remainingPds)
 
 
-let printMsgElement (mEl:MessageElement) =
-    let printRaw fieldGrpCmpStr mbrName typName required =
-        printfn "      <%s name=\"%s\" required=\"%s\" />" fieldGrpCmpStr typName (getRequiredString required)
+let printRaw fieldGrpCmpStr typName required = printfn "      <%s name=\"%s\" required=\"%s\" />" fieldGrpCmpStr typName (getRequiredString required)
 
-    match mEl with
-    | Field     (mbrName, typName, required) -> printRaw "field" mbrName typName required
-    | Group     (mbrName, typName, required) -> printRaw "group" mbrName typName required
-    | Component (mbrName, typName, required) -> printRaw "component" mbrName typName required
+
+let printMsgElement = function
+    | Field     (_, typName, required) -> printRaw "field"        typName required
+    | Group     (_, typName, required) -> printRaw "group"        typName required
+    | Component (_, typName, required) -> printRaw "component"    typName required
 
 
 let printMsg (msg:MessageXmlData) : unit = 
     printfn "    <message name=\"%s\" msgtype=\"%s\" msgcat=\"%s\">" msg.MsgName msg.MsgType msg.Cat
     msg.MessageElements |> List.iter printMsgElement
     printfn "    </message>"
-
 
 
 let convMsgChunk (msgPds:ParseData list) =
@@ -138,25 +110,36 @@ let convMsgChunk (msgPds:ParseData list) =
             else
                 MessageElement.Field (name, typeName, isRequired)
         )
-        {MsgName=msgName; MsgType="99"; Cat=cat; MessageElements=msgElements }
-    |   _                       -> failwith "failed to parse msg"
-
-
-
-//let printMsgXml (pds:ParseData seq) =
-//    
+        { MsgName=msgName; MsgType="99"; Cat=cat; MessageElements=msgElements }
+    |   _   -> failwith "failed to parse msg"
+  
 
 
 [<EntryPoint>]
 let main argv = 
-
+    // todo, get base path as an arg, possibly accept a default if not present
     let fsMsgPath:string = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.Messages.fs"""
     let fsCmpItmsPath:string = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.CompoundItems.fs"""
     let msgData = ParseFsTypes fsMsgPath
-    let compoundItemData = ParseFsTypes fsCmpItmsPath |> List.filter isInteresting
+    let compoundItemData = ParseFsTypes fsCmpItmsPath |> List.filter isInteresting |> List.take 100 |> ChunkByGroupOrComponent
 
-    let msgDataChunkedByMsg = msgData |> List.filter isInteresting |> ChunkByMsg |> List.map convMsgChunk
-    
-    msgDataChunkedByMsg |> List.take 10 |> List.iter printMsg
+    // chunk by compound item
+    // separate components from groups
+    // sort components into order in FIX44.xml
+    // 
+
+
+//    let msgDataChunkedByMsg = msgData |> List.filter isInteresting |> ChunkByMsg |> List.map convMsgChunk
+//    printfn "<messages>"
+//    msgDataChunkedByMsg |> List.iter printMsg
+//    printfn "</messages>"
 
     0 // return an integer exit code
+
+
+
+
+
+
+
+
