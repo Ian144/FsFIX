@@ -35,7 +35,8 @@ let MessageWithHeaderTrailer
     let buf = Array.zeroCreate<byte> bufSize
     let tmpBuf = Array.zeroCreate<byte> bufSize
     let posW = MsgReadWrite.WriteMessageDU tmpBuf  buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
-    let msgOut = MsgReadWrite.ReadMessage buf posW
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
+    let msgOut = MsgReadWrite.ReadMessage buf posW fieldPosArr
     msg =! msgOut
 
 

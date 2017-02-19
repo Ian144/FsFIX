@@ -1,4 +1,4 @@
-﻿
+﻿open System
 open System.Net.Sockets
 open FsCheck
 
@@ -167,15 +167,17 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             
         strm.Write (bufIn, 0, numBytesToSend)
 
+        let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
         // receive the reply, assuming all bytes are read
         let numBytesReceived = strm.Read (bufOut, 0, bufSize)
-        let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived
+        let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived fieldPosArr
 
         let msgOut2 =
             if isHeartbeat msgOut then
                 System.Array.Clear (bufIn, 0, bufIn.Length)
                 let numBytesReceived = strm.Read (bufIn, 0, bufSize)
-                MsgReadWrite.ReadMessage bufIn numBytesReceived
+                Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
+                MsgReadWrite.ReadMessage bufIn numBytesReceived fieldPosArr
             else
                 msgOut
 
