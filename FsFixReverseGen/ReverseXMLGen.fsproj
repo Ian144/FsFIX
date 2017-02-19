@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="ParseData.fs" />
+    <Compile Include="Messages.fs" />
+    <Compile Include="GroupsAndComponents.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>
