@@ -22,7 +22,7 @@ let convMsgChunk (pds:ParseData list) =
             else
                 Member.Field (typeName, isRequired)
         )
-        { MsgName=name; MsgType="99"; Cat=cat; Members=members }
+        { MName=name; MType="99"; Cat=cat; Members=members }
     |   _   -> failwith "failed to parse msg"
   
 

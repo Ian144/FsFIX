@@ -82,11 +82,13 @@ let componentGroupPartitionPred (pds:ParseData list) =
     typeName.EndsWith "Grp"
 
 
-let printComponent  (cmp:CmpGrpXmlData) : unit = 
-    printfn "    <component name=\"%s\">" cmp.CGName
-    cmp.Members |> List.iter printMember
-    printfn "    </component>"
+let printComponent (grpMap:Map<string,Member list>) (cmp:CmpGrp) : unit = 
+    printfn "        <component name=\"%s\">" cmp.CGName
+    cmp.Members |> List.iter (printMember "" grpMap)
+    printfn "        </component>"
 
 
+// tests if this component or group parse data instance a member of the same component or group as the previous
+// 
 let isSameGrpCmp = function | TypeName _  -> false | _-> true
 

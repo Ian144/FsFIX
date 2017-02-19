@@ -51,7 +51,7 @@ let ParseFsTypes (sourcePath:string) =
     pds
 
 
-let printRaw fieldGrpCmpStr typName required = printfn "      <%s name=\"%s\" required=\"%s\" />" fieldGrpCmpStr typName (getRequiredString required)
+
 
 
 type Member = 
@@ -59,14 +59,23 @@ type Member =
     | Group     of string*bool
     | Component of string*bool
 
-type MessageXmlData = {MsgName:string; MsgType:string; Cat:string; Members: Member list }
+type Message = {MName:string; MType:string; Cat:string; Members: Member list }
+
+type CmpGrp = {CGName:string; Members: Member list }
 
 
-type CmpGrpXmlData = {CGName:string; Members: Member list }
+let printRaw indent fieldGrpCmpStr typName required = printfn "      %s<%s name=\"%s\" required=\"%s\" />"  indent fieldGrpCmpStr typName (getRequiredString required)
 
-
-
-let printMember = function
-    | Field     ( typName, required) -> printRaw "field"        typName required
-    | Group     ( typName, required) -> printRaw "group"        typName required
-    | Component ( typName, required) -> printRaw "component"    typName required
+let rec printGroup (indent:string) (grpMap:Map<string,Member list>) groupName required = 
+    let yOrN = (getRequiredString required)
+    let groupMembers = grpMap.[groupName]
+    let groupName2 = groupName.Replace("Grp", "")
+    let indent2 = indent + "    "
+    printfn "      %s<group name=\"%s\" required=\"%s\" >" indent groupName2 yOrN
+    groupMembers |> List.iter (printMember indent2 grpMap )
+    printfn "      %s</group>" indent
+and printMember (indent:string) (grpMap:Map<string,Member list>)  pd = 
+    match pd with
+    | Field     ( typName, required) -> printRaw   indent "field"       typName required
+    | Group     ( typName, required) -> printGroup indent grpMap        typName required
+    | Component ( typName, required) -> printRaw   indent "component" typName required
