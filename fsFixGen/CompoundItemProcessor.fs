@@ -80,11 +80,11 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     printfn "COMPONENT RULE: if an optional component contains just a single optional group then replace the component with the group"
     let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup compMap4)
 
+    
     let compMap5 = allCompItems5 |> CompoundItem.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
-    printfn "COMPONENT RULE: promote optional components to required if they contain only optional items"
+    printfn "COMPONENT RULE: promote 'optional' components to 'required' if they contain only optional items"
     let allCompItems6 = allCompItems5 |> List.map (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems compMap5)
-
 
     let allCompItemsProcessed = allCompItems6
 
@@ -97,10 +97,5 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     let constrainedCompoundItemsInDepOrder  = allCompItemsProcessed
                                                 |> List.distinct
                                                 |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupRulesApplied)
-    
-    printfn "groups and components in dependency order"    
-    constrainedCompoundItemsInDepOrder
-        |> List.map CompoundItem.getNameAndTypeStr
-        |> List.iter (printfn "    %s")
 
     hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterGroupRulesApplied
