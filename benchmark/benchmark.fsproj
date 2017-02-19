@@ -61,23 +61,23 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="BenchmarkDotNet">
-      <HintPath>..\packages\BenchmarkDotNet.0.10.2\lib\net45\BenchmarkDotNet.dll</HintPath>
+      <HintPath>..\packages\BenchmarkDotNet\lib\net45\BenchmarkDotNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BenchmarkDotNet.Core">
-      <HintPath>..\packages\BenchmarkDotNet.Core.0.10.2\lib\net45\BenchmarkDotNet.Core.dll</HintPath>
+      <HintPath>..\packages\BenchmarkDotNet.Core\lib\net45\BenchmarkDotNet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BenchmarkDotNet.Toolchains.Roslyn">
-      <HintPath>..\packages\BenchmarkDotNet.Toolchains.Roslyn.0.10.2\lib\net45\BenchmarkDotNet.Toolchains.Roslyn.dll</HintPath>
+      <HintPath>..\packages\BenchmarkDotNet.Toolchains.Roslyn\lib\net45\BenchmarkDotNet.Toolchains.Roslyn.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.3.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.3.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />

@@ -82,7 +82,7 @@
       <Private>True</Private>
     </ProjectReference>
     <Reference Include="Unquote">
-      <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
+      <HintPath>..\packages\Unquote\lib\net45\Unquote.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
