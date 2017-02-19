@@ -221,37 +221,20 @@ let index = Array.zeroCreate<FIXBufIndexer.FieldPos> 2048
 //[<Config("columns=Mean,StdDev,Gen0,Gen1,Gen2,Allocated")>]
 type BenchmarkMsgReadWrite () =
     [<Benchmark>]
-    member this.WriteNewOrderMultilegMsg_IncHeaderTrailer () =
+    member this.WriteNewOrderMultilegMsg () =
         let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime newOrderMultilegMsg
-        ()
-
-    [<Benchmark>]
-    member this.Write () =
-        Fix44.MsgWriters.WriteNewOrderMultileg buf 0 newOrderMultileg |> ignore
-        ()
-
-
-    [<Benchmark>]
-    member this.ReadNewOrderMultilegMsg_IncHeaderTrailer () =
-        let msg = MsgReadWrite.ReadMessage2 newOrderMultilegBytes newOrderMultilegBytes.Length index 
         ()
 
 
     [<Benchmark>]
     member this.ReadNewOrderMultilegMsg () =
-        let indexEnd = FIXBufIndexer.BuildIndex index newOrderMultilegBytes newOrderMultilegBytes.Length
-        let index = FIXBufIndexer.IndexData (indexEnd, index)
-        let msg = Fix44.MsgReaders.ReadNewOrderMultileg newOrderMultilegBytes index
+        let msg = MsgReadWrite.ReadMessage newOrderMultilegBytes newOrderMultilegBytes.Length index 
         ()
+
 
 
     [<Benchmark>]
     member this.WriteLogonMsg () =
-        Fix44.MsgWriters.WriteLogon Dst 0 logonMsg |> ignore
-        ()
-
-    [<Benchmark>]
-    member this.WriteLogonMsg_IncHeaderTrailer () =
         let logonMsgDu = logonMsg |> Fix44.MessageDU.Logon
         let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsgDu
         ()
