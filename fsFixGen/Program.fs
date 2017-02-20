@@ -85,7 +85,9 @@ let main args =
     use swGroupCompFactoryFuncs = new StreamWriter (makeOutpath "Fix44.CompoundItemFactoryFuncs.fs")
     do CompoundItemGenerator.GenFactoryFuncs constrainedCompoundItemsInDepOrder swGroupCompFactoryFuncs
 
-    let msgsFinal = 
+    // If this was not done then FsFIX can represent the same state in two different ways (optional component is present (Option.Some) but all optional component members are not OR component is not present (Option.None))
+    // To avoid this ambiguity optional components containing only optional members are 'promoted' to being required, the members are left as optional
+    let msgsFinal =
         [   for msg in msgsAfterGroupMerge do
             let items2 = msg.Items |> List.collect (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner componentNameMap)
             yield {msg with Items = items2} ]

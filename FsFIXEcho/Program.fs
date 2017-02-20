@@ -77,7 +77,7 @@ let msgExclusions (msgIn:FIXMessage) =
     | FIXMessage.Reject _                    -> false // admin
     | FIXMessage.SequenceReset _             -> false // admin
     | FIXMessage.Heartbeat _                 -> false // admin
-    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, suspect this is an 'admin like' msg
+    | FIXMessage.BusinessMessageReject _     -> false // causes quickfixj echo to stall, maybe this is an 'admin like' msg
     | _                                      -> true
 
 
@@ -145,7 +145,7 @@ let DisplayLengths (index:FIXBufIndexer.FieldPos array) (indexEnd:int) (bs:byte 
 
 let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShrink) =
     let (DoNotShrink msgIn) = msgInDNS
-    if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently
+    if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently, quickfixEcho expects responses to follow requests before the next request can be sent
         seqNum <- seqNum + 1u
         let msgSeqNum = MsgSeqNum seqNum
         let utcNow = System.DateTime.UtcNow
@@ -162,7 +162,7 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
         let indexEnd = FIXBufIndexer.BuildIndex index bufIn numBytesToSend
         let tag = GetTag msgIn
         let sTag = FIXBuf.toS tag tag.Length
-        printfn "35=%s" sTag
+        printfn "sending: 35=%s" sTag
         //DisplayLengths index indexEnd bufIn
             
         strm.Write (bufIn, 0, numBytesToSend)
@@ -196,7 +196,7 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
             printfn "diffs persisted"
             false
-    else // msg is an admin msg
+    else // msg is an admin msg, so ignore
         true
 
 

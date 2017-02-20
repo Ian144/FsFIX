@@ -80,11 +80,9 @@ let private checkAllFieldsHaveBeenRead (fieldPosArr:FIXBufIndexer.FieldPos array
     ()
 
 
-let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)// todo, make index size a parameter 
+let ReadMessage (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
     let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
     let beginString    = GenericReaders.ReadFieldOrdered true bs index 8 ReadBeginString
     let bodyLen        = GenericReaders.ReadFieldOrdered true bs index 9 ReadBodyLength
@@ -95,37 +93,13 @@ let ReadMessage (bs:byte []) (posEnd:int) : FIXMessage =
     let targetCompID   = GenericReaders.ReadFieldOrdered true bs index 56 ReadTargetCompID
 
     let msg = ReadMessageDU msgTag bs index
+
     let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
     let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
     let checksumTagPlusDelimLen = 3
     let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
     let receivedCheckSum   = GenericReaders.ReadField bs index 10 ReadCheckSum
     checkAllFieldsHaveBeenRead fieldPosArr indexEnd
-    if calcedCheckSum = receivedCheckSum then msg
-    else failwithf "invalid checksum, received %A, calculated: %A" receivedCheckSum calcedCheckSum
-
-
-
-let ReadMessage2 (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
-    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
-    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-
-    // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents
-    let beginString    = GenericReaders.ReadFieldOrdered true bs index 8 ReadBeginString
-    let bodyLen        = GenericReaders.ReadFieldOrdered true bs index 9 ReadBodyLength
-    let msgTag         = GenericReaders.ReadFieldOrdered true bs index 35 ReadMsgType
-    let seqNum         = GenericReaders.ReadFieldOrdered true bs index 34 ReadMsgSeqNum
-    let senderCompID   = GenericReaders.ReadFieldOrdered true bs index 49 ReadSenderCompID
-    let sendTime       = GenericReaders.ReadFieldOrdered true bs index 52 ReadSendingTime
-    let targetCompID   = GenericReaders.ReadFieldOrdered true bs index 56 ReadTargetCompID
-
-    let msg = ReadMessageDU msgTag bs index
-
-    let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
-    let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
-    let checksumTagPlusDelimLen = 3
-    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
-    let receivedCheckSum   = GenericReaders.ReadField bs index 10 ReadCheckSum
     if calcedCheckSum = receivedCheckSum then
         msg
     else

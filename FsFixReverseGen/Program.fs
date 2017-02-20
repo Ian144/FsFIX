@@ -1,5 +1,6 @@
 ﻿open System
 
+open System.Text.RegularExpressions
 
 open ParseData
 open Messages    
@@ -23,10 +24,26 @@ let ChunkBy = ChunkByInner []
 
 
 
-let printMsg (grpMap:Map<string,Member list>) (msg:Message) : unit = 
-    printfn "         <message name=\"%s\" msgtype=\"%s\" msgcat=\"%s\">" msg.MName msg.MType msg.Cat
+let printMsg (msgNameTagMap:Map<string,string>) (grpMap:Map<string,Member list>) (msg:Message) : unit = 
+    let tag = msgNameTagMap.[msg.MName]
+    printfn "         <message name=\"%s\" msgtype=\"%s\" msgcat=\"%s\">" msg.MName tag msg.Cat
     msg.Members |> List.iter (printMember "    " grpMap)
     printfn "        </message>"
+
+
+
+let extractMsgNameAndTag (xs:string array) =
+    match xs with
+    | [|rawTag; rawMsgName|] ->
+        let tag = rawTag.Replace("// tag: ", "")
+        let mtch = Regex.Match(rawMsgName, "xx:[A-z]+", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+        if mtch.Success then
+            let msgName = mtch.Value.Replace("xx:","")
+            msgName, tag
+        else
+            failwithf "could not extract msg name from: %s" rawMsgName
+    | _ -> failwithf "extractMsgNameAndTag input list should be of length 2"
+
 
 
 
@@ -35,31 +52,28 @@ let printMsg (grpMap:Map<string,Member list>) (msg:Message) : unit =
 [<EntryPoint>]
 let main argv = 
     // todo, get F# source base path as an arg, possibly accept a default if not present
-    let fsCmpItmsPath:string = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.CompoundItems.fs"""
+    let fsCmpItmsPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.CompoundItems.fs"""
     let compoundItemData = ParseFsTypes fsCmpItmsPath |> List.filter isInteresting  |> ChunkBy isSameGrpCmp
     let groups, components = compoundItemData |> List.partition componentGroupPartitionPred
     let groupMap = groups |> List.map convCmpGrpChunk |> List.map (fun grp -> grp.CGName, grp.Members) |> Map.ofList
 
     printfn "<fix major=\"4\" minor=\"4\">"
 
-    let fsMsgPath:string = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.Messages.fs"""
+    let fsMsgWritersPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.MsgWriters.fs""" // used to get msg tags
+    let fsTags = IO.File.ReadLines fsMsgWritersPath |> Seq.filter (fun ss -> ss.Contains("tag:") || ss.Contains("xx:")) |> Seq.chunkBySize 2 |> Seq.map extractMsgNameAndTag
+    let msgNameTagMap = fsTags |> Map.ofSeq
+
+    let fsMsgPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.Messages.fs"""
     let msgData = ParseFsTypes fsMsgPath
-    let msgDataChunkedByMsg = msgData |> List.filter isInteresting |> ChunkBy isSameMsg |> List.map convMsgChunk
+    let msgs = msgData |> List.filter isInteresting |> ChunkBy isSameMsg |> List.map convMsgChunk
     printfn "    <messages>"
-    msgDataChunkedByMsg |> List.iter (printMsg groupMap)
+    msgs |> List.iter (printMsg msgNameTagMap groupMap)
     printfn "    </messages>"
 
     let componentsSorted = components |> List.map convCmpGrpChunk |> List.sortBy (fun cmp -> componentOrderMap.[cmp.CGName])
     printfn "    <components>"
     componentsSorted |> List.iter (printComponent groupMap)
     printfn "    </components>"
-
-    // groups are declared inline in FIX44.xml, so they need to be inline when Messages and Components are printed
-
-
-
-
-
 
     printfn "</fix>"
 

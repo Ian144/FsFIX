@@ -88,7 +88,7 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
 
     let allCompItemsProcessed = allCompItems6
 
-    let cmpNameMapAfterGroupRulesApplied = allCompItemsProcessed
+    let cmpNameMapAfterRulesApplied = allCompItemsProcessed
                                         |> CompoundItem.extractComponents 
                                         |> List.map (fun cmp -> cmp.CName, cmp)
                                         |> Map.ofList
@@ -96,6 +96,6 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     printfn "calculating group and component dependency order"
     let constrainedCompoundItemsInDepOrder  = allCompItemsProcessed
                                                 |> List.distinct
-                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterGroupRulesApplied)
+                                                |> (DependencyConstraintSolver.ConstrainGroupDependencyOrder cmpNameMapAfterRulesApplied)
 
-    hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterGroupRulesApplied
+    hdrItemsAfterGroupMerge, constrainedCompoundItemsInDepOrder, msgsAfterGroupMerge, cmpNameMapAfterRulesApplied

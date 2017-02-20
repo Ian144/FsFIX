@@ -51,13 +51,35 @@ let ParseFsTypes (sourcePath:string) =
     pds
 
 
-
-
-
 type Member = 
     | Field     of string*bool
     | Group     of string*bool
     | Component of string*bool
+
+
+let expandLenDataField (name, required) =
+    let mapLenFieldSuffixes = Map.empty.
+                                Add("EncodedIssuer", "Len").
+                                Add("EncodedLegIssuer", "Len").
+                                Add("EncodedLegSecurityDesc", "Len").
+                                Add("EncodedSecurityDesc", "Len").
+                                Add("EncodedText", "Len").
+                                Add("EncodedSubject", "Len").
+                                Add("RawData", "Length").
+                                Add("EncodedUnderlyingIssuer", "Len").
+                                Add("EncodedUnderlyingSecurityDesc", "Len").
+                                Add("EncodedHeadline", "Len").
+                                Add("EncodedAllocText", "Len" ).
+                                Add("EncodedListStatusText", "Len" ).
+                                Add("EncodedListExecInst", "Len" )
+
+    if mapLenFieldSuffixes.ContainsKey name then
+        let lenFieldName  =  name + mapLenFieldSuffixes.[name]
+        [(lenFieldName, required); (name, required)]
+    else
+        [(name, required)]
+
+
 
 type Message = {MName:string; MType:string; Cat:string; Members: Member list }
 
@@ -74,8 +96,11 @@ let rec printGroup (indent:string) (grpMap:Map<string,Member list>) groupName re
     printfn "      %s<group name=\"%s\" required=\"%s\" >" indent groupName2 yOrN
     groupMembers |> List.iter (printMember indent2 grpMap )
     printfn "      %s</group>" indent
-and printMember (indent:string) (grpMap:Map<string,Member list>)  pd = 
-    match pd with
-    | Field     ( typName, required) -> printRaw   indent "field"       typName required
-    | Group     ( typName, required) -> printGroup indent grpMap        typName required
-    | Component ( typName, required) -> printRaw   indent "component" typName required
+and printMember (indent:string) (grpMap:Map<string,Member list>) mbr = 
+    match mbr with
+    | Field     ( name, required) -> let fields = expandLenDataField (name, required)
+                                     fields |> List.iter (fun (typName, required) -> printRaw indent "field" typName required)
+    | Group     ( name, required) -> printGroup indent grpMap name required
+    | Component ( name, required) -> printRaw   indent "component" name required
+
+
