@@ -9,6 +9,7 @@ open Fix44.CompoundItemReaders
 open Fix44.CompoundItemWriters
 open Fix44.CompoundItemFactoryFuncs
 open Fix44.Messages
+open Fix44.MessageFactoryFuncs
 open Fix44.MsgReaders
 open Fix44.MsgWriters
 
@@ -23,7 +24,7 @@ let convFieldSep (bb:byte) =
     | 124uy -> 1uy
     | n     -> n
 
-//// this test fails with quickfixN because the bytes are encoded with quickfixJ's version of MassQuote, which has UnderlyingRepoCollateralSecurityType as a string not an int
+// this test fails with quickfixN because the bytes are encoded with quickfixJ's version of MassQuote, which has UnderlyingRepoCollateralSecurityType as a string not an int
 //[<Fact>]
 //let MassQuoteDeserialiseIssue2ndGroupReplacedWithCopyOf1st () =
 //    let bs = "8=FIX.4.4|9=4710|35=i|34=3458953|49=EXEC|52=20170129-15:41:43.109|56=BANZAI|117=GHYYKZQY|293=0.000000000000000|294=0.000000000000000|537=0|581=2|660=99|296=2|302=CGHB|311=NOSGABFT|309=VPTUO|305=VPDHIW|457=2|458=IJNDDJCG|459=WMJIBP|458=KOEE|459=NKJCQRV|462=0|463=SGKTPO|310=FAJY|763=ZIEDZTAI|542=22781202|315=1|241=79120621|242=01930431|243=ZKOIM|244=0|245=0.000000000000000|246=0.000000000000000|256=QKFZDXLM|592=NOSMABFZ|593=NBCG|594=HBFQUOS|247=71140129|316=0.000000000000000|941=EIWXRVP|317=s|435=0.000000000000000|308=VZTHIM|306=IJNH|362=4|363=KFFA|307=CWALPJNB|364=4|365=QLQL|877=PDEYCWR|318=TNRLGAE|879=0.000000000000000|810=0.000000000000000|882=0.000000000000000|883=0.000000000000000|884=0.000000000000000|885=0.000000000000000|887=1|888=CDXB|889=WRLPJXY|367=67800120-19:21:13.367|304=0|893=N|295=1|299=JNOIWBO|55=DHBYONAB|65=CD|48=NDCVJ|22=5|454=1|455=IAZHRE|456=XRVJK|460=4|461=FGKE|167=TBOND|200=520504|541=26171206|201=0|224=66810312|225=86270913|239=VJNOIWA|226=0|228=0.000000000000000|255=MQEYZDRL|470=TNRSGAE|471=THBFGAOS|472=GHBP|240=58831211|202=0.000000000000000|947=KESWQRV|206=³|223=0.000000000000000|207=UVZNH|106=OIMNHV|348=5|349=LQFAG|107=BCWKY|350=7|351=QLRVLWA|691=LZNZWLS|875=0|876=DPSTNBF|864=2|865=2|866=78960903|867=0.000000000000000|868=HATHIMG|865=3|866=61260229|867=0.000000000000000|868=PKOHLSX|874=25150606|555=1|600=PXMFG|601=UZJPBG|602=JPVJA|603=SBWIT|604=2|605=ZDRSMQ|606=NRLZ|605=EYTNR|606=SMABFZDO|608=XIMGKVZ|609=HLWAUYMN|764=BVZNOI|610=557004w1|611=67161228|248=51001007|249=73810403|251=0|252=0.000000000000000|253=0.000000000000000|257=CGUV|599=WQUIJDH|596=JKEICX|597=JDYSWQE|254=43020101|612=0.000000000000000|942=AUYJN|613=½|614=0.000000000000000|615=0.000000000000000|616=RLPJ|618=8|619=V@QVQVKQ|620=OSMA|621=8|622=@FAFAAWA|623=0.000000000000000|624=@|556=FJDHVWQU|740=IWXRVP|739=78980520|955=455001|956=19620925|132=0.000000000000000|133=0.000000000000000|134=0.000000000000000|135=0.000000000000000|188=0.000000000000000|190=0.000000000000000|189=0.000000000000000|631=0.000000000000000|633=0.000000000000000|634=0.000000000000000|60=72250314-14:48:40|625=KDBYYK|64=26950618|40=G|193=83150727|642=0.000000000000000|643=0.000000000000000|15=SGD|302=HICQUVPD|311=KEFJ|312=YSWXRFJ|309=YMGKLZIX|305=LMGUYO|457=1|458=HVBB|459=RHGZUOS|462=0|463=IDMBAD|310=CLHGC|313=97881230|542=38190117|315=0|241=72300918|242=93480314|244=0|245=0.000000000000000|256=DHBW|595=XRVPD|592=QEFJDH|593=KEIT|594=UYSWH|247=62691211|316=0.000000000000000|317=o|436=0.000000000000000|435=0.000000000000000|308=SMQKYZ|306=LZAEYCN|362=7|363=WAWWRWR|307=PTNRCG|877=CGUVPTNI|878=WQUO|318=PKEIC|879=0.000000000000000|810=0.000000000000000|882=0.000000000000000|883=0.000000000000000|885=0.000000000000000|886=0.000000000000000|887=2|888=BVZNOIMA|889=PJNHCW|888=WAOP|889=KOIWX|367=47220928-22:00:09|304=0|893=N|295=1|299=UIMNCV|55=FGWML|65=WI|48=DHBWQU|22=4|454=1|455=OIWABVZ|456=VIBFTUO|460=7|461=GAOS|167=TAXA|762=DHBCQUOP|541=25181109|201=0|224=28480309|225=49660919|239=HLMGUY|226=0|227=0.000000000000000|255=YCWX|543=YCQKLPDX|470=LMQE|471=FZAESMQ|472=FTNRSMAE|240=20500508|202=0.000000000000000|206=|231=0.000000000000000|223=0.000000000000000|207=TXLF|106=GHLZT|348=4|349=ZDZE|107=AOIG|350=4|351=JPTD|691=XLEETQTU|667=431609|876=HBVG|864=2|865=99|866=20271125|867=0.000000000000000|868=JBFBFJYT|865=3|867=0.000000000000000|873=67360107|874=97400518|555=2|600=ZHQY|601=VBRV|602=ENIU|603=WQLF|604=2|605=PJXYC|606=DXBMQKOC|605=KYZDXBM|606=YCQRL|607=0|608=TXIM|764=XBVZNO|610=31470209|611=05591016|248=26770412|249=46230213|250=RLZAE|251=0|253=0.000000000000000|257=ICGU|599=VWQUI|596=VJKEICXR|597=FJDY|254=15440119|612=0.000000000000000|613=«|614=0.000000000000000|615=0.000000000000000|616=QRLPJE|617=QKFZ|618=2|619=WR|620=UOSM|623=0.000000000000000|624=b|556=UFJDHVW|740=EIWXRVPK|739=53120524|955=856508|956=56420430|600=ZEENGL|601=HALXIM|602=ZTOIMG|603=JNHVWAU|604=2|605=HCWAUPJ|606=VJKOI|605=DXBVJK|606=ALPJ|607=0|608=QKOZ|609=AEYCNRLP|764=DOSM|611=97140930|248=16600731|249=37780104|250=EICQRVPT|251=0|252=0.000000000000000|253=0.000000000000000|599=YMNHL|596=IMGBVZ|597=CWAU|598=VQKOI|254=69651102|612=0.000000000000000|942=MNRLPAEY|614=0.000000000000000|615=0.000000000000000|616=THICGA|617=DHBWQUO|618=7|619=HMHMCHC|620=QLFJDRS|621=6|622=SXMSNS|623=0.000000000000000|624=4|740=BVZNOIMG|739=42950321|956=49600727|132=0.000000000000000|133=0.000000000000000|134=0.000000000000000|62=64230315-09:31:50|188=0.000000000000000|190=0.000000000000000|191=0.000000000000000|632=0.000000000000000|633=0.000000000000000|634=0.000000000000000|336=VOMJJVO|625=UONYL|64=04861127|40=7|192=0.000000000000000|642=0.000000000000000|643=0.000000000000000|15=USD|453=1|448=TNRFG|447=9|802=2|523=QEFJD|803=0|523=VJKE|803=0|10=153|"B |> Array.map convFieldSep
@@ -46,8 +47,16 @@ let convFieldSep (bb:byte) =
 // inner SettlInstSource is Some
 // write-> read results in a outer SettlInstSource taking the value of the inner
 [<Fact>]
-let ``SettlementInstructions and contained group both have SettlInstSource fields, is write+read correct`` () =
+let ``SettlementInstructions and contained group both have SettlInstSource fields, write+read should not mix them up`` () =
     let timeStamp = UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 31, 06, 37, 00)
+
+    let settllInstructionsData = MkSettlInstructionsData()
+    let dlvyInst = MkNoDlvyInstGrp (SettlInstSource.Investor)  // inner SettlInstSource
+    let dlvyInstGroup = Some [dlvyInst]
+    let settllInstructionsData2 = {settllInstructionsData with NoDlvyInstGrp = dlvyInstGroup}
+    let settlInst = MkNoSettlInstGrp (SettlInstID "OCWXBP", settllInstructionsData2)
+    let noSettlInstGrp = Some [settlInst]
+
     let si:SettlementInstructions = {
         SettlInstMsgID = SettlInstMsgID "XRVWQEI"
         SettlInstReqID = None
@@ -55,43 +64,10 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
         SettlInstReqRejCode = None
         Text = None
         EncodedText = None
-        SettlInstSource = Some BrokersInstructions //outer SettlInstSource
+        SettlInstSource = Some BrokersInstructions //outer SettlInstSource, with a different value to the inner
         ClOrdID = None
         TransactTime = TransactTime timeStamp
-        NoSettlInstGrp =
-         Some
-           [{SettlInstID = SettlInstID "OCWXBP"
-             SettlInstTransType = None
-             SettlInstRefID = None
-             NoPartyIDsGrp = None
-             Side = None
-             Product = None
-             SecurityType = None
-             CFICode = None
-             EffectiveTime = None   
-             ExpireTime = None
-             LastUpdateTime = None
-             SettlInstructionsData = 
-                {   SettlDeliveryType = Some SettlDeliveryType.Free
-                    StandInstDbType = None
-                    StandInstDbName = None
-                    StandInstDbID = None
-                    NoDlvyInstGrp = 
-                        Some 
-                            [{  SettlInstSource = Investor // inner SettlInstSource
-                                DlvyInstType = None
-                                NoSettlPartyIDsGrp = None 
-                        }]
-                }
-             PaymentMethod = None
-             PaymentRef = None
-             CardHolderName = None
-             CardNumber = None
-             CardStartDate = None
-             CardExpDate = None
-             CardIssNum = None
-             PaymentDate = None
-             PaymentRemitterID = None}]
+        NoSettlInstGrp = noSettlInstGrp
         }
 
     let buf = Array.zeroCreate<byte> 2048
@@ -102,14 +78,7 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
     let indexData = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
     let siOut = Fix44.MsgReaders.ReadSettlementInstructions buf indexData
-
-    // expecting this test to fail at the time of writing, as the outer SettlInstSource will have pulled in the value of the inner
-    // test if outer SettlInstSource is None
     siOut =! si
-
-
-
-
 
 
 
@@ -124,21 +93,12 @@ let ``missing group instance detected when reading msg buf`` () =
     raisesWith<System.Exception> <@ Fix44.MsgReaders.ReadSettlementInstructions buf indexData @> (fun e ->  <@ e.Message = "field not found, tag: 162 at field pos: 9" @>)
 
 
-
-
-
 [<Fact>]
 let ``unexpected group instance detected when reading msg buf`` () =
-    // field 778 is the num group instances field, it sayst there is one group instances, two are present (the group instances begin with tag 162)
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
+    // field 778 is the num group instances field, it says there is one group instance, two are present (the group instances begin with tag 162)
     let buf = "8=FIX.4.4|9=167|35=T|34=0|49=UPGLIM|52=20161229-19:09:00|56=WKOPJXBC|777=XRVWQEI|160=0|165=1|60=20161229-19:09:00|778=1|162=GROUP|172=1|85=1|165=3|162=UNEXPECTEDGROUP|172=1|85=1|165=3|10=141|"B |> Array.map convFieldSep
-    raisesWith<System.Exception> <@ MsgReadWrite.ReadMessage buf buf.Length @> (fun e ->  <@ e.Message = "unread fields in FIX buf, tags: 162, 172, 85, 165" @>)
-
-//[<Fact>]
-//let ``invalid msg len field value detected when reading msg buf`` () =
-//    // msg len should be 131, not 999
-//    let buf = "8=FIX.4.4|9=999|35=T|34=0|49=UPGLIM|52=20161229-19:09:00|56=WKOPJXBC|777=XRVWQEI|160=0|165=1|60=20161229-19:09:00|778=1|162=GROUP|172=1|85=1|165=3|10=141|"B |> Array.map convFieldSep
-//    raisesWith<System.Exception> <@ MsgReadWrite.ReadMessage buf buf.Length @> (fun e ->  <@ e.Message = "unread fields in FIX buf, tags: 162, 172, 85, 165" @>)
-
+    raisesWith<System.Exception> <@ MsgReadWrite.ReadMessage buf buf.Length fieldPosArr @> (fun e ->  <@ e.Message = "unread fields in FIX buf, tags: 162, 172, 85, 165" @>)
 
 
 
@@ -179,7 +139,8 @@ let MessageWithHeaderTrailerUnit () =
                                 msgSeqNum
                                 sendingTime
                                 msg
-    let msgOut = MsgReadWrite.ReadMessage buf posW
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
+    let msgOut = MsgReadWrite.ReadMessage buf posW fieldPosArr
     msg =! msgOut
 
 
@@ -204,7 +165,6 @@ let NoHopsGrp () =
 [<Fact>]
 let InstrumentLegFG () =
     let bs = Array.zeroCreate<byte> 1024
-    let legContractSettlMonth = MonthYear.MakeMonthYear.Make(2016, 12) |> LegContractSettlMonth
     let xIn:InstrumentLegFG = {
                 LegSymbol = LegSymbol "DHVC"
                 LegSymbolSfx = None
@@ -445,4 +405,77 @@ let NoPartyIDsGrp () =
 
 
 
+[<Fact>]
+let QuoteStatusRequestXX () =
+    let beginString:BeginString = BeginString.BeginString "FIX.4.4"
+    let senderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
+    let targetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
+    let msgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
+    let sendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
+
+    let buf = Array.zeroCreate<byte> (1024*8)
+    let tmpBuf = Array.zeroCreate<byte> (1024*8)
+
+    let qsr = MkQuoteStatusRequest(
+                MkInstrument (Fix44.Fields.Symbol "ABCDE"),
+                MkFinancingDetails (),
+                MkParties () )
+
+    let sToOptLegSym = LegSymbolSfx >> Some 
+    let legA = {    MkInstrumentLegFG (LegSymbol "BCDEF") with LegSymbolSfx = "PQRS" |> sToOptLegSym }
+    let legB = {    MkInstrumentLegFG (LegSymbol "CDEFG") with LegSymbolSfx = "QRST" |> sToOptLegSym }
+    let legC = {    MkInstrumentLegFG (LegSymbol "DEFGH") with LegSymbolSfx = "RSTU" |> sToOptLegSym }
+    let legsGrp = [legA; legB; legC] |> List.map MkNoLegsGrp |> Some
+    let qsr2  = {qsr with NoLegsGrp = legsGrp}
+    let qsr2Du = qsr2 |> Fix44.MessageDU.QuoteStatusRequest
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime qsr2Du
+    let ss = FIXBuf.toS buf posW
+
+    true =! false
+
+
+[<Fact>]
+let QuoteStatusRequestYY () =
+    let beginString:BeginString = BeginString.BeginString "FIX.4.4"
+    let senderCompID:SenderCompID = SenderCompID.SenderCompID "senderCompID"
+    let targetCompID:TargetCompID = TargetCompID.TargetCompID "targetCompID"
+    let msgSeqNum:MsgSeqNum = MsgSeqNum.MsgSeqNum 99u
+    let sendingTime:SendingTime = SendingTime.SendingTime (UTCDateTime.readUTCTimestamp "20071123-05:30:00.000"B 0 21)
+
+    let buf = Array.zeroCreate<byte> (1024*8)
+    let tmpBuf = Array.zeroCreate<byte> (1024*8)
+
+    let qsr = MkQuoteStatusRequest(
+                MkInstrument (Fix44.Fields.Symbol "ABCDE"),
+                MkFinancingDetails (),
+                MkParties () )
+
+    let sToOptLegSecAltIdSrc = LegSecurityAltIDSource >> Some
+    let innerGrp1 = { MkNoLegSecurityAltIDGrp (LegSecurityAltID "12345") with LegSecurityAltIDSource = sToOptLegSecAltIdSrc "QWERTYU" }
+    let innerGrp2 = { MkNoLegSecurityAltIDGrp (LegSecurityAltID "23456") with LegSecurityAltIDSource = sToOptLegSecAltIdSrc "ASDFGHJ" }
+    let innerGrp3 = { MkNoLegSecurityAltIDGrp (LegSecurityAltID "34567") with LegSecurityAltIDSource = sToOptLegSecAltIdSrc "ZXCVBNM" }
+    let innerGrp4 = { MkNoLegSecurityAltIDGrp (LegSecurityAltID "45678") with LegSecurityAltIDSource = sToOptLegSecAltIdSrc "POIUYTR" }
+
+    let sToOptLegSym = LegSymbolSfx >> Some 
+    let legA = {    MkInstrumentLegFG (LegSymbol "BCDEF") 
+                    with 
+                        LegSymbolSfx = "PQRS" |> sToOptLegSym 
+                        NoLegSecurityAltIDGrp  =  [innerGrp1;innerGrp2] |> Some  }
     
+    let legB = {    MkInstrumentLegFG (LegSymbol "CDEFG") 
+                    with 
+                        LegSymbolSfx = "QRST" |> sToOptLegSym 
+                        NoLegSecurityAltIDGrp  =  [innerGrp3] |> Some  }
+
+    let legC = {    MkInstrumentLegFG (LegSymbol "DEFGH") 
+                    with 
+                        LegSymbolSfx = "RSTU" |> sToOptLegSym
+                        NoLegSecurityAltIDGrp  =  [innerGrp4] |> Some  }
+    
+    let legsGrp = [legA; legB; legC] |> List.map MkNoLegsGrp |> Some
+    let qsr2  = {qsr with NoLegsGrp = legsGrp}
+    let qsr2Du = qsr2 |> Fix44.MessageDU.QuoteStatusRequest
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime qsr2Du
+    let ss = FIXBuf.toS buf posW
+
+    true =! false

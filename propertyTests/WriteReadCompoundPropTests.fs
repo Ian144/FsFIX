@@ -17,9 +17,9 @@ let indexBufSize = 1024 * 32
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [|typeof<ArbOverrides>|],
-        MaxTest = 100,
-        EndSize = 8,
-        Verbose = false,
+        MaxTest = 1000,
+        EndSize = 4,
+        Verbose = true,
         QuietOnSuccess = true
         )
 
@@ -44,8 +44,6 @@ let MessageWithHeaderTrailer
 let WriteReadIndexTest (tIn:'t) (writeFunc:byte[]->int->'t->int) (readFunc:byte[]->FIXBufIndexer.IndexData->'t) =
     let bs = Array.zeroCreate<byte> bufSize
     let posW = writeFunc bs 0 tIn
-    let ss = FIXBuf.toS bs posW
-    printfn "%s" ss
     let index = Array.zeroCreate<FIXBufIndexer.FieldPos> indexBufSize
     let indexEnd = FIXBufIndexer.BuildIndex index bs posW
     let indexData = FIXBufIndexer.IndexData(indexEnd, index)

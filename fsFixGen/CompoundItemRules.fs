@@ -108,7 +108,7 @@ let makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItemsInner (cmpNam
                                                     
 
 // Components can be treated as macros, representing just the items they are composed of.
-// To have the component and its sub-items as optional leads to ambiguous states with the same bit represention when sent down the wire e.g. the optional component is Option.Some when all the sub-items are Option.None VS the component is Option.None.
+// To have both the component and its sub-items as optional leads to ambiguous states with the same bit represention when sent down the wire e.g. the optional component is Option.Some when all the sub-items are Option.None VS the component is Option.None.
 // To remove this ambiguity while keeping components first class (for fsFix user convenience) in the fsFix type system, such components are made 'required', optionality is preserved because the sub-items are optional.
 // This facilitates read-write roundtrip testing, as it prevents the round-tripped object from having a different but equivalent representation
 let makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems (cmpNameMap:Map<ComponentName,Component>) (cmpItem:CompoundItem) : CompoundItem =

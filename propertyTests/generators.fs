@@ -15,7 +15,7 @@ let genAlphaChar = Gen.choose(65,90) |> Gen.map char
 //let genAlphaCharArray = Gen.arrayOfLength 16 genAlphaChar 
 let genAlphaString = 
         gen{
-            let! len = Gen.choose(4, 32)
+            let! len = Gen.choose(4, 8)
             let! chars = Gen.arrayOfLength len genAlphaChar
             return System.String chars
         }
