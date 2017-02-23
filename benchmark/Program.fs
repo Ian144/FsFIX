@@ -1,4 +1,24 @@
-﻿open Fix44.Fields
+﻿(*
+ * Copyright (C) 2016-2017 Ian Spratt <ian144@hotmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ *
+ *)
+ 
+open Fix44.Fields
 open Fix44.Messages
 open Fix44.MsgWriters
 open Fix44.CompoundItems
@@ -14,26 +34,6 @@ open BenchmarkDotNet.Running
 open BenchmarkDotNet.Configs
 open BenchmarkDotNet.Diagnosers
 open BenchmarkDotNet.Jobs
-
-//private class Config : ManualConfig
-//{
-//    public Config()
-//    {
-//        Add(MemoryDiagnoser.Default);
-//        Add(new InliningDiagnoser());
-//    }
-//}
-
-
-//type MyConfig () as this =
-//    inherit ManualConfig()
-//    do
-////        let md:IDiagnoser = BenchmarkDotNet.Diagnosers.MemoryDiagnoser() :> IDiagnoser
-//        let cd:IDiagnoser = BenchmarkDotNet.Diagnosers.CompositeDiagnoser() :> IDiagnoser
-//        this.Add cd
-
-
-
 
 
 let Dst:byte array =  Array.zeroCreate<byte> 2048
