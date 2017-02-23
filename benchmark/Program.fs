@@ -98,7 +98,7 @@ type BenchmarkMsgReadWrite () =
         ()
 
     [<Benchmark>]
-    member this.ReadNewOrderMultilegMsg () =
+    member this.ReadComplexNewOrderMultilegMsg () =
         let msg = MsgReadWrite.ReadMessage FIXMsgBuffers.newOrderMultilegBytes FIXMsgBuffers.newOrderMultilegBytes.Length index 
         ()
 

@@ -67,23 +67,23 @@ let Process (hdr:Header) (trl:Trailer) (hdrTrlPath:string) (components:Component
     
     let allCompItems2 = msgCompoundItemsAfterGroupMerge @ hdrCompoundItemsAfterGroupMerge
 
-    printfn "GROUP RULE: ensure groups first item is always required"    
+    printfn "applying rule: ensure groups first item is always required"    
     let allCompItems3 = allCompItems2 |> List.collect CompoundItemRules.ensureGroupFirstItemIsRequired
     
-    printfn "GROUP RULE: ensure components that are the first item of a group have a first item that is required"
+    printfn "applying rule: ensure components that are the first item of a group have a first item that is required"
     let allCompItems4 = allCompItems3 |> List.collect (CompoundItemRules.ensureIfGroupFirstItemIsComponentThenComponentFirstItemIsRequired cmpNameMapAfterGroupMerge)
 
 
     let compMap4 = allCompItems4 |> CompoundItem.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
 
-    printfn "COMPONENT RULE: if an optional component contains just a single optional group then replace the component with the group"
+    printfn "applying rule: if an optional component contains just a single optional group then replace the component with the group"
     let allCompItems5 = allCompItems4 |> List.map (CompoundItemRules.elideComponentsContainingASingleOptionalGroup compMap4)
 
     
     let compMap5 = allCompItems5 |> CompoundItem.extractComponents |> List.map (fun cmp -> cmp.CName, cmp) |> Map.ofList
 
-    printfn "COMPONENT RULE: promote 'optional' components to 'required' if they contain only optional items"
+    printfn "applying rule: promote 'optional' components to 'required' if they contain only optional items"
     let allCompItems6 = allCompItems5 |> List.map (CompoundItemRules.makeOptionalComponentsRequiredIfTheyContainOnlyOptionalSubItems compMap5)
 
     let allCompItemsProcessed = allCompItems6

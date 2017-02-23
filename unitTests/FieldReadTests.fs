@@ -127,18 +127,6 @@ let ``read RawDataLength + RawData pair, containing a tag-value seperator in the
     RawData.RawData (NonEmptyByteArray.Make valToRead) =! fld
 
 
-
-[<Fact>]
-let ``read RawDataLength + RawData pair USING INDEX, containing a tag-value seperator in the string`` () =
-    let valToRead = [|yield! "ABCD"B; yield 1uy; yield! "EFGH"B; |] // contains a field seperator
-    let bs = [|  yield! "95=9"B; yield 1uy                          // SecureDataLen, containing the length of the data in SecureData
-                 yield! "96="B; yield! valToRead; yield 1uy |]      // SecureData
-    let pos, len = indexSingleField bs
-    let fld = ReadRawData bs pos len
-    RawData.RawData (NonEmptyByteArray.Make valToRead) =! fld
-    
-
-
 // todo: put a single def of this function in a common location
 let convFieldSep (bb:byte) = 
     match bb with
