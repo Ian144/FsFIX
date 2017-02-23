@@ -26,7 +26,7 @@ open FsCheck
 open Fix44.Fields
 open Fix44.Messages
 open Fix44.MessageDU
-
+open Fix44.MessageFactoryFuncs
 
 
 Arb.register<Generators.ArbOverrides>() |> ignore
@@ -43,18 +43,7 @@ client.Connect (host, port)
 let strm = client.GetStream()
 
 
-let logon =  {
-        EncryptMethod = EncryptMethod.NoneOther
-        HeartBtInt = HeartBtInt 240
-        RawData = None
-        ResetSeqNumFlag = None
-        NextExpectedMsgSeqNum = None
-        MaxMessageSize = None
-        NoMsgTypesGrp = None
-        TestMessageIndicator = None
-        Username = None
-        Password = None
-    }
+let logon =  MkLogon (EncryptMethod.NoneOther, HeartBtInt 240 )
 
 
 let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
@@ -109,60 +98,6 @@ let isHeartbeat (msg:FIXMessage) =
 
 
 
-// #### quickfixN diagnosis funcs
-let GetFieldBegin (index:FIXBufIndexer.IndexData) (indexEnd:int) (tag:int) : int =
-    let idx = FIXBufIndexer.FindFieldIdx index indexEnd tag
-    match idx with
-    | 0 ->  0
-    | n ->  let prevIdx = n - 1 // find the end of the previous field
-            let prevField = index.FieldPosArr.[prevIdx]
-            prevField.Pos + prevField.Len + 1
-
-let IsLenField (tag:int) = 
-    match tag with
-    | 8 | 9 | 10    -> false
-    | _             -> true
-    
-let IsHdrField (tag:int) = 
-    match tag with
-    | 35 | 34 | 49 | 52 | 56    -> true
-    | _                         -> false
-
-
-let DisplayLengths (index:FIXBufIndexer.FieldPos array) (indexEnd:int) (bs:byte array) = 
-    let indexData = FIXBufIndexer.IndexData (indexEnd, index)
-  
-    let usedFields = index |> Array.toList  |> List.take indexEnd |> List.skip 2 |> List.rev |> List.skip 1 |> List.rev
-    let hdrFields, bodyFields = usedFields |> List.partition (fun fp -> IsHdrField fp.Tag )
-    
-    let getFieldBeg = GetFieldBegin indexData indexEnd
-
-    let hdrLens = hdrFields |> List.map (fun xx -> 
-        let fldB = getFieldBeg xx.Tag
-        let fldE = xx.Pos + xx.Len
-        let len = (fldE - fldB) + 1
-        xx.Tag, len
-        )
-
-    let bodyLens = bodyFields |> List.map (fun xx -> 
-        let fldB = getFieldBeg xx.Tag
-        let fldE = xx.Pos + xx.Len
-        let len = (fldE - fldB) + 1
-        xx.Tag, len
-        )
-
-    let hdrLen = hdrLens    |> List.sumBy (fun (_, len) -> len)
-    let bodyLen = bodyLens  |> List.sumBy (fun (_, len) -> len)
-    
-    printfn "calced len: %d" (hdrLen+bodyLen)
-    printfn "hdr fields: %d" hdrLen
-    hdrLens |> List.iter (printfn "%A")
-
-    printfn "body fields: %d" bodyLen
-    bodyLens |> List.iter (printfn "%A")
-
-    ()
-
 
 let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShrink) =
     let (DoNotShrink msgIn) = msgInDNS
@@ -202,21 +137,20 @@ let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShr
             else
                 msgOut
 
-//             uncomment and correct the path for your to use beyondCompare or similar to diff the sometimes large messages
+
         let ok = msgIn = msgOut2
-        if ok then
-            true
-        else
-            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
-            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
-            use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
-            use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
-            fprintfn swA "%A" msgIn
-            fprintfn swB "%A" msgOut2
-            fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
-            fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
-            printfn "diffs persisted"
-            false
+//      uncomment and correct the path for your PC to use beyondCompare or similar to diff the sometimes large messages
+//        if not ok then
+//            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
+//            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
+//            use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
+//            use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
+//            fprintfn swA "%A" msgIn
+//            fprintfn swB "%A" msgOut2
+//            fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
+//            fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
+//            printfn "diffs persisted"
+        ok
     else // msg is an admin msg, so ignore
         true
 
