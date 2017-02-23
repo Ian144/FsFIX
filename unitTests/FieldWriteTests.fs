@@ -103,9 +103,3 @@ let ``write len+str pair, contains tag-value seperator`` () =
     let dest2 = dest |> Array.take expectedBytesWritten.Length
     expectedBytesWritten =! dest2
     expectedBytesWritten.Length =! endPos
-
-
-
-//[<Fact>]
-//let ``test checksum calc`` () =
-//    false 
