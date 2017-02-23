@@ -25,7 +25,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile>bin\Debug\fsFixGen.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
-    <StartArguments>$(SolutionDir)</StartArguments>
+    <StartArguments>"C:\Users\Ian\Documents\GitHub\quickfixj\quickfixj-messages\quickfixj-messages-fix44\src\main\resources\FIX44.modified.xml" "C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,11 +71,11 @@
     <Compile Include="HeaderTrailerGenerator.fs" />
     <Compile Include="CompoundItemProcessor.fs" />
     <Compile Include="MessageGenerator.fs" />
+    <Compile Include="CmdLine.fs" />
     <Compile Include="Program.fs" />
-    <None Include="App.config" />
-    <Content Include="FIX44.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

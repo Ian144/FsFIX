@@ -6,32 +6,19 @@ open System.Xml.XPath
 open System.IO
 
 open FIXGenTypes
-open FieldGenerator
+open CmdLine
 
 
 
 
 
-//let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\fsFixGen\FIX44.modified.xml"""
-let fixSpecXmlFile = """C:\Users\Ian\Documents\GitHub\quickfixj\quickfixj-messages\quickfixj-messages-fix44\src\main\resources\FIX44.xml"""
-
-[<EntryPoint>]
-let main args = 
-
-    if args.Length = 0 then
-        failwith "must specify output dir for generated F#"
-    
-    let outDir = args.[0]
-
-    //let MkOutpath flName = sprintf """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\%s""" flName
-    let makeOutpath flName = sprintf """%sfsFix\%s""" outDir flName
-
+let GenerateFsFIX (fixSpecXmlFile, outDir) =
+    let makeOutpath flName = sprintf """%s\%s""" outDir flName
 
     let fixXml = IO.File.ReadAllText(fixSpecXmlFile)
     let doc = XDocument.Parse fixXml
 
     let xpthFields = doc.XPathSelectElement "fix/fields"
-    let tmp = (makeOutpath "Fix44.Fields.fs")
     use swFixFields = new StreamWriter (makeOutpath "Fix44.Fields.fs")
     use swFieldReadFuncs = new StreamWriter (makeOutpath "Fix44.FieldReaders.fs")
     use swFieldWriteFuncs = new StreamWriter (makeOutpath "Fix44.FieldWriters.fs")
@@ -111,4 +98,15 @@ let main args =
     MessageGenerator.GenFactoryFuncs msgsFinal swMsgFactoryFuncs
 
 
+
+[<EntryPoint>]
+let main args = 
+
+    let cmdLineParams = ParseCmdLine args
+
+    match cmdLineParams with
+    | Choice1Of2 (fixSpecXmlFile, outDir) -> GenerateFsFIX (fixSpecXmlFile, outDir)
+    | Choice2Of2 errMsg -> 
+        printfn "invalid command-line params, %s" errMsg
+        printfn "should be - fsFixCodeGen.exe <fixXmlSpecPath> <outputDirPath>"
     0 // exit code
