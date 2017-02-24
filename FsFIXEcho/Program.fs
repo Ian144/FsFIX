@@ -27,54 +27,12 @@ open Fix44.Fields
 open Fix44.Messages
 open Fix44.MessageDU
 open Fix44.MessageFactoryFuncs
-
+open CmdLine
 
 Arb.register<Generators.ArbOverrides>() |> ignore
 
 
-//let pt = Fix44.Fields.PosType.AdjustmentQty
 
-
-let host = "localhost"
-//let port = 5001 // for quickFixN echo
-let port = 9880 // for quickFixJ echo
-let client = new TcpClient()
-client.Connect (host, port)
-let strm = client.GetStream()
-
-
-let logon =  MkLogon (EncryptMethod.NoneOther, HeartBtInt 240 )
-
-
-let logonMsg = Fix44.MessageDU.FIXMessage.Logon logon
-let beginString = BeginString "FIX.4.4"
-//let senderCompID = SenderCompID "CLIENT1" // for quickFixN
-//let targetCompID = TargetCompID "EXECUTOR" // for quickFixN
-let senderCompID = SenderCompID "BANZAI"//for quickFixJ
-let targetCompID = TargetCompID "EXEC" // for quickFixJ
-
-
-
-let mutable seqNum = 1u
-let msgSeqNum = MsgSeqNum seqNum
-let utcNow = System.DateTime.UtcNow
-let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
-let sendingTime = SendingTime ts
-
-let index = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 16)
-
-let bufSize = 1024 * 128
-
-let tmpBuf = Array.zeroCreate<byte> bufSize
-let bufIn = Array.zeroCreate<byte> bufSize
-let bufOut = Array.zeroCreate<byte> bufSize
-let posW = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsg
-do strm.Write (bufIn, 0, posW)
-printfn "logon sent"
-
-let numBytesReceived = strm.Read (bufIn, 0, bufSize)
-printfn "logon reply: %d bytes received" numBytesReceived
-let logonMsgReply = MsgReadWrite.ReadMessage bufIn numBytesReceived
 
 
 
@@ -99,78 +57,128 @@ let isHeartbeat (msg:FIXMessage) =
 
 
 
-let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShrink) =
-    let (DoNotShrink msgIn) = msgInDNS
-    if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently, quickfixEcho expects responses to follow requests before the next request can be sent
-        seqNum <- seqNum + 1u
-        let msgSeqNum = MsgSeqNum seqNum
-        let utcNow = System.DateTime.UtcNow
-        let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
-        let sendingTime = SendingTime ts
-
-        System.Array.Clear (bufIn, 0, bufIn.Length)
-        System.Array.Clear (tmpBuf, 0, tmpBuf.Length)
-        System.Array.Clear (bufOut, 0, bufIn.Length)
-        System.Array.Clear (index, 0, index.Length)
-
-        // send msg to quickfix echo
-        let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
-        let indexEnd = FIXBufIndexer.BuildIndex index bufIn numBytesToSend
-        let tag = GetTag msgIn
-        let sTag = FIXBuf.toS tag tag.Length
-        printfn "sending: 35=%s" sTag
-        //DisplayLengths index indexEnd bufIn
-            
-        strm.Write (bufIn, 0, numBytesToSend)
-
-        let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
-        // receive the reply, assuming all bytes are read
-        let numBytesReceived = strm.Read (bufOut, 0, bufSize)
-        let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived fieldPosArr
-
-        let msgOut2 =
-            if isHeartbeat msgOut then
-                System.Array.Clear (bufIn, 0, bufIn.Length)
-                let numBytesReceived = strm.Read (bufIn, 0, bufSize)
-                Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
-                MsgReadWrite.ReadMessage bufIn numBytesReceived fieldPosArr
-            else
-                msgOut
-
-
-        let ok = msgIn = msgOut2
-//      uncomment and correct the path for your PC to use beyondCompare or similar to diff the sometimes large messages
-//        if not ok then
-//            use swA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgIn.fs""")
-//            use swB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOut.fs""")
-//            use swBytesA = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgInBytes.fs""")
-//            use swBytesB = new System.IO.StreamWriter("""C:\Users\Ian\Desktop\msgOutBytes.fs""")
-//            fprintfn swA "%A" msgIn
-//            fprintfn swB "%A" msgOut2
-//            fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
-//            fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
-//            printfn "diffs persisted"
-        ok
-    else // msg is an admin msg, so ignore
-        true
-
-
-
 let config = { Config.Quick with StartSize = 1; EndSize = 8; MaxTest = 100000000 }
 
 
 
 #nowarn "52"
 let WaitForExitCmd () =
+    printfn "press 'X' to exit"
     while stdin.Read() = 88 do // 88 is 'X'
         ()
 
-Check.One (config, propSendMsgToQuickfixEchoConfirmReplyIsTheSame)
+
+let runFIXEcho (host:string) (port:int) senderCompID targetCompID msgDiffOutPath = 
+    
+    let client = new TcpClient()
+    client.Connect (host, port)
+    let strm = client.GetStream()
+
+    let beginString = BeginString "FIX.4.4"
+    let mutable seqNum = 1u
+    let msgSeqNum = MsgSeqNum seqNum
+    let utcNow = System.DateTime.UtcNow
+    let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
+    let sendingTime = SendingTime ts
+
+    let index = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 16)
+    let bufSize = 1024 * 84
+
+    let tmpBuf = Array.zeroCreate<byte> bufSize
+    let bufIn = Array.zeroCreate<byte> bufSize
+    let bufOut = Array.zeroCreate<byte> bufSize
+    let logonMsg =  MkLogon (EncryptMethod.NoneOther, HeartBtInt 240 ) |> Fix44.MessageDU.FIXMessage.Logon
+    let posW = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString senderCompID targetCompID msgSeqNum sendingTime logonMsg
+    do strm.Write (bufIn, 0, posW)
+    printfn "logon sent"
+
+    let numBytesReceived = strm.Read (bufIn, 0, bufSize)
+    printfn "logon reply: %d bytes received" numBytesReceived
+    let logonMsgReply = MsgReadWrite.ReadMessage bufIn numBytesReceived
 
 
-WaitForExitCmd ()
+    let propSendMsgToQuickfixEchoConfirmReplyIsTheSame (msgInDNS:FIXMessage DoNotShrink) =
+        let (DoNotShrink msgIn) = msgInDNS
+        if msgExclusions msgIn then // not using ==> lazy as that results in multiple property tests running concurrently, quickfixEcho expects responses to follow msgs before the next msg can be sent
+            seqNum <- seqNum + 1u
+            let msgSeqNum = MsgSeqNum seqNum
+            let utcNow = System.DateTime.UtcNow
+            let ts = UTCDateTime.MakeUTCTimestamp.Make (utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, utcNow.Millisecond)
+            let sendingTime = SendingTime ts
+
+            System.Array.Clear (bufIn, 0, bufIn.Length)
+            System.Array.Clear (tmpBuf, 0, tmpBuf.Length)
+            System.Array.Clear (bufOut, 0, bufIn.Length)
+            System.Array.Clear (index, 0, index.Length)
+
+            // send msg to quickfix echo
+            let numBytesToSend = MsgReadWrite.WriteMessageDU tmpBuf bufIn 0 beginString  senderCompID targetCompID msgSeqNum sendingTime msgIn
+            let indexEnd = FIXBufIndexer.BuildIndex index bufIn numBytesToSend
+            let tag = GetTag msgIn
+            let sTag = FIXBuf.toS tag tag.Length
+            printfn "sending: 35=%s" sTag
+            //DisplayLengths index indexEnd bufIn
+            
+            strm.Write (bufIn, 0, numBytesToSend)
+
+            let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
+            // receive the reply, assuming all bytes are read
+            let numBytesReceived = strm.Read (bufOut, 0, bufSize)
+            let msgOut = MsgReadWrite.ReadMessage bufOut numBytesReceived fieldPosArr
+
+            let msgOut2 =
+                if isHeartbeat msgOut then
+                    System.Array.Clear (bufIn, 0, bufIn.Length)
+                    let numBytesReceived = strm.Read (bufIn, 0, bufSize)
+                    Array.Clear (fieldPosArr, 0, fieldPosArr.Length)
+                    MsgReadWrite.ReadMessage bufIn numBytesReceived fieldPosArr
+                else
+                    msgOut
+
+            let ok = msgIn = msgOut2
+            if not ok then
+                use swA      = new System.IO.StreamWriter( msgDiffOutPath + """\msgIn.fs"""       )
+                use swB      = new System.IO.StreamWriter( msgDiffOutPath + """\msgOut.fs"""      )
+                use swBytesA = new System.IO.StreamWriter( msgDiffOutPath + """\msgInBytes.fs"""  )
+                use swBytesB = new System.IO.StreamWriter( msgDiffOutPath + """\msgOutBytes.fs""" )
+                fprintfn swA "%A" msgIn
+                fprintfn swB "%A" msgOut2
+                fprintfn swBytesA "%s" (FIXBuf.toS bufIn numBytesToSend)
+                fprintfn swBytesB "%s" (FIXBuf.toS bufOut numBytesReceived)
+                printfn "msg diffs saved"
+            ok
+        else // msg is an admin msg, these are ignored as they would affect the FIX echo session
+            true
+    
+    Check.One (config, propSendMsgToQuickfixEchoConfirmReplyIsTheSame)
 
 
-//todo:  log off
+
+[<EntryPoint>]
+let main args = 
+
+//  let port = 5001 // for quickFixN echo
+//  let senderCompID = SenderCompID "CLIENT1" // for quickFixN
+//  let targetCompID = TargetCompID "EXECUTOR" // for quickFixN
+
+//  let port = 9880 // for quickFixJ echo
+//  let senderCompID = SenderCompID "BANZAI"//for quickFixJ
+//  let targetCompID = TargetCompID "EXEC" // for quickFixJ
+
+    let cmdLine = ParseCmdLine args
+
+    match cmdLine with
+    | Choice1Of2 (host, port, senderCompID, targetCompID, msgDiffOutPath) -> runFIXEcho host port senderCompID targetCompID msgDiffOutPath
+    | Choice2Of2 errMsg -> 
+        printfn "invalid command-line params, %s" errMsg
+        printfn "should be - FIXEcho.exe <targetHost> <targetPort> <SenderCompID> <TargetCompID> <badMsgOutDir>"
+    
+    //todo:  log off
+
+    
+    WaitForExitCmd ()
+
+    0 // exit code
+
 
 

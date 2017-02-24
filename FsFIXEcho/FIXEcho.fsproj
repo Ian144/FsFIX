@@ -8,7 +8,7 @@
     <ProjectGuid>28d4295a-89cd-4cfa-9f6f-d1e730fe2fbf</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>fscheckQuickfixRoundtrip</RootNamespace>
-    <AssemblyName>fscheckQuickfixRoundtrip</AssemblyName>
+    <AssemblyName>FIXEcho</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
@@ -55,6 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="CmdLine.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
