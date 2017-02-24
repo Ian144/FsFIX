@@ -171,7 +171,7 @@ let main args =
     | Choice1Of2 (host, port, senderCompID, targetCompID, msgDiffOutPath) -> runFIXEcho host port senderCompID targetCompID msgDiffOutPath
     | Choice2Of2 errMsg -> 
         printfn "invalid command-line params, %s" errMsg
-        printfn "should be - FIXEcho.exe <targetHost> <targetPort> <SenderCompID> <TargetCompID> <badMsgOutDir>"
+        printfn "should be - FsFIXEcho.exe <targetHost> <targetPort> <SenderCompID> <TargetCompID> <badMsgOutDir>"
     
     //todo:  log off
 

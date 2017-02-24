@@ -129,4 +129,7 @@ let main args =
     | Choice2Of2 errMsg -> 
         printfn "invalid command-line params, %s" errMsg
         printfn "should be - fsFixCodeGen.exe <fixXmlSpecPath> <outputDirPath>"
+        printfn """FIX44 xml spec files can be obtained from "https://github.com/quickfix-j/quickfixj" or "https://github.com/connamara/quickfixn" """
+        printfn """to be compatible with quickfixJ use the FIX44.modified.xml from its repo"""
+        printfn """to be compatible with quickfixN use the FIX44.xml from its repo"""
     0 // exit code

@@ -71,32 +71,43 @@ let extractMsgNameAndTag (xs:string array) =
 
 [<EntryPoint>]
 let main argv = 
-    // todo, get F# source base path as an arg, possibly accept a default if not present
-    let fsCmpItmsPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.CompoundItems.fs"""
-    let compoundItemData = ParseFsTypes fsCmpItmsPath |> List.filter isInteresting  |> ChunkBy isSameGrpCmp
-    let groups, components = compoundItemData |> List.partition componentGroupPartitionPred
-    let groupMap = groups |> List.map convCmpGrpChunk |> List.map (fun grp -> grp.CGName, grp.Members) |> Map.ofList
+    
+    //let baseDir = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix"""
 
-    printfn "<fix major=\"4\" minor=\"4\">"
+    let cmdLine = CmdLine.ParseCmdLine argv
+    match cmdLine with
+    | Choice1Of2 baseDir -> 
 
-    let fsMsgWritersPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.MsgWriters.fs""" // used to get msg tags
-    let fsTags = IO.File.ReadLines fsMsgWritersPath |> Seq.filter (fun ss -> ss.Contains("tag:") || ss.Contains("xx:")) |> Seq.chunkBySize 2 |> Seq.map extractMsgNameAndTag
-    let msgNameTagMap = fsTags |> Map.ofSeq
+        let fsCmpItmsPath =  baseDir +  """\Fix44.CompoundItems.fs"""
+    
+        let compoundItemData = ParseFsTypes fsCmpItmsPath |> List.filter isInteresting  |> ChunkBy isSameGrpCmp
+        let groups, components = compoundItemData |> List.partition componentGroupPartitionPred
+        let groupMap = groups |> List.map convCmpGrpChunk |> List.map (fun grp -> grp.CGName, grp.Members) |> Map.ofList
 
-    let fsMsgPath = """C:\Users\Ian\Documents\GitHub\fsFixGen\fsFix\Fix44.Messages.fs"""
-    let msgData = ParseFsTypes fsMsgPath
-    let msgs = msgData |> List.filter isInteresting |> ChunkBy isSameMsg |> List.map convMsgChunk
-    printfn "    <messages>"
-    msgs |> List.iter (printMsg msgNameTagMap groupMap)
-    printfn "    </messages>"
+        printfn "<fix major=\"4\" minor=\"4\">"
 
-    let componentsSorted = components |> List.map convCmpGrpChunk |> List.sortBy (fun cmp -> componentOrderMap.[cmp.CGName])
-    printfn "    <components>"
-    componentsSorted |> List.iter (printComponent groupMap)
-    printfn "    </components>"
+        let fsMsgWritersPath = baseDir + """\Fix44.MsgWriters.fs""" // used to get msg tags
+        let fsTags = IO.File.ReadLines fsMsgWritersPath |> Seq.filter (fun ss -> ss.Contains("tag:") || ss.Contains("xx:")) |> Seq.chunkBySize 2 |> Seq.map extractMsgNameAndTag
+        let msgNameTagMap = fsTags |> Map.ofSeq
 
-    printfn "</fix>"
+        let fsMsgPath = baseDir + """\Fix44.Messages.fs"""
+        let msgData = ParseFsTypes fsMsgPath
+        let msgs = msgData |> List.filter isInteresting |> ChunkBy isSameMsg |> List.map convMsgChunk
+        printfn "    <messages>"
+        msgs |> List.iter (printMsg msgNameTagMap groupMap)
+        printfn "    </messages>"
 
+        let componentsSorted = components |> List.map convCmpGrpChunk |> List.sortBy (fun cmp -> componentOrderMap.[cmp.CGName])
+        printfn "    <components>"
+        componentsSorted |> List.iter (printComponent groupMap)
+        printfn "    </components>"
+
+        printfn "</fix>"
+
+    | Choice2Of2 errMsg -> // error in cmdline
+        printf "%s" errMsg
+        printfn "FsFixReverseGen.exe <pathToFsFIXSource>"
+        printfn "pipe output to a file to save"
     0 // return an integer exit code
 
 

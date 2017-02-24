@@ -12,7 +12,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
 [<assembly: AssemblyProduct("Benchmark")>]
-[<assembly: AssemblyCopyright("Copyright ©  2017")>]
+[<assembly: AssemblyCopyright("Copyright ©  2016-2017 Ian Spratt <ian144@hotmail.com>")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
