@@ -18,6 +18,7 @@
  *
  *)
  
+ 
 module WriteReadMsgPropTests
 
 open FsCheck.Xunit
@@ -29,6 +30,7 @@ open Fix44.MessageDU
 open Generators
 
 
+
 let bufSize = 1024 * 1024
 let indexBufSize = 1024 * 32
 
@@ -36,8 +38,8 @@ let indexBufSize = 1024 * 32
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [|typeof<ArbOverrides>|],
-        MaxTest = 10,
-        EndSize = 2,
+        MaxTest = 100,
+        EndSize = 4,
         Verbose = true,
         QuietOnSuccess = true
         )

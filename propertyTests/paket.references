@@ -1,8 +1,0 @@
-FsCheck
-FsCheck.Xunit
-FSharp.Core
-Unquote
-xunit.abstractions
-xunit.extensibility.core
-xunit.extensibility.execution
-xunit.runner.visualstudio
