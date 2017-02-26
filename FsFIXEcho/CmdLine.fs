@@ -56,7 +56,7 @@ let dirExists pth msg = Exists pth System.IO.Directory.Exists msg
 
 let ParseCmdLine (args:string array) =
     if Array.isEmpty args then
-        printfn "no cmd-line params provided, defaulting to quickFixJ settings, FIXEcho.exe localhost 9880 BANZAI EXEC ."
+        printfn "no cmd-line params provided, defaulting to quickFixJ settings, fsFIXEcho.exe localhost 9880 BANZAI EXEC ."
         printfn "i.e. BANZAI - SenderCompID, EXEC - TargetCompID"
         printfn "currentDirectory is the bad message output path"
         let host = "localhost"

@@ -105,7 +105,7 @@ let main argv =
         printfn "</fix>"
 
     | Choice2Of2 errMsg -> // error in cmdline
-        printf "%s" errMsg
+        printfn "%s" errMsg
         printfn "FsFixReverseGen.exe <pathToFsFIXSource>"
     0 // return an integer exit code
 
