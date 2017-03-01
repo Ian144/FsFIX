@@ -47,9 +47,9 @@ let ``read invalid offset marker from bytes`` () =
     try
         let bs = "03:03*06"B
         TZDateTime.readTZTimeOnly bs 0 bs.Length  |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
 
 
 
@@ -58,9 +58,9 @@ let ``read invalid hours from bytes`` () =
     try
         let bs = "25:00Z06"B
         TZDateTime.readTZTimeOnly bs 0 bs.Length |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
 
 
 [<Fact>]
@@ -68,6 +68,6 @@ let ``read invalid mins from bytes`` () =
     try
         let bs = "00:60Z06"B
         TZDateTime.readTZTimeOnly bs 0 bs.Length |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith

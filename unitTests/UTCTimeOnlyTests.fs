@@ -81,9 +81,9 @@ let ``read invalid leapsecond hhmmssMMM from bytes`` () =
     try
         let bs = "23:58:60.999"B // leapseconds only occur in the last minute of the day
         UTCDateTime.readUTCTimeOnly bs  0 bs.Length |> ignore
-        false // UTCDateTimex.fromBytes should throw
+        Xunit.Assert.True false // UTCDateTimex.fromBytes should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith
 
 
 

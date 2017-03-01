@@ -46,45 +46,45 @@ let ``read valid hhmmss from bytes`` () =
 let ``make invalid year UTCDate`` () =
     try
         UTCDateTime.MakeUTCDate (99999, 12, 31) |> ignore
-        false // MakeUTCDate should throw
+        Xunit.Assert.True false // MakeUTCDate should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith 
 
 
 [<Fact>]
 let ``make invalid month UTCDate`` () =
     try
         UTCDateTime.MakeUTCDate (2016, 13, 31) |> ignore
-        false // MakeUTCDate should throw
+        Xunit.Assert.True false // MakeUTCDate should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith
 
 
 [<Fact>]
 let ``make invalid month 2 UTCDate`` () =
     try
         UTCDateTime.MakeUTCDate (2016, 0, 31) |> ignore
-        false // MakeUTCDate should throw
+        Xunit.Assert.True false // MakeUTCDate should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith
 
 
 [<Fact>]
 let ``make invalid day UTCDate`` () =
     try
         UTCDateTime.MakeUTCDate (2016, 01, 32) |> ignore
-        false // MakeUTCDate should throw
+        Xunit.Assert.True false // MakeUTCDate should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith
 
 
 [<Fact>]
 let ``make invalid day 2 UTCDate`` () =
     try
         UTCDateTime.MakeUTCDate (2016, 01, 0) |> ignore
-        false // MakeUTCDate should throw
+        Xunit.Assert.True false // MakeUTCDate should throw
     with
-    |   ex -> true
+    |   ex -> () // todo replace with unquote raiseWith
 
 
 

@@ -46,7 +46,8 @@ type MonthYear = private
 
 
 
-let inline private validate_yyyyMM (yy, mm)  = yy >= 0 && yy <= 9999 && 1 >= 0 && mm <= 12
+let private validate_yyyyMM (yy, mm)  = 
+    (yy >= 0) && (yy <= 9999) && 1 <= mm && mm <= 12
 
 
 
@@ -67,7 +68,7 @@ type MakeMonthYear () =
 
 
 
-let private readWeek (bs:byte[]) (pos:int) =
+let readWeek (bs:byte[]) (pos:int) =
     let wByte = bs.[pos]
     let nByte = bs.[pos+1]
     match wByte, nByte with
@@ -88,21 +89,35 @@ let private writeWeek (bs:byte[]) (pos:int) (ww:Week) =
     | W5    ->  bs.[pos] <- 119uy; bs.[pos+1] <- 53uy
 
 
+let private checkYYYYMMDigits (bs:byte[]) (pos:int) (len:int) fmtErr = 
+    let mutable ctr = pos
+    let posEnd = pos + len
+    while ctr < posEnd do
+        let xx = bs.[ctr]
+        ctr <- ctr + 1
+        if xx < 48uy || xx > 57uy then
+            let tmp = Array.sub bs pos len
+            let stmp = FIXBuf.toS tmp len
+            failwithf fmtErr stmp
+
+
 
 let read (bs:byte[]) (pos:int) (len:int): MonthYear =
     match len with
     | 6 -> // YYYYMM
+        checkYYYYMMDigits bs pos len "invalid MonthYear: %s"
         let yy = FIXDateTime.bytes4ToInt bs pos
         let mm = FIXDateTime.bytes2ToInt bs (pos+4)
         MakeMonthYear.Make (yy,mm)
-    | 8 -> // YYYYMMDD OR // YYYYMMDD 
+    | 8 ->
         match bs.[pos+6] with
-        | 119uy -> // YYYYMMDD 
+        | 119uy -> // YYYYMMWW
             let yy = FIXDateTime.bytes4ToInt bs pos
             let mm = FIXDateTime.bytes2ToInt bs (pos+4)
             let ww = readWeek bs (pos+6)
             MakeMonthYear.Make (yy,mm,ww)
         | n     -> // // YYYYMMDD 
+            checkYYYYMMDigits bs pos len "invalid MonthYear: %s"
             let yy = FIXDateTime.bytes4ToInt bs pos
             let mm = FIXDateTime.bytes2ToInt bs (pos+4)
             let dd = FIXDateTime.bytes2ToInt bs (pos+6)

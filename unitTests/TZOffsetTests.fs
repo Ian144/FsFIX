@@ -43,17 +43,19 @@ let ``read pos HH offset from bytes`` () =
 let ``read invalid pos HH offset from bytes`` () =
     try
         TZDateTime.readTZOffset "+1"B 0   |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
+
 
 [<Fact>]
 let ``read invalid pos HH offset from bytes 2`` () =
     try
         TZDateTime.readTZOffset "+13"B 0   |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
+
 
 
 
@@ -68,17 +70,17 @@ let ``read pos HHmm offset from bytes`` () =
 let ``read invalid pos HHmm offset from bytes`` () =
     try
         TZDateTime.readTZOffset "+01:6"B 0   |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
 
 [<Fact>]
 let ``read invalid pos HHmm offset from bytes 2`` () =
     try
         TZDateTime.readTZOffset "+01:60"B 0   |> ignore
-        false
+        Xunit.Assert.True false
     with
-    | _ -> true
+    | _ -> () // todo replace with unquote raiseWith
 
 
 

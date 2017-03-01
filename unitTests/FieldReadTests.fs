@@ -160,8 +160,9 @@ let ``read newOrderMultileg bytes`` () =
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 2048
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf buf.Length
     let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
-    let msg = Fix44.MsgReaders.ReadNewOrderMultileg buf index
-    true // ok so long as no exception is thrown
+    let _ = Fix44.MsgReaders.ReadNewOrderMultileg buf index 
+    () // test passes so long as no exception is thrown
+    
 
 
 
