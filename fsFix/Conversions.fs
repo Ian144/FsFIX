@@ -34,6 +34,53 @@ let bytesToChar (bs:byte[]) pos len =
         failwithf "should be single char at pos: %d, len: %d" pos len
 
 
+
+
+
+// Will consider a non-allocating bytesToInt32, such as bytesToInt32Direct.
+// benchmarkdotnet shows that while bytesToInt32Direct is faster than bytesToInt32, but that bytesToInt32 takes 100's of nanoseconds which may not be a significant part of reading a FIX message.
+//
+//                                    Method |        Mean |    StdErr |     StdDev |      Median |
+//------------------------------------------ |------------ |---------- |----------- |------------ |
+//                       BytesToIntViaString | 164.5883 ns | 1.9717 ns | 19.7175 ns | 154.2573 ns | equivalent to bytesToInt32
+//                BytesToIntDirectNoChecking |   8.4745 ns | 0.2718 ns |  2.7182 ns |   7.2195 ns |
+//              BytesToIntDirectWithChecking |   8.6798 ns | 0.2012 ns |  2.0115 ns |   7.5519 ns | equivalent to bytesToInt32Direct below
+// BytesToIntDirectWithCheckingBadBranchPred |   9.1458 ns | 0.1299 ns |  1.2986 ns |   8.4423 ns |
+//
+//let bytesToInt32Direct (bs:byte array) (pos:int) (len:int) = 
+//    let mutable num = 0
+//    let mutable ctr = pos
+//    let endPos = pos + len // one after the last valid position
+//    let mutable b = bs.[ctr]
+//    if b <> 45uy then 
+//        // first byte is not a minus sign
+//        while ctr < endPos do
+//            b <- bs.[ctr]
+//            num <- num * 10 + (int32 b) - 48
+//            ctr <- ctr + 1
+//        num
+//    else
+//        // first byte is a minus sign
+//        ctr <- ctr + 1
+//        while ctr <> endPos do
+//            b <- bs.[ctr]
+//            num <- num * 10 + (int32 b) - 48
+//            ctr <- ctr + 1
+//        num * -1
+
+
+//let bytesToUInt32Direct (bs:byte array) (pos:int) (len:int) = 
+//    let mutable num = 0u
+//    let mutable ctr = pos
+//    let endPos = pos + len // one after the last valid position
+//    let mutable b = bs.[ctr]
+//    while ctr < endPos do
+//        b <- bs.[ctr]
+//        num <- num * 10u + (uint32 b) - 48u
+//        ctr <- ctr + 1
+//    num
+
+
 // todo: replace with an impl the reads the int directly from the byte array without a tmp string
 let bytesToInt32 bs pos len =
     let ss = bytesToStr bs pos len

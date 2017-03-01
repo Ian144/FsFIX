@@ -56,7 +56,7 @@ let ``make invalid MonthYear bad month 2`` () =
     raisesWith<System.Exception> <@ MonthYear.read bs 0 len@> (fun e -> <@ e.Message = "invalid MonthYear: 2016-0" @>)
 
 
-//[<Fact>]
+[<Fact>]
 let ``make invalid MonthYear bad year`` () =
     let bs = [| yield! "201A1231"B; yield 1uy |] // MonthYear.read  requires a FIX field separator
     let len = bs.Length - 1
