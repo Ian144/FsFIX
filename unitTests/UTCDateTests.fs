@@ -44,47 +44,25 @@ let ``read valid hhmmss from bytes`` () =
 
 [<Fact>]
 let ``make invalid year UTCDate`` () =
-    try
-        UTCDateTime.MakeUTCDate (99999, 12, 31) |> ignore
-        Xunit.Assert.True false // MakeUTCDate should throw
-    with
-    |   ex -> () // todo replace with unquote raiseWith 
-
+    raisesWith<System.Exception> <@ UTCDateTime.MakeUTCDate (99999, 12, 31) @> (fun e -> <@ e.Message = "invalid UTCDateOnly" @>)
 
 [<Fact>]
 let ``make invalid month UTCDate`` () =
-    try
-        UTCDateTime.MakeUTCDate (2016, 13, 31) |> ignore
-        Xunit.Assert.True false // MakeUTCDate should throw
-    with
-    |   ex -> () // todo replace with unquote raiseWith
-
+    raisesWith<System.Exception> <@ UTCDateTime.MakeUTCDate (2016, 13, 31)  @> (fun e -> <@ e.Message = "invalid UTCDateOnly" @>)
 
 [<Fact>]
 let ``make invalid month 2 UTCDate`` () =
-    try
-        UTCDateTime.MakeUTCDate (2016, 0, 31) |> ignore
-        Xunit.Assert.True false // MakeUTCDate should throw
-    with
-    |   ex -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ UTCDateTime.MakeUTCDate (2016, 0, 31)  @> (fun e -> <@ e.Message = "invalid UTCDateOnly" @>)
 
 
 [<Fact>]
 let ``make invalid day UTCDate`` () =
-    try
-        UTCDateTime.MakeUTCDate (2016, 01, 32) |> ignore
-        Xunit.Assert.True false // MakeUTCDate should throw
-    with
-    |   ex -> () // todo replace with unquote raiseWith
-
+    raisesWith<System.Exception> <@ UTCDateTime.MakeUTCDate (2016, 01, 32) @> (fun e -> <@ e.Message = "invalid UTCDateOnly" @>)
+    
 
 [<Fact>]
 let ``make invalid day 2 UTCDate`` () =
-    try
-        UTCDateTime.MakeUTCDate (2016, 01, 0) |> ignore
-        Xunit.Assert.True false // MakeUTCDate should throw
-    with
-    |   ex -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ UTCDateTime.MakeUTCDate (2016, 01, 0) @> (fun e -> <@ e.Message = "invalid UTCDateOnly" @>)
 
 
 

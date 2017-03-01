@@ -19,6 +19,11 @@
  *)
  
 
+
+
+
+
+
 module TZDateTime
 
 open FIXDateTime
@@ -26,7 +31,8 @@ open FIXDateTime
 
 
 
-// TZTimeOnly 
+// TZTimeOnly  - NOT USED IN FIX4.4
+//
 // string field representing the time represented based on ISO 8601. This is the time with a UTC offset to allow identification of local time and timezone of that time.
 // Format is HH:MM[:SS][Z [ + - hh[:mm]]] where HH = 00-23 hours, MM = 00-59 minutes, SS = 00-59 seconds, hh = 01-12 offset hours, mm = 00-59 offset minutes.
 // Example: 07:39Z is 07:39 UTC
@@ -79,22 +85,32 @@ type MakeTZOffset private () =
 
 
 
+let private validateHH (bs:byte[]) (pos:int) =
+    let lenOK = bs.Length > pos + 2
+    if not (lenOK) then
+        failwith "invalid TZOffset" // todo, check for non-int bytes. Not an issue for FIX4.4, which does not use TZOffset. used for FIX5.0+
+
+let private validateHHmm (bs:byte[]) (pos:int) =
+    let lenOK = bs.Length > pos + 5
+    if not (lenOK) then
+        failwith "invalid TZOffset" // todo, check for non-int bytes. Not an issue for FIX4.4, which does not use TZOffset. used for FIX5.0+
 
 
-
-let inline private readNonUTC (isPos:bool) (bs:byte[]) (pos:int) =
+let private readNonUTC (isPositiveOffset:bool) (bs:byte[]) (pos:int) =
     let isHHmm = bs.Length > (pos+3) && bs.[pos+3] = 58uy // if there is a ':' 3 chars hence
     if isHHmm then
+        validateHHmm bs pos
         let hh, mm = FIXDateTime.readHHMMints bs (pos+1)
-        match isPos with
+        match isPositiveOffset with
         | true  -> pos+6, MakeTZOffset.Make (43uy, hh, mm)
         | false -> pos+6, MakeTZOffset.Make (45uy, hh, mm)
     else
         // is an hour only offset (no minutes component)
+        validateHH bs pos
         let hhD1 = bs.[pos+1] - 48uy |> int
         let hhD2 = bs.[pos+2] - 48uy |> int
         let hh = hhD1 * 10 + hhD2
-        match isPos with
+        match isPositiveOffset with
         | true  -> pos+3, MakeTZOffset.Make (43uy, hh)
         | false -> pos+3, MakeTZOffset.Make (45uy, hh)
         

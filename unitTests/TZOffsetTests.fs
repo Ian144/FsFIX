@@ -41,20 +41,12 @@ let ``read pos HH offset from bytes`` () =
 
 [<Fact>]
 let ``read invalid pos HH offset from bytes`` () =
-    try
-        TZDateTime.readTZOffset "+1"B 0   |> ignore
-        Xunit.Assert.True false
-    with
-    | _ -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ TZDateTime.readTZOffset "+1"B 0 @> (fun e -> <@ e.Message = "invalid TZOffset" @>)
 
 
 [<Fact>]
 let ``read invalid pos HH offset from bytes 2`` () =
-    try
-        TZDateTime.readTZOffset "+13"B 0   |> ignore
-        Xunit.Assert.True false
-    with
-    | _ -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ TZDateTime.readTZOffset "+13"B 0 @> (fun e -> <@ e.Message = "invalid TZOffset, +-13" @>)
 
 
 
@@ -68,19 +60,11 @@ let ``read pos HHmm offset from bytes`` () =
 
 [<Fact>]
 let ``read invalid pos HHmm offset from bytes`` () =
-    try
-        TZDateTime.readTZOffset "+01:6"B 0   |> ignore
-        Xunit.Assert.True false
-    with
-    | _ -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ TZDateTime.readTZOffset "+01:6"B 0 @> (fun e -> <@ e.Message = "invalid TZOffset" @>)
 
 [<Fact>]
 let ``read invalid pos HHmm offset from bytes 2`` () =
-    try
-        TZDateTime.readTZOffset "+01:60"B 0   |> ignore
-        Xunit.Assert.True false
-    with
-    | _ -> () // todo replace with unquote raiseWith
+    raisesWith<System.Exception> <@ TZDateTime.readTZOffset "+01:60"B 0 @> (fun e -> <@ e.Message = "invalid TZOffset, +-1:60" @>)
 
 
 
@@ -178,87 +162,60 @@ let ``write neg HHmm TZOffset to bytes 2`` () =
 
 [<Fact>]
 let ``make invalid UTC offset`` () =
-    try
-        TZDateTime.MakeTZOffset.Make 91uy |> ignore // 90uy is not 'Z'
-        false
-    with
-    |   ex -> true
+    // 90uy is not 'Z' (which means timezone offset UTC)
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make 91uy @> (fun e -> <@ e.Message = "invalid TZOffset [" @>)
 
 
 
 [<Fact>]
 let ``make invalid neg offset hours`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (45uy, 0) // 0 hours is not allowed
-        false
-    with
-    |   ex -> true
+    // 0 hours is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (45uy, 0) @> (fun e -> <@ e.Message = "invalid TZOffset, --0" @>)
 
 
 [<Fact>]
 let ``make invalid neg offset hours 2`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (45uy, 13) // 13 hours is not allowed
-        false
-    with
-    |   ex -> true
+    // 13 hours is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (45uy, 13) @> (fun e -> <@ e.Message = "invalid TZOffset, --13" @>)
 
 
 
 [<Fact>]
 let ``make invalid pos offset hours`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (43uy, 0) // 0 hours is not allowed
-        false
-    with
-    |   ex -> true
+    // 0 hours is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (43uy, 0) @> (fun e -> <@ e.Message = "invalid TZOffset, +-0" @>)
 
 
 
 [<Fact>]
 let ``make invalid pos offset hours 2`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (43uy, 13) // 13 hours is not allowed
-        false
-    with
-    |   ex -> true
+    // 13 hours is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (43uy, 13) @> (fun e -> <@ e.Message = "invalid TZOffset, +-13" @>)
 
 
 
 [<Fact>]
 let ``make invalid pos offset mins`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (43uy, 1, -1) // -1 mins is not allowed
-        false
-    with
-    |   ex -> true
+    // -1 mins is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (43uy, 1, -1) @> (fun e -> <@ e.Message = "invalid TZOffset, +-1:-1" @>)
 
 
 [<Fact>]
 let ``make invalid neg offset mins`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (45uy, 1, -1) // -1 mins is not allowed
-        false
-    with
-    |   ex -> true
+    // -1 mins is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (45uy, 1, -1) @> (fun e -> <@ e.Message = "invalid TZOffset, --1:-1" @>)
 
 
 [<Fact>]
 let ``make invalid pos offset mins 2`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (43uy, 1, 60) // 60 mins is not allowed
-        false
-    with
-    |   ex -> true
+    // 60 mins is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (43uy, 1, 60) @> (fun e -> <@ e.Message = "invalid TZOffset, +-1:60" @>)
 
 
 [<Fact>]
 let ``make invalid neg offset mins 2`` () =
-    try
-        let offset = TZDateTime.MakeTZOffset.Make (45uy, 1, 60) // 60 mins is not allowed
-        false
-    with
-    |   ex -> true
+    // 60 mins is not allowed
+    raisesWith<System.Exception> <@ TZDateTime.MakeTZOffset.Make (45uy, 1, 60) @> (fun e -> <@ e.Message = "invalid TZOffset, --1:60" @>)
 
 
 
