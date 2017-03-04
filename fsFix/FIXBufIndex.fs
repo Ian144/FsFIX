@@ -70,7 +70,7 @@ type IndexData (endPos: int, fieldPosArr: FieldPos[]) =
     member val LastReadIdx = -1 with get,set
 
 
-let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
+let FindFieldIdx2 (index:IndexData) (indexEnd:int) (tagRequired:int) =
     let mutable ctr = 0
     let mutable foundPos = -1
     let fieldPosArr = index.FieldPosArr
@@ -80,6 +80,23 @@ let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
         else
             foundPos <- ctr
     foundPos
+
+let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
+    let fieldPosArr = index.FieldPosArr
+    let nextIdx = index.LastReadIdx + 1
+    if tagRequired = fieldPosArr.[nextIdx].Tag then
+        nextIdx
+    else
+        let mutable ctr = 0
+        let mutable foundPos = -1
+        while (foundPos = -1) && (ctr < indexEnd) do
+            if tagRequired <> fieldPosArr.[ctr].Tag then
+                ctr <- ctr + 1
+            else
+                foundPos <- ctr
+        foundPos
+
+
 
 
 // in the case of non-field tags that contain alpha chars
