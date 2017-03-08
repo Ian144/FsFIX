@@ -38,7 +38,7 @@ open BenchmarkDotNet.Jobs
 open BenchmarkDotNet.Attributes.Columns
 
 
-let Dst:byte array =  Array.zeroCreate<byte> 2048
+let Dst:byte array =  Array.zeroCreate<byte> 1024
 let bufSize = 1024 * 16
 let buf:byte array = Array.zeroCreate<byte> bufSize
 let tmpBuf:byte array =  Array.zeroCreate<byte> bufSize
@@ -55,7 +55,7 @@ let marketDataRequest = BenchMsgs.marketDataRequest
 
 
 
-let index = Array.zeroCreate<FIXBufIndexer.FieldPos> 2048
+let index = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
 
 
 let ReadField bs (index:FIXBufIndexer.IndexData) tag readFunc = 
@@ -121,11 +121,6 @@ type BenchmarkIndexedFieldReads () =
 
     // for the purpose of these benchmarks it does not matter if the field is defined as required or optional in the FIX message
 
-    [<Setup>]
-    member this.Setup () =
-        bs <- FIXMsgBuffers.newOrderMultilegBytes
-        System.Array.Clear (index, 0, index.Length)
-        indexEnd <- FIXBufIndexer.BuildIndex index bs bs.Length
 
 
     [<Benchmark>]
@@ -243,32 +238,32 @@ type BenchmarkMsgReadWrite () =
         MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
 
 
-    [<Benchmark>]
-    member this.ReadMarketDataRequest () =
-        MsgReadWrite.ReadMessage FIXMsgBuffers.marketDataRequest FIXMsgBuffers.marketDataRequest.Length index
-
-
-
-    [<Benchmark>]
-    member this.ReadQuoteStatusRequestWithGroup () =
-        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithGrpBytes FIXMsgBuffers.quoteStatusRequestWithGrpBytes.Length index
-
-
-    [<Benchmark>]
-    member this.ReadQuoteStatusRequestWithNestedGroups () =
-        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes.Length index
-
-
-    [<Benchmark>]
-    member this.ReadComplexNewOrderMultilegMsg () =
-        MsgReadWrite.ReadMessage FIXMsgBuffers.newOrderMultilegBytes FIXMsgBuffers.newOrderMultilegBytes.Length index 
-
+//    [<Benchmark>]
+//    member this.ReadMarketDataRequest () =
+//        MsgReadWrite.ReadMessage FIXMsgBuffers.marketDataRequest FIXMsgBuffers.marketDataRequest.Length index
+//
+//
+//
+//    [<Benchmark>]
+//    member this.ReadQuoteStatusRequestWithGroup () =
+//        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithGrpBytes FIXMsgBuffers.quoteStatusRequestWithGrpBytes.Length index
+//
+//
+//    [<Benchmark>]
+//    member this.ReadQuoteStatusRequestWithNestedGroups () =
+//        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes.Length index
+//
+//
+//    [<Benchmark>]
+//    member this.ReadComplexNewOrderMultilegMsg () =
+//        MsgReadWrite.ReadMessage FIXMsgBuffers.newOrderMultilegBytes FIXMsgBuffers.newOrderMultilegBytes.Length index 
+//
 
 
 [<EntryPoint>]
 let main argv =
 
-//    BenchmarkRunner.Run<BenchmarkIndexedFieldReads>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
+    //BenchmarkRunner.Run<BenchmarkIndexedFieldReads>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
     BenchmarkRunner.Run<BenchmarkMsgReadWrite>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
     0
 

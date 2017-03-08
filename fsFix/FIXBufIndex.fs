@@ -70,17 +70,19 @@ type IndexData (endPos: int, fieldPosArr: FieldPos[]) =
     member val LastReadIdx = -1 with get,set
 
 
-let FindFieldIdx2 (index:IndexData) (indexEnd:int) (tagRequired:int) =
-    let mutable ctr = 0
-    let mutable foundPos = -1
-    let fieldPosArr = index.FieldPosArr
-    while (foundPos = -1) && (ctr < indexEnd) do
-        if tagRequired <> fieldPosArr.[ctr].Tag then
-            ctr <- ctr + 1
-        else
-            foundPos <- ctr
-    foundPos
+//let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
+//    let mutable ctr = 0
+//    let mutable foundPos = -1
+//    let fieldPosArr = index.FieldPosArr
+//    while (foundPos = -1) && (ctr < indexEnd) do
+//        if tagRequired <> fieldPosArr.[ctr].Tag then
+//            ctr <- ctr + 1
+//        else
+//            foundPos <- ctr
+//    foundPos
 
+
+// this version optimistically tries the next unread field to see if it is the one being searched for
 let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
     let fieldPosArr = index.FieldPosArr
     let nextIdx = index.LastReadIdx + 1
@@ -150,7 +152,12 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
     let tagValSepPos = FIXBuf.findNextTagValSep bs pos
     let fldBeg = tagValSepPos + 1
     let tagInt = convTagToInt bs pos tagValSepPos
-    if IsLenDataCompoundTag tagInt then
+    if not (IsLenDataCompoundTag tagInt) then
+        let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
+        let fldLen = nextFldOrEnd - fldBeg
+        let fp = FieldPos(tagInt, fldBeg, fldLen)
+        nextFldOrEnd + 1, fp
+    else
         // eat the next field, i.e. the data field component of the len+data pair, including the tag
         let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
         let len = fieldTerm - (tagValSepPos+1)
@@ -159,13 +166,10 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
         let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
         let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
         let compoundFieldLen = endDataFieldPos - fldBeg
-        let fp = new FieldPos(tagInt, fldBeg, compoundFieldLen)        
+        let fp = FieldPos(tagInt, fldBeg, compoundFieldLen)        
         endDataFieldPos + 1, fp
-    else
-        let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
-        let fldLen = nextFldOrEnd - fldBeg
-        let fp = new FieldPos(tagInt, fldBeg, fldLen)
-        nextFldOrEnd + 1, fp
+
+
 
 
 // populates the fieldIndex array - this is not functional programming, using imperative techniques for performance
@@ -189,11 +193,9 @@ let reconstructFromIndex (origBuf:byte[]) (index:FieldPos[]) (indexEnd:int) : by
     let lastEl = index.[indexEnd-1]
     let reconLen = lastEl.Pos + lastEl.Len + 1 // +1 to leave room for the final field seperator
     let reconBuf = Array.zeroCreate<byte> reconLen
-
     let convIntToTagBytes (tag:int) = 
         let ss = sprintf "%d" tag
         System.Text.Encoding.ASCII.GetBytes  ss
-
     for fp in index do
         // tag
         let tagBs = convIntToTagBytes fp.Tag

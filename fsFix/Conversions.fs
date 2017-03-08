@@ -46,53 +46,61 @@ let bytesToChar (bs:byte[]) pos len =
 //                BytesToIntDirectNoChecking |   8.4745 ns | 0.2718 ns |  2.7182 ns |   7.2195 ns |
 //              BytesToIntDirectWithChecking |   8.6798 ns | 0.2012 ns |  2.0115 ns |   7.5519 ns | equivalent to bytesToInt32Direct below
 // BytesToIntDirectWithCheckingBadBranchPred |   9.1458 ns | 0.1299 ns |  1.2986 ns |   8.4423 ns |
+
+let bytesToInt32 (bs:byte array) (pos:int) (len:int) =
+    let mutable num = 0
+    let mutable ctr = pos
+    let endPos = pos + len // one after the last valid position
+    let mutable b = bs.[ctr]
+    if b <> 45uy then 
+        // first byte is not a minus sign
+        while ctr < endPos do
+            b <- bs.[ctr]
+            if b > 47uy && b < 58uy then
+                num <- num * 10 + int32 (b - 48uy);
+                ctr <- ctr + 1;
+            else
+                failwithf "bytesToInt32, byte should be a digit: %d" b
+        num
+    else
+        // first byte is a minus sign
+        ctr <- ctr + 1
+        while ctr <> endPos do
+            b <- bs.[ctr]
+            if b > 47uy && b < 58uy then
+                num <- num * 10 + int32 (b - 48uy);
+                ctr <- ctr + 1;
+            else
+                failwithf "bytesToInt32, byte should be a digit: %d" b
+        num * -1
+
+
+let bytesToUInt32 (bs:byte array) (pos:int) (len:int) =
+    let mutable num = 0u
+    let mutable ctr = pos
+    let endPos = pos + len // one after the last valid position
+    let mutable b = bs.[ctr]
+    while ctr < endPos do
+        if b > 47uy && b < 58uy then
+            num <- num * 10u + uint32 (b - 48uy);
+            ctr <- ctr + 1;
+        else
+            failwithf "bytesToUInt32, byte should be a digit: %d" b
+    num
+
+
+////// todo: replace with an impl the reads the int directly from the byte array without a tmp string
+//let bytesToInt32 bs pos len =
+//    let ss = bytesToStr bs pos len
+//    System.Convert.ToInt32 ss
 //
-//let bytesToInt32Direct (bs:byte array) (pos:int) (len:int) = 
-//    let mutable num = 0
-//    let mutable ctr = pos
-//    let endPos = pos + len // one after the last valid position
-//    let mutable b = bs.[ctr]
-//    if b <> 45uy then 
-//        // first byte is not a minus sign
-//        while ctr < endPos do
-//            b <- bs.[ctr]
-//            num <- num * 10 + (int32 b) - 48
-//            ctr <- ctr + 1
-//        num
-//    else
-//        // first byte is a minus sign
-//        ctr <- ctr + 1
-//        while ctr <> endPos do
-//            b <- bs.[ctr]
-//            num <- num * 10 + (int32 b) - 48
-//            ctr <- ctr + 1
-//        num * -1
+//
+//// todo: replace with an impl the reads the uint directly from the byte array without a tmp string
+//let bytesToUInt32 bs pos len =
+//    let ss = bytesToStr bs pos len
+//    System.Convert.ToUInt32 ss
 
-
-//let bytesToUInt32Direct (bs:byte array) (pos:int) (len:int) = 
-//    let mutable num = 0u
-//    let mutable ctr = pos
-//    let endPos = pos + len // one after the last valid position
-//    let mutable b = bs.[ctr]
-//    while ctr < endPos do
-//        b <- bs.[ctr]
-//        num <- num * 10u + (uint32 b) - 48u
-//        ctr <- ctr + 1
-//    num
-
-
-// todo: replace with an impl the reads the int directly from the byte array without a tmp string
-let bytesToInt32 bs pos len =
-    let ss = bytesToStr bs pos len
-    System.Convert.ToInt32 ss
-
-
-// todo: replace with an impl the reads the uint directly from the byte array without a tmp string
-let bytesToUInt32 bs pos len =
-    let ss = bytesToStr bs pos len
-    System.Convert.ToUInt32 ss
-
-let bytesToBool (bs:byte[]) (pos:int) =
+let bytesToBool (bs:byte[]) (pos:int) = 
     match bs.[pos] with
     | 89uy ->  true  // Y
     | 78uy ->  false  // N
@@ -100,11 +108,8 @@ let bytesToBool (bs:byte[]) (pos:int) =
 
 // todo: replace with impl that reads the decimal directly with the tmp string
 let bytesToDecimal (bs:byte[]) pos len = 
-    let ss = bytesToStr bs pos len
-    match Decimal.TryParse(ss) with
-    | false, _  -> failwithf "invalid value for decimal field: %s" ss
-    | true, dd  -> dd
-
+    let ss = System.Text.Encoding.ASCII.GetString (bs, pos, len)
+    Convert.ToDecimal ss 
 
 
 

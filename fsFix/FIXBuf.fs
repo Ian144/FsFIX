@@ -57,7 +57,7 @@ let findNextFieldTerm (bs:byte array) (pos:int) = findNext bs pos 1uy
 let findNextTagValSep (bs:byte array) (pos:int) = findNext bs pos 61uy
 
 
-/// used for reading the data component of length+data paired fields, the data component may contain field deliminators
+/// used for reading the data component of length+data paired fields, the data component may contain field delimiters
 /// checks that the prev byte pointed to by pos is a tag=value separator (i.e. an '=)
 /// returns the index of first char after the field value and the value itself
 let readNBytesVal (pos:int) (count:int) (bs:byte array) =
@@ -68,9 +68,9 @@ let readNBytesVal (pos:int) (count:int) (bs:byte array) =
     pos+count+1, bsVal
 
 
-// checks that the prevByte points to a field delimitor
+// checks that the prevByte points to a field delimiter
 let readTagAfterFieldDelim (bs:byte array) (pos:int) =
-    if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimitor"
+    if bs.[pos-1] <> 1uy then failwith "readTagAfterFieldDelim, prev byte is not a field delimiter"
     let tagValSepPos = findNextTagValSep bs pos
     if tagValSepPos = -1 then failwith "could not find next tag-value separator"
     let count = tagValSepPos - pos
