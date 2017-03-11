@@ -35,9 +35,8 @@ let CalcCheckSum (bs:byte[]) (pos:int) (len:int) =
     let mutable (sum:byte) = 0uy
     for ctr = pos to (pos + len - 1) do // len is the 'next free index', so it is not included in the checksum calc
         sum <- sum + bs.[ctr]
-    //todo: consider a more direct conversion than sprintf
-    (sprintf "%03d" sum) |> CheckSum     // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a strings
-
+    let ret = sum.ToString("D3") |> CheckSum     // checksum is defined as a string in fix44.xml hence the CheckSum field type expects a strings
+    ret
 
 
 let WriteTag (dest:byte[]) (nextFreeIdx:int) (msgTag:byte[]) : int = 
@@ -118,7 +117,7 @@ let ReadMessage (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
     let checksumFieldposDataIndex = FIXBufIndexer.FindFieldIdx index indexEnd 10
     let checksumFieldPosData = fieldPosArr.[checksumFieldposDataIndex]
     let checksumTagPlusDelimLen = 3
-    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos-checksumTagPlusDelimLen)
+    let calcedCheckSum = CalcCheckSum bs 0 (checksumFieldPosData.Pos - checksumTagPlusDelimLen)
     let receivedCheckSum   = GenericReaders.ReadField bs index 10 ReadCheckSum
     checkAllFieldsHaveBeenRead fieldPosArr indexEnd
     if calcedCheckSum = receivedCheckSum then

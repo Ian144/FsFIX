@@ -174,7 +174,7 @@ let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) =
 
 // populates the fieldIndex array - this is not functional programming, using imperative techniques for performance
 // returns the array cell index one after the last populated
-let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
+let BuildIndexX (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
     Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
     let mutable pos = 0
     let mutable ctr = 0
@@ -182,6 +182,36 @@ let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
         let pos2, fp = makeIndexField bs pos
         pos <- pos2
         fieldIndex.[ctr] <- fp
+        ctr <- ctr + 1
+    ctr
+
+
+let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
+    Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
+    let mutable pos = 0
+    let mutable ctr = 0
+    while pos < posEnd do
+//        let pos2, fp = makeIndexField bs pos
+        let tagValSepPos = FIXBuf.findNextTagValSep bs pos
+        let fldBeg = tagValSepPos + 1
+        let tagInt = convTagToInt bs pos tagValSepPos
+        if not (IsLenDataCompoundTag tagInt) then
+            let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
+            let fldLen = nextFldOrEnd - fldBeg
+            pos <- nextFldOrEnd + 1
+            fieldIndex.[ctr] <- FieldPos(tagInt, fldBeg, fldLen)
+        else
+            // eat the next field, i.e. the data field component of the len+data pair, including the tag
+            let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
+            let len = fieldTerm - (tagValSepPos+1)
+            let dataFieldLen = Conversions.bytesToInt32 bs (tagValSepPos+1) len
+            let nextFieldBeg = fieldTerm + 1
+            let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
+            let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
+            let compoundFieldLen = endDataFieldPos - fldBeg
+            pos <- endDataFieldPos + 1
+            fieldIndex.[ctr] <- FieldPos(tagInt, fldBeg, compoundFieldLen)        
+
         ctr <- ctr + 1
     ctr
 

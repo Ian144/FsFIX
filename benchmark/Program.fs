@@ -238,26 +238,26 @@ type BenchmarkMsgReadWrite () =
         MsgReadWrite.WriteMessageDU tmpBuf buf 0 beginString senderCompID targetCompID msgSeqNum sendingTime msg
 
 
-//    [<Benchmark>]
-//    member this.ReadMarketDataRequest () =
-//        MsgReadWrite.ReadMessage FIXMsgBuffers.marketDataRequest FIXMsgBuffers.marketDataRequest.Length index
-//
-//
-//
-//    [<Benchmark>]
-//    member this.ReadQuoteStatusRequestWithGroup () =
-//        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithGrpBytes FIXMsgBuffers.quoteStatusRequestWithGrpBytes.Length index
-//
-//
-//    [<Benchmark>]
-//    member this.ReadQuoteStatusRequestWithNestedGroups () =
-//        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes.Length index
-//
-//
-//    [<Benchmark>]
-//    member this.ReadComplexNewOrderMultilegMsg () =
-//        MsgReadWrite.ReadMessage FIXMsgBuffers.newOrderMultilegBytes FIXMsgBuffers.newOrderMultilegBytes.Length index 
-//
+    [<Benchmark>]
+    member this.ReadMarketDataRequest () =
+        MsgReadWrite.ReadMessage FIXMsgBuffers.marketDataRequest FIXMsgBuffers.marketDataRequest.Length index
+
+
+
+    [<Benchmark>]
+    member this.ReadQuoteStatusRequestWithGroup () =
+        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithGrpBytes FIXMsgBuffers.quoteStatusRequestWithGrpBytes.Length index
+
+
+    [<Benchmark>]
+    member this.ReadQuoteStatusRequestWithNestedGroups () =
+        MsgReadWrite.ReadMessage FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes FIXMsgBuffers.quoteStatusRequestWithNestedGrpsBytes.Length index
+
+
+    [<Benchmark>]
+    member this.ReadComplexNewOrderMultilegMsg () =
+        MsgReadWrite.ReadMessage FIXMsgBuffers.newOrderMultilegBytes FIXMsgBuffers.newOrderMultilegBytes.Length index 
+
 
 
 [<EntryPoint>]
@@ -265,6 +265,7 @@ let main argv =
 
     //BenchmarkRunner.Run<BenchmarkIndexedFieldReads>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
     BenchmarkRunner.Run<BenchmarkMsgReadWrite>( DefaultConfig.Instance.With(Job.RyuJitX64) ) |> ignore
+    
     0
 
 

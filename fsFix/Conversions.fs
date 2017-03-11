@@ -89,13 +89,10 @@ let bytesToUInt32 (bs:byte array) (pos:int) (len:int) =
     num
 
 
-////// todo: replace with an impl the reads the int directly from the byte array without a tmp string
 //let bytesToInt32 bs pos len =
 //    let ss = bytesToStr bs pos len
 //    System.Convert.ToInt32 ss
-//
-//
-//// todo: replace with an impl the reads the uint directly from the byte array without a tmp string
+
 //let bytesToUInt32 bs pos len =
 //    let ss = bytesToStr bs pos len
 //    System.Convert.ToUInt32 ss
@@ -113,16 +110,18 @@ let bytesToDecimal (bs:byte[]) pos len =
 
 
 
-let private sToB (ss:string) = System.Text.Encoding.ASCII.GetBytes ss
 
 
-//todo: consider how to avoid allocation by writing into a pre-allocated array at a give postion
+//todo: consider how to avoid allocation by writing into a pre-allocated array at a given postion
 [<AbstractClass;Sealed>]
 type ToBytes private () =
-    static member Convert (str:string) = sToB str
-    static member Convert (ii:int32)   = sprintf "%d" ii |> sToB     
-    static member Convert (ui:uint32)  = sprintf "%d" ui |> sToB     
-    static member Convert (dd:decimal) = sprintf "%.15f" dd |> sToB  // see http://www.onixs.biz/fix-dictionary/4.4/
+    static member Convert (str:string) = System.Text.Encoding.ASCII.GetBytes str
+    static member Convert (ii:int32)   = ii.ToString() |>  System.Text.Encoding.ASCII.GetBytes    
+    static member Convert (ui:uint32)  = ui.ToString() |>  System.Text.Encoding.ASCII.GetBytes
+
+    // write to a max of 15 dp, see http://www.onixs.biz/fix-dictionary/4.4/.
+    //was using sprintf for this, ToString with format is much faster, gives about 30% improvement on the WriteComplexNewOrderMultiLegMsg benchmark
+    static member Convert (dd:decimal) = dd.ToString("0.###############") |>  System.Text.Encoding.ASCII.GetBytes  
     static member Convert (bb:bool)    = if bb then "Y"B else "N"B
     static member Convert (bs:byte []) = bs
     
