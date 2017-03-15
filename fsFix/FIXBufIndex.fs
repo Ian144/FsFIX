@@ -70,17 +70,6 @@ type IndexData (endPos: int, fieldPosArr: FieldPos[]) =
     member val LastReadIdx = -1 with get,set
 
 
-//let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
-//    let mutable ctr = 0
-//    let mutable foundPos = -1
-//    let fieldPosArr = index.FieldPosArr
-//    while (foundPos = -1) && (ctr < indexEnd) do
-//        if tagRequired <> fieldPosArr.[ctr].Tag then
-//            ctr <- ctr + 1
-//        else
-//            foundPos <- ctr
-//    foundPos
-
 
 // this version optimistically tries the next unread field to see if it is the one being searched for
 let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
@@ -99,121 +88,64 @@ let FindFieldIdx (index:IndexData) (indexEnd:int) (tagRequired:int) =
         foundPos
 
 
+ 
 
-
-// in the case of non-field tags that contain alpha chars
-//let inline convTagToInt (bs:byte[]) (tagBeg:int) (tagEnd:int) =
-//    let tagLen = tagEnd - tagBeg
-//    match tagLen with
-//    | 1     ->   int( bs.[tagBeg] )
-//    | 2     ->  (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) // msb is at the higher indice
-//    | 3     ->  (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg+1] ) <<< 8 ) +  int( bs.[tagBeg] ) 
-//    | 4     ->  (int( bs.[tagBeg+3] ) <<< 24) + (int( bs.[tagBeg+2] ) <<< 16) + (int( bs.[tagBeg] ) <<< 8) + int( bs.[tagBeg] ) 
-//    | n     ->  failwith "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd
-
-
-let convTagToInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
-    let len = tagEnd - tagBeg
-    match len with
-    | 1 ->  int(bs.[tagBeg+0] - 48uy)
-    | 2 ->  int(bs.[tagBeg+0] - 48uy) * 10   + int(bs.[tagBeg+1] - 48uy)
-    | 3 ->  int(bs.[tagBeg+0] - 48uy) * 100  + int(bs.[tagBeg+1] - 48uy) * 10  + int(bs.[tagBeg+2] - 48uy)
-    | 4 ->  int(bs.[tagBeg+0] - 48uy) * 1000 + int(bs.[tagBeg+1] - 48uy) * 100 + int(bs.[tagBeg+2] - 48uy) * 10 + int(bs.[tagBeg+3] - 48uy)
-    | n ->  failwithf "convTagToInt, invalid tag indices - begin %d, end: %d. Len (end - beg) should be 1, 2, 3 or 4" tagBeg tagEnd 
-
-
-// i.e. is the tag that of the first field of a len+data field pair
-// these ints match the tags of FIX4.4 len+data fields only
-// todo: this should be generated for each fix version
-let inline IsLenDataCompoundTag (tagInt:int) = 
-    match tagInt with
-    | 93  -> true // Signature
-    | 90  -> true // SecureData
-    | 95  -> true // RawData
-    | 212 -> true // XmlData
-    | 348 -> true // EncodedIssuer
-    | 350 -> true // EncodedSecurityDesc
-    | 352 -> true // EncodedListExecInst
-    | 354 -> true // EncodedText
-    | 356 -> true // EncodedSubject
-    | 358 -> true // EncodedHeadline
-    | 360 -> true // EncodedAllocText
-    | 362 -> true // EncodedUnderlyingIssuer
-    | 364 -> true // EncodedUnderlyingSecurityDesc
-    | 445 -> true // EncodedListStatusText
-    | 618 -> true // EncodedLegIssuer
-    | 621 -> true // EncodedLegSecurityDesc
-    | _   -> false
-
-
-
-// todo: consider inlining, this returns a reference type (would i have to manually inline to avoid the ref type??)
-let makeIndexField (bs:byte[]) (pos:int) : (int*FieldPos) = 
-    let tagValSepPos = FIXBuf.findNextTagValSep bs pos
-    let fldBeg = tagValSepPos + 1
-    let tagInt = convTagToInt bs pos tagValSepPos
-    if not (IsLenDataCompoundTag tagInt) then
-        let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
-        let fldLen = nextFldOrEnd - fldBeg
-        let fp = FieldPos(tagInt, fldBeg, fldLen)
-        nextFldOrEnd + 1, fp
-    else
-        // eat the next field, i.e. the data field component of the len+data pair, including the tag
-        let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
-        let len = fieldTerm - (tagValSepPos+1)
-        let dataFieldLen = Conversions.bytesToInt32 bs (tagValSepPos+1) len
-        let nextFieldBeg = fieldTerm + 1
-        let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
-        let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
-        let compoundFieldLen = endDataFieldPos - fldBeg
-        let fp = FieldPos(tagInt, fldBeg, compoundFieldLen)        
-        endDataFieldPos + 1, fp
-
-
-
-
-// populates the fieldIndex array - this is not functional programming, using imperative techniques for performance
-// returns the array cell index one after the last populated
-let BuildIndexX (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
-    Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
-    let mutable pos = 0
-    let mutable ctr = 0
-    while pos < posEnd do
-        let pos2, fp = makeIndexField bs pos
-        pos <- pos2
-        fieldIndex.[ctr] <- fp
+let readInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
+    let mutable num = 0
+    let mutable ctr = tagBeg
+    let mutable b = 0uy
+    while ctr < tagEnd do
+        b <- bs.[ctr]
+        num <- num * 10 + (int32 b) - 48
         ctr <- ctr + 1
-    ctr
+    num
 
 
-let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (posEnd:int) =
-    Array.Clear (fieldIndex, 0 ,fieldIndex.Length)
+
+let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (bsLen:int) =
+    Array.Clear (fieldIndex, 0, fieldIndex.Length)
     let mutable pos = 0
-    let mutable ctr = 0
-    while pos < posEnd do
-//        let pos2, fp = makeIndexField bs pos
-        let tagValSepPos = FIXBuf.findNextTagValSep bs pos
-        let fldBeg = tagValSepPos + 1
-        let tagInt = convTagToInt bs pos tagValSepPos
-        if not (IsLenDataCompoundTag tagInt) then
-            let nextFldOrEnd = FIXBuf.findNextFieldTermOrEnd bs fldBeg
-            let fldLen = nextFldOrEnd - fldBeg
-            pos <- nextFldOrEnd + 1
-            fieldIndex.[ctr] <- FieldPos(tagInt, fldBeg, fldLen)
+    let mutable pos2 = 0
+    let mutable indexCtr = 0
+    while pos < bsLen do
+        
+        // find the next tag value seperator, read the tag
+        pos2 <- pos
+        while (bs.[pos2] <> 61uy && pos2 < bsLen) do
+            pos2 <- pos2 + 1
+        let tag = readInt bs pos pos2
+        pos <- pos2 + 1 // advance pos to the start of the fields value
+
+        if tag <> 93 && tag <> 90  && tag <> 95  && tag <> 212 && (tag < 348 || tag > 364) && tag <> 445 && tag <> 618 && tag <> 621 then
+            // find the end of the field value
+            while (bs.[pos2] <> 1uy && pos2 < bsLen) do // 1uy is the field seperator
+                pos2 <- pos2 + 1
+        
+            let fldLen = pos2 - pos
+            fieldIndex.[indexCtr] <- FieldPos(tag, pos, fldLen)
         else
-            // eat the next field, i.e. the data field component of the len+data pair, including the tag
-            let fieldTerm = FIXBuf.findNextFieldTermOrEnd bs (tagValSepPos+1)
-            let len = fieldTerm - (tagValSepPos+1)
-            let dataFieldLen = Conversions.bytesToInt32 bs (tagValSepPos+1) len
-            let nextFieldBeg = fieldTerm + 1
-            let dataFieldTagValSepPos = FIXBuf.findNextTagValSep bs nextFieldBeg
-            let endDataFieldPos = dataFieldTagValSepPos + dataFieldLen + 1 // +1 to move one past the end
-            let compoundFieldLen = endDataFieldPos - fldBeg
-            pos <- endDataFieldPos + 1
-            fieldIndex.[ctr] <- FieldPos(tagInt, fldBeg, compoundFieldLen)        
 
-        ctr <- ctr + 1
-    ctr
+            // advance pos2 to the begining of the next field (which will be the data-field), then read the value of the length field
+            while (bs.[pos2] <> 1uy && pos2 < bsLen) do // 1uy is the field seperator
+                pos2 <- pos2 + 1
+
+            let dataFieldLen = readInt bs pos pos2
+            
+            // advance to the next tag-value seperator, which should be the start of the data-fields data
+            while (bs.[pos2] <> 61uy && pos2 < bsLen) do // 1uy is the field seperator
+                pos2 <- pos2 + 1
+            
+            // advance to the end of the datafield, this range may encompass any embedded field or tag-value separators
+            pos2 <- pos2 + dataFieldLen + 1 // +1 to move past the last data cell
+
+            let fldLen = pos2 - pos
+            fieldIndex.[indexCtr] <- FieldPos(tag, pos, fldLen)
+
+        pos <- pos2 + 1 // advance pos to the start of the next field
+        indexCtr <- indexCtr + 1
+    indexCtr
+
+
 
 
 

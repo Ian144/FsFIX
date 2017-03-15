@@ -106,7 +106,7 @@ let ``SettlementInstructions and contained group both have SettlInstSource field
 [<Fact>]
 let ``missing group instance detected when reading msg buf`` () =
     // field 778 is the num group instances field, it sayst there are two group instances, only one is present
-    let buf = "777=XRVWQEI|160=0|165=1|60=20170131-06:37:00|778=2|162=GROUP1|172=1|85=1|165=3"B |> Array.map convFieldSep
+    let buf = "777=XRVWQEI|160=0|165=1|60=20170131-06:37:00|778=2|162=GROUP1|172=1|85=1|165=3|"B |> Array.map convFieldSep
     let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 256
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr buf buf.Length
     let indexData = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)

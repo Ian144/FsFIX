@@ -127,7 +127,6 @@ let newOrderMultileg:NewOrderMultileg =
     let monthYear = MonthYear.MakeMonthYear.Make(2017,01,MonthYear.W1)
     let utcTimeStamp = UTCDateTime.MakeUTCTimestamp.Make(2017, 01, 22, 06, 54, 00)
 
-
     let instrument: Instrument =
          {Symbol = (Fix44.Fields.Symbol "RSWQE")
           SymbolSfx = Some WhenIssued
