@@ -40,7 +40,7 @@ type PropTest() =
         Arbitrary = [|typeof<ArbOverrides>|],
         MaxTest = 100,
         EndSize = 4,
-        Verbose = true,
+        Verbose = false,
         QuietOnSuccess = true
         )
 
