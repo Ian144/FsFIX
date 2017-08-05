@@ -22,6 +22,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixEcho", "FsFIXEcho\FsFi
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "Benchmark\Benchmark.fsproj", "{15515346-8C13-4859-A530-75C0C8279011}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixSession", "FsFixSession\FsFixSession.fsproj", "{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{15515346-8C13-4859-A530-75C0C8279011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
