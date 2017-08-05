@@ -29,21 +29,66 @@ let ConnectionListenerError ex = HandleSocketError "connection listener error" e
 
 
 
+
+let bufSize = 1024 * 64
+let readTimeout = 1000 // millisecs
+let checksumLen = 7
+
+let countFieldSeperators (buf:byte array) endPos = 
+    let mutable numSeps:uint32 = 0u
+    let mutable pos:int = 0
+    while pos < endPos do
+        if buf.[pos] = 1uy then
+            numSeps <- numSeps + 1u
+    numSeps
+
+//let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
 let AcceptorLoop (bufSize:int) (client:TcpClient) =
     //todo: client.LingerState <-
     client.NoDelay              <- true
     client.ReceiveBufferSize    <- bufSize
     client.SendBufferSize       <- bufSize
     let strm = client.GetStream()
-    let buf = Array.zeroCreate<byte>(1024 * 64)
+    strm.ReadTimeout <- readTimeout
+    let buf = Array.zeroCreate<byte> bufSize
     let threadFunc _ = 
+        // process logon msg
         while true do
-            let numBytes = strm.Read(buf, 0, bufSize )
-            
+            let numBytes = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
+                
             if numBytes = 0 then
-                () // timeout
+                () // read timeout, send heartbeat if neccessary - inner reads, while reading up to the end of a msg do not process session logic
             else
-                () // process message
+                // is more that length of "8=fIX.4.4" read
+                // todo has the length been read in a previous iteration??
+                // read the length
+
+                // check fix version, if enough has been read
+                let endPos = 0
+                let begLenField = 10
+                let mutable firstSepPos = 0
+                while buf.[firstSepPos] <> 1uy do
+                    firstSepPos <- firstSepPos + 1
+
+                assert ((firstSepPos+1) = begLenField)
+
+                let mutable secondSepPos = firstSepPos + 1
+                while buf.[secondSepPos] <> 1uy do
+                    secondSepPos <- secondSepPos + 1
+
+                let fixVerField = Fix44.FieldReaders.ReadBeginString buf 0 firstSepPos
+                let (Fix44.Fields.BodyLength bodyLen) = Fix44.FieldReaders.ReadBodyLength buf (firstSepPos+1) secondSepPos
+                
+                let totalLen = firstSepPos + (int32 bodyLen) + checksumLen
+
+                while totalLen > numBytes do
+                    () // read more
+
+
+                // check the compIds
+                // have enought bytes been read toin clude the length prefix?
+                // are there at least two '|'s in the msg, the second should contian the length
+                () 
 
 
             ()
