@@ -36,8 +36,6 @@ open Fix44.MsgWriters
 
 
 
-
-
 // todo: put a single def of this function in a common location
 let convFieldSep (bb:byte) = 
     match bb with 
