@@ -9,8 +9,10 @@ open System.Net
 let main argv = 
 
     let tl = new TcpListener(IPAddress.Loopback,5001)
+    tl.Start()
 
-    //let xx = FsFix.Session.
+    let bufSize = 1024 * 64
+    let xx = FsFix.Session.ConnectionListenerLoop  bufSize tl
             
     Console.WriteLine("running, press any key to exit")
     Console.ReadKey() |> ignore
