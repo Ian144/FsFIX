@@ -34,21 +34,15 @@ open Fix44.Fields
 open Fix44.MessageDU
 
 
-type FsFixPropertyTest() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10000,
-        StartSize = 0,
-        EndSize = 512,
-        Verbose = false
-        )
+open PropTestParams
+
 
 let bufSize = 82 * 1024
 
 
 
 
-[<FsFixPropertyTest>]
+[<PropTest>]
 let ``reconstruct FIX message buf with header and trailer``
         (beginString:BeginString) 
         (senderCompID:SenderCompID) 
