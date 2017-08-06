@@ -1,4 +1,4 @@
-﻿module ConversionRoundtrips
+﻿module ConversionRoundtripsPropTests
 
 open FsCheck
 open FsCheck.Xunit
@@ -11,7 +11,7 @@ open Conversions
 
 type PropTest() =
     inherit PropertyAttribute(
-        MaxTest = 100,
+        MaxTest = 10000,
         StartSize = 0,
         EndSize = System.Int32.MaxValue,
         Verbose = true,
@@ -37,7 +37,7 @@ let Int32ConversionRoundtrip (ii:int32) =
 
 
 
-
+// EndSize = System.Int32.MaxValue, as set for PropTest above, makes this test very slow to run due to the huge strings created
 [<Property>]
 let StringConversionRoundtrip (nnss:NonNull<string>) =
     let ss = nnss.Get

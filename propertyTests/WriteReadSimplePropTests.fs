@@ -38,8 +38,8 @@ let bufSize = 1024 * 4
 type PropTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000, // simple, i.e. a single specific field or date+time value is faster for fscheck to create so MaxTest and EndSize can be higher
-        EndSize = 8,
+        MaxTest = 10000, // simple, i.e. a single specific field or date+time value is faster for fscheck to create so MaxTest and EndSize can be higher
+        EndSize = 64,
         Verbose = false,
         QuietOnSuccess = true
         )
@@ -98,7 +98,8 @@ type PropTest2() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
         MaxTest = 10000,
-        EndSize = 2,
+        StartSize = 0,
+        EndSize = 32,
         Verbose = false,
         QuietOnSuccess = true
         )

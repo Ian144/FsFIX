@@ -37,8 +37,9 @@ open Fix44.MessageDU
 type FsFixPropertyTest() =
     inherit PropertyAttribute(
         Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        EndSize = 4,
+        MaxTest = 10000,
+        StartSize = 0,
+        EndSize = 512,
         Verbose = false
         )
 
