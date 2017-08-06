@@ -8,19 +8,11 @@ open Conversions
 
 
 
-
-type PropTest() =
-    inherit PropertyAttribute(
-        MaxTest = 10000,
-        StartSize = 0,
-        EndSize = System.Int32.MaxValue,
-        Verbose = true,
-        QuietOnSuccess = true
-        )
+open PropTestParams
 
 
 
-[<PropTest>]
+[<PropTestByteArrayConversions>]
 let Uint32ConversionRoundtrip (ui:uint32) =
     let bs = Conversions.ToBytes.Convert ui
     let uiOut = Conversions.bytesToUInt32 bs 0 bs.Length
@@ -29,7 +21,7 @@ let Uint32ConversionRoundtrip (ui:uint32) =
 
 
 
-[<PropTest>]
+[<PropTestByteArrayConversions>]
 let Int32ConversionRoundtrip (ii:int32) =
     let bs = Conversions.ToBytes.Convert ii
     let uiOut = Conversions.bytesToInt32 bs 0 bs.Length
@@ -38,7 +30,7 @@ let Int32ConversionRoundtrip (ii:int32) =
 
 
 // EndSize = System.Int32.MaxValue, as set for PropTest above, makes this test very slow to run due to the huge strings created
-[<Property>]
+[<PropTest>]
 let StringConversionRoundtrip (nnss:NonNull<string>) =
     let ss = nnss.Get
     let bs = Conversions.ToBytes.Convert ss
@@ -46,7 +38,7 @@ let StringConversionRoundtrip (nnss:NonNull<string>) =
     ss =! ssOut
 
 
-[<PropTest>]
+[<PropTestByteArrayConversions>]
 let DecimalConversionRoundtrip (xxIn:decimal) =
     let dd = System.Math.Round(xxIn,15)
     let bs = Conversions.ToBytes.Convert dd

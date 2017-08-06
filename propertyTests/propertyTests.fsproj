@@ -64,6 +64,7 @@
     <Content Include="App.config" />
     <Compile Include="DateTimeGenerators.fs" />
     <Compile Include="Generators.fs" />
+    <Compile Include="PropTestParams.fs" />
     <Compile Include="ConversionRoundtripsPropTests.fs" />
     <Compile Include="WriteReadSimplePropTests.fs" />
     <Compile Include="FIXMsgIndexingPropTests.fs" />

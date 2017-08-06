@@ -27,22 +27,13 @@ open Swensen.Unquote
 open Fix44.Fields
 open Fix44.MessageDU
 
-open Generators
+open PropTestParams
 
 
 
 let bufSize = 1024 * 1024
 let indexBufSize = 1024 * 32
 
-
-type PropTest() =
-    inherit PropertyAttribute(
-        Arbitrary = [|typeof<ArbOverrides>|],
-        MaxTest = 10000,
-        EndSize = 32,
-        Verbose = false,
-        QuietOnSuccess = true
-        )
 
 
 [<PropTest>]
