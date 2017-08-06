@@ -57,8 +57,8 @@ let bytesToInt32 (bs:byte array) (pos:int) (len:int) =
         while ctr < endPos do
             b <- bs.[ctr]
             if b > 47uy && b < 58uy then
-                num <- num * 10 + int32 (b - 48uy);
-                ctr <- ctr + 1;
+                num <- num * 10 + int32 (b - 48uy)
+                ctr <- ctr + 1
             else
                 failwithf "bytesToInt32, byte should be a digit: %d" b
         num
@@ -79,11 +79,11 @@ let bytesToUInt32 (bs:byte array) (pos:int) (len:int) =
     let mutable num = 0u
     let mutable ctr = pos
     let endPos = pos + len // one after the last valid position
-    let mutable b = bs.[ctr]
     while ctr < endPos do
+        let b = bs.[ctr]
         if b > 47uy && b < 58uy then
             num <- num * 10u + uint32 (b - 48uy);
-            ctr <- ctr + 1;
+            ctr <- ctr + 1
         else
             failwithf "bytesToUInt32, byte should be a digit: %d" b
     num

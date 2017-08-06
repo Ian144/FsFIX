@@ -56,7 +56,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="FIXBufFieldIndexTests.fs" />
     <Compile Include="FieldReadTests.fs" />
-    <Compile Include="WriteReadRoundtripTests.fs" />
     <Compile Include="UTCTimestampTests.fs" />
     <Compile Include="UTCDateTests.fs" />
     <Compile Include="UTCTimeOnlyTests.fs" />
@@ -66,6 +65,7 @@
     <Compile Include="FieldWriteTests.fs" />
     <Content Include="App.config" />
     <Content Include="packages.config" />
+    <Compile Include="WriteReadRoundtripTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

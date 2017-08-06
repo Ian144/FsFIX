@@ -29,22 +29,15 @@ open Fix44.CompoundItems
 open Fix44.CompoundItemWriters
 open Fix44.MessageDU
 
-open Generators
+open PropTestParams
 
 
-let bufSize = 1024 * 16 // so as not to go into the LOH
+let bufSize = 1024 * 128
 let bs = Array.zeroCreate<byte> bufSize    
 let tmpBs = Array.zeroCreate<byte> bufSize
-let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> 1024
+let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 32)
 
-type PropTest() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 100,
-        EndSize = 4,
-        Verbose = false,
-        QuietOnSuccess = true
-        )
+
 
 //
 //[<PropTest>]

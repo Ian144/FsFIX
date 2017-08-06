@@ -24,25 +24,13 @@ open FsCheck.Xunit
 open Swensen.Unquote
 
 
-
-
-open Generators
+open PropTestParams
 
 
 
 let bufSize = 1024 * 4
 
-
     
-
-type PropTest() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 1000, // simple, i.e. a single specific field or date+time value is faster for fscheck to create so MaxTest and EndSize can be higher
-        EndSize = 8,
-        Verbose = false,
-        QuietOnSuccess = true
-        )
 
 
 
@@ -91,27 +79,6 @@ let RawData (fldIn:Fix44.Fields.RawData) =
 
 [<PropTest>]
 let SecurityRequestType (fldIn:Fix44.Fields.SecurityRequestType) = WriteReadFieldTest fldIn Fix44.FieldWriters.WriteSecurityRequestType Fix44.FieldReaders.ReadSecurityRequestType
-
-
-
-type PropTest2() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<ArbOverrides> |],
-        MaxTest = 10000,
-        EndSize = 2,
-        Verbose = false,
-        QuietOnSuccess = true
-        )
-
-
-
-//// slow, will disable/enable this test as required
-//[<PropTest2>]
-//let AllFields (tIn:Fix44.FieldDU.FIXField) = 
-//    let bs = Array.zeroCreate<byte> bufSize
-//    let posW = Fix44.FieldDU.WriteField bs 0 tIn
-//    let tOut = Fix44.FieldDU.ReadField bs 0
-//    tIn =! tOut
 
 
 
