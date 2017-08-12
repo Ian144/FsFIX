@@ -79,7 +79,7 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
                 let fixVerField = Fix44.FieldReaders.ReadBeginString buf 0 firstSepPos
                 let (Fix44.Fields.BodyLength bodyLen) = Fix44.FieldReaders.ReadBodyLength buf (firstSepPos+3) 3
                 
-                let totalLen = secondSepPos + (int32 bodyLen) + checksumLen + 1 / /+1 as the buffer is zero based
+                let totalLen = secondSepPos + (int32 bodyLen) + checksumLen + 1 //+1 as the buffer is zero based
 
                 while totalLen > numBytes do
                     () // read more
