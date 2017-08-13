@@ -42,6 +42,13 @@ let countFieldSeperators (buf:byte array) endPos =
             numSeps <- numSeps + 1u
     numSeps
 
+
+
+
+
+
+
+
 //let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
 let AcceptorLoop (bufSize:int) (client:TcpClient) =
     //todo: client.LingerState <-
@@ -51,7 +58,20 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
     let strm = client.GetStream()
     strm.ReadTimeout <- readTimeout
     let buf = Array.zeroCreate<byte> bufSize
+    
+    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field
+
+
     let threadFunc _ = 
+
+        let em = Fix44.Fields.EncryptMethod.NoneOther
+        let hb = Fix44.Fields.HeartBtInt 60
+        let logonMsg = Fix44.MessageFactoryFuncs.MkLogon (em, hb)
+
+        //let bytesWritten = MsgReadWrite.WriteMessageDU buf logonMsg
+
+        let sendingTime = Fix44.Fields.SendingTime
+
         // process logon msg
         while true do
             let numBytes = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
@@ -62,21 +82,24 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
                 // is more that length of "8=fIX.4.4" read
                 // todo has the length been read in a previous iteration??
                 // read the length
+                
+                // read the first two fields, which should be BeginString and BodyLength.
+                // BodyLength indicates how much more there is left to read.
+                // Read the remaining bytes, then the message can be indexed
 
-                // check fix version, if enough has been read
                 let endPos = 0
                 let begLenField = 10
                 let mutable firstSepPos = 0
                 while buf.[firstSepPos] <> 1uy do
                     firstSepPos <- firstSepPos + 1
-
-                assert ((firstSepPos+1) = begLenField)
-
                 let mutable secondSepPos = firstSepPos + 1
                 while buf.[secondSepPos] <> 1uy do
                     secondSepPos <- secondSepPos + 1
 
-                let fixVerField = Fix44.FieldReaders.ReadBeginString buf 0 firstSepPos
+                let firstMsgIsBeginString = buf.[0] = 56uy && buf.[1] = 61uy
+                let secondMsgIsBeginString = buf.[firstSepPos+1] = 57uy && buf.[firstSepPos+2] = 61uy
+
+                let beginString = Fix44.FieldReaders.ReadBeginString buf 2 (firstSepPos - 2)
                 let (Fix44.Fields.BodyLength bodyLen) = Fix44.FieldReaders.ReadBodyLength buf (firstSepPos+3) 3
                 
                 let totalLen = secondSepPos + (int32 bodyLen) + checksumLen + 1 //+1 as the buffer is zero based
@@ -85,7 +108,13 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
                     () // read more
 
 
-                // check the compIds
+
+
+                let msgIn = MsgReadWrite.ReadMessage buf totalLen fieldPosArr
+
+                // is msg a logon msg - ensure with 
+                // compIds valid
+                // send
                 // have enought bytes been read toin clude the length prefix?
                 // are there at least two '|'s in the msg, the second should contian the length
                 () 

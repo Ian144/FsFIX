@@ -69,7 +69,6 @@ let WaitForExitCmd () =
 
 
 let runFIXEcho (host:string) (port:int) senderCompID targetCompID msgDiffOutPath = 
-    
     let client = new TcpClient()
     client.Connect (host, port)
     let strm = client.GetStream()
@@ -174,8 +173,7 @@ let main args =
         printfn "should be - FsFIXEcho.exe <targetHost> <targetPort> <SenderCompID> <TargetCompID> <badMsgOutDir>"
     
     //todo:  log off
-
-    
+        
     WaitForExitCmd ()
 
     0 // exit code

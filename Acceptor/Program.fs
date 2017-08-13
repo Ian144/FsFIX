@@ -4,6 +4,12 @@ open System.Net.Sockets
 open System.Net
 
 
+//#nowarn "52"
+let WaitForExitCmd () = 
+    while Console.ReadKey().KeyChar <> 'X' do // 88 is 'X'
+        ()
+
+
 
 [<EntryPoint>]
 let main argv = 
@@ -14,7 +20,7 @@ let main argv =
     let bufSize = 1024 * 64
     let xx = FsFix.Session.ConnectionListenerLoop  bufSize tl
             
-    Console.WriteLine("running, press any key to exit")
-    Console.ReadKey() |> ignore
-        
+    Console.WriteLine("running, press 'X' to exit")        
+    WaitForExitCmd ()    
+
     0 // return an integer exit code
