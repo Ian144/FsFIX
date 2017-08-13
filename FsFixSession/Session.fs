@@ -34,6 +34,7 @@ let bufSize = 1024 * 64
 let readTimeout = 1000000 // millisecs
 let checksumLen = 7
 
+
 let countFieldSeperators (buf:byte array) endPos = 
     let mutable numSeps:uint32 = 0u
     let mutable pos:int = 0
@@ -41,12 +42,6 @@ let countFieldSeperators (buf:byte array) endPos =
         if buf.[pos] = 1uy then
             numSeps <- numSeps + 1u
     numSeps
-
-
-
-
-
-
 
 
 //let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
@@ -100,7 +95,10 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
                 let secondMsgIsBeginString = buf.[firstSepPos+1] = 57uy && buf.[firstSepPos+2] = 61uy
 
                 let beginString = Fix44.FieldReaders.ReadBeginString buf 2 (firstSepPos - 2)
-                let (Fix44.Fields.BodyLength bodyLen) = Fix44.FieldReaders.ReadBodyLength buf (firstSepPos+3) 3
+
+                let beginingOfLen = firstSepPos + 3
+                let lengthOfLenBytes = secondSepPos - beginingOfLen
+                let (Fix44.Fields.BodyLength bodyLen) = Fix44.FieldReaders.ReadBodyLength buf beginingOfLen lengthOfLenBytes
                 
                 let totalLen = secondSepPos + (int32 bodyLen) + checksumLen + 1 //+1 as the buffer is zero based
 
@@ -111,7 +109,7 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
 
 
                 let msgIn = MsgReadWrite.ReadMessage buf totalLen fieldPosArr
-
+                printfn "xxxxxxxxxxxx"
                 // is msg a logon msg - ensure with 
                 // compIds valid
                 // send

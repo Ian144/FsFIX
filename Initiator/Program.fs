@@ -24,8 +24,8 @@ open System
 open System.Net.Sockets
 
 
-//open Fix44.MessageFactoryFuncs
-//open Fix44.Fields
+open Fix44.MessageFactoryFuncs
+open Fix44.Fields
 
 let convFieldSep (bb:byte) = 
     match bb with 
@@ -44,49 +44,46 @@ let marketDataRequest                       = "8=FIX.4.4|9=138|35=V|34=99|49=sen
 [<EntryPoint>]
 let main argv = 
     
-    printfn "hi"
-
-
-//    let em = Fix44.Fields.EncryptMethod.NoneOther
-//    let hb = Fix44.Fields.HeartBtInt 60
-//    let un = Username "fred" |> Option.Some
-//    let pw = Password "pw" |> Option.Some
-//    let logonMsg = Fix44.MessageFactoryFuncs.MkLogon (em, hb)
-//    let logonMsg2 = {logonMsg with Username = un; Password = pw} |> Fix44.MessageDU.FIXMessage.Logon
+    let em = Fix44.Fields.EncryptMethod.NoneOther
+    let hb = Fix44.Fields.HeartBtInt 60
+    let un = Username "fred" |> Option.Some
+    let pw = Password "pw" |> Option.Some
+    let logonMsg = Fix44.MessageFactoryFuncs.MkLogon (em, hb)
+    let logonMsg2 = {logonMsg with Username = un; Password = pw} |> Fix44.MessageDU.FIXMessage.Logon
     
     
-//    let fixVer = BeginString "FIX.4.4"
-//    let senderCompID = SenderCompID "initiator"
-//    let targetCompID = TargetCompID "acceptor"
+    let fixVer = BeginString "FIX.4.4"
+    let senderCompID = SenderCompID "initiator"
+    let targetCompID = TargetCompID "acceptor"
     
-//    let utcNow = UTCDateTime.MakeUTCTimestamp.Make (2017, 08, 12, 13, 09, 00)
-//    let sendingTime = SendingTime utcNow
+    let utcNow = UTCDateTime.MakeUTCTimestamp.Make (2017, 08, 12, 13, 09, 00)
+    let sendingTime = SendingTime utcNow
 
-//    let seqNum = 0u
-//    let msgSeqNum = MsgSeqNum seqNum
+    let seqNum = 0u
+    let msgSeqNum = MsgSeqNum seqNum
 
-////let WriteMessageDU
-////        (tmpBuf:byte []) 
-////        (dest:byte []) 
-////        (nextFreeIdx:int) 
-////        (beginString:BeginString) 
-////        (senderCompID:SenderCompID) 
-////        (targetCompID:TargetCompID) 
-////        (msgSeqNum:MsgSeqNum) 
-////        (sendingTime:SendingTime) 
-////        (msg:FIXMessage) =
+//let WriteMessageDU
+//        (tmpBuf:byte []) 
+//        (dest:byte []) 
+//        (nextFreeIdx:int) 
+//        (beginString:BeginString) 
+//        (senderCompID:SenderCompID) 
+//        (targetCompID:TargetCompID) 
+//        (msgSeqNum:MsgSeqNum) 
+//        (sendingTime:SendingTime) 
+//        (msg:FIXMessage) =
+ 
 
+    use tc = new TcpClient("127.0.0.1", 5001)
+    use strm = tc.GetStream()
 
-//    use tc = new TcpClient("127.0.0.1", 5001)
-//    use strm = tc.GetStream()
-
-//    let tmpBuf = Array.zeroCreate<byte> (1024 * 16)
-//    let buf = Array.zeroCreate<byte> (1024 * 16)
+    let tmpBuf = Array.zeroCreate<byte> (1024 * 16)
+    let buf = Array.zeroCreate<byte> (1024 * 16)
     
-//    let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg2
+    let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg2
 
 
-//    //strm.Write( buf, 0, bytesWritten )
+    strm.Write( buf, 0, bytesWritten )
 
     Console.WriteLine("press any key to exit")
     Console.ReadKey() |> ignore
