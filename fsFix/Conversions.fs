@@ -38,13 +38,13 @@ let bytesToChar (bs:byte[]) pos len =
 
 
 // Will consider a non-allocating bytesToInt32, such as bytesToInt32Direct.
-// benchmarkdotnet shows that while bytesToInt32Direct is faster than bytesToInt32, but that bytesToInt32 takes 100's of nanoseconds which may not be a significant part of reading a FIX message.
+// benchmarkdotnet shows that while bytesToInt32Direct is faster than bytesToInt32,  bytesToInt32 onlyh takes 100's of nanoseconds which may not be a significant part of reading a FIX message.
 //
 //                                    Method |        Mean |    StdErr |     StdDev |      Median |
 //------------------------------------------ |------------ |---------- |----------- |------------ |
-//                       BytesToIntViaString | 164.5883 ns | 1.9717 ns | 19.7175 ns | 154.2573 ns | equivalent to bytesToInt32
+//                       BytesToIntViaString | 164.5883 ns | 1.9717 ns | 19.7175 ns | 154.2573 ns |
 //                BytesToIntDirectNoChecking |   8.4745 ns | 0.2718 ns |  2.7182 ns |   7.2195 ns |
-//              BytesToIntDirectWithChecking |   8.6798 ns | 0.2012 ns |  2.0115 ns |   7.5519 ns | equivalent to bytesToInt32Direct below
+//              BytesToIntDirectWithChecking |   8.6798 ns | 0.2012 ns |  2.0115 ns |   7.5519 ns | as per bytesToInt32 below
 // BytesToIntDirectWithCheckingBadBranchPred |   9.1458 ns | 0.1299 ns |  1.2986 ns |   8.4423 ns |
 
 let bytesToInt32 (bs:byte array) (pos:int) (len:int) =
@@ -103,7 +103,7 @@ let bytesToBool (bs:byte[]) (pos:int) =
     | 78uy ->  false  // N
     | _ ->  failwithf "invalid value for bool field: %d, should be 89 (Y) or 78 (N)" bs.[pos]
 
-// todo: replace with impl that reads the decimal directly with the tmp string
+// todo: replace with impl that reads the decimal directly without a tmp string
 let bytesToDecimal (bs:byte[]) pos len = 
     let ss = System.Text.Encoding.ASCII.GetString (bs, pos, len)
     Convert.ToDecimal ss 

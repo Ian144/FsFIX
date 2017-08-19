@@ -44,17 +44,17 @@ let marketDataRequest                       = "8=FIX.4.4|9=138|35=V|34=99|49=sen
 [<EntryPoint>]
 let main argv = 
     
-    let em = Fix44.Fields.EncryptMethod.NoneOther
-    let hb = Fix44.Fields.HeartBtInt 60
-    let un = Username "fred" |> Option.Some
-    let pw = Password "pw" |> Option.Some
-    let logonMsg = Fix44.MessageFactoryFuncs.MkLogon (em, hb)
+    let em        = Fix44.Fields.EncryptMethod.NoneOther
+    let hb        = Fix44.Fields.HeartBtInt 60
+    let un        = Username "fred" |> Option.Some
+    let pw        = Password "pw" |> Option.Some
+    let logonMsg  = Fix44.MessageFactoryFuncs.MkLogon (em, hb)
     let logonMsg2 = {logonMsg with Username = un; Password = pw} |> Fix44.MessageDU.FIXMessage.Logon
     
     
-    let fixVer = BeginString "FIX.4.4"
-    let senderCompID = SenderCompID "initiator"
-    let targetCompID = TargetCompID "acceptor"
+    let fixVer          = BeginString   "FIX.4.4"
+    let senderCompID    = SenderCompID  "initiator"
+    let targetCompID    = TargetCompID  "acceptor"
     
     let utcNow = UTCDateTime.MakeUTCTimestamp.Make (2017, 08, 12, 13, 09, 00)
     let sendingTime = SendingTime utcNow
