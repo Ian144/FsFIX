@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Initiator</RootNamespace>
     <AssemblyName>Initiator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>Initiator</Name>
