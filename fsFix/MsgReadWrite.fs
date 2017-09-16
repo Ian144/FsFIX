@@ -86,7 +86,7 @@ let WriteMessageDU
 
 
 
-let private join (ss:string seq) = String.Join( ", ", ss)
+let private join (ss:string seq) = String.Join( ", ", ss )
 
 let private checkAllFieldsHaveBeenRead (fieldPosArr:FIXBufIndexer.FieldPos array) (indexEnd:int) : unit =
     for ctr in 0 .. indexEnd do
@@ -101,7 +101,6 @@ let private checkAllFieldsHaveBeenRead (fieldPosArr:FIXBufIndexer.FieldPos array
 
 
 let ReadMessage (bs:byte []) (posEnd:int) fieldPosArr : FIXMessage =
-    printfn "ReadMessage called"
     let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr bs posEnd
     let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
     // magic numbers are FIX field tags, true is a dummy parameter to differentiate the type signature of the 'ordered' reading functions from the random access equivalents

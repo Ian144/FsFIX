@@ -78,9 +78,8 @@ let ConstrainGroupDependencyOrder (componentNameMap:Map<ComponentName,Component>
                             |> List.filter (fun ci ->   let name = CompoundItem.getName ci
                                                         constrainedSet |> (Set.contains name) |> not)
 
-    // The dependency tree is represented a Map<string, string list> where the strings are group names
-    // the key is group that depends on the list of groups in the map value.
     // The dependency tree is represented as a Map<string, string list>, where the string values are the names of groups or components.
+    // the key is the group that depends on the list of groups in the map value.
     // Using the raw string type instead of single case DUs because there are already different single case DUs for component names (may create one for groups)
     let dependencyTree = constraints |> List.fold buildDependencyTree Map.empty
 
