@@ -48,7 +48,7 @@ let ReadField bs (index:FIXBufIndexer.IndexData) tag readFunc =
 
 
 // todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
-let ReadFieldOrdered  (_:bool) bs (index:FIXBufIndexer.IndexData) tag readFunc =
+let ReadFieldOrdered (_:bool) bs (index:FIXBufIndexer.IndexData) tag readFunc =
     let fieldPosArr = index.FieldPosArr
     let nextFieldIdx = index.LastReadIdx + 1
     let fpData = fieldPosArr.[nextFieldIdx]

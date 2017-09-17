@@ -1,10 +1,10 @@
 ﻿module FsFix.Session
 
-
+open System
 open System.Net.Sockets
 open System.Threading
 
-
+open Fix44.Fields
 
 
 let HandleSocketError (name:string) (ex:System.Exception) = 
@@ -43,9 +43,7 @@ let countFieldSeperators (buf:byte array) endPos =
             numSeps <- numSeps + 1u
     numSeps
 
-
-
-let ProcessLogon (strm:System.IO.Stream) (fieldIndex:FIXBufIndexer.FieldPos []) (buf:byte[]) : Unit =
+let ProcessLogon (maxMsgAge:TimeSpan) (utcNow:DateTimeOffset) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (strm:System.IO.Stream) (fieldIndex:FIXBufIndexer.FieldPos []) (buf:byte[]) : Unit =
     
     let mutable numBytes = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
                 
@@ -58,6 +56,8 @@ let ProcessLogon (strm:System.IO.Stream) (fieldIndex:FIXBufIndexer.FieldPos []) 
         let numBytesInner = strm.Read(buf, numBytes, bufSize-numBytes )
         numBytes <- numBytes + numBytesInner
 
+
+    //8=FIX.4.2|9=65|35=A|49=SERVER|56=CLIENT|34=177|52=20090107-18:15:16|98=0|108=30|10=062|
     let mutable firstSepPos = 0
     while buf.[firstSepPos] <> 1uy && firstSepPos < numBytes do
         firstSepPos <- firstSepPos + 1
@@ -80,22 +80,38 @@ let ProcessLogon (strm:System.IO.Stream) (fieldIndex:FIXBufIndexer.FieldPos []) 
                 
                 let totalLen = secondSepPos + (int32 bodyLen) + checksumLen + 1 //+1 as the buffer is zero based
 
-                // read the rest of the msg bytes from the 
+                // read the rest of the msg bytes from the buffer
                 while totalLen > numBytes do
-                    let numBytesInner = strm.Read(buf, numBytes, bufSize-numBytes )
+                    let numBytesInner = strm.Read( buf, numBytes, bufSize-numBytes )
                     numBytes <- numBytes + numBytesInner
 
+                // TODO: don't use hard coded fix tags
+                let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytes
+                let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
+                let (MsgSeqNum seqNum)      = GenericReaders.ReadField buf index 34 Fix44.FieldReaders.ReadMsgSeqNum
+                let senderCompID            = GenericReaders.ReadField buf index 49 Fix44.FieldReaders.ReadSenderCompID
+                let (SendingTime sendTime)  = GenericReaders.ReadField buf index 52 Fix44.FieldReaders.ReadSendingTime
+                let targetCompID            = GenericReaders.ReadField buf index 56 Fix44.FieldReaders.ReadTargetCompID
+                
+                let dtoSendTime = UTCDateTime.MakeUTCTimestamp.MakeDTO sendTime
+                let msgAge = (dtoSendTime - utcNow)
+                let sendTimeOk = maxMsgAge >= msgAge
+                if not sendTimeOk then
+                    failwithf "logon failure: max acceptable msg age: %A, actual msg age: %A" maxMsgAge  msgAge
 
-                let indexEnd       = FIXBufIndexer.BuildIndex fieldIndex buf numBytes
-                let index          = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
-                let seqNum         = GenericReaders.ReadFieldOrdered true buf index 34 Fix44.FieldReaders.ReadMsgSeqNum
-                let senderCompID   = GenericReaders.ReadFieldOrdered true buf index 49 Fix44.FieldReaders.ReadSenderCompID
-                let sendTime       = GenericReaders.ReadFieldOrdered true buf index 52 Fix44.FieldReaders.ReadSendingTime
-                let targetCompID   = GenericReaders.ReadFieldOrdered true buf index 56 Fix44.FieldReaders.ReadTargetCompID
+                let seqNumOk = (0u = seqNum)
+                if not seqNumOk then
+                    failwithf "logon failure: expected '0' sequence number, actual: %d" seqNum
 
-                // TODO  check compID's in logon msg
+
+                let compIDsOk = acceptableCompIDPairSet.Contains (targetCompID, senderCompID)
+                if not compIDsOk then
+                    failwithf "logon failure: invalid target and sender compIDs: %A" (targetCompID, senderCompID)
+
+                // does imperative logic make returning a Choice2 difficult
 
                 let logonMsg = Fix44.MsgReaders.ReadLogon buf index
+                printfn "%A" logonMsg
 
                 ()
                 //match msg with
@@ -107,15 +123,15 @@ let ProcessLogon (strm:System.IO.Stream) (fieldIndex:FIXBufIndexer.FieldPos []) 
                 //        let tagStr = Conversions.bytesToStr tag 0 tag.Length
                 //        failwithf "expected Logon msg, recieved msg type: %s" tagStr
             else
-                failwithf "unexpected FIX version in BeginString field: %s, currently only FIX.4.4 supported" fixVer
+                failwithf "logon failure: unexpected FIX version in BeginString field: %s, currently only FIX.4.4 supported" fixVer
         else
-            failwith "first two msg fields are not BeginString and BodyLen"
+            failwith "logon failure: first two msg fields are not BeginString and BodyLen"
     else
-        failwith "first two field seperators not found in msg bytes read"
+        failwith "logon failure: first two field seperators not found in msg bytes read"
     ()
 
 
-//let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
+//todo: consider let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
 let AcceptorLoop (bufSize:int) (client:TcpClient) =
     //todo: client.LingerState <-
     client.NoDelay              <- true
@@ -124,14 +140,22 @@ let AcceptorLoop (bufSize:int) (client:TcpClient) =
     let strm = client.GetStream()
     strm.ReadTimeout <- readTimeout
     let buf = Array.zeroCreate<byte> bufSize
-    
     let fieldIndex = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field
+    let trgCompId = TargetCompID "acceptor"
+    let sndCompId = SenderCompID "initiator"
+    
+    
+    // TODO, read these from config
+    let acceptedCompIDPairs = Set.empty |> Set.add (trgCompId, sndCompId)
+    let maxMsgAge = new TimeSpan(0,0,30)
 
     let threadFunc _ = 
 
+        let utcNow = DateTimeOffset.UtcNow
+        
         // process a received logon msg
-        // throws if logon not successfull
-        ProcessLogon strm fieldIndex buf 
+        // TODO return Choice2of2 if not successfull
+        ProcessLogon maxMsgAge utcNow acceptedCompIDPairs strm fieldIndex buf 
 
 
         //TODO set thread affinity
