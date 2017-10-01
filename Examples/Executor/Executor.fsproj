@@ -70,17 +70,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FsFixSession\FsFixSession.fsproj">
+    <ProjectReference Include="..\..\FsFixSession\FsFixSession.fsproj">
       <Name>FsFixSession</Name>
       <Project>{a0b2faed-9391-4cff-bc8a-a644c24387dd}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\fsFix\FsFix.fsproj">
+    <ProjectReference Include="..\..\fsFix\FsFix.fsproj">
       <Name>FsFix</Name>
       <Project>{c90a912f-aa9d-4d66-8c64-b29ec34e3f9a}</Project>
       <Private>True</Private>
