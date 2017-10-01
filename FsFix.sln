@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixCodeGen", "fsFixGen\FsFixCodeGen.fsproj", "{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}"
 EndProject
@@ -24,7 +24,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "Benchmark\Benc
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixSession", "FsFixSession\FsFixSession.fsproj", "{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AcceptorHarness", "Acceptor\AcceptorHarness.fsproj", "{A587B5CA-CBA4-4A5C-9535-34041C834E3F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Executor", "Acceptor\Executor.fsproj", "{A587B5CA-CBA4-4A5C-9535-34041C834E3F}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Initiator", "Initiator\Initiator.fsproj", "{B037B92F-E152-4387-B1DC-890D88FABCCF}"
 EndProject
@@ -77,5 +77,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50791732-9863-4D45-9220-42F194C4439C}
 	EndGlobalSection
 EndGlobal

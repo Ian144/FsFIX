@@ -69,9 +69,6 @@ let main argv =
     strm.Write( buf, 0, bytesWritten )
 
 
-
-
-
     Console.WriteLine("press any key to exit")
     Console.ReadKey() |> ignore
 

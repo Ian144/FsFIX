@@ -1,4 +1,4 @@
-﻿module FsFix.Session
+﻿module FsFix.Session.Acceptor
 
 
 open System
@@ -101,53 +101,68 @@ let ReadAllMsgBytes (strm:Stream) (buf:byte[]): int =
 
 
 
+let CheckMessage (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (buf:byte[]) (index:FIXBufIndexer.IndexData) : unit = 
+    let fixVersion              = GenericReaders.ReadField buf index 8  FieldReaders.ReadBeginString
+    let (MsgSeqNum seqNum)      = GenericReaders.ReadField buf index 34 FieldReaders.ReadMsgSeqNum
+    let senderCompID            = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
+    let (SendingTime sendTime)  = GenericReaders.ReadField buf index 52 FieldReaders.ReadSendingTime
+    let targetCompID            = GenericReaders.ReadField buf index 56 FieldReaders.ReadTargetCompID
+
+    // todo: make the success case expected, for branch prediction
+    // todo read and check fix version
+    if fix44 <> fixVersion then
+        failwithf "message contains unsupported fix version: %A" fixVersion
+
+    let dtoSendTime = UTCDateTime.MakeUTCTimestamp.MakeDTO sendTime
+    let utcNow = DateTimeOffset.UtcNow
+    let msgAge = (dtoSendTime - utcNow)
+    let sendTimeOk = maxMsgAge >= msgAge
+    if not sendTimeOk then
+        failwithf "max acceptable msg age: %A, actual msg age: %A" maxMsgAge  msgAge
+
+    let seqNumOk = (1u = seqNum)
+    if not seqNumOk then
+        failwithf "logon failure: expected '0' sequence number, actual: %d" seqNum
+
+    let compIDsOk = acceptableCompIDPairSet.Contains (targetCompID, senderCompID)
+    if not compIDsOk then
+        failwithf "logon failure: invalid target and sender compIDs: %A" (targetCompID, senderCompID)
+    ()
+
 
 let ProcessLogon (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (strm:Stream) (fieldIndex:FIXBufIndexer.FieldPos []) (buf:byte[]) : Unit =
     
-        let numBytesRead = ReadAllMsgBytes strm buf
-        // todo: deal with zero bytes read, or use infinite read timeout
+    let numBytesRead = ReadAllMsgBytes strm buf
+    // todo: deal with zero bytes read, or use infinite read timeout
 
-        let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
-        let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
-                
-        // TODO: don't use hard coded fix tags
-        let (MsgSeqNum seqNum)      = GenericReaders.ReadField buf index 34 FieldReaders.ReadMsgSeqNum
-        let senderCompID            = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
-        let (SendingTime sendTime)  = GenericReaders.ReadField buf index 52 FieldReaders.ReadSendingTime
-        let targetCompID            = GenericReaders.ReadField buf index 56 FieldReaders.ReadTargetCompID
-        let msgType                 = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
+    let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
+    let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
+    
+    CheckMessage maxMsgAge acceptableCompIDPairSet buf index
 
-        // todo read and check fix version
+    let msgType                 = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
-        let msgTypeOK = msgType = MsgType.Logon
-        if not msgTypeOK then
-            failwithf "logon failure: invalid msg type received: %A" msgType
+    let msgTypeOK = msgType = MsgType.Logon
+    if not msgTypeOK then
+        failwithf "logon failure: invalid msg type received: %A" msgType
 
-        let dtoSendTime = UTCDateTime.MakeUTCTimestamp.MakeDTO sendTime
-        let utcNow = DateTimeOffset.UtcNow
-        let msgAge = (dtoSendTime - utcNow)
-        let sendTimeOk = maxMsgAge >= msgAge
-        if not sendTimeOk then
-            failwithf "max acceptable msg age: %A, actual msg age: %A" maxMsgAge  msgAge
-
-        let seqNumOk = (1u = seqNum)
-        if not seqNumOk then
-            failwithf "logon failure: expected '0' sequence number, actual: %d" seqNum
-
-        let compIDsOk = acceptableCompIDPairSet.Contains (targetCompID, senderCompID)
-        if not compIDsOk then
-            failwithf "logon failure: invalid target and sender compIDs: %A" (targetCompID, senderCompID)
-
-        let logonMsg = MsgReaders.ReadLogon buf index
-        printfn "%A" logonMsg
-        printfn "logon successfull"
-        //todo: log successfull logon
+    let logonMsg = MsgReaders.ReadLogon buf index
+    printfn "%A" logonMsg
+    printfn "logon successfull"
+    //todo: log successfull logon
 
 
 
+// TODO: ADD A COMMENT ON THIS'function extract stuff' TO CODE I LIKE ########################################
 
-//todo: consider let AcceptorLoop msgProcessorFunc (bufSize:int) (client:TcpClient) =
-let AcceptorLoop (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (bufSize:int) (client:TcpClient) =
+
+//let IsAdminMsg (msgType:MsgType) =
+//    match msgType with
+//    | MsgType.Heartbeat | MsgType.Logon | MsgType.TestRequest | MsgType.Reject | MsgType.SequenceReset | MsgType.Logout -> true
+//    | _                     -> false
+
+
+let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) bufSize (client:TcpClient) =
     //todo: client.LingerState <-
     client.NoDelay              <- true
     client.ReceiveBufferSize    <- bufSize
@@ -156,130 +171,83 @@ let AcceptorLoop (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*Se
     strm.ReadTimeout            <- readTimeout
     let buf                     = Array.zeroCreate<byte> bufSize
     let tmpBuf                  = Array.zeroCreate<byte> bufSize
-    let fieldIndex              = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field
-
+    let fieldIndex              = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field, assuming max 8k fields in a FIX msg
+    let senderCompIdOut         = "acceptor"    |> SenderCompID // todo: take this from config
+    let targetCompIdOut         = "initiator"   |> TargetCompID // todo: take this from config
     let mutable currentSeqNum   = 1u
 
     // todo: add logging
 
     let threadFunc () = 
 
-        // TODO add logging to ProcessLogon
         ProcessLogon maxMsgAge acceptableCompIDPairSet strm fieldIndex buf 
        
         while true do
     
             let numBytesRead = ReadAllMsgBytes strm buf
 
-            let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
-            let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)            
-            
-            
-            let mutable numBytes = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
-                
-            if numBytes = 0 then
+            if numBytesRead = 0 then
                 () // read timeout, send heartbeat if neccessary - inner reads, while reading up to the end of a msg do not process session logic
             else
-                let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytes
-                let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
+                let indexEnd = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
+                let index = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
                 
-                // TODO: don't use hard coded fix tags
-                let (MsgSeqNum seqNum)      = GenericReaders.ReadField buf index 34 FieldReaders.ReadMsgSeqNum
-                let senderCompID            = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
-                let (SendingTime sendTime)  = GenericReaders.ReadField buf index 52 FieldReaders.ReadSendingTime
-                let targetCompID            = GenericReaders.ReadField buf index 56 FieldReaders.ReadTargetCompID
-                let msgType                 = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
+                CheckMessage maxMsgAge acceptableCompIDPairSet buf index // throws in validation fails
                 
-                //what is an elegant way to deal with Option price and Option quantity
+                let msgType = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
 
-                // todo: check seq num and compIDs
-                // in qf.net see Session.Next / Session.NextMessage
+                let initialSizeResendMsgs   = 1024 * 16
+                let (resendMsgs:ResizeArray<Fix44.MessageDU.FIXMessage>) = ResizeArray(initialSizeResendMsgs)
 
-                let msgDu = 
+                let msgs = 
                     match msgType with
-                    //| MsgType.Heartbeat     -> ()
-                    //| MsgType.Logon         -> ()
-                    //| MsgType.TestRequest   -> ()
-                    //| MsgType.ResendRequest -> ()
-                    //| MsgType.Reject        -> ()
-                    //| MsgType.SequenceReset -> ()
-                    //| MsgType.Logout        -> ()
-                    | MsgType.NewOrderSingle            -> 
+                    | MsgType.Heartbeat     -> []
+                    | MsgType.Logon         -> [] 
+                    | MsgType.TestRequest   -> []
+                    | MsgType.ResendRequest -> 
+                        //https://www.onixs.biz/fix-dictionary/4.4/msgType_2_2.html
+                        let msg = MsgReaders.ReadResendRequest buf index
+                        let (BeginSeqNo bb)  = msg.BeginSeqNo
+                        let (EndSeqNo ee) = msg.EndSeqNo
+                        let iBb = (int bb) - 1 // arrays are zero based, the first seq num is always 1
 
-                        let nos = MsgReaders.ReadNewOrderSingle buf index
-                        match nos.Price, nos.OrderQtyData.OrderQty with
-                        | Some prc, Some qty -> //todo: is there an awkard mix of imperative with functional here ??
-                                
-                            let clOrdId = nos.ClOrdID
-                            let orderID = OrderID   "ORDERID" // todo: generate orderID
-                            let execID  = ExecID    "EXECID"  // todo: generate executionID
-                            let leavesQty = LeavesQty 0.0m
-                            let cumQty = CumQty qty.Value
-                            let executionPrice =
-                                match nos.OrdType with
-                                | OrdType.Limit     -> prc.Value
-                                | OrdType.Market    -> 10.0m // this is demo app, consider the market price to be 10.0
-                                | ot                -> failwithf "unsupported order type: %A" ot
-                            let avgPrc = AvgPx executionPrice
+                        // arrays are zero based, the first seq num is always 1
+                        // an EndSeqNo of '0' means infinity, i.e. resend all msgs from begin seqNo until the end
+                        // todo: filter out ordersbeing resent if they are older than a threshold
+                        let iEe = if ee = 0u then (resendMsgs.Count - 1) else (int ee) - 1 
 
-                            let execRep = Fix44.MessageFactoryFuncs.MkExecutionReport (
-                                                                orderID, 
-                                                                nos.Parties, 
-                                                                execID, 
-                                                                ExecType.Fill, 
-                                                                OrdStatus.Filled, 
-                                                                nos.Instrument, 
-                                                                Fix44.CompoundItemFactoryFuncs.MkFinancingDetails(),
-                                                                nos.Side,
-                                                                nos.Stipulations,
-                                                                nos.OrderQtyData,
-                                                                Fix44.CompoundItemFactoryFuncs.MkPegInstructions(),
-                                                                Fix44.CompoundItemFactoryFuncs.MkDiscretionInstructions(),
-                                                                leavesQty,
-                                                                cumQty, 
-                                                                avgPrc,
-                                                                Fix44.CompoundItemFactoryFuncs.MkCommissionData (),
-                                                                Fix44.CompoundItemFactoryFuncs.MkSpreadOrBenchmarkCurveData(),
-                                                                Fix44.CompoundItemFactoryFuncs.MkYieldData() )
+                        if iBb < 0 || iEe >= resendMsgs.Count then
+                            let maxSeqNumStored = 1 + resendMsgs.Count
+                            failwithf "invalid ResendRequest range, beg: %d, end: %d, curMax: %d" bb ee maxSeqNumStored
 
-                            let execRep2 = { execRep with 
-                                                Account = nos.Account
-                                                ClOrdID = clOrdId |> Some
-                                                LastQty = qty.Value |> LastQty |> Some
-                                                LastPx  = executionPrice |> LastPx |> Some }
+                        resendMsgs.GetRange(iBb, (iEe - iBb)) |> Seq.toList // return an empty list if no reply required
+                    | MsgType.Reject        -> []        
+                    | MsgType.SequenceReset -> [] 
+                    | MsgType.Logout        -> []              
+                    | mt    -> appMsgProcessor mt index buf resendMsgs
 
-                            execRep2 |> Fix44.MessageDU.FIXMessage.ExecutionReport
-                        | _      -> failwithf "order: %A, zero price for limit order" nos.ClOrdID
-                //| MsgType.OrderCancelRequest        -> ()
-                //| MsgType.OrderCancelReplaceRequest -> ()
-                //| MsgType.News                      -> ()
-                    | _                                 -> failwith "unexpected msg received "
-                            
                 let sendingTime = DateTimeOffset.UtcNow |> UTCDateTime.MakeUTCTimestamp.Make |> SendingTime
                 currentSeqNum <- currentSeqNum + 1u
-                let senderCompIdOut = "acceptor" |> SenderCompID
-                let targetCompIdOut = "initiator" |> TargetCompID
                 let msgSeqNum = currentSeqNum |> MsgSeqNum
                 Array.Clear(buf, 0, buf.Length)
-                let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fix44 senderCompIdOut targetCompIdOut msgSeqNum sendingTime msgDu
+                // ######################## send all msgs, including resends?
+                // todo, should red
+                let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fix44 senderCompIdOut targetCompIdOut msgSeqNum sendingTime (msgs.Head)
                 strm.Write( buf, 0, bytesWritten )
             ()
         ()
     
     let thread = Thread threadFunc
     thread.Start();
-    
 
 
-
-
-let ConnectionListenerLoop (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (bufSize:int) (listener:TcpListener) =
+let ListenerLoop funcx (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (bufSize:int) (listener:TcpListener) =
     let asyncConnectionListener =
         async {
             while true do
                 use! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
-                do AcceptorLoop maxMsgAge acceptableCompIDPairSet bufSize client
+                do AcceptorSession funcx maxMsgAge acceptableCompIDPairSet bufSize client
         }
 
     Async.StartWithContinuations(
