@@ -24,10 +24,10 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
     //| MsgType.News                      
     | MsgType.NewOrderSingle            -> 
         //todo: what is an elegant way to deal with Option price and Option quantity
-
+        //todo: is there an awkard mix of imperative with functional here ??
         let nos = MsgReaders.ReadNewOrderSingle buf index
         match nos.Price, nos.OrderQtyData.OrderQty with
-        | Some prc, Some qty -> //todo: is there an awkard mix of imperative with functional here ??
+        | Some prc, Some qty -> 
                                 
             let clOrdId = nos.ClOrdID
             let orderID = OrderID   "ORDERID" // todo: generate orderID

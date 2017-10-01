@@ -101,7 +101,7 @@ let ReadAllMsgBytes (strm:Stream) (buf:byte[]): int =
 
 
 
-let CheckMessage (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (buf:byte[]) (index:FIXBufIndexer.IndexData) : unit = 
+let ValidateMsg (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (buf:byte[]) (index:FIXBufIndexer.IndexData) : unit = 
     let fixVersion              = GenericReaders.ReadField buf index 8  FieldReaders.ReadBeginString
     let (MsgSeqNum seqNum)      = GenericReaders.ReadField buf index 34 FieldReaders.ReadMsgSeqNum
     let senderCompID            = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
@@ -138,7 +138,7 @@ let ProcessLogon (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*Se
     let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
     let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
     
-    CheckMessage maxMsgAge acceptableCompIDPairSet buf index
+    ValidateMsg maxMsgAge acceptableCompIDPairSet buf index
 
     let msgType                 = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
@@ -176,6 +176,7 @@ let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSe
     let targetCompIdOut         = "initiator"   |> TargetCompID // todo: take this from config
     let mutable currentSeqNum   = 1u
 
+    
     // todo: add logging
 
     let threadFunc () = 
@@ -192,7 +193,7 @@ let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSe
                 let indexEnd = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
                 let index = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
                 
-                CheckMessage maxMsgAge acceptableCompIDPairSet buf index // throws in validation fails
+                ValidateMsg maxMsgAge acceptableCompIDPairSet buf index // throws if validation fails
                 
                 let msgType = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
@@ -203,7 +204,7 @@ let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSe
                 let msgs = 
                     match msgType with
                     | MsgType.Heartbeat     -> []
-                    | MsgType.Logon         -> [] 
+                    | MsgType.Logon         -> [] // todo, raise error here, the session is already logged on if this stage has been reached
                     | MsgType.TestRequest   -> []
                     | MsgType.ResendRequest -> 
                         //https://www.onixs.biz/fix-dictionary/4.4/msgType_2_2.html
@@ -231,8 +232,8 @@ let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSe
                 currentSeqNum <- currentSeqNum + 1u
                 let msgSeqNum = currentSeqNum |> MsgSeqNum
                 Array.Clear(buf, 0, buf.Length)
-                // ######################## send all msgs, including resends?
-                // todo, should red
+                // todo: ######################## send all msgs, including resends?
+                // todo: 
                 let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fix44 senderCompIdOut targetCompIdOut msgSeqNum sendingTime (msgs.Head)
                 strm.Write( buf, 0, bytesWritten )
             ()
