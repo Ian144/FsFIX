@@ -19,18 +19,17 @@ let WaitForExitCmd () =
 [<EntryPoint>]
 let main argv = 
 
+    // TODO, read targetCompID and senderCompID from config
     let trgCompId = TargetCompID "acceptor"
     let sndCompId = SenderCompID "initiator"
 
-    let acceptedCompIDPairs = Set.empty |> Set.add (trgCompId, sndCompId)     // TODO, read these from config
+    let acceptedCompIDPairs = Set.empty |> Set.add (trgCompId, sndCompId)
     let maxMsgAge = TimeSpan(0,0,30)
-
-
     let tl = TcpListener(IPAddress.Loopback,5001)
     tl.Start()
 
     let bufSize = 1024 * 64
-    let xx = FsFix.Session.ConnectionListenerLoop maxMsgAge acceptedCompIDPairs bufSize tl
+    do FsFix.Session.ConnectionListenerLoop maxMsgAge acceptedCompIDPairs bufSize tl
             
     Console.WriteLine("running, press 'X' to exit")        
     WaitForExitCmd ()    

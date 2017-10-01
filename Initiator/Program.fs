@@ -54,12 +54,11 @@ let main argv =
     let senderCompID    = SenderCompID  "initiator"
     let targetCompID    = TargetCompID  "acceptor"
     
-    let dtoUtcNow = System.DateTimeOffset.UtcNow
-    let utcNow = UTCDateTime.MakeUTCTimestamp.Make dtoUtcNow
+    let dtoUtcNow   = DateTimeOffset.UtcNow
+    let utcNow      = UTCDateTime.MakeUTCTimestamp.Make dtoUtcNow
     let sendingTime = SendingTime utcNow
 
-    let seqNum = 0u
-    let msgSeqNum = MsgSeqNum seqNum
+    let msgSeqNum = MsgSeqNum 0u
 
     let tmpBuf = Array.zeroCreate<byte> (1024 * 16)
     let buf = Array.zeroCreate<byte> (1024 * 16)
@@ -68,6 +67,10 @@ let main argv =
     use strm = tcpClient.GetStream()
     let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg2
     strm.Write( buf, 0, bytesWritten )
+
+
+
+
 
     Console.WriteLine("press any key to exit")
     Console.ReadKey() |> ignore
