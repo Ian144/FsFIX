@@ -31,7 +31,6 @@ open LocalMktDate
 open NonEmptyByteArray
 
 
-// todo: microbenchmark inlining these read funcs, consider manually eliding them
 let ReadFieldInt bs pos len fldCtor =
     Conversions.bytesToInt32 bs pos len |> fldCtor
 
@@ -98,11 +97,10 @@ let ReadLengthDataCompoundField (bs:byte[]) (pos:int) (lenTODO:int) (dataTagExpe
         let nonEmptyBs = NonEmptyByteArray.Make bs
         nonEmptyBs |> fldCtor
     else
-        failwith "ReadLengthDataCompoundField, unexpected string field tag" //todo: add a better error msg
+        failwith "ReadLengthDataCompoundField, unexpected string field tag" 
 
 
 
-// todo: how could one func replace the WriteFieldXXX funcs
 let inline WriteFieldInt (bs:byte []) (pos:int) (tag:byte[]) (fieldIn:^T) : int = 
     let vv = (^T :(member Value:int) fieldIn)
     Buffer.BlockCopy (tag, 0, bs, pos, tag.Length)

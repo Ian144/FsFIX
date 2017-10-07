@@ -47,7 +47,7 @@ let ReadField bs (index:FIXBufIndexer.IndexData) tag readFunc =
 
 
 
-// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+// giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadFieldOrdered (_:bool) bs (index:FIXBufIndexer.IndexData) tag readFunc =
     let fieldPosArr = index.FieldPosArr
     let nextFieldIdx = index.LastReadIdx + 1
@@ -74,7 +74,7 @@ let ReadOptionalField (bs:byte[]) (index:FIXBufIndexer.IndexData) (tag:int) read
         fieldPosArr.[tagIdx] <- FIXBufIndexer.emptyFieldPos
         Option.Some fld
 
-// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+// giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadOptionalFieldOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData) (tag:int) readFunc = 
     let fieldPosArr = index.FieldPosArr
     let nextFieldIdx = index.LastReadIdx + 1
@@ -89,7 +89,6 @@ let ReadOptionalFieldOrdered (_:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData
 
 
 // the int that readFunc returns is the consecutively next index pos in the FIX buffer field index array 
-// todo, consider replacing the accumulating list with an array
 let rec private readGrpInner (bs:byte[]) (index:FIXBufIndexer.IndexData) (acc:'grp list) (recursionCount:uint32) (readFunc: byte[]->FIXBufIndexer.IndexData->'grp) =
     match recursionCount with
     | 0u    ->  acc |> List.rev // without this the last group in the fix buffer would be first in the list, todo: fix this possible perf issue
@@ -210,11 +209,11 @@ let ReadOptionalComponent (bs:byte[]) (index:FIXBufIndexer.IndexData) (firstFiel
         Option.Some comp
 
 
-// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
+// giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation where the wrong one is called at compile time
 let ReadComponentOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData) readFunc = 
     readFunc bb bs index
 
-// todo: currently giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation
+// giving the ordered read functions a different signature to the unordered by adding an unused bool param, to find errors in code generation
 // the first field of an optional component is required (code generation always sets this to be the case, ignoring FIX spec xml), so the component is present if the first field is present
 let ReadOptionalComponentOrdered (bb:bool) (bs:byte[]) (index:FIXBufIndexer.IndexData) (firstFieldTag:int) readFunc =
     let nextFieldIdx = index.LastReadIdx + 1

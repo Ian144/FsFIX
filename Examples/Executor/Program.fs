@@ -19,10 +19,11 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
     // in qf.net see Session.Next / Session.NextMessage
     
     match msgType with
-    //| MsgType.OrderCancelRequest        -> []
-    //| MsgType.OrderCancelReplaceRequest 
-    //| MsgType.News                      
+    | MsgType.OrderCancelRequest        -> []
+    | MsgType.OrderCancelReplaceRequest -> []  
+    | MsgType.News                      -> []
     | MsgType.NewOrderSingle            -> 
+
         //todo: what is an elegant way to deal with Option price and Option quantity
         //todo: is there an awkard mix of imperative with functional here ??
         let nos = MsgReaders.ReadNewOrderSingle buf index
@@ -38,7 +39,7 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
                 match nos.OrdType with
                 | OrdType.Limit     -> prc.Value
                 | OrdType.Market    -> 10.0m // this is demo app, consider the market price to be 10.0
-                | ot                -> failwithf "unsupported order type: %A" ot
+                | ot                -> failwithf "unsupported order type: %A" ot // todo: send orderRejected message
             let avgPrc = AvgPx executionPrice
 
             let execRep = Fix44.MessageFactoryFuncs.MkExecutionReport (
@@ -70,9 +71,8 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
             let msgToSend = execRep2 |> Fix44.MessageDU.FIXMessage.ExecutionReport
             resendMsgs.Add msgToSend
             [msgToSend]
-                        
-        | _      -> 
-            failwithf "order: %A, zero price or quantity for limit order" nos.ClOrdID             //todo this is incorrect, a market order could have Option.None price
+        | _      -> failwithf "order: %A, zero price or quantity for limit order" nos.ClOrdID             //todo this is incorrect, a market order could have Option.None price
+    
     | mt    -> failwithf "unsuppored msg type: %A" mt
 
 

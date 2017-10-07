@@ -203,7 +203,7 @@ let private createFieldTypes (field:SimpleField) =
     | "SEQNUM",                 true    -> makeSingleCaseDU fieldName tag "uint32"
     | "STRING",                 true    -> makeSingleCaseDU fieldName tag "string"
 //    | "TZTIMEONLY",             true    -> makeSingleCaseDU fieldName tag "TZTimeOnly"
-//    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTimestamp" // todo: not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
+//    | "TZTIMESTAMP",            true    -> makeSingleCaseDU fieldName tag "TZTimestamp" // not used in FIX4.4, will result in an exception if used in other versions of FIX until TZTIMESTAMP and associated reading and writing functions are implemented
     | "UTCDATEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCDate"
     | "UTCTIMEONLY",            true    -> makeSingleCaseDU fieldName tag "UTCTimeOnly"
     | "UTCTIMESTAMP",           true    -> makeSingleCaseDU fieldName tag "UTCTimestamp"
@@ -220,8 +220,8 @@ let private createFieldTypes (field:SimpleField) =
 
 
 
-// merge len fields and the corresponding string fields into a CompoundField, other fields are in a SimpleField
-// there are also length fields, RawData(Length) and Signature(Length), requiring similare
+// merge a len field and the corresponding string field into a CompoundField
+// there are also length fields, RawData(Length) and Signature(Length), requiring similar treatment
 let MergeLenFields (fields:SimpleField list) =
     let isLenFieldName (fldName:string) =  System.Text.RegularExpressions.Regex.IsMatch(fldName, ".*Len\z" )
     let isLengthFieldName (fldName:string) =  System.Text.RegularExpressions.Regex.IsMatch(fldName, ".*Length$" )
@@ -231,7 +231,7 @@ let MergeLenFields (fields:SimpleField list) =
     let nameToFieldMap = fields |> List.map (fun fd -> fd.Name, fd) |> Map.ofList
 
     let lenFields = fields |> List.filter (fun fd -> isLenFieldName fd.Name)
-    let lengthFields = fields |> List.filter (fun fd -> isLengthFieldName fd.Name) |> List.filter (fun fd -> fd.Name <> "BodyLength") // todo: fix hardcoded field name filter in length-data field pair detection
+    let lengthFields = fields |> List.filter (fun fd -> isLengthFieldName fd.Name) |> List.filter (fun fd -> fd.Name <> "BodyLength") 
     let allLengthTypeFields = lengthFields @ lenFields |> Set.ofList
 
     // find those fields (string or byte[]) paired with a len|length field
@@ -256,7 +256,7 @@ let MergeLenFields (fields:SimpleField list) =
                 else
                     yield Field.SimpleField fld ]
 
-    let lengthPairedFields =  lengthFields @ lenFields |> List.map (fun fld -> fld.Name) |> Set.ofList //todo: get client of this function to use a Set<Field>
+    let lengthPairedFields =  lengthFields @ lenFields |> List.map (fun fld -> fld.Name) |> Set.ofList
     lengthPairedFields, mergedFields
 
 
