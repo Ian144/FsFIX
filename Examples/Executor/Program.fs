@@ -6,27 +6,44 @@ open System.Net
 open Fix44
 open Fix44.Fields
 
+open Session.Types
 
-
-
-//#nowarn "52"
-let WaitForExitCmd () = 
-    while Console.ReadKey().KeyChar <> 'X' do // 88 is 'X'
-        ()
-
-
+// in qf.net see Session.Next / Session.NextMessage
 let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) (resendMsgs:ResizeArray<Fix44.MessageDU.FIXMessage>) : (MessageDU.FIXMessage list) =
-    // in qf.net see Session.Next / Session.NextMessage
-    
+
     match msgType with
-    | MsgType.OrderCancelRequest        -> []
-    | MsgType.OrderCancelReplaceRequest -> []  
+    | MsgType.OrderCancelRequest -> 
+        let msgIn = MsgReaders.ReadOrderCancelRequest buf index
+        let orderId = 
+            match msgIn.OrderID with
+            | Some ordId    -> ordId
+            | None          -> OrderID "unknown"
+        let ocr = MessageFactoryFuncs.MkOrderCancelReject (orderId, msgIn.ClOrdID, msgIn.OrigClOrdID, OrdStatus.Rejected, CxlRejResponseTo.OrderCancelRequest )
+        let ocr2 = {ocr with 
+                        CxlRejReason = CxlRejReason.Other |> Some
+                        Text = "Executor does not support order cancels" |> Fields.Text |> Some}
+        let msgDu = ocr2 |> Fix44.MessageDU.FIXMessage.OrderCancelReject
+        [msgDu]
+
+    | MsgType.OrderCancelReplaceRequest ->
+        let msgIn = MsgReaders.ReadOrderCancelReplaceRequest buf index
+        let orderId = 
+            match msgIn.OrderID with
+            | Some ordId    -> ordId
+            | None          -> OrderID "unknown"
+        let ocr = MessageFactoryFuncs.MkOrderCancelReject (orderId, msgIn.ClOrdID, msgIn.OrigClOrdID, OrdStatus.Rejected, CxlRejResponseTo.OrderCancelReplaceRequest )
+        let ocr2 = {ocr with 
+                        CxlRejReason = CxlRejReason.Other |> Some
+                        Text = "Executor does not support order cancel/replaces" |> Fields.Text |> Some}
+        let msgDu = ocr2 |> Fix44.MessageDU.FIXMessage.OrderCancelReject
+        [msgDu]
+    
     | MsgType.News                      -> []
+    
     | MsgType.NewOrderSingle            -> 
 
-        //todo: what is an elegant way to deal with Option price and Option quantity
-        //todo: is there an awkard mix of imperative with functional here ??
         let nos = MsgReaders.ReadNewOrderSingle buf index
+
         match nos.Price, nos.OrderQtyData.OrderQty with
         | Some prc, Some qty -> 
                                 
@@ -78,20 +95,31 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
 
 
 
+//#nowarn "52"
+let WaitForExitCmd () = 
+    while Console.ReadKey().KeyChar <> 'X' do // 88 is 'X'
+        ()
+
 [<EntryPoint>]
 let main argv =
 
-    // TODO, read targetCompID and senderCompID from config
-    let trgCompId = TargetCompID "acceptor"
-    let sndCompId = SenderCompID "initiator"
+    // TODO, fix hardcoding
+    let trgCompID = TargetCompID "acceptor"
+    let sndCompID = SenderCompID "inititor"
+    let sessionConfig = {
+        TargetCompID = trgCompID
+        SenderCompID = sndCompID
+        MaxMsgSize = 1024u * 64u
+        MaxMsgAge  = TimeSpan(0,0,30)
+        HeartbeatInterval = 60
+        AcceptedCompIDPairs = Set.empty |> Set.add (trgCompID, sndCompID)
+    }
 
-    let acceptedCompIDPairs = Set.empty |> Set.add (trgCompId, sndCompId)
-    let maxMsgAge = TimeSpan(0,0,30)
-    let tl = TcpListener (IPAddress.Loopback, 5001)
-    tl.Start()
+    let tcpListener = TcpListener (IPAddress.Loopback, 5001)
+    tcpListener.Start()
 
     let bufSize = 1024 * 64
-    do FsFix.Session.Acceptor.ListenerLoop Executor maxMsgAge acceptedCompIDPairs bufSize tl
+    do FsFix.Session.Acceptor.ListenerLoop Executor sessionConfig bufSize tcpListener
             
     Console.WriteLine("running, press 'X' to exit")        
     WaitForExitCmd ()    

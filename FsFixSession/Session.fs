@@ -10,6 +10,7 @@ open System.IO
 open Fix44
 open Fix44.Fields
 
+open Session.Types
 
 let HandleSocketError (name:string) (ex:System.Exception) = 
     //let rec handleExInner (ex:System.Exception) = 
@@ -130,15 +131,49 @@ let ValidateMsg (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*Sen
     ()
 
 
-let ProcessLogon (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (strm:Stream) (fieldIndex:FIXBufIndexer.FieldPos []) (buf:byte[]) : Unit =
+
+
+
+let ProcessLogon (sessionConfig:SessionConfig) (strm:Stream) (fieldIndex:FIXBufIndexer.FieldPos []) (buf:byte[]) =
     
+    //http://javarevisited.blogspot.co.uk/2011/02/fix-protocol-session-or-admin-messages.html
+
+    //type Logon = {
+    //    EncryptMethod: EncryptMethod
+    //    HeartBtInt: HeartBtInt
+    //    RawData: RawData option
+    //    ResetSeqNumFlag: ResetSeqNumFlag option
+    //    NextExpectedMsgSeqNum: NextExpectedMsgSeqNum option
+    //    MaxMessageSize: MaxMessageSize option
+    //    NoMsgTypesGrp: NoMsgTypesGrp list option // group
+    //    TestMessageIndicator: TestMessageIndicator option
+    //    Username: Username option
+    //    Password: Password option
+    //    }
+
+    //protected bool GenerateLogon(Message otherLogon)
+    //{
+    //    Message logon = msgFactory_.Create(this.SessionID.BeginString, Fields.MsgType.LOGON);
+    //    logon.SetField(new Fields.EncryptMethod(0));
+    //    if (this.SessionID.IsFIXT)
+    //        logon.SetField(new Fields.DefaultApplVerID(this.SenderDefaultApplVerID));
+    //    logon.SetField(new Fields.HeartBtInt(otherLogon.GetInt(Tags.HeartBtInt)));
+    //    if (this.EnableLastMsgSeqNumProcessed)
+    //        logon.Header.SetField(new Fields.LastMsgSeqNumProcessed(otherLogon.Header.GetInt(Tags.MsgSeqNum)));
+
+    //    InitializeHeader(logon);
+    //    state_.SentLogon = SendRaw(logon, 0);
+    //    return state_.SentLogon;
+    //}
+
+
     let numBytesRead = ReadAllMsgBytes strm buf
     // todo: deal with zero bytes read, or use infinite read timeout
 
     let indexEnd                = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
     let index                   = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
     
-    ValidateMsg maxMsgAge acceptableCompIDPairSet buf index
+    ValidateMsg sessionConfig.MaxMsgAge sessionConfig.AcceptedCompIDPairs buf index
 
     let msgType                 = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
@@ -147,86 +182,98 @@ let ProcessLogon (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*Se
         failwithf "logon failure: invalid msg type received: %A" msgType
 
     let logonMsg = MsgReaders.ReadLogon buf index
+
+    let initiatorMaxMsgSize = logonMsg.MaxMessageSize
+    let (HeartBtInt initiatorHeartbeatInterval) = logonMsg.HeartBtInt
+
+    let heartbeatIntervalAsAgreed = initiatorHeartbeatInterval = sessionConfig.HeartbeatInterval
+    if not heartbeatIntervalAsAgreed then
+        failwithf "logon fail: unacceptable heartbeat interval in logon msg, expected %d, received: %d" sessionConfig.HeartbeatInterval initiatorHeartbeatInterval
+
+    let maxMsgSizeOk = 
+        match initiatorMaxMsgSize with
+        | Some (MaxMessageSize initMaxMsgSizeRaw)   -> sessionConfig.MaxMsgSize = initMaxMsgSizeRaw
+        | None                                      -> false
+
+    if not maxMsgSizeOk then
+        failwithf "logon fail: unacceptable max message size in logon msg, expected %d, received: %A" sessionConfig.MaxMsgSize  initiatorMaxMsgSize
+
     printfn "%A" logonMsg
     printfn "logon successfull"
-    //todo: log successfull logon
+
+    let replyLogonMsg = logonMsg    // the correct sender and target compIds will be set in MsgReadWrite.WriteMessageDU
+    replyLogonMsg, sessionConfig.MaxMsgSize , sessionConfig.HeartbeatInterval
 
 
 
-// TODO: ADD A COMMENT ON THIS'function extract stuff' TO CODE I LIKE ########################################
 
-
-//let IsAdminMsg (msgType:MsgType) =
-//    match msgType with
-//    | MsgType.Heartbeat | MsgType.Logon | MsgType.TestRequest | MsgType.Reject | MsgType.SequenceReset | MsgType.Logout -> true
-//    | _                     -> false
-
-
-let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) bufSize (client:TcpClient) =
+let AcceptorSession applicationMsgProcessor cfg bufSize (client:TcpClient) =
     //todo: client.LingerState <-
-    client.NoDelay              <- true
-    client.ReceiveBufferSize    <- bufSize
-    client.SendBufferSize       <- bufSize
-    use strm                    = client.GetStream()
-    strm.ReadTimeout            <- readTimeout
-    let buf                     = Array.zeroCreate<byte> bufSize
-    let tmpBuf                  = Array.zeroCreate<byte> bufSize
-    let fieldIndex              = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field, assuming max 8k fields in a FIX msg
-    let senderCompIdOut         = "acceptor"    |> SenderCompID // todo: take this from config
-    let targetCompIdOut         = "initiator"   |> TargetCompID // todo: take this from config
-    let mutable currentSeqNum   = 1u
-
+    client.NoDelay                  <- true
+    client.ReceiveBufferSize        <- bufSize
+    client.SendBufferSize           <- bufSize
+    use strm                        = client.GetStream()
+    strm.ReadTimeout                <- readTimeout
+    let buf                         = Array.zeroCreate<byte> bufSize
+    let tmpBuf                      = Array.zeroCreate<byte> bufSize
+    let fieldIndex                  = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field, assuming max 8k fields in a FIX msg
+    let senderCompIdOut             = "acceptor"    |> SenderCompID // todo: take this from config
+    let targetCompIdOut             = "initiator"   |> TargetCompID // todo: take this from config
+    let mutable currentSeqNum       = 1u
     
-    // todo: add logging
+    // todo: add logging, are windows event generation or some such, so long as its fast
 
     let threadFunc () = 
 
-        ProcessLogon maxMsgAge acceptableCompIDPairSet strm fieldIndex buf 
+        let replyLogonMsg = ProcessLogon cfg strm fieldIndex buf 
        
         while true do
     
             let numBytesRead = ReadAllMsgBytes strm buf
 
             if numBytesRead = 0 then
-                () // read timeout, send heartbeat if neccessary - inner reads, while reading up to the end of a msg do not process session logic
+                // read timeout, send heartbeat if neccessary - inner reads, while reading up to the end of a msg do not process session logic
+                // is there are heartbeat timeout? logout if required
+                ()
             else
                 let indexEnd = FIXBufIndexer.BuildIndex fieldIndex buf numBytesRead
                 let index = FIXBufIndexer.IndexData (indexEnd, fieldIndex)
                 
-                ValidateMsg maxMsgAge acceptableCompIDPairSet buf index // throws if validation fails
+                ValidateMsg cfg.MaxMsgAge cfg.AcceptedCompIDPairs buf index // throws if validation fails
                 
                 let msgType = GenericReaders.ReadField buf index 35 FieldReaders.ReadMsgType
 
-
                 let initialSizeResendMsgs   = 1024 * 16
-                let (resendMsgs:ResizeArray<Fix44.MessageDU.FIXMessage>) = ResizeArray(initialSizeResendMsgs)
+                let (resendMsgs:ResizeArray<Fix44.MessageDU.FIXMessage>) = ResizeArray(initialSizeResendMsgs) // todo: consider using a circular buffer if the number of resendable msgs that need to be stored is limited to some fixed value
 
                 let msgs = 
                     match msgType with
                     | MsgType.Heartbeat     -> []
-                    | MsgType.Logon         -> [] // todo, raise error here, the session is already logged on if this stage has been reached
-                    | MsgType.TestRequest   -> []
-                    | MsgType.ResendRequest -> 
-                        //https://www.onixs.biz/fix-dictionary/4.4/msgType_2_2.html
-                        let msg = MsgReaders.ReadResendRequest buf index
-                        let (BeginSeqNo bb)  = msg.BeginSeqNo
-                        let (EndSeqNo ee) = msg.EndSeqNo
-                        let iBb = (int bb) - 1 // arrays are zero based, the first seq num is always 1
+                    | MsgType.Logon         ->  let msg = MsgReaders.ReadLogon buf index
+                                                failwithf "recevied logon msg, when already logged on: %A" msg
+                                                // todo - does a reject msg need to be sent
+                                                []
+                    | MsgType.TestRequest   ->  []
+                    | MsgType.ResendRequest ->  //https://www.onixs.biz/fix-dictionary/4.4/msgType_2_2.html
+                                                let msg = MsgReaders.ReadResendRequest buf index
+                                                let (BeginSeqNo bb)  = msg.BeginSeqNo
+                                                let (EndSeqNo ee) = msg.EndSeqNo
+                                                let iBb = (int bb) - 1 // arrays are zero based, the first seq num is always 1
 
-                        // arrays are zero based, the first seq num is always 1
-                        // an EndSeqNo of '0' means infinity, i.e. resend all msgs from begin seqNo until the end
-                        // todo: filter out ordersbeing resent if they are older than a threshold
-                        let iEe = if ee = 0u then (resendMsgs.Count - 1) else (int ee) - 1 
+                                                // arrays are zero based, the first seq num is always 1
+                                                // an EndSeqNo of '0' means infinity, i.e. resend all msgs from begin seqNo until the end
+                                                // todo: filter out ordersbeing resent if they are older than a threshold
+                                                let iEe = if ee = 0u then (resendMsgs.Count - 1) else (int ee) - 1 
 
-                        if iBb < 0 || iEe >= resendMsgs.Count then
-                            let maxSeqNumStored = 1 + resendMsgs.Count
-                            failwithf "invalid ResendRequest range, beg: %d, end: %d, curMax: %d" bb ee maxSeqNumStored
+                                                if iBb < 0 || iEe >= resendMsgs.Count then
+                                                    let maxSeqNumStored = 1 + resendMsgs.Count
+                                                    failwithf "invalid ResendRequest range, beg: %d, end: %d, curMax: %d" bb ee maxSeqNumStored
 
-                        resendMsgs.GetRange(iBb, (iEe - iBb)) |> Seq.toList // return an empty list if no reply required
-                    | MsgType.Reject        -> []        
-                    | MsgType.SequenceReset -> [] 
-                    | MsgType.Logout        -> []              
-                    | mt    -> appMsgProcessor mt index buf resendMsgs
+                                                resendMsgs.GetRange(iBb, (iEe - iBb)) |> Seq.toList // return an empty list if no reply required
+                    | MsgType.Reject        ->  []        
+                    | MsgType.SequenceReset ->  [] 
+                    | MsgType.Logout        ->  []              
+                    | mt                    ->  applicationMsgProcessor mt index buf resendMsgs
 
                 let sendingTime = DateTimeOffset.UtcNow |> UTCDateTime.MakeUTCTimestamp.Make |> SendingTime
                 currentSeqNum <- currentSeqNum + 1u
@@ -236,19 +283,20 @@ let AcceptorSession appMsgProcessor (maxMsgAge:TimeSpan) (acceptableCompIDPairSe
                 // todo: 
                 let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fix44 senderCompIdOut targetCompIdOut msgSeqNum sendingTime (msgs.Head)
                 strm.Write( buf, 0, bytesWritten )
-            ()
+                ()
         ()
     
     let thread = Thread threadFunc
     thread.Start();
 
 
-let ListenerLoop funcx (maxMsgAge:TimeSpan) (acceptableCompIDPairSet: (TargetCompID*SenderCompID) Set) (bufSize:int) (listener:TcpListener) =
+let ListenerLoop funcx sessionConfig (bufSize:int) (listener:TcpListener) =
+
     let asyncConnectionListener =
         async {
             while true do
                 use! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
-                do AcceptorSession funcx maxMsgAge acceptableCompIDPairSet bufSize client
+                do AcceptorSession funcx sessionConfig bufSize client
         }
 
     Async.StartWithContinuations(
