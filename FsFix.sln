@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixCodeGen", "fsFixGen\FsFixCodeGen.fsproj", "{2AD79AE4-17D7-4991-85F6-328ED07CBDF4}"
 EndProject
@@ -22,11 +22,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixEcho", "FsFIXEcho\FsFi
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark", "Benchmark\Benchmark.fsproj", "{15515346-8C13-4859-A530-75C0C8279011}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsFixSession", "FsFixSession\FsFixSession.fsproj", "{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Initiator", "Initiator\Initiator.fsproj", "{B037B92F-E152-4387-B1DC-890D88FABCCF}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Executor", "Examples\Executor\Executor.fsproj", "{A587B5CA-CBA4-4A5C-9535-34041C834E3F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Session", "Session\Session.fsproj", "{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +62,6 @@ Global
 		{15515346-8C13-4859-A530-75C0C8279011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15515346-8C13-4859-A530-75C0C8279011}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,6 +70,10 @@ Global
 		{A587B5CA-CBA4-4A5C-9535-34041C834E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A587B5CA-CBA4-4A5C-9535-34041C834E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A587B5CA-CBA4-4A5C-9535-34041C834E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B2FAED-9391-4CFF-BC8A-A644C24387DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
