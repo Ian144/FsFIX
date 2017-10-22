@@ -28,6 +28,12 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FIXEcho", "FIXEcho\FIXEcho.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Initiator", "Examples\Initiator\Initiator.fsproj", "{B037B92F-E152-4387-B1DC-890D88FABCCF}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SessionUnitTests", "SessionUnitTests\SessionUnitTests.fsproj", "{6278992B-3BEF-40AC-88A9-D86EBF595FEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E6D72969-9D7F-47B9-A0C2-CEC4F6E4DE0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeGeneration", "CodeGeneration", "{14EF99F9-904A-440B-96EC-F0833CBAE481}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,9 +80,19 @@ Global
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B037B92F-E152-4387-B1DC-890D88FABCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6278992B-3BEF-40AC-88A9-D86EBF595FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6278992B-3BEF-40AC-88A9-D86EBF595FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6278992B-3BEF-40AC-88A9-D86EBF595FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6278992B-3BEF-40AC-88A9-D86EBF595FEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{754497B7-82EF-4325-A638-8B1D38851C88} = {14EF99F9-904A-440B-96EC-F0833CBAE481}
+		{A587B5CA-CBA4-4A5C-9535-34041C834E3F} = {E6D72969-9D7F-47B9-A0C2-CEC4F6E4DE0A}
+		{2AD79AE4-17D7-4991-85F6-328ED07CBDF4} = {14EF99F9-904A-440B-96EC-F0833CBAE481}
+		{B037B92F-E152-4387-B1DC-890D88FABCCF} = {E6D72969-9D7F-47B9-A0C2-CEC4F6E4DE0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50791732-9863-4D45-9220-42F194C4439C}
