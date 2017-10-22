@@ -119,7 +119,7 @@ let main argv =
     tcpListener.Start()
 
     let bufSize = 1024 * 64
-    do FsFix.Session.Acceptor.ListenerLoop Executor sessionConfig bufSize tcpListener
+    do FsFix.Session.Acceptor.MsgLoop Executor sessionConfig bufSize tcpListener
             
     Console.WriteLine("running, press 'X' to exit")        
     WaitForExitCmd ()    
