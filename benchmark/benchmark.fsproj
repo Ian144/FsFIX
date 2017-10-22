@@ -123,6 +123,9 @@
       <HintPath>..\packages\System.Diagnostics.StackTrace.4.0.1\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.IO.FileSystem">
       <HintPath>..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
       <Private>True</Private>
