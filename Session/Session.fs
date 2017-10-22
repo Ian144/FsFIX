@@ -207,7 +207,7 @@ let ProcessLogon (sessionConfig:SessionConfig) (strm:Stream) (fieldIndex:FIXBufI
 
 
 
-let AcceptorSession applicationMsgProcessor cfg bufSize (client:TcpClient) =
+let ProcessMsg applicationMsgProcessor cfg bufSize (client:TcpClient) =
     //todo: client.LingerState <-
     client.NoDelay                  <- true
     client.ReceiveBufferSize        <- bufSize
@@ -290,13 +290,13 @@ let AcceptorSession applicationMsgProcessor cfg bufSize (client:TcpClient) =
     thread.Start();
 
 
-let ListenerLoop funcx sessionConfig (bufSize:int) (listener:TcpListener) =
+let MsgLoop appMsgProcessor sessionConfig (bufSize:int) (listener:TcpListener) =
 
     let asyncConnectionListener =
         async {
             while true do
                 use! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
-                do AcceptorSession funcx sessionConfig bufSize client
+                do ProcessMsg appMsgProcessor sessionConfig bufSize client
         }
 
     Async.StartWithContinuations(
