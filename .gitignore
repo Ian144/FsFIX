@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/benchmark/BenchmarkDotNet.Artifacts/results/BenchmarkMsgReadWrite-report.html
+/benchmark/BenchmarkDotNet.Artifacts/results/BenchmarkMsgReadWrite-report.csv
+/benchmark/BenchmarkDotNet.Artifacts/results/BenchmarkMsgReadWrite-report-github.md
