@@ -67,6 +67,7 @@
     <Content Include="App.config" />
     <Content Include="packages.config" />
     <Compile Include="WriteReadRoundtripTests.fs" />
+    <Compile Include="AcceptorTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
