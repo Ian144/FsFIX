@@ -90,7 +90,7 @@ let Executor (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:byte array) 
             [msgToSend]
         | _      -> failwithf "order: %A, zero price or quantity for limit order" nos.ClOrdID             //todo this is incorrect, a market order could have Option.None price
     
-    | mt    -> failwithf "unsuppored msg type: %A" mt
+    | mt    -> failwithf "unsupported msg type: %A" mt
 
 
 
@@ -106,7 +106,7 @@ let main argv =
     // TODO, fix hardcoding
     let trgCompID = TargetCompID "acceptor"
     let sndCompID = SenderCompID "inititor"
-    let sessionConfig = {
+    let sessionConfig:SessionConfig = {
         TargetCompID = trgCompID
         SenderCompID = sndCompID
         MaxMsgSize = 1024u * 64u

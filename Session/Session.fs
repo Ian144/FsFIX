@@ -51,7 +51,10 @@ let countFieldSeperators (buf:byte array) endPos =
 // populates buf with all message bytes, unless a read timeout occurred
 // returns num bytes read
 let ReadAllMsgBytes (strm:Stream) (buf:byte[]): int =
-    
+
+    //todo: is communication half-duplex? 
+    strm.Seek(0L, SeekOrigin.Begin) |> ignore
+        
     // todo: ensure read-timeout is set
     let mutable numBytesRead = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
 
@@ -138,34 +141,6 @@ let ProcessLogon (sessionConfig:SessionConfig) (strm:Stream) (fieldIndex:FIXBufI
     
     //http://javarevisited.blogspot.co.uk/2011/02/fix-protocol-session-or-admin-messages.html
 
-    //type Logon = {
-    //    EncryptMethod: EncryptMethod
-    //    HeartBtInt: HeartBtInt
-    //    RawData: RawData option
-    //    ResetSeqNumFlag: ResetSeqNumFlag option
-    //    NextExpectedMsgSeqNum: NextExpectedMsgSeqNum option
-    //    MaxMessageSize: MaxMessageSize option
-    //    NoMsgTypesGrp: NoMsgTypesGrp list option // group
-    //    TestMessageIndicator: TestMessageIndicator option
-    //    Username: Username option
-    //    Password: Password option
-    //    }
-
-    //protected bool GenerateLogon(Message otherLogon)
-    //{
-    //    Message logon = msgFactory_.Create(this.SessionID.BeginString, Fields.MsgType.LOGON);
-    //    logon.SetField(new Fields.EncryptMethod(0));
-    //    if (this.SessionID.IsFIXT)
-    //        logon.SetField(new Fields.DefaultApplVerID(this.SenderDefaultApplVerID));
-    //    logon.SetField(new Fields.HeartBtInt(otherLogon.GetInt(Tags.HeartBtInt)));
-    //    if (this.EnableLastMsgSeqNumProcessed)
-    //        logon.Header.SetField(new Fields.LastMsgSeqNumProcessed(otherLogon.Header.GetInt(Tags.MsgSeqNum)));
-
-    //    InitializeHeader(logon);
-    //    state_.SentLogon = SendRaw(logon, 0);
-    //    return state_.SentLogon;
-    //}
-
 
     let numBytesRead = ReadAllMsgBytes strm buf
     // todo: deal with zero bytes read, or use infinite read timeout
@@ -207,13 +182,8 @@ let ProcessLogon (sessionConfig:SessionConfig) (strm:Stream) (fieldIndex:FIXBufI
 
 
 
-let ProcessMsg applicationMsgProcessor cfg bufSize (client:TcpClient) =
-    //todo: client.LingerState <-
-    client.NoDelay                  <- true
-    client.ReceiveBufferSize        <- bufSize
-    client.SendBufferSize           <- bufSize
-    use strm                        = client.GetStream()
-    strm.ReadTimeout                <- readTimeout
+let ProcessMsg applicationMsgProcessor cfg bufSize (strmIn:Stream) =
+
     let buf                         = Array.zeroCreate<byte> bufSize
     let tmpBuf                      = Array.zeroCreate<byte> bufSize
     let fieldIndex                  = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8) // one element for each field, assuming max 8k fields in a FIX msg
@@ -224,6 +194,8 @@ let ProcessMsg applicationMsgProcessor cfg bufSize (client:TcpClient) =
     // todo: add logging, are windows event generation or some such, so long as its fast
 
     let threadFunc () = 
+
+        use strm = strmIn
 
         let replyLogonMsg = ProcessLogon cfg strm fieldIndex buf 
        
@@ -296,7 +268,13 @@ let MsgLoop appMsgProcessor sessionConfig (bufSize:int) (listener:TcpListener) =
         async {
             while true do
                 use! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
-                do ProcessMsg appMsgProcessor sessionConfig bufSize client
+                client.NoDelay                  <- true
+                client.ReceiveBufferSize        <- bufSize
+                client.SendBufferSize           <- bufSize
+                let strm                        = client.GetStream() // 'use strm' is inside the thread created by ProcessMsg
+                strm.ReadTimeout                <- readTimeout
+                //todo: client.LingerState <-
+                do ProcessMsg appMsgProcessor sessionConfig bufSize strm // ProcessMsg creates a thread to handle incoming msgs, then returns immediately
         }
 
     Async.StartWithContinuations(
