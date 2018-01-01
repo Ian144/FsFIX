@@ -52,10 +52,7 @@ let countFieldSeperators (buf:byte array) endPos =
 // returns num bytes read
 let ReadAllMsgBytes (strm:Stream) (buf:byte[]): int =
 
-    //todo: is communication half-duplex? 
-    strm.Seek(0L, SeekOrigin.Begin) |> ignore
-        
-    // todo: ensure read-timeout is set
+    // todo: ensure read-timeout is set sensibly
     let mutable numBytesRead = strm.Read(buf, 0, bufSize ) // times out after readTimeout millisecs
 
     if numBytesRead <> 0 then
@@ -195,7 +192,8 @@ let ProcessMsg applicationMsgProcessor cfg bufSize (strmIn:Stream) =
 
     let threadFunc () = 
 
-        use strm = strmIn
+        let strm = strmIn
+        strm.ReadTimeout <- 10000 // todo: ensure read-timeout is set sensibly
 
         let replyLogonMsg = ProcessLogon cfg strm fieldIndex buf |> Fix44.MessageDU.FIXMessage.Logon
 
@@ -272,7 +270,7 @@ let MsgLoop appMsgProcessor sessionConfig (bufSize:int) (listener:TcpListener) =
     let asyncConnectionListener =
         async {
             while true do
-                use! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
+                let! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
                 client.NoDelay                  <- true
                 client.ReceiveBufferSize        <- bufSize
                 client.SendBufferSize           <- bufSize

@@ -70,8 +70,8 @@ let DoNothingAppMsgProc (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:b
 //            streamToUse.Write(buffer, offset, count) )
 
 
-
-let startAsyncAcceptor () = 
+// todo - clean shutdown
+let StartAsyncAcceptor () = 
     let trgCompID = TargetCompID "acceptor"
     let sndCompID = SenderCompID "inititor"
     let sessionConfig:SessionConfig = {
@@ -94,6 +94,8 @@ let startAsyncAcceptor () =
 [<Fact>]
 let testValidLogonToAcceptor () =
 
+    StartAsyncAcceptor ()
+
     let fixVer          = BeginString  "FIX.4.4"
     let senderCompID    = SenderCompID "initiator"
     let targetCompID    = TargetCompID "acceptor"
@@ -114,7 +116,11 @@ let testValidLogonToAcceptor () =
     let sendingTime     = SendingTime utcNow
 
     let msgLen          = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg
-    use strm            = new MemoryStream() 
+    
+    use tcpClient = new TcpClient( "localhost", 5001)
+    use strm = tcpClient.GetStream()
+    strm.ReadTimeout <- 10000 // todo: ensure read-timeout is set sensibly
+    
     strm.Write( buf, 0, msgLen )
 
 
@@ -129,13 +135,13 @@ let testValidLogonToAcceptor () =
         AcceptedCompIDPairs = Set.empty |> Set.add (trgCompID, sndCompID)
     }
 
-    // 'send' the msg to the acceptor
-    FsFix.Session.Acceptor.ProcessMsg DoNothingAppMsgProc sessionConfig bufSize strm
+    //// 'send' the msg to the acceptor
+    //FsFix.Session.Acceptor.ProcessMsg DoNothingAppMsgProc sessionConfig bufSize strm
 
     System.Threading.Thread.Sleep(2000)
 
     let readBuf = Array.zeroCreate<byte> bufSize
-    strm.Seek(0L, SeekOrigin.Begin) |> ignore
+
     let numBytesRead = strm.Read(readBuf, 0, bufSize)
 
     //let ss = Conversions.bytesToStr readBuf 0 numBytesRead 
