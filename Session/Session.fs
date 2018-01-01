@@ -175,9 +175,9 @@ let ProcessLogon (sessionConfig:SessionConfig) (strm:Stream) (fieldIndex:FIXBufI
 
     printfn "%A" logonMsg
     printfn "logon successfull"
-
-    let replyLogonMsg = logonMsg    // the correct sender and target compIds will be set in MsgReadWrite.WriteMessageDU
-    replyLogonMsg, sessionConfig.MaxMsgSize , sessionConfig.HeartbeatInterval
+    logonMsg    // the correct sender and target compIds will be set in MsgReadWrite.WriteMessageDU
+    //let replyLogonMsg = logonMsg    // the correct sender and target compIds will be set in MsgReadWrite.WriteMessageDU
+    //replyLogonMsg, sessionConfig.MaxMsgSize , sessionConfig.HeartbeatInterval
 
 
 
@@ -197,8 +197,13 @@ let ProcessMsg applicationMsgProcessor cfg bufSize (strmIn:Stream) =
 
         use strm = strmIn
 
-        let replyLogonMsg = ProcessLogon cfg strm fieldIndex buf 
-       
+        let replyLogonMsg = ProcessLogon cfg strm fieldIndex buf |> Fix44.MessageDU.FIXMessage.Logon
+
+        let sendingTime = DateTimeOffset.UtcNow |> UTCDateTime.MakeUTCTimestamp.Make |> SendingTime
+        let msgSeqNum = currentSeqNum |> MsgSeqNum
+        let bytesWritten = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fix44 senderCompIdOut targetCompIdOut msgSeqNum sendingTime replyLogonMsg
+        strm.Write( buf, 0, bytesWritten )
+
         while true do
     
             let numBytesRead = ReadAllMsgBytes strm buf
