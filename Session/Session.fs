@@ -270,7 +270,7 @@ let MsgLoop appMsgProcessor sessionConfig (bufSize:int) (listener:TcpListener) =
     let asyncConnectionListener =
         async {
             while true do
-                let! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask
+                let! client = listener.AcceptTcpClientAsync () |> Async.AwaitTask // todo: ensure client is cleaned up,  use! Disposes to early
                 client.NoDelay                  <- true
                 client.ReceiveBufferSize        <- bufSize
                 client.SendBufferSize           <- bufSize

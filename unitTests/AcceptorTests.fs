@@ -28,52 +28,12 @@ let DoNothingAppMsgProc (msgType:MsgType) (index:FIXBufIndexer.IndexData) (buf:b
     []
 
 
-//// todo: impl IDispose
-//type FakeDuplexStream() =
-//    inherit System.IO.Stream()
-
-//    let creatingThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-//    let stream1 = new MemoryStream()
-//    let stream2 = new MemoryStream()
-
-//    override this.CanRead = raise (new NotImplementedException())
-//    override this.CanSeek = stream1.CanSeek
-//    override this.CanWrite = raise (new NotImplementedException())
-//    override this.Length = raise (new NotImplementedException())
-//    override this.Position = raise (new NotImplementedException())
-//    override this.set_Position(_) = raise (new NotImplementedException())
-
-//    override this.Flush () = ()
-    
-//    override this.SetLength(_) = raise (new NotImplementedException())
-
-//    override this.Seek(offset,origin) = 0L
-
-//    override this.Read(buffer, offset, count) =
-//        let callingThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-//        let streamToUse = if creatingThreadId = callingThreadId then stream2 else stream1
-//        lock this (fun () ->
-//            //let xx = streamToUse.Seek(0L,SeekOrigin.Begin)
-            
-//            //while (not streamToUse.
-            
-//            let ret = streamToUse.Read(buffer,offset,count)
-//            streamToUse.Position <- 0L
-//            streamToUse.SetLength( 0L )
-//            ret)
-
-//    override this.Write(buffer, offset, count) =
-//        let callingThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-//        let streamToUse = if creatingThreadId = callingThreadId then stream1 else stream2 // must be opposite to this.Read
-//        lock this (fun () -> 
-//            let xx = streamToUse.Seek(0L,SeekOrigin.Begin)
-//            streamToUse.Write(buffer, offset, count) )
 
 
 // todo - clean shutdown
 let StartAsyncAcceptor () = 
     let trgCompID = TargetCompID "acceptor"
-    let sndCompID = SenderCompID "inititor"
+    let sndCompID = SenderCompID "initiator"
     let sessionConfig:SessionConfig = {
         TargetCompID = trgCompID
         SenderCompID = sndCompID
@@ -119,7 +79,7 @@ let testValidLogonToAcceptor () =
     
     use tcpClient = new TcpClient( "localhost", 5001)
     use strm = tcpClient.GetStream()
-    strm.ReadTimeout <- 10000 // todo: ensure read-timeout is set sensibly
+    strm.ReadTimeout <- 100000 // todo: ensure read-timeout is set sensibly
     
     strm.Write( buf, 0, msgLen )
 

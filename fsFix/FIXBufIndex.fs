@@ -47,7 +47,7 @@ open System
 //   end
 
 
-// the msg index should not be an array of value types, do not the reference chasing and cache misses, hence FieldPos is a struct
+// the msg index should not be an array of value types, to avoid reference chasing and cache misses, hence FieldPos is a struct
 type FieldPos =
    struct
       val Tag: int // storing tag as an int32 (ok so long as tags are 4 bytes or less long), an array is a refernce type, this avoids chasing down references

@@ -26,7 +26,7 @@ let main argv =
 
     // TODO, fix hardcoding
     let trgCompID = TargetCompID "acceptor"
-    let sndCompID = SenderCompID "inititor"
+    let sndCompID = SenderCompID "initiator"
     let sessionConfig:SessionConfig = {
         TargetCompID = trgCompID
         SenderCompID = sndCompID
