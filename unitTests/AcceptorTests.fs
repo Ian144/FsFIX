@@ -51,90 +51,90 @@ let StartAsyncAcceptor () =
     
 
 
-[<Fact>]
-let testValidLogonToAcceptor () =
+//[<Fact>]
+//let testValidLogonToAcceptor () =
 
-    StartAsyncAcceptor ()
+//    StartAsyncAcceptor ()
 
-    let fixVer          = BeginString  "FIX.4.4"
-    let senderCompID    = SenderCompID "initiator"
-    let targetCompID    = TargetCompID "acceptor"
-    let msgSeqNum       = MsgSeqNum 1u
-    let maxMsgSize      = 1024u * 64u    
-    let bufSize         = 1024*64
-    let tmpBuf          = Array.zeroCreate<byte> (bufSize)
-    let buf             = Array.zeroCreate<byte> (bufSize)
+//    let fixVer          = BeginString  "FIX.4.4"
+//    let senderCompID    = SenderCompID "initiator"
+//    let targetCompID    = TargetCompID "acceptor"
+//    let msgSeqNum       = MsgSeqNum 1u
+//    let maxMsgSize      = 1024u * 64u    
+//    let bufSize         = 1024*64
+//    let tmpBuf          = Array.zeroCreate<byte> (bufSize)
+//    let buf             = Array.zeroCreate<byte> (bufSize)
 
-    let encryptMethod   = Fix44.Fields.EncryptMethod.NoneOther
-    let hrtbeatInterval = Fix44.Fields.HeartBtInt 60
-    let logonMsg        = {Fix44.MessageFactoryFuncs.MkLogon (encryptMethod, hrtbeatInterval) with 
-                            MaxMessageSize = (MaxMessageSize maxMsgSize) |> Option.Some
-                            } |> Fix44.MessageDU.FIXMessage.Logon
+//    let encryptMethod   = Fix44.Fields.EncryptMethod.NoneOther
+//    let hrtbeatInterval = Fix44.Fields.HeartBtInt 60
+//    let logonMsg        = {Fix44.MessageFactoryFuncs.MkLogon (encryptMethod, hrtbeatInterval) with 
+//                            MaxMessageSize = (MaxMessageSize maxMsgSize) |> Option.Some
+//                            } |> Fix44.MessageDU.FIXMessage.Logon
 
-    let dtoUtcNow       = DateTimeOffset.UtcNow
-    let utcNow          = UTCDateTime.MakeUTCTimestamp.Make dtoUtcNow
-    let sendingTime     = SendingTime utcNow
+//    let dtoUtcNow       = DateTimeOffset.UtcNow
+//    let utcNow          = UTCDateTime.MakeUTCTimestamp.Make dtoUtcNow
+//    let sendingTime     = SendingTime utcNow
 
-    let msgLen          = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg
+//    let msgLen          = MsgReadWrite.WriteMessageDU tmpBuf buf 0 fixVer senderCompID targetCompID msgSeqNum sendingTime logonMsg
     
-    use tcpClient = new TcpClient( "localhost", 5001)
-    use strm = tcpClient.GetStream()
-    strm.ReadTimeout <- 100000 // todo: ensure read-timeout is set sensibly
+//    use tcpClient = new TcpClient( "localhost", 5001)
+//    use strm = tcpClient.GetStream()
+//    strm.ReadTimeout <- 100000 // todo: ensure read-timeout is set sensibly
     
-    strm.Write( buf, 0, msgLen )
+//    strm.Write( buf, 0, msgLen )
 
 
-    let trgCompID = TargetCompID "acceptor"
-    let sndCompID = SenderCompID "initiator"
-    let sessionConfig = {
-        TargetCompID = trgCompID
-        SenderCompID = sndCompID
-        MaxMsgSize = maxMsgSize
-        MaxMsgAge  = TimeSpan(0,0,30)
-        HeartbeatInterval = 60
-        AcceptedCompIDPairs = Set.empty |> Set.add (trgCompID, sndCompID)
-    }
+//    let trgCompID = TargetCompID "acceptor"
+//    let sndCompID = SenderCompID "initiator"
+//    let sessionConfig = {
+//        TargetCompID = trgCompID
+//        SenderCompID = sndCompID
+//        MaxMsgSize = maxMsgSize
+//        MaxMsgAge  = TimeSpan(0,0,30)
+//        HeartbeatInterval = 60
+//        AcceptedCompIDPairs = Set.empty |> Set.add (trgCompID, sndCompID)
+//    }
 
-    //// 'send' the msg to the acceptor
-    //FsFix.Session.Acceptor.ProcessMsg DoNothingAppMsgProc sessionConfig bufSize strm
+//    //// 'send' the msg to the acceptor
+//    //FsFix.Session.Acceptor.ProcessMsg DoNothingAppMsgProc sessionConfig bufSize strm
 
-    System.Threading.Thread.Sleep(2000)
+//    System.Threading.Thread.Sleep(2000)
 
-    let readBuf = Array.zeroCreate<byte> bufSize
+//    let readBuf = Array.zeroCreate<byte> bufSize
 
-    let numBytesRead = strm.Read(readBuf, 0, bufSize)
+//    let numBytesRead = strm.Read(readBuf, 0, bufSize)
 
-    //let ss = Conversions.bytesToStr readBuf 0 numBytesRead 
-    //let ss2 = ss.Replace( char(1uy), '|')
-    //printf "%s" ss
+//    //let ss = Conversions.bytesToStr readBuf 0 numBytesRead 
+//    //let ss2 = ss.Replace( char(1uy), '|')
+//    //printf "%s" ss
 
-    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
-    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr readBuf numBytesRead
-    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
+//    let fieldPosArr = Array.zeroCreate<FIXBufIndexer.FieldPos> (1024 * 8)
+//    let indexEnd = FIXBufIndexer.BuildIndex fieldPosArr readBuf numBytesRead
+//    let index = FIXBufIndexer.IndexData (indexEnd, fieldPosArr)
 
-    let msgOut = MsgReadWrite.ReadMessage readBuf numBytesRead fieldPosArr
-
-
-    match msgOut with
-    |  FIXMessage.Logon  logonMsgOut  
-                    ->  logonMsgOut.HeartBtInt.Value =! sessionConfig.HeartbeatInterval
-
-                        let initiatorCompID = GenericReaders.ReadField buf index 56 FieldReaders.ReadTargetCompID
-                        initiatorCompID.Value =! "initiator"
+//    let msgOut = MsgReadWrite.ReadMessage readBuf numBytesRead fieldPosArr
 
 
-                        let acceptorCompID = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
-                        acceptorCompID.Value =! "acceptor"
+//    match msgOut with
+//    |  FIXMessage.Logon  logonMsgOut  
+//                    ->  logonMsgOut.HeartBtInt.Value =! sessionConfig.HeartbeatInterval
 
-                        logonMsgOut.MaxMessageSize=! (maxMsgSize |> MaxMessageSize |> Option.Some)
+//                        let initiatorCompID = GenericReaders.ReadField buf index 56 FieldReaders.ReadTargetCompID
+//                        initiatorCompID.Value =! "initiator"
 
-    |   _           -> true =! false
+
+//                        let acceptorCompID = GenericReaders.ReadField buf index 49 FieldReaders.ReadSenderCompID
+//                        acceptorCompID.Value =! "acceptor"
+
+//                        logonMsgOut.MaxMessageSize=! (maxMsgSize |> MaxMessageSize |> Option.Some)
+
+//    |   _           -> true =! false
 
 
-    true =! isLogon msgOut
+//    true =! isLogon msgOut
     
 
-    numBytesRead =! (msgLen + 12345)
+//    numBytesRead =! (msgLen + 12345)
 
 
 //RUN THE QUICKFIXN ACCEPTENCE TESTS AGAINST FSFIX - THE QF C# RUNNER SHOULD BE ABLE TO CONNECT TO FSFIX

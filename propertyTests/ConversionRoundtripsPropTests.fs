@@ -20,13 +20,11 @@ let Uint32ConversionRoundtrip (ui:uint32) =
 
 
 
-
 [<PropTestByteArrayConversions>]
 let Int32ConversionRoundtrip (ii:int32) =
     let bs = Conversions.ToBytes.Convert ii
     let uiOut = Conversions.bytesToInt32 bs 0 bs.Length
     ii =! uiOut
-
 
 
 // EndSize = System.Int32.MaxValue, as set for PropTest above, makes this test very slow to run due to the huge strings created
@@ -45,3 +43,4 @@ let DecimalConversionRoundtrip (xxIn:decimal) =
     let ddOut = Conversions.bytesToDecimal bs 0 bs.Length
     dd =! ddOut
 
+     

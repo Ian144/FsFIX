@@ -101,7 +101,6 @@ let readInt(bs: byte[]) (tagBeg:int) (tagEnd:int) =
     num
 
 
-
 let BuildIndex (fieldIndex:FieldPos[]) (bs:byte[]) (bsLen:int) =
     Array.Clear (fieldIndex, 0, fieldIndex.Length)
     let mutable pos = 0

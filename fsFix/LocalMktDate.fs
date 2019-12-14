@@ -26,11 +26,11 @@ open FIXDateTime
 
 
 
-type LocalMktDate = private LocalMktDate of Year:int * Month:int * Day:int 
+type public LocalMktDate = private LocalMktDate of Year:int * Month:int * Day:int 
 
 
 
-let MakeLocalMktDate (yy:int, mm:int, dd:int) : LocalMktDate = 
+let public MakeLocalMktDate (yy:int, mm:int, dd:int) : LocalMktDate = 
     if validate_yyyyMMdd (yy, mm, dd) |> not then
         failwithf "invalid LocalMktDate, y:%d, m:%d, d:%d" yy mm dd
     LocalMktDate ( yy, mm, dd )
@@ -38,13 +38,13 @@ let MakeLocalMktDate (yy:int, mm:int, dd:int) : LocalMktDate =
 
 
 
-let writeLocalMktDate (dt:LocalMktDate) (bs:byte[]) (pos:int) : int =
+let public writeLocalMktDate (dt:LocalMktDate) (bs:byte[]) (pos:int) : int =
     match dt with 
     | LocalMktDate (yyyy, mm, dd) ->    write4ByteInt bs pos yyyy
                                         write2ByteInt bs (pos + 4) mm
                                         write2ByteInt bs (pos + 6) dd
                                         pos + 8
 
-let readLocalMktDate (bs:byte[]) (pos:int) (len:int) : LocalMktDate =
+let public readLocalMktDate (bs:byte[]) (pos:int) (len:int) : LocalMktDate =
     let yyyy, mm, dd = readYYYYmmDDints bs pos
     MakeLocalMktDate (yyyy, mm, dd)                    
